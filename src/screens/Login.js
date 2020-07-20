@@ -1,0 +1,278 @@
+import React,{useState,useEffect} from 'react';
+import {Text,View,StyleSheet,TextInput, Dimensions, Alert} from 'react-native';
+import { Defs } from 'react-native-svg';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { NavigationContainer,useNavigation, StackActions,CommonActions } from '@react-navigation/native';
+import { createStackNavigator, Header } from '@react-navigation/stack';
+import SubmitButton from '../components/SubmitButton';
+import auth from '@react-native-firebase/auth';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
+
+
+const LoginScreen = ({navigation}) => {
+    const [phoneno,setPhoneno] = useState(' ');
+    const [confirm,setConfirm] = useState(null);
+    const [code,setCode] =useState(' ');
+    const [user,setUser] =useState(null);
+
+    onAuthStateChanged = (user)=>{
+        setUser(user);
+        
+
+    }
+    useEffect(()=>{
+        const unsubscribe= auth().onAuthStateChanged(onAuthStateChanged);
+    },[]);
+
+
+    async function authenticate(){
+        if(phoneno.length==10){
+            const confirmation= await auth().signInWithPhoneNumber('+91'+phoneno);
+            setConfirm(confirmation);
+        }
+        else{
+            Alert.alert('Phone number invalid',"Please enter a 10 digit phone number",[{
+                text: "OKAY",
+                onPress: ()=>{
+
+                }
+            }])
+        }
+    }
+    async function confirmCode(){
+        try{
+            await confirm.confirm(code);
+            navigation.navigate('AddAddress');
+        }
+        catch(error){
+            Alert.alert('OTP incorrect ','Please try again');
+        }
+    }
+
+
+
+
+
+
+
+
+    if(!confirm){
+    return(
+    <View style={LoginScreenStyle.mainContainer}>
+        <Text style = {LoginScreenStyle.titleStyle}>Mobile Verification</Text>
+        <Text style = {LoginScreenStyle.descStyle1}>Please enter your mobile number.</Text>
+        <View style = {LoginScreenStyle.phoneViewStyle}>
+            <Text style={LoginScreenStyle.textyy}>+91</Text>
+            <View style={LoginScreenStyle.linesep}/>
+            <TextInput style = {LoginScreenStyle.textInputStyle}
+                maxLength = {10}
+                keyboardType = {"number-pad"}
+                onChangeText = {text => setPhoneno(text)}
+            />
+        </View>
+        <Text style = {LoginScreenStyle.descStyle2}>Don't worry, your number will not be shared with anyone.</Text>
+        <View style={LoginScreenStyle.bottom}>
+            <SubmitButton text='Get OTP'
+            onTouch={()=>{
+                authenticate();
+            }} />
+        </View> 
+    </View>);
+    }
+    return(<View style = {style.mainContainer}>
+        <Text style={style.text}>We sent a '4-digit OTP' on {"\n "+ phoneno}      </Text>
+        <Text style={style.desc}>Please enter the OTP below to complete the verification process. </Text>
+        <OTPInputView style={LoginScreenStyle.OTPInputView
+        }
+        codeInputFieldStyle={LoginScreenStyle.underlineStyleBase}
+        codeInputHighlightStyle={LoginScreenStyle.underlineStyleHighLighted}
+            pinCount={6}
+            onCodeFilled={(code) => {
+                setCode(code);
+                confirmCode();
+
+            }}
+        />
+       <Text style={style.resend}>Resend OTP </Text>
+       <SubmitButton text='Submit'
+           onTouch={()=>{
+               confirmCode();
+           }}
+       />
+     
+    </View>);
+
+};
+
+const LoginScreenStyle = StyleSheet.create({
+    OTPInputView:{
+            width: '80%',
+            height: 240,
+            alignSelf: 'center'
+        
+    },
+    
+    mainContainer:{
+        flexDirection: 'column',
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width
+    },
+    phoneViewStyle:{
+        flexDirection: 'row',
+        height: 45,
+        width: Dimensions.get('window').width-30,
+        alignSelf: 'center',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        borderColor: '#5D5D5D',
+        borderWidth: 1,
+        borderRadius: 5
+    },
+    viewStyle: {
+        margin: 10
+        
+
+    },
+    titleStyle: {
+        fontSize: 25,
+        textAlign: 'center',
+        marginTop: 20,
+        fontWeight: '200'
+        
+
+        
+
+    },
+    descStyle1: {
+        fontSize: 12,
+        color: '#5D5D5D',
+        textAlign: 'center',
+        padding: 3,
+        marginTop: 15
+    },
+    descStyle2: {
+        fontSize: 12,
+        color: '#5D5D5D',
+        textAlign: 'center',
+        padding: 3,
+        marginTop: 5
+    },
+    textInputStyle: {
+        height: 45, 
+        alignSelf: 'center',
+        flex: 5,
+        marginStart: 10,
+       
+       
+        
+       
+    },
+    textInputStyle1: {
+      
+        borderColor: 'gray',
+         flex: 1, 
+        fontSize: 17,
+        textAlign: 'center',
+        alignSelf:'center'
+    },
+    textyy:{
+        alignSelf: 'center',
+        fontSize: 15,
+        flex: 1,
+        padding: 5,
+        textAlign: "center"
+    },
+    linesep:{
+        height:45,
+        width: 1,
+        backgroundColor: 'gray'
+    },
+    bottom:{
+        position: 'absolute',
+        bottom: 30,
+        right: 10,
+        left: 10
+    },
+    borderStyleBase: {
+        width: 30,
+        height: 45
+      },
+    
+      borderStyleHighLighted: {
+        borderColor: "#03DAC6",
+      },
+    
+      underlineStyleBase: {
+        width: 30,
+        height: 45,
+        borderWidth: 0,
+        borderColor: 'black',
+        borderBottomWidth: 1,
+        color: 'black'
+      },
+    
+      underlineStyleHighLighted: {
+        borderColor: "#03DAC6",
+      },
+      
+
+    
+
+});
+
+const style = StyleSheet.create({
+    mainContainer: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        padding: 10
+
+    },
+    text:{
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: "center",
+        marginTop: 10,
+        margin: 5
+
+    },
+    desc: {
+        fontSize: 12,
+        color: '#5D5D5D',
+        textAlign: 'center',
+        padding: 3,
+        marginTop: 15
+},
+input:{
+    height: 45,
+    width: 45,
+    borderWidth: 1.5,
+    borderRadius: 5,
+    borderColor: '#5D5D5D',
+    marginStart: 10,
+    alignSelf:"center",
+    fontSize: 20,
+    color: 'gray',
+    textAlign: 'center'
+    
+},
+view:{
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 15,
+    margin: 50,
+
+    
+    
+},
+resend: {
+    fontFamily: 'sans-serif',
+    color: '#00C99D',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 15
+
+}
+});
+
+export default LoginScreen;
