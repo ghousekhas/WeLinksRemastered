@@ -68,7 +68,8 @@ export default class VendorsList extends React.Component{
     render(){
 
 
-        return(<View style={style.mainContainer}>
+        return(
+        <View style={style.mainContainer}>
             <Text style = {style.text}>Vendors near you</Text>
             <FlatList 
             data={this.data}

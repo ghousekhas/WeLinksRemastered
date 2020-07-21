@@ -5,7 +5,7 @@ import Geolocation from '@react-native-community/geolocation';
 import Qs from 'qs';
 import * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -21,6 +21,7 @@ export default class AddressSearch extends React.Component{
               arraydata: []
             };
             this.data=[];
+
             
             
     }
@@ -54,7 +55,13 @@ export default class AddressSearch extends React.Component{
       
       
     }
-    setSelectedAddress=()=>{
+    setSelectedAddress= async (item)=>{
+      const jsonString= await JSON.stringify({firstLogin: false})
+      await AsyncStorage.setItem('firstLogin',jsonString);
+      const jsonAddress= await JSON.stringify(item);
+      await AsyncStorage.setItem('selectedAddress',jsonAddress);
+      this.props.navigation.navigate('Homescreen');
+      
 
     }
 
@@ -65,7 +72,7 @@ export default class AddressSearch extends React.Component{
           <Text style={styles.address}>{item.text}</Text>
           </ScrollView>
           <TouchableOpacity style={{borderWidth: 2, borderColor: 'gray',padding: 5,alignSelf: 'center',marginTop: 20}} onPress={()=>{
-            this.setSelectedAddress()
+            this.setSelectedAddress(item)
           }}>
             <Text style={{padding: 5,fontSize: 10}}>SELECT</Text>
           </TouchableOpacity>
@@ -105,7 +112,7 @@ export default class AddressSearch extends React.Component{
     render(){
         return(
           <View style={styles.container}>
-            <View style={{...styles.container,zIndex:100,backgroundColor: 'rgba(0,0,0,0)'}}>
+            <View style={{...styles.container,zIndex: -10,backgroundColor: 'rgba(0,0,0,0)',height: '40%'}}>
             <GooglePlacesAutocomplete
               query={{
                 key: 'AIzaSyAWOAzPnGPVoGCxK7pMgU4TZx6sZQNiofQ',
@@ -124,9 +131,8 @@ export default class AddressSearch extends React.Component{
             <View style={styles.savedaddresspanel}>
           <Text style={styles.address}>SAVED ADDRESSES</Text>
             <FlatList 
-            data={this.state.arraydata}
+            data={this.state.arraydata.reverse()}
             renderItem={this.renderSavedAddress}
-            style={{flex:1}} 
             keyExtractor={(item,index)=> Math.random().toString(36).substr(2, 10)}
             />
             </View>
@@ -138,8 +144,11 @@ export default class AddressSearch extends React.Component{
 const styles = StyleSheet.create({
   savedaddresspanel:{
     position: 'absolute',
-    top: 100,
-    zIndex: 0
+    top: '30%',
+    zIndex: 100,
+    bottom: 0,
+    right: 0,
+    left: 0
   },
     container: {
       flex: 1,

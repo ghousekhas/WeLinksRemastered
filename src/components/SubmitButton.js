@@ -3,14 +3,31 @@ import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const SubmitButton = ({text,onTouch}) => {
-    return(<View>
-        <TouchableOpacity style={style.button}
-         onPress={onTouch}>
-        <Text style={style.buttonText}>{text}</Text>
+const SubmitButton = ({text,onTouch,styles}) => {
+    return(
+        <TouchableOpacity style={{
+        backgroundColor: '#00C99D',
+        width: Dimensions.get('window').width-30,
+        height: 45,
+        borderRadius: 5,
+        alignSelf: 'center',
+        
        
-        </TouchableOpacity>
-    </View>)
+       
+
+    }}
+         onPress={onTouch}>
+        <Text style={{
+            textAlign: "center",
+            textAlignVertical: "center",
+            alignSelf:"center",
+            color: 'white',
+            fontWeight: '300',
+            ...StyleSheet.absoluteFill,
+            
+        }}>{text}</Text>
+       
+        </TouchableOpacity>)
 
 };
 
@@ -18,20 +35,12 @@ const SubmitButton = ({text,onTouch}) => {
 
 const style = StyleSheet.create({
     buttonText: {
-        textAlign: "center",
-        textAlignVertical: "center",
-        alignSelf:"center",
-        color: 'white',
-        fontWeight: '300',
-        ...StyleSheet.absoluteFill,
         
         
         
         
     },
     button:{
-        alignSelf: "center",
-        marginTop: 20,
         backgroundColor: '#00C99D',
         width: Dimensions.get('window').width-30,
         height: 45,

@@ -18,6 +18,7 @@ import VendorsList from './src/screens/VendorsList';
 import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import CheckOut from './src/screens/CheckOut'
 import Cart from './src/screens/Cart'
+import MilkVendor from './src/screens/MilkVendor';
 navigator.geolocation = require('@react-native-community/geolocation');
 /*function HomeScreen() {
   return (
@@ -27,24 +28,42 @@ navigator.geolocation = require('@react-native-community/geolocation');
   );
 }*/
 
+function School(){
+  return <Homescreen/>
+}
+
 const Stack = createStackNavigator();
 
 function App() {
-  const [firstlogin,setLogged]=useState(false);
+  const [firstlogin,setFirstLog]=useState(0);
   const [user,setUser]=useState(null);
+  const [activesections,setActiveSections]=useState([]);
+
+
 
   onAuthStateChanged= (user) =>{
-    setLogged(true);
     setUser(user);
-    console.log(user);
-    setLogged(true);
+    //console.log(user);
 
+  }
+
+  checkIfFirstLogin= async ()=>{
+    const jsondata=  await AsyncStorage.getItem('firstLogin');
+    const firstLogin= await JSON.parse(jsondata);
+    console.log(firstLogin.firstLogin);
+    if(firstLogin == null)
+      setFirstLog(1);
+    
   }
   
   React.useEffect(()=>{
     setUser(auth().currentUser);
-    console.log('dees be some logs',auth().currentUser);
+    //checkIfFirstLogin();
+    console.log(user);
+    
+    //console.log('dees be some logs',auth().currentUser);
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
+
     //return suser;// Don't unsubscribe to this? maybe 
   },[]);
   /*if(true)
@@ -68,8 +87,14 @@ function App() {
   </View>*/
     //testing purposes above
 
+  //return (<MilkVendor/>)
+
+  //return (<MilkVendor/>);
+
+
   
-  if(user==null && firstlogin==false)
+  if(user==null){
+    console.log('this is the prb');
     return (
       <View style={{flex: 1}}>
       <NavigationContainer>
@@ -90,8 +115,10 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer> 
     </View>
-    )
-    else if(user !=null && firstlogin== true)
+    );
+    }
+  /*  else if(firstlogin == 1){
+      console.log('something something');
         return(
           <View style={{flex: 1}}>
           <NavigationContainer>
@@ -109,7 +136,9 @@ function App() {
             </Stack.Navigator>
           </NavigationContainer>
           </View>
-        )
+        );
+      }*/
+
 
   return (
     <View style={{flex: 1}}>
@@ -118,12 +147,13 @@ function App() {
         <Stack.Screen name='Homescreen' component={Homescreen} options={{
           headerShown: false 
         }}/>
+        <Stack.Screen name='School' component={School} options={{headerShown: false}}/> 
         <Stack.Screen name='AddressSearch' component={AddressSearch}/>
         <Stack.Screen name='AddAddress' component={AddAddress} options={{
           headerShown: false
         }}/>
+         <Stack.Screen name = "About" component={About}/>
         <Stack.Screen name = "City" component={City}/>
-        <Stack.Screen name = "About" component={About}/>
         <Stack.Screen name='VendorsList' component={VendorsList} />
       </Stack.Navigator>
     </NavigationContainer>

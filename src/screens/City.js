@@ -31,7 +31,7 @@ const City = ({navigation}) =>{
       <View style={{marginTop:390}}>
       <SubmitButton text='Next'
           onTouch={()=>{
-              navigation.navigate('About')
+              navigation.navigate('AddressSearch')
           }}
       />
       </View>

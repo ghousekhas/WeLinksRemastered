@@ -34,7 +34,18 @@ const Cart = () => {
              <Text style={style.billCost}>₹250</Text>
          </View>
 
-         <SubmitButton text='Confirm'/>
+         <View style={Styles.submitButton}>
+                <SubmitButton text='Continue' onTouch={()=>{
+                    navigation.navigate('City',{
+                        mname : name,
+                        memail: email,
+                        mreferral: referral
+                        
+                    })
+                }}
+                    
+                />
+                </View>
          </View>
 
         

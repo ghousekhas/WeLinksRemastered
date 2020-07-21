@@ -7,31 +7,31 @@ var showRealApp=false;
 const slides = [
     {
       key: 'one',
-      title: 'Some lorem ipsum dolor amet  1',
-      text: 'Description.\nSay something cool',
-      image: require('./../../assets/1.jpg'),
-      backgroundColor: '#59b2ab',
+      title: 'Free milk delivery at home',
+      text: 'Choose from a wide range of our milk products',
+      image: require('../../assets/intromilk.jpg'),
+      backgroundColor: '#F3F7FA',
     },
     {
       key: 'two',
-      title: 'Title 2',
-      text: 'Refrigerator',
-      image: require('./../../assets/2.jpg'),
-      backgroundColor: '#febe29',
+      title: 'Your favorite newspaper at your doorstep',
+      text: 'Find the best newspaper delivery companies for homes, offices',
+      image: require('../../assets/intronews.jpg'),
+      backgroundColor: '#F3F7FA',
     },
     {
       key: 'three',
-      title: 'Title 3',
-      text: 'Freezer',
-      image: require('./../../assets/3.jpg'),
-      backgroundColor: '#22bcb5',
+      title: 'Online doorstep scrap pickup service',
+      text: 'Sell your scrap easily and get better prices and offers',
+      image: require('../../assets/introscrapsell.jpg'),
+      backgroundColor: '#F3F7FA',
     },
     {
         key: 'four',
-        title: 'Title 4',
-        text: 'Morgue',
-        image: require('./../../assets/4.jpg'),
-        backgroundColor: '#febe29'
+        title: 'Scrap selling for corporates',
+        text: 'We have an option for corporates to systematically get rid of the scrap and get certificates of recycling',
+        image: require('../../assets/introscrap.jpg'),
+        backgroundColor: '#F3F7FA'
   }];
 
 
@@ -40,9 +40,11 @@ export default class Introduction extends React.Component{
     _renderItem = ({ item }) => {
         return (
           <View style={{...styles.slide ,backgroundColor: item.backgroundColor}}>
+          
             <Text style={styles.title}>{item.title}</Text>
-            <Image style={styles.image} source={item.image} />
             <Text style={styles.text}>{item.text}</Text>
+            <Image style={styles.image} source={item.image} />
+           
           </View>
         );
       }
@@ -74,23 +76,28 @@ const styles= StyleSheet.create({
         paddingBottom: 200,
     },
     title:{
-        fontSize: 30,
+        fontSize: 20,
         textAlign: 'center',
-        fontWeight: '200',
-        marginLeft: 20,
+        fontWeight: 'bold',
+        marginTop: 20,
+        
         padding: 10,
-        marginBottom: 50,
-        backgroundColor: 'rgba(0,0,0,0)'
+       
+        
     },
     image:{
+      marginTop: 70,
         height: 300,
         width: 300,
         alignSelf: 'center',
         
     },
     text: {
-      fontSize: 20,
+      fontSize: 15,
       textAlign: 'center',
-      marginTop: 10
+      marginTop: 5,
+      color: 'gray',
+      margin: 15
+      
     }
 });
