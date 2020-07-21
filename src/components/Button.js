@@ -26,6 +26,13 @@ const style = StyleSheet.create({
         alignItems: 'flex-end',
         marginHorizontal:10,
         marginVertical: -2
+        // paddingHorizontal: 30,
+        // paddingVertical: 2,
+        width: Dimensions.get('window').width/4,
+        aspectRatio: 5/1.3,
+        alignItems: 'center',
+        justifyContent:'center',
+        marginHorizontal:'1%',
        
        
 

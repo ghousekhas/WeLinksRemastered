@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
+import { userDetails } from '../UserDetails';
 
 
-const ServiceProviders = ({navigation}) => {
+const MilkVendors = (props) => {
 
-    const vendors = [
+    const words = {
+        milk: 'Milk Vendors in your locality',
+
+    }
+  
+   
+
+    const [vendors,updateVendors] = useState([
         {
             name: 'Vendor 1',
             brands: 'Nandini, Heritage, Akshayakalpa',
@@ -22,42 +30,53 @@ const ServiceProviders = ({navigation}) => {
         {
             name: 'Vendor 3',
             brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 3,
+            stars: 5,
             reviews:  10
         },
         {
             name: 'Vendor 4',
             brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 3,
+            stars: 2,
             reviews:  10
         },
         {
             name: 'Vendor 5',
             brands: ' Nandini, Heritage, Akshayakalpa',
-            stars: 3,
+            stars: 5,
             reviews:  10
         }
 
 
-    ]
+    ]);
+
+    
     return(<View>
     <View style={style.container}>
-        <Text style ={style.username}>User Name</Text>
-        <Text style={style.address}>Kalyan Nagar, Bangalore</Text>
+        <Text style ={style.username}>{userDetails.USER_NAME}</Text>
+        <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
     </View>
     <View style={style.line} />
 
-    <Text style={style.heading}>Milk Vendors in your locality</Text>
+    <Text style={style.heading}>{words.milk}</Text>
 
     <FlatList 
         data={vendors}
         keyExtractor={(item) => item.name}
         renderItem={({item}) => {
+            const vendorName = item.name;
+            const vendorStars = item.stars;
+            const vendorReviews = item.reviews
             return(
                 <Vendor name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews}
                 onSelected={() => {
-                    console.log('sel')
-                    navigation.navigate('VendorScreen')
+             
+                props.navigation.navigate('VendorScreen',{
+                    name: vendorName,
+                    stars: vendorStars,
+                    reviews: vendorReviews
+                })
+                
+                    
                 }}
 
                 />
@@ -83,7 +102,7 @@ const style = StyleSheet.create({
         fontSize: 18
     },
     address: {
-        marginTop: 7,
+        marginTop: '3%',
         borderRadius: 5,
         backgroundColor: '#00C99D',
         color: 'white',
@@ -97,7 +116,7 @@ const style = StyleSheet.create({
     line:{
         borderWidth: 0.5,
         borderColor: 'gray',
-        marginVertical: 5,
+        marginVertical: '2%',
           
         
     },
@@ -105,9 +124,9 @@ const style = StyleSheet.create({
         fontSize: 20,
         padding: 10,
         fontWeight: 'bold',
-        marginVertical: 20
+        marginVertical: '5%'
     }
 
 })
 
-export default ServiceProviders;
+export default MilkVendors;

@@ -1,14 +1,9 @@
 import React,{ Fragment, useState, useRef } from 'react';
 import { View,Text,TouchableOpacity,StyleSheet,Dimensions,Alert } from 'react-native';
 
-
-import { Calendar } from 'react-native-calendars';
-
-
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import SubmitButton from '../components/SubmitButton';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import moment from 'moment';
 import Date from './Date';
 import WeekPicker from '../components/WeekPicker';
@@ -18,15 +13,21 @@ import SubscriptionScreen from './SubscriptionScreen';
 bs = React.createRef();
 
 
-const SubscribeScreen = ({navigation}) => {
+const SubscribeScreen = ({navigation,route}) => {
+
+  const {pname} = route.params;
+  const {pquan} = route.params;
  
- // const[resultDate,setDate] = useState('')
+  const {prate} = route.params;
+ 
+ 
 const [isPressed,setIsPressed] = useState(false)
+const [dateResult,setResult] = useState('')
   thisDay = moment()
   .utcOffset('+05:30')
   .format('YYYY-MM-DD');
 
-  console.log('t:'+thisDay)
+  // console.log('t:'+thisDay)
   
   renderContent1 = () => { 
   
@@ -35,15 +36,22 @@ const [isPressed,setIsPressed] = useState(false)
 
     <Date onSet={() => {
      
-   
+      
       setIsPressed(true)
      
     }}/>
 
-    <SubmitButton text='Cancel' onTouch={() => {
+    <TouchableOpacity style={style.button} onPress={() => {
+        this.bs.current.snapTo(2)
+    }}>
+    <Text style={style.buttonText}>Cancel</Text>
+
+    </TouchableOpacity>
+
+    {/* <SubmitButton text='Cancel' onTouch={() => {
         this.bs.current.snapTo(2)
     }
-    }/>
+    }/> */}
     </View>
    
 
@@ -53,16 +61,10 @@ const [isPressed,setIsPressed] = useState(false)
   renderContent2 = () => {
     
   return(<View style={{margin: 2}}>
-  {/* <TouchableOpacity onPress = {() => {
-    setIsPressed(false)
-  }}>
-    <Text style={{color: '#00C99D',position:'absolute', marginStart:Dimensions.get('window').width-100}}></Text>
-  </TouchableOpacity> */}
+ 
   <WeekPicker back={() => {
     setIsPressed(false)
-  }} selectedDate={() => {
-    
-  }}
+  }} 
   />
   <SubmitButton text='Cancel' onTouch={()=>{
       this.bs.current.snapTo(2)
@@ -101,15 +103,16 @@ const [isPressed,setIsPressed] = useState(false)
       <Animated.View style={{margin: 20,
         opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
     }}>
-    {/* <TouchableOpacity onTouch={() => {
-      bs.current.snapTo(1)
-    }}> */}
+    
         <View style={{alignItems: 'center'}}>
          
 
           <SubscriptionScreen onCalendarOpen={() => {
             this.bs.current.snapTo(0)
           }} dateResult='Today'
+          pname = {pname}
+          prate = {prate}
+          pquan = {pquan}
             goTo={()=> navigation.navigate('Cart')}
           />
           
@@ -123,7 +126,7 @@ const [isPressed,setIsPressed] = useState(false)
        
        
      
-        {/* </TouchableOpacity> */}
+        
      
       </Animated.View>
     </View>
@@ -164,11 +167,11 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   panelHandle: {
-    width: 40,
-    height: 8,
+    width: '10%',
+    aspectRatio: 5/0.5,
     borderRadius: 4,
     backgroundColor: 'gray',
-    marginBottom: 10,
+    marginBottom: '3%',
   },
  
   panelButton: {
@@ -192,15 +195,16 @@ const style = StyleSheet.create({
 },
 button:{
     alignSelf: "center",
-    marginTop: 20,
+    marginTop: '5%',
+ 
     backgroundColor: '#00C99D',
-    width: Dimensions.get('window').width-30,
-    height: 45,
+    width: '92%',
+    aspectRatio: 10/1.4,
     borderRadius: 5,
    
    
 
-}
+},
  
   
  

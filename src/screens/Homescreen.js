@@ -102,16 +102,13 @@ export default class Homescreen extends React.Component{
                 <Text style={styles.desc}>{this.state.desc}</Text>
                 <View style={styles.horizontalview}>
                     <TouchableOpacity style={styles.menuitem} onPress={()=>{
-                        this.props.navigation.navigate('VendorsList',{
-                        department: 'milk'
-                    })}
+                        this.props.navigation.navigate('MilkVendors')}
                 }>
                         <Image style={styles.menuimage} source={this.images.milk} />
                         <Text style={styles.menutext}>{this.state.milk}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.menuitem} onPress={()=>{this.props.navigation.navigate('VendorsList',{
-                        department: 'newspaper'
-                    })}}>
+                    <TouchableOpacity style={styles.menuitem} 
+                    onPress={()=>{this.props.navigation.navigate('PaperVendors')}}>
                         <Image style={styles.menuimage} source={this.images.news}/>
                         <Text style={styles.menutext}>{this.state.news}</Text>
                     </TouchableOpacity>
@@ -185,12 +182,12 @@ const styles= StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
                 width: 0,
-                height: 6,
+                height: 4,
             },
         shadowOpacity: 0.37,
         shadowRadius: 7.49,
 
-            elevation: 12,
+            elevation: 6,
     },
     usernamecontainer:{
         flexWrap: 'wrap',
@@ -249,18 +246,14 @@ const styles= StyleSheet.create({
     }, 
     menuitem:{
         height: Dimensions.get('window').width/3,
-        width: Dimensions.get('window').width/3-30,
+        width: Dimensions.get('window').width/3-25,
         margin: 10,
         flexDirection: 'column',
-        shadowOffset: {
-            width: 0,
-            height: 6,
-        },
-        shadowOpacity: 0.37,
-        shadowRadius: 7.49,
-        elevation: 12,
+        
+        
         backgroundColor: 'rgba(255,255,255,255)',
-        padding: 10
+        padding: 10,
+        borderRadius: 5
 
     },
     menuimage:{
@@ -270,7 +263,7 @@ const styles= StyleSheet.create({
     },
     menutext:{
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 12,
         textAlign: 'center'
     }
 });

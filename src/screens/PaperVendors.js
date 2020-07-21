@@ -4,7 +4,7 @@ import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 
 
-const ServiceProviders = ({navigation}) => {
+const PaperVendors = ({navigation}) => {
 
     const vendors = [
         {
@@ -110,4 +110,4 @@ const style = StyleSheet.create({
 
 })
 
-export default ServiceProviders;
+export default PaperVendors;

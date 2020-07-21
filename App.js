@@ -18,7 +18,10 @@ import VendorsList from './src/screens/VendorsList';
 import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import CheckOut from './src/screens/CheckOut'
 import Cart from './src/screens/Cart'
-import MilkVendor from './src/screens/MilkVendor';
+import MilkVendors from './src/screens/MilkVendors';
+import PaperVendors from './src/screens/PaperVendors';
+import VendorScreen from './src/screens/VendorScreen';
+import SubscribeScreen from './src/screens/SubscribeScreen';
 navigator.geolocation = require('@react-native-community/geolocation');
 /*function HomeScreen() {
   return (
@@ -98,7 +101,7 @@ function App() {
     return (
       <View style={{flex: 1}}>
       <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator  initialRouteName= 'MilkVendors'>
       <Stack.Screen  name="Introduction" component={Introduction} 
         options={{
           headerShown: false
@@ -112,6 +115,8 @@ function App() {
         }}/>
         <Stack.Screen name = "City" component={City}/>
         <Stack.Screen name = "About" component={About}/>
+        <Stack.Screen name='MilkVendors' component={MilkVendors} />
+        <Stack.Screen name='PaperVendors' component={PaperVendors} />
       </Stack.Navigator>
     </NavigationContainer> 
     </View>
@@ -123,8 +128,9 @@ function App() {
           <View style={{flex: 1}}>
           <NavigationContainer>
             <Stack.Navigator>
-            <Stack.Screen name = "About" component={About} navigation={Stack}/>
             <Stack.Screen name = "City" component={City}/>
+            <Stack.Screen name = "About" component={About} navigation={Stack}/>
+           
             <Stack.Screen name='AddressSearch' component={AddressSearch}/>
             <Stack.Screen name='AddAddress' component={AddAddress} options={{
           headerShown: false
@@ -133,6 +139,11 @@ function App() {
           headerShown: false 
         }}/>
         <Stack.Screen name='VendorsList' component={VendorsList} />
+        <Stack.Screen name='MilkVendors' component={MilkVendors} />
+        <Stack.Screen name='PaperVendors' component={PaperVendors} />
+        <Stack.Screen name='VendorScreen' component={VendorScreen} />
+        <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} />
+        <Stack.Screen name='Cart' component={Cart} />
             </Stack.Navigator>
           </NavigationContainer>
           </View>
@@ -143,7 +154,7 @@ function App() {
   return (
     <View style={{flex: 1}}>
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator >
         <Stack.Screen name='Homescreen' component={Homescreen} options={{
           headerShown: false 
         }}/>
@@ -155,6 +166,11 @@ function App() {
          <Stack.Screen name = "About" component={About}/>
         <Stack.Screen name = "City" component={City}/>
         <Stack.Screen name='VendorsList' component={VendorsList} />
+        <Stack.Screen name='MilkVendors' component={MilkVendors} />
+        <Stack.Screen name='PaperVendors' component={PaperVendors} />
+        <Stack.Screen name='VendorScreen' component={VendorScreen} />
+        <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} />
+        <Stack.Screen name='Cart' component={Cart} />
       </Stack.Navigator>
     </NavigationContainer>
     </View>

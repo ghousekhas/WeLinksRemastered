@@ -3,23 +3,33 @@ import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Item from '../components/Item';
 import SubmitButton from '../components/SubmitButton';
+import Button from '../components/Button';
+import Date,{okay,selected,fine} from './Date';
 
 
-const SubscriptionScreen = () => {
+const SubscriptionScreen = ({onCalendarOpen,dateResult,goTo,pname,pquan,prate}) => {
+
+    const words = {
+        quantityPerDay:'Quantity per day' ,
+        repeat:'Repeat' ,
+        recharge:'Recharge/Top-Up' ,
+        start: 'Start Date'
+
+    };
     const[number,setNumber] = useState(1)
 return(<View>
-    <Item name='Thirumala Double Toned Milk (500ml) ' quantity='1 Ptk' price='200' bought='30 Pkts' />
+    <Item name={pname} quantity={pquan} price={prate} />
     <View style={style.view1}>
-    <Text style={style.greyText}>Quantity per day</Text>
+    <Text style={style.greyText}>{words.quantityPerDay}</Text>
 
     <View style = {style.quantityPick}>
-    <TouchableOpacity style={{marginStart: 10,justifyContent:'center'}} onPress={() => {
+    <TouchableOpacity style={{marginStart: '12%',justifyContent:'center',alignItems:'center'}} onPress={() => {
         setNumber(number!=1 ? number-1 : number)
     }}>
     <Text style={{fontSize: 20,color: '#00C99D'}}>-</Text>
     </TouchableOpacity>
-    <Text style ={{marginStart: 22,marginTop: 3}}>{number}</Text>
-    <TouchableOpacity style={{marginStart:25,justifyContent:'center'}}onPress={() => {
+    <Text style ={{marginStart: '24%',justifyContent:'center',alignItems:'center',marginTop:'4%'}}>{number}</Text>
+    <TouchableOpacity style={{marginStart:'50%',justifyContent:'center'}}onPress={() => {
         setNumber(number+1)
     }}>
         <Text style={{fontSize: 18,color: '#00C99D'}}>+</Text>
@@ -29,70 +39,46 @@ return(<View>
     <View style={style.line}></View>
 
     <View style={style.view1}>
-<Text style={style.greyText}>Repeat</Text>
+<Text style={style.greyText}>{words.repeat}</Text>
     
     <View style ={style.view3}>
     <View style = {style.view2}> 
-        <TouchableOpacity onPress={() => {
-          
-        }}>
+        
         <View style ={style.circleTapped}>
         <Text style ={style.dayTapped}>M</Text>
         </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => {
-            
-           
-        }}>
+      
+      
         <View style ={style.circleTapped}>
         <Text style ={style.dayTapped}>T</Text>
         </View>
-        </TouchableOpacity>
+       
 
 
-        <TouchableOpacity onPress={() => {
-           
-        }}>
+  
         <View style ={style.circleTapped}>
         <Text style ={style.dayTapped}>W</Text>
         </View>
-        </TouchableOpacity>
+        
 
-        <TouchableOpacity onPress={() => {
-           
-            
-        }}>
         <View style ={style.circleTapped}>
         <Text style ={style.dayTapped}>T</Text>
         </View>
-        </TouchableOpacity>
+        
 
-        <TouchableOpacity onPress={() => {
-           
-            
-        }}>
-        <View style ={style.circleTapped}>
+   <View style ={style.circleTapped}>
         <Text style ={style.dayTapped}>F</Text>
         </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-       
-            
-        }}>
+    
         <View style ={style.circleTapped}>
         <Text style ={style.dayTapped}>S</Text>
         </View>
-        </TouchableOpacity>
+        
 
-        <TouchableOpacity onPress={() => {
-           
-           
-        }}>
         <View style ={style.circleTapped}>
         <Text style ={style.dayTapped}>S</Text>
         </View>
-        </TouchableOpacity>
+        
         
         
        
@@ -104,17 +90,23 @@ return(<View>
     </View>
     <View style={style.line}/>
     <View style={style.view}>
-    <Text style={style.greyText}>Recharge/Top up</Text>
+    <Text style={style.greyText}>{words.recharge}</Text>
     <Text style={style.text}>30 deliveries</Text>
 
     </View>
     <View style={style.line}/>
-    <View style={style.view}>
-    <Text style={style.greyText}>Start Date</Text>
-    <Text style={style.text}>Tomorrow</Text>
+    <View style={style.selectDate}>
+    <Text style={style.greyText}>{words.start}</Text>
+    <View style={style.button}>
+    <Button text='Change' onTouch={onCalendarOpen}/>
+    </View>
+    
+    <Text style={style.selected}>{okay}</Text>
 
     </View>
-    <SubmitButton text='Subscribe'/>
+    <View style={{position: 'absolute',bottom: '-10%',alignSelf:'center'}}>
+    <SubmitButton text='Subscribe' onTouch={goTo}/>
+    </View>
 
 </View>)
 
@@ -122,13 +114,13 @@ return(<View>
 
 const style = StyleSheet.create({
     view1: {
-        padding: 10,
+        
         height: Dimensions.get('window').height/8,
         flexDirection: 'row',
-        marginTop: 10
+        marginTop: '5%'
     },
     greyText: {
-        marginStart: 30,
+        marginStart: '8%',
         color: 'gray',
         fontSize: 15,
         fontWeight: 'bold'
@@ -139,13 +131,13 @@ const style = StyleSheet.create({
     },
     quantityPick:{
         flexDirection: 'row',
-        width: 90,
-        height: 30,
+        width: '28%',
+        aspectRatio:3/1,
         borderColor: '#00C99D',
         borderWidth: 1.5,
         borderRadius: 20,
         position: 'relative',
-        marginStart: 60
+        marginStart: '30%'
        
         
 
@@ -154,7 +146,7 @@ const style = StyleSheet.create({
         flexDirection : 'row',
        justifyContent: 'space-between',
        margin: 3,
-       marginHorizontal: 10,
+       marginHorizontal: '10%',
        
 
     },
@@ -177,27 +169,28 @@ const style = StyleSheet.create({
         
     },
     view: {
-        padding: 5,
+        
         height: Dimensions.get('window').height/8,
         flexDirection: 'column',
         
-        marginTop: 30,
+        marginTop: '6%',
+       
         
-        marginStart: 10,
-
+        
     },
     text:{
         fontSize: 17,
-        marginStart: 30,
+        marginStart: '8%',
         fontWeight: 'bold',
-        marginTop: 8
+        marginTop: '4%'
+       
     },
     view3:{
         padding: 5,
         height: Dimensions.get('window').height/8,
         flexDirection: 'column',
         
-        marginTop: 30,
+        marginTop: '10%',
         
        
         position: 'absolute'
@@ -215,6 +208,32 @@ const style = StyleSheet.create({
 
 
     },
+    selectDate:{
+        flexDirection: 'row',
+        marginHorizontal: '5%',
+        height: Dimensions.get('window').height/8,
+    marginTop: '5%',
+        
+        
+        marginStart: '1%',
+    },
+    selected:{
+        fontSize: 17,
+        
+        fontWeight: 'bold',
+       
+        position : 'absolute',
+        marginStart: '8%',
+        marginTop: '10%',
+        
+
+    },
+    button:{
+        alignItems: 'flex-end',
+        flexDirection: 'column',
+        width: Dimensions.get('window').width-120,
+        marginTop: '2%'
+    }
     
 });
 

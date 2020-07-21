@@ -4,12 +4,12 @@ import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {FontAwesome5} from '@expo/vector-icons'
 
-const TextBox = ({title,hint,icon}) => {
+const TextBox = ({title,hint,icon,changeText}) => {
     return(<View style={style.mainContainer}>
        <Text style={style.text}>{title}</Text>
        <View style={style.answer}>
        <TextInput style={style.input}
-       placeholder={hint}></TextInput>
+       placeholder={hint} onChangeText={changeText}></TextInput>
        <View style={style.icon}>
        <FontAwesome5 name={icon} size={30} color='#5D5D5D' backgroundColor='white' />
        </View>
@@ -30,7 +30,7 @@ const style = StyleSheet.create({
    text:{
         fontSize: 15,
         fontWeight: '200',
-        backgroundColor: '#F9F9F9'
+     //   backgroundColor: '#F9F9F9'
 
    },
    input: {

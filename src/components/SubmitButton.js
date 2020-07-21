@@ -42,8 +42,8 @@ const style = StyleSheet.create({
     },
     button:{
         backgroundColor: '#00C99D',
-        width: Dimensions.get('window').width-30,
-        height: 45,
+        width: '97%',
+        aspectRatio: 10/1.4,
         borderRadius: 5,
        
        

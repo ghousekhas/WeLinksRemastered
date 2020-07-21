@@ -4,58 +4,74 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Product from '../components/Product';
 
 
-const VendorScreen = ({navigation}) => {
-    const items = [
+const VendorScreen = ({route,navigation}) => {
+    const [list,updateList] = useState([
         {
             name: 'Nandini Toned Milk',
             quantity: '1 packet',
-            price: '₹22'
+            price: '22'
         },
         {
             name: 'Heritage Toned Milk',
             quantity: '1 packet',
-            price: '₹22'
+            price: '27'
         },
         {
             name: 'Thirumala Toned Milk',
             quantity: '1 packet',
-            price: '₹23'
+            price: '24'
         }, {
             name: 'Nandini Toned Milk 1',
             quantity: '1 packet',
-            price: '₹22'
+            price: '22'
         },
         {
             name: 'Heritage Toned Milk 1',
             quantity: '1 packet',
-            price: '₹22'
+            price: '22'
         },
         {
             name: 'Thirumala Toned Milk 1',
             quantity: '1 packet',
-            price: '₹23'
+            price: '23'
         }
 
-    ];
+    ]);
+
+   
+
+    const {name} = route.params;
+    const {stars} = route.params;
+    const {reviews} = route.params;
+
+   // const order = navigation.getParams('order');
     return(<View style={style.container}>
     <View style={style.header}>
-        <Text style={style.name}>Vendor Name</Text>
+        <Text style={style.name}>{JSON.stringify(name).slice(1,-1)}</Text>
         <Text style={style.address}>#101, 1st main, Kalyan Nagar, Bangalore - 560043</Text>
 
        <View style = {{flexDirection: 'row'}}>
-        <Text style={style.brandsTitle}>3 stars </Text>
-            <Text style = {style.review}>(10 reviews.)</Text>
+        <Text style={style.brandsTitle}>{JSON.stringify(stars)+' stars'}</Text>
+            <Text style = {style.review}>({JSON.stringify(reviews)+' reviews'})</Text>
         </View>
         <Text style={{fontSize: 20,fontWeight:'bold',marginTop: 30,marginStart: 3}}>Brands</Text>
     </View>
     <FlatList
-        data = {items}
+        data = {list}
         keyExtractor = {(item) => item.name}
         renderItem = {({item}) => { 
             return(
                 <Product name={item.name} quantity={item.quantity} price={item.price}  
                 subscribe={() => {
-                    navigation.navigate('SubscribeScreen') } 
+                    const prodName = item.name;
+                    const prodQuan = item.quantity;
+                    const prodRate = item.price;
+
+                    navigation.navigate('SubscribeScreen',{
+                        pname : prodName,
+                        pquan : prodQuan,
+                        prate: prodRate
+                    }) } 
                 }/>
 
             )
@@ -82,14 +98,14 @@ const style = StyleSheet.create({
 
     },
     name: {
-        marginTop: 20,
+        marginTop: 0.02 * Dimensions.get('window').height,
         marginStart: 100,
         fontWeight: 'bold',
         fontSize: 20
 
     },
     address:{
-        marginTop: 5,
+        marginTop: 0.01 * Dimensions.get('window').height,
         marginStart: 100,
         fontWeight: 'bold',
         fontSize: 13
@@ -97,13 +113,13 @@ const style = StyleSheet.create({
     brandsTitle:{
         color: 'gray',
         marginStart: 100,
-        marginTop: 7,
+        marginTop: 0.02 * Dimensions.get('window').height,
         fontWeight: 'bold'
     },
     review:{
         color: 'gray',
         marginStart: 10,
-        marginTop: 6,
+        marginTop: 0.02 * Dimensions.get('window').height,
         fontWeight: 'bold'
     },
 });

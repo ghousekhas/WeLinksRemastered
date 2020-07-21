@@ -7,7 +7,7 @@ import Button from './Button';
 const Vendor = ({name,brands,stars,reviews,onSelected}) => {
     return(<View style={style.container}>
     <View style={style.top}>
-        <Text style={style.name}>{name}</Text>
+        <Text style={style.name}> {name}</Text>
        <Button text='Select' onTouch={onSelected} />
         </View>
 
@@ -25,8 +25,9 @@ const Vendor = ({name,brands,stars,reviews,onSelected}) => {
 
 const style = StyleSheet.create({
     container:{
-        margin: 10,
-        marginBottom: 50
+        margin: '2%',
+        marginBottom: '10%',
+        
     },
     top:{
         flexDirection: 'column',
@@ -37,20 +38,7 @@ const style = StyleSheet.create({
         
 
     },
-    button: {
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#00C99D',
-        padding: 1,
-        paddingHorizontal: 30,
-        paddingVertical: 2,
-        alignItems: 'flex-end',
-        marginHorizontal:10,
-        marginVertical: -2
-       
-       
-
-    },
+    
     name: {
         fontWeight: 'bold',
         marginStart: 80,
@@ -60,7 +48,7 @@ const style = StyleSheet.create({
     brandsTitle:{
         color: 'gray',
         marginStart: 80,
-        marginTop: 7,
+        marginTop: '2%',
         fontWeight: 'bold'
     },
     
@@ -68,13 +56,13 @@ const style = StyleSheet.create({
         color: 'gray',
         flex: 1,
         
-        marginTop: 7,
+        marginTop: '2%',
 
     },
     review:{
         color: 'gray',
         marginStart: 10,
-        marginTop: 6,
+        marginTop: '2%',
         fontWeight: 'bold'
     },
     

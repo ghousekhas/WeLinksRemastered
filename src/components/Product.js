@@ -9,10 +9,10 @@ const Product = ({name,quantity,price,subscribe}) => {
     <View>
     <Text style={style.name}>{name}</Text>
     <Text style={style.quantity}>{quantity}</Text>
-    <Text style={style.price}>{price}</Text>
+    <Text style={style.price}> ₹{price}</Text>
     </View>
 
-    <View style={{marginTop: 10}}>
+    <View style={{marginTop: '3%'}}>
     <TouchableOpacity style={style.button}>
         <Text style={style.text}>+ Add</Text>
        
@@ -60,12 +60,24 @@ const style = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#00C99D',
         padding: 1,
+<<<<<<< HEAD
         paddingHorizontal: 20,
         paddingVertical: 2,
         alignItems: 'center',
         marginHorizontal:5,
         marginStart: 20,
         marginVertical: 4
+=======
+        // paddingHorizontal: 20,
+        // paddingVertical: 2,
+        width: Dimensions.get('window').width/4,
+        aspectRatio: 5/1.3,
+        alignItems: 'center',
+        justifyContent: 'center',
+       
+        marginStart: '28%',
+        marginVertical: '3%'
+>>>>>>> 2e7503a20a7adb7483ed4768b07774a35a8256de
        
        
 
