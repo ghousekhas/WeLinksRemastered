@@ -22,7 +22,7 @@ const style = StyleSheet.create({
         backgroundColor: '#EDF9F9',
        height:Dimensions.get('window').height/6,
 
-        padding: 10
+        padding: 5
     },
     name: {
         marginStart: 100,
@@ -32,10 +32,10 @@ const style = StyleSheet.create({
         
     },
     quantity: {
-        marginStart: 10,
+        marginStart: '3%',
         color: 'gray',
         fontSize: 10,
-        marginTop: 10,
+        marginTop: '3%',
         padding: 5
        
     },
@@ -44,7 +44,7 @@ const style = StyleSheet.create({
         
         fontWeight: 'bold',
         fontSize: 15,
-        marginTop: 10,
+        marginTop: '3%',
         padding: 5
       
 

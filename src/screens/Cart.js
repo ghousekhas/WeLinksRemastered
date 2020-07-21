@@ -5,32 +5,40 @@ import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 
 
-const Cart = () => {
+const Cart = ({order,bill,delivery}) => {
+    const words = {
+        title : 'Subscription Orders',
+        disclaimer: 'Total number of deliveries may be adjusted as per market rates.',
+        couponText :'Got a coupon code? Apply',
+        cartAmount : 'Cart Amount',
+        deliveryFee: 'Delivery fee',
+        amountToPay : 'Amount to pay'
+
+    };
     return(<View style={style.container}>
-    <Text style={style.title}>Subscription Orders</Text>
-        <SubscriptionOrder name='Thirumala Double Toned Milk (500ml) '
+    <Text style={style.title}>{words.title}</Text>
+        <SubscriptionOrder name={order.name}
          quantity='1 Ptk' price='200'  bought='30 Pkts' />
 
          <View style={style.gray}>
-             <Text style={style.text}>Total number of deliveries may be adjusted as per market rates.</Text>
+             <Text style={style.text}>{words.disclaimer}</Text>
          </View>
 
          <View style={style.gray1}>
-             <Text style={style.coupon}>Got a coupon code? Apply</Text>
+             <Text style={style.coupon}>{words.couponText}</Text>
          </View>
 
          <View  style={{padding: 10}}>
          <View style={{flexDirection: 'row'}}>
-             <Text style={style.billText}>Cart amount</Text>
              <Text style={style.billCost}>₹200</Text>
          </View>
          <View style={{flexDirection:'row'}}>
-             <Text style={style.billText}>Delivery fee</Text>
+             <Text style={style.billText}>{words.deliveryFee}</Text>
              <Text style={style.billCost}>₹50</Text>
          </View>
          <View style={style.line}/>
          <View style={{flexDirection:'row'}}>
-             <Text style={style.billText}>Amount to pay</Text>
+             <Text style={style.billText}>{words.amountToPay}</Text>
              <Text style={style.billCost}>₹250</Text>
          </View>
 

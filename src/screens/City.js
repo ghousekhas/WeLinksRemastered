@@ -28,9 +28,10 @@ const City = ({navigation}) =>{
         
       </View>
       </RadioButton.Group>
-      <View style={{marginTop:390}}>
+      <View style={{position: 'absolute',bottom: '14%',alignSelf:'center'}}>
       <SubmitButton text='Next'
           onTouch={()=>{
+              console.log('hc')
               navigation.navigate('About')
           }}
       />

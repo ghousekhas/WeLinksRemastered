@@ -7,35 +7,43 @@ import { createStackNavigator, Header } from '@react-navigation/stack';
 import { Calendar } from 'react-native-calendars';
 import SubmitButton from '../components/SubmitButton';
 import moment from 'moment';
+//aterialCommunityIcon';
+// const doThis = ({props}) => {
+//   props.onSet
+// }
 
-const Date = ({onSet}) => {
+export const okay = 'okay';
+const fine = 'fine';
+
+const Date = (props) => {
+
   thisDay = moment()
   .utcOffset('+05:30')
   .format('YYYY-MM-DD');
 
-//   thisDay = thisDay.charAt(8) + thisDay.charAt(9) + ' ' +  
-//   (thisDay.charAt(6)== 0 ? monthNames[charAt(7)] : monthNames[charAt(7)+charAt(8)]+ ' ' +
-//  moment.utcOffset('+05:30').format('YYYY'));
+
+
+
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
+
     
     const [selected, setSelected] = useState(thisDay);
     const [month, setMonth] = useState(monthNames[parseInt(thisDay.charAt(5)+thisDay.charAt(6))])
     const [year, setYear] = useState(thisDay.charAt(0)+thisDay.charAt(1)+thisDay.charAt(2)+thisDay.charAt(3))
     
-
+    
 
     const onDayPress = (day) => {
       setSelected(day.dateString);
-      setMonth(monthNames[day.month-1])
-      setYear(day.year)
+      setMonth(monthNames[day.month-1]);
+      setYear(day.year);
     };
     return(<View>
          <Fragment>
        
         <Calendar
-          
           displayLoadingIndicator
           onDayPress={onDayPress}
           style={{
@@ -55,12 +63,12 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
   }}
           
-          markedDates={{
+            markedDates={{
             [selected]: {
               selected: true,
               disableTouchEvent: true,
               selectedColor: '#00C99D',
-              selectedTextColor: 'white',
+              selectedTextColor: 'white'
               
               
             }
@@ -69,7 +77,8 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
         />
       </Fragment> 
        <TouchableOpacity style={style.button}
-       onPress = {onSet}>
+      onPress = {props.onSet}>
+      
          
         <Text style={style.buttonText}>Set start date ({selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year})</Text>
        
