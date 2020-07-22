@@ -25,7 +25,7 @@ const style = StyleSheet.create({
         paddingVertical: 2,
         alignItems: 'flex-end',
         marginHorizontal:10,
-        marginVertical: -2
+        marginVertical: -2,
         // paddingHorizontal: 30,
         // paddingVertical: 2,
         width: Dimensions.get('window').width/4,

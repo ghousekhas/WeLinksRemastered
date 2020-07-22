@@ -26,8 +26,9 @@ const About = ({navigation}) =>{
     />
     </View>
     </View>);
-
-    return (<City navigation={navigation}/>)
+    else{
+        navigation.navigate('City');
+    }
 };
 
 const style = StyleSheet.create({

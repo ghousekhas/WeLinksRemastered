@@ -55,6 +55,7 @@ export default class AddAddress extends React.Component{
         var jsonifySingle= JSON.stringify(selectedLocation);
         await AsyncStorage.setItem('selectedAddress',jsonifySingle);
         await AsyncStorage.setItem('addresses',jsonified);
+        await AsyncStorage.setItem('firstLogin',await JSON.stringify({firstLogin: false}));
         //this.props.route.params.onComeBack({item: true})
         //this.props.navigation.goBack();
         //set address as selected

@@ -60,14 +60,6 @@ const style = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#00C99D',
         padding: 1,
-<<<<<<< HEAD
-        paddingHorizontal: 20,
-        paddingVertical: 2,
-        alignItems: 'center',
-        marginHorizontal:5,
-        marginStart: 20,
-        marginVertical: 4
-=======
         // paddingHorizontal: 20,
         // paddingVertical: 2,
         width: Dimensions.get('window').width/4,
@@ -77,7 +69,6 @@ const style = StyleSheet.create({
        
         marginStart: '28%',
         marginVertical: '3%'
->>>>>>> 2e7503a20a7adb7483ed4768b07774a35a8256de
        
        
 

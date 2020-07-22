@@ -101,7 +101,7 @@ function App() {
     return (
       <View style={{flex: 1}}>
       <NavigationContainer>
-      <Stack.Navigator  initialRouteName= 'MilkVendors'>
+      <Stack.Navigator  initialRouteName= 'Introduction'>
       <Stack.Screen  name="Introduction" component={Introduction} 
         options={{
           headerShown: false
@@ -171,6 +171,10 @@ function App() {
         <Stack.Screen name='VendorScreen' component={VendorScreen} />
         <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} />
         <Stack.Screen name='Cart' component={Cart} />
+        <Stack.Screen name='FirstAbout' component={About} options={{headerShown: false}}/>
+        <Stack.Screen name='FirstCity' component={City} options={{headerShown: false}}/>
+        <Stack.Screen name='FirstAddress' component={AddressSearch} options={{headerShown: false}}/>
+        
       </Stack.Navigator>
     </NavigationContainer>
     </View>

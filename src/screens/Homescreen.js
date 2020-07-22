@@ -42,8 +42,12 @@ export default class Homescreen extends React.Component{
         const firstLogin= await JSON.parse(jsondata);
         if(firstLogin == null){
             console.log('meh',firstLogin);
+            navigation.navigate('About')
           //this.props.navigation.navigate('About');
           this.setState({firstLogin: true})
+        }
+        else{
+            this.setState({firstLogin: false})
         }
         
       }
@@ -65,6 +69,7 @@ export default class Homescreen extends React.Component{
         this.retreiveInitData();
         this.focusListener= navigation.addListener('focus',()=>{
             console.log('fjknkf');
+            this.checkIfFirstLogin();
             this.retreiveInitData();
         });
         //BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
@@ -76,12 +81,9 @@ export default class Homescreen extends React.Component{
     }
     
     render(){
-        if(this.state.firstLogin)
-            return(
-                <About navigation={this.props.navigation}/>
-            );
-
         const {navigation} =this.props;
+    
+        
         return(
             <View style={styles.fullscreen}>
                 <View style={styles.topbar}>
