@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import {useState} from 'react';
-import { View, Text,StatusBar } from 'react-native';
+import { View, Text,StatusBar,StyleSheet, Dimensions, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Notifications from 'expo-notifications';
@@ -19,10 +19,15 @@ import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import CheckOut from './src/screens/CheckOut'
 import Cart from './src/screens/Cart'
 import MilkVendors from './src/screens/MilkVendors';
+import MilkVendor from './src/screens/MilkVendor';
 import PaperVendors from './src/screens/PaperVendors';
 import VendorScreen from './src/screens/VendorScreen';
 import SubscribeScreen from './src/screens/SubscribeScreen';
+import LottieView from 'lottie-react-native';
+import AddressList from './src/screens/AddressList';
+
 navigator.geolocation = require('@react-native-community/geolocation');
+
 /*function HomeScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -41,6 +46,7 @@ function App() {
   const [firstlogin,setFirstLog]=useState(0);
   const [user,setUser]=useState(null);
   const [activesections,setActiveSections]=useState([]);
+  var animations;
 
 
 
@@ -93,10 +99,37 @@ function App() {
   //return (<MilkVendor/>)
 
   //return (<MilkVendor/>);
+  /*const latte=()=>{
+    animations.play();
+  };
+
+
+  return( 
+    <View style={{position: 'absolute', top: 50,bottom: 50,left:50,right:50}}>
+  
+        <LottieView 
+            hardwareAccelerationAndroid={true}
+            renderToHardwareTextureAndroid={true}
+            style= {{...StyleSheet.absoluteFill}}
+            resizeMode= {'contain'}
+            ref= {(anim)=> {
+              animations= anim
+
+            }}
+            onLayout= {latte}
+            source= {require('./assets/animations/logistics.json')}
+            loop={true}/>
+    </View>
+  );*/ //Animatunis here
+
+  return <AddressList/>
+
+
+
 
 
   
-  if(user==null){
+  /*if(user==null){
     console.log('this is the prb');
     return (
       <View style={{flex: 1}}>
@@ -121,7 +154,7 @@ function App() {
     </NavigationContainer> 
     </View>
     );
-    }
+    }*/
   /*  else if(firstlogin == 1){
       console.log('something something');
         return(

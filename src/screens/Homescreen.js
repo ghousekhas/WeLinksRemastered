@@ -52,12 +52,23 @@ export default class Homescreen extends React.Component{
         
       }
       retreiveInitData= async()=>{
+          const {navigation} =this.props;
           try{
-            const selectedAddress= await JSON.parse(await AsyncStorage.getItem('selectedAddress'));
-            const userName= await JSON.parse(await AsyncStorage.getItem('username'));
+            const selectedAddress= await JSON.parse(await AsyncStorage.getItem(Constants.selectedAddress));
+            const userName= await JSON.parse(await AsyncStorage.getItem(Constants.username));
+            const city= await JSON.parse(await AsyncStorage.getItem(Constants.city));
+            console.log('cc',selectedAddress);
+            if(userName == null )
+                navigation.navigate('About');
+            else if(city== null)
+                navigation.navigate('City');
+            else if(selectedAddress == null)
+                navigation.navigate('AddressSearch');
             this.setState({address: selectedAddress.text,lat: selectedAddress.lat,lng: selectedAddress.lng,username: userName});
           }
-          catch(error){}
+          catch(error){
+              console.log(error);
+          }
       }
 
     
@@ -65,12 +76,12 @@ export default class Homescreen extends React.Component{
 
     componentDidMount(){
         const {navigation}= this.props;
-        this.checkIfFirstLogin();
-        this.retreiveInitData();
+        //this.checkIfFirstLogin();
+        //this.retreiveInitData();
         this.focusListener= navigation.addListener('focus',()=>{
             console.log('fjknkf');
-            this.checkIfFirstLogin();
-            this.retreiveInitData();
+            //this.checkIfFirstLogin();
+            //this.retreiveInitData();
         });
         //BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
         /*Axios.post('https://5f1552a54693a6001627551c.mockapi.io/ahyeah')

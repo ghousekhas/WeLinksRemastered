@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import AppIntroSlider from 'react-native-app-intro-slider'
+import AppIntroSlider from 'react-native-app-intro-slider';
+import FastImage from 'react-native-fast-image';
 
 
 var showRealApp=false;
@@ -16,7 +17,7 @@ const slides = [
       key: 'two',
       title: 'Your favorite newspaper at your doorstep',
       text: 'Find the best newspaper delivery companies for homes, offices',
-      image: require('../../assets/intronews.jpg'),
+      image: require('../../assets/intronews.png'),
       backgroundColor: '#F3F7FA',
     },
     {
@@ -43,7 +44,7 @@ export default class Introduction extends React.Component{
           
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.text}>{item.text}</Text>
-            <Image style={styles.image} source={item.image} />
+            <FastImage style={styles.image} source={item.image} />
            
           </View>
         );
@@ -59,7 +60,8 @@ export default class Introduction extends React.Component{
         /*if (this.state.showRealApp) {
           return <App />;
         } else {*/
-          return <AppIntroSlider renderItem={this._renderItem} data={slides} onDone={this._onDone}/>;
+          return <AppIntroSlider renderItem={this._renderItem} data={slides} onDone={this._onDone}
+                initialNumToRender={4}/>;
        /* }*/
       }
     }

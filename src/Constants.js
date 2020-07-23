@@ -1,6 +1,11 @@
 import {StyleSheet, Dimensions} from 'react-native';
 export const Constants={
     Logged: 'Logged',
+    firstLogin: 'FIRST_LOGIN',
+    username: 'USERNAME',
+    city: 'CITY',
+    selectedAddress: 'selectedAddress',
+
     
 }
 export const Styles=StyleSheet.create({
