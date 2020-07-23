@@ -1,16 +1,30 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet,Text,View,TextInput, Dimensions,Image,StatusBar} from 'react-native';
+
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+
+import { TouchableOpacity, TapGestureHandler } from 'react-native-gesture-handler';
+import {CommonActions,useNavigation} from '@react-navigation/native';
+
 import {Constants,Styles} from '../Constants';
+import Axios from 'axios';
+import { BackHandler } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
+import About from './About';
+
+
 
 
 export default class Homescreen extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            username: 'Roco',
-            city: 'City',
-            title: 'What are you looking for?',
+        
+            firstLogin: false,
+            
+            username: 'roco',
+            city: 'city',
+            title: 'What are you looking for',
             desc: 'Select services and checkout easily',
             milk: 'Milk Delivery',
             news: 'NewsPaper Delivery',
@@ -26,9 +40,55 @@ export default class Homescreen extends React.Component{
         }
 
     }
+
+    checkIfFirstLogin= async ()=>{
+        console.log('someeeeeething');
+        const jsondata=  await AsyncStorage.getItem('firstLogin');
+        const firstLogin= await JSON.parse(jsondata);
+        if(firstLogin == null){
+            console.log('meh',firstLogin);
+            navigation.navigate('About')
+          //this.props.navigation.navigate('About');
+          this.setState({firstLogin: true})
+        }
+        else{
+            this.setState({firstLogin: false})
+        }
+        
+      }
+      retreiveInitData= async()=>{
+          try{
+            const selectedAddress= await JSON.parse(await AsyncStorage.getItem('selectedAddress'));
+            const userName= await JSON.parse(await AsyncStorage.getItem('username'));
+            this.setState({address: selectedAddress.text,lat: selectedAddress.lat,lng: selectedAddress.lng,username: userName});
+          }
+          catch(error){}
+      }
+
+    
+    
+
+    componentDidMount(){
+        const {navigation}= this.props;
+        this.checkIfFirstLogin();
+        this.retreiveInitData();
+        this.focusListener= navigation.addListener('focus',()=>{
+            console.log('fjknkf');
+            this.checkIfFirstLogin();
+            this.retreiveInitData();
+        });
+        //BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+        /*Axios.post('https://5f1552a54693a6001627551c.mockapi.io/ahyeah')
+        .then((response)=>{
+            console.log(response.data);
+        });
+        this.props.navigation.po*/
+    }
     
     render(){
         const {navigation} =this.props;
+    
+        
         return(
             <View style={styles.fullscreen}>
                 <View style={styles.topbar}>
@@ -105,7 +165,7 @@ export default class Homescreen extends React.Component{
 }
 const styles= StyleSheet.create({
     deliveringcontainer:{
-        height: 60,
+        height: '10%',
         width: '100%',
         position: 'absolute',
         justifyContent: 'flex-start',

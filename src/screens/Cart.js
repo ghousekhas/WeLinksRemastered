@@ -5,6 +5,7 @@ import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+
 const Cart = ({route}) => {
     const words = {
         title : 'Subscription Orders',

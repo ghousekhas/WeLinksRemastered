@@ -5,7 +5,11 @@ import { Directions, TextInput } from 'react-native-gesture-handler';
 import SubmitButton from '../components/SubmitButton';
 import * as Location from 'expo-location';
 import Axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage';
+import {Styles} from '../Constants';
+import { StackActions, CommonActions } from '@react-navigation/native';
+import {NavigationActions} from 'react-navigation';
+import VendorsList from './VendorsList';
 
 export default class AddAddress extends React.Component{
 
@@ -44,12 +48,19 @@ export default class AddAddress extends React.Component{
         var data= JSON.parse(jsondata);
         if(data==null)
           data=[];
-        data.push({text: this.state.title,lat: this.state.latitude,lng: this.state.longitude});
+        var selectedLocation={text: this.state.title,lat: this.state.latitude,lng: this.state.longitude}
+        data.push(selectedLocation);
         console.log(data[0]);
         var jsonified= JSON.stringify(data);
+        var jsonifySingle= JSON.stringify(selectedLocation);
+        await AsyncStorage.setItem('selectedAddress',jsonifySingle);
         await AsyncStorage.setItem('addresses',jsonified);
-        this.props.route.params.onComeBack({item: true})
-        this.props.navigation.goBack();
+        await AsyncStorage.setItem('firstLogin',await JSON.stringify({firstLogin: false}));
+        //this.props.route.params.onComeBack({item: true})
+        //this.props.navigation.goBack();
+        //set address as selected
+        this.props.navigation.navigate('Homescreen');
+
       }
 
     };
@@ -192,10 +203,13 @@ export default class AddAddress extends React.Component{
                           <Text>CHANGE</Text>
                       </TouchableOpacity>
                     </View>
-                    <SubmitButton styler={styles.button} text='Confirm Location' onTouch={this.addAddress}/>
+                    <View style={Styles.submitButton}>
+                                <SubmitButton text='Continue' onTouch={this.addAddress}
+                                />
+                                </View>
                 </View>      
                 <TouchableOpacity style= {styles.backbuttoncontainer} 
-                    onPress={this.backbutton}>
+                    onPress={this.addAddress}>
                   <Image style={styles.backbutton} source={require('./../../assets/backbutton.png')}/>
                 </TouchableOpacity>    
                 {/*<TouchableOpacity style= {styles.currentlocationcontainer} 

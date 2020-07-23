@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
+=======
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+>>>>>>> 908c6f9df6672acff18d1b2358255f673d0e7f88
 import Button from './Button';
 import Stars from './Stars';
 import { color } from 'react-native-reanimated';

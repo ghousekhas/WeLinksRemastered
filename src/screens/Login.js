@@ -7,6 +7,8 @@ import { createStackNavigator, Header } from '@react-navigation/stack';
 import SubmitButton from '../components/SubmitButton';
 import auth from '@react-native-firebase/auth';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import City from './City';
+import About from './About';
 
 
 const LoginScreen = ({navigation}) => {
@@ -39,15 +41,24 @@ const LoginScreen = ({navigation}) => {
             }])
         }
     }
-    async function confirmCode(){
+    async function confirmCode(code){
         try{
             await confirm.confirm(code);
-            navigation.navigate('AddAddress');
+            //navigation.navigate('AddressSearch');
         }
         catch(error){
+            
+        }
+        if(auth().currentUser!=null){
+            setUser(auth().currentUser);
+        }
+        else{
             Alert.alert('OTP incorrect ','Please try again');
         }
     }
+
+    if(user!=null)
+        return <About/>
 
 
 
@@ -88,8 +99,8 @@ const LoginScreen = ({navigation}) => {
         codeInputHighlightStyle={LoginScreenStyle.underlineStyleHighLighted}
             pinCount={6}
             onCodeFilled={(code) => {
-                setCode(code);
-                confirmCode();
+               // setCode(code);
+                confirmCode(code);
 
             }}
         />

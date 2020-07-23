@@ -33,24 +33,42 @@ navigator.geolocation = require('@react-native-community/geolocation');
   );
 }*/
 
+function School(){
+  return <Homescreen/>
+}
+
 const Stack = createStackNavigator();
 
 function App() {
-  const [firstlogin,setLogged]=useState(false);
+  const [firstlogin,setFirstLog]=useState(0);
   const [user,setUser]=useState(null);
+  const [activesections,setActiveSections]=useState([]);
+
+
 
   onAuthStateChanged= (user) =>{
-    setLogged(true);
     setUser(user);
-    console.log(user);
-    setLogged(true);
+    //console.log(user);
 
+  }
+
+  checkIfFirstLogin= async ()=>{
+    const jsondata=  await AsyncStorage.getItem('firstLogin');
+    const firstLogin= await JSON.parse(jsondata);
+    console.log(firstLogin.firstLogin);
+    if(firstLogin == null)
+      setFirstLog(1);
+    
   }
   
   React.useEffect(()=>{
     setUser(auth().currentUser);
-    console.log('dees be some logs',auth().currentUser);
+    //checkIfFirstLogin();
+    console.log(user);
+    
+    //console.log('dees be some logs',auth().currentUser);
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
+
     //return suser;// Don't unsubscribe to this? maybe 
   },[]);
   /*if(true)
@@ -74,12 +92,22 @@ function App() {
   </View>*/
     //testing purposes above
 
+  //return (<MilkVendor/>)
+
+  //return (<MilkVendor/>);
+
+
   
-  if(user==null && firstlogin==false)
+  if(user==null){
+    console.log('this is the prb');
     return (
       <View style={{flex: 1}}>
       <NavigationContainer>
+<<<<<<< HEAD
       <Stack.Navigator  initialRouteName= 'Homescreen'>
+=======
+      <Stack.Navigator  initialRouteName= 'Introduction'>
+>>>>>>> 908c6f9df6672acff18d1b2358255f673d0e7f88
       <Stack.Screen  name="Introduction" component={Introduction} 
         options={{
           headerShown: false
@@ -102,8 +130,10 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer> 
     </View>
-    )
-    else if(user !=null && firstlogin== true)
+    );
+    }
+  /*  else if(firstlogin == 1){
+      console.log('something something');
         return(
           <View style={{flex: 1}}>
           <NavigationContainer>
@@ -128,7 +158,9 @@ function App() {
             </Stack.Navigator>
           </NavigationContainer>
           </View>
-        )
+        );
+      }*/
+
 
   return (
     <View style={{flex: 1}}>
@@ -137,12 +169,13 @@ function App() {
         <Stack.Screen name='Homescreen' component={Homescreen} options={{
           headerShown: false 
         }}/>
+        <Stack.Screen name='School' component={School} options={{headerShown: false}}/> 
         <Stack.Screen name='AddressSearch' component={AddressSearch}/>
         <Stack.Screen name='AddAddress' component={AddAddress} options={{
           headerShown: false
         }}/>
+         <Stack.Screen name = "About" component={About}/>
         <Stack.Screen name = "City" component={City}/>
-        <Stack.Screen name = "About" component={About}/>
         <Stack.Screen name='VendorsList' component={VendorsList} />
         <Stack.Screen name='MilkVendors' component={MilkVendors} />
         <Stack.Screen name='PaperVendors' component={PaperVendors} />
@@ -151,6 +184,10 @@ function App() {
 
         <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} />
         <Stack.Screen name='Cart' component={Cart} />
+        <Stack.Screen name='FirstAbout' component={About} options={{headerShown: false}}/>
+        <Stack.Screen name='FirstCity' component={City} options={{headerShown: false}}/>
+        <Stack.Screen name='FirstAddress' component={AddressSearch} options={{headerShown: false}}/>
+        
       </Stack.Navigator>
     </NavigationContainer>
     </View>

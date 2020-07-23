@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import SubmitButton from './SubmitButton';
 
 
-const WeekPicker = ({back}) => {
+const WeekPicker = ({back,selectedDate}) => {
    
 
 
@@ -178,7 +178,7 @@ const WeekPicker = ({back}) => {
     
     </View>
 
-    <SubmitButton text='Confirm'/>
+    <SubmitButton text='Confirm' onTouch={selectedDate}/>
   
 
 
