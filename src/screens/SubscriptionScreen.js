@@ -4,10 +4,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Item from '../components/Item';
 import SubmitButton from '../components/SubmitButton';
 import Button from '../components/Button';
-import Date,{okay,selected,fine} from './Date';
 
 
-const SubscriptionScreen = ({onCalendarOpen,dateResult,goTo,pname,pquan,prate}) => {
+
+const SubscriptionScreen = ({onCalendarOpen,onWeekOpen,goTo,pname,pquan,prate}) => {
 
     const words = {
         quantityPerDay:'Quantity per day' ,
@@ -23,12 +23,12 @@ return(<View>
     <Text style={style.greyText}>{words.quantityPerDay}</Text>
 
     <View style = {style.quantityPick}>
-    <TouchableOpacity style={{marginStart: '12%',justifyContent:'center',alignItems:'center'}} onPress={() => {
+    <TouchableOpacity style={style.minus} onPress={() => {
         setNumber(number!=1 ? number-1 : number)
     }}>
     <Text style={{fontSize: 20,color: '#00C99D'}}>-</Text>
     </TouchableOpacity>
-    <Text style ={{marginStart: '24%',justifyContent:'center',alignItems:'center',marginTop:'4%'}}>{number}</Text>
+    <Text style ={style.plus}>{number}</Text>
     <TouchableOpacity style={{marginStart:'50%',justifyContent:'center'}}onPress={() => {
         setNumber(number+1)
     }}>
@@ -40,6 +40,9 @@ return(<View>
 
     <View style={style.view1}>
 <Text style={style.greyText}>{words.repeat}</Text>
+     <View style={style.button}>
+    <Button text='Change' onTouch={onWeekOpen}/>
+    </View>
     
     <View style ={style.view3}>
     <View style = {style.view2}> 
@@ -101,10 +104,10 @@ return(<View>
     <Button text='Change' onTouch={onCalendarOpen}/>
     </View>
     
-    <Text style={style.selected}>{okay}</Text>
+    <Text style={style.selected}></Text>
 
     </View>
-    <View style={{position: 'absolute',bottom: '-10%',alignSelf:'center'}}>
+    <View style={{position: 'absolute',bottom: '-5%',alignSelf:'center'}}>
     <SubmitButton text='Subscribe' onTouch={goTo}/>
     </View>
 
@@ -115,9 +118,11 @@ return(<View>
 const style = StyleSheet.create({
     view1: {
         
-        height: Dimensions.get('window').height/8,
+        height: Dimensions.get('window').height/7,
         flexDirection: 'row',
-        marginTop: '5%'
+        marginTop: '5%',
+        
+      
     },
     greyText: {
         marginStart: '8%',
@@ -211,8 +216,11 @@ const style = StyleSheet.create({
     selectDate:{
         flexDirection: 'row',
         marginHorizontal: '5%',
+        
         height: Dimensions.get('window').height/8,
     marginTop: '5%',
+    
+    alignItems: 'stretch',
         
         
         marginStart: '1%',
@@ -229,11 +237,38 @@ const style = StyleSheet.create({
 
     },
     button:{
+       
+        flexDirection: 'column',
+        width: Dimensions.get('window').width/4,
+        aspectRatio: 5/1.3,
+        marginTop: '2%',
+        
+        position: 'absolute',
+        marginStart: Dimensions.get('window').width/1.4,
+        
+    },
+    button1:{
         alignItems: 'flex-end',
         flexDirection: 'column',
         width: Dimensions.get('window').width-120,
-        marginTop: '2%'
-    }
+        marginTop: '2%',
+        marginStart: '30%'
+        
+    },
+    minus: {
+    marginStart: '12%',
+    justifyContent:'center',
+    alignItems:'center',
+    
+},
+plus: {
+    marginStart: '24%',
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:'4%'
+}
+
+
     
 });
 

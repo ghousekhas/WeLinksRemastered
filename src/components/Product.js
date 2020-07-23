@@ -1,22 +1,24 @@
 import React,{ Fragment, useState, useRef } from 'react';
-import { View,Text,TouchableOpacity,StyleSheet,Dimensions } from 'react-native';
+import { View,Text,TouchableOpacity,StyleSheet,Dimensions, Image } from 'react-native';
 import Button from './Button';
 
 
 
-const Product = ({name,quantity,price,subscribe}) => {
+const Product = ({name,quantity,price,price_,subscribe}) => {
+    if(!price_ == ''){
+    
     return(<View style={style.container}>
+    <Image style={style.image} source={require('./../../assets/news_p.png')}/>
     <View>
     <Text style={style.name}>{name}</Text>
     <Text style={style.quantity}>{quantity}</Text>
-    <Text style={style.price}> ₹{price}</Text>
+    <Text style={style.price}> Weekdays- ₹{price}</Text>
+    <Text style={style.price}> Weekends- ₹{price_}</Text>
     </View>
 
     <View style={{marginTop: '3%'}}>
-    <TouchableOpacity style={style.button}>
-        <Text style={style.text}>+ Add</Text>
-       
-        </TouchableOpacity>
+   
+   
 
         <TouchableOpacity style={style.button} onPress={subscribe}>
         <Text style={style.text}>Subscribe</Text>
@@ -26,6 +28,29 @@ const Product = ({name,quantity,price,subscribe}) => {
     
 
     </View>)
+    }else return(
+        <View style={style.container}>
+         <Image style={style.image} source={require('./../../assets/milk_p.png')}/>
+    <View>
+    <Text style={style.name}>{name}</Text>
+    <Text style={style.quantity}>{quantity}</Text>
+    <Text style={style.price}> ₹{price}</Text>
+    
+    </View>
+
+    <View style={{marginTop: '3%'}}>
+   
+
+        <TouchableOpacity style={style.button} onPress={subscribe}>
+        <Text style={style.text}>Subscribe</Text>
+       
+        </TouchableOpacity>
+    </View>
+    
+
+    </View>
+
+    )
 };
 
 
@@ -46,13 +71,14 @@ const style = StyleSheet.create({
     },
     quantity: {
         marginStart: 70,
+        marginTop: '3%',
         color: 'gray'
 
     },
     price: {
         fontWeight:'bold',
         marginStart: 70,
-        fontSize: 17
+        fontSize: 15
 
     },
     button: {
@@ -77,6 +103,16 @@ const style = StyleSheet.create({
     color:'#00C99D',
     fontSize: 12,
     fontWeight: 'bold'
+    },
+    image: {
+        width: 79,
+        height: 80,
+        position: 'absolute',
+        marginStart: '-1%',
+        
+        marginTop : '3%'
+        
+       
     }
 });
 

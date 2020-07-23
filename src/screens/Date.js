@@ -12,8 +12,8 @@ import moment from 'moment';
 //   props.onSet
 // }
 
-export const okay = 'okay';
-const fine = 'fine';
+ export var okay = '';
+// const fine = 'fine';
 
 const Date = (props) => {
 
@@ -77,7 +77,11 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
         />
       </Fragment> 
        <TouchableOpacity style={style.button}
-      onPress = {props.onSet}>
+      onPress = {() => {
+        okay = selected;
+        console.log(okay)
+
+      }}>
       
          
         <Text style={style.buttonText}>Set start date ({selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year})</Text>

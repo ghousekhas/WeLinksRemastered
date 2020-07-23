@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
+import { Avatar } from 'react-native-paper';
 
 
 const MilkVendors = (props) => {
@@ -19,41 +20,51 @@ const MilkVendors = (props) => {
             name: 'Vendor 1',
             brands: 'Nandini, Heritage, Akshayakalpa',
             stars: 3,
-            reviews:  10
+            reviews: '10' ,
+            image: './../../assets.vendor.png'
         },
         {
             name: 'Vendor 2',
             brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 3,
-            reviews:  10
+            stars: 2,
+            reviews: '10' ,
+            image: './../../assets.vendor.png'
         },
         {
             name: 'Vendor 3',
             brands: 'Nandini, Heritage, Akshayakalpa',
             stars: 5,
-            reviews:  10
+            reviews: '10' ,
+            image: './../../assets.vendor.png'
         },
         {
             name: 'Vendor 4',
             brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 2,
-            reviews:  10
+            stars: 4,
+            reviews: '10' ,
+            image: './../../assets.vendor.png'
         },
         {
             name: 'Vendor 5',
             brands: ' Nandini, Heritage, Akshayakalpa',
-            stars: 5,
-            reviews:  10
+            stars: 3,
+            reviews: '10' ,
+            image: './../../assets.vendor.png'
         }
 
 
     ]);
 
     
-    return(<View>
-    <View style={style.container}>
+    return(<View style={{flex: 1}}>
+    <View style={{flexDirection: 'row'}}>
+    <Image  style ={style.avatar} source={require('./../../assets/avatar.png')}/>
+  
+   
+    <View style={style.header}>
         <Text style ={style.username}>{userDetails.USER_NAME}</Text>
         <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
+    </View>
     </View>
     <View style={style.line} />
 
@@ -67,10 +78,11 @@ const MilkVendors = (props) => {
             const vendorStars = item.stars;
             const vendorReviews = item.reviews
             return(
-                <Vendor name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews}
+                <Vendor name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews} 
                 onSelected={() => {
              
                 props.navigation.navigate('VendorScreen',{
+                    tag: 'milk',
                     name: vendorName,
                     stars: vendorStars,
                     reviews: vendorReviews
@@ -91,10 +103,11 @@ const MilkVendors = (props) => {
 };
 
 const style = StyleSheet.create({
-    container: {
-        margin: 10,
-        padding: 10,
-        alignItems: 'flex-start',
+    header: {
+        margin: '5%',
+        padding: '3%',
+        marginStart: '20%'
+        
     },
     username: {
         fontWeight: 'bold',
@@ -125,6 +138,15 @@ const style = StyleSheet.create({
         padding: 10,
         fontWeight: 'bold',
         marginVertical: '5%'
+    },
+    avatar: {
+        width: 50,
+        height: 50,
+        margin: '5%',
+        padding: '3%',
+        position: 'absolute'
+        
+       
     }
 
 })

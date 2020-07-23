@@ -22,6 +22,8 @@ import MilkVendors from './src/screens/MilkVendors';
 import PaperVendors from './src/screens/PaperVendors';
 import VendorScreen from './src/screens/VendorScreen';
 import SubscribeScreen from './src/screens/SubscribeScreen';
+import Vendor from './src/components/Vendor';
+import VendorScreen1 from './src/screens/VendorScreen1';
 navigator.geolocation = require('@react-native-community/geolocation');
 /*function HomeScreen() {
   return (
@@ -77,7 +79,7 @@ function App() {
     return (
       <View style={{flex: 1}}>
       <NavigationContainer>
-      <Stack.Navigator  initialRouteName= 'MilkVendors'>
+      <Stack.Navigator  initialRouteName= 'Homescreen'>
       <Stack.Screen  name="Introduction" component={Introduction} 
         options={{
           headerShown: false
@@ -93,6 +95,10 @@ function App() {
         <Stack.Screen name = "About" component={About}/>
         <Stack.Screen name='MilkVendors' component={MilkVendors} />
         <Stack.Screen name='PaperVendors' component={PaperVendors} />
+        <Stack.Screen name='VendorScreen' component={VendorScreen1} />
+        <Stack.Screen name='VendorScreen1' component={VendorScreen1} />
+
+
       </Stack.Navigator>
     </NavigationContainer> 
     </View>
@@ -116,6 +122,7 @@ function App() {
         <Stack.Screen name='MilkVendors' component={MilkVendors} />
         <Stack.Screen name='PaperVendors' component={PaperVendors} />
         <Stack.Screen name='VendorScreen' component={VendorScreen} />
+        <Stack.Screen name='VendorScreen1' component={VendorScreen1} />
         <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} />
         <Stack.Screen name='Cart' component={Cart} />
             </Stack.Navigator>
@@ -140,6 +147,8 @@ function App() {
         <Stack.Screen name='MilkVendors' component={MilkVendors} />
         <Stack.Screen name='PaperVendors' component={PaperVendors} />
         <Stack.Screen name='VendorScreen' component={VendorScreen} />
+        <Stack.Screen name='VendorScreen1' component={VendorScreen1} />
+
         <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} />
         <Stack.Screen name='Cart' component={Cart} />
       </Stack.Navigator>

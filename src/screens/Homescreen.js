@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {StyleSheet,Text,View,TextInput, Dimensions,Image,StatusBar} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import {Constants,Styles} from '../Constants';
 
 
@@ -15,6 +15,7 @@ export default class Homescreen extends React.Component{
             milk: 'Milk Delivery',
             news: 'NewsPaper Delivery',
             scrap: 'Scrap Collection',
+            corporate: 'Corporate Scrap Collection',
             address: 'Tap here to add an address'
         };
         this.images={
@@ -46,7 +47,13 @@ export default class Homescreen extends React.Component{
                 <Image style={styles.banner} source={this.images.banner}/>
                 <Text style={styles.title}>{this.state.title}</Text>
                 <Text style={styles.desc}>{this.state.desc}</Text>
+              
                 <View style={styles.horizontalview}>
+                <ScrollView style={{flex: 1}}>
+                <View style={styles.view1}>
+
+               
+
                     <TouchableOpacity style={styles.menuitem} onPress={()=>{
                         this.props.navigation.navigate('MilkVendors')}
                 }>
@@ -58,14 +65,30 @@ export default class Homescreen extends React.Component{
                         <Image style={styles.menuimage} source={this.images.news}/>
                         <Text style={styles.menutext}>{this.state.news}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.menuitem} onPress={()=>{
-                        this.props.navigation.navigate('VendorsList',{
-                            department: 'scrap'
-                        })
+                    </View>
+
+                    <View style={styles.view1}>
+                    <TouchableOpacity style={styles.menuitem} 
+                    onPress={()=>{
+                        // this.props.navigation.navigate('VendorsList',{
+                        //     department: 'scrap'
+                        // })
                     }}>
                         <Image style={styles.menuimage} source={this.images.scrap} />
                         <Text style={styles.menutext}>{this.state.scrap}</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={styles.menuitem} 
+                    onPress={()=>{
+                        // this.props.navigation.navigate('VendorsList',{
+                        //     department: 'scrap'
+                        // })
+                    }}>
+                        <Image style={styles.menuimage} source={this.images.scrap} />
+                        <Text style={styles.menutext}>{this.state.scrap}</Text>
+                    </TouchableOpacity>
+                    </View>
+              
+                </ScrollView>
                 </View>
                 <View style={styles.deliveringcontainer}>
                 <TouchableOpacity onPress={()=>{
@@ -112,9 +135,10 @@ const styles= StyleSheet.create({
 
     },
     fullscreen:{
-        ...StyleSheet.absoluteFill,
+        
         flexDirection: 'column',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        flex: 1
     },
     topbar:{
         justifyContent: 'space-between',
@@ -186,10 +210,18 @@ const styles= StyleSheet.create({
         alignSelf: 'flex-start',
     },
     horizontalview:{
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-evenly',
         flex: 1,
     }, 
+    view1 : {
+        
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            flex: 1,
+        
+
+    },
     menuitem:{
         height: Dimensions.get('window').width/3,
         width: Dimensions.get('window').width/3-25,

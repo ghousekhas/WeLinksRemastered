@@ -1,42 +1,46 @@
 import React,{ Fragment, useState, useRef } from 'react';
-import { View,Text,TouchableOpacity,StyleSheet,Dimensions,Image } from 'react-native';
+import { View,Text,TouchableOpacity,StyleSheet,Dimensions ,Image} from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Product from '../components/Product';
 import Stars from '../components/Stars';
 
 
-const VendorScreen = ({route,navigation}) => {
-   
-    const [mlist,updatemList] = useState([
+const VendorScreen1 = ({route,navigation}) => {
+    
+    
+
+    const [plist,updatepList] = useState([
         {
-            name: 'Nandini Toned Milk',
-            quantity: '1 packet',
-            price: '22'
+            name: 'The Hindu',
+            quantity: '1 unit',
+            price: '5',
+            price_: '8'
         },
         {
-            name: 'Heritage Toned Milk',
-            quantity: '1 packet',
-            price: '27'
-        },
+            name: 'Times of India',
+            quantity: '1 unit',
+            price: '5',  
+            price_: '8'      },
         {
-            name: 'Thirumala Toned Milk',
-            quantity: '1 packet',
-            price: '24'
-        }, {
-            name: 'Nandini Toned Milk 1',
-            quantity: '1 packet',
-            price: '22'
-        },
+            name: 'Prajavani',
+            quantity: '1 unit',
+            price: '5', 
+            price_: '8'
+               }, {
+            name: 'The Hindu 1',
+            quantity: '1 unit',
+            price: '5', 
+            price_: '8'       },
         {
-            name: 'Heritage Toned Milk 1',
-            quantity: '1 packet',
-            price: '22'
-        },
+            name: 'Times of India 1',
+            quantity: '1 unit',
+            price: '5',  
+            price_: '8'      },
         {
-            name: 'Thirumala Toned Milk 1',
-            quantity: '1 packet',
-            price: '23'
-        }
+            name: 'Prajavani 1',
+            quantity: '1 unit',
+            price: '5',    
+            price_: '8'    }
 
     ]);
 
@@ -58,7 +62,7 @@ const VendorScreen = ({route,navigation}) => {
        <View style = {{flexDirection: 'row',marginStart:'29%'}}>
         {/* <Text style={style.brandsTitle}>{JSON.stringify(stars)+' stars'}</Text> */}
         <Stars number={parseInt(JSON.stringify(stars))}/>
-        <Text style = {style.review}>({JSON.stringify(reviews).slice(1,-1) +' reviews'})</Text>
+            <Text style = {style.review}>({JSON.stringify(reviews)+' reviews'})</Text>
         </View>
         <Text style={{fontSize: 20,fontWeight:'bold',marginTop: 30,marginStart: 3}}>Brands</Text>
         </View>
@@ -66,17 +70,18 @@ const VendorScreen = ({route,navigation}) => {
         
     </View>
     <FlatList
-        data = {mlist}
+        data = {plist}
         keyExtractor = {(item) => item.name}
         renderItem = {({item}) => { 
             return(
-                <Product name={item.name} quantity={item.quantity} price={item.price} 
+                <Product name={item.name} quantity={item.quantity} price={item.price}  price_={item.price_}
                 subscribe={() => {
                    
                     const prodName = item.name;
                     const prodQuan = item.quantity;
                     const prodRate = item.price;
-               
+                    const prodRate_ = item.price_;
+
                     navigation.navigate('SubscribeScreen',{
                         tag : 'paper',
                         pname : prodName,
@@ -148,5 +153,4 @@ const style = StyleSheet.create({
     }
 });
 
-
-export default VendorScreen;
+export default VendorScreen1;
