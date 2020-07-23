@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
+import { userDetails } from '../UserDetails';
 
 
-const PaperVendors = ({navigation}) => {
+const PaperVendors = (props) => {
+    const words = {
+        paper: 'Newspaper Vendors in your locality',
 
-    const vendors = [
+    }
+
+    const [vendors,updateVendors] = useState([
         {
             name: 'Vendor 1',
             brands: 'The Hindu, Times of India, Prajavani',
@@ -16,7 +21,7 @@ const PaperVendors = ({navigation}) => {
         {
             name: 'Vendor 2',
             brands: 'The Hindu, Times of India, Prajavani',
-            stars: 3,
+            stars: 5,
             reviews:  10
         },
         {
@@ -28,54 +33,70 @@ const PaperVendors = ({navigation}) => {
         {
             name: 'Vendor 4',
             brands: 'The Hindu, Times of India, Prajavani',
-            stars: 3,
+            stars: 2,
             reviews:  10
         },
         {
             name: 'Vendor 5',
             brands: ' The Hindu, Times of India, Prajavani',
-            stars: 3,
+            stars: 4,
             reviews:  10
         }
 
 
-    ]
-    return(<View>
-    <View style={style.container}>
-        <Text style ={style.username}>User Name</Text>
-        <Text style={style.address}>Kalyan Nagar, Bangalore</Text>
-    </View>
-    <View style={style.line} />
-
-    <Text style={style.heading}>Newspaper Vendors in your locality</Text>
-
-    <FlatList 
-        data={vendors}
-        keyExtractor={(item) => item.name}
-        renderItem={({item}) => {
-            return(
-                <Vendor name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews}
-                onSelected={() => {
-                    console.log('sel')
-                    navigation.navigate('SubscribeScreen')
-                }}
-
-                />
-            )
-
-        }}
-    />
-
-   
-
-    </View>)
-};
+    ])
+    return(<View style={{flex: 1}}>
+        <View style={{flexDirection: 'row'}}>
+        <Image  style ={style.avatar} source={require('./../../assets/avatar.png')}/>
+      
+       
+        <View style={style.header}>
+            <Text style ={style.username}>{userDetails.USER_NAME}</Text>
+            <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
+        </View>
+        </View>
+        <View style={style.line} />
+    
+        <Text style={style.heading}>{words.paper}</Text>
+    
+        <FlatList 
+            data={vendors}
+            keyExtractor={(item) => item.name}
+            renderItem={({item}) => {
+                const vendorName = item.name;
+                const vendorStars = item.stars;
+                const vendorReviews = item.reviews
+                return(
+                    <Vendor name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews} 
+                    onSelected={() => {
+                 
+                    props.navigation.navigate('VendorScreen1',{
+                       
+                        name: vendorName,
+                        stars: vendorStars,
+                        reviews: vendorReviews
+                    })
+                    
+                        
+                    }}
+    
+                    />
+                )
+    
+            }}
+        />
+    
+       
+    
+        </View>)
+}
 
 const style = StyleSheet.create({
-    container: {
-        margin: 10,
-        padding: 10,
-        alignItems: 'flex-start',
+    header: {
+        margin: '5%',
+        padding: '3%',
+        marginStart: '20%'
+        
     },
     username: {
         fontWeight: 'bold',
@@ -83,7 +104,7 @@ const style = StyleSheet.create({
         fontSize: 18
     },
     address: {
-        marginTop: 7,
+        marginTop: '3%',
         borderRadius: 5,
         backgroundColor: '#00C99D',
         color: 'white',
@@ -97,7 +118,7 @@ const style = StyleSheet.create({
     line:{
         borderWidth: 0.5,
         borderColor: 'gray',
-        marginVertical: 5,
+        marginVertical: '2%',
           
         
     },
@@ -105,7 +126,16 @@ const style = StyleSheet.create({
         fontSize: 20,
         padding: 10,
         fontWeight: 'bold',
-        marginVertical: 20
+        marginVertical: '5%'
+    },
+    avatar: {
+        width: 50,
+        height: 50,
+        margin: '5%',
+        padding: '3%',
+        position: 'absolute'
+        
+       
     }
 
 })

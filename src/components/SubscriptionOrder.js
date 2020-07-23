@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Feather } from '@expo/vector-icons';
 
 
 const SubscriptionOrder = ({name,quantity,price,bought}) => {
-    return(<View style = {style.container}>
+    return(<View style={{flexDirection: 'row'}}>
+       <Image style={quantity.includes('unit',0)? style.image : style.image1} source={
+            quantity.includes('unit',0) ? 
+            require('./../../assets/news_p.png')
+            : require('./../../assets/milk_p.png')}/>
+    
+    <View style = {style.container}>
+    <View style={{flexDirection: 'row'}}>
     <Text style={style.greyText1}>Starting Tomorrow</Text>
+    <Feather name="trash-2" size={24} color="black" style={style.icon}/>
+    </View>
+    
     <View style={style.line}/>
  <Text style={style.name}>{name}</Text>
  
-        <View style={{flexDirection: 'row'}}>
-       
+        <View style={{flexDirection: 'column'}}>
+        <Text style={style.quantity}>{quantity} · daily</Text>
         <Text style={style.price}>₹{price}</Text>
-        <Text style={style.quantity}>{quantity}</Text>
+       
         </View>
         <Text style = {style.greyText}>{bought}</Text>
 
@@ -20,17 +31,21 @@ const SubscriptionOrder = ({name,quantity,price,bought}) => {
         <View>
 
         </View>
+        </View>
     </View>)
 
 };
 
 const style = StyleSheet.create({
     container:{
-        marginTop: 10,
+        marginTop: '3%',
         borderWidth: 1,
         borderRadius: 10,
         borderColor: 'gray',
         height: Dimensions.get('window').height/4,
+        width: Dimensions.get('window').width-30,
+        margin: '3%'
+
         
         
     },
@@ -38,7 +53,7 @@ const style = StyleSheet.create({
     line:{
         borderWidth: 0.5,
         borderColor: 'gray',
-        marginVertical: 5,
+        marginVertical: '2%',
       
     }
     ,
@@ -51,11 +66,12 @@ const style = StyleSheet.create({
         
     },
     quantity: {
-        marginStart: 10,
-        color: 'gray',
-        fontSize: 10,
-        marginTop: 10,
-        padding: 5
+        marginStart: 100,
+        
+        
+        fontSize: 15,
+       
+        padding: 1
        
     },
     price: {
@@ -69,25 +85,56 @@ const style = StyleSheet.create({
 
     },
     greyText: {
-        marginStart: 30,
+       
         color: 'gray',
         fontSize: 15,
         fontWeight: '300',
-       textAlign: 'right',
+       alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        margin: 5
+        textAlign: 'right',
+        margin: '2%',
+        
         
     },
     greyText1: {
-        marginStart: 10,
+        marginStart: '3%',
         color: 'gray',
         fontSize: 15,
         fontWeight: '300',
-        margin: 8
+        margin: '2%',
+        
      
         
         
     },
+    image1: {
+        width: 73,
+        height: 70,
+        position: 'absolute',
+        marginStart: '4%',
+        
+        marginTop : '16%'
+        
+       
+    },
+    image: {
+        width: 90,
+        height: 60,
+        position: 'absolute',
+        marginStart: '3%',
+        
+        marginTop : '16%'
+        
+       
+    },
+    icon: {
+        marginVertical: '2.2%',
+        
+     position: 'absolute',
+     right: '2%'
+       
+    }
+    
 
 });
 

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Item = ({name, quantity, price}) => {
-    return(<View style={style.container}>
+    return(
+    <View style={{flexDirection: 'row'}}>
+     
+    
+    <View style={style.container}>
 
         <Text style={style.name}>{name}</Text>
         <View style={{flexDirection: 'row'}}>
@@ -13,6 +17,12 @@ const Item = ({name, quantity, price}) => {
         </View>
        
         
+        </View>
+        <Image style={style.image} source={
+            quantity.includes('unit',0) ? 
+            require('./../../assets/news_p.png')
+            : require('./../../assets/milk_p.png')}/>
+        
         </View>)
         
         
@@ -21,7 +31,9 @@ const style = StyleSheet.create({
     container: {
         backgroundColor: '#EDF9F9',
        height:Dimensions.get('window').height/6,
-
+       width: Dimensions.get('window').width,
+      
+       
         padding: 5
     },
     name: {
@@ -35,7 +47,7 @@ const style = StyleSheet.create({
         marginStart: '3%',
         color: 'gray',
         fontSize: 10,
-        marginTop: '3%',
+        marginTop: '4%',
         padding: 5
        
     },
@@ -48,6 +60,17 @@ const style = StyleSheet.create({
         padding: 5
       
 
+    },
+    image: {
+        width: 79,
+        height: 80,
+        position: 'absolute',
+        marginStart: '2%',
+        
+        
+        marginTop : '3%'
+        
+       
     }
 });
 

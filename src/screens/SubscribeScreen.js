@@ -5,7 +5,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import SubmitButton from '../components/SubmitButton';
 import moment from 'moment';
-import Date from './Date';
+import Date,{okay} from './Date';
 import WeekPicker from '../components/WeekPicker';
 import SubscriptionScreen from './SubscriptionScreen';
 
@@ -42,6 +42,7 @@ const [dateResult,setResult] = useState('')
     }}/>
 
     <TouchableOpacity style={style.button} onPress={() => {
+      setResult({okay})
         this.bs.current.snapTo(2)
     }}>
     <Text style={style.buttonText}>Cancel</Text>
@@ -109,11 +110,21 @@ const [dateResult,setResult] = useState('')
 
           <SubscriptionScreen onCalendarOpen={() => {
             this.bs.current.snapTo(0)
+            setIsPressed(false)
           }} dateResult='Today'
           pname = {pname}
           prate = {prate}
           pquan = {pquan}
-            goTo={()=> navigation.navigate('Cart')}
+            goTo={()=> navigation.navigate('Cart',{
+              pname: pname,
+              prate: prate,
+              pquan: pquan
+
+            })}
+            onWeekOpen={() => {
+              this.bs.current.snapTo(0)
+              setIsPressed(true)
+            }}
           />
           
            

@@ -3,9 +3,10 @@ import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const Cart = ({order,bill,delivery}) => {
+const Cart = ({route}) => {
     const words = {
         title : 'Subscription Orders',
         disclaimer: 'Total number of deliveries may be adjusted as per market rates.',
@@ -15,22 +16,31 @@ const Cart = ({order,bill,delivery}) => {
         amountToPay : 'Amount to pay'
 
     };
+
+    const {pname} = route.params
+    const {prate} = route.params
+    const {pquan} = route.params
     return(<View style={style.container}>
     <Text style={style.title}>{words.title}</Text>
-        <SubscriptionOrder name={order.name}
-         quantity='1 Ptk' price='200'  bought='30 Pkts' />
+        <SubscriptionOrder name={pname}
+         quantity={pquan} price={prate}  bought='30 Pkts' />
 
          <View style={style.gray}>
              <Text style={style.text}>{words.disclaimer}</Text>
          </View>
 
+
          <View style={style.gray1}>
+         <MaterialCommunityIcons name="sale" size={30} color="#6CC35A" style={style.couponIcon}/>
+         
              <Text style={style.coupon}>{words.couponText}</Text>
          </View>
 
          <View  style={{padding: 10}}>
-         <View style={{flexDirection: 'row'}}>
-             <Text style={style.billCost}>₹200</Text>
+        
+         <View style={{flexDirection:'row'}}>
+             <Text style={style.billText}>{words.cartAmount}</Text>
+             <Text style={style.billCost}>₹{prate * 30}</Text>
          </View>
          <View style={{flexDirection:'row'}}>
              <Text style={style.billText}>{words.deliveryFee}</Text>
@@ -39,21 +49,15 @@ const Cart = ({order,bill,delivery}) => {
          <View style={style.line}/>
          <View style={{flexDirection:'row'}}>
              <Text style={style.billText}>{words.amountToPay}</Text>
-             <Text style={style.billCost}>₹250</Text>
+             <Text style={style.billCost}>₹{prate * 30 + 50}</Text>
          </View>
 
-         <View style={Styles.submitButton}>
-                <SubmitButton text='Continue' onTouch={()=>{
-                    navigation.navigate('City',{
-                        mname : name,
-                        memail: email,
-                        mreferral: referral
-                        
-                    })
-                }}
-                    
-                />
-                </View>
+         <View style={{position: 'absolute',bottom: '-92%',alignSelf:'center'}}>
+
+         <SubmitButton text='Confirm'/>
+
+         </View>
+
          </View>
 
         
@@ -69,7 +73,7 @@ const style = StyleSheet.create({
       
     },
     container: {
-        margin: 10,
+       margin: '1%',
         marginVertical: 15
     },
     title:{
@@ -84,6 +88,7 @@ const style = StyleSheet.create({
         height: Dimensions.get('window').height/12,
     },
     gray1: {
+        flexDirection: 'row',
         marginTop: 10,
        backgroundColor: '#e0e0e0',
         borderRadius: 10,
@@ -96,7 +101,7 @@ const style = StyleSheet.create({
         color: 'gray',
     },
     coupon: {
-        marginStart: 50,
+      
         fontWeight: '800',
         fontSize: 16,
         padding: 5,
@@ -117,6 +122,10 @@ const style = StyleSheet.create({
        
         ...StyleSheet.absoluteFill
         
+    },
+    couponIcon: {
+        padding: '4%',
+        marginTop: '0.3%'
     }
 
 });
