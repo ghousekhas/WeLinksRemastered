@@ -1,0 +1,23 @@
+Intro
+Auth (thisssss) ==>shakey OTP screen tidy
+About+ city props post +async storage
+
+
+
+show saved addresses on that page// Select an address to make it saved address
+ + maps proper + init proper+  region proper+ add address back send props+post then styling
+Milk Vendor => two flat lists
+NewsPaper Vendor => two flat lists again
+submit button fix once and for all
+//axios posting
+
+Checkoutfix+ calendar and stuff
+
+
+When you're done withthat even scrap Vendors
+Then becoming a Vendor 
+    Like 5 pages
+Then payment gateway
+
+
+{"description": "Sahakari Bhandar, Hari Om Nagar, Damoji Patil Wadi, Mulund East, Mumbai, Maharashtra, India", "id": "179bd10cfb034da9173b78cd10378c0c1095b143", "matched_substrings": [{"length": 7, "offset": 0}], "place_id": "ChIJa4TDLd245zsRBe-TYolsFQA", "reference": "ChIJa4TDLd245zsRBe-TYolsFQA", "structured_formatting": {"main_text": "Sahakari Bhandar", "main_text_matched_substrings": [[Object]], "secondary_text": "Hari Om Nagar, Damoji Patil Wadi, Mulund East, Mumbai, Maharashtra, India"}, "terms": [{"offset": 0, "value": "Sahakari Bhandar"}, {"offset": 18, "value": "Hari Om Nagar"}, {"offset": 33, "value": "Damoji Patil Wadi"}, {"offset": 52, "value": "Mulund East"}, {"offset": 65, "value": "Mumbai"}, {"offset": 73, "value": "Maharashtra"}, {"offset": 86, "value": "India"}], "types": ["supermarket", "grocery_or_supermarket", "food", "point_of_interest", "store", "establishment"]}
