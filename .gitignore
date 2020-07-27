@@ -178,7 +178,7 @@ captures/
 .idea/dictionaries
 .idea/libraries
 .expo
-android
+
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
