@@ -164,7 +164,6 @@ export default class AddressList extends React.Component{
             data={this.state.arraydata.reverse()}
             renderItem={this.renderSavedAddress}
             ItemSeparatorComponent={this.renderSeperator}
-
             keyExtractor={(item,index)=> Math.random().toString(36).substr(2, 10)}
             />
             </View>

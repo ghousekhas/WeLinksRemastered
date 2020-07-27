@@ -13,7 +13,6 @@ import SubscriptionScreen from './SubscriptionScreen';
 bs = React.createRef();
 
 
-
 const SubscribeScreen = ({navigation,route}) => {
 
   const {pname} = route.params;

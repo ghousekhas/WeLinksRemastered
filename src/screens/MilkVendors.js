@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';

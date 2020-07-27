@@ -198,7 +198,6 @@ const ScrapFlatList = ({route,navigation}) => {
 
    // const order = navigation.getParams('order');
     return(<View style={style.container}>
-
     <FlatList
         data = {mlist}
         keyExtractor = {(item) => item.name}
