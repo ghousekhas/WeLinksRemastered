@@ -116,7 +116,7 @@ function App() {
 
   }}}/>*/
 
-  const latte=()=>{
+  /*const latte=()=>{
     animations.play();
   };
 
@@ -136,7 +136,7 @@ function App() {
             source= {require('./assets/animations/shapedance.json')}
             loop={true}/>
     </View>
-  );
+  );*/
 
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useImperativeHandle, useEffect } from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Item from '../components/Item';
@@ -7,17 +7,24 @@ import Button from '../components/Button';
 
 
 
-const SubscriptionScreen = ({onCalendarOpen,onWeekOpen,goTo,pname,pquan,prate}) => {
+const SubscriptionScreen = ({onCalendarOpen,onWeekOpen,goTo,pname,pquan,prate,dateref,weekref}) => {
 
     const words = {
         quantityPerDay:'Quantity per day' ,
         repeat:'Repeat' ,
         recharge:'Recharge/Top-Up' ,
-        start: 'Start Date'
-
     };
-    const[number,setNumber] = useState(1)
-return(<View>
+    const[number,setNumber] = useState(1);
+    const[start,setStart]= useState( 'Start Date');
+    const[wo,setWeek]= useState([true,true,true,true,true,true,true]);
+    useEffect(()=>{
+        setStart(dateref);
+        var weeknd= {...weekref}
+        setWeek(weeknd);
+        //console.log(wo[0],wo[1],wo[2],wo[3],wo[4],wo[5],wo[6])
+    },[dateref,weekref]);
+
+return(<View >
     <Item name={pname} quantity={pquan} price={prate} />
     <View style={style.view1}>
     <Text style={style.greyText}>{words.quantityPerDay}</Text>
@@ -47,38 +54,38 @@ return(<View>
     <View style ={style.view3}>
     <View style = {style.view2}> 
         
-        <View style ={style.circleTapped}>
+        <View style ={wo[0]?style.circleTapped:{...style.circleTapped,backgroundColor:'gray'}}>
         <Text style ={style.dayTapped}>M</Text>
         </View>
       
       
-        <View style ={style.circleTapped}>
+        <View style ={wo[1]?style.circleTapped:{...style.circleTapped,backgroundColor:'gray'}}>
         <Text style ={style.dayTapped}>T</Text>
         </View>
        
 
 
   
-        <View style ={style.circleTapped}>
+        <View style ={wo[2]?style.circleTapped:{...style.circleTapped,backgroundColor:'gray'}}>
         <Text style ={style.dayTapped}>W</Text>
         </View>
         
 
-        <View style ={style.circleTapped}>
+        <View style ={wo[3]?style.circleTapped:{...style.circleTapped,backgroundColor:'gray'}}>
         <Text style ={style.dayTapped}>T</Text>
         </View>
         
 
-   <View style ={style.circleTapped}>
+        <View style ={wo[4]?style.circleTapped:{...style.circleTapped,backgroundColor:'gray'}}>
         <Text style ={style.dayTapped}>F</Text>
         </View>
     
-        <View style ={style.circleTapped}>
+        <View style ={wo[5]?style.circleTapped:{...style.circleTapped,backgroundColor:'gray'}}>
         <Text style ={style.dayTapped}>S</Text>
         </View>
         
 
-        <View style ={style.circleTapped}>
+        <View style ={wo[6]?style.circleTapped:{...style.circleTapped,backgroundColor:'gray'}}>
         <Text style ={style.dayTapped}>S</Text>
         </View>
         
@@ -99,7 +106,7 @@ return(<View>
     </View>
     <View style={style.line}/>
     <View style={style.selectDate}>
-    <Text style={style.greyText}>{words.start}</Text>
+    <Text style={style.greyText}>{start}</Text>
     <View style={style.button}>
     <Button text='Change' onTouch={onCalendarOpen}/>
     </View>

@@ -13,33 +13,39 @@ import SubscriptionScreen from './SubscriptionScreen';
 bs = React.createRef();
 
 
+
 const SubscribeScreen = ({navigation,route}) => {
 
   const {pname} = route.params;
   const {pquan} = route.params;
- 
   const {prate} = route.params;
- 
- 
-const [isPressed,setIsPressed] = useState(false)
-const [dateResult,setResult] = useState('')
-  thisDay = moment()
-  .utcOffset('+05:30')
-  .format('YYYY-MM-DD');
+const [isPressed,setIsPressed] = useState(false);
+const [dateResult,setResult] = useState('');
+const [dateref,setDateRef] = useState('Select Date');
+const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
 
   // console.log('t:'+thisDay)
+  const setDate=(date)=>{
+    setDateRef(date);
+    bs.current.snapTo(2);
+  };
+
+  const setWeek=(weekdays)=>{
+    var weeknd= {...weekdays};
+    setWeekRef(weeknd);
+    bs.current.snapTo(2);
+  }
   
-  renderContent1 = () => { 
+  const renderContent1 = () => { 
   
    
     return(<View>
 
     <Date onSet={() => {
-     
-      
       setIsPressed(true)
-     
-    }}/>
+    }}
+    setDate={setDate}
+    />
 
     <TouchableOpacity style={style.button} onPress={() => {
       setResult({okay})
@@ -59,13 +65,14 @@ const [dateResult,setResult] = useState('')
 
   )};
   
-  renderContent2 = () => {
+  const renderContent2 = () => {
     
   return(<View style={{margin: 2}}>
  
   <WeekPicker back={() => {
     setIsPressed(false)
   }} 
+  setWeek={setWeek}
   />
   <SubmitButton text='Cancel' onTouch={()=>{
       bs.current.snapTo(2)
@@ -78,7 +85,7 @@ const [dateResult,setResult] = useState('')
   </View>)
   };
 
-  renderHeader = () => (
+  const renderHeader = () => (
     <View style={style.header}>
       <View style={style.panelHeader}>
         <View style={style.panelHandle} />
@@ -87,7 +94,7 @@ const [dateResult,setResult] = useState('')
   );
 
   
-  fall = new Animated.Value(1);
+  var fall = new Animated.Value(1);
 
   return (
     <View style={style.container}>
@@ -95,7 +102,7 @@ const [dateResult,setResult] = useState('')
         enabledContentTapInteraction={true}
         ref={bs}
         snapPoints={[600,400,0]}
-        renderContent= {!isPressed ? bs.renderContent1 : bs.renderContent2}
+        renderContent= {!isPressed ? renderContent1 : renderContent2}
         renderHeader={renderHeader}
         initialSnap={2}
         callbackNode={fall}
@@ -105,10 +112,16 @@ const [dateResult,setResult] = useState('')
         opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
     }}>
     
-        <View style={{alignItems: 'center'}}>
+        <View  style={{alignItems: 'center'}}>
          
 
-          <SubscriptionScreen onCalendarOpen={() => {
+          <SubscriptionScreen 
+           dateref= {dateref}
+           weekref= {weekref}
+
+        
+          
+          onCalendarOpen={() => {
             bs.current.snapTo(0)
             setIsPressed(false)
           }} dateResult='Today'

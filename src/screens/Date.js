@@ -15,7 +15,7 @@ import moment from 'moment';
  export var okay = '';
 // const fine = 'fine';
 
-const Date = (props) => {
+const Date = ({setDate}) => {
 
   thisDay = moment()
   .utcOffset('+05:30')
@@ -79,7 +79,9 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
        <TouchableOpacity style={style.button}
       onPress = {() => {
         okay = selected;
-        console.log(okay)
+        console.log(okay);
+        setDate(okay);
+
 
       }}>
       

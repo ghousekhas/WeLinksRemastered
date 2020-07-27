@@ -90,7 +90,7 @@ export default class VendorScreen extends React.Component{
             duration={400}
             style={Styles.collapsibleView}
             transition="backgroundColor">
-        <ScrapFlatList route={{params:{name: 'SampleVendor',stars: 4,reviews: 68}}}/>
+        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68}}}/>
         </Animatable.View>);
         /*return(
             <Animatable.View
