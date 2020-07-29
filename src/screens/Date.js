@@ -20,6 +20,9 @@ const Date = ({setDate}) => {
   thisDay = moment()
   .utcOffset('+05:30')
   .format('YYYY-MM-DD');
+  const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
+
+  console.log(tomorrow)
 
 
 
@@ -44,14 +47,17 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
          <Fragment>
        
         <Calendar
+        disableAllTouchEventsForDisabledDays
           displayLoadingIndicator
           onDayPress={onDayPress}
+          minDate={tomorrow}
+          hideExtraDays
           style={{
-    borderWidth: 0.1,
+    borderWidth: 0.3,
     borderColor: '#00C99D',
-    height: Dimensions.get('window').height/2-50,
+    height: Dimensions.get('window').height/2,
     borderRadius: 7,
-    margin: 10
+    margin: 5
   }}
   theme= {{
       todayTextColor: '#00C99D',
@@ -59,26 +65,33 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       textDayFontSize: 16,
     textMonthFontSize: 16,
     textDayHeaderFontSize: 16
+    
       
 
   }}
           
             markedDates={{
+              
             [selected]: {
               selected: true,
               disableTouchEvent: true,
               selectedColor: '#00C99D',
               selectedTextColor: 'white'
+             
               
               
             }
-          }}
+         
+            
+          }
+          }
           
         />
       </Fragment> 
        <TouchableOpacity style={style.button}
       onPress = {() => {
-        okay = selected;
+      // okay =  selected.charAt(0)+selected.charAt(1)+selected.charAt(2)+selected.charAt(3)
+        okay = selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year;
         console.log(okay);
         setDate(okay);
 

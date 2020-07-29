@@ -3,6 +3,7 @@ import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
+import AppBar from '../components/AppBar';
 
 
 const PaperVendors = (props) => {
@@ -45,8 +46,21 @@ const PaperVendors = (props) => {
 
 
     ])
-    return(<View style={{flex: 1,backgroundColor: 'white'}}>
-        <View style={{flexDirection: 'row'}}>
+    return(
+    <View style={{flex: 1,backgroundColor: 'white'}}>
+
+<AppBar profile={() => {
+        props.navigation.navigate('About')}} 
+        city={() => {
+        props.navigation.navigate('City')}}
+        prev={() =>{
+            props.navigation.pop(1)
+        } }
+        toggle={() => {
+            props.navigation.toggleDrawer();
+        }} />
+
+        <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
         <Image  style ={style.avatar} source={require('./../../assets/avatar.png')}/>
       
        

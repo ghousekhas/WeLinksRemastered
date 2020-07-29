@@ -1,5 +1,5 @@
 import React,{ Fragment, useState, useRef } from 'react';
-import { View,Text,TouchableOpacity,StyleSheet,Dimensions,Alert } from 'react-native';
+import { View,Text,TouchableOpacity,StyleSheet,Dimensions,Picker } from 'react-native';
 
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
@@ -18,10 +18,13 @@ const SubscribeScreen = ({navigation,route}) => {
   const {pname} = route.params;
   const {pquan} = route.params;
   const {prate} = route.params;
+  const{prate_} = route.params;
 const [isPressed,setIsPressed] = useState(false);
 const [dateResult,setResult] = useState('');
 const [dateref,setDateRef] = useState('Select Date');
 const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
+
+
 
   // console.log('t:'+thisDay)
   const setDate=(date)=>{
