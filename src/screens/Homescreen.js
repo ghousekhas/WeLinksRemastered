@@ -9,6 +9,10 @@ import Axios from 'axios';
 import { BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
 import About from './About';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { EvilIcons } from '@expo/vector-icons';
+
 
 
 
@@ -94,6 +98,7 @@ export default class Homescreen extends React.Component{
         this.props.navigation.po*/
     }
     
+    
     render(){
         const {navigation} =this.props;
     
@@ -101,6 +106,11 @@ export default class Homescreen extends React.Component{
         return(
             <View style={styles.fullscreen}>
                 <View style={styles.topbar}>
+                <TouchableOpacity onPress={() => {
+                    navigation.toggleDrawer();
+                }}>
+                <EvilIcons name="navicon" size={24} color="black" />
+                </TouchableOpacity>
                     <TouchableOpacity style={styles.usernamecontainer} onPress={()=>{this.props.navigation.navigate('About')}}>
                         <Image style={styles.userimage} source={require('../../assets/avatar.png')}/>
                         <View style={styles.usernandd}>
@@ -181,6 +191,9 @@ export default class Homescreen extends React.Component{
         );
     }
 }
+
+
+
 const styles= StyleSheet.create({
     deliveringcontainer:{
         height: '0%',
@@ -244,7 +257,8 @@ const styles= StyleSheet.create({
         flex: 1,
         flexWrap: 'wrap',
         flexDirection: 'row',
-        alignContent: 'center'  
+        alignContent: 'center' ,
+        
     },
     username:{
         fontWeight: 'bold',

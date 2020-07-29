@@ -220,7 +220,8 @@ const ScrapFlatList = ({route,navigation}) => {
                         tag : 'paper',
                         pname : prodName,
                         pquan : prodQuan,
-                        prate: prodRate
+                        prate: prodRate,
+                        prate_: prodRate_
                     }) } 
                 }/>
 
