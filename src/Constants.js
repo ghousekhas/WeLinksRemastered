@@ -1,4 +1,10 @@
 import {StyleSheet, Dimensions} from 'react-native';
+
+export const dimen={
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width
+}
+
 export const Constants={
     Logged: 'Logged',
     firstLogin: 'FIRST_LOGIN',

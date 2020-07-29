@@ -11,6 +11,12 @@ import { StackActions, CommonActions } from '@react-navigation/native';
 import {NavigationActions} from 'react-navigation';
 import VendorsList from './VendorsList';
 
+const height= Dimensions.get('window').height;
+var lowerPanelHeight= height/1.5;
+var lowerAddressHeight= lowerPanelHeight/2.7;
+var panelTranslateAfter=(height-lowerPanelHeight);
+var panelTranslate=(height-(lowerPanelHeight-lowerAddressHeight));
+
 export default class AddAddress extends React.Component{
 
 
@@ -25,6 +31,7 @@ export default class AddAddress extends React.Component{
           circleopacity: new Animated.Value(1),
           circlemarktrail: new Animated.Value(0),
           circleopacitytrail: new Animated.Value(1),
+          bottomPanelAnimation: new Animated.Value(panelTranslateAfter),
             marker:{
                 title: 'Home',
                 description: 'Move map around to focus on point',
@@ -157,6 +164,11 @@ export default class AddAddress extends React.Component{
     };
     regionChanging=()=>{
       this.setState({title: 'loading',description: 'loading'})
+      Animated.spring(this.state.bottomPanelAnimation,{
+        toValue: panelTranslate,
+        duration: 1000,
+        useNativeDriver: true
+      }).start();
     };
     addressChanged=(parameter)=>{     
       this.setState({latitude: parameter.latitude,longitude: parameter.longitude}) 
@@ -170,6 +182,13 @@ export default class AddAddress extends React.Component{
         var addresses= response.data.results[0];
         this.setState({title: addresses.formatted_address})
       })
+
+      Animated.spring(this.state.bottomPanelAnimation,{
+        toValue: panelTranslateAfter,
+        duration: 1500,
+        useNativeDriver: true
+      }).start();
+
     };
     mapinit= ()=>{
 
@@ -178,11 +197,11 @@ export default class AddAddress extends React.Component{
     onPress= ()=>{
     };
     render(){
-      const {circlemark,circleopacity,circlemarktrail,circleopacitytrail} =this.state;
+      const {circlemark,circleopacity,circlemarktrail,circleopacitytrail,bottomPanelAnimation} =this.state;
         return(
             <View style={styles.mainContainer} >
                 <MapView style={{flex: this.state.flexfor}}  mapstyle={mapstyle} ref={ref=> this.map=ref}
-                        onPanDrag={this.regionChanging}                                                     
+                        onTouchStart={this.regionChanging}                                                   
                         onRegionChangeComplete={(region)=>this.addressChanged(region)}
                         showsCompass={false}
                         pitchEnabled={false}
@@ -196,18 +215,18 @@ export default class AddAddress extends React.Component{
                         >   
                   
                     </MapView>
-                <View style={styles.lowerpanel} >
+                <Animated.View style={{...styles.lowerpanel,transform:[{translateY: bottomPanelAnimation } ]}} >
                     <View style={styles.lowerhorizontal}>
                       <Text style={styles.heading}>{this.state.title}</Text>
                       <TouchableOpacity style={styles.changetouch}>
                           <Text>CHANGE</Text>
                       </TouchableOpacity>
                     </View>
-                    <View style={Styles.submitButton}>
+                    <View style={styles.submitButton}>
                                 <SubmitButton text='Continue' onTouch={this.addAddress}
                                 />
                                 </View>
-                </View>      
+                </Animated.View>      
                 <TouchableOpacity style= {styles.backbuttoncontainer} 
                     onPress={this.addAddress}>
                   <Image style={styles.backbutton} source={require('./../../assets/backbutton.png')}/>
@@ -235,13 +254,25 @@ const styles= StyleSheet.create({
        ...StyleSheet.absoluteFill,
    },
    mapview:{
-       flex:4,
+      height: Dimensions.get('window').height/5*4,
+      width: '100%'
    },
    lowerpanel:{
-     flex: 1.2,
+    height: lowerPanelHeight,
+    top: 0,
+    width: '100%',
+    position: 'absolute',
+    backgroundColor: 'white',
+    right: 0,
+    left: 0,
+    flexDirection: 'column',
      paddingLeft: 20,
      paddingRight: 20,
      paddingTop: 20,
+   },
+   submitButton:{
+     flex: 1, 
+     margin: 50
    },
    lowerhorizontal:{
      flexDirection: 'row',
