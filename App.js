@@ -38,6 +38,7 @@ import Pick, { okay } from './src/screens/Pick';
 import test from './src/screens/test';
 import DrawerContent from './src/components/DrawerContent';
 import AppBar from './src/components/AppBar';
+import MyProfile from './src/screens/MyProfile';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -64,6 +65,7 @@ const NavigationDrawer = () => {
    
         <Drawer.Screen name="Home" component={App} />
         <Drawer.Screen name="Milk" component={MilkVendors} />
+        <Drawer.Screen name="MyProfile" component={MyProfile} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

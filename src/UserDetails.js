@@ -1,6 +1,8 @@
 export const  userDetails = {
-    USER_NAME  : 'Anam Ali',
+    USER_NAME  : 'Anom Aly',
     USER_EMAIL : 'anamxali1@gmail.com',
     USER_ADDRESS : '#221 B, Baker Street',
-    USER_CITY: 'Bangalore'
+    USER_CITY: 'Bangalore',
+    USER_PHONE: '9535311386'
+   // USER_IMAGE:
 }

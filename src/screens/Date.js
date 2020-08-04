@@ -22,7 +22,7 @@ const Date = ({setDate}) => {
   .format('YYYY-MM-DD');
   const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
 
-  console.log(tomorrow)
+  //console.log(tomorrow)
 
 
 
@@ -30,23 +30,31 @@ const Date = ({setDate}) => {
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
-
+    const [started,setStarted] = useState(false)
     
     const [selected, setSelected] = useState(thisDay);
     const [month, setMonth] = useState(monthNames[parseInt(thisDay.charAt(5)+thisDay.charAt(6))])
     const [year, setYear] = useState(thisDay.charAt(0)+thisDay.charAt(1)+thisDay.charAt(2)+thisDay.charAt(3))
     
-    
+    const [end, setEnd] = useState('');
 
     const onDayPress = (day) => {
+
+      if(!started){
       setSelected(day.dateString);
       setMonth(monthNames[day.month-1]);
       setYear(day.year);
+      }else{
+        setEnd(day.dateString)
+      }
+
+
     };
     return(<View>
          <Fragment>
        
         <Calendar
+         markingType = {'period'}
         disableAllTouchEventsForDisabledDays
           displayLoadingIndicator
           onDayPress={onDayPress}
@@ -73,18 +81,37 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
             markedDates={{
               
             [selected]: {
+              startingDay: true,
+              color: '#00C99D',
               selected: true,
-              disableTouchEvent: true,
+             
               selectedColor: '#00C99D',
-              selectedTextColor: 'white'
+              selectedTextColor: 'white',
+              
+              
              
               
               
+            },
+            [end]: {
+             endingDay: true,
+              color: '#00C99D',
+              selected: true,
+             
+              selectedColor: '#00C99D',
+              selectedTextColor: 'white',
+
             }
+          
+            
+          
          
             
           }
+         
           }
+          
+         
           
         />
       </Fragment> 
@@ -93,7 +120,8 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       // okay =  selected.charAt(0)+selected.charAt(1)+selected.charAt(2)+selected.charAt(3)
         okay = selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year;
         console.log(okay);
-        setDate(okay);
+      //  setDate(okay);
+      setStarted(true)
 
 
       }}>
