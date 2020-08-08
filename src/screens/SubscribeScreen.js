@@ -164,7 +164,8 @@ const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    
   },
  
   panel: {

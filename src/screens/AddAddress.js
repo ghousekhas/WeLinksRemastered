@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {Text,Button,Image,TouchableOpacity,Dimensions,StyleSheet,View, Animated} from 'react-native';
 import MapView, {Marker} from 'react-native-maps'
-import { Directions, TextInput } from 'react-native-gesture-handler';
+import { Directions, TextInput, ScrollView } from 'react-native-gesture-handler';
 import SubmitButton from '../components/SubmitButton';
 import * as Location from 'expo-location';
 import Axios from 'axios';
@@ -12,10 +12,10 @@ import {NavigationActions} from 'react-navigation';
 import VendorsList from './VendorsList';
 
 const height= Dimensions.get('window').height;
-var lowerPanelHeight= height/1.5;
-var lowerAddressHeight= lowerPanelHeight/2.7;
-var panelTranslateAfter=(height-lowerPanelHeight);
-var panelTranslate=(height-(lowerPanelHeight-lowerAddressHeight));
+var lowerPanelHeight= height/1.7;
+var lowerAddressHeight= lowerPanelHeight/3;
+var panelTranslateAfter=(0);
+var panelTranslate=(lowerPanelHeight-lowerAddressHeight);
 
 export default class AddAddress extends React.Component{
 
@@ -32,6 +32,7 @@ export default class AddAddress extends React.Component{
           circlemarktrail: new Animated.Value(0),
           circleopacitytrail: new Animated.Value(1),
           bottomPanelAnimation: new Animated.Value(panelTranslateAfter),
+          arrowOpacity: new Animated.Value(0),
             marker:{
                 title: 'Home',
                 description: 'Move map around to focus on point',
@@ -46,6 +47,7 @@ export default class AddAddress extends React.Component{
 
         };
         this.errorMst={};
+        this.landmarkBox= null;
     };
 
     addAddress= async ()=>{
@@ -73,7 +75,9 @@ export default class AddAddress extends React.Component{
     };
 
     animations= ()=>{
-      const {circlemark,circleopacity,circleopacitytrail,circlemarktrail} =this.state;
+      const {circlemark,circleopacity,circleopacitytrail,circlemarktrail,arrowOpacity} =this.state;
+
+      //RippleCrircle
       Animated.loop(
         Animated.stagger(700,[
           Animated.sequence([
@@ -129,6 +133,12 @@ export default class AddAddress extends React.Component{
           ])])
         ])
       ).start();
+
+      Animated.timing(arrowOpacity,{
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true
+      }).start();
     };
     backbutton=()=>{
       console.log('back','button');
@@ -169,6 +179,11 @@ export default class AddAddress extends React.Component{
         duration: 1000,
         useNativeDriver: true
       }).start();
+      Animated.spring(this.state.arrowOpacity,{
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true
+      }).start();
     };
     addressChanged=(parameter)=>{     
       this.setState({latitude: parameter.latitude,longitude: parameter.longitude}) 
@@ -179,13 +194,24 @@ export default class AddAddress extends React.Component{
           key: 'AIzaSyAghIaP3yetD5ooDpwcAK5GF0b6-YkpV8w'
         }
       }).then((response)=>{
-        var addresses= response.data.results[0];
-        this.setState({title: addresses.formatted_address})
-      })
+        try{
+          var addresses= response.data.results[0];
+          this.setState({title: addresses.formatted_address});
+        }
+        catch(error){
+          this.setState({title: 'Please move the pin to a valid location'});
+        }
+      });
 
       Animated.spring(this.state.bottomPanelAnimation,{
         toValue: panelTranslateAfter,
         duration: 1500,
+        useNativeDriver: true
+      }).start();
+
+      Animated.timing(this.state.arrowOpacity,{
+        toValue: 1,
+        timing: 300,
         useNativeDriver: true
       }).start();
 
@@ -197,10 +223,10 @@ export default class AddAddress extends React.Component{
     onPress= ()=>{
     };
     render(){
-      const {circlemark,circleopacity,circlemarktrail,circleopacitytrail,bottomPanelAnimation} =this.state;
+      const {circlemark,circleopacity,circlemarktrail,circleopacitytrail,bottomPanelAnimation,arrowOpacity} =this.state;
         return(
             <View style={styles.mainContainer} >
-                <MapView style={{flex: this.state.flexfor}}  mapstyle={mapstyle} ref={ref=> this.map=ref}
+                <MapView style={{height: height/5*4,position: 'absolute',top: 0,width: '100%'}}  mapstyle={mapstyle} ref={ref=> this.map=ref}
                         onTouchStart={this.regionChanging}                                                   
                         onRegionChangeComplete={(region)=>this.addressChanged(region)}
                         showsCompass={false}
@@ -213,15 +239,26 @@ export default class AddAddress extends React.Component{
                             duration: 1500
                           })}}
                         >   
-                  
                     </MapView>
+                <View style={{flex: 1.5}}/>
+                
                 <Animated.View style={{...styles.lowerpanel,transform:[{translateY: bottomPanelAnimation } ]}} >
-                    <View style={styles.lowerhorizontal}>
+                    <ScrollView style={styles.lowerhorizontal}>
                       <Text style={styles.heading}>{this.state.title}</Text>
-                      <TouchableOpacity style={styles.changetouch}>
-                          <Text>CHANGE</Text>
-                      </TouchableOpacity>
-                    </View>
+                      <Text style={styles.heading}> Additional Address info:</Text>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
+                      <Text style={styles.heading}> Landmark:</Text>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
+                      <Text style={styles.heading}> Landmark:</Text>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
+                      <Text style={styles.heading}> Landmark:</Text>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
+                       <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
+                      <Text style={styles.heading}> Landmark:</Text>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
+                    </ScrollView>
                     <View style={styles.submitButton}>
                                 <SubmitButton text='Continue' onTouch={this.addAddress}
                                 />
@@ -229,7 +266,7 @@ export default class AddAddress extends React.Component{
                 </Animated.View>      
                 <TouchableOpacity style= {styles.backbuttoncontainer} 
                     onPress={this.addAddress}>
-                  <Image style={styles.backbutton} source={require('./../../assets/backbutton.png')}/>
+                  <Animated.Image style={{...styles.backbutton,opacity: arrowOpacity}} source={require('./../../assets/backbutton.png')}/>
                 </TouchableOpacity>    
                 {/*<TouchableOpacity style= {styles.currentlocationcontainer} 
                     onPress={this.currentLocation}                    >
@@ -251,38 +288,46 @@ export default class AddAddress extends React.Component{
 
 const styles= StyleSheet.create({
    mainContainer:{
-       ...StyleSheet.absoluteFill,
+      ...StyleSheet.absoluteFill,
+       flex: 1,
+
    },
    mapview:{
       height: Dimensions.get('window').height/5*4,
       width: '100%'
    },
    lowerpanel:{
+    zIndex: 200,
+    elevation: 5,
     height: lowerPanelHeight,
-    top: 0,
+    bottom: 0,  
     width: '100%',
     position: 'absolute',
     backgroundColor: 'white',
     right: 0,
     left: 0,
+    justifyContent: 'space-between',
     flexDirection: 'column',
      paddingLeft: 20,
      paddingRight: 20,
      paddingTop: 20,
    },
    submitButton:{
-     flex: 1, 
-     margin: 50
+     margin: 15,
+     bottom: '1%',
+     alignSelf: 'center'
+  
    },
    lowerhorizontal:{
-     flexDirection: 'row',
-     justifyContent: 'space-between',
+     flexDirection: 'column',
+     height: lowerPanelHeight-500
+     
    },
    heading:{
      fontWeight: 'bold',
      margin: 5,
-     fontSize: 13,
-     width: '70%',
+     fontSize: 14,
+     width: '100%',
      maxHeight: 50
    },
    changetouch:{
@@ -357,7 +402,7 @@ const styles= StyleSheet.create({
     left: 0,
     height: 20,
     width: 35,
-    zIndex: 70,
+    zIndex: 1,
      
    },
    backbuttoncontainer:{

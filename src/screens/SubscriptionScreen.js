@@ -254,7 +254,7 @@ return(<View style={style.container} >
     
 
     </View>
-    <View style={{position: 'absolute',bottom: '-5%',alignSelf:'center'}}>
+    <View >
     <SubmitButton text='Subscribe' onTouch={goTo}/>
     </View>
 
@@ -264,8 +264,8 @@ return(<View style={style.container} >
 
 const style = StyleSheet.create({
     container:{
-         margin: '1%',
-        padding: '1%',
+        
+        
     },
    
     view1: {

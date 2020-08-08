@@ -166,6 +166,22 @@ function App() {
     </View>
   );*/
 
+  //return <LoginScreen/>
+/*
+
+  return <AddAddress route={{params:{
+    onComeBack: null,
+    initialCamera: {
+      center:{
+      latitude: 12.69,
+      longitude: 69.69,
+      },
+      pitch: 0,
+      heading: 0,
+      zoom: 14
+
+    }
+  }}}/>*/
 
 
 
