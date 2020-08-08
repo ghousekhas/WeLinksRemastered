@@ -20,10 +20,16 @@ const Cart = ({route}) => {
     const {pname} = route.params
     const {prate} = route.params
     const {pquan} = route.params
+    const {pnumber} = route.params
+    const {pdays} = route.params
+    const {startDate} = route.params
+    const {endDate} = route.params
+
+
     return(<View style={style.container}>
     <Text style={style.title}>{words.title}</Text>
         <SubscriptionOrder name={pname}
-         quantity={pquan} price={prate}  bought='30 Pkts' />
+         quantity={pquan} price={prate}  bought={pnumber} />
 
          <View style={style.gray}>
              <Text style={style.text}>{words.disclaimer}</Text>

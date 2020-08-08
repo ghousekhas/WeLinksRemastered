@@ -15,14 +15,14 @@ import moment from 'moment';
  export var okay = '';
 // const fine = 'fine';
 
-const Date = ({setDate}) => {
+const Date = ({setDate,text,starting}) => {
 
   thisDay = moment()
   .utcOffset('+05:30')
   .format('YYYY-MM-DD');
   const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
 
-  console.log(tomorrow)
+  //console.log(tomorrow)
 
 
 
@@ -30,7 +30,7 @@ const Date = ({setDate}) => {
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
-
+    
     
     const [selected, setSelected] = useState(thisDay);
     const [month, setMonth] = useState(monthNames[parseInt(thisDay.charAt(5)+thisDay.charAt(6))])
@@ -39,18 +39,23 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     
 
     const onDayPress = (day) => {
+
       setSelected(day.dateString);
       setMonth(monthNames[day.month-1]);
       setYear(day.year);
+      
+
+
     };
     return(<View>
          <Fragment>
        
         <Calendar
+         
         disableAllTouchEventsForDisabledDays
           displayLoadingIndicator
           onDayPress={onDayPress}
-          minDate={tomorrow}
+          minDate={starting}
           hideExtraDays
           style={{
     borderWidth: 0.3,
@@ -73,18 +78,27 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
             markedDates={{
               
             [selected]: {
+              
+              color: '#00C99D',
               selected: true,
-              disableTouchEvent: true,
+             
               selectedColor: '#00C99D',
-              selectedTextColor: 'white'
+              selectedTextColor: 'white',
+              
+              
              
               
               
             }
+            
+          
          
             
           }
+         
           }
+          
+         
           
         />
       </Fragment> 
@@ -93,13 +107,14 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       // okay =  selected.charAt(0)+selected.charAt(1)+selected.charAt(2)+selected.charAt(3)
         okay = selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year;
         console.log(okay);
-        setDate(okay);
-
+      setDate(okay);
+      
+     
 
       }}>
       
          
-        <Text style={style.buttonText}>Set start date ({selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year})</Text>
+        <Text style={style.buttonText}>{text} ({selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year})</Text>
        
         </TouchableOpacity>
        

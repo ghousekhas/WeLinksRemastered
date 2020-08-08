@@ -2,70 +2,144 @@ import * as React from 'react';
 import { Button, View, StyleSheet, Dimensions } from 'react-native';
 import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import Homescreen from '../screens/Homescreen';
-import {Text,Drawer, Switch, TouchableRipple, Divider} from 'react-native-paper';
+
+import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-native-paper';
+import { userDetails } from '../UserDetails';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SupportFAQ from '../screens/SupportFAQ';
+
 
 
 const DrawerContent = (props) => {
+  
   return (
    <View style={{flex: 1,height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props}>
          <View style={{height: Dimensions.get('window').height}}>
+         <Drawer.Section>
         
-           <View style={{backgroundColor: '#00C99D',height:Dimensions.get('window').height/4,marginTop:'-3%'}}>
+           <View style={styles.header}>
              {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
+          <View style={{marginTop: '5%', margin: '5%'}}>
+          <Avatar.Image source={require('../../assets/avatar.png')}
+            style={styles.avatar}
+          />
+          </View>
+
+          <Text style={styles.username}>
+          {userDetails.USER_NAME}
+          </Text>
+
+          <View style={{flexDirection: 'row',marginStart: '5%'}}>
+
+          <View style={{marginTop:'1.5%'}}>
+          <Icon name="phone" color='gray' size={16}/>
+
+          </View>
+          
+                             
+                            
+
+          <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'2%'}}>
+          {userDetails.USER_PHONE}
+          </Text>
+
+          </View>
+
+         
+         
+
+            
+          
            </View>
+           </Drawer.Section>
+
+           <Drawer.Section>
         
          <Drawer.Item
-     style={{ backgroundColor: '#f9f9f9' }}
+     style={{ }}
      icon="home-outline"
-     label="Home"
+     label="Consumer Zone"
      onPress={()=>{props.navigation.navigate('Home')}}
      
    />
     <Drawer.Item
-     style={{ backgroundColor: '#f9f9f9' }}
+     style={{}}
      icon="account-outline"
-     label="Account"
+     label="My Profile"
+     onPress={()=>{props.navigation.navigate('MyProfile')}}
+     
+   />
+   <Drawer.Item
+  
+     icon= 'map-marker-outline'
+     label="Addresses"
      onPress={()=>{}}
      
    />
    <Drawer.Item
-     style={{ backgroundColor: '#f9f9f9' }}
-     icon="cart-outline"
-     label="My Subscriptions"
-     onPress={()=>{}}
-     
-   />
-   <Drawer.Item
-     style={{ backgroundColor: '#f9f9f9' }}
-     icon="settings-outline"
-     label="Settings"
-     onPress={()=>{}}
-     
-   />
-   <Drawer.Item
-     style={{ backgroundColor: '#f9f9f9' }}
-     icon="card-text-outline"
-     label="Terms and Conditions"
-     onPress={()=>{}}
-     
-   />
-   <View style={{...styles.bottom,flexDirection: 'row'}}>
+
    
- 
-   <Drawer.Item
-   style={{position: 'absolute',bottom: -220}}
     
-     icon="something"
-     label="Switch to Vendor"
-     
+     icon="wallet-outline"
+     label="WeLinks Wallet"
      onPress={()=>{}}
      
    />
+   <Drawer.Item
+    
+    icon="cart-outline"
+    label="My Subscriptions"
+    onPress={()=>{}}
+    
+  />
+   <Drawer.Item
+    
+    icon= {({color, size}) => (
+                                <Icon 
+                                name="share-outline" 
+                                color={color}
+                                size={size}
+                                />
+                            )}
+
+    label="Share App"
+    onPress = {()=>{}}
+    
+  />
+     <Drawer.Item
+    
+    icon="card-text-outline"
+    label="Support and FAQs"
+    onPress={()=> {props.navigation.navigate(SupportFAQ)}}
+    
+  />
+ 
+
+
+ </Drawer.Section>
+   <Drawer.Section>
+ 
+ <Drawer.Item
+    
+    icon= {({color, size}) => (
+                                <Icon 
+                                name="account-box-multiple" 
+                                color={color}
+                                size={size}
+                                />
+                            )}
+
+    label="Switch to Vendor"
+    onPress = {()=>{}}
+    
+  />
+
+
   
   
-   </View>
+  
+   
    
    
    
@@ -80,7 +154,10 @@ const DrawerContent = (props) => {
      onPress={()=>{}}
      
    />
+
   
+    
+ 
 
    
             
@@ -89,7 +166,9 @@ const DrawerContent = (props) => {
             
    
    
-   
+     </Drawer.Section>
+
+     <Text style={styles.version}>Version 1.0.0</Text>
          </View>
        </DrawerContentScrollView>
    </View>
@@ -97,18 +176,32 @@ const DrawerContent = (props) => {
 
 
   const styles = StyleSheet.create({
-    bottom: {
+ 
+  header: {
+    
+    height:Dimensions.get('window').height/5.1,
    
-    marginBottom: '80%',
-    alignItems: 'stretch',
-    borderTopColor: '#f4f4f4'
+   
+  
+    flexDirection: 'column',
+   
+   
   },
-  bottom1: {
-    position: 'absolute',
+  username: {
    
-    alignItems: 'stretch',
-    borderTopColor: '#f4f4f4'
-
+    
+    marginStart: '6%',
+    fontSize: 17,
+    fontWeight: 'bold',
+    
+    
+  },
+  version: {
+    color: '#929292',
+    fontWeight: '900',
+    margin: '5%',
+    marginTop: '10%',
+    fontSize: 18
   }
   })
 

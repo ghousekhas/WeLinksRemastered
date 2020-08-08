@@ -10,6 +10,7 @@ import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
+import { useNavigation } from '@react-navigation/native';
 
 const brandsArray=
 [
@@ -154,7 +155,9 @@ export default class VendorScreen1 extends React.Component{
 }
 
 
-const ScrapFlatList = ({route,navigation}) => {
+const ScrapFlatList = ({route}) => {
+
+    const navigation = useNavigation();
     
     
 
@@ -216,7 +219,7 @@ const ScrapFlatList = ({route,navigation}) => {
                     const prodRate = item.price;
                     const prodRate_ = item.price_;
 
-                    navigation.navigate('SubscribeScreen',{
+                       navigation.navigate('SubscribeScreen',{
                         tag : 'paper',
                         pname : prodName,
                         pquan : prodQuan,
