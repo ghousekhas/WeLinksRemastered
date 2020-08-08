@@ -12,6 +12,28 @@ import SubscriptionScreen from './SubscriptionScreen';
 
 bs = React.createRef();
 
+const figureDate = (dateref) => {
+  console.log(dateref)
+  const monthNames = ["","January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+
+
+for(i=1;i<=12;i++){
+  var t = i < 10 ? ("0"+i) : i;
+  var starting;
+  if(dateref.includes(monthNames[i])){
+  starting = dateref.charAt(dateref.length-4)
+  +dateref.charAt(dateref.length-3)+dateref.charAt(dateref.length-2)
+    +dateref.charAt(dateref.length-1) + "-" + t + "-" +  dateref.charAt(0)+dateref.charAt(1)
+
+    console.log(starting)
+    return starting;
+     }
+
+  }
+
+}
+
 
 const SubscribeScreen = ({navigation,route}) => {
 
@@ -20,71 +42,72 @@ const SubscribeScreen = ({navigation,route}) => {
   const {prate} = route.params;
   const{prate_} = route.params;
 const [isPressed,setIsPressed] = useState(false);
-const [dateResult,setResult] = useState('');
-const [dateref,setDateRef] = useState('Select Date');
-const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
+// const [dateResult,setResult] = useState('');
+
+// const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
 
 
+thisDay = moment()
+.utcOffset('+05:30')
+.format('YYYY-MM-DD');
+const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
 
-  // console.log('t:'+thisDay)
-  const setDate=(date)=>{
+const [dateref,setDateRef] = useState('Select start');
+const [dateref1,setDateRef1] = useState('Select end');
+  // This sets start
+  const setDate=(date)=> {
     setDateRef(date);
     bs.current.snapTo(2);
   };
 
-  const setWeek=(weekdays)=>{
-    var weeknd= {...weekdays};
-    setWeekRef(weeknd);
+  // This sets end
+  const setDate1=(date1)=> {
+    setDateRef1(date1);
     bs.current.snapTo(2);
-  }
-  
-  const renderContent1 = () => { 
-  
-   
-    return(<View>
+  };
 
-    <Date onSet={() => {
-      setIsPressed(true)
-    }}
-    setDate={setDate}
+ // Start date Calendar
+  const renderContent1 = () => { 
+    
+    
+  //    console.log(starting)
+   return(<View>
+
+    <Date 
+    setDate={setDate1}
+  
+    text = 'Set End Day'
+    starting={figureDate(dateref)}
     />
 
     <TouchableOpacity style={style.button} onPress={() => {
-      setResult({okay})
         bs.current.snapTo(2)
     }}>
     <Text style={style.buttonText}>Cancel</Text>
-
     </TouchableOpacity>
-
-    {/* <SubmitButton text='Cancel' onTouch={() => {
-        this.bs.current.snapTo(2)
-    }
-    }/> */}
     </View>
    
-
-
-  )};
-  
+ )};
+  // End date Calendar
   const renderContent2 = () => {
     
-  return(<View style={{margin: 2}}>
- 
-  <WeekPicker back={() => {
-    setIsPressed(false)
-  }} 
-  setWeek={setWeek}
-  />
-  <SubmitButton text='Cancel' onTouch={()=>{
-      bs.current.snapTo(2)
-    //  setIsPressed(false)
-  
-  }}/>
+    return(<View>
 
+      <Date 
+      text= 'Set Start Day'
+      setDate={setDate}
+      starting = {tomorrow}
+     
+      />
   
-
-  </View>)
+      <TouchableOpacity style={style.button} onPress={() => {
+          bs.current.snapTo(2)
+      }}>
+      <Text style={style.buttonText}>Cancel</Text>
+      </TouchableOpacity>
+      </View>
+     
+   )
   };
 
   const renderHeader = () => (
@@ -94,6 +117,29 @@ const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
       </View>
     </View>
   );
+
+  var order = {};
+
+  const subsResult = (sub) => {
+     
+      order = sub;
+      console.log(order)
+
+      navigation.navigate('Cart')
+
+      // navigation.navigate('Cart',{
+      //   pname: pname,
+      //   prate: prate,
+      //   pquan: pquan,         // Refers to 'Rs. 22 for 1 packet'
+      //   prate_: prate_,
+      //   pnumber: order.number,
+      //   pdays: order.days,
+      //   startDate: order.start,
+      //   endDate: order.end
+
+
+      // })
+  };
 
   
   var fall = new Animated.Value(1);
@@ -119,27 +165,46 @@ const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
 
           <SubscriptionScreen 
            dateref= {dateref}
-           weekref= {weekref}
+           dateref1 = {dateref1}
+            result = {subsResult}
 
         
           
           onCalendarOpen={() => {
             bs.current.snapTo(0)
+            setIsPressed(true)
+          }} 
+          onCalendarOpen1={() => {
+            bs.current.snapTo(0)
             setIsPressed(false)
-          }} dateResult='Today'
+          }}
+          
+          
+          
           pname = {pname}
           prate = {prate}
           pquan = {pquan}
+          prate_ = {prate_}
+
+          
+
+          
             goTo={()=> navigation.navigate('Cart',{
               pname: pname,
               prate: prate,
-              pquan: pquan
+              pquan: pquan,         // Refers to 'Rs. 22 for 1 packet'
+              prate_: prate_,
+              pnumber: order.number,
+              pdays: order.days,
+              startDate: order.start,
+              endDate: order.end
+
 
             })}
-            onWeekOpen={() => {
-              bs.current.snapTo(0)
-              setIsPressed(true)
-            }}
+            // onWeekOpen={() => {
+            //   bs.current.snapTo(0)
+            //   setIsPressed(true)
+            // }}
           />
           
            

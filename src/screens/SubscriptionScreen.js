@@ -8,23 +8,27 @@ import Item from '../components/Item'
 
 
 
-const SubscriptionScreen = ({onCalendarOpen,onWeekOpen,goTo,pname,pquan,prate,dateref,weekref}) => {
+const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,goTo,pname,pquan,prate,dateref,dateref1,result}) => {
 
     const words = {
         quantityPerDay:'Quantity per day' ,
         repeat:'Repeat' ,
         recharge:'Recharge/Top-Up' ,
-        select : 'Select start date'
+        duration: 'Duration',
+        startDate: 'Set Start Date:',
+        endDate: 'Set End Date:'
     };
     const[number,setNumber] = useState(1);
     const[start,setStart]= useState('Not selected');
+    const[end,setEnd] = useState('Not selected')
   //  const[wo,setWeek]= useState([true,true,true,true,true,true,true]);
     useEffect(()=>{
         setStart(dateref);
+        setEnd(dateref1)
      //   var weeknd= {...weekref}
       //  setWeek(weeknd);
         //console.log(wo[0],wo[1],wo[2],wo[3],wo[4],wo[5],wo[6])
-    },[dateref,weekref]);
+    },[dateref,dateref1]);
 
 
 
@@ -42,8 +46,16 @@ const SubscriptionScreen = ({onCalendarOpen,onWeekOpen,goTo,pname,pquan,prate,da
     const [button3,tapButton3] = useState(false);
 
    // const Item = Picker.Item;
-    const [value,setValue ] = useState('');
+   // const [value,setValue ] = useState('');
     
+
+   const subsResult = { 
+       perDayQuan: {number},
+       s:{start},
+       e: {end},
+       days: [{m},{t},{w},{th},{f},{s},{su}]
+
+   };
 
 return(<View style={style.container} >
     <Item name={pname} quantity={pquan} price={prate} />
@@ -223,40 +235,40 @@ return(<View style={style.container} >
     </View>
     
     <View style={style.line}/>
-    <View style={style.view}>
-    <Text style={style.greyText}>{words.recharge}</Text>
-   
-    {/* <Picker
-      mode='dropdown'
-      selectedValue={value}
+    <View style={{margin: '2%'}}>
+
+    <Text style={style.greyText}>{words.duration}</Text>
+
+    <View style={{margin: '2%',flexDirection:'row'}}>
+       
+        <Text style={{...style.dates,marginStart: '60%',position:'absolute',justifyContent: 'center'}}>{start}</Text>
+        <View style={{marginTop: '5%'}}>
+            <Button text={words.startDate} onTouch={onCalendarOpen}/>
+        </View>
+    </View>
+
+    <View style={{margin: '2%',flexDirection:'row'}}>
       
-      onValueChange={(v) => setValue(v)}>
-      <Item label="30" value="key0" />
-      <Item label="60" value="key1" />
-      <Item label="30" value="key0" />
-      <Item label="60" value="key1" />
-      <Item label="30" value="key0" />
-      <Item label="60" value="key1" />
-      <Item label="30" value="key0" />
-      <Item label="60" value="key1" />
-    </Picker>) */}
-
-
+    <Text style={{...style.dates,marginStart: '60%',position:'absolute',justifyContent: 'center'}}>{end}</Text>
+        <View style={{marginTop: '5%'}}>
+            <Button text={words.endDate} onTouch={onCalendarOpen1}/>
+        </View>
     </View>
-    <View style={style.line}/>
-    <View style={style.selectDate}>
-    <Text style={style.greyText}>{words.select}</Text>
-    <Text style={{...style.text,marginTop:'10%',position: 'absolute'}}>{start}</Text>
-    <View style={style.button}>
-    <Button text='Select' onTouch={onCalendarOpen}/>
+
+
     </View>
     
-    
 
+  
+    <View style={{position: 'absolute',bottom: '-18%',alignSelf:'center'}}>
+    <SubmitButton text='Subscribe' onTouch={() => {
+        result(subsResult)
+        // {goTo}
+    }}/>
     </View>
-    <View style={{position: 'absolute',bottom: '-5%',alignSelf:'center'}}>
-    <SubmitButton text='Subscribe' onTouch={goTo}/>
-    </View>
+   
+
+    
 
 </View>)
 
@@ -265,7 +277,7 @@ return(<View style={style.container} >
 const style = StyleSheet.create({
     container:{
          margin: '1%',
-        padding: '1%',
+        padding: '8%',
     },
    
     view1: {
@@ -284,7 +296,7 @@ const style = StyleSheet.create({
         width: Dimensions.get('window').width,
         
         marginTop: '5%',
-        borderColor: 'red'
+        borderColor: 'red',
       
     },
     greyText: {
@@ -348,7 +360,11 @@ const style = StyleSheet.create({
         marginTop: '4%'
        
     },
-    view3:{
+    dates: {
+
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: '4%'
         
         
 
@@ -371,8 +387,7 @@ const style = StyleSheet.create({
         height: Dimensions.get('window').height/8,
     marginTop: '5%',
     
-    alignItems: 'stretch',
-        
+  
         
         marginStart: '1%',
     },

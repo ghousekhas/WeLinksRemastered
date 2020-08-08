@@ -6,10 +6,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-native-paper';
 import { userDetails } from '../UserDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SupportFAQ from '../screens/SupportFAQ';
 
 
 
 const DrawerContent = (props) => {
+  
   return (
    <View style={{flex: 1,height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props}>
@@ -109,7 +111,7 @@ const DrawerContent = (props) => {
     
     icon="card-text-outline"
     label="Support and FAQs"
-    onPress={()=> {}}
+    onPress={()=> {props.navigation.navigate(SupportFAQ)}}
     
   />
  

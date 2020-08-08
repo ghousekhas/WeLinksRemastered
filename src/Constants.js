@@ -9,6 +9,8 @@ export const Constants={
     
 }
 export const Styles=StyleSheet.create({
+   
+  
     parentContainer:{
         ...StyleSheet.absoluteFill,
         flexDirection: 'column',

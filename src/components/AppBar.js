@@ -14,8 +14,11 @@ const AppBar = ({toggle}) => {
     return(
     <View><Appbar style={styles.bottom}>
         <Appbar.Header style={styles.header}>
-        <TouchableRipple onPress={toggle} underlayColor='transparent' rippleColor= 'transparent'>
+        <TouchableRipple onPress={(toggle)} underlayColor='transparent' rippleColor= 'transparent'>
+        <View style={{elevation: 3}}>
         <EvilIcons name="navicon" size={26} color="white" />
+        </View>
+      
         </TouchableRipple>
         
            
@@ -23,7 +26,7 @@ const AppBar = ({toggle}) => {
 
         
          
-          <Avatar.Image size={30} source={require('../../assets/avatar.png')}
+          {/* <Avatar.Image size={30} source={require('../../assets/avatar.png')}
           style={styles.avatar} />
          
            <Subheading style={styles.username}>{userDetails.USER_NAME}</Subheading>
@@ -34,7 +37,7 @@ const AppBar = ({toggle}) => {
              mode="contained" onPress={() => console.log('Pressed')} compact={true}>
            
             {userDetails.USER_CITY}
-           </Button>
+           </Button> */}
          </Appbar>
        
         </View>)
