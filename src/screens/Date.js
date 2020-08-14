@@ -7,6 +7,7 @@ import { createStackNavigator, Header } from '@react-navigation/stack';
 import { Calendar } from 'react-native-calendars';
 import SubmitButton from '../components/SubmitButton';
 import moment from 'moment';
+import { set } from 'react-native-reanimated';
 //aterialCommunityIcon';
 // const doThis = ({props}) => {
 //   props.onSet
@@ -18,9 +19,12 @@ import moment from 'moment';
 const Date = ({setDate,text,starting}) => {
 
   thisDay = moment()
-  .utcOffset('+05:30')
-  .format('YYYY-MM-DD');
+.utcOffset('+05:30')
+.format('YYYY-MM-DD');
+ // console.log('today:' + thisDay)
+ 
   const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
+ // console.log("tom: " + tomorrow)
 
   //console.log(tomorrow)
 
@@ -32,8 +36,8 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
     
     
-    const [selected, setSelected] = useState(thisDay);
-    const [month, setMonth] = useState(monthNames[parseInt(thisDay.charAt(5)+thisDay.charAt(6))])
+    const [selected, setSelected] = useState(tomorrow);
+    const [month, setMonth] = useState(monthNames[parseInt(thisDay.charAt(5)+thisDay.charAt(6)-1)])
     const [year, setYear] = useState(thisDay.charAt(0)+thisDay.charAt(1)+thisDay.charAt(2)+thisDay.charAt(3))
     
     
@@ -106,8 +110,10 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       onPress = {() => {
       // okay =  selected.charAt(0)+selected.charAt(1)+selected.charAt(2)+selected.charAt(3)
         okay = selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year;
-        console.log(okay);
+     //   console.log(okay);
+    
       setDate(okay);
+    
       
      
 

@@ -213,9 +213,7 @@ function App() {
         <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}}/>
         <Stack.Screen name='VendorScreen' component={VendorScreen} />
         <Stack.Screen name='VendorScreen1' component={VendorScreen1} />
-        <Stack.Screen name='pick' component={Pick} />
-        <Stack.Screen name='appbar' component={AppBar} /> 
-       
+        
 
       </Stack.Navigator>
     </NavigationContainer> 
