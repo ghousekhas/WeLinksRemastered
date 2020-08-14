@@ -249,15 +249,10 @@ export default class AddAddress extends React.Component{
                       <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
                       <Text style={styles.heading}> Landmark:</Text>
                       <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
-                      <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
-                      <Text style={styles.heading}> Landmark:</Text>
+                      <Text style={styles.heading}> Label:</Text>
                       <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
-                      <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
-                      <Text style={styles.heading}> Landmark:</Text>
-                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
-                       <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
-                      <Text style={styles.heading}> Landmark:</Text>
-                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
+                     
+                
                     </ScrollView>
                     <View style={styles.submitButton}>
                                 <SubmitButton text='Continue' onTouch={this.addAddress}

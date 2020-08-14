@@ -91,12 +91,16 @@ export default class AddressList extends React.Component{
 
     renderSeperator=()=>{
       return(
-        <View style={{padding:1,
-        marginHorizontal: '3%',
+        <View style={{padding:0,
+        paddingHorizontal: '20%',
         backgroundColor: 'gray',
-        width:'60%',
-        height: 1,
-        alignSelf: 'center'
+        width:'80%',
+        height: 0,
+        alignSelf: 'center',
+        borderStyle: 'dashed',
+        borderColor: 'black',
+        borderWidth: 0.3,
+        borderRadius: 5
         }}
         />
       );
@@ -137,6 +141,7 @@ export default class AddressList extends React.Component{
             
           <View style={styles.container}>
           <GooglePlacesAutocomplete
+              style={{elevation: 10,zIndex: 10,backgroundColor: 'white'}}
               query={{
                 key: 'AIzaSyAWOAzPnGPVoGCxK7pMgU4TZx6sZQNiofQ',
                 language: 'en', // language of the results
@@ -144,6 +149,7 @@ export default class AddressList extends React.Component{
                 location: '12.972442,77.580643',
                 radius: 100000
               }}
+              placeholder={'Type here to add a new address'}
               onPress={this.addressSelected}
               onFail={error => console.error(error)}
               styles={placesstyle}   
@@ -152,13 +158,8 @@ export default class AddressList extends React.Component{
             />
 
             
-              
-            <HomeAddress item= {{text: '7th cross, Byataryanapura, Bengaluru 560092 India',lat: 12,lng: 13,type: 'home'}} style={styles.home} navigation={this.props.navigation}/>
-            <View style={{width: '75%',alignSelf: 'center',height: 2,backgroundColor: 'gray', position: 'absolute',
-      top: height/10+ height/6,}}/>
-            <HomeAddress item= {{text: '17th cross, KalyanNagar, Bengaluru 560093 India',lat: 12,lng: 13,type: 'office'}} style={styles.office}/>
             <View style={styles.savedaddresspanel}>
-          <Text style={styles.address}>OTHER ADDRESSES</Text>
+          <Text style={styles.address}>SAVED ADDRESSES</Text>
 
             <FlatList 
             data={this.state.arraydata.reverse()}
@@ -176,8 +177,8 @@ export default class AddressList extends React.Component{
 const styles = StyleSheet.create({
   savedaddresspanel:{
     position: 'absolute',
-    top: height/10+height/3,
-    zIndex: 100,
+    top: height/10,
+    zIndex: 0,
     bottom: 0,
     right: 0,
     left: 0,
@@ -202,7 +203,8 @@ const styles = StyleSheet.create({
       width: Dimensions.get('window').width-50,
       height: Dimensions.get('window').height/6,flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      margin: 10
     },
     home:{
       position: 'absolute',
@@ -234,9 +236,12 @@ const styles = StyleSheet.create({
       top: '2%',
       width: '90%',
       zIndex: 100,
+      borderWidth: 0.5,
+      borderColor: 'gray',
+      borderRadius: 10
     },
     listView:{
-      zIndex: 100,
+      backgroundColor: 'white'
     },
     textInputContainer:{
       width: '100%',
@@ -244,16 +249,25 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       
     },
-
     textInput:{
         fontWeight: 'bold',
         fontSize: 15,
         padding: 40,
     },
-    row:{
-        padding: 10,
-        backgroundColor: 'white',
-        margin: 0
-
+    predefinedPlacesDescription:{
+      color: 'black'
     },
+    description:{
+      color: 'gray'
+    },
+    seperator:{
+      width: '100%',
+      color: 'gray',
+      height: 0.5
+    },
+    poweredContainer:{
+      marginTop: 30,
+      marginBottom: 5,
+      marginRight: 5
+    }
   })

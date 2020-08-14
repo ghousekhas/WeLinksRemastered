@@ -59,16 +59,16 @@ export default HomeAddress=({item,style})=>{
     return(
       <View style={style}>
         <Image source={image} style={styles.imageIcon}  />
-            <ScrollView>
-              <View style={{flexDirection: 'column',width: '80%',justifyContent: 'flex-start'}}>
-              <Text style={styles.label}>{label}</Text>
-              <Text style={styles.address}>{currentAddress}</Text>
-            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={{flexDirection: 'column',width: '100%',justifyContent: 'flex-start'}}>
+                <Text style={styles.label}>{label}</Text>
+                <Text style={styles.address}>{currentAddress}</Text>
+              </View>
             </ScrollView>
-            <TouchableOpacity style={{borderWidth: 2, borderColor: 'gray',padding: 5,alignSelf: 'center',marginTop: 20,borderRadius: 5}} onPress={()=>{
+            <TouchableOpacity style={{borderWidth: 1, borderColor: '#00C99D',padding: 5,alignSelf: 'center',marginTop: 20,borderRadius: 5}} onPress={()=>{
               setSelectedAddress(item)
             }}>
-              <Text style={{padding: 5,fontSize: 10}}>SELECT</Text>
+              <Text style={{paddingHorizontal: 10,paddingVertical: 3,fontSize: 12,color: '#00C99D',fontWeight: 'bold'}}>SELECT</Text>
             </TouchableOpacity>
           </View>
     );
