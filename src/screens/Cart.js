@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import moment from 'moment';
 
 
 const Cart = ({route}) => {
@@ -21,15 +22,126 @@ const Cart = ({route}) => {
     const {prate} = route.params
     const {pquan} = route.params
     const {pnumber} = route.params
-    const {pdays} = route.params
-    const {startDate} = route.params
-    const {endDate} = route.params
+    const {porder} = route.params
+    
+
+    var ans,numberOfDeliveries;
+    var dayString = "";
+   
+ 
+     porder.days[0].m ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+     porder.days[1].t ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+     porder.days[2].w ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+     porder.days[3].th ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+     porder.days[4].f ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+     porder.days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+     porder.days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+
+    const calculateDeliveries = (startDate,endDate) => {
+        console.log('cd:'+ startDate)
+
+        var  start = startDate.charAt(0)+startDate.charAt(1) + " " + startDate.charAt(3) + startDate.charAt(4)
+          + startDate.charAt(5) +" " + startDate.charAt(startDate.length-4)  + startDate.charAt(startDate.length-3)
+          + startDate.charAt(startDate.length-2)  + startDate.charAt(startDate.length-1) + " 00:00:00 GMT";
+          var end = endDate.charAt(0)+endDate.charAt(1) + " " + endDate.charAt(3) + endDate.charAt(4)
+          + endDate.charAt(5) +" " + endDate.charAt(endDate.length-4)  + endDate.charAt(endDate.length-3)
+          + endDate.charAt(endDate.length-2)  + endDate.charAt(endDate.length-1) + " 00:00:00 GMT";
+  
+    
+      
+        
+    
+        dayString = dayString + dayString[0];
+        const dayString1 = dayString[6] + dayString.substring(0,6)
+     
+        var count = 0;
+        for(i=0;i<7;i++){
+          var dateObj1 = new Date(Date.parse(start));
+          var dateObj2 = new Date(Date.parse(end));
+     
+      if(dayString1[i] == 'Y'){
+    
+          var dayIndex = i;
+      
+          while ( dateObj1.getTime() <= dateObj2.getTime() )
+          {
+          
+             if (dateObj1.getDay() == dayIndex )
+             {
+                count++
+             }
+      
+             dateObj1.setDate(dateObj1.getDate() + 1);
+          }
+      
+         
+      }
+        }
+
+      numberOfDeliveries = count;
+       return count;
+  
+      };
+
+   // This is the number of days from start to end date; unused
+    const numberOfDays = (end,start) => {
+        console.log('sstart:'+start);
+        console.log('eend:'+end);
+        var res;
+
+        const month = (date) => {
+            
+           const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+
+            for(i=0;i<12;i++){
+                if(date.includes(monthNames[i])){
+                    res = (i < 10 ? "0" + i : i)
+                }
+            }
+            return(res)
+            
+            
+
+        }
+       
+        start =  start.charAt(start.length-4) +start.charAt(start.length-3) +start.charAt(start.length-2) + start.charAt(start.length-1) + "-" + month(start) + "-" + start.charAt(0) + start.charAt(1);
+        end =  end.charAt(end.length-4) +end.charAt(end.length-3) +end.charAt(end.length-2) + end.charAt(end.length-1) + "-" + month(end) + "-" + end.charAt(0) + end.charAt(1);
+
+
+            start = moment(start,"YYYY-MM-DD")
+            end = moment(end,"YYYY-MM-DD")
+          ans = start.diff(end,'days')+1; 
+    
+
+          
+
+
+
+
+
+         return ans;
+
+    }
+    var cartTotal;
+    const calculateCartAmount = () => {
+        cartTotal = (prate * numberOfDeliveries * porder.perDayQuan.number)
+        return cartTotal;
+
+    };
 
 
     return(<View style={style.container}>
     <Text style={style.title}>{words.title}</Text>
+    <View style={{alignItems: 'center'}}>
         <SubscriptionOrder name={pname}
-         quantity={pquan} price={prate}  bought={pnumber} />
+         quantity={pquan} rate={prate}  bought={porder.perDayQuan.number}
+         startDate={porder.s.start} 
+         endDate={porder.e.end}
+          days={porder.days}
+          num = {calculateDeliveries(porder.s.start,porder.e.end)}
+         />
+         </View>
 
          <View style={style.gray}>
              <Text style={style.text}>{words.disclaimer}</Text>
@@ -46,7 +158,7 @@ const Cart = ({route}) => {
         
          <View style={{flexDirection:'row'}}>
              <Text style={style.billText}>{words.cartAmount}</Text>
-             <Text style={style.billCost}>₹{prate * 30}</Text>
+             <Text style={style.billCost}>₹{calculateCartAmount()}</Text>
          </View>
          <View style={{flexDirection:'row'}}>
              <Text style={style.billText}>{words.deliveryFee}</Text>
@@ -55,7 +167,7 @@ const Cart = ({route}) => {
          <View style={style.line}/>
          <View style={{flexDirection:'row'}}>
              <Text style={style.billText}>{words.amountToPay}</Text>
-             <Text style={style.billCost}>₹{prate * 30 + 50}</Text>
+             <Text style={style.billCost}>₹{cartTotal + 50}</Text>
          </View>
 
          <View style={{position: 'absolute',bottom: '-92%',alignSelf:'center',backgroundColor: 'white'}}>
@@ -93,6 +205,7 @@ const style = StyleSheet.create({
        backgroundColor: '#e0e0e0',
         borderRadius: 10,
         height: Dimensions.get('window').height/12,
+        
     },
     gray1: {
         flexDirection: 'row',
@@ -106,6 +219,7 @@ const style = StyleSheet.create({
     text: {
         padding: 10,
         color: 'gray',
+        fontWeight: '900'
     },
     coupon: {
       
@@ -114,11 +228,14 @@ const style = StyleSheet.create({
         padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 13
+        marginVertical: '4%',
+        fontWeight: 'bold'
+
     },
     billText:{
-        fontSize: 20,
-        marginTop: 10
+        fontSize: 18,
+        marginTop: 10,
+        fontWeight: '900'
     },
     billCost:{
         fontWeight: 'bold',

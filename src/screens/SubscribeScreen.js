@@ -12,8 +12,13 @@ import SubscriptionScreen from './SubscriptionScreen';
 
 bs = React.createRef();
 
+thisDay = moment()
+.utcOffset('+05:30')
+.format('YYYY-MM-DD');
+const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
+
 const figureDate = (dateref) => {
-  console.log(dateref)
+ // console.log("dateref" + dateref)
   const monthNames = ["","January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
 
@@ -26,9 +31,10 @@ for(i=1;i<=12;i++){
   +dateref.charAt(dateref.length-3)+dateref.charAt(dateref.length-2)
     +dateref.charAt(dateref.length-1) + "-" + t + "-" +  dateref.charAt(0)+dateref.charAt(1)
 
-    console.log(starting)
+    
     return starting;
      }
+    
 
   }
 
@@ -47,13 +53,17 @@ const [isPressed,setIsPressed] = useState(false);
 // const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
 
 
-thisDay = moment()
-.utcOffset('+05:30')
-.format('YYYY-MM-DD');
-const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
+const [start,setStart] = useState(false);
 
 const [dateref,setDateRef] = useState('Select start');
 const [dateref1,setDateRef1] = useState('Select end');
+// Check if starting date is fixed
+const startDateSet = (set) => {
+  if (set){
+    setStart(true)
+  }
+ 
+};
   // This sets start
   const setDate=(date)=> {
     setDateRef(date);
@@ -78,6 +88,8 @@ const [dateref1,setDateRef1] = useState('Select end');
   
     text = 'Set End Day'
     starting={figureDate(dateref)}
+ 
+   
     />
 
     <TouchableOpacity style={style.button} onPress={() => {
@@ -97,6 +109,7 @@ const [dateref1,setDateRef1] = useState('Select end');
       text= 'Set Start Day'
       setDate={setDate}
       starting = {tomorrow}
+      
      
       />
   
@@ -123,22 +136,21 @@ const [dateref1,setDateRef1] = useState('Select end');
   const subsResult = (sub) => {
      
       order = sub;
-      console.log(order)
+      // console.log(order)
 
-      navigation.navigate('Cart')
+     // navigation.navigate('Cart')
 
-      // navigation.navigate('Cart',{
-      //   pname: pname,
-      //   prate: prate,
-      //   pquan: pquan,         // Refers to 'Rs. 22 for 1 packet'
-      //   prate_: prate_,
-      //   pnumber: order.number,
-      //   pdays: order.days,
-      //   startDate: order.start,
-      //   endDate: order.end
+      navigation.navigate('Cart',{
+        pname: pname,
+        prate: prate,
+        pquan: pquan,         // Refers to 'Rs. 22 for 1 packet'
+        prate_: prate_,
+        porder: order
+      
 
 
-      // })
+
+      })
   };
 
   
@@ -189,18 +201,18 @@ const [dateref1,setDateRef1] = useState('Select end');
           
 
           
-            goTo={()=> navigation.navigate('Cart',{
-              pname: pname,
-              prate: prate,
-              pquan: pquan,         // Refers to 'Rs. 22 for 1 packet'
-              prate_: prate_,
-              pnumber: order.number,
-              pdays: order.days,
-              startDate: order.start,
-              endDate: order.end
+            // goTo={()=> navigation.navigate('Cart',{
+            //   pname: pname,
+            //   prate: prate,
+            //   pquan: pquan,         // Refers to 'Rs. 22 for 1 packet'
+            //   prate_: prate_,
+            //   // pnumber: order.number,
+            //   // pdays: order.days,
+            //   // startDate: order.start,
+            //   // endDate: order.end
 
 
-            })}
+            // })}
             // onWeekOpen={() => {
             //   bs.current.snapTo(0)
             //   setIsPressed(true)

@@ -20,15 +20,36 @@ Then becoming a Vendor
 Then payment gateway
 
 
-{"description": "Sahakari Bhandar, Hari Om Nagar, Damoji Patil Wadi, Mulund East, Mumbai, Maharashtra, India", "id": "179bd10cfb034da9173b78cd10378c0c1095b143", "matched_substrings": [{"length": 7, "offset": 0}], "place_id": "ChIJa4TDLd245zsRBe-TYolsFQA", "reference": "ChIJa4TDLd245zsRBe-TYolsFQA", "structured_formatting": {"main_text": "Sahakari Bhandar", "main_text_matched_substrings": [[Object]], "secondary_text": "Hari Om Nagar, Damoji Patil Wadi, Mulund East, Mumbai, Maharashtra, India"}, "terms": [{"offset": 0, "value": "Sahakari Bhandar"}, {"offset": 18, "value": "Hari Om Nagar"}, {"offset": 33, "value": "Damoji Patil Wadi"}, {"offset": 52, "value": "Mulund East"}, {"offset": 65, "value": "Mumbai"}, {"offset": 73, "value": "Maharashtra"}, {"offset": 86, "value": "India"}], "types": ["supermarket", "grocery_or_supermarket", "food", "point_of_interest", "store", "establishment"]}
+
+{"description": "Sahakari Bhandar, Hari Om Nagar, Damoji Patil Wadi, Mulund East, Mumbai,
+ Maharashtra, India", "id": "179bd10cfb034da9173b78cd10378c0c1095b143", 
+ "matched_substrings": [{"length": 7, "offset": 0}], "place_id": 
+ "ChIJa4TDLd245zsRBe-TYolsFQA", "reference": "ChIJa4TDLd245zsRBe-TYolsFQA", 
+ "structured_formatting": {"main_text": "Sahakari Bhandar",
+  "main_text_matched_substrings": [[Object]],
+   "secondary_text": "Hari Om Nagar, Damoji Patil Wadi, Mulund East, Mumbai, Maharashtra, India"},
+    "terms": [{"offset": 0, "value": "Sahakari Bhandar"},
+     {"offset": 18, "value": "Hari Om Nagar"}, {"offset": 33, "value": "Damoji Patil Wadi"},
+      {"offset": 52, "value": "Mulund East"}, {"offset": 65, "value": "Mumbai"}, 
+      {"offset": 73, "value": "Maharashtra"}, {"offset": 86, "value": "India"}], 
+      "types": ["supermarket", "grocery_or_supermarket", "food", "point_of_interest", 
+      "store", "establishment"]}
 
 
-///////// Anam /////////////
 
--Add app colour to constants somehow
--Get app version from app.json for navigation drawer
--Calendar dates are not perfect. Sometimes end date is before start. Add a check for that
--Fix cart
--Hamburger menu
--Whats wrong with newspapers (d)
+/////////////////////////////////////////////
+
+- Accordion screen doesn't show selected vendor, class component, fix it please :| (G)
+- Add app colour to constants somehow
+- Get app version from app.json for navigation drawer 
+- Calendar dates are not perfect. Sometimes end date is before start. Add a check for that (A)
+- Hamburger menu is not opening the drawer except on the vendor pages, swipe works (A)
+- Fonts?
+- Newspapers different costs weekdays and weekends ughh
+- Make signout signout, use DrawerContent.js (G)
+- In MyProfile.js, the image should use <Image> and not <Avatar> like right now. Sizing and stuff, not working 
+  right with <Image>.
+- Share App 
+- After the end of stack navigator screens, back should not take you to the last navigation drawer screen
+
  

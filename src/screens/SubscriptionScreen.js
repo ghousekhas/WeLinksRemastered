@@ -8,7 +8,7 @@ import Item from '../components/Item'
 
 
 
-const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,goTo,pname,pquan,prate,dateref,dateref1,result}) => {
+const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result}) => {
 
     const words = {
         quantityPerDay:'Quantity per day' ,
@@ -45,6 +45,9 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,goTo,pname,pquan,pra
     const [button2,tapButton2] = useState(false);
     const [button3,tapButton3] = useState(false);
 
+
+  
+
    // const Item = Picker.Item;
    // const [value,setValue ] = useState('');
     
@@ -56,6 +59,8 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,goTo,pname,pquan,pra
        days: [{m},{t},{w},{th},{f},{s},{su}]
 
    };
+
+  
 
 return(<View style={style.container} >
     <Item name={pname} quantity={pquan} price={prate} />
