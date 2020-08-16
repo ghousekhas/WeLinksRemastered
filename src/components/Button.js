@@ -2,7 +2,7 @@ import React from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import {Colors} from '../Constants'
 
 const Button = ({text,onTouch}) => {
     return(<View>
@@ -20,7 +20,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
     
-        borderColor: '#00C99D',
+        borderColor: Colors.primary,
         padding: 1,
         
         paddingVertical: '2%',
@@ -39,7 +39,7 @@ const style = StyleSheet.create({
 
     },
     text:{
-    color:'#00C99D',
+    color:Colors.primary,
     fontSize: 12,
     fontWeight: 'bold',
     flex: 1

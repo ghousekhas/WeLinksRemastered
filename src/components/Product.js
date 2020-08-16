@@ -1,7 +1,7 @@
 import React,{ Fragment, useState, useRef } from 'react';
 import { View,Text,TouchableOpacity,StyleSheet,Dimensions, Image } from 'react-native';
 import Button from './Button';
-
+import {Colors} from '../Constants'
 
 
 const Product = ({name,quantity,price,price_,subscribe}) => {
@@ -84,7 +84,7 @@ const style = StyleSheet.create({
     button: {
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#00C99D',
+        borderColor: Colors.primary,
         padding: 1,
         // paddingHorizontal: 20,
         // paddingVertical: 2,
@@ -100,7 +100,7 @@ const style = StyleSheet.create({
 
     },
     text:{
-    color:'#00C99D',
+    color:Colors.primary,
     fontSize: 12,
     fontWeight: 'bold'
     },

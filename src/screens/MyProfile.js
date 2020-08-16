@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, View, StyleSheet, Dimensions } from 'react-native';
 import { Constants, Styles } from '../Constants';
-
+import {Colors} from '../Constants'
 import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-native-paper';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -93,7 +93,7 @@ const MyProfile = (props) => {
 
     <Icon 
                                 name="chevron-right" 
-                                color='#00C99D'
+                                color={Colors.primary}
                                 
                                 size={24}
                                 />
@@ -141,7 +141,7 @@ const MyProfile = (props) => {
 
     <Icon 
                                 name="chevron-right" 
-                                color='#00C99D'
+                                color={Colors.primary}
                                 
                                 size={24}
                                 />
@@ -168,7 +168,7 @@ const style = StyleSheet.create({
         margin: '1%'
     },
     header: {
-        backgroundColor: '#00C99D',
+        backgroundColor: Colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
       

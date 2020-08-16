@@ -28,6 +28,8 @@ import VendorScreen from './src/screens/VendorScreen';
 import SubscribeScreen from './src/screens/SubscribeScreen';
 import LottieView from 'lottie-react-native';
 import AddressList from './src/screens/AddressList';
+
+
 import Vendor from './src/components/Vendor';
 import VendorScreen1 from './src/screens/VendorScreen1';
 import WeekPicker from './src/components/WeekPicker';

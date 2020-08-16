@@ -8,6 +8,7 @@ import { Calendar } from 'react-native-calendars';
 import SubmitButton from '../components/SubmitButton';
 import moment from 'moment';
 import { set } from 'react-native-reanimated';
+import {Colors} from '../Constants'
 //aterialCommunityIcon';
 // const doThis = ({props}) => {
 //   props.onSet
@@ -63,14 +64,14 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
           hideExtraDays
           style={{
     borderWidth: 0.3,
-    borderColor: '#00C99D',
+    borderColor: Colors.primary,
     height: Dimensions.get('window').height/2,
     borderRadius: 7,
     margin: 5
   }}
   theme= {{
-      todayTextColor: '#00C99D',
-      arrowColor : '#00C99D',
+      todayTextColor: Colors.primary,
+      arrowColor : Colors.primary,
       textDayFontSize: 16,
     textMonthFontSize: 16,
     textDayHeaderFontSize: 16
@@ -83,10 +84,10 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
               
             [selected]: {
               
-              color: '#00C99D',
+              color: Colors.primary,
               selected: true,
              
-              selectedColor: '#00C99D',
+              selectedColor: Colors.primary,
               selectedTextColor: 'white',
               
               
@@ -144,7 +145,7 @@ const style = StyleSheet.create({
     button:{
         alignSelf: "center",
         marginTop: 20,
-        backgroundColor: '#00C99D',
+        backgroundColor: Colors.primary,
         width: Dimensions.get('window').width-30,
         height: 45,
         borderRadius: 5,

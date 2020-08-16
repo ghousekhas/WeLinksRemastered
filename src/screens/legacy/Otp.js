@@ -3,7 +3,7 @@ import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SubmitButton from '../components/SubmitButton';
-
+import {Colors} from '../Constants'
 
 const Otp = ({navigation}) => {
     return(<View style = {style.mainContainer}>
@@ -82,7 +82,7 @@ view:{
 },
 resend: {
     fontFamily: 'sans-serif',
-    color: '#00C99D',
+    color: Colors.primary,
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 15

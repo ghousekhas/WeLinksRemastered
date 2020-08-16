@@ -5,12 +5,17 @@ export const dimen={
     width: Dimensions.get('window').width
 }
 
+export const Colors = {
+    primary: '#00C99D'
+}
+
 export const Constants={
     Logged: 'Logged',
     firstLogin: 'FIRST_LOGIN',
     username: 'USERNAME',
     city: 'CITY',
     selectedAddress: 'selectedAddress',
+    shareMessage: 'Hey! Check out weLinks, one stop destination for your daily needs https://www.google.com get my referral maybe? Update us with the referral'
 
     
 }

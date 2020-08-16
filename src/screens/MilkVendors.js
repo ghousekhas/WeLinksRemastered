@@ -5,7 +5,7 @@ import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
 import { Avatar } from 'react-native-paper';
 import AppBar from '../components/AppBar';
-
+import {Colors} from '../Constants'
 
 const MilkVendors = (props) => {
 
@@ -128,7 +128,7 @@ const style = StyleSheet.create({
     address: {
         marginTop: '3%',
         borderRadius: 5,
-        backgroundColor: '#00C99D',
+        backgroundColor: Colors.primary,
         color: 'white',
         padding: 3,
         marginStart: 50,

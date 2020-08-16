@@ -118,7 +118,6 @@ const style = StyleSheet.create({
     address: {
         marginTop: '3%',
         borderRadius: 5,
-        backgroundColor: '#00C99D',
         color: 'white',
         padding: 3,
         marginStart: 50,

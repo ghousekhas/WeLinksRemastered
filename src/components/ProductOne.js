@@ -1,6 +1,7 @@
 import React,{ Fragment, useState, useRef } from 'react';
 import { View,Text,TouchableOpacity,StyleSheet,Dimensions } from 'react-native';
 import Button from './Button';
+import {Colors} from '../Constants'
 
 export default ProductOne = ({name,brands,stars,reviews,onSelected}) => {
     return(<View style={style.container}>
@@ -33,7 +34,7 @@ const style = StyleSheet.create({
     button: {
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#00C99D',
+        borderColor: Colors.primary,
         padding: 1,
         paddingHorizontal: 30,
         paddingVertical: 2,

@@ -2,11 +2,11 @@ import React from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import {Colors} from '../Constants'
 const SubmitButton = ({text,onTouch,styles}) => {
     return(
         <TouchableOpacity style={{
-        backgroundColor: '#00C99D',
+        backgroundColor: Colors.primary,
         width: Dimensions.get('window').width-30,
         height: 45,
         borderRadius: 5,
@@ -41,7 +41,7 @@ const style = StyleSheet.create({
         
     },
     button:{
-        backgroundColor: '#00C99D',
+        backgroundColor: Colors.primary,
         height: '100%',
         width: '97%',
         aspectRatio: 10/1.4,

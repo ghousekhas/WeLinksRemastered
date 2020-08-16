@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
-
+import {Colors} from '../Constants'
 
 const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought}) => {
     var dayString = "";
@@ -165,7 +165,7 @@ const style = StyleSheet.create({
        
     },
     yes: {
-        color: '#00C99D',
+        color: Colors.primary,
         marginTop: '3.5%',
         fontWeight: 'bold',
         fontSize: 15,

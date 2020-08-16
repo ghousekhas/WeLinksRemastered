@@ -9,7 +9,7 @@ import auth from '@react-native-firebase/auth';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import City from './City';
 import About from './About';
-
+import {Colors} from '../Constants'
 
 const LoginScreen = ({navigation}) => {
     const [phoneno,setPhoneno] = useState(' ');
@@ -284,7 +284,7 @@ view:{
 },
 resend: {
     fontFamily: 'sans-serif',
-    color: '#00C99D',
+    color: Colors.primary,
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 15,

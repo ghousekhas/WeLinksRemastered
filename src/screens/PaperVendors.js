@@ -4,7 +4,7 @@ import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
 import AppBar from '../components/AppBar';
-
+import {Colors} from '../Constants'
 
 const PaperVendors = (props) => {
     const words = {
@@ -121,7 +121,7 @@ const style = StyleSheet.create({
     address: {
         marginTop: '3%',
         borderRadius: 5,
-        backgroundColor: '#00C99D',
+        backgroundColor: Colors.primary,
         color: 'white',
         padding: 3,
         marginStart: 50,

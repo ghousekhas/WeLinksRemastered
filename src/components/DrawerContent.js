@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, StyleSheet, Dimensions } from 'react-native';
+import { Share ,Button, View, StyleSheet, Dimensions } from 'react-native';
 import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -7,6 +7,7 @@ import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-nativ
 import { userDetails } from '../UserDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SupportFAQ from '../screens/SupportFAQ';
+import { Constants } from '../Constants';
 
 
 
@@ -14,7 +15,7 @@ const DrawerContent = (props) => {
   
   return (
    <View style={{flex: 1,height: Dimensions.get('window').height}}>
-       <DrawerContentScrollView {...props}>
+       <DrawerContentScrollView {...props} scrollEnabled={false}>
          <View style={{height: Dimensions.get('window').height}}>
          <Drawer.Section>
         
@@ -104,7 +105,21 @@ const DrawerContent = (props) => {
                             )}
 
     label="Share App"
-    onPress = {()=>{}}
+    onPress = {()=>{
+      try{
+        const result = Share.share({
+        title: Constants.shareMessage,
+        message: Constants.shareMessage
+        });
+        if(result.action == Share.sharedAction){
+          
+
+        }
+      }
+      catch(e){
+        console.log('some error around here');
+      }
+    }}
     
   />
      <Drawer.Item

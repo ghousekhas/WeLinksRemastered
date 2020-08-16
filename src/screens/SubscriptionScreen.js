@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import SubmitButton from '../components/SubmitButton';
 import Button from '../components/Button';
 import Item from '../components/Item'
-
+import {Colors} from '../Constants'
 
 
 const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result}) => {
@@ -71,13 +71,13 @@ return(<View style={style.container} >
     <TouchableOpacity style={style.minus} onPress={() => {
         setNumber(number!=1 ? number-1 : number)
     }}>
-    <Text style={{fontSize: 20,color: '#00C99D'}}>-</Text>
+    <Text style={{fontSize: 20,color: Colors.primary}}>-</Text>
     </TouchableOpacity>
     <Text style ={style.plus}>{number}</Text>
     <TouchableOpacity style={{marginStart:'50%',justifyContent:'center'}}onPress={() => {
         setNumber(number+1)
     }}>
-        <Text style={{fontSize: 18,color: '#00C99D'}}>+</Text>
+        <Text style={{fontSize: 18,color: Colors.primary}}>+</Text>
     </TouchableOpacity>
     </View>
     </View>
@@ -319,7 +319,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         width: '28%',
         aspectRatio:3/1,
-        borderColor: '#00C99D',
+        borderColor: Colors.primary,
         borderWidth: 1.5,
         borderRadius: 20,
         position: 'absolute',
@@ -375,7 +375,7 @@ const style = StyleSheet.create({
 
     },
     circleTapped : {
-        backgroundColor: '#00C99D',
+        backgroundColor: Colors.primary,
         height: 35,
         width: 35, 
         borderRadius: 45/2,
@@ -439,7 +439,7 @@ plus: {
     marginTop:'4%'
 },
 circleTapped : {
-    backgroundColor: '#00C99D',
+    backgroundColor: Colors.primary,
     height: 45,
     width: 45, 
     borderRadius: 45/2,
@@ -451,7 +451,7 @@ circleTapped : {
 },
 circle : {
     borderWidth: 1.5,
-    borderColor: '#00C99D',
+    borderColor: Colors.primary,
     height: 45,
     width: 45, 
     
@@ -482,7 +482,7 @@ dayTapped: {
 day: {
 
     
-    color: '#00C99D',
+    color: Colors.primary,
     fontWeight: '300',
     fontSize: 15,
     
@@ -509,7 +509,7 @@ weekPick : {
 },
 dbutton: {
     borderRadius: 5,
-    borderColor: '#00C99D',
+    borderColor: Colors.primary,
     borderWidth: 1,
     
     width: Dimensions.get('window').width/3.5,
@@ -520,7 +520,7 @@ dbutton: {
 
 }, 
 btext:{
-color:'#00C99D',
+color:Colors.primary,
 fontSize: 12,
 fontWeight: 'bold',
 flex: 1

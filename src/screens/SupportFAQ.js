@@ -6,6 +6,7 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { userDetails } from '../UserDetails';
 import SubmitButton from '../components/SubmitButton';
+import {Colors} from '../Constants'
 
 const SupportFAQ = ({navigation}) => {
     const words = {
@@ -56,7 +57,7 @@ const SupportFAQ = ({navigation}) => {
 
     <Icon 
                                 name="chevron-right" 
-                                color='#00C99D'
+                                color= {Colors.primary}
                                 
                                 size={20}
                                 />
@@ -97,7 +98,7 @@ const SupportFAQ = ({navigation}) => {
 
     <Icon 
                                 name="chevron-right" 
-                                color='#00C99D'
+                                color={Colors.primary}
                                 
                                 size={20}
                                 />
@@ -140,7 +141,7 @@ const SupportFAQ = ({navigation}) => {
 
     <Icon 
                                 name="chevron-right" 
-                                color='#00C99D'
+                                color={Colors.primary}
                                 
                                 size={20}
                                 />
@@ -211,7 +212,7 @@ const SupportFAQ = ({navigation}) => {
 
     <Icon 
                                 name="chevron-right" 
-                                color='#00C99D'
+                                color={Colors.primary}
                                 
                                 size={20}
                                 />
@@ -251,7 +252,7 @@ const SupportFAQ = ({navigation}) => {
 
     <Icon 
                                 name="chevron-right" 
-                                color='#00C99D'
+                                color={Colors.primary}
                                 
                                 size={20}
                                 />

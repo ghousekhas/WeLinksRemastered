@@ -8,7 +8,7 @@ import moment from 'moment';
 import Date,{okay} from './Date';
 import WeekPicker from '../components/WeekPicker';
 import SubscriptionScreen from './SubscriptionScreen';
-
+import {Colors} from '../Constants'
 
 bs = React.createRef();
 
@@ -302,7 +302,7 @@ button:{
     alignSelf: "center",
     marginTop: '5%',
  
-    backgroundColor: '#00C99D',
+    backgroundColor: Colors.primary,
     width: '92%',
     aspectRatio: 10/1.4,
     borderRadius: 5,

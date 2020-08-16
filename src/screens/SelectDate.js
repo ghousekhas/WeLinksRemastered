@@ -1,6 +1,6 @@
 import React,{ Fragment, useState, useRef } from 'react';
 import { View,Text,TouchableOpacity,StyleSheet,Dimensions,Alert } from 'react-native';
-
+import {Colors} from '../Constants'
 
 import { Calendar } from 'react-native-calendars';
 
@@ -53,7 +53,7 @@ const [isPressed,setIsPressed] = useState(false)
   <TouchableOpacity onPress = {() => {
     setIsPressed(false)
   }}>
-    <Text style={{color: '#00C99D',position:'absolute', marginStart:Dimensions.get('window').width-100}}></Text>
+    <Text style={{color: ,position:'absolute', marginStart:Dimensions.get('window').width-100}}></Text>
   </TouchableOpacity>
   <WeekPicker back={() => {
     setIsPressed(false)
@@ -183,7 +183,7 @@ const style = StyleSheet.create({
 button:{
     alignSelf: "center",
     marginTop: 20,
-    backgroundColor: '#00C99D',
+    backgroundColor: Colors.primary,
     width: Dimensions.get('window').width-30,
     height: 45,
     borderRadius: 5,

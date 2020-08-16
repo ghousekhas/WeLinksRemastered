@@ -11,7 +11,7 @@ import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
 import Appliance from '../components/Appliance';
-
+import {Colors} from '../Constants'
 export default class ScrapVendor extends React.Component{
 
     constructor(props){
@@ -119,8 +119,8 @@ export default class ScrapVendor extends React.Component{
                         }/>
                  
                 <View style={{flexDirection: 'row',alignSelf: 'center',margin: 10,justifyContent: 'space-between',width: '80%'}}>
-                    <Text style={{backgroundColor: '#00C99D',padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}>Items in cart</Text>
-                    <Text style={{backgroundColor: '#00C99D',padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}} > Schedule Pickup'</Text>
+                    <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}>Items in cart</Text>
+                    <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}} > Schedule Pickup'</Text>
                 </View>
 
             </View>

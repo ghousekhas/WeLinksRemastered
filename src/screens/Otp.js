@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import SimpleToast from 'react-native-simple-toast';
 import Toast from 'react-native-simple-toast';
 import SubmitButton from '../components/SubmitButton';
+import {Colors} from '../Constants'
 try {
     firebase.initializeApp({
         apiKey: "AIzaSyAMNh-ci1hhnsvzgCbbuqyuWVzScUr5E54",
@@ -230,7 +231,7 @@ view:{
 },
 resend: {
     fontFamily: 'sans-serif',
-    color: '#00C99D',
+    color: Colors.primary,
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 15,

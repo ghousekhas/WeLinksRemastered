@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SubmitButton from './SubmitButton';
-
+import {Colors} from '../Constants'
 
 const WeekPicker = ({back,selectedDate,setWeek}) => {
    
@@ -201,7 +201,7 @@ const style = StyleSheet.create({
         marginTop:5
     },
     back:{
-        color: '#00C99D',
+        color: Colors.primary,
         
         padding: 10,
         
@@ -218,7 +218,7 @@ const style = StyleSheet.create({
 
     },
     circleTapped : {
-        backgroundColor: '#00C99D',
+        backgroundColor: Colors.primary,
         height: 45,
         width: 45, 
         borderRadius: 45/2,
@@ -229,7 +229,7 @@ const style = StyleSheet.create({
     },
     circle : {
         borderWidth: 1,
-        borderColor: '#00C99D',
+        borderColor: Colors.primary,
         height: 45,
         width: 45, 
         borderRadius: 45/2,
@@ -259,7 +259,7 @@ const style = StyleSheet.create({
     day: {
 
         
-        color: '#00C99D',
+        color: Colors.primary,
         fontWeight: '300',
         fontSize: 15,
         
@@ -281,7 +281,7 @@ const style = StyleSheet.create({
     },
     button: {
         borderRadius: 5,
-        borderColor: '#00C99D',
+        borderColor: Colors.primary,
         borderWidth: 1,
         padding: 10,
         width: 100,
@@ -299,7 +299,7 @@ const style = StyleSheet.create({
 
     },
     buttonText :{
-        color: '#00C99D',
+        color: Colors.primary,
         textAlign: 'center',
         alignItems: 'center',
         marginVertical: -3

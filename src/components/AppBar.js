@@ -8,6 +8,7 @@ import { userDetails } from '../UserDetails';
 import { Entypo } from '@expo/vector-icons'; 
 import { EvilIcons } from '@expo/vector-icons';
 import { NavigationActions } from 'react-navigation';
+import {Colors} from '../Constants'
 
 
 const AppBar = ({toggle}) => { 
@@ -55,13 +56,13 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     height: Dimensions.get('window').height/14,
-    backgroundColor: '#00C99D',
-    color: '#00C99D',
+    backgroundColor: Colors.primary,
+    color: Colors.primary,
     
     elevation: 1.5
   },
   header: {
-    backgroundColor: '#00C99D',
+    backgroundColor: Colors.primary,
     elevation: 0
 
   },
