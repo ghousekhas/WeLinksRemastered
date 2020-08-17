@@ -10,6 +10,7 @@ import {Styles} from '../Constants';
 import { StackActions, CommonActions } from '@react-navigation/native';
 import {NavigationActions} from 'react-navigation';
 import VendorsList from './VendorsList';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const height= Dimensions.get('window').height;
 var lowerPanelHeight= height/1.7;
@@ -32,6 +33,8 @@ export default class AddAddress extends React.Component{
           circlemarktrail: new Animated.Value(0),
           circleopacitytrail: new Animated.Value(1),
           bottomPanelAnimation: new Animated.Value(panelTranslateAfter),
+          inputsValid: false,
+
           arrowOpacity: new Animated.Value(0),
             marker:{
                 title: 'Home',
@@ -41,7 +44,10 @@ export default class AddAddress extends React.Component{
             description: 'city',
             flexfor: 3,
             latitude: this.props.route.params.initialCamera.center.latitude,
-            longitude: this.props.route.params.initialCamera.center.longitude
+            longitude: this.props.route.params.initialCamera.center.longitude,
+            landmark: '',
+            fineAddressInfo: '',
+            label: ''
         };
         this.location={
 
@@ -156,6 +162,13 @@ export default class AddAddress extends React.Component{
       })
     };
 
+    checkFieldsValidity=()=>{
+      if(this.state.landmark.length<1 || this.state.fineAddressInfo.length<1 || this.state.label.length <1)
+        this.setState({inputsValid: false});
+      else  
+        this.setState({inputsValid: true})
+    };
+
     
 
     componentDidMount(){
@@ -224,9 +237,22 @@ export default class AddAddress extends React.Component{
     };
     render(){
       const {circlemark,circleopacity,circlemarktrail,circleopacitytrail,bottomPanelAnimation,arrowOpacity} =this.state;
+
+      var submitButton;
+      if(this.state.inputsValid)
+        submitButton= (<View style={styles.submitButton}>
+          <SubmitButton text='Continue' onTouch={this.addAddress}
+          />
+          </View>);
+      else
+          submitButton= (<View style={{...styles.submitButton}}>
+            <SubmitButton text='Continue' onTouch={this.addAddress} otherColor={'gray'}
+            />
+            </View>);
+
         return(
             <View style={styles.mainContainer} >
-                <MapView style={{height: height/5*4,position: 'absolute',top: 0,width: '100%'}}  mapstyle={mapstyle} ref={ref=> this.map=ref}
+                <MapView style={{height: height/5*3.5,position: 'absolute',top: 0,width: '100%'}}  mapstyle={mapstyle} ref={ref=> this.map=ref}
                         onTouchStart={this.regionChanging}                                                   
                         onRegionChangeComplete={(region)=>this.addressChanged(region)}
                         showsCompass={false}
@@ -245,19 +271,22 @@ export default class AddAddress extends React.Component{
                 <Animated.View style={{...styles.lowerpanel,transform:[{translateY: bottomPanelAnimation } ]}} >
                     <ScrollView style={styles.lowerhorizontal}>
                       <Text style={styles.heading}>{this.state.title}</Text>
-                      <Text style={styles.heading}> Additional Address info:</Text>
-                      <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={{width: '100%',height: 40}}/>
-                      <Text style={styles.heading}> Landmark:</Text>
-                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
-                      <Text style={styles.heading}> Label:</Text>
-                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={{width: '100%',borderBottomWidth: 1,borderBottomColor: 'gray',borderStyle: 'dotted'}}/>
+                      <Text style={styles.otherHeading}> Additional Address info:</Text>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={styles.inputBox} onChangeText={(text)=>{
+                          this.setState({fineAddressInfo: text})
+                          this.checkFieldsValidity()}}/>
+                      <Text style={styles.otherHeading}> Landmark:</Text>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={styles.inputBox}  onChangeText={(text)=>{
+                          this.setState({landmark: text})
+                          this.checkFieldsValidity()}}/>
+                      <Text style={styles.otherHeading}> Label:</Text>
+                      <TextInput ref={this.landmarkBox} placeholder={'Enter identificaiton label here'} accessibilityHint={'Landmark'} style={styles.inputBox}  onChangeText={(text)=>{
+                          this.setState({label: text})
+                          this.checkFieldsValidity()}}/>
                      
                 
                     </ScrollView>
-                    <View style={styles.submitButton}>
-                                <SubmitButton text='Continue' onTouch={this.addAddress}
-                                />
-                                </View>
+                    {submitButton}
                 </Animated.View>      
                 <TouchableOpacity style= {styles.backbuttoncontainer} 
                     onPress={this.addAddress}>
@@ -287,8 +316,18 @@ const styles= StyleSheet.create({
        flex: 1,
 
    },
+   inputBox:{
+     width: '100%',
+    borderBottomWidth: 0.3,
+    borderBottomColor: 'gray',
+    marginHorizontal: 30,
+    alignSelf: 'center',
+    borderStyle: 'dotted',
+    marginBottom: 25,
+    borderStyle: 'dashed'
+  },
    mapview:{
-      height: Dimensions.get('window').height/5*4,
+      height: Dimensions.get('window').height/5*2,
       width: '100%'
    },
    lowerpanel:{
@@ -310,8 +349,8 @@ const styles= StyleSheet.create({
    submitButton:{
      margin: 15,
      bottom: '1%',
-     alignSelf: 'center'
-  
+     alignSelf: 'center',
+     backgroundColor: Colors.primary
    },
    lowerhorizontal:{
      flexDirection: 'column',
@@ -321,9 +360,18 @@ const styles= StyleSheet.create({
    heading:{
      fontWeight: 'bold',
      margin: 5,
-     fontSize: 14,
+     fontSize: 15, marginBottom: 30,
      width: '100%',
-     maxHeight: 50
+     maxHeight: 200,
+     marginHorizontal: 50,
+     marginBottom: 30,
+     alignSelf: 'center'
+   },
+   otherHeading:{
+    fontWeight: 'bold',
+    margin: 5,
+    fontSize: 14,
+    width: '100%',
    },
    changetouch:{
      padding: 7,
@@ -342,7 +390,7 @@ const styles= StyleSheet.create({
    },
    anim:{
     position: 'absolute',
-    top: Dimensions.get('window').height*2/5.2-50,
+    top: Dimensions.get('window').height/10*3.5-50,
     left: Dimensions.get('window').width/2-50,
     right: Dimensions.get('window').width/2-50,
     height: 100,
@@ -356,7 +404,7 @@ const styles= StyleSheet.create({
    },
    animtrail:{
     position: 'absolute',
-    top: Dimensions.get('window').height*2/5.2-50,
+    top: Dimensions.get('window').height/10*3.5-50,
     left: Dimensions.get('window').width/2-50,
     right: Dimensions.get('window').width/2-50,
     height: 100,
@@ -383,7 +431,7 @@ const styles= StyleSheet.create({
    },
    marker:{
      position: 'absolute',
-     top: Dimensions.get('window').height*2/5.2-50,
+     top: Dimensions.get('window').height/10*3.5-40,
      left: Dimensions.get('window').width/2-20,
      right: Dimensions.get('window').width/2-20,
      height: 40,

@@ -3,10 +3,15 @@ import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Colors} from '../Constants'
-const SubmitButton = ({text,onTouch,styles}) => {
+const SubmitButton = ({text,onTouch,styles,otherColor}) => {
+
+    var primaryColor = Colors.primary;
+    if(otherColor != undefined)
+        primaryColor = otherColor
+
     return(
         <TouchableOpacity style={{
-        backgroundColor: Colors.primary,
+        backgroundColor: primaryColor,
         width: Dimensions.get('window').width-30,
         height: 45,
         borderRadius: 5,

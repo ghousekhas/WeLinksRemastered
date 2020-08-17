@@ -63,7 +63,7 @@ const Drawer = createDrawerNavigator();
 const NavigationDrawer = () => {
   return (
     <NavigationContainer >
-      <Drawer.Navigator initialRouteName="Stack"
+      <Drawer.Navigator initialRouteName='Home'
       drawerContent={props => <DrawerContent {...props}/>}>
    
         <Drawer.Screen name="Home" component={App} />

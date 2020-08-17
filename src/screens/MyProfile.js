@@ -7,7 +7,7 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { userDetails } from '../UserDetails';
 import AppBar from '../components/AppBar';
-import { DrawerActions } from "react-navigation";
+import { DrawerActions } from "react-navigation-drawer";
 
 
 const MyProfile = (props) => {
@@ -26,7 +26,7 @@ const MyProfile = (props) => {
             props.navigation.pop(1)
         } }
         toggle={() => {
-            props.navigation.dispatch(DrawerActions.openDrawer());
+            props.navigation.toggleDrawer();
         }} />
       
     <ScrollView>
