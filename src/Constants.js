@@ -32,8 +32,7 @@ export const Styles=StyleSheet.create({
         width: '100%',
         height: '40%',
          
-           
-
+        
     },
     horizontal:{
         flexDirection: 'row',
@@ -93,12 +92,12 @@ export const Styles=StyleSheet.create({
         alignItems: 'center'
     },
     collapsibleView:{
-        height: Dimensions.get('window').height*0.65,
+        height: Dimensions.get('window').height*0.45,
         width: '100%'
     }
     ,
     productList:{
-        height: Dimensions.get('window').height*0.75-30,
+        height: Dimensions.get('window').height*0.45,//nominal value was 65 -30
         width: '100%',
          
            

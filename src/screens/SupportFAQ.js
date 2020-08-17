@@ -97,17 +97,12 @@ const SupportFAQ = ({navigation}) => {
     <View style={{position: 'absolute',right: 8,top: 8}}>
 
     <Icon 
-                                name="chevron-right" 
-                                color={Colors.primary}
-                                
-                                size={20}
-                                />
-
+        name="chevron-right" 
+        color={Colors.primary}
+        size={20}/>
     </View>
 
-  
         </View>
-            
             
         </TouchableOpacity>
 

@@ -9,18 +9,16 @@ import { Entypo } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import { NavigationActions } from 'react-navigation';
 import {Colors} from '../Constants'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const AppBar = ({toggle}) => { 
     return(
     <View><Appbar style={styles.bottom}>
         <Appbar.Header style={styles.header}>
-        <TouchableRipple onPress={(toggle)} underlayColor='transparent' rippleColor= 'transparent'>
-        <View style={{elevation: 3}}>
-        <EvilIcons name="navicon" size={26} color="white" />
-        </View>
-      
-        </TouchableRipple>
+        <TouchableOpacity onPress={(toggle)} underlayColor='rgba(0,0,0,0)' rippleColor= 'transparent' style={styles.ripple}  >
+              <EvilIcons name="navicon" size={26} color="white" style={styles.hamburger} />
+        </TouchableOpacity>
         
            
           </Appbar.Header>
@@ -62,8 +60,10 @@ const styles = StyleSheet.create({
     elevation: 1.5
   },
   header: {
-    backgroundColor: Colors.primary,
-    elevation: 0
+    backgroundColor: 'transparent',
+    elevation: 0,
+    flexDirection: 'row',
+    borderRadius: 100
 
   },
   back: {
@@ -121,6 +121,20 @@ const styles = StyleSheet.create({
       right: 0.1,
       alignItems: 'center',
       justifyContent: 'center'
+  },
+  ripple:{
+    width: Dimensions.get('window').height/14,
+    height: Dimensions.get('window').height/14,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderRadius: Dimensions.get('window').height/14
+  },
+  hamburger:{
+    alignSelf: 'center',
+
+    borderRadius: 100
+
   }
 });
 

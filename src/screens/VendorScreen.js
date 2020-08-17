@@ -10,6 +10,7 @@ import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
+import {Entypo} from '@expo/vector-icons'
 
 const brandsArray=['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Amul_Logo.jpg/220px-Amul_Logo.jpg',
 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ-PN3yAMsBkQdlKVjDsM19qCdITU5T-WT3vQ&usqp=CAU',
@@ -64,12 +65,20 @@ export default class VendorScreen extends React.Component{
         return(
             <View style={Styles.collapsedView} >
                 <Text style={Styles.collapsedText}>collapsedText</Text>
-                <Text style= {Styles.expander}>v</Text>
+                <Entypo name='triangle-down' size={24} color={'black'}/>
             </View>
 
             );
     };
     renderHeader = (section, _, isActive) => {
+
+        var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
+
+        if(!isActive)
+            expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
+        else
+            expanderButton= (<Entypo name='triangle-up' size={24} color={'black'}/>)
+
         return (
           <Animatable.View
             duration={400}
@@ -77,7 +86,7 @@ export default class VendorScreen extends React.Component{
             transition="backgroundColor"
           >
             <Text style={Styles.collapsedText}>{section.category}</Text>
-            <Text style= {Styles.expander}>v</Text>
+            {expanderButton}
           </Animatable.View>
         );
       };
