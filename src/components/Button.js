@@ -31,7 +31,6 @@ const style = StyleSheet.create({
         // paddingHorizontal: 30,
         // paddingVertical: 2,
         maxHeight: Dimensions.get('window').height/25,
-        padding: 15,
         alignItems: 'center',
         justifyContent:'center',
         marginHorizontal:'1%',
@@ -43,7 +42,9 @@ const style = StyleSheet.create({
     color:Colors.primary,
     fontSize: 14,
     fontWeight: 'bold',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 20
     }
 });
 

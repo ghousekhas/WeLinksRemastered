@@ -8,6 +8,7 @@ import * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation,useRoute} from "@react-navigation/native";
+import Button from '../components/Button'
 
 import {Colors} from '../Constants'
 const height= Dimensions.get('window').height;
@@ -67,11 +68,7 @@ export default HomeAddress=({item,style})=>{
                 <Text style={styles.address}>{currentAddress}</Text>
               </View>
             </ScrollView>
-            <TouchableOpacity style={{borderWidth: 1, borderColor: Colors.primary,padding: 5,alignSelf: 'center',marginTop: 20,borderRadius: 5}} onPress={()=>{
-              setSelectedAddress(item)
-            }}>
-              <Text style={{paddingHorizontal: 10,paddingVertical: 3,fontSize: 12,color: Colors.primary,fontWeight: 'bold'}}>SELECT</Text>
-            </TouchableOpacity>
+            <Button text='Select' onTouch={()=>{setSelectedAddress(item)}} />
           </View>
     );
   }

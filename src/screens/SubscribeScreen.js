@@ -172,7 +172,7 @@ const startDateSet = (set) => {
         opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
     }}>
     
-        <View  style={{alignItems: 'center'}}>
+        <View  style={{alignItems: 'center',width: '100%',height: '100%'}}>
          
 
           <SubscriptionScreen 

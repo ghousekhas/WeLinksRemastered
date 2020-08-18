@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, StyleSheet, Dimensions } from 'react-native';
+import { Button, View, StyleSheet, Dimensions,Image } from 'react-native';
 import { Constants, Styles } from '../Constants';
 import {Colors} from '../Constants'
 import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-native-paper';
@@ -35,18 +35,18 @@ const MyProfile = (props) => {
     <View style={style.header}>
 
     <View style={style.avatarBG}>
-    <Avatar.Image source={require('../../assets/avatar.png')}  // Change to Image
-            style={style.avatar}
-            // height={Dimensions.get('window').height/4}
-            // width={Dimensions.get('window').height/4}
-          />
-          <View style={{position: 'absolute',bottom: 1,right: 1}}>
-          <TouchableOpacity>
-          <Icon 
-                  name='pencil'
-                  size={20}
-                  color='white'
-              />
+        <Image source={require('../../assets/avatar.png')}  // Change to Image
+                style={style.avatar}
+                // height={Dimensions.get('window').height/4}
+                // width={Dimensions.get('window').height/4}
+            />
+            <View style={{position: 'absolute',bottom: '1%',right: '1%'}}>
+        <TouchableOpacity>
+            <Icon 
+                    name='pencil'
+                    size={20}
+                    color='white'
+                />
 
           </TouchableOpacity>
                        </View>
@@ -56,12 +56,12 @@ const MyProfile = (props) => {
             <View style={style.chips}>
 
             <TouchableOpacity>
-            <Text style = {style.chip}>{words.subscriptions}</Text>
+                <Text style = {style.chip}>{words.subscriptions}</Text>
             </TouchableOpacity>
 
 
            <TouchableOpacity>
-            <Text style = {style.chip}>{words.balance}</Text>
+                <Text style = {style.chip}>{words.balance}</Text>
             </TouchableOpacity>
 
             </View>
@@ -70,7 +70,7 @@ const MyProfile = (props) => {
          
     </View>
 
-    <View style={{borderWidth: 0.5,borderRadius: 10,margin: '2%',elevation: 0.5,borderColor: 'gray'}}>
+    <View style={{borderWidth: 0.5,borderRadius: 7,margin: '1%',borderColor: Colors.seperatorGray}}>
         <TouchableOpacity>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '7%'}}>
 
@@ -84,11 +84,11 @@ const MyProfile = (props) => {
         </View>
       
 
-    <View style={{flexDirection: 'column'}}>
-        <Text style={style.blackText}>Profile details</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{userDetails.USER_NAME}</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{userDetails.USER_EMAIL}</Text>
-    </View>
+        <View style={{flexDirection: 'column'}}>
+            <Text style={style.blackText}>Profile details</Text>
+            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{userDetails.USER_NAME}</Text>
+            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{userDetails.USER_EMAIL}</Text>
+        </View>
     <View style={{position: 'absolute',right: 8}}>
 
     <Icon 
@@ -109,7 +109,7 @@ const MyProfile = (props) => {
     </View>
 
 
-    <View style={{borderWidth: 0.3,borderRadius: 10,margin: '2%',elevation: 0.3,borderColor: 'gray'}}>
+    <View style={{borderWidth: 0.3,borderRadius: 10,margin: '1%',elevation: 0.3,borderColor: Colors.seperatorGray}}>
         <TouchableOpacity>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '7%'}}>
 
@@ -176,11 +176,11 @@ const style = StyleSheet.create({
 
     },
     avatar :{
+        width: '100%',
+        height: '100%'
         
     },
     avatarBG: {
-        borderWidth: 1,
-        borderColor: 'white',
         height: Dimensions.get('window').width/3.5,
         aspectRatio: 1/1,alignItems:'center',
         justifyContent: 'center',
@@ -189,20 +189,21 @@ const style = StyleSheet.create({
     },
     chips: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         width: Dimensions.get('window').width,
         marginTop: '10%'
 
     },
     chip: {
-        borderWidth : 1,
+        borderWidth : .55,
         borderRadius: 20,
-        borderColor: 'white',
+        borderColor: Colors.seperatorGray,
         color: 'white',
         padding: '2%',
         width: Dimensions.get('window').width/3.2,
         textAlign: 'center',
-        fontSize: 10
+        fontSize: 10,
+        margin: '1%'
 
     },
     blackText: {

@@ -34,11 +34,13 @@ export const Styles=StyleSheet.create({
         
     },
     grayfullline:{
-        height: 1,
+        height: 0.5,
         width: '95%',
         backgroundColor: Colors.seperatorGray,
         marginVertical: 5,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        zIndex: 100,
+        elevation: 1
     },
    
   

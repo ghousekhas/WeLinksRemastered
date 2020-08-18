@@ -11,6 +11,7 @@ import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
 import { useNavigation } from '@react-navigation/native';
+import {Entypo} from '@expo/vector-icons';
 
 const brandsArray=
 [

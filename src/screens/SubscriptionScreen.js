@@ -5,13 +5,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import SubmitButton from '../components/SubmitButton';
 import Button from '../components/Button';
 import Item from '../components/Item'
-import {Colors} from '../Constants'
+import {Colors, Styles} from '../Constants'
 
 
 const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result}) => {
 
     const words = {
-        quantityPerDay:'Quantity per day' ,
+        quantityPerDay:'Quantity \n per day' ,
         repeat:'Repeat' ,
         recharge:'Recharge/Top-Up' ,
         duration: 'Duration',
@@ -68,20 +68,20 @@ return(<View style={style.container} >
     <Text style={style.greyText}>{words.quantityPerDay}</Text>
 
     <View style = {style.quantityPick}>
-    <TouchableOpacity style={style.minus} onPress={() => {
-        setNumber(number!=1 ? number-1 : number)
-    }}>
-    <Text style={{fontSize: 20,color: Colors.primary}}>-</Text>
+        <TouchableOpacity style={style.minus} onPress={() => {
+            setNumber(number!=1 ? number-1 : number)
+        }}>
+        <Text style={{fontSize: 20,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6}}>-</Text>
     </TouchableOpacity>
-    <Text style ={style.plus}>{number}</Text>
-    <TouchableOpacity style={{marginStart:'50%',justifyContent:'center'}}onPress={() => {
+        <Text style ={{fontWeight: 'bold'}}>{number}</Text>
+    <TouchableOpacity style={style.plus} onPress={() => {
         setNumber(number+1)
     }}>
-        <Text style={{fontSize: 18,color: Colors.primary}}>+</Text>
+        <Text style={{fontSize: 20,color: Colors.primary,alignSelf: 'center',fontWeight: 'bold',borderLeftColor: Colors.seperatorGray,borderLeftWidth: 0.7,paddingLeft: 6}}>+</Text>
     </TouchableOpacity>
     </View>
     </View>
-    <View style={style.line}></View>
+    <View style={Styles.grayfullline}></View>
 
    
 
@@ -239,7 +239,7 @@ return(<View style={style.container} >
      
     </View>
     
-    <View style={style.line}/>
+    <View style={Styles.grayfullline}/>
     <View style={{margin: '2%'}}>
 
     <Text style={style.greyText}>{words.duration}</Text>
@@ -283,6 +283,9 @@ const style = StyleSheet.create({
     container:{
          margin: '-15%',
         padding: '8%',
+        width: '100%',
+        height: '100%',
+        marginLeft: '-40%'
     },
    
     view1: {
@@ -309,7 +312,8 @@ const style = StyleSheet.create({
         color: 'gray',
         marginTop: '1%',
         fontSize: 15,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        padding: 1
     },
     line: {
         borderWidth: 0.5,
@@ -324,6 +328,8 @@ const style = StyleSheet.create({
         borderRadius: 20,
         position: 'absolute',
         right: 6,
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
         
        
         
@@ -427,16 +433,11 @@ const style = StyleSheet.create({
         
     },
     minus: {
-    marginStart: '12%',
-    justifyContent:'center',
-    alignItems:'center',
+        alignSelf: 'center'
     
 },
 plus: {
-    marginStart: '24%',
-    justifyContent:'center',
-    alignItems:'center',
-    marginTop:'4%'
+    alignSelf: 'center'
 },
 circleTapped : {
     backgroundColor: Colors.primary,

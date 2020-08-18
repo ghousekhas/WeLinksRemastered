@@ -51,7 +51,7 @@ const DrawerContent = (props) => {
            </View>
            </Drawer.Section>
 
-    <Drawer.Section>
+    <Drawer.Section >
         
          <Drawer.Item
      style={{ }}
