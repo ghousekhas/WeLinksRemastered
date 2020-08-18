@@ -33,11 +33,11 @@ const DrawerContent = (props) => {
 
           <View style={{flexDirection: 'row',marginStart: '5%',marginTop: '1%'}}>
 
-            <View style={{marginTop:'1.5%'}}>
-              <Icon name="phone" color='gray' size={16}/>
+            <View style={{marginTop:'0.7%'}}>
+              <Icon name="phone" color='gray' size={13}/>
 
             </View>
-          <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'2%',fontSize: 14,alignSelf: 'center'}}>
+          <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'1%',fontSize: 14,alignSelf: 'center'}}>
           {userDetails.USER_PHONE}
           </Text>
 
@@ -51,7 +51,7 @@ const DrawerContent = (props) => {
            </View>
            </Drawer.Section>
 
-           <Drawer.Section>
+    <Drawer.Section>
         
          <Drawer.Item
      style={{ }}
