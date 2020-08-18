@@ -5,7 +5,7 @@ import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
 import { Avatar } from 'react-native-paper';
 import AppBar from '../components/AppBar';
-import {Colors} from '../Constants'
+import {Colors, Styles} from '../Constants'
 
 const MilkVendors = (props) => {
 
@@ -77,9 +77,9 @@ const MilkVendors = (props) => {
         <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
     </View>
     </View>
-    <View style={style.line} />
+    <View style={Styles.grayfullline} />
 
-    <Text style={style.heading}>{words.milk}</Text>
+    <Text style={Styles.heading}>{words.milk}</Text>
 
     <FlatList 
         data={vendors}

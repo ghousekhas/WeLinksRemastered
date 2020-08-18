@@ -281,7 +281,7 @@ return(<View style={style.container} >
 
 const style = StyleSheet.create({
     container:{
-         margin: '1%',
+         margin: '-15%',
         padding: '8%',
     },
    

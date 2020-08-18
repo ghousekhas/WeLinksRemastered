@@ -32,7 +32,7 @@ const SupportFAQ = ({navigation}) => {
         
     <Text style={style.heading}>{words.allTopics}</Text>
 
-    <View style={{borderWidth: 0.5,marginTop: '5%'}}/>
+    <View style={{borderWidth: 0.2,bordercolor: 'gray',height: 0, width: '95%',alignSelf: 'center'}}/>
 
     <View>
         <TouchableOpacity>
@@ -41,7 +41,7 @@ const SupportFAQ = ({navigation}) => {
         <View style={{marginTop: '1%'}}>
         <Icon 
                                 name="help-circle-outline" 
-                                color='gray'
+                                color =  'black'
                                 
                                 size={22}
                                 />
@@ -50,7 +50,7 @@ const SupportFAQ = ({navigation}) => {
 
     <View style={{flexDirection: 'column'}}>
       
-        <Text style={{...style.blackText,fontWeight: 'bold', color: 'gray',marginTop: '2%',marginStart: '10%'}}>{words.faq}</Text>
+        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '2%',marginStart: '10%'}}>{words.faq}</Text>
        
     </View>
     <View style={{position: 'absolute',right: 8,top: 8}}>
@@ -80,7 +80,7 @@ const SupportFAQ = ({navigation}) => {
         <View style={{marginTop: '1%'}}>
         <Icon 
                                 name="shield-outline" 
-                                color='gray'
+                                color =  'black'
                                 
                                 size={22}
                                 />
@@ -91,7 +91,7 @@ const SupportFAQ = ({navigation}) => {
 
     <View style={{flexDirection: 'column'}}>
       
-        <Text style={{...style.blackText,fontWeight: 'bold', color: 'gray',marginTop: '4%',marginStart: '15%'}}>{words.privacy}</Text>
+        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '4%',marginStart: '15%'}}>{words.privacy}</Text>
        
     </View>
     <View style={{position: 'absolute',right: 8,top: 8}}>
@@ -120,7 +120,7 @@ const SupportFAQ = ({navigation}) => {
         <View style={{marginTop: '1%'}}>
         <Icon 
                                 name="file-document-outline" 
-                                color='gray'
+                                color =  'black'
                                 
                                 size={22}
                                 />
@@ -129,7 +129,7 @@ const SupportFAQ = ({navigation}) => {
 
     <View style={{flexDirection: 'column'}}>
       
-        <Text style={{...style.blackText,fontWeight: 'bold', color: 'gray',marginTop: '3%',marginStart: '10%'}}>{words.terms}</Text>
+        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '3%',marginStart: '10%'}}>{words.terms}</Text>
        
     </View>
     <View style={{position: 'absolute',right: 8,top: 8}}>
@@ -150,7 +150,7 @@ const SupportFAQ = ({navigation}) => {
         </TouchableOpacity>
 
     </View>
-    <View style={{borderWidth: 0.5,marginTop: '5%'}}/>
+    <View style={{borderWidth: 0.20,bordercolor: 'gray',height: 0, width: '85%',alignSelf: 'center'}}/>
 
 
     {/**/}
@@ -162,7 +162,7 @@ const SupportFAQ = ({navigation}) => {
         <View style={{marginTop: '1%'}}>
         <Icon 
                                 name="information-outline" 
-                                color='gray'
+                                color =  'black'
                                 
                                 size={22}
                                 />
@@ -171,7 +171,7 @@ const SupportFAQ = ({navigation}) => {
 
     <View style={{flexDirection: 'column'}}>
       
-        <Text style={{...style.blackText,fontWeight: 'bold', color: 'gray',marginTop: '3%',marginStart: '15%'}}>{words.contact}</Text>
+        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '3%',marginStart: '15%'}}>{words.contact}</Text>
        
     </View>
   
@@ -191,7 +191,7 @@ const SupportFAQ = ({navigation}) => {
         <View style={{marginTop: '1%',marginStart: '10%'}}>
         <Icon 
                                 name="phone-outline" 
-                                color='gray'
+                                color =  'black'
                                 
                                 size={22}
                                 />
@@ -200,7 +200,7 @@ const SupportFAQ = ({navigation}) => {
 
     <View style={{flexDirection: 'column'}}>
       
-        <Text style={{...style.blackText,fontWeight: 'bold', color: 'gray',marginTop: '5%',marginStart: '17%'}}>{words.phone}</Text>
+        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '5%',marginStart: '17%'}}>{words.phone}</Text>
        
     </View>
     <View style={{position: 'absolute',right: 8,top: 8}}>
@@ -231,7 +231,7 @@ const SupportFAQ = ({navigation}) => {
         <View style={{marginTop: '1%',marginStart: '10%'}}>
         <Icon 
                                 name="email-edit-outline" 
-                                color='gray'
+                                color =  'black'
                                 
                                 size={22}
                                 />
@@ -240,7 +240,7 @@ const SupportFAQ = ({navigation}) => {
 
     <View style={{flexDirection: 'column'}}>
       
-        <Text style={{...style.blackText,fontWeight: 'bold', color: 'gray',marginTop: '5%',marginStart: '17%'}}>{words.email}</Text>
+        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '5%',marginStart: '17%'}}>{words.email}</Text>
        
     </View>
     <View style={{position: 'absolute',right: 8,top: 8}}>
@@ -262,7 +262,7 @@ const SupportFAQ = ({navigation}) => {
 
     </View>
 
-    <View style={{borderWidth: 0.5,marginTop: '5%'}}/>
+    <View style={{borderWidth: 0.20,bordercolor: 'gray',height: 0, width: '85%',alignSelf: 'center'}}/>
 
     {/*Feedback*/}
     <View>
@@ -271,7 +271,7 @@ const SupportFAQ = ({navigation}) => {
 <View style={{marginTop: '4%'}}>
 <Icon 
                         name="information-outline" 
-                        color='gray'
+                        color =  'black'
                         
                         size={22}
                         />
@@ -280,7 +280,7 @@ const SupportFAQ = ({navigation}) => {
 
 <View style={{flexDirection: 'column'}}>
 
-<Text style={{...style.blackText,fontWeight: 'bold', color: 'gray',marginTop: '14%',marginStart: '17%'}}>{words.feedback}</Text>
+<Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '14%',marginStart: '17%'}}>{words.feedback}</Text>
 
 </View>
 
@@ -334,13 +334,15 @@ const style = StyleSheet.create({
         marginTop: '1%'
     },
     feedback: {
-        borderWidth: 1,
+        borderWidth: 0.15,
         width: Dimensions.get('window').width-30,
       
        
       
-        borderRadius: 10,
+        borderRadius: 2,
         margin: '3%',
+        padding: 10,
+        maxHeight: Dimensions.get('window').height/3,
        
         alignSelf: 'center',
         flex: 1

@@ -65,7 +65,7 @@ export default class VendorScreen extends React.Component{
         return(
             <View style={Styles.collapsedView} >
                 <Text style={Styles.collapsedText}>collapsedText</Text>
-                <Entypo name='triangle-down' size={24} color={'black'}/>
+                <Entypo name='chevron-down' size={24} color={'black'}/>
             </View>
 
             );
@@ -75,9 +75,9 @@ export default class VendorScreen extends React.Component{
         var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
 
         if(!isActive)
-            expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
+            expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)
         else
-            expanderButton= (<Entypo name='triangle-up' size={24} color={'black'}/>)
+            expanderButton= (<Entypo name='chevron-up' size={24} color={'black'}/>)
 
         return (
           <Animatable.View

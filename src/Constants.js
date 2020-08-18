@@ -6,7 +6,9 @@ export const dimen={
 }
 
 export const Colors = {
-    primary: '#00C99D'
+    primary: '#00C99D',
+    secondary: '#EDF9F9',
+    seperatorGray: 'rgba(211,211,211,255)'
 }
 
 export const Constants={
@@ -20,17 +22,38 @@ export const Constants={
     
 }
 export const Styles=StyleSheet.create({
+
+    //Common Styles
+    heading:{
+        fontSize: 17,
+        fontWeight: 'bold',
+        marginLeft: 20,
+        marginTop: 20,
+        alignSelf: 'flex-start',
+        color: 'black'
+        
+    },
+    grayfullline:{
+        height: 1,
+        width: '95%',
+        backgroundColor: Colors.seperatorGray,
+        marginVertical: 5,
+        alignSelf: 'center'
+    },
    
   
     parentContainer:{
-        ...StyleSheet.absoluteFill,
+        width: '100%',
+        height: '100%',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         backgroundColor: 'white'
+
     },
     fortyUpperPanel:{
         width: '100%',
         height: '40%',
+        backgroundColor: Colors.secondary,
          
         
     },
@@ -127,6 +150,37 @@ export const Styles=StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
         color: 'black'
+    },
+    touchableButtonBorder:{
+        borderWidth: 1,
+        borderColor: Colors.primary,
+        paddingHorizontal: 10,
+        paddingVertical: 7,
+        borderRadius: 5
+    },
+
+    //Scrapcart.js mainly
+    submitButtonBottom:{
+        width: '90%',
+        height: Dimensions.get('window').height/12,
+        bottom: 15,
+        position: 'absolute',
+        alignSelf: 'center',
+        backgroundColor: Colors.primary,
+        borderRadius: 10
+
+    },
+    horizontalCalendarButtonsRow:{
+        flexDirection: 'row',
+        alignContent: 'center',
+        justifyContent: 'space-between',
+        padding: 30
+    },
+    horizontalRow:{
+        justifyContent: 'space-between',
+        padding: 10,
+        margin: 10,
+        flexDirection: 'row'
     }
 
 

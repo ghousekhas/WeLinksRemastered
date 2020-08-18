@@ -24,17 +24,26 @@ Then payment gateway
 
 /////////////////////////////////////////////
 
-- V icon as wellAccordion screen doesn't show selected vendor, class component, fix it p Hamburger menu is not opening the drawer except on the vendor pages, swipe works (A) lease :| (G)
-- Add app colour to constants somehow -? Completed
-- Get app version from app.json for navigation drawer 
+FIXED//- V icon as wellAccordion screen doesn't show selected vendor, class component, fix it p Hamburger menu is not opening the drawer except on the vendor pages, swipe works (A) lease :| (G)
+Completed//- Add app colour to constants somehow -? Completed
+/onit/- Get app version from app.json for navigation drawer 
 - Calendar dates are not perfect. Sometimes end date is before start. Add a check for that (A)
-- Hamburger menu is not opening the drawer except on the vendor pages, swipe works (A) 
-- Fonts?
+FIXED//- Hamburger menu is not opening the drawer except on the vendor pages, swipe works (A) 
+Android is ok//- Fonts?
 - Newspapers different costs weekdays and weekends ughh
 - Make signout signout, use DrawerContent.js (G) //On it 
 - In MyProfile.js, the image should use <Image> and not <Avatar> like right now. Sizing and stuff, not working 
   right with <Image>.
-- Share App - Completed
-- After the end of stack navigator screens, back should not take you to the last navigation drawer screen, on placing order, clear the stack and go back to home
+COMPLETED//- Share App - Completed
+- (PRIORITY) After the end of stack navigator screens, back should not take you to the last navigation drawer screen, on placing order, clear the stack and go back to home
 
  
+
+ Slider -Homescreen
+ Fonts
+ Buttons
+ Backgrounds
+ Cart UI + functionality
+ City dynamic
+ Version small -superdaily
+ Redesign myprofile

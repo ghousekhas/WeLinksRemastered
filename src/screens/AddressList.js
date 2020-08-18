@@ -99,7 +99,7 @@ export default class AddressList extends React.Component{
         alignSelf: 'center',
         borderStyle: 'dashed',
         borderColor: 'black',
-        borderWidth: 0.3,
+        borderWidth: 0.04,
         borderRadius: 5
         }}
         />
@@ -236,9 +236,13 @@ const styles = StyleSheet.create({
       top: '2%',
       width: '90%',
       zIndex: 100,
-      borderWidth: 0.5,
+      borderWidth: 0,
       borderColor: 'gray',
-      borderRadius: 10
+      borderLeftWidth: 0.5,
+      borderRightWidth: 0.5,
+      borderLeftColor: 'gray',
+      borderRightColor: 'gray',
+      borderRadius: 0
     },
     listView:{
       backgroundColor: 'white'
@@ -246,13 +250,13 @@ const styles = StyleSheet.create({
     textInputContainer:{
       width: '100%',
       backgroundColor: 'white',
-      borderRadius: 10,
+      //borderRadius: 10,
       
     },
     textInput:{
         fontWeight: 'bold',
         fontSize: 15,
-        padding: 40,
+        padding: 40
     },
     predefinedPlacesDescription:{
       color: 'black'

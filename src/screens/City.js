@@ -47,7 +47,8 @@ const style = StyleSheet.create({
     mainContainer: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
-        padding: 10
+        padding: 10,
+        backgroundColor: 'white'
 
     },
     text:{

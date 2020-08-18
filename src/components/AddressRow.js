@@ -104,7 +104,7 @@ export default HomeAddress=({item,style})=>{
             fontSize: 14,
             padding: 10,
             fontWeight: '500',
-            color: 'black',
+            color: 'gray',
             width: '100%',
           maxHeight: 100},
       horiz:{

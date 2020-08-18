@@ -65,12 +65,20 @@ export default class VendorScreen1 extends React.Component{
         return(
             <View style={Styles.collapsedView} >
                 <Text style={Styles.collapsedText}>collapsedText</Text>
-                <Text style= {Styles.expander}>v</Text>
+                <Entypo name='chevron-down' size={24} color={'black'}/>
             </View>
 
             );
     };
     renderHeader = (section, _, isActive) => {
+
+        var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
+
+        if(!isActive)
+            expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)
+        else
+            expanderButton= (<Entypo name='chevron-up' size={24} color={'black'}/>)
+
         return (
           <Animatable.View
             duration={400}
@@ -78,7 +86,7 @@ export default class VendorScreen1 extends React.Component{
             transition="backgroundColor"
           >
             <Text style={Styles.collapsedText}>{section.category}</Text>
-            <Text style= {Styles.expander}>v</Text>
+            {expanderButton}
           </Animatable.View>
         );
       };

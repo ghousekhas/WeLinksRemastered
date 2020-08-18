@@ -12,7 +12,7 @@ const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,addr
     const renderButton=()=>{
         if(buttonVisible!= false){
             return(
-                <View style={{...style.button,flex: 1}}>
+                <View style={{...style.button,flex: 1,alignSelf: 'center',justifyContent: 'center'}}>
                 <Button text='Select' onTouch={onSelected} />
             </View>
             );
@@ -46,23 +46,23 @@ const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,addr
     <View style={{marginStart: '3%'}}>
         
         <View style={style.top}>
-        <View style = {{flexDirection: 'row'}}>
+        <View style = {{flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
             <View style={{flexDirection: 'column',flex:2,paddingLeft: 15,marginTop: 20}}>
             <Text style={style.name}> {name}</Text>
             {renderDesc()}
+            <View style = {{flexDirection: 'row',marginStart: '22%'}}>
+        <Stars number={stars}/>
+            <Text style = {style.review}>({reviews} reviews)</Text>
         </View>
-            {renderButton()}
-            
+        </View>
+        {renderButton()}
         </View>
            
         </View>
 
         
 
-        <View style = {{flexDirection: 'row',marginStart: '22%'}}>
-        <Stars number={stars}/>
-            <Text style = {style.review}>({reviews} reviews)</Text>
-        </View>
+       
         </View>
         <Image style={style.image} source={require('./../../assets/vendor.png')}/>
     </View>)
@@ -73,7 +73,7 @@ const style = StyleSheet.create({
         margin: '1%',
         marginBottom: '10%',
         flexDirection: 'row',
-        backgroundColor: 'white'
+        backgroundColor: 'transparent'
         
     },
     top:{

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Share ,Button, View, StyleSheet, Dimensions } from 'react-native';
+import { Share ,Button, View, StyleSheet, Dimensions,StatusBar,Image } from 'react-native';
 import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -14,16 +14,16 @@ import { Constants } from '../Constants';
 const DrawerContent = (props) => {
   
   return (
-   <View style={{flex: 1,height: Dimensions.get('window').height}}>
+   <View style={{height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props} scrollEnabled={false}>
-         <View style={{height: Dimensions.get('window').height}}>
+         <View style={{height: Dimensions.get('window').height-StatusBar.currentHeight}}>
          <Drawer.Section>
         
            <View style={styles.header}>
              {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
           <View style={{marginTop: '5%', margin: '5%'}}>
-          <Avatar.Image source={require('../../assets/avatar.png')}
-            style={styles.avatar}
+          <Image source={require('../../assets/avatar.png')}
+            style={{height: 50,width: 50,marginTop: 10}}
           />
           </View>
 
@@ -31,17 +31,13 @@ const DrawerContent = (props) => {
           {userDetails.USER_NAME}
           </Text>
 
-          <View style={{flexDirection: 'row',marginStart: '5%'}}>
+          <View style={{flexDirection: 'row',marginStart: '5%',marginTop: '1%'}}>
 
-          <View style={{marginTop:'1.5%'}}>
-          <Icon name="phone" color='gray' size={16}/>
+            <View style={{marginTop:'1.5%'}}>
+              <Icon name="phone" color='gray' size={16}/>
 
-          </View>
-          
-                             
-                            
-
-          <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'2%'}}>
+            </View>
+          <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'2%',fontSize: 14,alignSelf: 'center'}}>
           {userDetails.USER_PHONE}
           </Text>
 
@@ -182,7 +178,7 @@ const DrawerContent = (props) => {
    
    
      </Drawer.Section>
-
+      <View style={styles.versionSeperator} />
      <Text style={styles.version}>Version 1.0.0</Text>
          </View>
        </DrawerContentScrollView>
@@ -212,11 +208,20 @@ const DrawerContent = (props) => {
     
   },
   version: {
-    color: '#929292',
-    fontWeight: '900',
-    margin: '5%',
-    marginTop: '10%',
-    fontSize: 18
+    color: 'gray',
+    fontWeight: '500',
+    fontSize: 14,
+    position: 'absolute',
+    bottom: 0,
+    marginLeft: '4%',
+    marginBottom: '2%'
+  },
+  versionSeperator:{
+    position: 'absolute',
+    bottom: 35,
+    height: 0.08,
+    width: '95%',
+    backgroundColor: 'rgba(211,211,211,5)'
   }
   })
 

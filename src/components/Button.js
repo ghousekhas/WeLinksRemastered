@@ -18,19 +18,20 @@ const Button = ({text,onTouch}) => {
 const style = StyleSheet.create({
     button: {
         borderRadius: 5,
-        borderWidth: 1,
+        borderWidth: 0.7,
     
         borderColor: Colors.primary,
         padding: 1,
         
         paddingVertical: '2%',
         alignItems: 'flex-end',
+        alignSelf: 'center',
         
         marginVertical: -2,
         // paddingHorizontal: 30,
         // paddingVertical: 2,
-        width: Dimensions.get('window').width/4,
-        aspectRatio: 5/1.3,
+        maxHeight: Dimensions.get('window').height/25,
+        padding: 15,
         alignItems: 'center',
         justifyContent:'center',
         marginHorizontal:'1%',
@@ -40,9 +41,9 @@ const style = StyleSheet.create({
     },
     text:{
     color:Colors.primary,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
-    flex: 1
+    alignSelf: 'center'
     }
 });
 

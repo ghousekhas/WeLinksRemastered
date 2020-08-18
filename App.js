@@ -19,7 +19,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 import VendorsList from './src/screens/VendorsList';
 import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import CheckOut from './src/screens/CheckOut'
-import Cart from './src/screens/Cart'
+import Cart from './src/screens/Cart';
+import ScrapCart from './src/screens/ScrapCart';
 
 import MilkVendors from './src/screens/MilkVendors';
 import MilkVendor from './src/screens/MilkVendor';
@@ -61,6 +62,8 @@ function School(){
 const Drawer = createDrawerNavigator();
 
 const NavigationDrawer = () => {
+
+  //return (<ScrapCart />)
   return (
     <NavigationContainer >
       <Drawer.Navigator initialRouteName='Home'
