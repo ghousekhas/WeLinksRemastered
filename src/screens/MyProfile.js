@@ -34,13 +34,21 @@ const MyProfile = (props) => {
 
     <View style={style.header}>
 
-    <View style={style.avatarBG}>
+    
+    <TouchableOpacity style={style.avatarBG}>
         <Image source={require('../../assets/avatar.png')}  // Change to Image
                 style={style.avatar}
                 // height={Dimensions.get('window').height/4}
                 // width={Dimensions.get('window').height/4}
             />
-            <View style={{position: 'absolute',bottom: '1%',right: '1%'}}>
+            <Icon
+            size={20}
+            name='pencil'
+            
+            style={{bottom: '5%',alignSelf: 'center',position: 'absolute',color: 'white',elevation: 0,zIndex: 0,opacity: 1,borderColor: Colors.seperatorGray,borderWidth: 0}}
+                />
+        </TouchableOpacity>
+           {/*} <View style={{position: 'absolute',bottom: '1%',right: '1%'}}>
         <TouchableOpacity>
             <Icon 
                     name='pencil'
@@ -48,10 +56,9 @@ const MyProfile = (props) => {
                     color='white'
                 />
 
-          </TouchableOpacity>
-                       </View>
-    </View>
-    
+            </TouchableOpacity>
+    </View>*/}
+   
 
             <View style={style.chips}>
 
@@ -77,7 +84,7 @@ const MyProfile = (props) => {
         <View style={{marginTop: '1%'}}>
         <Icon 
                                 name="account-outline" 
-                                color='gray'
+                                color='black'
                                 
                                 size={30}
                                 />
@@ -116,7 +123,7 @@ const MyProfile = (props) => {
         <View style={{marginTop: '1%'}}>
         <Icon 
                                 name="map-marker-outline" 
-                                color='gray'
+                                color='black'
                                 
                                 size={30}
                                 />
@@ -177,7 +184,8 @@ const style = StyleSheet.create({
     },
     avatar :{
         width: '100%',
-        height: '100%'
+        height: '100%',
+        opacity: 0.75 
         
     },
     avatarBG: {
