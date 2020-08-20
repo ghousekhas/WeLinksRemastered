@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
@@ -49,7 +49,7 @@ export default class ScrapCart extends React.Component{
                         ItemSeparatorComponent = {GenericSeperator}
                         data = {cartItems}
                         keyExtractor= {(item,index) => index}
-                        style={{width: '100%',height: '40%'}}
+                        style={{width: '100%',height: '40%',paddingHorizontal: '1%',marginVertical: '2%'}}
                         />
                 </View>
                 <View style={Styles.scrapBottom}>
@@ -94,4 +94,95 @@ export default class ScrapCart extends React.Component{
         );
 
     }
+}
+
+weekView =({start,onSelectedChange})=>{
+    var i;
+    var days= ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+    var initArray = [];
+    var date,day;
+    const [selected,setSelected]= [false,false,false,false,false,false,false]
+
+    useEffect(()=>{
+        initArray.push(start)
+        for(i = 0;i < 6; i = i+1){
+            nextDay ={...getNextDate(initArray[i]),day: getNextDay(initArray[i].day)}
+           initArray.push(initArray[i]);
+        }
+
+    },[]);
+
+    getNextDay = (currentDay)=>{
+        if(currentDay == 6)
+            return 0
+        return currentDay+1
+    }
+
+    getNextDate= (startDate)=>{
+        const {month,date,year} = startDate;
+        if(month = 2 && date>=28)
+            if(currentDate == 29)
+                return {
+                    date: 1,
+                    month: 3,
+                    year: year
+                }
+        else if(((month == 4 || month == 6 || month == 9 || month == 11) && date==30))
+                return {
+                    date: 1,
+                    month: month+1,
+                    year: year
+                }
+        else if(date== 31)
+                if(month == 12)
+                    return {
+                        date: 1,
+                        month: 1,
+                        year: year+1
+                    }
+                else 
+                    return {
+                        date: 1,
+                        month: month+1,
+                        year: year
+                    }
+        else 
+            return {
+                date: date+1,
+                month: month,
+                year: year
+            }
+    }
+
+    
+    return(
+        <View style={Styles.scrapWeekView}>
+            {initArray.map((item,index) =>{
+                return (
+                    <dayButton key={index.toString()} dateInfo={item} onTouched={item} selected={selected[index]}/>
+                );
+            })}
+        </View>
+    )
+
+}
+
+dayButton =({date,day,onSelected})=>{
+    const [selected,setSelected] = useState(false);
+
+    theNeedful=()=>{
+        onSelected(date);
+    }
+
+    return(
+        <View style={Styles.dayButton}>
+            <TouchableOpacity onPress={theNeedful}>
+                <View style={{...Styles.dayButton,backgroundColor: selected}}>
+                    <Text style={Styles.dayButtonDay}>{day}</Text>
+                    <Text style={Styles.dayButtonDate}>{date}</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
+    )
+
 }

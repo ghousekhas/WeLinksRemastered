@@ -63,7 +63,7 @@ const Drawer = createDrawerNavigator();
 
 const NavigationDrawer = () => {
 
-  //return (<ScrapCart />)
+  return (<ScrapCart />)
   return (
     <NavigationContainer >
       <Drawer.Navigator initialRouteName='Home'

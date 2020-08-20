@@ -52,7 +52,7 @@ export const Styles=StyleSheet.create({
         height: '100%',
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        backgroundColor: 'white'
+        backgroundColor: '#FFFFFF'
 
     },
     fortyUpperPanel:{
@@ -167,12 +167,15 @@ export const Styles=StyleSheet.create({
     //Scrapcart.js mainly
     submitButtonBottom:{
         width: '90%',
-        height: Dimensions.get('window').height/12,
+        height: Dimensions.get('window').height/14,
         bottom: 15,
         position: 'absolute',
         alignSelf: 'center',
         backgroundColor: Colors.primary,
-        borderRadius: 10
+        borderRadius: 5,
+        borderWidth: 0.5,
+        borderColor: Colors.seperatorGray,
+        elevation: 1
 
     },
     horizontalCalendarButtonsRow:{
@@ -186,6 +189,13 @@ export const Styles=StyleSheet.create({
         padding: 10,
         margin: 10,
         flexDirection: 'row'
+    },
+    horizontalCalendarRow:{
+        fontSize: 14,
+        marginLeft: 20,
+        marginTop: 20,
+        alignSelf: 'flex-start',
+        color: 'gray'
     }
 
 

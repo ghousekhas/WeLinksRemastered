@@ -48,17 +48,20 @@ COMPLETED//- Share App - Completed
  Version small -superdaily
  Redesign myprofile
 
- 1. Home Page - City -> It should "Bangalore" or any other selected city -check
-2. Home Page - Location icon is getting cut -check
-3. All grey lines thickness should be the same - keep it thin -check
-4. Search bar for address - no shadow effect - keep it flat -check
-5. All the headings should follow the same font style as the home page -check
-6. Button size - don't have more white space -check
-7. Button text should be vertically aligned -check
-8. Header - extra green bar below burger menu -check
-9. Vendor Screen - First section should be background color - see the super daily -check
-10. Expand/Collapse button - should be image - not "v" text -check
-11. Home Page - main image should be a slider - design should be exactly like Go Mechanic app -check
-12. Side Menu - Version detail - keep it same as supr daily app -check
-13. My profile page - make it look like supr daily app - lines, borders, buttons, etc -onto
-14. Subscription -Anam onto
+ //Today's agenda
+ Complete scrap page- cart and Checkout
+ make all screens productions ready and test apis, with apis mock
+ Avatar and upload files or images
+ //Ask Anam to finish navigation properly
+ Addresses more proper+ display in my profile and other places
+ maps API ready
+ FAQ API ready
+ feedback Api ready
+ Switching to vendor, seperate stack much+ return to buyer (one stop remember)
+ Getting a list of orders?
+ Cancelling order or contacting admin
+ And we're done
+
+ iOS compile 
+ Authenticatoin-plist
+ Other native apis revisit
