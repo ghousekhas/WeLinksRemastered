@@ -4,7 +4,7 @@ import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
 import AppBar from '../components/AppBar';
-import {Colors} from '../Constants'
+import {Colors,Styles} from '../Constants'
 
 const PaperVendors = (props) => {
     const words = {
@@ -69,9 +69,11 @@ const PaperVendors = (props) => {
             <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
         </View>
         </View>
-        <View style={style.line} />
+        <View style={Styles.grayfullline} />
     
-        <Text style={style.heading}>{words.paper}</Text>
+        <View style={style.heading}>
+<Text style={Styles.heading}>{words.paper}</Text>
+</View>
     
         <FlatList 
             data={vendors}
@@ -138,11 +140,9 @@ const style = StyleSheet.create({
         
     },
     heading: {
-        fontSize: 20,
-        padding: 10,
-        fontWeight: 'bold',
-        marginVertical: '5%',
-        color: 'black'
+       
+        marginBottom: '5%',
+        
     },
     avatar: {
         width: 50,

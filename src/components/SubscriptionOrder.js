@@ -27,13 +27,20 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
     <View style = {style.container}>
     <View style={{flexDirection: 'row'}}>
     <Text style={style.greyText1}>Period : {startDate+" - "+endDate}</Text>
-    <Feather name="trash-2" size={24} color="black" style={style.icon}/>
+   
     </View>
     
     <View style={style.line}/>
+    <View style={{flexDirection: 'row'}}>
  <Text style={style.name}>{name}</Text>
+ <Feather name="trash-2" size={22} color='gray' style={style.icon}/>
+ </View>
  
         <View style={{flexDirection: 'column'}}>
+    
+      
+     
+        
        
         <View style={{flexDirection: 'row'}}>
         <Text style={style.quantity}>{bought+ " unit/s  · "}</Text>
@@ -45,11 +52,14 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
         <Text style={dayString[5]=='Y'? style.yes : {...style.yes,color: 'gray'}}>S </Text>
         <Text style={dayString[6]=='Y'? style.yes : {...style.yes,color: 'gray'}}>S </Text>
         </View>
+       <View style={{flexDirection:'row'}}>
+       <Text style={style.rate}>₹{rate}</Text>
+       <Text style = {style.greyText}>{num+" deliveries"}</Text>
+       </View>
        
-        <Text style={style.rate}>₹{rate}</Text>
        
         </View>
-        <Text style = {style.greyText}>{num+" deliveries"}</Text>
+       
 
 
         <View>
@@ -89,7 +99,8 @@ const style = StyleSheet.create({
         fontSize: 18,
         padding: 5,
         marginTop: '2%',
-        fontWeight: '900'
+        fontWeight: 'bold',
+        color:'black'
         
     },
     quantity: {
@@ -109,20 +120,20 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         marginTop: '3%',
-        padding: 5
+        padding: 5,
+        color:'black'
       
 
     },
     greyText: {
        
         color: 'gray',
-        fontSize: 13,
+        fontSize: 15,
         fontWeight: 'bold',
+      marginStart: '13%',
+       
       
-        textAlign: 'right',
-        margin: '2%',
-        marginEnd: '3.6%'
-        
+        marginVertical: '4%'
         
     },
     greyText1: {

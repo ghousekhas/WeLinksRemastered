@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
-import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { TouchableOpacity, FlatList, BorderlessButton } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
 import { Avatar } from 'react-native-paper';
@@ -78,8 +78,10 @@ const MilkVendors = (props) => {
     </View>
     </View>
     <View style={Styles.grayfullline} />
-
-    <Text style={Styles.heading}>{words.milk}</Text>
+<View style={style.heading}>
+<Text style={Styles.heading}>{words.milk}</Text>
+</View>
+   
 
     <FlatList 
         data={vendors}
@@ -145,10 +147,7 @@ const style = StyleSheet.create({
         
     },
     heading: {
-        fontSize: 20,
-        padding: 10,
-        fontWeight: 'bold',
-        marginVertical: '5%'
+        marginBottom: '5%'
     },
     avatar: {
         width: 50,

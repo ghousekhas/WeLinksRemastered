@@ -154,7 +154,7 @@ export default class AddressList extends React.Component{
               onFail={error => console.error(error)}
               styles={placesstyle}   
               currentLocation= {true}
-              currentLocationLabel= "Select current Location"
+              currentLocationLabel= "Select Current Location"
             />
 
             

@@ -30,8 +30,9 @@ const Item = ({name, quantity, price}) => {
 const style = StyleSheet.create({
     container: {
         backgroundColor: '#EDF9F9',
-       height:Dimensions.get('window').height/6,
-       width: Dimensions.get('window').width,
+       height:Dimensions.get('window').height/5.5,
+       width:Dimensions.get('window').width,
+      
       
        
         padding: 5

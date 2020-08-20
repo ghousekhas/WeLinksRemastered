@@ -18,7 +18,7 @@ const Button = ({text,onTouch}) => {
 const style = StyleSheet.create({
     button: {
         borderRadius: 5,
-        borderWidth: 0.7,
+        borderWidth: 1,
     
         borderColor: Colors.primary,
         padding: 1,
@@ -31,6 +31,7 @@ const style = StyleSheet.create({
         // paddingHorizontal: 30,
         // paddingVertical: 2,
         maxHeight: Dimensions.get('window').height/25,
+        
         alignItems: 'center',
         justifyContent:'center',
         marginHorizontal:'1%',
@@ -40,7 +41,7 @@ const style = StyleSheet.create({
     },
     text:{
     color:Colors.primary,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
     alignSelf: 'center',
     paddingHorizontal: 20,

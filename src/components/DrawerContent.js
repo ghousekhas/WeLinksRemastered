@@ -213,8 +213,9 @@ const DrawerContent = (props) => {
     fontSize: 14,
     position: 'absolute',
     bottom: 0,
-    marginLeft: '4%',
-    marginBottom: '2%'
+    marginLeft: '5%',
+    marginBottom: '2%',
+    margin: '3%'
   },
   versionSeperator:{
     position: 'absolute',

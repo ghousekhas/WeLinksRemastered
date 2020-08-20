@@ -5,9 +5,11 @@ import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
+import {Colors, Styles} from '../Constants'
+import AppBar from '../components/AppBar'
 
 
-const Cart = ({route}) => {
+const Cart = ({route,navigation}) => {
     const words = {
         title : 'Subscription Orders',
         disclaimer: 'Total number of deliveries may be adjusted as per market rates.',
@@ -131,7 +133,12 @@ const Cart = ({route}) => {
     };
 
 
-    return(<View style={style.container}>
+    return(<View>
+     <AppBar 
+      toggle={() => {
+          navigation.toggleDrawer();
+      }} />
+      <View style={{...Styles.parentContainer}}>
     <Text style={style.title}>{words.title}</Text>
     <View style={{alignItems: 'center'}}>
         <SubscriptionOrder name={pname}
@@ -164,13 +171,13 @@ const Cart = ({route}) => {
              <Text style={style.billText}>{words.deliveryFee}</Text>
              <Text style={style.billCost}>₹50</Text>
          </View>
-         <View style={style.line}/>
+         <View style={{...Styles.grayfullline, marginVertical: '3%'}}/>
          <View style={{flexDirection:'row'}}>
              <Text style={style.billText}>{words.amountToPay}</Text>
              <Text style={style.billCost}>₹{cartTotal + 50}</Text>
          </View>
 
-         <View style={{position: 'absolute',bottom: '-92%',alignSelf:'center',backgroundColor: 'white'}}>
+         <View style={{position: 'absolute',bottom: '-55%',alignSelf:'center',backgroundColor: 'white'}}>
 
             <SubmitButton text='Confirm'/>
 
@@ -179,6 +186,7 @@ const Cart = ({route}) => {
          </View>
 
         
+    </View>
     </View>)
 
 };
@@ -187,7 +195,7 @@ const style = StyleSheet.create({
     line:{
         borderWidth: 0.5,
         borderColor: 'gray',
-        marginVertical: 5,
+        marginVertical: '2%',
       
     },
     container: {
@@ -197,14 +205,18 @@ const style = StyleSheet.create({
     },
     title:{
         fontSize: 20,
-        margin: 5,
-        fontWeight: 'bold'
+        marginHorizontal: '5%',
+        marginVertical: '3%',
+        fontWeight: 'bold',
+        color: 'black'
     },
     gray: {
-        marginTop: 10,
+        marginTop: '3%',
+        padding: '1%',
        backgroundColor: '#e0e0e0',
         borderRadius: 10,
         height: Dimensions.get('window').height/12,
+        margin: '3%'
         
     },
     gray1: {
@@ -214,6 +226,7 @@ const style = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0.6,
         elevation: -5,
+        margin: '3%',
         height: Dimensions.get('window').height/12,
     },
     text: {
@@ -234,13 +247,14 @@ const style = StyleSheet.create({
     },
     billText:{
         fontSize: 18,
-        marginTop: 10,
-        fontWeight: '900'
+        marginTop: '2%',
+        fontWeight: '900',
+        margin: '2%'
     },
     billCost:{
         fontWeight: 'bold',
         fontSize: 16,
-        marginTop: 12,
+        margin: '2%',
         textAlign: 'right',
         
        
