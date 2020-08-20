@@ -15,6 +15,7 @@ import GenericSeperator from '../components/GenericSeperator';
 import SubmitButton from '../components/SubmitButton';
 import {EvilIcons} from '@expo/vector-icons';
 import { Colors } from '../Constants';
+import firestore from '@react-native-firebase/firestore';
 
 
 
@@ -22,6 +23,10 @@ export default class ScrapCart extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            startDate: 1,
+            startMonth: 2,
+            startYear: 2020,
+            startDay: 0,
             selectedDate: null,
             selectedTIme: null,
             timeSelected: [false,false,false],
@@ -29,6 +34,25 @@ export default class ScrapCart extends React.Component{
 
         };
     };
+
+    getTodaysDate =  ()=>{
+        var date =  firestore.Timestamp.now().toDate();
+        var newDate =  {
+            startDate: date.getDate(),
+            startMonth: date.getMonth(),
+            startYear: date.getFullYear(),
+            startDay: date.getDay()};
+        console.log(newDate);
+        this.setState({
+            newDate
+        });
+        console.log(this.state.startDate);
+    }
+
+    componentDidMount= ()=>{
+        this.getTodaysDate();
+        
+    }
 
     renderCartItem = (item)=>{
         return (
@@ -88,7 +112,8 @@ export default class ScrapCart extends React.Component{
                         {//SevenViewshere
                         }
                     </View>                    
-                    <WeekView start={{date: 5,month: 3,year: 2020,day: 5}} selectedChangeInParent={this.dateSelectedCallback}/>
+                    <WeekView start={{day: this.state.startDay,date: this.state.startDate,
+                    month: this.state.startMonth,year: this.state.startYear}} selectedChangeInParent={this.dateSelectedCallback}/>
                     <Text style={ScrapStyles.heading}>Schedule Time</Text>
                     <View style={Styles.horizontalCalendarButtonsRow}>
                         <TouchableOpacity style={this.state.timeSelected[0] ? {...ScrapStyles.timebutton,
@@ -228,7 +253,7 @@ WeekView =({start,selectedChangeInParent})=>{
 }
 
 DayButton =({dateInfo,onSelected,selected,index})=>{
-    var days= ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']; 
+    var days= ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; 
     
 
     const theNeedful=()=>{
