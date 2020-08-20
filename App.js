@@ -71,7 +71,7 @@ const NavigationDrawer = () => {
       drawerContent={props => <DrawerContent {...props}/>}>
    
         <Drawer.Screen name="Home" component={App} />
-        <Drawer.Screen name="MyProfile" component={MyProfile} />
+        <Drawer.Screen name="MyProfile" component={myProfileStack} />
         <Drawer.Screen name="Support" component={userSupportStack} />
        
       </Drawer.Navigator>
@@ -83,6 +83,19 @@ export default NavigationDrawer;
 
 
 const Stack = createStackNavigator();
+const myProfileStack = () => {
+  return(
+    <View style={{flex: 1}}>
+  <NavigationContainer independent = {true}>
+  <Stack.Navigator>
+  <Stack.Screen name = "profile" component = {MyProfile} options={{headerShown: false}} />
+
+</Stack.Navigator>
+
+  </NavigationContainer>
+  </View>)
+
+};
 
 const userSupportStack = () => {
   return(
