@@ -33,6 +33,15 @@ export const Styles=StyleSheet.create({
         color: 'black'
         
     },
+    subheading:{
+        fontSize: 14,
+        color: 'gray'
+    },
+    subbold:{
+        fontSize: 14,
+        color: 'black',
+        fontFamily: 'bold'
+    },
     grayfullline:{
         height: 0.5,
         width: '95%',
@@ -181,13 +190,16 @@ export const Styles=StyleSheet.create({
     horizontalCalendarButtonsRow:{
         flexDirection: 'row',
         alignContent: 'center',
-        justifyContent: 'space-between',
-        padding: 30
+        justifyContent: 'space-evenly',
+        marginVertical: '5%',
+        alignItems: 'center'
     },
     horizontalRow:{
         justifyContent: 'space-between',
-        padding: 10,
-        margin: 10,
+        padding: 5,
+        margin: 5,
+        width: '90%',
+        alignSelf: 'center',
         flexDirection: 'row'
     },
     horizontalCalendarRow:{
@@ -196,9 +208,52 @@ export const Styles=StyleSheet.create({
         marginTop: 20,
         alignSelf: 'flex-start',
         color: 'gray'
+    },
+    dayButton:{
+        width: dimen.width/8,
+        height: dimen.width/8,
+        alignItems: 'center',
+        borderRadius: 100,
+        justifyContent: 'center',
+    },
+    scrapWeekView:{
+        width: '100%',
+        flexDirection: 'row',
+        padding: '2%',
+        justifyContent: 'space-evenly'
+    },
+    scrapTopCart:{
+        height: '40%',
+        width: '100%',
+        paddingVertical: '5%'
+    },
+    scrapBottom:{
+        height: '60%',
+        width: '100%',
+        backgroundColor: Colors.secondary
     }
 
 
 
 
+
+});
+
+export const ScrapStyles=StyleSheet.create({
+    heading:{
+        ...Styles.heading,
+        alignSelf: 'center',
+        color: Colors.primary
+
+    },
+    subheading:{
+        ...Styles.subheading,
+        alignSelf: 'center'
+    },
+    timebutton:{
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: '3%',
+        alignSelf: 'center'
+    }
 });
