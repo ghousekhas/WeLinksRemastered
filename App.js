@@ -43,6 +43,7 @@ import DrawerContent from './src/components/DrawerContent';
 import AppBar from './src/components/AppBar';
 import MyProfile from './src/screens/MyProfile';
 import SupportFAQ from './src/screens/SupportFAQ';
+import FAQ from './src/screens/FAQ';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -73,6 +74,7 @@ const NavigationDrawer = () => {
         <Drawer.Screen name="Milk" component={MilkVendors} />
         <Drawer.Screen name="MyProfile" component={MyProfile} />
         <Drawer.Screen name="SupportFAQ" component={SupportFAQ} />
+        <Drawer.Screen name="FAQ" component={FAQ} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -218,6 +220,7 @@ function App() {
         <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}}/>
         <Stack.Screen name='VendorScreen' component={VendorScreen} />
         <Stack.Screen name='VendorScreen1' component={VendorScreen1} />
+        <Stack.Screen name='FAQ' component={FAQ} />
         
 
       </Stack.Navigator>
@@ -276,16 +279,17 @@ function App() {
         <Stack.Screen name='VendorScreen1' component={VendorScreen1} />
         <Stack.Screen name='AddressList' component={AddressList} />
 
-        <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} />
-        <Stack.Screen name='Cart' component={Cart} />
+        <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} options={{headerShown: false}} />
+        <Stack.Screen name='Cart' component={Cart} options={{headerShown: false}}/>
         <Stack.Screen name='FirstAbout' component={About} options={{headerShown: false}}/>
         <Stack.Screen name='FirstCity' component={City} options={{headerShown: false}}/>
         <Stack.Screen name='FirstAddress' component={AddressSearch} options={{headerShown: false}}/>
-        <Stack.Screen name= 'ScrapVendors' component={ScrapVendors} />
-        <Stack.Screen name='ScrapVendor' component={ScrapVendor}/>
+        <Stack.Screen name= 'ScrapVendors' component={ScrapVendors} options={{headerShown: false}}/>
+        <Stack.Screen name='ScrapVendor' component={ScrapVendor}options={{headerShown: false}}/>
         <Stack.Screen name='pick' component={Pick} />
         <Stack.Screen name='test' component={test} /> 
         <Stack.Screen name='appbar' component={AppBar} /> 
+        <Stack.Screen name='FAQ' component={FAQ} />
        
 
     

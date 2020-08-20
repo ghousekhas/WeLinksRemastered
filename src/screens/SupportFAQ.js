@@ -20,12 +20,13 @@ const SupportFAQ = ({navigation}) => {
         feedback: 'Send Feedback'
 
     };
-    return(<View style={style.container}>
+    return(
+    <View>
+     
+
+    <View style={style.container}>
     
-     <AppBar 
-        toggle={() => {
-            navigation.toggleDrawer();
-        }} />
+   
       
         <ScrollView>
         <View style={{backgroundColor: 'white',flex:1,marginBottom: '30%'}}>
@@ -35,7 +36,7 @@ const SupportFAQ = ({navigation}) => {
     <View style={{borderWidth: 0.2,bordercolor: 'gray',height: 0, width: '95%',alignSelf: 'center'}}/>
 
     <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('FAQ')}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '7%'}}>
 
         <View style={{marginTop: '1%'}}>
@@ -308,12 +309,14 @@ multiline>
 
 
 
+    </View>
     </View>)
 };
 
 const style = StyleSheet.create({
     container: {
         backgroundColor:'white',
+        
        
         
     },

@@ -16,9 +16,11 @@ const MyProfile = (props) => {
         rupee : '₹',
         balance : 'Balance'
     }
-    return(<View style={Styles.parentContainer}>
+    return(<View>
      
-     <AppBar profile={() => {
+    <View>
+     
+    <AppBar profile={() => {
         props.navigation.navigate('About')}} 
         city={() => {
         props.navigation.navigate('City')}}
@@ -40,17 +42,21 @@ const MyProfile = (props) => {
                 // height={Dimensions.get('window').height/4}
                 // width={Dimensions.get('window').height/4}
             />
-            <View style={{position: 'absolute',bottom: '1%',right: '1%'}}>
+            <View style={{position: 'absolute',bottom: '5%'}}>
         <TouchableOpacity>
             <Icon 
                     name='pencil'
                     size={20}
+                    elevation={1}
                     color='white'
                 />
 
           </TouchableOpacity>
                        </View>
     </View>
+
+    <Text style={style.name}>{userDetails.USER_NAME}</Text>
+    
     
 
             <View style={style.chips}>
@@ -159,6 +165,7 @@ const MyProfile = (props) => {
     </View>
     </ScrollView>
 
+    </View>
     </View>)
 };
 
@@ -177,7 +184,9 @@ const style = StyleSheet.create({
     },
     avatar :{
         width: '100%',
-        height: '100%'
+        height: '100%',
+        opacity: 0.9
+        
         
     },
     avatarBG: {
@@ -191,11 +200,11 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         width: Dimensions.get('window').width,
-        marginTop: '10%'
+        marginTop: '5%'
 
     },
     chip: {
-        borderWidth : .55,
+        borderWidth : 1,
         borderRadius: 20,
         borderColor: Colors.seperatorGray,
         color: 'white',
@@ -213,6 +222,11 @@ const style = StyleSheet.create({
         marginStart: '15%',
         marginTop: '1%'
     },
+    name: {
+        color: 'white',
+        fontSize: 15,
+        marginVertical: '3%'
+    }
    
 })
 

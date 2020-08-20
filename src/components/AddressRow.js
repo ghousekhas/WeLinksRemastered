@@ -63,7 +63,7 @@ export default HomeAddress=({item,style})=>{
       <View style={style}>
         <Image source={image} style={styles.imageIcon}  />
             <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={{flexDirection: 'column',width: '100%',justifyContent: 'flex-start'}}>
+              <View style={{flexDirection: 'column',width: '100%',justifyContent: 'flex-start',flex: 1,marginBottom: '5%'}}>
                 <Text style={styles.label}>{label}</Text>
                 <Text style={styles.address}>{currentAddress}</Text>
               </View>
@@ -98,14 +98,15 @@ export default HomeAddress=({item,style})=>{
         padding: 0,
       },
       address:{alignSelf: 'center', 
-            fontSize: 14,
+            fontSize: 13,
+          
             padding: 10,
             fontWeight: '500',
             color: 'gray',
             width: '100%',
-          maxHeight: 100},
+          maxHeight: 200},
       horiz:{
-        width: Dimensions.get('window').width-50,
+        width: Dimensions.get('window').width-40,
         height: Dimensions.get('window').height/6,flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -114,8 +115,12 @@ export default HomeAddress=({item,style})=>{
           height: height/27,
           width: height/27,
           alignSelf: 'flex-start',
-          marginLeft: Dimensions.get('window').width/10,
+          marginLeft: Dimensions.get('window').width/30,
           marginTop: '4%'
+      },
+      buttonPos: {
+        position: 'absolute',
+        right: 10
       }
   
       

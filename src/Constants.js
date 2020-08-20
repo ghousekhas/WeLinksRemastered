@@ -8,7 +8,8 @@ export const dimen={
 export const Colors = {
     primary: '#00C99D',
     secondary: '#EDF9F9',
-    seperatorGray: 'rgba(211,211,211,255)'
+    seperatorGray: 'rgba(211,211,211,255)',
+    lightIcon: '#D3D3D3'
 }
 
 export const Constants={
@@ -34,13 +35,15 @@ export const Styles=StyleSheet.create({
         
     },
     grayfullline:{
-        height: 0.5,
+        height: 0.6,
         width: '95%',
-        backgroundColor: Colors.seperatorGray,
+        borderWidth: 0.5,
+        borderColor: Colors.seperatorGray,
+     //   color: Colors.seperatorGray,
         marginVertical: 5,
         alignSelf: 'center',
         zIndex: 100,
-        elevation: 1
+        elevation: 0.2
     },
    
   
@@ -49,7 +52,9 @@ export const Styles=StyleSheet.create({
         height: '100%',
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginTop: Dimensions.get('window').height/14
+
 
     },
     fortyUpperPanel:{

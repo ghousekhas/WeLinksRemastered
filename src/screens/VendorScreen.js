@@ -127,7 +127,7 @@ export default class VendorScreen extends React.Component{
 
     render(){
     return (
-        <View style={Styles.parentContainer}>
+        <View>
             <View style={Styles.fortyUpperPanel}>
                
                         <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address='Marathahalli Bridge Outer Ring Rd Marathahalli 560037'/>

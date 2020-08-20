@@ -30,7 +30,7 @@ export default class Homescreen extends React.Component{
             title: 'What are you looking for?',
             desc: 'Select services and checkout easily',
             milk: 'Milk Delivery',
-            news: 'NewsPaper Delivery',
+            news: 'Newspaper Delivery',
             scrap: 'Scrap Collection',
             corporate: 'Corporate Scrap Collection',
             address: 'Tap here to add an address'
@@ -267,12 +267,12 @@ const styles= StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
                 width: 0,
-                height: 4,
+                height: 2,
             },
         shadowOpacity: 0.37,
-        shadowRadius: 7.49,
+        shadowRadius: 6.49,
 
-            elevation: 6,
+            elevation: 4,
     },
     usernamecontainer:{
         alignSelf: 'center',
@@ -285,6 +285,7 @@ const styles= StyleSheet.create({
         padding: 10,
         justifyContent: 'center',
         marginLeft: Dimensions.get('window').width*0.005,
+        marginRight: Dimensions.get('window').width*0.02,
     },
     usernameactualcontainer:{
         flexDirection: 'row',
@@ -355,6 +356,7 @@ const styles= StyleSheet.create({
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             flex: 1,
+            marginTop: '6%'
         
 
     },
@@ -386,7 +388,7 @@ const styles= StyleSheet.create({
     },
     menutext:{
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 12,
         textAlign: 'center',
         color: 'black',
     },

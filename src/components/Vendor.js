@@ -43,7 +43,7 @@ const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,addr
 
     return(
     <View style={style.container}>
-    <View style={{marginStart: '3%'}}>
+    <View style={{marginStart: '4%'}}>
         
         <View style={style.top}>
         <View style = {{flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>

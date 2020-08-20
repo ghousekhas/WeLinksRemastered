@@ -8,7 +8,8 @@ import moment from 'moment';
 import Date,{okay} from './Date';
 import WeekPicker from '../components/WeekPicker';
 import SubscriptionScreen from './SubscriptionScreen';
-import {Colors} from '../Constants'
+import {Colors, Styles} from '../Constants'
+import AppBar from '../components/AppBar';
 
 bs = React.createRef();
 
@@ -156,8 +157,15 @@ const startDateSet = (set) => {
   
   var fall = new Animated.Value(1);
 
-  return (
-    <View style={style.container}>
+  return (<View>
+    <AppBar 
+      toggle={() => {
+          navigation.toggleDrawer();
+      }} />
+
+    <View style={Styles.parentContainer}>
+    
+
       <BottomSheet
         enabledContentTapInteraction={true}
         ref={bs}
@@ -168,11 +176,11 @@ const startDateSet = (set) => {
         callbackNode={fall}
         enabledGestureInteraction={false}
       />
-      <Animated.View style={{margin: 20,
+      <Animated.View style={{margin: '0.5%',
         opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
     }}>
     
-        <View  style={{alignItems: 'center',width: '100%',height: '100%'}}>
+        <View>
          
 
           <SubscriptionScreen 
@@ -232,6 +240,7 @@ const startDateSet = (set) => {
         
      
       </Animated.View>
+    </View>
     </View>
   );
 };
