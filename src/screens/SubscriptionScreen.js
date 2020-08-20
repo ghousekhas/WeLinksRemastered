@@ -17,18 +17,19 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
         recharge:'Recharge/Top-Up' ,
         duration: 'Duration',
         startDate: 'Set Start Date',
-        endDate: 'Set End Date'
+        endDate: 'Set End Date',
+        subscribe: 'Subscribe'
     };
     const[number,setNumber] = useState(1);
-    const[start,setStart]= useState('Not selected');
-    const[end,setEnd] = useState('Not selected')
+    const[start,setStart]= useState('Select start');
+    const[end,setEnd] = useState('Select end')
   //  const[wo,setWeek]= useState([true,true,true,true,true,true,true]);
     useEffect(()=>{
         setStart(dateref);
         setEnd(dateref1)
-     //   var weeknd= {...weekref}
-      //  setWeek(weeknd);
-        //console.log(wo[0],wo[1],wo[2],wo[3],wo[4],wo[5],wo[6])
+        console.log('Datereff: ' + dateref)
+        console.log('Datereff1: ' + dateref1)
+     
     },[dateref,dateref1]);
 
 
@@ -58,6 +59,16 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
        s:{start},
        e: {end},
        days: [{m},{t},{w},{th},{f},{s},{su}]
+
+   };
+   const [allSet,setAllSet] = useState(true);
+   const checkAllSet = () => {
+       console.log('Check: ' + dateref + " " +dateref1)
+       if(dateref == 'Select start' || dateref1 == 'Select end')
+       return true;
+       
+       
+       return false;
 
    };
 
@@ -280,8 +291,9 @@ return(<View style={style.container} >
 
     <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%',marginTop: '5%'}}>
     {/* <Button text={words.endDate} onTouch={onCalendarOpen1}/> */}
-    <TouchableOpacity onPress={onCalendarOpen1} style={style.dbutton}>
-        <Text style={style.btext}>{words.endDate}</Text>
+    <TouchableOpacity disabled={dateref == 'Select start'? true : false} onPress={onCalendarOpen1} 
+    style={dateref == 'Select start' ? style.disabled : style.dbutton}>
+        <Text style={dateref == 'Select start' ? {...style.btext,color:Colors.disabledButton} : style.btext}>{words.endDate}</Text>
             
         </TouchableOpacity>
     <Text style={{...style.dates,position: 'absolute',bottom: -7,end:30}}>{end}</Text>
@@ -311,10 +323,30 @@ return(<View style={style.container} >
 
   
     <View style={{position:'absolute',top:Dimensions.get('window').height/1.25,alignSelf:'center'}}>
-    <SubmitButton text='Subscribe' onTouch={() => {
-        result(subsResult)
+    <TouchableOpacity style={(dateref == 'Select start' || dateref1 == 'Select end' ||
+    (m == false && t == false && w == false && th == false && f == false && s == false && su == false)) ? 
+    {...style.subscribe, backgroundColor: Colors.disabledButton} :style.subscribe }
+    disabled={(dateref == 'Select start' || dateref1 == 'Select end' ||
+    (m == false && t == false && w == false && th == false && f == false && s == false && su == false)) ? 
+    true : false} onPress={() => {
+        if(subsResult.s.start == 'Select start')
+            console.log(subsResult.s.start)
         
-    }}/>
+
+      else result(subsResult)
+        
+    }}>
+        <Text style={style.subscribeText}>Subscribe</Text>
+    </TouchableOpacity>
+
+    {/* <SubmitButton text='Subscribe' onTouch={() => {
+            if(subsResult.s.start == 'Select start')
+            console.log(subsResult.s.start)
+        
+
+      else result(subsResult)
+        
+    }}/> */}
     </View>
    
 
@@ -481,12 +513,42 @@ dbutton: {
    justifyContent: 'center'
 
 }, 
+disabled: {
+    borderRadius: 5,
+    borderColor: Colors.disabledButton,
+    borderWidth: 1.5,
+    
+  //  width: Dimensions.get('window').width/10,
+    height: Dimensions.get('window').height/25,
+    aspectRatio:3/1 ,
+    alignItems: 'center',
+    paddingVertical: '5%',
+  
+   justifyContent: 'center'
+
+}, 
 btext:{
 color:Colors.primary,
 fontSize: 12,
 fontWeight: 'bold',
 flex: 1,
 
+},
+subscribe: {
+    backgroundColor: Colors.primary,
+    width: Dimensions.get('window').width-30,
+    height: 45,
+    borderRadius: 5,
+    alignSelf: 'center',
+    
+},
+subscribeText: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    alignSelf:"center",
+    color: 'white',
+    fontWeight: '300',
+    ...StyleSheet.absoluteFill,
 }
 
 

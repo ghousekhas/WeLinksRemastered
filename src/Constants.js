@@ -9,7 +9,8 @@ export const Colors = {
     primary: '#00C99D',
     secondary: '#EDF9F9',
     seperatorGray: 'rgba(211,211,211,255)',
-    lightIcon: '#D3D3D3'
+    lightIcon: '#D3D3D3',
+    disabledButton: '#BBC0C4'
 }
 
 export const Constants={

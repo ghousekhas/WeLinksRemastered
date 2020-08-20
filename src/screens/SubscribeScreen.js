@@ -49,26 +49,25 @@ const SubscribeScreen = ({navigation,route}) => {
   const {prate} = route.params;
   const{prate_} = route.params;
 const [isPressed,setIsPressed] = useState(false);
-// const [dateResult,setResult] = useState('');
 
-// const [weekref,setWeekRef]= useState([true,true,true,true,true,true,true]);
-
-
-const [start,setStart] = useState(false);
+// Use to check if start date is set
+const [set,isSet] = useState(false);
 
 const [dateref,setDateRef] = useState('Select start');
 const [dateref1,setDateRef1] = useState('Select end');
-// Check if starting date is fixed
-const startDateSet = (set) => {
-  if (set){
-    setStart(true)
-  }
- 
-};
+
   // This sets start
   const setDate=(date)=> {
     setDateRef(date);
+    setDateRef1('Select end');
+   
+    console.log('date ' + date);
     bs.current.snapTo(2);
+    
+     
+     
+    
+   
   };
 
   // This sets end
@@ -94,6 +93,7 @@ const startDateSet = (set) => {
     />
 
     <TouchableOpacity style={style.button} onPress={() => {
+      
         bs.current.snapTo(2)
     }}>
     <Text style={style.buttonText}>Cancel</Text>
@@ -115,6 +115,10 @@ const startDateSet = (set) => {
       />
   
       <TouchableOpacity style={style.button} onPress={() => {
+        // if(dateref == 'Select Start'){
+        //   isSet(false);
+        //   console.log('isSet: ' + set);
+        // } 
           bs.current.snapTo(2)
       }}>
       <Text style={style.buttonText}>Cancel</Text>
@@ -169,7 +173,7 @@ const startDateSet = (set) => {
       <BottomSheet
         enabledContentTapInteraction={true}
         ref={bs}
-        snapPoints={[600,400,0]}
+        snapPoints={[670,600,0]}
         renderContent= {!isPressed ? renderContent1 : renderContent2}
         renderHeader={renderHeader}
         initialSnap={2}
@@ -195,8 +199,10 @@ const startDateSet = (set) => {
             setIsPressed(true)
           }} 
           onCalendarOpen1={() => {
+           
             bs.current.snapTo(0)
             setIsPressed(false)
+          
           }}
           
           

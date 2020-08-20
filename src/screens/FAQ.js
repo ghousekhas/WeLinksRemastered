@@ -22,6 +22,20 @@ const FAQ = ({navigation}) => {
      q:'Is there a delivery fee?',
      a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
  },
+ {
+  q:'How do subscriptions work?',
+  a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
+
+},
+{
+q:'Do you deliver in my area?',
+a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
+
+},
+{
+q:'Is there a delivery fee?',
+a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
+},
 
 ]);
 
