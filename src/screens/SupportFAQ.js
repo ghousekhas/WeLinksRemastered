@@ -22,7 +22,9 @@ const SupportFAQ = ({navigation}) => {
     };
     return(
     <View>
-     
+     <AppBar  funct={() => {
+        navigation.toggleDrawer();
+        }} />
 
     <View style={style.container}>
     

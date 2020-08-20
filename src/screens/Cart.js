@@ -134,10 +134,10 @@ const Cart = ({route,navigation}) => {
 
 
     return(<View>
-     <AppBar 
-      toggle={() => {
-          navigation.toggleDrawer();
-      }} />
+      <AppBar back={true} funct={() => {
+         
+           navigation.pop();
+        }} />
       <View style={{...Styles.parentContainer}}>
     <Text style={style.title}>{words.title}</Text>
     <View style={{alignItems: 'center'}}>

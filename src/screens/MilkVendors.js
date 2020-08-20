@@ -58,15 +58,8 @@ const MilkVendors = (props) => {
 
     
     return(<View style={{flex: 1,backgroundColor: 'white'}}>
-     <AppBar profile={() => {
-        props.navigation.navigate('About')}} 
-        city={() => {
-        props.navigation.navigate('City')}}
-        prev={() =>{
-            props.navigation.pop(1)
-        } }
-        toggle={() => {
-            props.navigation.toggleDrawer();
+     <AppBar back ={true} funct={() => {
+       props.navigation.pop();
         }} />
     <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
     <Image  style ={style.avatar} source={require('./../../assets/avatar.png')}/>

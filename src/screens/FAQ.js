@@ -60,11 +60,13 @@ return accordions;
 
 
   return(
-  <View style={{flex:1,marginTop: '20%'}}>
-   
+  <View style={{flex:1}}>
+   <AppBar back ={true} funct={() => {
+        navigation.pop();
+        }} />
   
         <ScrollView>
-  <View>
+  <View style={Styles.parentContainer}>
   
   <Text style={styles.heading}>Frequently Asked Questions</Text>
   <View style={Styles.grayfullline}/>

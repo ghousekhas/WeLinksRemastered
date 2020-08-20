@@ -12,6 +12,7 @@ import Stars from '../components/Stars';
 import Product from '../components/Product';
 import { useNavigation } from '@react-navigation/native';
 import {Entypo} from '@expo/vector-icons';
+import AppBar from '../components/AppBar';
 
 const brandsArray=
 [
@@ -127,7 +128,12 @@ export default class VendorScreen1 extends React.Component{
     }
 
     render(){
-    return (
+    return (<View>
+        <AppBar back 
+        funct={() => {
+        this.props.navigation.pop();
+        }} />
+  
         <View style={Styles.parentContainer}>
             <View style={Styles.fortyUpperPanel}>
                
@@ -158,6 +164,7 @@ export default class VendorScreen1 extends React.Component{
                 </ScrollView>
             </View>
 
+        </View>
         </View>
     )
     }

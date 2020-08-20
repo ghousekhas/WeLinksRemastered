@@ -11,6 +11,7 @@ import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
 import {Entypo} from '@expo/vector-icons'
+import AppBar from '../components/AppBar';
 
 const brandsArray=['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Amul_Logo.jpg/220px-Amul_Logo.jpg',
 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ-PN3yAMsBkQdlKVjDsM19qCdITU5T-WT3vQ&usqp=CAU',
@@ -126,8 +127,13 @@ export default class VendorScreen extends React.Component{
     }
 
     render(){
-    return (
-        <View>
+    return (<View>
+     <AppBar back={true} funct={() => {
+           // props.navigation.toggleDrawer();
+           this.props.navigation.pop();
+        }} />
+        <View style={Styles.parentContainer}>
+       
             <View style={Styles.fortyUpperPanel}>
                
                         <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address='Marathahalli Bridge Outer Ring Rd Marathahalli 560037'/>
@@ -155,6 +161,7 @@ export default class VendorScreen extends React.Component{
                 </ScrollView>
             </View>
 
+        </View>
         </View>
     )
     }

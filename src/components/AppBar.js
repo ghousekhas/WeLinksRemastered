@@ -9,14 +9,17 @@ import { Entypo } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import { NavigationActions } from 'react-navigation';
 import {Colors} from '../Constants'
+import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const AppBar = ({toggle}) => { 
+const AppBar = ({funct,back}) => { 
+  if(!back){
     return(
     <View style={{zIndex: 150,elevation: 100}}><Appbar style={styles.bottom}>
         <Appbar.Header style={styles.header}>
-        <TouchableOpacity onPress={(toggle)} underlayColor='rgba(0,0,0,0)' rippleColor= 'transparent' style={styles.ripple}  >
+        <TouchableOpacity onPress={funct} underlayColor='rgba(0,0,0,0)' rippleColor= 'transparent' style={styles.ripple}  >
+             
               <EvilIcons name="navicon" size={26} color="white" style={styles.hamburger} />
         </TouchableOpacity>
         
@@ -25,22 +28,27 @@ const AppBar = ({toggle}) => {
 
         
          
-          {/* <Avatar.Image size={30} source={require('../../assets/avatar.png')}
-          style={styles.avatar} />
-         
-           <Subheading style={styles.username}>{userDetails.USER_NAME}</Subheading>
-           
-
-           <Button labelStyle={styles.cityText}
-            style={styles.city} uppercase={false} contentStyle = {styles.cityTextStyle}
-             mode="contained" onPress={() => console.log('Pressed')} compact={true}>
-           
-            {userDetails.USER_CITY}
-           </Button> */}
          </Appbar>
        
         </View>)
+}else{
+  return(  <View style={{zIndex: 150,elevation: 100}}><Appbar style={styles.bottom}>
+    <Appbar.Header style={styles.header}>
+    <TouchableOpacity onPress={funct} underlayColor='rgba(0,0,0,0)' rippleColor= 'transparent' style={styles.ripple}  >
+    <Ionicons name="md-arrow-back" size={26} color="white" style={styles.hamburger}/>    
+    </TouchableOpacity>
+    
+       
+      </Appbar.Header>
+
+    
+     
+     </Appbar>
+   
+    </View>)
+}
 };
+
     
   
     
@@ -138,4 +146,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AppBar
+export default AppBar;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, View, StyleSheet, Dimensions,Image } from 'react-native';
 import { Constants, Styles } from '../Constants';
 import {Colors} from '../Constants'
-import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-native-paper';
+import {Text,Appbar} from 'react-native-paper';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { userDetails } from '../UserDetails';
@@ -10,34 +10,29 @@ import AppBar from '../components/AppBar';
 import { DrawerActions } from "react-navigation-drawer";
 
 
-const MyProfile = (props) => {
+const MyProfile = ({navigation}) => {
     const words = {
         subscriptions : 'Subscriptions',
         rupee : '₹',
         balance : 'Balance'
     }
     return(<View>
+   
      
-    <View>
-     
-    <AppBar profile={() => {
-        props.navigation.navigate('About')}} 
-        city={() => {
-        props.navigation.navigate('City')}}
-        prev={() =>{
-            props.navigation.pop(1)
-        } }
-        toggle={() => {
-            props.navigation.toggleDrawer();
+   <AppBar funct={() => {
+        navigation.toggleDrawer();
         }} />
-      
+    
+    <View style={Styles.parentContainer}>
+   
+    
     <ScrollView>
-        <View style={{flex: 1,marginBottom: '1.5%'}}>
+        <View style={{flex: 1}}>
 
     <View style={style.header}>
 
     
-    <TouchableOpacity style={style.avatarBG}>
+    <View style={style.avatarBG}>
         <Image source={require('../../assets/avatar.png')}  // Change to Image
                 style={style.avatar}
                 // height={Dimensions.get('window').height/4}

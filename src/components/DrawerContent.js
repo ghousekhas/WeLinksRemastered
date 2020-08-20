@@ -7,7 +7,7 @@ import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-nativ
 import { userDetails } from '../UserDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SupportFAQ from '../screens/SupportFAQ';
-import { Constants } from '../Constants';
+import { Constants,Colors } from '../Constants';
 
 
 
@@ -122,7 +122,7 @@ const DrawerContent = (props) => {
     
     icon="card-text-outline"
     label="Support and FAQs"
-    onPress={()=> {props.navigation.navigate(SupportFAQ)}}
+    onPress={()=> {props.navigation.navigate('Support')}}
     
   />
  

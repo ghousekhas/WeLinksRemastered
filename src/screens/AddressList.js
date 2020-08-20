@@ -7,6 +7,8 @@ import * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeAddress from '../components/AddressRow'
+import AppBar from '../components/AppBar';
+import { Styles } from '../Constants';
 
 const height= Dimensions.get('window').height;
 
@@ -140,6 +142,11 @@ export default class AddressList extends React.Component{
         
             
           <View style={styles.container}>
+          <AppBar back ={true} funct={() => {
+           // props.navigation.toggleDrawer();
+           this.props.navigation.pop();
+        }} />
+        <View style={Styles.parentContainer}>
           <GooglePlacesAutocomplete
               style={{elevation: 10,zIndex: 10,backgroundColor: 'white'}}
               query={{
@@ -167,6 +174,7 @@ export default class AddressList extends React.Component{
             ItemSeparatorComponent={this.renderSeperator}
             keyExtractor={(item,index)=> Math.random().toString(36).substr(2, 10)}
             />
+            </View>
             </View>
           </View>
           

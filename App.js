@@ -64,17 +64,16 @@ const Drawer = createDrawerNavigator();
 
 const NavigationDrawer = () => {
 
-  return (<ScrapCart />)
+  
   return (
-    <NavigationContainer >
+    <NavigationContainer independent={true} >
       <Drawer.Navigator initialRouteName='Home'
       drawerContent={props => <DrawerContent {...props}/>}>
    
         <Drawer.Screen name="Home" component={App} />
-        <Drawer.Screen name="Milk" component={MilkVendors} />
         <Drawer.Screen name="MyProfile" component={MyProfile} />
-        <Drawer.Screen name="SupportFAQ" component={SupportFAQ} />
-        <Drawer.Screen name="FAQ" component={FAQ} />
+        <Drawer.Screen name="Support" component={userSupportStack} />
+       
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -84,6 +83,21 @@ export default NavigationDrawer;
 
 
 const Stack = createStackNavigator();
+
+const userSupportStack = () => {
+  return(
+    <View style={{flex: 1}}>
+  <NavigationContainer independent = {true}>
+  <Stack.Navigator initialRouteName="SupportFAQ">
+  <Stack.Screen name = "SupportFAQ" component = {SupportFAQ} options={{headerShown: false}} />
+  <Stack.Screen name = "FAQ" component = {FAQ} options={{headerShown: false}} />
+
+</Stack.Navigator>
+
+  </NavigationContainer>
+  </View>)
+
+};
 
 function App() {
   const [firstlogin,setFirstLog]=useState(0);
@@ -218,9 +232,9 @@ function App() {
         <Stack.Screen name = "About" component={About}/>
         <Stack.Screen name='MilkVendors' component={MilkVendors} options={{headerShown: false}}/>
         <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}}/>
-        <Stack.Screen name='VendorScreen' component={VendorScreen} />
-        <Stack.Screen name='VendorScreen1' component={VendorScreen1} />
-        <Stack.Screen name='FAQ' component={FAQ} />
+        <Stack.Screen name='VendorScreen' component={VendorScreen} options={{headerShown: false}}/>
+        <Stack.Screen name='VendorScreen1' component={VendorScreen1}options={{headerShown: false}} />
+        <Stack.Screen name='FAQ' component={FAQ} options={{headerShown: false}} />
         
 
       </Stack.Navigator>
@@ -275,9 +289,9 @@ function App() {
         <Stack.Screen name='VendorsList' component={VendorsList} />
         <Stack.Screen name='MilkVendors' component={MilkVendors} options={{headerShown: false}}/>
         <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}} />
-        <Stack.Screen name='VendorScreen' component={VendorScreen} />
-        <Stack.Screen name='VendorScreen1' component={VendorScreen1} />
-        <Stack.Screen name='AddressList' component={AddressList} />
+        <Stack.Screen name='VendorScreen' component={VendorScreen} options={{headerShown: false}}/>
+        <Stack.Screen name='VendorScreen1' component={VendorScreen1} options={{headerShown: false}} />
+        <Stack.Screen name='AddressList' component={AddressList} options={{headerShown: false}}/>
 
         <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} options={{headerShown: false}} />
         <Stack.Screen name='Cart' component={Cart} options={{headerShown: false}}/>
@@ -285,11 +299,8 @@ function App() {
         <Stack.Screen name='FirstCity' component={City} options={{headerShown: false}}/>
         <Stack.Screen name='FirstAddress' component={AddressSearch} options={{headerShown: false}}/>
         <Stack.Screen name= 'ScrapVendors' component={ScrapVendors} options={{headerShown: false}}/>
-        <Stack.Screen name='ScrapVendor' component={ScrapVendor}options={{headerShown: false}}/>
-        <Stack.Screen name='pick' component={Pick} />
-        <Stack.Screen name='test' component={test} /> 
-        <Stack.Screen name='appbar' component={AppBar} /> 
-        <Stack.Screen name='FAQ' component={FAQ} />
+        <Stack.Screen name='ScrapVendor' component={ScrapVendor} options={{headerShown: false}}/>
+        <Stack.Screen name='FAQ' component={FAQ} options={{headerShown: false}} />
        
 
     

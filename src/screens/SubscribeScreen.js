@@ -162,10 +162,10 @@ const [dateref1,setDateRef1] = useState('Select end');
   var fall = new Animated.Value(1);
 
   return (<View>
-    <AppBar 
-      toggle={() => {
-          navigation.toggleDrawer();
-      }} />
+      <AppBar back={true} funct={() => {
+          
+           navigation.pop();
+        }} />
 
     <View style={Styles.parentContainer}>
     
