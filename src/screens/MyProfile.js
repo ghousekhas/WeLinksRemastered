@@ -1,5 +1,8 @@
-import * as React from 'react';
-import { Button, View, StyleSheet, Dimensions,Image } from 'react-native';
+import * as React  from 'react';
+
+import { useFocusEffect,CommonActions,useNavigation } from '@react-navigation/native';
+import { BackHandler, View, StyleSheet, Dimensions,Image } from 'react-native';
+
 import { Constants, Styles } from '../Constants';
 import {Colors} from '../Constants'
 import {Text,Appbar} from 'react-native-paper';
@@ -9,19 +12,47 @@ import { userDetails } from '../UserDetails';
 import AppBar from '../components/AppBar';
 import { DrawerActions } from "react-navigation-drawer";
 
-
+//const navigation = useNavigation();
 const MyProfile = ({navigation}) => {
     const words = {
         subscriptions : 'Subscriptions',
         rupee : '₹',
         balance : 'Balance'
     }
+
+    //navigation.goBack();
+   
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+         //  console.log('Go to homescreen');
+         //  props.navigation.popToTop();
+         navigation.goBack();
+              return false;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
     return(<View>
    
      
    <AppBar funct={() => {
         navigation.toggleDrawer();
         }} />
+
+
+
+
+
+
+
+
+
     
     <View style={Styles.parentContainer}>
    

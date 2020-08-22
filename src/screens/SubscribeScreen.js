@@ -1,5 +1,7 @@
 import React,{ Fragment, useState, useRef } from 'react';
-import { View,Text,TouchableOpacity,StyleSheet,Dimensions,Picker } from 'react-native';
+import { View,Text,TouchableOpacity,StyleSheet,Dimensions,BackHandler } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
@@ -50,8 +52,7 @@ const SubscribeScreen = ({navigation,route}) => {
   const{prate_} = route.params;
 const [isPressed,setIsPressed] = useState(false);
 
-// Use to check if start date is set
-const [set,isSet] = useState(false);
+
 
 const [dateref,setDateRef] = useState('Select start');
 const [dateref1,setDateRef1] = useState('Select end');
@@ -61,7 +62,7 @@ const [dateref1,setDateRef1] = useState('Select end');
     setDateRef(date);
     setDateRef1('Select end');
    
-    console.log('date ' + date);
+   // console.log('date ' + date);
     bs.current.snapTo(2);
     
      
@@ -157,6 +158,21 @@ const [dateref1,setDateRef1] = useState('Select end');
 
       })
   };
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+      // console.log('Go to vendor');
+       navigation.navigate('VendorScreen');
+          return true;
+        
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    },)
+  );
 
   
   var fall = new Animated.Value(1);

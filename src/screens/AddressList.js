@@ -1,5 +1,7 @@
 import React,{useState,useEffect} from 'react';
-import {Text,View,StyleSheet,navigator,FlatList, Dimensions} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
+import {Text,View,StyleSheet,BackHandler,FlatList, Dimensions} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Geolocation from '@react-native-community/geolocation';
 import Qs from 'qs';
@@ -12,7 +14,21 @@ import { Styles } from '../Constants';
 
 const height= Dimensions.get('window').height;
 
+// useFocusEffect(
+//   React.useCallback(() => {
+//     const onBackPress = () => {
+//     console.log('Go to homescreen');
+//      props.navigation.navigate('Homescreen');
+//         return true;
+      
+//     };
 
+//     BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+//     return () =>
+//       BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+//   },)
+// );
 
 
 
@@ -136,6 +152,7 @@ export default class AddressList extends React.Component{
       
     
     }
+    
 
     render(){
         return(

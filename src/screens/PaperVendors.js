@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
+import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
@@ -45,7 +47,22 @@ const PaperVendors = (props) => {
         }
 
 
-    ])
+    ]);
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+     //     console.log('Go to homescreen');
+           props.navigation.navigate('AddressList');
+              return true;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
     return(
     <View style={{flex: 1,backgroundColor: 'white'}}>
 
