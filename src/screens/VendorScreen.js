@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
+import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
@@ -211,6 +213,21 @@ const ScrapFlatList = ({route,navigation}) => {
     const {name} = route.params;
     const {stars} = route.params;
     const {reviews} = route.params;
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+      //     console.log('Go to milk');
+           navigation.navigate('MilkVendors');
+              return true;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
 
    // const order = navigation.getParams('order');
     return(<View style={style.container}>

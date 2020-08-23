@@ -1,5 +1,8 @@
-import  React,{useState, useEffect} from 'react';
-import { Button, View, StyleSheet, Dimensions,Image } from 'react-native';
+import * as React  from 'react';
+
+import { useFocusEffect,CommonActions,useNavigation } from '@react-navigation/native';
+import { BackHandler, View, StyleSheet, Dimensions,Image } from 'react-native';
+
 import { Constants, Styles } from '../Constants';
 import {Colors} from '../Constants'
 import {Text,Appbar} from 'react-native-paper';
@@ -11,7 +14,7 @@ import { DrawerActions } from "react-navigation-drawer";
 import DocumentPicker from 'react-native-document-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
-
+//const navigation = useNavigation();
 const MyProfile = ({navigation}) => {
     const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
@@ -20,37 +23,39 @@ const MyProfile = ({navigation}) => {
         balance : 'Balance'
     }
 
-    const init= async ()=>{
-        try{
-            const image = await AsyncStorage.getItem('profileuri');
-            setImageUri(image);
-        }
-        catch(e){}
-    }
-
-    useEffect(()=>{
-        init();
-    },[])
-
-    const pickImage =async()=>{
-        try{
-            const res = await DocumentPicker.pick({type: DocumentPicker.types.images});
-            await AsyncStorage.setItem('profileuri',res.uri);
-            console.log(res);
-            setImageUri(res.uri);
-
-
-
-        }
-        catch(e){}
-
-    }
+    //navigation.goBack();
+   
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+         //  console.log('Go to homescreen');
+         //  props.navigation.popToTop();
+         navigation.goBack();
+              return false;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
     return(<View>
    
      
    <AppBar funct={() => {
         navigation.toggleDrawer();
         }} />
+
+
+
+
+
+
+
+
+
     
     <View style={Styles.parentContainer}>
    

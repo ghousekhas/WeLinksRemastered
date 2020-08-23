@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+
+import {View, StyleSheet, Text, Dimensions,BackHandler,Alert} from 'react-native';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
-import {Colors, Styles} from '../Constants'
+import { Styles} from '../Constants'
 import AppBar from '../components/AppBar'
 
 
@@ -40,7 +41,7 @@ const Cart = ({route,navigation}) => {
      porder.days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
 
     const calculateDeliveries = (startDate,endDate) => {
-        console.log('cd:'+ startDate)
+       // console.log('cd:'+ startDate)
 
         var  start = startDate.charAt(0)+startDate.charAt(1) + " " + startDate.charAt(3) + startDate.charAt(4)
           + startDate.charAt(5) +" " + startDate.charAt(startDate.length-4)  + startDate.charAt(startDate.length-3)
@@ -87,8 +88,8 @@ const Cart = ({route,navigation}) => {
 
    // This is the number of days from start to end date; unused
     const numberOfDays = (end,start) => {
-        console.log('sstart:'+start);
-        console.log('eend:'+end);
+        // console.log('sstart:'+start);
+        // console.log('eend:'+end);
         var res;
 
         const month = (date) => {
@@ -131,6 +132,34 @@ const Cart = ({route,navigation}) => {
         return cartTotal;
 
     };
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+        //  console.log('Go to sub');
+        Alert.alert(
+            'Are you sure you want to go back?',
+            'Your progress will be lost.',
+            [
+           
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+              {text: 'OK', onPress: () => {
+                navigation.navigate('SubscribeScreen');
+              
+              }},
+            ],
+            { cancelable: false }
+          )
+         
+          return true;
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
+    
 
 
     return(<View>
@@ -179,7 +208,10 @@ const Cart = ({route,navigation}) => {
 
          <View style={{position: 'absolute',bottom: '-55%',alignSelf:'center',backgroundColor: 'white'}}>
 
-            <SubmitButton text='Confirm'/>
+            <SubmitButton text='Confirm' onTouch={() => {
+                console.log('pop to top')
+                navigation.popToTop();
+            }}/>
 
          </View>
 
