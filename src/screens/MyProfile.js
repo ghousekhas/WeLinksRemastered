@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{useState, useEffect} from 'react';
 import { Button, View, StyleSheet, Dimensions,Image } from 'react-native';
 import { Constants, Styles } from '../Constants';
 import {Colors} from '../Constants'
@@ -8,13 +8,42 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { userDetails } from '../UserDetails';
 import AppBar from '../components/AppBar';
 import { DrawerActions } from "react-navigation-drawer";
+import DocumentPicker from 'react-native-document-picker';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const MyProfile = ({navigation}) => {
+    const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
         rupee : '₹',
         balance : 'Balance'
+    }
+
+    const init= async ()=>{
+        try{
+            const image = await AsyncStorage.getItem('profileuri');
+            setImageUri(image);
+        }
+        catch(e){}
+    }
+
+    useEffect(()=>{
+        init();
+    },[])
+
+    const pickImage =async()=>{
+        try{
+            const res = await DocumentPicker.pick({type: DocumentPicker.types.images});
+            await AsyncStorage.setItem('profileuri',res.uri);
+            console.log(res);
+            setImageUri(res.uri);
+
+
+
+        }
+        catch(e){}
+
     }
     return(<View>
    
@@ -33,13 +62,13 @@ const MyProfile = ({navigation}) => {
 
     
     <View style={style.avatarBG}>
-        <Image source={require('../../assets/avatar.png')}  // Change to Image
+        <Image source={{uri: imageuri}}  // Change to Image
                 style={style.avatar}
                 // height={Dimensions.get('window').height/4}
                 // width={Dimensions.get('window').height/4}
             />
             <View style={{position: 'absolute',bottom: '5%'}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={pickImage}>
             <Icon 
                     name='pencil'
                     size={20}
@@ -181,7 +210,8 @@ const style = StyleSheet.create({
     avatar :{
         width: '100%',
         height: '100%',
-        opacity: 0.9
+        opacity: 0.9,
+        borderRadius: 1000
         
         
     },

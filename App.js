@@ -44,6 +44,7 @@ import AppBar from './src/components/AppBar';
 import MyProfile from './src/screens/MyProfile';
 import SupportFAQ from './src/screens/SupportFAQ';
 import FAQ from './src/screens/FAQ';
+import VendorRegistration from './src/screens/VendorRegistration';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -65,6 +66,7 @@ const Drawer = createDrawerNavigator();
 const NavigationDrawer = () => {
 
   
+  return <VendorRegistration />
   return (
     <NavigationContainer independent={true} >
       <Drawer.Navigator initialRouteName='Home'

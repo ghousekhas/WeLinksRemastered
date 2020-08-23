@@ -39,6 +39,7 @@
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-calendars": "^1.300.0",
     "react-native-collapsible": "^1.5.2",
+    "react-native-document-picker": "^3.5.4",
     "react-native-fast-image": "^8.3.2",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-google-places-autocomplete": "^1.8.0",

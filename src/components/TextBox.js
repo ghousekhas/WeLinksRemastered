@@ -2,7 +2,8 @@ import React from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {FontAwesome5} from '@expo/vector-icons'
+import {FontAwesome5} from '@expo/vector-icons';
+import {Colors,dimen} from '../Constants';
 
 const TextBox = ({title,hint,icon,changeText}) => {
     return(<View style={style.mainContainer}>
@@ -24,8 +25,10 @@ const TextBox = ({title,hint,icon,changeText}) => {
 
 const style = StyleSheet.create({
     mainContainer:{
-        padding: 10,
-        marginTop: 10
+        paddingVertical: dimen.height/100,
+        marginTop: dimen.height/100,
+        paddingHorizontal: dimen.width*0.1,
+        alignSelf: 'center'
     },
    text:{
         fontSize: 15,
@@ -51,11 +54,10 @@ const style = StyleSheet.create({
     
     height: 45,
     width: Dimensions.get('window').width-30,
-    alignSelf: 'center',
     backgroundColor: 'white',
    
   
-    borderColor: '#5D5D5D',
+    borderColor: Colors.seperatorGray,
     borderWidth: 1,
     borderRadius: 5
 },
