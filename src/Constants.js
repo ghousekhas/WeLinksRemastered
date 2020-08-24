@@ -19,7 +19,12 @@ export const Constants={
     username: 'USERNAME',
     city: 'CITY',
     selectedAddress: 'selectedAddress',
-    shareMessage: 'Hey! Check out weLinks, one stop destination for your daily needs https://www.google.com get my referral maybe? Update us with the referral'
+    shareMessage: 'Hey! Check out weLinks, one stop destination for your daily needs https://www.google.com get my referral maybe? Update us with the referral',
+    veFirstTime: 'firstTime',
+    veInProgress: 'inProgress',
+    veRejected: 'rejected',
+    veTryAgain: 'tryAgain',
+    verified: 'verified'
 
     
 }
@@ -45,9 +50,9 @@ export const Styles=StyleSheet.create({
         fontFamily: 'bold'
     },
     grayfullline:{
-        height: 0.6,
+        height: 0.5,
         width: '95%',
-        borderWidth: 0.5,
+        borderWidth: 0.025,
         borderColor: Colors.seperatorGray,
      //   color: Colors.seperatorGray,
         marginVertical: 5,

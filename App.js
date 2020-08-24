@@ -45,6 +45,7 @@ import MyProfile from './src/screens/MyProfile';
 import SupportFAQ from './src/screens/SupportFAQ';
 import FAQ from './src/screens/FAQ';
 import VendorRegistration from './src/screens/VendorRegistration';
+import VendorServices from './src/screens/VendorServices';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -64,24 +65,44 @@ function School(){
 const Drawer = createDrawerNavigator();
 
 const NavigationDrawer = () => {
+  const [vendor,setVendor] = useState(false);
+
+  const swtichVendorApp = (flag)=>{
+    setVendor(flag);
+
+  }
+
+  if(vendor)
+    return(
+      <NavigationContainer independent={true} >
+      <Drawer.Navigator initialRouteName='Home'
+        drawerContent={props => <DrawerContent {...props}  switchVendor={swtichVendorApp} />}>
+       
+      <Drawer.Screen name="Home" component={VendorRegistration} />
+      <Drawer.Screen name="HomeScreen" component={Homescreen} />
+      <Drawer.Screen name="MyProfile" component={myProfileStack} />
+      <Drawer.Screen name="Support" component={userSupportStack} />
+       
+       
+      </Drawer.Navigator>
+    </NavigationContainer>
+    );
 
   
-  return <VendorRegistration />
   return (
-    <NavigationContainer independent={true} >
+    <NavigationContainer independent={true}  >
       <Drawer.Navigator initialRouteName='Home'
-      drawerContent={props => <DrawerContent {...props}/>}>
-   
-        <Drawer.Screen name="Home" component={App} />
-        <Drawer.Screen name="HomeScreen" component={Homescreen} />
-        <Drawer.Screen name="MyProfile" component={myProfileStack} />
-        <Drawer.Screen name="Support" component={userSupportStack} />
+        drawerContent={props => <DrawerContent {...props} switchVendor={swtichVendorApp} />}  >
+       
+      <Drawer.Screen name="Home" component={PostLoginHome} />
+      <Drawer.Screen name="MyProfile" component={myProfileStack} />
+      <Drawer.Screen name="Support" component={userSupportStack} />
+       
        
       </Drawer.Navigator>
     </NavigationContainer>
   );
 }
-export default NavigationDrawer;
 
 
 
@@ -118,7 +139,7 @@ const userSupportStack = () => {
 
 };
 
-function App() {
+export default function App() {
   const [firstlogin,setFirstLog]=useState(0);
   const [user,setUser]=useState(auth().currentUser);
   const [activesections,setActiveSections]=useState([]);
@@ -231,7 +252,6 @@ function App() {
 
   
   if(user==null){
-    console.log('this is the prb');
     return (
       <View style={{flex: 1}}>
       <NavigationContainer independent={true}>
@@ -293,6 +313,14 @@ function App() {
 
   return (
     <View style={{flex: 1}}>
+      <NavigationDrawer />
+    </View>
+  );  
+}
+
+const PostLoginHome =(props)=>{
+  return(
+    <View style={{flex: 1}}>
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName='Homescreen'>
         <Stack.Screen name='Homescreen' component={Homescreen} options={{
@@ -327,36 +355,5 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
     </View>
-  );  
+  )
 }
-
-
-/*<Stack.Screen name = "Introduction" component={Introduction}/>
- export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text style={styles.text}> Something's going on in here</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text:{
-    fontSize: 30,
-    textAlign: "center",
-    transform: [
-      { translateX: -Dimensions.get('window').width*0.24},
-      { rotateY: '60deg'},
-      { perspective: 850 }
-    ],
-    color: '#0000FF'
-  }
-});*/

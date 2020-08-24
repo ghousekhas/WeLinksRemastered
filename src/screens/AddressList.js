@@ -54,6 +54,14 @@ export default class AddressList extends React.Component{
         this.retrieveAddresses();
     }
 
+   onBackPress=()=>{
+      this.props.navigation.navigate('Homescreen');
+    }
+
+    componentWillUnmount(){
+      BackHandler.removeEventListener('hardwareBackPress',onBackPress);
+    }
+
 
 
     retrieveAddresses= async ()=>{
@@ -75,6 +83,7 @@ export default class AddressList extends React.Component{
 
     componentDidMount(){
       this.retrieveAddresses();
+      BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
       
       
     }

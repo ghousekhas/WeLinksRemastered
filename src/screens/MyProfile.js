@@ -1,4 +1,4 @@
-import * as React  from 'react';
+import React,{useState}  from 'react';
 
 import { useFocusEffect,CommonActions,useNavigation } from '@react-navigation/native';
 import { BackHandler, View, StyleSheet, Dimensions,Image } from 'react-native';
@@ -73,7 +73,7 @@ const MyProfile = ({navigation}) => {
                 // width={Dimensions.get('window').height/4}
             />
             <View style={{position: 'absolute',bottom: '5%'}}>
-        <TouchableOpacity onPress={pickImage}>
+        <TouchableOpacity >
             <Icon 
                     name='pencil'
                     size={20}

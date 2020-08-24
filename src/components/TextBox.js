@@ -32,7 +32,8 @@ const style = StyleSheet.create({
     },
    text:{
         fontSize: 15,
-        fontWeight: '200',
+        color: 'black',
+        fontWeight: 'bold'
      //   backgroundColor: '#F9F9F9'
 
    },

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useState, useEffect} from 'react';
 import { Share ,Button, View, StyleSheet, Dimensions,StatusBar,Image } from 'react-native';
 import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,7 +12,162 @@ import { Constants,Colors } from '../Constants';
 
 
 const DrawerContent = (props) => {
+  const [vendor,setVendor] = useState(false);
+  const {switchVendor} = props;
+
+  useEffect(()=>{
+    switchVendor(vendor);
+  },[vendor])
+
+  const switchToVendor = async ()=>{
+    setVendor(!vendor);
+  }
+
+  if(vendor)
+    return(
+      <View style={{height: Dimensions.get('window').height}}>
+       <DrawerContentScrollView {...props} scrollEnabled={false}>
+         <View style={{height: Dimensions.get('window').height-StatusBar.currentHeight}}>
+         <Drawer.Section>
+        
+           <View style={styles.header}>
+             {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
+          <View style={{marginTop: '5%', margin: '5%'}}>
+          <Image source={require('../../assets/avatar.png')}
+            style={{height: 50,width: 50,marginTop: 10}}
+          />
+          </View>
+
+          <Text style={styles.username}>
+          {userDetails.USER_NAME}
+          </Text>
+
+          <View style={{flexDirection: 'row',marginStart: '5%',marginTop: '1%'}}>
+
+            <View style={{marginTop:'0.7%'}}>
+              <Icon name="phone" color='gray' size={13}/>
+
+            </View>
+          <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'1%',fontSize: 14,alignSelf: 'center'}}>
+          {userDetails.USER_PHONE}
+          </Text>
+
+          </View>
+
+         
+         
+
+            
+          
+           </View>
+           </Drawer.Section>
+
+    <Drawer.Section >
+        
+    <Drawer.Item
+     style={{}}
+     icon="account-outline"
+     label="My Profile"
+     onPress={()=>{props.navigation.navigate('MyProfile')}}
+     
+   />
+
+   <Drawer.Item
+    
+    icon= {({color, size}) => (
+                                <Icon 
+                                name="share-outline" 
+                                color={color}
+                                size={size}
+                                />
+                            )}
+
+    label="Share App"
+    onPress = {()=>{
+      try{
+        const result = Share.share({
+        title: Constants.shareMessage,
+        message: Constants.shareMessage
+        });
+        if(result.action == Share.sharedAction){
+          
+
+        }
+      }
+      catch(e){
+        console.log('some error around here');
+      }
+    }}
+    
+  />
+     <Drawer.Item
+    
+    icon="card-text-outline"
+    label="Support and FAQs"
+    onPress={()=> {props.navigation.navigate('Support')}}
+    
+  />
+ 
+
+
+ </Drawer.Section>
+   <Drawer.Section>
+ 
+ <Drawer.Item
+    
+    icon= {({color, size}) => (
+                                <Icon 
+                                name="account-box-multiple" 
+                                color={color}
+                                size={size}
+                                />
+                            )}
+
+    label="Switch to User"
+    onPress = {switchToVendor}
+    
+  />
+
+
   
+  
+  
+   
+   
+   
+   
+
+
+<Drawer.Item
+     style={styles.bottom}
+     icon="exit-to-app"
+     
+     label="Sign Out"
+     
+     onPress={()=>{}}
+     
+   />
+
+  
+    
+ 
+
+   
+            
+
+
+            
+   
+   
+     </Drawer.Section>
+      <View style={styles.versionSeperator} />
+     <Text style={styles.version}>Version 1.0.0</Text>
+         </View>
+       </DrawerContentScrollView>
+   </View>
+
+    );
+
   return (
    <View style={{height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props} scrollEnabled={false}>
@@ -142,7 +297,7 @@ const DrawerContent = (props) => {
                             )}
 
     label="Switch to Vendor"
-    onPress = {()=>{}}
+    onPress = {switchToVendor}
     
   />
 

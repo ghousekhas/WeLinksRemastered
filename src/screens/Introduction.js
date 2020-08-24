@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-//import FastImage from 'react-native-fast-image';
+import FastImage from 'react-native-fast-image';
 import SubmitButton from '../components/SubmitButton';
 
 
@@ -45,8 +45,7 @@ export default class Introduction extends React.Component {
           
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.text}>{item.text}</Text>
-            {/* <FastImage style={styles.image} source={item.image} />
-            */}
+             <FastImage style={styles.image} source={item.image} />
           </View>
         );
       }
