@@ -54,6 +54,7 @@ const renderAccordion = () => {
 
 
 </View>)
+
   }
 return accordions;
 };
@@ -66,7 +67,7 @@ return accordions;
         }} />
   
         <ScrollView>
-  <View style={Styles.parentContainer}>
+  <View style={{...Styles.parentContainer,flex: 1,height:Dimensions.get('window').height}}>
   
   <Text style={styles.heading}>Frequently Asked Questions</Text>
   <View style={Styles.grayfullline}/>

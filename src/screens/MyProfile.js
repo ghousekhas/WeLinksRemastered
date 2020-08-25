@@ -29,7 +29,8 @@ const MyProfile = ({navigation}) => {
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
-         console.log('Popping to top');
+         console.log('Can\'t go back from here');
+         navigation.toggleDrawer();
        
         // navigation.goBack();
          //   navigation.reset();

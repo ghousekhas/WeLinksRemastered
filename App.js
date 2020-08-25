@@ -33,9 +33,9 @@ import VendorRegistration from './src/screens/VendorRegistration';
 navigator.geolocation = require('@react-native-community/geolocation');
 
 
-function School(){
-  return <Homescreen/>
-};
+// function School(){
+//   return <Homescreen/>
+// };
 
 
 const Drawer = createDrawerNavigator();
@@ -56,6 +56,8 @@ const NavigationDrawer = () => {
        
       <Drawer.Screen name="Home" component={VendorRegistration} />
       <Drawer.Screen name="HomeScreen" component={Homescreen} />
+      <Drawer.Screen name="ProfileStack" component={myProfileStack}/>
+      <Drawer.Screen name="SupportStack" component={userSupportStack}/>
      
        
       </Drawer.Navigator>
