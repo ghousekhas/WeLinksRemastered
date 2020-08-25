@@ -31,6 +31,7 @@ const style = StyleSheet.create({
         // paddingHorizontal: 30,
         // paddingVertical: 2,
         maxHeight: Dimensions.get('window').height/25,
+        width: Dimensions.get('window').width/4,
         
         alignItems: 'center',
         justifyContent:'center',

@@ -56,10 +56,11 @@ export default class AddressList extends React.Component{
 
    onBackPress=()=>{
       this.props.navigation.navigate('Homescreen');
+      return true;
     }
 
     componentWillUnmount(){
-      BackHandler.removeEventListener('hardwareBackPress',onBackPress);
+      BackHandler.removeEventListener('hardwareBackPress',this.onBackPress);
     }
 
 

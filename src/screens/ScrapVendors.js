@@ -1,10 +1,14 @@
 
 import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
+import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
+import { useFocusEffect } from '@react-navigation/native';
+
 import { userDetails } from '../UserDetails';
+import AppBar from '../components/AppBar';
 import { Avatar } from 'react-native-paper';
+import { Styles,Colors } from '../Constants';
 
 
 const ScrapVendors = (props) => {
@@ -55,10 +59,30 @@ const ScrapVendors = (props) => {
 
 
     ]);
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+          console.log('Go to homescreen');
+           props.navigation.navigate('AddressList');
+              return true;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
 
     
     return(<View style={{flex: 1,backgroundColor: 'white'}}>
-    <View style={{flexDirection: 'row'}}>
+ 
+    <AppBar back ={true} funct={() => {
+       props.navigation.pop();
+        }} />
+            <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
+
     <Image  style ={style.avatar} source={require('./../../assets/avatar.png')}/>
   
    
@@ -67,9 +91,11 @@ const ScrapVendors = (props) => {
         <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
     </View>
     </View>
-    <View style={style.line} />
+    <View style={Styles.grayfullline} />
 
-    <Text style={style.heading}>{words.milk}</Text>
+    <View style={style.heading}>
+<Text style={Styles.heading}>{words.milk}</Text>
+</View>
 
     <FlatList 
         data={vendors}
@@ -112,15 +138,16 @@ const style = StyleSheet.create({
     },
     username: {
         fontWeight: 'bold',
-        marginStart: 50,
+        marginStart: '25%',
         fontSize: 18
     },
     address: {
         marginTop: '3%',
         borderRadius: 5,
+        backgroundColor: Colors.primary,
         color: 'white',
         padding: 3,
-        marginStart: 50,
+        marginStart: '25%',
         paddingHorizontal: 6,
         
         fontSize: 13,

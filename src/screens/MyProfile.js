@@ -1,6 +1,6 @@
 import React,{useState}  from 'react';
 
-import { useFocusEffect,CommonActions,useNavigation } from '@react-navigation/native';
+import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 import { BackHandler, View, StyleSheet, Dimensions,Image } from 'react-native';
 
 import { Constants, Styles } from '../Constants';
@@ -14,8 +14,9 @@ import { DrawerActions } from "react-navigation-drawer";
 import DocumentPicker from 'react-native-document-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
-//const navigation = useNavigation();
+
 const MyProfile = ({navigation}) => {
+  //  const navigation = useNavigation();
     const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
@@ -28,10 +29,12 @@ const MyProfile = ({navigation}) => {
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
-         //  console.log('Go to homescreen');
-         //  props.navigation.popToTop();
-         navigation.goBack();
-              return false;
+         console.log('Popping to top');
+       
+        // navigation.goBack();
+         //   navigation.reset();
+                  
+              return true;
             
           };
     

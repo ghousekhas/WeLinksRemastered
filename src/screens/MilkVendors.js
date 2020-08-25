@@ -135,7 +135,7 @@ const style = StyleSheet.create({
     },
     username: {
         fontWeight: 'bold',
-        marginStart: 50,
+        marginStart: '25%',
         fontSize: 18
     },
     address: {
@@ -144,7 +144,7 @@ const style = StyleSheet.create({
         backgroundColor: Colors.primary,
         color: 'white',
         padding: 3,
-        marginStart: 50,
+        marginStart: '25%',
         paddingHorizontal: 6,
         
         fontSize: 13,

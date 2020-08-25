@@ -52,7 +52,7 @@ export const Styles=StyleSheet.create({
     grayfullline:{
         height: 0.5,
         width: '95%',
-        borderWidth: 0.025,
+        borderWidth: 0.30,
         borderColor: Colors.seperatorGray,
      //   color: Colors.seperatorGray,
         marginVertical: 5,

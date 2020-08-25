@@ -92,7 +92,7 @@ export default class Homescreen extends React.Component{
             this.checkIfFirstLogin();
             this.retreiveInitData();
        });
-        //BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+     //   BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
         /*Axios.post('https://5f1552a54693a6001627551c.mockapi.io/ahyeah')
         .then((response)=>{
             console.log(response.data);
@@ -100,7 +100,36 @@ export default class Homescreen extends React.Component{
         this.props.navigation.po*/
 
 
+        BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
+
+
+
     }
+
+
+    onBackPress=()=>{
+     //   this.props.navigation.navigate('Homescreen');
+     //   return true;
+     
+    //  this.props.navigation.reset();
+    try{
+        //this.props.navigation.popToTop();
+       BackHandler.exitApp();
+       console.log('Exiting');
+
+    }
+    catch(e){
+    console.log('caught');
+    };
+       
+      }
+  
+      componentWillUnmount(){
+      //  this.props.navigation.popToTop();
+        BackHandler.removeEventListener('hardwareBackPress',this.onBackPress);
+       // this.props.navigation.popToTop();
+      }
+  
     
     promoImagesRender = ({item}) =>{
         return(

@@ -1,13 +1,15 @@
 import React,{useState, useEffect} from 'react';
 import { Share ,Button, View, StyleSheet, Dimensions,StatusBar,Image } from 'react-native';
 import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-native-paper';
 import { userDetails } from '../UserDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SupportFAQ from '../screens/SupportFAQ';
 import { Constants,Colors } from '../Constants';
+
+
 
 
 
@@ -68,7 +70,7 @@ const DrawerContent = (props) => {
      style={{}}
      icon="account-outline"
      label="My Profile"
-     onPress={()=>{props.navigation.navigate('MyProfile')}}
+     onPress={()=>{props.navigation.navigate('ProfileStack')}}
      
    />
 
@@ -104,7 +106,7 @@ const DrawerContent = (props) => {
     
     icon="card-text-outline"
     label="Support and FAQs"
-    onPress={()=> {props.navigation.navigate('Support')}}
+    onPress={()=> {props.navigation.navigate('SupportStack')}}
     
   />
  
@@ -212,14 +214,14 @@ const DrawerContent = (props) => {
      style={{ }}
      icon="home-outline"
      label="Consumer Zone"
-     onPress={()=>{props.navigation.navigate('Home')}}
+     onPress={()=>{props.navigation.navigate('HomeStack')}}
      
    />
     <Drawer.Item
      style={{}}
      icon="account-outline"
      label="My Profile"
-     onPress={()=>{props.navigation.navigate('MyProfile')}}
+     onPress={()=>{props.navigation.navigate('ProfileStack')}}
      
    />
    <Drawer.Item
@@ -277,7 +279,7 @@ const DrawerContent = (props) => {
     
     icon="card-text-outline"
     label="Support and FAQs"
-    onPress={()=> {props.navigation.navigate('Support')}}
+    onPress={()=> {props.navigation.navigate('SupportStack')}}
     
   />
  

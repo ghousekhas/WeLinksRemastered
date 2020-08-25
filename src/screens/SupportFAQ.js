@@ -1,6 +1,8 @@
 import React from 'react';
-import {View,StyleSheet,TextInput, Dimensions} from 'react-native';
+import {View,StyleSheet,TextInput, Dimensions,BackHandler} from 'react-native';
 import {Text} from 'react-native-paper';
+import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
+
 import AppBar from '../components/AppBar';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -20,6 +22,24 @@ const SupportFAQ = ({navigation}) => {
         feedback: 'Send Feedback'
 
     };
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+         console.log('Popping to top');
+       
+        // navigation.goBack();
+         //   navigation.reset();
+                  
+              return true;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
     return(
     <View>
      <AppBar  funct={() => {

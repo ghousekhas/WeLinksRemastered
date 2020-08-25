@@ -52,7 +52,7 @@ const style = StyleSheet.create({
     answer:{
     flexDirection:'row',
     marginTop: 8,
-    
+    alignItems: 'center',
     height: 45,
     width: Dimensions.get('window').width-30,
     backgroundColor: 'white',

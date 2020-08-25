@@ -41,11 +41,11 @@ export default function VendorRegistration({navigation}){
                 <View style={{marginTop: dimen.height/20,height: dimen.height*0.77}}>
                 <ScrollView >
                     <TextBox title="NAME OF YOUR COMPANY" hint="Enter your company's name" />
-                    <TextBox title="COMPANY EMAIL ADDRESS" hint="Enter conpany's E-mail address"/>
+                    <TextBox title="COMPANY EMAIL ADDRESS" hint="Enter company's E-mail address"/>
                     <TextBox title="COMPANY GST NUMBER" hint="Enter company's GST number"/>
-                    <UploadButton title='GST Certiifcate' browseresult={fileselect}/>
-                    <UploadButton title='Address' buttonTitle='map' />
-                    <UploadButton title='Aadhar/Verification' browseresult={fileselect}/>
+                    <UploadButton title='GST CERTIFICATE' browseresult={fileselect}/>
+                    <UploadButton title='ADDRESS' buttonTitle='Map' />
+                    <UploadButton title='AADHAR/VERIFICATION' browseresult={fileselect}/>
                 </ScrollView>
                 </View>
                 <SubmitButton onTouch={submitRegistration} text='Submit' />
@@ -90,7 +90,7 @@ const styl = StyleSheet.create({
     }
 })
 
-const UploadButton =({hint,title,browseresult,buttonTitle='browse'})=>{
+const UploadButton =({hint,title,browseresult,buttonTitle='Browse'})=>{
     const [filename,setFileName] = useState('Please select a file');
     const [uri,setUri] = useState(null);
     var navigation;
@@ -100,12 +100,12 @@ const UploadButton =({hint,title,browseresult,buttonTitle='browse'})=>{
     catch(e){}
 
     useEffect(()=>{
-        if(buttonTitle == 'map')
-            setFileName('Please choose the address');
+        if(buttonTitle == 'Map')
+            setFileName('Please choose address');
     },[])
 
     const browse= async()=>{
-        if(buttonTitle == 'map'){
+        if(buttonTitle == 'Map'){
             navigation.navigate('Homescreen');
             return;
         }
