@@ -28,6 +28,12 @@ import MyProfile from './src/screens/MyProfile';
 import SupportFAQ from './src/screens/SupportFAQ';
 import FAQ from './src/screens/FAQ';
 import VendorRegistration from './src/screens/VendorRegistration';
+import BidCreation1 from './src/screens/BidCreation1';
+import BidCreation2 from './src/screens/BidCreation2';
+import Bidds from './src/screens/Bids';
+import VendorBids from './src/screens/VendorBids';
+import TitleBidDetails from './src/screens/TitleBidDetails';
+import CancellationScreen from './src/screens/CancellationScreen';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -47,6 +53,8 @@ const NavigationDrawer = () => {
     setVendor(flag);
 
   }
+
+  //return <CancellationScreen/>
 
   if(vendor)
     return(
@@ -144,6 +152,8 @@ export default function App() {
 
    
   },[]);
+
+  
  
   
   if(user==null){
@@ -213,6 +223,7 @@ const PostLoginHome =(props)=>{
         <Stack.Screen name='FirstAddress' component={AddressSearch} options={{headerShown: false}}/>
         <Stack.Screen name= 'ScrapVendors' component={ScrapVendors} options={{headerShown: false}}/>
         <Stack.Screen name='ScrapVendor' component={ScrapVendor} options={{headerShown: false}}/>
+        <Stack.Screen name="BidCreation1" component={BidCreation1} options={{headerShown: false}}/>
         {/* <Stack.Screen name='ProfileStack' component={MyProfile} options={{headerShown: false}}/> */}
 
 

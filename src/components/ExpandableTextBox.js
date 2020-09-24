@@ -5,15 +5,16 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {FontAwesome5} from '@expo/vector-icons';
 import {Colors,dimen,TextSpinnerBoxStyles} from '../Constants';
 
-const TextBox = ({title,hint,icon,changeText}) => {
+const ExpandableTextBox = ({title,hint,icon,changeText}) => {
     return(<View style={style.mainContainer}>
        <Text style={style.text}>{title}</Text>
        <View style={style.answer}>
-       <TextInput style={style.input}
-       placeholder={hint} onChangeText={changeText}></TextInput>
-       <View style={style.icon}>
-       <FontAwesome5 name={icon} size={30} color='#5D5D5D' backgroundColor='white' />
-       </View>
+        <TextInput style={style.input}
+        placeholder={hint} onChangeText={changeText} multiline={true} numberOfLines={10} maxLength={200} textAlignVertical={'top'}
+        clearButtonMode={'always'}/>
+        <View style={style.icon}>
+            <FontAwesome5 name={icon} size={30} color='#5D5D5D' backgroundColor='white' />
+        </View>
      
        </View>
       
@@ -38,9 +39,9 @@ const style = StyleSheet.create({
 
    },
    input: {
-    height: TextSpinnerBoxStyles.input.height, 
+    width: dimen.width*0.95,
     textAlign: 'left',
-    
+    maxHeight: dimen.height/3,
     flex: 5,
     marginStart: 10,
     backgroundColor: 'white'
@@ -53,9 +54,8 @@ const style = StyleSheet.create({
     flexDirection:'row',
     marginTop: 8,
     alignItems: 'center',
-    height: TextSpinnerBoxStyles.answer.height,
-    width: Dimensions.get('window').width-30,
     backgroundColor: 'white',
+    width: dimen.width*0.95,
    
   
     borderColor: Colors.seperatorGray,
@@ -66,4 +66,4 @@ icon:{
     padding: 6
 }
 });
-export default TextBox;
+export default ExpandableTextBox;
