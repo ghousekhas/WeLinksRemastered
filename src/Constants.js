@@ -268,3 +268,41 @@ export const ScrapStyles=StyleSheet.create({
         alignSelf: 'center'
     }
 });
+
+export const TextSpinnerBoxStyles=StyleSheet.create({
+    mainContainer:{
+        paddingVertical: dimen.height/100,
+        marginTop: dimen.height/100,
+        paddingHorizontal: dimen.width*0.1,
+        alignSelf: 'center'
+    },
+   text:{
+        fontSize: 15,
+        color: 'black',
+        fontWeight: 'bold'
+     //   backgroundColor: '#F9F9F9'
+
+   },
+   input: {
+    height: dimen.height/15, 
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    width: dimen.width*0.85
+   
+   
+    
+   
+},
+    answer:{
+    marginTop: 8,
+    height: dimen.height/14,
+    width: Dimensions.get('window').width-30,
+    backgroundColor: 'white',
+    borderColor: Colors.seperatorGray,
+    borderWidth: 1,
+    borderRadius: 5
+},
+icon:{
+    padding: 6
+}
+});
