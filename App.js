@@ -27,7 +27,9 @@ import DrawerContent from './src/components/DrawerContent';
 import MyProfile from './src/screens/MyProfile';
 import SupportFAQ from './src/screens/SupportFAQ';
 import FAQ from './src/screens/FAQ';
+import Test from './src/screens/test';
 import VendorRegistration from './src/screens/VendorRegistration';
+import test from './src/screens/test';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -102,7 +104,7 @@ const userSupportStack = () => {
   <NavigationContainer independent = {true}>
   <Stack.Navigator initialRouteName="SupportFAQ">
   <Stack.Screen name = "SupportFAQ" component = {SupportFAQ} options={{headerShown: false}} />
-  <Stack.Screen name = "FAQ" component = {FAQ} options={{headerShown: false}} />
+  <Stack.Screen name = "FAQ" component = {FAQ} options={{headerShown: false}} d />
 
   </Stack.Navigator>
 
@@ -176,7 +178,7 @@ export default function App() {
     </View>
     );
     }
-
+return(<Test />)
   return (
     <View style={{flex: 1}}>
       <NavigationDrawer />
