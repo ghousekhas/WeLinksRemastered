@@ -34,6 +34,7 @@ import Bidds from './src/screens/Bids';
 import VendorBids from './src/screens/VendorBids';
 import TitleBidDetails from './src/screens/TitleBidDetails';
 import CancellationScreen from './src/screens/CancellationScreen';
+import ScrapCart from './src/screens/ScrapCart';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -54,7 +55,8 @@ const NavigationDrawer = () => {
 
   }
 
-  //return <CancellationScreen/>
+
+
 
   if(vendor)
     return(
@@ -127,6 +129,7 @@ export default function App() {
 
 
 
+
   onAuthStateChanged= (user) =>{
     setUser(user);
     //console.log(user);
@@ -143,12 +146,13 @@ export default function App() {
   }
   
   React.useEffect(()=>{
-    setUser(auth().currentUser);
+    //setUser(auth().currentUser);
     //checkIfFirstLogin();
     console.log(user);
+    setUser('something')
     
    
-    const suser= auth().onAuthStateChanged(onAuthStateChanged);
+    //const suser= auth().onAuthStateChanged(onAuthStateChanged);
 
    
   },[]);
@@ -159,30 +163,30 @@ export default function App() {
   if(user==null){
     return (
       <View style={{flex: 1}}>
-      <NavigationContainer independent={true}>
-      <Stack.Navigator>
-      <Stack.Screen  name="Introduction" component={Introduction} 
-        options={{
-          headerShown: false
-        }}/>
-        <Stack.Screen name='Login' component={LoginScreen} options={{
-          headerShown: false 
-        }}/>
-        <Stack.Screen name='AddressSearch' component={AddressSearch}/>
-        <Stack.Screen name='AddAddress' component={AddAddress} options={{
-          headerShown: false
-        }}/>
-        <Stack.Screen name = "City" component={City}/>
-        <Stack.Screen name = "About" component={About}/>
-        <Stack.Screen name='MilkVendors' component={MilkVendors} options={{headerShown: false}}/>
-        <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}}/>
-        <Stack.Screen name='VendorScreen' component={VendorScreen} options={{headerShown: false}}/>
-        <Stack.Screen name='VendorScreen1' component={VendorScreen1} options={{headerShown: false}} />
-        <Stack.Screen name='FAQ' component={FAQ} options={{headerShown: false}} />
-        
+        <NavigationContainer independent={true}>
+        <Stack.Navigator>
+        <Stack.Screen  name="Introduction" component={Introduction} 
+          options={{
+            headerShown: false
+          }}/>
+          <Stack.Screen name='Login' component={LoginScreen} options={{
+            headerShown: false 
+          }}/>
+          <Stack.Screen name='AddressSearch' component={AddressSearch}/>
+          <Stack.Screen name='AddAddress' component={AddAddress} options={{
+            headerShown: false
+          }}/>
+          <Stack.Screen name = "City" component={City}/>
+          <Stack.Screen name = "About" component={About}/>
+          <Stack.Screen name='MilkVendors' component={MilkVendors} options={{headerShown: false}}/>
+          <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}}/>
+          <Stack.Screen name='VendorScreen' component={VendorScreen} options={{headerShown: false}}/>
+          <Stack.Screen name='VendorScreen1' component={VendorScreen1} options={{headerShown: false}} />
+          <Stack.Screen name='FAQ' component={FAQ} options={{headerShown: false}} />
+          
 
-      </Stack.Navigator>
-    </NavigationContainer> 
+        </Stack.Navigator>
+      </NavigationContainer> 
     </View>
     );
     }
@@ -223,7 +227,9 @@ const PostLoginHome =(props)=>{
         <Stack.Screen name='FirstAddress' component={AddressSearch} options={{headerShown: false}}/>
         <Stack.Screen name= 'ScrapVendors' component={ScrapVendors} options={{headerShown: false}}/>
         <Stack.Screen name='ScrapVendor' component={ScrapVendor} options={{headerShown: false}}/>
+        <Stack.Screen name="Bidds" component={Bidds} options={{headerShown: false}}/>
         <Stack.Screen name="BidCreation1" component={BidCreation1} options={{headerShown: false}}/>
+        <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{headerShown: false}}/>
         {/* <Stack.Screen name='ProfileStack' component={MyProfile} options={{headerShown: false}}/> */}
 
 

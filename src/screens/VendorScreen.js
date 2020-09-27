@@ -14,6 +14,7 @@ import Stars from '../components/Stars';
 import Product from '../components/Product';
 import {Entypo} from '@expo/vector-icons'
 import AppBar from '../components/AppBar';
+import Axios from 'axios';
 
 const brandsArray=['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Amul_Logo.jpg/220px-Amul_Logo.jpg',
 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ-PN3yAMsBkQdlKVjDsM19qCdITU5T-WT3vQ&usqp=CAU',
@@ -26,7 +27,7 @@ export default class VendorScreen extends React.Component{
     constructor(props){
         super(props);
             this.state={
-                brangImagesdata: [1,2,3,4,5,6,7,8,9,10],
+                brandImagesData: [],
                 sections: [{one: 1,
                     category: 'Toned',two: 2},{one: 1,
                         category: 'Cow',two: 2},{one: 1,
@@ -37,6 +38,27 @@ export default class VendorScreen extends React.Component{
                                 
             };
     }
+
+    componentDidMount(){
+        console.log('MilkVendorEntered')
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&vendorID=1&vendor_type=milk',{
+            'Accept-Encoding': 'gzip'
+        }
+        ).then((result) => {
+           var res = result.data.products;
+           console.log('result',res);
+           console.log('res',res.categories);
+           this.setState({sections: res.categories});
+           this.setState({brandImagesData: res.brands});
+    
+           
+
+        }).catch((err) => {
+            console.log(err);
+            
+        });
+    }
+ 
  
 
     toggleExpanded= ()=>{
@@ -59,7 +81,7 @@ export default class VendorScreen extends React.Component{
     
     renderItem=({item})=>{
         return(
-            <Image style={Styles.horizontalImage} source={{uri: item}
+            <Image style={Styles.horizontalImage} source={{uri: item.brand_img_url}
         }/>
         );
     };
@@ -76,6 +98,7 @@ export default class VendorScreen extends React.Component{
     renderHeader = (section, _, isActive) => {
 
         var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
+        console.log('meh',section);
 
         if(!isActive)
             expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)
@@ -88,7 +111,7 @@ export default class VendorScreen extends React.Component{
             style={Styles.collapsedView}
             transition="backgroundColor"
           >
-            <Text style={Styles.collapsedText}>{section.category}</Text>
+            <Text style={Styles.collapsedText}>{(Object.keys(section))[0]}</Text>
             {expanderButton}
           </Animatable.View>
         );
@@ -96,13 +119,14 @@ export default class VendorScreen extends React.Component{
     
 
     renderContent= (section,_,isactive)=>{
+        console.log(section[(Object.keys(section))[0]]);
 
         return(
             <Animatable.View
             duration={400}
             style={Styles.collapsibleView}
             transition="backgroundColor">
-        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68}}}/>
+        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68}}} data={section[(Object.keys(section))[0]]}/>
         </Animatable.View>);
         /*return(
             <Animatable.View
@@ -143,7 +167,7 @@ export default class VendorScreen extends React.Component{
                 <FlatList
                     style={Styles.halfFlatlist}
                     renderItem={this.renderItem}
-                    data={brandsArray}
+                    data={this.state.brandImagesData}
                     horizontal={true}
                     keyExtractor={(item,index)=>  index.toString()}/>
 
@@ -171,7 +195,7 @@ export default class VendorScreen extends React.Component{
 
 
 
-const ScrapFlatList = ({route,navigation}) => {
+const ScrapFlatList = ({route,navigation,data}) => {
    
     const [mlist,updatemList] = useState([
         {
@@ -232,11 +256,11 @@ const ScrapFlatList = ({route,navigation}) => {
    // const order = navigation.getParams('order');
     return(<View style={style.container}>
     <FlatList
-        data = {mlist}
+        data = {data}
         keyExtractor = {(item) => item.name}
         renderItem = {({item}) => { 
             return(
-                <Product name={item.name} quantity={item.quantity} price={item.price} 
+                <Product name={item.name} quantity={item.quantity} price={item.price}  url={item.product_img_url}
                 subscribe={() => {
                    
                     const prodName = item.name;

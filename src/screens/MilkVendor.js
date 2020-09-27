@@ -19,6 +19,17 @@ export default class MilkVendor extends React.Component{
                                 
             };
     }
+
+    componentDidMount(){
+        console.log('MilkVendorEntered')
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&vendorID=1&vendor_type=milk',{}
+        ).then((result) => {
+            console.log(result);
+        }).catch((err) => {
+            console.log(err);
+            
+        });
+    }
  
 
     toggleExpanded= ()=>{
@@ -28,7 +39,7 @@ export default class MilkVendor extends React.Component{
         this.setState({
           activesections: sections.includes(undefined) ? [] : sections,
         });
-        console.log(sections);
+        //console.log(sections);
         setTimeout(()=>{
         if(sections.length!=0)
         this.scrollView.scrollTo({
