@@ -25,14 +25,14 @@ export default class Homescreen extends React.Component{
         
             firstLogin: false,
             
-            username: 'Anom',
+            username: 'Fitzwilliam',
             city: 'Bengaluru',
             title: 'What are you looking for?',
             desc: 'Select services and checkout easily',
             milk: 'Milk Delivery',
             news: 'Newspaper Delivery',
-            scrap: 'Scrap Collection',
-            corporate: 'Corporate Scrap Collection',
+            scrap: 'Corporate Scrap',
+            corporate: 'Home Scrap',
             address: 'Tap here to add an address'
         };
         this.images={
@@ -45,11 +45,11 @@ export default class Homescreen extends React.Component{
     }
 
     checkIfFirstLogin= async ()=>{
-        console.log('someeeeeething');
+      //  console.log('someeeeeething');
         const jsondata=  await AsyncStorage.getItem('firstLogin');
         const firstLogin= await JSON.parse(jsondata);
         if(firstLogin == null){
-            console.log('meh',firstLogin);
+         //   console.log('meh',firstLogin);
             navigation.navigate('About')
           this.props.navigation.navigate('About',{firstLogin: true});
           this.setState({firstLogin: true})
@@ -206,7 +206,7 @@ export default class Homescreen extends React.Component{
                     <View style={styles.view1}>
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
-                        this.props.navigation.navigate('Bidds',{
+                        this.props.navigation.navigate('Bids',{
                             department: 'corporateScrap'
                         })
                         // this.props.navigation.navigate('VendorsList',{
@@ -226,7 +226,7 @@ export default class Homescreen extends React.Component{
                         // })
                     }}>
                         <Image style={styles.menuimage} source={this.images.scrap} />
-                        <Text style={styles.menutext}>{this.state.scrap}</Text>
+                        <Text style={styles.menutext}>{this.state.corporate}</Text>
                     </TouchableOpacity>
                     </View>
               
@@ -393,7 +393,7 @@ const styles= StyleSheet.create({
 
     },
     menuitem:{
-        height: Dimensions.get('window').width/3,
+        height: Dimensions.get('window').width/2.95,
         width: Dimensions.get('window').width/3-25,
         margin: 10,
         flexDirection: 'column',
@@ -420,7 +420,8 @@ const styles= StyleSheet.create({
     },
     menutext:{
         fontWeight: 'bold',
-        fontSize: 12,
+        fontSize: 11,
+        flex: 1,
         textAlign: 'center',
         color: 'black',
     },

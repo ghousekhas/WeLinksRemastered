@@ -3,13 +3,17 @@ import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity} from 'react-n
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
+import AppBar from '../components/AppBar';
 import moment from 'moment';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
+import SubmitButton from '../components/SubmitButton';
 
-export default function TitleBidDetails(){
-    const [title,stitle]=useState('Title');
-    const [address,sAddress]=useState('No.17, 23rd cross 18th A main road G block sahakarnagar bangalore 560092')
+export default function TitleBidDetails({navigation,route}){
+ const {bidTitle} = route.params;
+    console.log('dets ' + bidTitle)
+    const [title,stitle]=useState("Bid Title");
+    const [address,sAddress]=useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.')
 
     const renderItem=({item})=>{
         return (
@@ -25,13 +29,13 @@ export default function TitleBidDetails(){
 
     const renderHeader=()=>{
         return (<View style={{flex: 0}}>
-            <Text style={{...Styles.heading,alignSelf: 'center'}}>Title Bid Details</Text>
+            <Text style={{...Styles.heading,alignSelf: 'center'}}>Bid Details</Text>
             <View style={styles.bidcard}>
-                <Text style={{...Styles.subbold,fontWeight: 'bold'}}>{title}</Text>
-                <Text style={{...Styles.subheading,marginLeft: dimen.width/200,textAlign: 'left',paddingTop: 2,paddingHorizontal: 5}}> {address}</Text>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.info}> {address}</Text>
                 <View style={styles.duration}>
-                    <Text style={{...Styles.subbold,fontWeight: 'bold'}}>Duration: </Text>
-                    <Text style={{...Styles.subbold,fontWeight: '700'}}>{moment().toString()}</Text>
+                    <Text style={{...styles.title,color: 'gray',marginVertical: '3%'}}> {moment().toString()} </Text>
+                    <Text style={{...Styles.subbold,fontWeight: '700'}}></Text>
                 </View>
                 <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
                     <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
@@ -48,55 +52,72 @@ export default function TitleBidDetails(){
                     </View>
                 </View>
                 <View style={styles.duration}>
-                    <Text style={{alignSelf: 'center'}}>Require</Text>
-                    <View style={{...styles.requirementsButton,backgroundColor: Colors.primary}}>
-                        <Text style={{...Styles.subbold,paddingHorizontal: 1,paddingVertical: 3,color: 'white'}}>Manpower</Text>
+                <View style={{flexDirection: 'row',alignItems:'center',justifyContent: 'space-between'}}>
+                    <Text style={{alignSelf: 'center',fontWeight: 'bold',marginTop: '4%',paddingVertical:2}}>Require: </Text>
+                    <View style={{...styles.requirementsButton,backgroundColor: Colors.primary,marginTop:'2%'}}>
+                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Manpower</Text>
                     </View>
                     <View style={{...styles.requirementsButton,backgroundColor: 'gray'}}>
-                        <Text style={{...Styles.subbold,paddingHorizontal: 1,paddingVertical: 3,color: 'white'}}>Insurance</Text>
+                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Insurance</Text>
                     </View>
                     <View style={{...styles.requirementsButton,backgroundColor: Colors.primary}}>
-                        <Text style={{...Styles.subbold,paddingHorizontal: 1,paddingVertical: 3,color: 'white'}}>Vehicle</Text>
+                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Vehicle</Text>
+                    </View>
                     </View>
                 </View>
                 <View style={{flex: 0}}>
-                    <Text style={{...Styles.subbold,fontWeight: 'bold'}}>Additional Notes</Text>
-                    <Text style={{...Styles.subbold,color: 'gray',fontWeight: 'normal',marginLeft: 10}}>My scrap is fragiel bring thermocol pls Also this is the first time I'm giving my scrap away, possibly I'm still attached to my scrap, you'd have to seperate me from my scrap by pulling me away so please don't damage my scrap or I might end up crying, this scrap means a lot to me, it contains the laptop I learnt to type on, this message is typed in </Text>
+                    <Text style={{...styles.title}}>Additional Notes</Text>
+                    <Text style={{...styles.info}}>Anything but the text that was here before. That was very annoying. Start proper nouns with a capital letter, please. </Text>
                 </View>
                 <View>
-                    <Text style={{alignSelf: 'flex-end',color: Colors.primary,paddingTop: 5}}>STATUS: OPEN</Text>
+                    <Text style={{...styles.title,marginVertical:'3%',color: Colors.blue}}>Bid Status</Text>
                 </View>
             </View>
+            {/* <SubmitButton text='Cancel Bid' /> */}
             <TouchableOpacity style={styles.cancelButton} onPress={()=>{
-                alert('eh it\'ll be cancelled now wait da');
+                alert('Are you sure you want to cancel this bid?');
             }}>
                 <Text style={styles.cancelText}>Cancel Bid</Text>
             </TouchableOpacity>
+
+            <Text style={{...Styles.heading,alignSelf:'center'}}>Bids Received</Text>
 
         </View>
         )
     }
 
-    return(
+    return(<View>
+     <AppBar 
+    back
+      funct={() => {
+        navigation.pop();
+         }} />
+
+         <View style={{...Styles.parentContainer,backgroundColor: Colors.whiteBackground}}>
+         
         <FlatList
             ListHeaderComponent={renderHeader}
             data={[1,2,3,4,5,6,7,8]}
             renderItem={renderItem}
             ItemSeparatorComponent={()=><GenericSeperator/>}/>
-
+            </View>
+            </View>
             
     )
 }
 
 const styles=StyleSheet.create({
     bidcard:{
-        borderWidth: 1,
+        width: dimen.width-dimen.width/10,
+        // height: dimen.height/3.8,
+        borderRadius: 15,
         borderColor: Colors.seperatorGray,
-        padding: dimen.width/35,
-        borderRadius: 10,
-        marginRight: 20,
-        marginLeft: 10,
-        marginVertical: 10
+        borderWidth: 0.5,
+       padding:'2%',
+        marginTop: '5%',
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        elevation: 1
     },
     duration:{
         paddingVertical: 5,
@@ -107,11 +128,11 @@ const styles=StyleSheet.create({
         flexDirection: 'row'
     },
     requirementsButton:{
-        paddingVertical: 1,
+        paddingVertical: '0.5%',
         paddingHorizontal: 10,
         alignSelf: 'baseline',
         borderRadius: 10,
-        marginHorizontal: 5
+        marginHorizontal: '1%'
     },
     cancelText:{
         ...Styles.subbold,
@@ -122,12 +143,27 @@ const styles=StyleSheet.create({
         padding: 15
     },
     cancelButton:{
-        backgroundColor: 'red',
-        marginVertical: 5, 
-        marginHorizontal: 10,
-        justifyContent: 'center',
-        flex: 1,
-        borderRadius: 7
+        backgroundColor: Colors.red,
+        // height: '100%',
+        width: '97%',
+        aspectRatio: 10/1.4,
+        borderRadius: 5,
+        alignSelf:'center',
+        marginVertical: '5%'
         
+    },
+    title: {
+        fontWeight: 'bold',
+        color: Colors.primary,
+        padding: '1%',
+        fontSize: 16,
+    },
+    info:{
+        padding: '1%',
+        fontSize: 14,
+        marginTop:'3%',
+        flex: 1,
+       
+
     }
 })

@@ -10,7 +10,11 @@ export const Colors = {
     secondary: '#EDF9F9',
     seperatorGray: 'rgba(211,211,211,255)',
     lightIcon: '#D3D3D3',
-    disabledButton: '#BBC0C4'
+    disabledButton: '#BBC0C4',
+    white : '#FFFFFF',
+    blue: '#6775DD',
+    red: '#EB5757',
+    whiteBackground: '#F9F9F9'
 }
 
 export const Constants={
@@ -34,8 +38,7 @@ export const Styles=StyleSheet.create({
     heading:{
         fontSize: 17,
         fontWeight: 'bold',
-        marginLeft: 20,
-        marginTop: 20,
+      marginTop: '2%',
         alignSelf: 'flex-start',
         color: 'black'
         

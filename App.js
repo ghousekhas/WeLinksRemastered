@@ -31,7 +31,7 @@ import Test from './src/screens/test';
 import VendorRegistration from './src/screens/VendorRegistration';
 import BidCreation1 from './src/screens/BidCreation1';
 import BidCreation2 from './src/screens/BidCreation2';
-import Bidds from './src/screens/Bids';
+import Bids from './src/screens/Bids';
 import VendorBids from './src/screens/VendorBids';
 import TitleBidDetails from './src/screens/TitleBidDetails';
 import CancellationScreen from './src/screens/CancellationScreen';
@@ -75,7 +75,7 @@ const NavigationDrawer = () => {
     </NavigationContainer>
     );
 
-  
+ // return(<BidCreation2 />)
   return (
     <NavigationContainer independent={true}  >
       <Drawer.Navigator initialRouteName='Home' backBehavior='none'
@@ -108,6 +108,7 @@ const myProfileStack = () => {
 
 const userSupportStack = () => {
   console.log('Starting Support Stack')
+   //return(<BidCreation1 />)
   return(
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
@@ -191,7 +192,7 @@ export default function App() {
     </View>
     );
     }
-return(<Test />)
+
   return (
     <View style={{flex: 1}}>
       <NavigationDrawer />
@@ -228,7 +229,7 @@ const PostLoginHome =(props)=>{
         <Stack.Screen name='FirstAddress' component={AddressSearch} options={{headerShown: false}}/>
         <Stack.Screen name= 'ScrapVendors' component={ScrapVendors} options={{headerShown: false}}/>
         <Stack.Screen name='ScrapVendor' component={ScrapVendor} options={{headerShown: false}}/>
-        <Stack.Screen name="Bidds" component={Bidds} options={{headerShown: false}}/>
+        <Stack.Screen name="Bids" component={Bids} options={{headerShown: false}}/>
         <Stack.Screen name="BidCreation1" component={BidCreation1} options={{headerShown: false}}/>
         <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{headerShown: false}}/>
         {/* <Stack.Screen name='ProfileStack' component={MyProfile} options={{headerShown: false}}/> */}
