@@ -3,9 +3,12 @@ import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import SubmitButton from '../components/SubmitButton';
 import AsyncStorage from '@react-native-community/async-storage';
+import Axios from 'axios';
+import auth from '@react-native-firebase/auth';
 
-const City = ({navigation}) =>{
+const City = ({navigation,route}) =>{
     const [value, setValue] = useState('Bangalore');
+    const {name,email,referral} =route.params;
     return(<View style={style.mainContainer}>
         <Text style = {style.text}>Select your city</Text>
         <View style ={style.line}/>
@@ -32,7 +35,29 @@ const City = ({navigation}) =>{
       <View style={{position: 'absolute',bottom: '14%',alignSelf:'center'}}>
       <SubmitButton text='Next'
           onTouch={async ()=> {
-              AsyncStorage.setItem('firstLogin','true');
+              //AsyncStorage.setItem('firstLogin','true');
+              var config = {
+                method: 'post',
+                url: 'https://api.dev.we-link.in/user_app.php?action=registerUser&name=New User&phone=9144200060&email=newuser@user.wl&city_id=2',
+                headers: { 
+                  'Cookie': 'PHPSESSID=5bd597ec74efb796fa99c02134f26a67'
+                }
+              };
+              
+            Axios.post('https://api.dev.we-link.in/user_app.php',
+            {
+                action: 'registerUser',
+                name: name,
+                phone: auth().currentUser.phoneNumber,
+                email: email,
+                city_id: 2 
+            })
+              .then(function (response) {
+                console.log(JSON.stringify(response.data));
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
               navigation.navigate('Homescreen')
           }}
       />

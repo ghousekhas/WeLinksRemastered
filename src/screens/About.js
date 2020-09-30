@@ -27,12 +27,13 @@ const About = ({navigation,route}) =>{
 
     const aboutSubmit= async ()=>{
         await AsyncStorage.setItem(Constants.username,name);
-        if(ValidateEmail(email)){
+        if(ValidateEmail(email) && name.trim() != ''){
             try{
-                if(route.params.firstLaunch != undefined)
-                    navigation.navigate('City');
-                else
-                    navigation.navigate('Homescreen');
+                navigation.navigate('City',{
+                    name: name,
+                    email: email,
+                    referral: referral
+                })
             }
             catch(error){
                 navigation.navigate('City');

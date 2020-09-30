@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState} from 'react';
-import { View } from 'react-native';
+import { View,StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -55,7 +55,6 @@ const NavigationDrawer = () => {
     setVendor(flag);
 
   }
-
 
 
 
@@ -134,7 +133,7 @@ export default function App() {
 
   onAuthStateChanged= (user) =>{
     setUser(user);
-    //console.log(user);
+    console.log(user);
 
   }
 
@@ -148,13 +147,13 @@ export default function App() {
   }
   
   React.useEffect(()=>{
-    //setUser(auth().currentUser);
-    //checkIfFirstLogin();
+    setUser(auth().currentUser);
+    checkIfFirstLogin();
     console.log(user);
-    setUser('something')
+    //setUser('something')
     
    
-    //const suser= auth().onAuthStateChanged(onAuthStateChanged);
+    const suser= auth().onAuthStateChanged(onAuthStateChanged);
 
    
   },[]);

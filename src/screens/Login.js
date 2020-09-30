@@ -20,10 +20,10 @@ const LoginScreen = ({navigation}) => {
     onAuthStateChanged = (user)=>{
         setUser(user);
         
-
     }
     useEffect(()=>{
         const unsubscribe= auth().onAuthStateChanged(onAuthStateChanged);
+
     },[]);
 
 
