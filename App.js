@@ -34,6 +34,8 @@ import BidCreation2 from './src/screens/BidCreation2';
 import Bids from './src/screens/Bids';
 import VendorBids from './src/screens/VendorBids';
 import TitleBidDetails from './src/screens/TitleBidDetails';
+import MakeABid from './src/screens/MakeABid';
+import PrivacyPolicy from './src/screens/PrivacyPolicy';
 import CancellationScreen from './src/screens/CancellationScreen';
 import ScrapCart from './src/screens/ScrapCart';
 
@@ -113,7 +115,8 @@ const userSupportStack = () => {
   <NavigationContainer independent = {true}>
   <Stack.Navigator initialRouteName="SupportFAQ">
   <Stack.Screen name = "SupportFAQ" component = {SupportFAQ} options={{headerShown: false}} />
-  <Stack.Screen name = "FAQ" component = {FAQ} options={{headerShown: false}} d />
+  <Stack.Screen name = "FAQ" component = {FAQ} options={{headerShown: false}} />
+  <Stack.Screen name = "PrivacyPolicy" component = {PrivacyPolicy} options={{headerShown: false}} />
 
   </Stack.Navigator>
 
@@ -231,6 +234,7 @@ const PostLoginHome =(props)=>{
         <Stack.Screen name="Bids" component={Bids} options={{headerShown: false}}/>
         <Stack.Screen name="BidCreation1" component={BidCreation1} options={{headerShown: false}}/>
         <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{headerShown: false}}/>
+        <Stack.Screen name="MakeABid" component={MakeABid} options={{headerShown: false}}/>
         {/* <Stack.Screen name='ProfileStack' component={MyProfile} options={{headerShown: false}}/> */}
 
 

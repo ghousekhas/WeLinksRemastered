@@ -1,40 +1,81 @@
-import React, { useState } from 'react';
-import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
-import { RadioButton } from 'react-native-paper';
+import React, { useState,useEffect } from 'react';
+import {Text,View,StyleSheet,TextInput, Dimensions,TouchableOpacity} from 'react-native';
 import SubmitButton from '../components/SubmitButton';
 import AsyncStorage from '@react-native-community/async-storage';
+<<<<<<< HEAD
 import Axios from 'axios';
 import auth from '@react-native-firebase/auth';
 
 const City = ({navigation,route}) =>{
     const [value, setValue] = useState('Bangalore');
     const {name,email,referral} =route.params;
+=======
+import {Styles} from '../Constants'
+import Axios from 'axios';
+import { FlatList } from 'react-native-gesture-handler';
+import { RadioButton } from 'react-native-paper';
+
+
+
+
+
+
+const City = ({navigation}) =>{
+    const [cities,setCities] = useState([])
+    const [value,setValue] = useState([])
+
+    useEffect(() => {
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getCityList',{
+            'Accept-Encoding': 'gzip'
+        }
+        ).then((result) => {
+        console.log(result.data.cities)
+        setCities(result.data.cities);
+    
+           
+
+        }).catch((error) => {
+            console.log("Error reading city data: " + err);
+            
+        });
+      });
+   // console.log(cities)
+   let i;
+   let cityList = [];
+   for(i in cities){
+       cityList.push(cities[i].city_name);
+
+   }
+
+ //  setValue(cityList[0])
+  
+  // console.log(cityList)
+
+   
+>>>>>>> 6e71ce4a66f460cbe32510a5ad51c66ab2a57c61
     return(<View style={style.mainContainer}>
         <Text style = {style.text}>Select your city</Text>
-        <View style ={style.line}/>
-        
-        
-        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-        <View style ={style.view}>
-        <RadioButton value="Ahmedabad" />
-        <Text style ={style.city}>Ahmedabad</Text>
+        <View style ={Styles.grayfullline}/>
        
-      </View>
-      <View style ={style.view}>
-       <RadioButton value="Bangalore" /> 
-        <Text style={style.city}>Bangalore</Text>
+       
+         <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+           <FlatList
+           data = {cities}
+           renderItem = {({item}) => {
+            
+               return( <View style ={style.view}>
+       <RadioButton value={item.city_name} /> 
+        <Text style={style.city}>{item.city_name}</Text>
       
-      </View>
-       
-        <View style = {style.view}>
-        <RadioButton value="Chennai" />
-        <Text style={style.city}>Chennai</Text>
+      </View>)
+           }} />
+        </RadioButton.Group>
         
-      </View>
-      </RadioButton.Group>
+        
       <View style={{position: 'absolute',bottom: '14%',alignSelf:'center'}}>
       <SubmitButton text='Next'
           onTouch={async ()=> {
+<<<<<<< HEAD
               //AsyncStorage.setItem('firstLogin','true');
               var config = {
                 method: 'post',
@@ -59,13 +100,21 @@ const City = ({navigation,route}) =>{
                 console.log(error);
               });
               navigation.navigate('Homescreen')
+=======
+              AsyncStorage.setItem('firstLogin','true');
+              navigation.navigate('Homescreen',{
+                  value
+              })
+>>>>>>> 6e71ce4a66f460cbe32510a5ad51c66ab2a57c61
           }}
       />
       </View>
      
      
+     
     </View>)
 
+    
 };
 
 const style = StyleSheet.create({
@@ -99,8 +148,8 @@ const style = StyleSheet.create({
         marginTop: 5,
         marginStart: 7,
         fontSize: 18
-    }
-
+    },
+  
 
 });
 export default City;

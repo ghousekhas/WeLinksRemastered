@@ -98,7 +98,7 @@ const SupportFAQ = ({navigation}) => {
 
 
     <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('PrivacyPolicy')}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '1%'}}>
 
         <View style={{marginTop: '1%'}}>
