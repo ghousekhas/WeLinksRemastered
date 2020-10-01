@@ -1,39 +1,58 @@
-import React,{useState}  from 'react';
-
-import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
+import React,{useState,useEffect}  from 'react';
+import { useFocusEffect} from '@react-navigation/native';
 import { BackHandler, View, StyleSheet, Dimensions,Image } from 'react-native';
-
-import { Constants, Styles } from '../Constants';
-import {Colors} from '../Constants'
+import { Styles } from '../Constants';
+import {Colors} from '../Constants';
 import {Text,Appbar} from 'react-native-paper';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { userDetails } from '../UserDetails';
 import AppBar from '../components/AppBar';
-import { DrawerActions } from "react-navigation-drawer";
-import DocumentPicker from 'react-native-document-picker';
-import AsyncStorage from '@react-native-community/async-storage';
+import Axios from 'axios';
 
 
 const MyProfile = ({navigation}) => {
-  //  const navigation = useNavigation();
-    const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
+   const [profileDetails,setProfileDetails] = useState();
+   const [addresses,setAddresses] = useState([]);
+    // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
         rupee : '₹',
         balance : 'Balance'
     }
 
-    //navigation.goBack();
+   useEffect(() => {
+       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone=9144200060',{
+        'Accept-Encoding': 'gzip'
+       }).then((response) => {
+         
+           setProfileDetails(response.data.user)
+           console.log(response.data.user)
+    
+       }).catch((e) => {
+           console.log('Error with profile: '+e);
+       });
+
+
+       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id=1',{
+        'Accept-Encoding': 'gzip'
+       }).then((response) => {
+         
+        
+      //     console.log("add " + response.data.addresses)
+      setAddresses(response.data.addresses)
+     // console.log("jc" + addresses[5].addr_id)
+       }).catch((e) => {
+           console.log('Error with addresses: '+e);
+       });
+       
+   })
    
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
-         console.log('Can\'t go back from here');
+       //  console.log('Can\'t go back from here');
          navigation.toggleDrawer();
-       
-        // navigation.goBack();
-         //   navigation.reset();
+      
                   
               return true;
             
@@ -45,6 +64,18 @@ const MyProfile = ({navigation}) => {
             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         },)
       );
+
+      const renderAddresses = () => {
+          let num = addresses.length,i;
+          let addressArray = [];
+          for(i in num){
+              addressArray.push(<View>
+     <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{addresses[i].addr_details}</Text>
+
+              </View>)
+          }
+          return addressArray;
+      }
     return(<View>
    
      
@@ -52,16 +83,7 @@ const MyProfile = ({navigation}) => {
         navigation.toggleDrawer();
         }} />
 
-
-
-
-
-
-
-
-
-    
-    <View style={Styles.parentContainer}>
+   <View style={Styles.parentContainer}>
    
     
     <ScrollView>
@@ -71,10 +93,9 @@ const MyProfile = ({navigation}) => {
 
     
     <View style={style.avatarBG}>
-        <Image source={{uri: imageuri}}  // Change to Image
+        <Image   // Change to Image
                 style={style.avatar}
-                // height={Dimensions.get('window').height/4}
-                // width={Dimensions.get('window').height/4}
+              
             />
             <View style={{position: 'absolute',bottom: '5%'}}>
         <TouchableOpacity >
@@ -89,7 +110,7 @@ const MyProfile = ({navigation}) => {
                        </View>
     </View>
 
-    <Text style={style.name}>{userDetails.USER_NAME}</Text>
+    <Text style={style.name}>{profileDetails[0].name}</Text>
     
     
 
@@ -126,8 +147,8 @@ const MyProfile = ({navigation}) => {
 
         <View style={{flexDirection: 'column'}}>
             <Text style={style.blackText}>Profile details</Text>
-            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{userDetails.USER_NAME}</Text>
-            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{userDetails.USER_EMAIL}</Text>
+            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{profileDetails[0].name}</Text>
+            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{profileDetails[0].email}</Text>
         </View>
     <View style={{position: 'absolute',right: 8}}>
 
@@ -164,17 +185,7 @@ const MyProfile = ({navigation}) => {
       
 
     <View style={{flexDirection: 'column'}}>
-        <Text style={style.blackText}>Addresses</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{userDetails.USER_ADDRESS}</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 2</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 3</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 4</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 5</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 6</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 7</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 8</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 9</Text>
-        <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>Address 10</Text>
+      {renderAddresses()} 
        
     </View>
     <View style={{position: 'absolute',right: 8}}>

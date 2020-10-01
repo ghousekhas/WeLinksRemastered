@@ -1,43 +1,60 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { List } from 'react-native-paper';
 import {Colors, Styles} from '../Constants'
 import AppBar from '../components/AppBar'
 import { ScrollView } from 'react-native-gesture-handler';
+import Axios from 'axios'
+
 
 
 const FAQ = ({navigation}) => {
-  const [questions,updateQuestions] = useState([
+  const [questions,updateQuestions] = useState([])
+  const sampleQuestions = [
     {
-        q:'How do subscriptions work?',
-        a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
+        question:'How do subscriptions work?',
+        answer:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
      
     },
     {
-     q:'Do you deliver in my area?',
-     a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
+     question:'Do you deliver in my area?',
+     answer:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
 
  },
  {
-     q:'Is there a delivery fee?',
-     a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
+     question:'Is there a delivery fee?',
+     answer:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
  },
  {
-  q:'How do subscriptions work?',
-  a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
+  question:'How do subscriptions work?',
+  answer:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
 
 },
 {
-q:'Do you deliver in my area?',
-a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
+question:'Do you deliver in my area?',
+answer:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
 
 },
 {
 q:'Is there a delivery fee?',
 a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
-},
+}];
+useEffect(() => {
+  Axios.get('http://api.dev.we-link.in/user_app.php?action=getFAQs',{
+      'Accept-Encoding': 'gzip'
+  }
+  ).then((result) => {
+  console.log(result.data.faqs)
+  updateQuestions(result.data.faqs)
 
-]);
+     
+
+  }).catch((error) => {
+      console.log("Error fetching FAQs: " + err);
+      updateQuestions(sampleQuestions)
+      
+  });
+});
 
 const renderAccordion = () => {
   const accordions = [];
@@ -46,8 +63,8 @@ const renderAccordion = () => {
       accordions.push(
     <View>
 
- <List.Accordion title={questions[i].q} id={i} titleStyle={styles.question}>
- <List.Item  descriptionNumberOfLines={5} descriptionStyle={styles.answer} description={questions[i].a}/>
+ <List.Accordion title={questions[i].question} id={i} titleStyle={styles.question}>
+ <List.Item  descriptionNumberOfLines={5} descriptionStyle={styles.answer} description={questions[i].answer}/>
  </List.Accordion>
 
  <View style={Styles.grayfullline}/>

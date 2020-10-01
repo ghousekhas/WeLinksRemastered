@@ -5,6 +5,7 @@ import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import {Ionicons} from '@expo/vector-icons';
 import AppBar from '../components/AppBar';
+import SubmitButton from '../components/SubmitButton'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -41,6 +42,19 @@ export default function Bids({navigation}){
         bidItems : ['Metals'],
         bidItemsWeight: 15,
         bidders : 10
+    },
+    {
+        bidTitle: 'Terrific Third',
+        bidDuration: '18th January 2000 - 17th January 2001',
+        bidItems : ['Metals'],
+        bidItemsWeight: 15,
+        bidders : 10
+    },{
+        bidTitle: 'Fabulous Fourth',
+        bidDuration: '18th January 2000 - 17th January 2001',
+        bidItems : ['Metals'],
+        bidItemsWeight: 15,
+        bidders : 10
     }];
     const closedBidArray = [{
         bidTitle: 'Fiesty First Frozen',
@@ -65,6 +79,22 @@ export default function Bids({navigation}){
         status: 'Closed',
         awardedTo: 'Mr. Vendor'
     },{
+        bidTitle: 'Fabulous Fourth Failed',
+        bidDuration: '18th January 2000 - 17th January 2001',
+        bidItems : ['Metals'],
+        bidItemsWeight: 15,
+        status: 'Cancelled'
+
+    },
+    {
+        bidTitle: 'Fabulous Fourth Failed',
+        bidDuration: '18th January 2000 - 17th January 2001',
+        bidItems : ['Metals'],
+        bidItemsWeight: 15,
+        status: 'Cancelled'
+
+    },
+{
         bidTitle: 'Fabulous Fourth Failed',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
@@ -186,9 +216,10 @@ return(<View style={styles.card}>
     
         {renderTabs()}
     
-        <View style={{flex:1}}>
+        <View style={{flex:1,paddingBottom: '35%'}}>
         <FlatList 
-            
+            style={{marginBottom:'5%'}}
+          
             data = {tab == 1 ? openBidArray : closedBidArray}
             renderItem = {({item}) => {
                 let cardDetails = {
@@ -213,8 +244,21 @@ return(<View style={styles.card}>
                  
             }}
         />
+      <View style={{alignItems: 'center'}}>
+      <SubmitButton 
+      text='+ Make a new bid' 
+      onTouch = {() => {navigation.navigate('MakeABid')}}
+      />
+      </View>
+    
+    
         </View>
+      
+       
         </View>
+      
+
+       
     </View>)
    
 }
@@ -259,7 +303,8 @@ const styles = StyleSheet.create({
         marginTop: '5%',
         alignSelf: 'center',
         backgroundColor: 'white',
-        elevation: 1
+        elevation: 1,
+        // marginBottom:'1%'
         
     },
     cardTitle: {

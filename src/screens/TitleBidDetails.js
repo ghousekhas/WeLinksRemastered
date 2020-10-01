@@ -10,7 +10,7 @@ import { AntDesign } from '@expo/vector-icons';
 import SubmitButton from '../components/SubmitButton';
 
 export default function TitleBidDetails({navigation,route}){
- const {bidTitle} = route.params;
+ const { bidTitle } = route.params;
     console.log('dets ' + bidTitle)
     const [title,stitle]=useState("Bid Title");
     const [address,sAddress]=useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.')

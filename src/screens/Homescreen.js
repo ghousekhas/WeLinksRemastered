@@ -25,7 +25,7 @@ export default class Homescreen extends React.Component{
         
             firstLogin: false,
             
-            username: 'Fitzwilliam',
+            username: 'William',
             city: 'Bengaluru',
             title: 'What are you looking for?',
             desc: 'Select services and checkout easily',
@@ -139,8 +139,11 @@ export default class Homescreen extends React.Component{
         );
     }
     
+    
     render(){
         const {navigation} =this.props;
+        const {route} = this.props;
+        console.log("pROPS" + route)
     
         
         return(
