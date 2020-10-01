@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {View, StyleSheet, Text, Dimensions,Image, BackHandler} from 'react-native';
@@ -7,54 +7,33 @@ import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
 import { Avatar } from 'react-native-paper';
 import AppBar from '../components/AppBar';
-import {Colors, Styles} from '../Constants'
+import {Colors, Styles} from '../Constants';
+import Axios from 'axios';
+import qs from 'qs';
 
 const MilkVendors = (props) => {
+    const address= props.route.params.address;
+    console.log(address);
 
     const words = {
         milk: 'Milk vendors in your locality',
 
     }
+
+    useEffect(()=>{
+        Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
+            vendor_type: 'milk',
+            lat: address.lat,
+            lng: address.lng
+        }),).then((response)=>{
+            console.log('one',response.data.vendor);
+            updateVendors(response.data.vendor);
+        })
+    },[]);
   
    
 
     const [vendors,updateVendors] = useState([
-        {
-            name: 'Vendor 1',
-            brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 3,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        },
-        {
-            name: 'Vendor 2',
-            brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 2,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        },
-        {
-            name: 'Vendor 3',
-            brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 5,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        },
-        {
-            name: 'Vendor 4',
-            brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 4,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        },
-        {
-            name: 'Vendor 5',
-            brands: ' Nandini, Heritage, Akshayakalpa',
-            stars: 3,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        }
-
 
     ]);
     useFocusEffect(
@@ -85,7 +64,7 @@ const MilkVendors = (props) => {
    
     <View style={style.header}>
         <Text style ={style.username}>{userDetails.USER_NAME}</Text>
-        <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
+        <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
     </View>
     </View>
     <View style={Styles.grayfullline} />
@@ -99,17 +78,29 @@ const MilkVendors = (props) => {
         keyExtractor={(item) => item.name}
         renderItem={({item}) => {
             const vendorName = item.name;
-            const vendorStars = item.stars;
-            const vendorReviews = item.reviews
+            const vendorStars = item.avg_ratings;
+            const vendorReviews = item.reviews_number;
+            const brandsString= '';
+            const brands= item.brands;
+            const imageUrl=item.img_url;
+            const vendorAddress= item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode;
+            console.log('itembrands',brands);
+            for(let i=0;i<brands.length-1;i++)
+                brandsString+brands[i].brand+','+' ';
+            brandsString+brands[brands.length-1];
+
             return(
-                <Vendor name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews} 
+                <Vendor name={item.name} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
                 onSelected={() => {
              
                 props.navigation.navigate('VendorScreen',{
                     tag: 'milk',
                     name: vendorName,
                     stars: vendorStars,
-                    reviews: vendorReviews
+                    reviews: vendorReviews,
+                    address: address,
+                    vendorAddress: vendorAddress,
+                    imageUrl: imageUrl
                 })
                 
                     

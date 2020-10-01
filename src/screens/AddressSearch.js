@@ -52,6 +52,15 @@ export default class AddressSearch extends React.Component{
 
     componentDidMount(){
       this.retrieveAddresses();
+      console.log('mount');
+      Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
+        user_id: 1
+      })).then((response)=>{
+        console.log('response',response.data);
+
+      },(error)=>{
+        console.log('error',error);
+      })
       
       
     }

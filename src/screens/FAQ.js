@@ -54,6 +54,8 @@ useEffect(() => {
       updateQuestions(sampleQuestions)
       
   });
+
+  
 });
 
 const renderAccordion = () => {

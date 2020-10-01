@@ -153,6 +153,7 @@ export default class VendorScreen extends React.Component{
     }
 
     render(){
+        const {name,stars,reviews,address,vendorAddress,imageUrl}=this.props.route.params;
     return (<View>
      <AppBar back={true} funct={() => {
            // props.navigation.toggleDrawer();
@@ -162,7 +163,7 @@ export default class VendorScreen extends React.Component{
        
             <View style={Styles.fortyUpperPanel}>
                
-                        <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address='Marathahalli Bridge Outer Ring Rd Marathahalli 560037'/>
+                <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
                  <Text style={{paddingLeft: 10,fontSize: 15, fontWeight: 'bold'}}>Brands:</Text>
                 <FlatList
                     style={Styles.halfFlatlist}
@@ -259,8 +260,9 @@ const ScrapFlatList = ({route,navigation,data}) => {
         data = {data}
         keyExtractor = {(item) => item.name}
         renderItem = {({item}) => { 
+            console.log(item.product_img_url);
             return(
-                <Product name={item.name} quantity={item.quantity} price={item.price}  url={item.product_img_url}
+                <Product name={item.name} quantity={item.quantity} price={item.price}  url={item.product_img_url} imageUrl={item.product_img_url}
                 subscribe={() => {
                    
                     const prodName = item.name;
@@ -271,7 +273,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         tag : 'paper',
                         pname : prodName,
                         pquan : prodQuan,
-                        prate: prodRate
+                        prate: prodRate,
+                        imageUrl: item.product_img_url
                     }) } 
                 }/>
 

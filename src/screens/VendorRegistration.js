@@ -1,17 +1,18 @@
 import React,{useState, useEffect} from 'react';
-import {View,TextInput,Text,StyleSheet,ScrollView, Alert} from 'react-native';
+import {View,TextInput,Text,StyleSheet,ScrollView, Alert,BackHandler} from 'react-native';
 import {Styles,dimen,Constants} from '../Constants';
 import TextBox from '../components/TextBox';
 import Button from '../components/Button';
 import SubmitButton from '../components/SubmitButton';
 import  DocumentPicker from 'react-native-document-picker';
-import {useNavigation} from '@react-navigation/native';
+import AppBar from '../components/AppBar';
+import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 
 export default function VendorRegistration({navigation}){
     const [aadharFile,setAadharFile] = useState(null);
     const [gstFile,setGSTFile] = useState(null);
     const [uri,setUri] = useState(null);
-    const [verification,setVerification] = useState(Constants.veTryAgain); 
+    const [verification,setVerification] = useState(Constants.veFirstTime); 
 
     const submitRegistration= ()=>{
 
@@ -33,10 +34,32 @@ export default function VendorRegistration({navigation}){
         }
         catch(e){}
     };
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+         console.log('Can\'t go back from here');
+         navigation.toggleDrawer();
+       
+        // navigation.goBack();
+         //   navigation.reset();
+                  
+              return true;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
 
     if(verification == Constants.veFirstTime)
         return(
             <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
+                <AppBar  funct={() => {
+        navigation.toggleDrawer();
+        }} />
                 <Text style={{...Styles.heading,alignSelf: 'center'}}>Tell us about your business</Text>    
                 <View style={{marginTop: dimen.height/20,height: dimen.height*0.77}}>
                 <ScrollView >

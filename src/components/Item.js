@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Item = ({name, quantity, price}) => {
+const Item = ({name, quantity, price, imageUrl}) => {
     return(
     <View style={{flexDirection: 'row'}}>
      
@@ -18,10 +18,7 @@ const Item = ({name, quantity, price}) => {
        
         
         </View>
-        <Image style={style.image} source={
-            quantity.includes('unit',0) ? 
-            require('./../../assets/news_p.png')
-            : require('./../../assets/milk_p.png')}/>
+        <Image style={style.image} source={{uri: imageUrl}}/>
         
         </View>)
         

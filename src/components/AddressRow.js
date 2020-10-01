@@ -17,8 +17,8 @@ const height= Dimensions.get('window').height;
 export default HomeAddress=({item,style})=>{
     const navigation= useNavigation();
     const route= useRoute();
-    const [currentAddress,setCurrentAddress]=useState(item.text);
-    const [label,setCurrentLabel]= useState('Home');
+    const [currentAddress,setCurrentAddress]=useState(item.addr_details+' '+item.addr_landmark+' '+ item.addr_pincode);
+    const [label,setCurrentLabel]= useState(item.addr_name);
     const [image,setImage]=useState(require('../../assets/pin.png'));
     const init=()=>{
         try{
@@ -36,11 +36,9 @@ export default HomeAddress=({item,style})=>{
     }
 
     setSelectedAddress= async (itemnow)=>{
-      const jsonString= await JSON.stringify({firstLogin: false})
-      await AsyncStorage.setItem('firstLogin',jsonString);
-      const jsonAddress= await JSON.stringify(itemnow);
-      await AsyncStorage.setItem('selectedAddress',jsonAddress);
-      navigation.navigate(route.params.next);
+      navigation.navigate(route.params.next,{
+        address: itemnow
+      });
       
 
     }

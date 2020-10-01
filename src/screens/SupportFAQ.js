@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import {View,StyleSheet,TextInput, Dimensions,BackHandler} from 'react-native';
 import {Text} from 'react-native-paper';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
@@ -8,9 +8,12 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { userDetails } from '../UserDetails';
 import SubmitButton from '../components/SubmitButton';
-import {Colors} from '../Constants'
+import {Colors} from '../Constants';
+import Axios from 'axios';
 
 const SupportFAQ = ({navigation}) => {
+    const [phone,setPhone]=useState(null);
+    const [email,setEmail]=useState(null);
     const words = {
         allTopics: 'All Topics',
         faq: 'Frequently Asked Questions',
@@ -22,6 +25,14 @@ const SupportFAQ = ({navigation}) => {
         feedback: 'Send Feedback'
 
     };
+
+    useEffect(()=>{
+        Axios.get('http://api.dev.we-link.in/user_app.php?action=getContactUs&city_id=1')
+  .then((response)=>{
+    setPhone(response.data.phone);
+    setEmail(response.data.email);
+  },[]);
+    })
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
@@ -224,7 +235,7 @@ const SupportFAQ = ({navigation}) => {
 
     <View style={{flexDirection: 'column'}}>
       
-        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '5%',marginStart: '17%'}}>{words.phone}</Text>
+        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '5%',marginStart: '17%'}}>{phone}</Text>
        
     </View>
     <View style={{position: 'absolute',right: 8,top: 8}}>
@@ -264,7 +275,7 @@ const SupportFAQ = ({navigation}) => {
 
     <View style={{flexDirection: 'column'}}>
       
-        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '5%',marginStart: '17%'}}>{words.email}</Text>
+        <Text style={{...style.blackText,fontWeight: 'bold', color: 'black',marginTop: '5%',marginStart: '17%'}}>{email}</Text>
        
     </View>
     <View style={{position: 'absolute',right: 8,top: 8}}>

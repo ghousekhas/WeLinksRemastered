@@ -49,7 +49,7 @@ const SubscribeScreen = ({navigation,route}) => {
   const {pname} = route.params;
   const {pquan} = route.params;
   const {prate} = route.params;
-  const{prate_} = route.params;
+  const{prate_,imageUrl} = route.params;
 const [isPressed,setIsPressed] = useState(false);
 
 
@@ -227,6 +227,7 @@ const [dateref1,setDateRef1] = useState('Select end');
           prate = {prate}
           pquan = {pquan}
           prate_ = {prate_}
+          imageUrl= {imageUrl}
 
           
 

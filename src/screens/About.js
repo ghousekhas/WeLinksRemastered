@@ -48,7 +48,7 @@ const About = ({navigation,route}) =>{
 
         return(<View style={style.mainContainer}>
         <Text style={style.text}>Tell us about yourself</Text>
-        <TextBox title='Name' hint='Enter your name'/>
+        <TextBox title='Name' hint='Enter your name' changeText={setName}/>
         <TextBox title='Email Address' hint='Enter your email address' changeText={(text)=>{
             setEmail(text);
         }}/>

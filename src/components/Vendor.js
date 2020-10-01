@@ -7,7 +7,7 @@ import { color } from 'react-native-reanimated';
 
 
 
-const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,address,scrap}) => {
+const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,address,scrap,imageUrl}) => {
 
     const renderButton=()=>{
         if(buttonVisible!= false){
@@ -64,7 +64,7 @@ const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,addr
 
        
         </View>
-        <Image style={style.image} source={require('./../../assets/vendor.png')}/>
+        <Image style={style.image} source={{uri: imageUrl}}/>
     </View>)
 };
 
