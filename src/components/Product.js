@@ -4,7 +4,7 @@ import Button from './Button';
 import {Colors} from '../Constants'
 
 
-const Product = ({name,quantity,price,price_,subscribe,url}) => {
+const Product = ({name,quantity,price,price_,subscribe,url,imageUrl}) => {
     if(!price_ == ''){
     
     return(<View style={style.container}>
@@ -30,7 +30,7 @@ const Product = ({name,quantity,price,price_,subscribe,url}) => {
     </View>)
     }else return(
         <View style={style.container}>
-         <Image style={style.image} source={require('./../../assets/milk_p.png')}/>
+         <Image style={style.image} source={{uri: imageUrl}}/>
     <View>
     <Text style={style.name}>{name}</Text>
     <Text style={style.quantity}>{quantity}</Text>

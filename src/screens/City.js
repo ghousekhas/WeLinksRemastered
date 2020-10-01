@@ -6,23 +6,30 @@ import {Styles} from '../Constants'
 import Axios from 'axios';
 import { FlatList } from 'react-native-gesture-handler';
 import { RadioButton } from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
+import qs from 'qs';
 
 
 
 
 
 
-const City = ({navigation}) =>{
+const City = ({navigation,route}) =>{
     const [cities,setCities] = useState([])
     const [value,setValue] = useState([])
+    
 
-    useEffect(() => {
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getCityList',{
+    const getCitiesData= async ()=>{
+      Axios.get('https://api.dev.we-link.in/user_app.php?action=getCityList',{
             'Accept-Encoding': 'gzip'
         }
         ).then((result) => {
         console.log(result.data.cities)
         setCities(result.data.cities);
+        let i;
+        let cityList = [];
+        for(i in cities)
+            cityList.push({cityname: cities[i].city_name,city_id: cities[i].city_id});
     
            
 
@@ -30,14 +37,15 @@ const City = ({navigation}) =>{
             console.log("Error reading city data: " + err);
             
         });
-      });
-   // console.log(cities)
-   let i;
-   let cityList = [];
-   for(i in cities){
-       cityList.push(cities[i].city_name);
+    }
 
-   }
+    useEffect(() => {
+        getCitiesData();
+      },[]);
+   // console.log(cities)
+   
+
+  
 
  
    
@@ -52,8 +60,8 @@ const City = ({navigation}) =>{
            renderItem = {({item}) => {
             
                return( <View style ={style.view}>
-       <RadioButton value={item.city_name} /> 
-        <Text style={style.city}>{item.city_name}</Text>
+       <RadioButton value={item.city_id} /> 
+        <Text style={style.city}>{item.cityname}</Text>
       
       </View>)
            }} />
@@ -63,10 +71,30 @@ const City = ({navigation}) =>{
       <View style={{position: 'absolute',bottom: '14%',alignSelf:'center'}}>
       <SubmitButton text='Next'
           onTouch={async ()=> {
-              AsyncStorage.setItem('firstLogin','true');
-              navigation.navigate('Homescreen',{
-                  value
+            const {name,email}= route.params;
+              //AsyncStorage.setItem('firstLogin','true');
+              var config = {
+                method: 'post',
+                url: 'https://api.dev.we-link.in/user_app.php?action=registerUser&name=New User&phone=9144200060&email=newuser@user.wl&city_id=2',
+              };
+              
+            Axios.post('https://api.dev.we-link.in/user_app.php?'+qs.stringify(
+            {
+                action: 'registerUser',
+                name: name,
+                phone: auth().currentUser.phoneNumber,
+                email: email,
+                city_id: value
+            }),)
+              .then(function (response) {
+                console.log(response.data);
+                console.log(response.data.user_id);
+                navigation.navigate('Homescreen');
               })
+              .catch(function (error) {
+                console.log(error);
+              });
+              
           }}
       />
       </View>

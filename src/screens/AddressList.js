@@ -5,12 +5,13 @@ import {Text,View,StyleSheet,BackHandler,FlatList, Dimensions} from 'react-nativ
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Geolocation from '@react-native-community/geolocation';
 import Qs from 'qs';
-import * as axios from 'axios';
+import Axios, * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeAddress from '../components/AddressRow'
 import AppBar from '../components/AppBar';
 import { Styles } from '../Constants';
+import qs from 'qs';
 
 const height= Dimensions.get('window').height;
 
@@ -49,6 +50,13 @@ export default class AddressList extends React.Component{
             
     }
 
+    componentDidMount(){
+      this.retrieveAddresses();
+      BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
+      console.log('mount');
+      
+    }
+
     onComeBack= (item)=>{
       if( item)
         this.retrieveAddresses();
@@ -66,6 +74,15 @@ export default class AddressList extends React.Component{
 
 
     retrieveAddresses= async ()=>{
+      Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
+        user_id: 1
+      })).then((response)=>{
+        console.log('response',response.data);
+        this.setState({arraydata: response.data.addresses});
+
+      },(error)=>{
+        console.log('error',error);
+      })
       try{
         var data=[];
         const jsonvalue=  await AsyncStorage.getItem('addresses');
@@ -82,12 +99,7 @@ export default class AddressList extends React.Component{
       catch(error){}
     }
 
-    componentDidMount(){
-      this.retrieveAddresses();
-      BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
-      
-      
-    }
+  
     setSelectedAddress= async (item)=>{
       const jsonString= await JSON.stringify({firstLogin: false})
       await AsyncStorage.setItem('firstLogin',jsonString);

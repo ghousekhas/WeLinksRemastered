@@ -8,6 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import { Styles} from '../Constants'
 import AppBar from '../components/AppBar'
+import Axios from 'axios';
 
 
 const Cart = ({route,navigation}) => {
@@ -25,12 +26,14 @@ const Cart = ({route,navigation}) => {
     const {prate} = route.params
     const {pquan} = route.params
     const {pnumber} = route.params
-    const {porder} = route.params
+    const {porder,actualUser} = route.params
     
 
     var ans,numberOfDeliveries;
     var dayString = "";
-   
+    var day=porder.days;
+
+
  
      porder.days[0].m ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
      porder.days[1].t ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
@@ -210,6 +213,17 @@ const Cart = ({route,navigation}) => {
 
             <SubmitButton text='Confirm' onTouch={() => {
                 console.log('pop to top')
+                Axios.post('http://api.dev.we-link.in/user_app.php?action=addSubscription&'+qs.stringify({
+                    user_id: actualUser.user_id,
+                    vendor_id: 1,
+                    quantity: pquan,
+                    subscription_days: porder.days,
+                    subscription_start_date: porder.s,
+                    subscription_end_date: porder.e,
+                    no_of_deliveries: 0,
+                    delivery_fee: 0,
+                    order_gst: 0
+                }))
                 navigation.popToTop();
             }}/>
 

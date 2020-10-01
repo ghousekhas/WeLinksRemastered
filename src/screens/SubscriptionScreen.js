@@ -9,7 +9,7 @@ import { Feather } from '@expo/vector-icons';
 import {Colors, Styles} from '../Constants'
 
 
-const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result}) => {
+const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result,imageUrl,actualUser}) => {
 
     const words = {
         quantityPerDay:'Quantity per day' ,
@@ -75,7 +75,7 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
   
 
 return(<View style={style.container} >
-    <Item name={pname} quantity={pquan} price={prate} />
+    <Item name={pname} quantity={pquan} price={prate} imageUrl={imageUrl}/>
     <View style={style.view1}>
     <Feather name="shopping-bag" size={22} color= {Colors.lightIcon} />
 
