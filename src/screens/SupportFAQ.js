@@ -1,8 +1,8 @@
-import React from 'react';
-import {View,StyleSheet,TextInput, Dimensions,BackHandler} from 'react-native';
+import React, { useState } from 'react';
+import {View,StyleSheet,TextInput, Dimensions,BackHandler,Linking} from 'react-native';
 import {Text} from 'react-native-paper';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
-
+import sendFeedback, {sendEmail} from '../../src/EmailUtility'
 import AppBar from '../components/AppBar';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,6 +11,7 @@ import SubmitButton from '../components/SubmitButton';
 import {Colors} from '../Constants'
 
 const SupportFAQ = ({navigation}) => {
+    
     const words = {
         allTopics: 'All Topics',
         faq: 'Frequently Asked Questions',
@@ -41,6 +42,8 @@ const SupportFAQ = ({navigation}) => {
             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         },)
       );
+
+      const [content,setContent] = useState('');
     return(
     <View>
      <AppBar  funct={() => {
@@ -312,12 +315,26 @@ const SupportFAQ = ({navigation}) => {
 </View>
 
 <TextInput style={style.feedback}
+value = {content}
+onChangeText = {(content) => {
+    setContent(content);
+}}
 multiline>
 
 </TextInput>
 
 <View style={{marginTop: '2%'}}>
-<SubmitButton text='Send Feedback' />
+<SubmitButton text='Send Feedback'
+onTouch={() => {
+    sendFeedback(
+    'anamxali1@gmail.com',
+    `Feedback from ${userDetails.USER_NAME}`,
+    content
+    
+).then(() => {
+    console.log('Successful');
+});
+}} />
 </View>
 
 

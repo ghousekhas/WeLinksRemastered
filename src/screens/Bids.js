@@ -232,12 +232,7 @@ return(<View style={styles.card}>
         awardedTo: item.awardedTo
                 }
                 return(<TouchableOpacity onPress={() => {
-            navigation.navigate('TitleBidDetails', {
-                bidTitle : item.bidTitle,
-                bidDuration : item.bidDuration,
-                status : item.status
-            }
-         )
+            navigation.navigate('TitleBidDetails', cardDetails)
         }}>
                 {renderCard(cardDetails)}
                 </TouchableOpacity>)
@@ -247,7 +242,7 @@ return(<View style={styles.card}>
       <View style={{alignItems: 'center'}}>
       <SubmitButton 
       text='+ Make a new bid' 
-      onTouch = {() => {navigation.navigate('MakeABid')}}
+      onTouch = {() => {navigation.navigate('BidCreation1')}}
       />
       </View>
     

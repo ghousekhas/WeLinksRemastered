@@ -1,5 +1,5 @@
 export const  userDetails = {
-    USER_NAME  : 'Anom Aly',
+    USER_NAME  : 'William',
     USER_EMAIL : 'anamxali1@gmail.com',
     USER_ADDRESS : '#221 B, Baker Street',
     USER_CITY: 'Bangalore',

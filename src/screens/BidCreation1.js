@@ -7,6 +7,7 @@ import SubmitButton from '../components/SubmitButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Picker} from '@react-native-community/picker';
 import SpinnerBox from '../components/Spinner';
+import AppBar from '../components/AppBar';
 
 const a=[];
 for(var i=0;i<10;i++)
@@ -21,15 +22,18 @@ export default function BidCreation1({navigation}){
         bidTitle: 'Please enter your bid details'
     }
 
-    return(<View style={{...StyleSheet.absoluteFill,flexDirection: 'column',backgroundColor: 'white'}}>
-            <Text style={{...Styles.heading,alignSelf: 'center'}}>Live</Text>
-            <ScrollView>
-                <Textbox title={'BID TITLE'} hint={'TITLE'}/>
+    return(<View>
+    <AppBar back funct={() => navigation.pop()} />
+    <View style={{...Styles.parentContainer,color: Colors.whiteBackground}}>
+            <Text style={styles.heading}>Create a new</Text>
+            <ScrollView style={{marginBottom:'10%'}}>
+            <View style={{flex:1,marginBottom: '30%',marginTop: '5%'}}>
+                <Textbox title={'BID TITLE'} hint={'Title'}/>
                 <SpinnerBox title="CHOOSE PICKUP ADDRESS"
                     data={a}
                     changeOption={setDropdown} />              
-                <Textbox title={'BID DURATION'} hint={'CALENDAR'}/>
-                <Textbox title={'PICKUP DATE'} hint={'hint'}/>
+                <Textbox title={'BID DURATION'} hint={'Calendar'}/>
+                <Textbox title={'PICKUP DATE'} hint={'DDMMYYYY'}/>
                 <SpinnerBox title="PICKUP TIME SLOT"
                     data={a}
                     changeOption={setDropdown} />   
@@ -38,13 +42,25 @@ export default function BidCreation1({navigation}){
                     changeOption={setDropdown} />   
                  <SpinnerBox title="APPROXIMATE WEIGHT"
                     data={a}
-                    changeOption={setDropdown} />   
+                    changeOption={setDropdown} /> 
+                    <View style={{marginTop:'5%'}}> 
+                    <SubmitButton text='Next' styles={{marginTop:'5%'}} onTouch={() => navigation.navigate('BidCreation2')} />
+                    </View> 
+         
+            </View>
             </ScrollView>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Homescreen')}} >
-                <View style={{height: dimen.height/15,width: dimen.width*0.9,alignSelf: 'center',marginVertical: 10,backgroundColor: Colors.primary,justifyContent: 'center'}}>
-                    <Text style={{alignSelf: 'center',...Styles.subbold}}>Next</Text>
-                </View>
-            </TouchableOpacity>
+           
+        </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    heading:{
+        color: 'black',
+        margin: '5%',
+        fontSize: 20,
+        marginVertical: '5%',
+        fontWeight: 'bold'
+      },
+})

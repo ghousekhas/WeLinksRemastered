@@ -6,7 +6,7 @@ import Axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function PrivacyPolicy ({navigation}) {
-  const [policy,setPolicy] = useState();
+  const [policy,setPolicy] = useState('Loading...');
 
   const samplePolicy = [{
       'content' : `Mann yeh saahib ji, jaane hai sab ji  Phir bhi banaye bahaane  Naina nawaabi ji, dekhe hain sab ji  Phir bhi na samjhe ishaare  Mann yeh saahib ji haan karta bahaane   Naina nawaabi ji na samjhe ishaare (na samjhe ishaare) Dheere dheere, nainon ko dheere dheere  Jiya ko dheere dheere bhaayo re Saibo  Dheere dheere, begaana dheere dheere  Apna sa dheere dheere lage re Saibo  Surkhhiyaan hain hawaaon mein, do dilon ke milne ki  Dheere dheere, nainon ko dheere dheere  Jiya ko dheere dheere bhaayo re Saibo  Dheere dheere, begaana dheere dheere  Apna sa dheere dheere lage re Saibo  Saibo... Saibo...`
@@ -16,7 +16,7 @@ export default function PrivacyPolicy ({navigation}) {
         'Accept-Encoding': 'gzip'
     }
     ).then((result) => {
-    console.log("k " +result.data.privacy_policy)
+  //  console.log("k " +result.data.privacy_policy)
    setPolicy(result.data.privacy_policy)
 
   
@@ -38,7 +38,7 @@ return(<View>
 <View style={Styles.grayfullline}/>
 <ScrollView>
 <View>
-<Text style={{margin: '5%'}}>{JSON.stringify(samplePolicy).replace('{',"").replace('}',"").replace('[',"").replace(']',"").replace("content","").replace('\"',"").replace(':',"")}</Text>
+<Text style={{margin: '5%'}}>{policy}</Text>
 </View>
 </ScrollView>
 </View>
