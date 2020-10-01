@@ -49,6 +49,7 @@ const SubscribeScreen = ({navigation,route}) => {
   const {pname} = route.params;
   const {pquan} = route.params;
   const {prate} = route.params;
+  const {actualUser}=route.params;
   const{prate_,imageUrl} = route.params;
 const [isPressed,setIsPressed] = useState(false);
 
@@ -151,7 +152,8 @@ const [dateref1,setDateRef1] = useState('Select end');
         prate: prate,
         pquan: pquan,         // Refers to 'Rs. 22 for 1 packet'
         prate_: prate_,
-        porder: order
+        porder: order,
+        actualUser: actualUser
       
 
 
@@ -228,6 +230,7 @@ const [dateref1,setDateRef1] = useState('Select end');
           pquan = {pquan}
           prate_ = {prate_}
           imageUrl= {imageUrl}
+          actualUser ={actualUser}
 
           
 

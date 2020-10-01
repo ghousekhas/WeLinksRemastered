@@ -33,7 +33,8 @@ export default class Homescreen extends React.Component{
             news: 'Newspaper Delivery',
             scrap: 'Corporate Scrap',
             corporate: 'Home Scrap',
-            address: 'Tap here to add an address'
+            address: 'Tap here to add an address',
+            actualUser: ''
         };
         this.images={
             milk: require('./../../assets/milk.png'),
@@ -98,6 +99,15 @@ export default class Homescreen extends React.Component{
             console.log(response.data);
         });
         this.props.navigation.po*/
+        const {user}=this.props.route.params;
+        console.log('ph',user.phoneNumber.substring(3));
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
+            .then((response)=>{
+                console.log(response.data.user[0]);
+                this.setState({actualUser: response.data.user[0]});
+            },(error)=>{
+                console.log('error');
+            })
 
 
         BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
@@ -142,8 +152,9 @@ export default class Homescreen extends React.Component{
     
     render(){
         const {navigation} =this.props;
-        const {route} = this.props;
-        console.log("pROPS" + route)
+        const {user} = this.props.route.params;
+        console.log("pROPS" + user)
+
     
         
         return(
@@ -188,8 +199,11 @@ export default class Homescreen extends React.Component{
                
 
                     <TouchableOpacity style={styles.menuitem} onPress={()=>{
+                        console.log('actualuser',this.state.actualUser);
                         this.props.navigation.navigate('AddressList',{
-                            next: 'MilkVendors'
+                            next: 'MilkVendors',
+                            user: user,
+                            actualUser: this.state.actualUser
                         });
                     }
                         //this.props.navigation.navigate('MilkVendors')}
@@ -199,7 +213,9 @@ export default class Homescreen extends React.Component{
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{this.props.navigation.navigate('AddressList',{
-                        next: 'PaperVendors'
+                        next: 'PaperVendors',
+                        user: user,
+                        actualUser: this.state.actualUser
                     });}}>
                         <Image style={styles.menuimage} source={this.images.news}/>
                         <Text style={styles.menutext}>{this.state.news}</Text>
@@ -222,7 +238,9 @@ export default class Homescreen extends React.Component{
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
                         this.props.navigation.navigate('AddressList',{
-                            next: 'ScrapVendors'
+                            next: 'ScrapVendors',
+                            actualUser: this.state.actualUser,
+                            user: user
                         });
                         // this.props.navigation.navigate('VendorsList',{
                         //     department: 'scrap'

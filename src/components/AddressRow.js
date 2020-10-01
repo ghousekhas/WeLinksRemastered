@@ -36,8 +36,10 @@ export default HomeAddress=({item,style})=>{
     }
 
     setSelectedAddress= async (itemnow)=>{
+      
       navigation.navigate(route.params.next,{
-        address: itemnow
+        address: itemnow,
+        actualUser: route.params.actualUser
       });
       
 

@@ -13,6 +13,7 @@ import qs from 'qs';
 
 const MilkVendors = (props) => {
     const address= props.route.params.address;
+    const actualUser=props.route.params.actualUser;
     console.log(address);
 
     const words = {
@@ -63,7 +64,7 @@ const MilkVendors = (props) => {
   
    
     <View style={style.header}>
-        <Text style ={style.username}>{userDetails.USER_NAME}</Text>
+        <Text style ={style.username}>{actualUser.name}</Text>
         <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
     </View>
     </View>
@@ -100,7 +101,8 @@ const MilkVendors = (props) => {
                     reviews: vendorReviews,
                     address: address,
                     vendorAddress: vendorAddress,
-                    imageUrl: imageUrl
+                    imageUrl: imageUrl,
+                    actualUser: actualUser
                 })
                 
                     

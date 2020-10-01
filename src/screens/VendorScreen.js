@@ -237,7 +237,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
 
     const {name} = route.params;
     const {stars} = route.params;
-    const {reviews} = route.params;
+    const {reviews,actualUser} = route.params;
+
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
@@ -261,6 +262,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
         keyExtractor = {(item) => item.name}
         renderItem = {({item}) => { 
             console.log(item.product_img_url);
+            
             return(
                 <Product name={item.name} quantity={item.quantity} price={item.price}  url={item.product_img_url} imageUrl={item.product_img_url}
                 subscribe={() => {
@@ -274,7 +276,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         pname : prodName,
                         pquan : prodQuan,
                         prate: prodRate,
-                        imageUrl: item.product_img_url
+                        imageUrl: item.product_img_url,
+                        actualUser: actualUser
                     }) } 
                 }/>
 

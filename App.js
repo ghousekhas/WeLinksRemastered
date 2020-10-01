@@ -50,7 +50,7 @@ navigator.geolocation = require('@react-native-community/geolocation');
 
 const Drawer = createDrawerNavigator();
 
-const NavigationDrawer = () => {
+const NavigationDrawer = ({user}) => {
   const [vendor,setVendor] = useState(false);
 
   const switchVendorApp = (flag)=>{
@@ -82,9 +82,9 @@ const NavigationDrawer = () => {
       <Drawer.Navigator initialRouteName='Home' backBehavior='none'
         drawerContent={props => <DrawerContent {...props} switchVendor={switchVendorApp} />}  >
        
-      <Drawer.Screen name="HomeStack" component={PostLoginHome} />
-      <Drawer.Screen name="ProfileStack" component={myProfileStack}/>
-      <Drawer.Screen name="SupportStack" component={userSupportStack}/>
+      <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user}} />
+      <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user}}/>
+      <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user}}/>
        
       </Drawer.Navigator>
     </NavigationContainer>
@@ -136,7 +136,7 @@ export default function App() {
 
   onAuthStateChanged= (user) =>{
     setUser(user);
-    console.log(user);
+    //console.log(user);
 
   }
 
@@ -195,32 +195,36 @@ export default function App() {
     );
     }
 
+
+  
+
   return (
     <View style={{flex: 1}}>
-      <NavigationDrawer />
+      <NavigationDrawer user={user} />
     </View>
   );  
 }
 
-const PostLoginHome =(props)=>{
+const PostLoginHome =({route})=>{
+  const {user}=route.params;
   return(
     <View style={{flex: 1}}>
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName='Homescreen' >
         <Stack.Screen name='Homescreen' component={Homescreen} options={{
           headerShown: false 
-        }}/>
+        }} initialParams={{user: route.params.user}}/>
         {/* <Stack.Screen name='School' component={School} options={{headerShown: false}}/>  */}
         <Stack.Screen name='AddressSearch' component={AddressSearch}/>
         <Stack.Screen name='AddAddress' component={AddAddress} options={{
           headerShown: false
         }}/>
-         <Stack.Screen name = "About" component={About}/>
-        <Stack.Screen name = "City" component={City}/>
-        <Stack.Screen name='VendorsList' component={VendorsList} />
-        <Stack.Screen name='MilkVendors' component={MilkVendors} options={{headerShown: false}}/>
-        <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}} />
-        <Stack.Screen name='VendorScreen' component={VendorScreen} options={{headerShown: false}}/>
+         <Stack.Screen name = "About" component={About} initialParams={{user: user}}/>
+        <Stack.Screen name = "City" component={City} initialParams={{user: user}}/>
+        <Stack.Screen name='VendorsList' component={VendorsList} initialParams={{user: user}} />
+        <Stack.Screen name='MilkVendors' component={MilkVendors} options={{headerShown: false}} initialParams={{user: user}}/>
+        <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}} initialParams={{user: user}} />
+        <Stack.Screen name='VendorScreen' component={VendorScreen} options={{headerShown: false}} initialParams={{user: user}}/>
         <Stack.Screen name='VendorScreen1' component={VendorScreen1} options={{headerShown: false}} />
         <Stack.Screen name='AddressList' component={AddressList} options={{headerShown: false}}/>
 

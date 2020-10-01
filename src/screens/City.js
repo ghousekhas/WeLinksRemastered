@@ -29,7 +29,7 @@ const City = ({navigation,route}) =>{
         let i;
         let cityList = [];
         for(i in cities)
-            cityList.push(cities[i].city_name);
+            cityList.push({cityname: cities[i].city_name,city_id: cities[i].city_id});
     
            
 
@@ -63,8 +63,8 @@ const City = ({navigation,route}) =>{
            renderItem = {({item}) => {
             
                return( <View style ={style.view}>
-       <RadioButton value={item.city_name} /> 
-        <Text style={style.city}>{item.city_name}</Text>
+       <RadioButton value={item.city_id} /> 
+        <Text style={style.city}>{item.cityname}</Text>
       
       </View>)
            }} />
@@ -87,7 +87,7 @@ const City = ({navigation,route}) =>{
                 name: name,
                 phone: auth().currentUser.phoneNumber,
                 email: email,
-                city_id: 2 
+                city_id: value
             }),)
               .then(function (response) {
                 console.log(response.data);

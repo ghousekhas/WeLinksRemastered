@@ -9,7 +9,7 @@ import { Feather } from '@expo/vector-icons';
 import {Colors, Styles} from '../Constants'
 
 
-const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result,imageUrl}) => {
+const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result,imageUrl,actualUser}) => {
 
     const words = {
         quantityPerDay:'Quantity per day' ,
