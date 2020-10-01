@@ -11,7 +11,7 @@ import Axios from 'axios';
 
 
 const MyProfile = ({navigation}) => {
-   const [profileDetails,setProfileDetails] = useState();
+   const [profileDetails,setProfileDetails] = useState([{name: 'holder',email: 'holder'}]);
    const [addresses,setAddresses] = useState([]);
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
