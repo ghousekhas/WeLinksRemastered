@@ -80,14 +80,14 @@ const MilkVendors = (props) => {
             const vendorName = item.name;
             const vendorStars = item.avg_ratings;
             const vendorReviews = item.reviews_number;
-            const brandsString= '';
+            var brandsString= '';
             const brands= item.brands;
             const imageUrl=item.img_url;
             const vendorAddress= item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode;
             console.log('itembrands',brands);
             for(let i=0;i<brands.length-1;i++)
-                brandsString+brands[i].brand+','+' ';
-            brandsString+brands[brands.length-1];
+               brandsString= brandsString+brands[i].brand+','+' ';
+            brandsString=brandsString+brands[brands.length-1];
 
             return(
                 <Vendor name={item.name} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
