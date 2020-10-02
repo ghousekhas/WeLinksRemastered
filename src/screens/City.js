@@ -17,7 +17,6 @@ import qs from 'qs';
 const City = ({navigation,route}) =>{
     const [cities,setCities] = useState([])
     const [value,setValue] = useState([])
-    let cityList;
     
 
     const getCitiesData= async ()=>{
@@ -29,7 +28,7 @@ const City = ({navigation,route}) =>{
         
         let i;
         var citys=result.data.cities;
-        cityList = [];
+        let cityList = [];
         for(i in citys)
             cityList.push({cityname: citys[i].city_name,city_id: citys[i].city_id});
         setCities(cityList);
@@ -48,19 +47,11 @@ const City = ({navigation,route}) =>{
    // console.log(cities)
    
 
-  const findCity = (value) => {
-    let i;
-    for (i in cityList){
-      if(cityList[i].city_id == value){
-        console.log(cityList[i].city)
-      return toString(cityList[i].city_name);
-      }
-    }
-  }
+  
 
  
    
-    return(<View style={{...style.mainContainer,flex:1}}>
+    return(<View style={{...StyleSheet.absoluteFill,padding: 10,margin: 5,backgroundColor: 'white'}}>
         <Text style = {style.text}>Select your city</Text>
         <View style ={Styles.grayfullline}/>
        
@@ -81,9 +72,9 @@ const City = ({navigation,route}) =>{
         </RadioButton.Group>
         
         
-      <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '5%',borderRadius: 10,height: '7%',justifyContent:'center'}}
+      <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '0%',borderRadius: 10}}
           onPress={()=>{
-            async ()=> {
+
               const {name,email}= route.params;
                 //AsyncStorage.setItem('firstLogin','true');
                 var config = {
@@ -102,18 +93,15 @@ const City = ({navigation,route}) =>{
                 .then(function (response) {
                   console.log(response.data);
                   console.log(response.data.user_id);
-                
+                  navigation.navigate('Homescreen');
                 })
                 .catch(function (error) {
                   console.log(error);
                 });
                 
             }
-            navigation.navigate('Homescreen',{
-              citySel : findCity(value)
-            })
 
-          }}>
+          }>
         <Text style={{backgroundColor: Colors.primary,alignSelf: 'center',padding: 10,color: 'white',width: dimen.width*0.9,textAlign: 'center',borderRadius: 10}}>Next</Text>
       </TouchableOpacity>
       
@@ -158,13 +146,7 @@ const style = StyleSheet.create({
         marginStart: 7,
         fontSize: 18
     },
-  button: {
-    backgroundColor: Colors.primary,
-  height: '100%',
-  width: '97%',
-  aspectRatio: 10/1.4,
-  borderRadius: 5
-}
+  
 
 });
 export default City;

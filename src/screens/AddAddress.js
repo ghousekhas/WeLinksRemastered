@@ -36,6 +36,7 @@ export default class AddAddress extends React.Component{
           bottomPanelAnimation: new Animated.Value(panelTranslateAfter),
           inputsValid: false,
           adding: false,
+          type: props.route.params.type==='vendorRegistration' ? 0:1,
 
           arrowOpacity: new Animated.Value(0),
             marker:{
@@ -63,6 +64,20 @@ export default class AddAddress extends React.Component{
       this.setState({adding: true});
       const {user_id}=this.props.route.params.actualUser;
       const {label,pincode,title,description,latitude,longitude,landmark}=this.state;
+      if(this.state.type===0){
+        this.props.route.params.callback({ user_id: user_id,
+          label: label,
+          pincode: pincode,
+          address: title,
+          landmark: landmark,
+          lat: latitude,
+          lng: longitude});
+        this.props.route.params.addrNameSetter(title);
+          this.props.navigation.goBack();
+      }
+      else{
+
+      
       if(this.state.title != 'loading'){
         Axios.post('https://api.dev.we-link.in/user_app.php?action=addAddress&',qs.stringify({
           user_id: user_id,
@@ -80,6 +95,7 @@ export default class AddAddress extends React.Component{
         },(error)=>{
           console.log(error);
         })
+      }
         
       }
     //  this.props.navigation.pop();

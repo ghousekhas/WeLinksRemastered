@@ -66,7 +66,7 @@ const NavigationDrawer = ({user}) => {
       <Drawer.Navigator initialRouteName='Home'
         drawerContent={props => <DrawerContent {...props}  switchVendor={switchVendorApp} />}>
        
-      <Drawer.Screen name="Home" component={VendorRegistration} />
+      <Drawer.Screen name="Home" component={vendorStack} />
       <Drawer.Screen name="HomeScreen" component={Homescreen} />
       <Drawer.Screen name="ProfileStack" component={myProfileStack}/>
       <Drawer.Screen name="SupportStack" component={userSupportStack}/>
@@ -92,6 +92,19 @@ const NavigationDrawer = ({user}) => {
 }
 
 const Stack = createStackNavigator();
+
+const vendorStack=()=>{
+  return(
+    <View style={{flex: 1}}>
+  <NavigationContainer independent = {true}>
+    <Stack.Navigator initialRouteName="Profile">
+
+    <Stack.Screen name = "Profile" component = {VendorRegistration} options={{headerShown: false}} />
+    <Stack.Screen name ="AddAddress" component={AddAddress} options={{headerShown: false}}/>
+  </Stack.Navigator>
+  </NavigationContainer>
+  </View>)
+}
 
 const myProfileStack = () => {
   console.log('Starting Profile Stack');
