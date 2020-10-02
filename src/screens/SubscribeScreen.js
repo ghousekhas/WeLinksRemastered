@@ -146,6 +146,7 @@ const [dateref1,setDateRef1] = useState('Select end');
       // console.log(order)
 
      // navigation.navigate('Cart')
+     console.log('ss',actualUser);
 
       navigation.navigate('Cart',{
         pname: pname,

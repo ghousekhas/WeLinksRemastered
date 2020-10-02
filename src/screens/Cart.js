@@ -9,6 +9,7 @@ import moment from 'moment';
 import { Styles} from '../Constants'
 import AppBar from '../components/AppBar'
 import Axios from 'axios';
+import qs from 'qs';
 
 
 const Cart = ({route,navigation}) => {
@@ -22,11 +23,12 @@ const Cart = ({route,navigation}) => {
 
     };
 
-    const {pname} = route.params
-    const {prate} = route.params
-    const {pquan} = route.params
-    const {pnumber} = route.params
-    const {porder,actualUser} = route.params
+    const {pname} = route.params;
+    const {prate} = route.params;
+    const {pquan} = route.params;
+    const {pnumber} = route.params;
+    const {porder,actualUser} = route.params;
+    console.log(actualUser);
     
 
     var ans,numberOfDeliveries;
@@ -215,16 +217,21 @@ const Cart = ({route,navigation}) => {
                 console.log('pop to top')
                 Axios.post('http://api.dev.we-link.in/user_app.php?action=addSubscription&'+qs.stringify({
                     user_id: actualUser.user_id,
-                    vendor_id: 1,
+                    vendor_id: route.params.vendorId,
                     quantity: pquan,
                     subscription_days: porder.days,
                     subscription_start_date: porder.s,
                     subscription_end_date: porder.e,
                     no_of_deliveries: 0,
-                    delivery_fee: 0,
+                    delivery_fee: 50,
                     order_gst: 0
-                }))
-                navigation.popToTop();
+                }),).then((response)=>{
+                    console.log(response.data);
+                    navigation.popToTop();
+                },(error)=>{
+                    console.log(error);
+                })
+                
             }}/>
 
          </View>

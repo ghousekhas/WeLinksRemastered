@@ -11,6 +11,7 @@ import { StackActions, CommonActions } from '@react-navigation/native';
 import {NavigationActions} from 'react-navigation';
 import VendorsList from './VendorsList';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import qs from 'qs';
 
 const height= Dimensions.get('window').height;
 var lowerPanelHeight= height/1.7;
@@ -47,7 +48,8 @@ export default class AddAddress extends React.Component{
             longitude: this.props.route.params.initialCamera.center.longitude,
             landmark: '',
             fineAddressInfo: '',
-            label: ''
+            label: '',
+            pincode: ''
         };
         this.location={
 
@@ -57,25 +59,23 @@ export default class AddAddress extends React.Component{
     };
 
     addAddress= async ()=>{
+      const {user_id}=this.props.route.params.actualUser;
+      const {label,pincode,title,description,latitude,longitude,landmark}=this.state;
       if(this.state.title != 'loading'){
-        var data=[];
-        var jsondata= await AsyncStorage.getItem('addresses');
-        var data= JSON.parse(jsondata);
-        if(data==null)
-          data=[];
-        var selectedLocation={text: this.state.title,lat: this.state.latitude,lng: this.state.longitude}
-        data.push(selectedLocation);
-        console.log(data[0]);
-        var jsonified= JSON.stringify(data);
-        var jsonifySingle= JSON.stringify(selectedLocation);
-        await AsyncStorage.setItem('selectedAddress',jsonifySingle);
-        await AsyncStorage.setItem('addresses',jsonified);
-        await AsyncStorage.setItem('firstLogin',await JSON.stringify({firstLogin: false}));
-        this.props.route.params.onComeBack({item: true})
-        //this.props.navigation.goBack();
-        //set address as selected
-        this.props.navigation.goBack();
-
+        Axios.post('https://api.dev.we-link.in/user_app.php?action=addAddress&',qs.stringify({
+          user_id: user_id,
+          label: label,
+          pincode: pincode,
+          address: title,
+          landmark: landmark,
+          lat: latitude,
+          lng: longitude
+        }),).then((response)=>{
+          console.log(response.data);
+        },(error)=>{
+          console.log(error);
+        })
+        
       }
 
     };
@@ -208,8 +208,13 @@ export default class AddAddress extends React.Component{
         }
       }).then((response)=>{
         try{
+          var addressComponents=(response.data.results[0].address_components);
+          var pincode= addressComponents[addressComponents.length-1].short_name;
+          console.log(pincode);
+
           var addresses= response.data.results[0];
           this.setState({title: addresses.formatted_address});
+          this.setState({pincode: pincode})
         }
         catch(error){
           this.setState({title: 'Please move the pin to a valid location'});

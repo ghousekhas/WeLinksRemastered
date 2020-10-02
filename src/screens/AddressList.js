@@ -74,8 +74,9 @@ export default class AddressList extends React.Component{
 
 
     retrieveAddresses= async ()=>{
+      const {user_id}= this.props.route.params.actualUser;
       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
-        user_id: 1
+        user_id: user_id
       })).then((response)=>{
         console.log('response',response.data);
         this.setState({arraydata: response.data.addresses});
@@ -112,7 +113,10 @@ export default class AddressList extends React.Component{
 
     renderSavedAddress=({item})=>{
 
-      return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz}/>
+      return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} route={{params:{
+        next: this.route.params.next,
+        actualUser: this.route.params.actualUser
+      }}}/>
       /*return(
         <View style={styles.horiz}>
           <ScrollView>
@@ -147,6 +151,7 @@ export default class AddressList extends React.Component{
     }
 
     addressSelected =async (data,details) =>{
+      const actualUser= this.props.route.params.actualUser;
       console.log(details);
       console.log(details.place_id);
       axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
@@ -168,7 +173,8 @@ export default class AddressList extends React.Component{
             heading: 0,
             zoom: 14
 
-          }
+          },
+          actualUser: actualUser
         })
       });
       

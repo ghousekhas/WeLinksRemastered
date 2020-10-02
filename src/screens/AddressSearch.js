@@ -90,6 +90,7 @@ export default class AddressSearch extends React.Component{
     }
 
     addressSelected =async (data,details) =>{
+      const actualUser= this.props.route.params.actualUser;
       console.log(details);
       console.log(details.place_id);
       axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
@@ -111,7 +112,8 @@ export default class AddressSearch extends React.Component{
             heading: 0,
             zoom: 14
 
-          }
+          },
+          actualUser: actualUser
         })
       });
       
