@@ -25,11 +25,28 @@ export default function VendorRegistration({navigation}){
     
 
     useEffect(()=>{
+        
         console.log('ph',user.phoneNumber.substring(3));
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
                 console.log(response.data.user[0]);
                 setActualUser(response.data.user[0]);
+                var b=response.data.user[0];
+                Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+b.user_id,)
+                    .then((response)=>{
+                try{
+                    var status= response.data.vendor[0].vendor_status;
+                    if(status=== 'active')
+                        setVerification(Constants.verified);
+                    else if(status=== 'inactive')
+                        setVerification(Constants.veFirstTime)
+                    else
+                        setVerification(Constants.veInProgress);
+                }
+                catch(error){
+                    setVerification(Constants.veFirstTime);
+                }
+            })
             },(error)=>{
                 console.log('error');
             })
