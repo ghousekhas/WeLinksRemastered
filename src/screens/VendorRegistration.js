@@ -7,22 +7,72 @@ import SubmitButton from '../components/SubmitButton';
 import  DocumentPicker from 'react-native-document-picker';
 import AppBar from '../components/AppBar';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
-
+import Axios from 'axios';
+import qs from 'qs';
+import auth from '@react-native-firebase/auth'
+import VendorServices from './VendorServices';
 export default function VendorRegistration({navigation}){
     const [aadharFile,setAadharFile] = useState(null);
     const [gstFile,setGSTFile] = useState(null);
     const [uri,setUri] = useState(null);
     const [verification,setVerification] = useState(Constants.veFirstTime); 
+    const [user,setUser]=useState(auth().currentUser);
+    const [actualUser,setActualUser]=useState();
+    const [name,companyName]=useState('');
+    const [email,companyEmail]=useState('');
+    const [gst,companyGstNumber]=useState('');
 
-    const submitRegistration= ()=>{
+    
 
+    useEffect(()=>{
+        console.log('ph',user.phoneNumber.substring(3));
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
+            .then((response)=>{
+                console.log(response.data.user[0]);
+                setActualUser(response.data.user[0]);
+            },(error)=>{
+                console.log('error');
+            })
+    },[]);
+
+    const submitRegistration= (services)=>{
+        var fromData=new FormData();
+        fromData.append('id_proof_document',{
+            uri: aadharFile.uri,
+            type:'image/jpeg',
+            name: aadharFile.name
+        });
+        fromData.append('vendor_img_url',{
+            uri: gstFile.uri,
+            type:'image/jpeg',
+            name: aadharFile.name
+
+        })
+        Axios.post('http://api.dev.we-link.in/user_app.php?action=registerVendor&'+qs.stringify({
+            user_id: actualUser.user_id,
+            company_name: name,
+            vendor_gstin: gst,
+            email: email,
+            lat: 1,
+            lng: 1,
+            pincode: 560092,
+            label: 'office'
+
+
+        }),fromData).then((response)=>{
+            console.log(response.data);
+        },(error)=>{
+            console.log(error);
+        })
+
+        
     }
 
     const getChangesToBeMade= ()=>{
         return 'Picture in Aadhar card isn\'t proper'
     }
     const tryingAgain =()=>{
-        //send Trying again to the server
+
         setVerification(Constants.veFirstTime);
     }
 
@@ -39,9 +89,7 @@ export default function VendorRegistration({navigation}){
           const onBackPress = () => {
          console.log('Can\'t go back from here');
          navigation.toggleDrawer();
-       
-        // navigation.goBack();
-         //   navigation.reset();
+    
                   
               return true;
             
@@ -53,7 +101,8 @@ export default function VendorRegistration({navigation}){
             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         },)
       );
-
+    if(verification==67)
+        return <VendorServices submit={submitRegistration}/>
     if(verification == Constants.veFirstTime)
         return(
             <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
@@ -63,15 +112,15 @@ export default function VendorRegistration({navigation}){
                 <Text style={{...Styles.heading,alignSelf: 'center'}}>Tell us about your business</Text>    
                 <View style={{marginTop: dimen.height/20,height: dimen.height*0.77}}>
                 <ScrollView >
-                    <TextBox title="NAME OF YOUR COMPANY" hint="Enter your company's name" />
-                    <TextBox title="COMPANY EMAIL ADDRESS" hint="Enter company's E-mail address"/>
-                    <TextBox title="COMPANY GST NUMBER" hint="Enter company's GST number"/>
-                    <UploadButton title='GST CERTIFICATE' browseresult={fileselect}/>
+                    <TextBox title="NAME OF YOUR COMPANY" hint="Enter your company's name" changeText={companyName} />
+                    <TextBox title="COMPANY EMAIL ADDRESS" hint="Enter company's E-mail address" changeText={companyEmail}/>
+                    <TextBox title="COMPANY GST NUMBER" hint="Enter company's GST number" changeText={companyGstNumber}/>
+                    <UploadButton title='GST CERTIFICATE' browseresult={fileselect} fileSetter={setGSTFile}/>
                     <UploadButton title='ADDRESS' buttonTitle='Map' />
-                    <UploadButton title='AADHAR/VERIFICATION' browseresult={fileselect}/>
+                    <UploadButton title='AADHAR/VERIFICATION' browseresult={fileselect} fileSetter={setAadharFile}/>
                 </ScrollView>
                 </View>
-                <SubmitButton onTouch={submitRegistration} text='Submit' />
+                <SubmitButton onTouch={()=>setVerification(67)} text='Submit' />
 
             </View>
         )
@@ -113,7 +162,7 @@ const styl = StyleSheet.create({
     }
 })
 
-const UploadButton =({hint,title,browseresult,buttonTitle='Browse'})=>{
+const UploadButton =({hint,title,browseresult,fileSetter,buttonTitle='Browse'})=>{
     const [filename,setFileName] = useState('Please select a file');
     const [uri,setUri] = useState(null);
     var navigation;
@@ -138,6 +187,11 @@ const UploadButton =({hint,title,browseresult,buttonTitle='Browse'})=>{
             setUri(res.uri);
             setFileName(res.name);
             console.log(res);
+            if(res.size%100>200){
+                Alert.alert('Size of the file should be lesser than 200kb')
+                setFileName('Please select a file');
+            }
+            fileSetter(res);
         }
         catch(err){
             if(DocumentPicker.isCancel(err)){

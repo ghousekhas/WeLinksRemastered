@@ -35,6 +35,7 @@ export default class AddAddress extends React.Component{
           circleopacitytrail: new Animated.Value(1),
           bottomPanelAnimation: new Animated.Value(panelTranslateAfter),
           inputsValid: false,
+          adding: false,
 
           arrowOpacity: new Animated.Value(0),
             marker:{
@@ -59,6 +60,7 @@ export default class AddAddress extends React.Component{
     };
 
     addAddress= async ()=>{
+      this.setState({adding: true});
       const {user_id}=this.props.route.params.actualUser;
       const {label,pincode,title,description,latitude,longitude,landmark}=this.state;
       if(this.state.title != 'loading'){
@@ -72,6 +74,9 @@ export default class AddAddress extends React.Component{
           lng: longitude
         }),).then((response)=>{
           console.log(response.data);
+          
+          this.props.route.params.refresh();
+          this.props.navigation.goBack();
         },(error)=>{
           console.log(error);
         })
@@ -244,6 +249,13 @@ export default class AddAddress extends React.Component{
       const {circlemark,circleopacity,circlemarktrail,circleopacitytrail,bottomPanelAnimation,arrowOpacity} =this.state;
 
       var submitButton;
+      if(this.state.adding)
+        return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',justifyContent: 'center'}}>
+                <Text style={{...Styles.heading,alignSelf: 'center',fontWeight: 'bold'}}>Adding address, please wait</Text>
+            </View>
+          )
+
+
       if(this.state.inputsValid)
         submitButton= (<View style={styles.submitButton}>
           <SubmitButton text='Continue' onTouch={this.addAddress}
