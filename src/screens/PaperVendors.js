@@ -59,7 +59,7 @@ const PaperVendors = (props) => {
        
         <View style={style.header}>
             <Text style ={style.username}>{userDetails.USER_NAME}</Text>
-            <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
+            <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
         </View>
         </View>
         <View style={Styles.grayfullline} />
