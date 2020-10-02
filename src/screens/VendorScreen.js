@@ -96,6 +96,8 @@ export default class VendorScreen extends React.Component{
             );
     };
     renderHeader = (section, _, isActive) => {
+    var      actualUser= this.props.route.params.actualUser;
+        console.log('vs',actualUser);
 
         var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
         console.log('meh',section);
@@ -126,7 +128,7 @@ export default class VendorScreen extends React.Component{
             duration={400}
             style={Styles.collapsibleView}
             transition="backgroundColor">
-        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId}}} data={section[(Object.keys(section))[0]]}/>
+        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId,actualUser: this.props.route.params.actualUser}}} data={section[(Object.keys(section))[0]]}/>
         </Animatable.View>);
         /*return(
             <Animatable.View
@@ -238,6 +240,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
     const {name} = route.params;
     const {stars} = route.params;
     const {reviews,actualUser} = route.params;
+    console.log(actualUser)
 
     useFocusEffect(
         React.useCallback(() => {
@@ -272,7 +275,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                     const prodName = item.name;
                     const prodQuan = item.quantity;
                     const prodRate = item.price;
-                    console.log('vs',actualUser);
+                    
                
                     navigation.navigate('SubscribeScreen',{
                         tag : 'paper',

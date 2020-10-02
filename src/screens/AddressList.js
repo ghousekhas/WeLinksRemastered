@@ -84,20 +84,6 @@ export default class AddressList extends React.Component{
       },(error)=>{
         console.log('error',error);
       })
-      try{
-        var data=[];
-        const jsonvalue=  await AsyncStorage.getItem('addresses');
-        data= JSON.parse(jsonvalue);
-        console.log(data);
-        if(data!=null){
-          this.data= JSON.parse(jsonvalue);
-          this.setState({arraydata: data})
-        }
-        else{
-          this.setState({arraydata: []});
-        }
-      }
-      catch(error){}
     }
 
   
@@ -112,10 +98,11 @@ export default class AddressList extends React.Component{
     }
 
     renderSavedAddress=({item})=>{
+      const {next,actualUser}=this.props.route.params;
 
       return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} route={{params:{
-        next: this.route.params.next,
-        actualUser: this.route.params.actualUser
+        next: next,
+        actualUser: actualUser
       }}}/>
       /*return(
         <View style={styles.horiz}>

@@ -15,6 +15,7 @@ const MilkVendors = (props) => {
     const address= props.route.params.address;
     const actualUser=props.route.params.actualUser;
     console.log(address);
+    console.log('milky',actualUser)
 
     const words = {
         milk: 'Milk vendors in your locality',
