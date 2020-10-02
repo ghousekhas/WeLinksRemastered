@@ -159,8 +159,10 @@ export default class AddressList extends React.Component{
             pitch: 0,
             heading: 0,
             zoom: 14
+            
 
           },
+          refresh: this.retrieveAddresses,
           actualUser: actualUser
         })
       });

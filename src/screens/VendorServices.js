@@ -6,9 +6,10 @@ import Button from '../components/Button';
 import SubmitButton from '../components/SubmitButton';
 import  DocumentPicker from 'react-native-document-picker';
 import {useNavigation} from '@react-navigation/native';
-import {Checkbox} from 'react-native-paper';
+import { Checkbox} from 'react-native-paper';
+import AppBar from '../components/AppBar';
 
-export default function VendorServices(){
+export default function VendorServices({submit}){
     const [services,setServices] = useState(['unchecked','unchecked','unchecked','unchecked']);
 
     const checkBox =(index)=>{
@@ -24,7 +25,8 @@ export default function VendorServices(){
 
 
     return(<View style={{...StyleSheet.absoluteFill,padding: 10}}>
-                <Text style = {style.text}>Select the services your company offers</Text>
+                <AppBar back={false} />
+                <Text style = {style.text}>What services do you offer?</Text>
             <View style={{paddingHorizontal: 10}}>
                 <ScrollView>
                     <Checkbox.Item label="Milk Delivery" status={services[0]} labelStyle={{color: 'black'}} theme={{colors:{primary: 'black'}}} color={Colors.primary} onPress={()=>{checkBox(0)}} />
@@ -37,7 +39,9 @@ export default function VendorServices(){
                     </ScrollView>
             </View>    
             <View style={{padding: 10,position: 'absolute',bottom: 0,alignSelf: 'center'}}>
-                <SubmitButton text='Submit'/>
+                <SubmitButton text='Submit' onTouch={()=>{
+                    submit(null);
+                }}/>
             </View>
 
         </View>

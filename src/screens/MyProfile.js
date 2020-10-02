@@ -11,6 +11,7 @@ import Axios from 'axios';
 
 
 const MyProfile = ({navigation}) => {
+<<<<<<< HEAD
 //    const [profileDetails,setProfileDetails] = useState({
    
 //     "name": "Loading...",
@@ -29,6 +30,10 @@ const MyProfile = ({navigation}) => {
  
   
   
+=======
+   const [profileDetails,setProfileDetails] = useState([{name: 'holder',email: 'holder'}]);
+   const [addresses,setAddresses] = useState([]);
+>>>>>>> 2aaea9534420105cd503636133678c630695f906
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
