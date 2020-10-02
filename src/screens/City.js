@@ -51,7 +51,7 @@ const City = ({navigation,route}) =>{
 
  
    
-    return(<View style={style.mainContainer}>
+    return(<View style={{...StyleSheet.absoluteFill,padding: 10,margin: 5,backgroundColor: 'white'}}>
         <Text style = {style.text}>Select your city</Text>
         <View style ={Styles.grayfullline}/>
        
@@ -72,9 +72,9 @@ const City = ({navigation,route}) =>{
         </RadioButton.Group>
         
         
-      <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '5%',borderRadius: 10}}
+      <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '0%',borderRadius: 10}}
           onPress={()=>{
-            async ()=> {
+
               const {name,email}= route.params;
                 //AsyncStorage.setItem('firstLogin','true');
                 var config = {
@@ -101,7 +101,7 @@ const City = ({navigation,route}) =>{
                 
             }
 
-          }}>
+          }>
         <Text style={{backgroundColor: Colors.primary,alignSelf: 'center',padding: 10,color: 'white',width: dimen.width*0.9,textAlign: 'center',borderRadius: 10}}>Next</Text>
       </TouchableOpacity>
       

@@ -72,12 +72,14 @@ const PaperVendors = (props) => {
             data={vendors}
             keyExtractor={(item) => item.name}
             renderItem={({item}) => {
+                const actualUser=props.route.params.actualUser;
                 const vendorName = item.name;
                 const vendorStars = item.avg_ratings;
                 const vendorReviews = item.reviews_number;
                 var brandsString= '';
                 const brands= item.brands;
                 const imageUrl=item.img_url;
+                const vendorId=item.vendor_id;
                 const vendorAddress= item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode;
                 console.log('itembrands',brands);
                 for(let i=0;i<brands.length-1;i++)
@@ -88,14 +90,16 @@ const PaperVendors = (props) => {
                     <Vendor name={item.name} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
                     onSelected={() => {
                  
-                    props.navigation.navigate('VendorScreen',{
+                    props.navigation.navigate('VendorScreen1',{
                         tag: 'milk',
                         name: vendorName,
                         stars: vendorStars,
                         reviews: vendorReviews,
                         address: address,
                         vendorAddress: vendorAddress,
-                        imageUrl: imageUrl
+                        imageUrl: imageUrl,
+                        actualUser: actualUser,
+                        vendorId: vendorId
                     })
                     
                         

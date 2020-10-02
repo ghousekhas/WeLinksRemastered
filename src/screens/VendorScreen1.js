@@ -14,6 +14,8 @@ import Product from '../components/Product';
 import { useNavigation } from '@react-navigation/native';
 import {Entypo} from '@expo/vector-icons';
 import AppBar from '../components/AppBar';
+import Axios from 'axios';
+import qs from 'qs';
 
 const brandsArray=
 [
@@ -27,16 +29,35 @@ export default class VendorScreen1 extends React.Component{
     constructor(props){
         super(props);
             this.state={
-                brangImagesdata: [1,2,3,4,5,6,7,8,9,10],
-                sections: [{one: 1,
-                    category: 'English',two: 2},{one: 1,
-                        category: 'ಕನ್ನಡ',two: 2},{one: 1,
-                            category: 'हिन्दी',two: 2},{one: 1,
-                                category: 'తెలుగు',two: 2}],
+                brandImagesData: [],
+                sections: [],
                 collapsed: true,
                 activesections: []
                                 
             };
+    }
+
+    componentDidMount(){
+        console.log('MilkVendorEntered')
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&'+qs.stringify({
+            vendorID: this.props.route.params.vendorId,
+            vendor_type: 'newspaper'
+        }),{
+            'Accept-Encoding': 'gzip'
+        }
+        ).then((result) => {
+           var res = result.data.products;
+           console.log('result',res);
+           console.log('res',res.categories);
+           this.setState({sections: res.categories});
+           this.setState({brandImagesData: res.brands});
+    
+           
+
+        }).catch((err) => {
+            console.log(err);
+            
+        });
     }
  
 
@@ -74,25 +95,28 @@ export default class VendorScreen1 extends React.Component{
             );
     };
     renderHeader = (section, _, isActive) => {
-
-        var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
-
-        if(!isActive)
-            expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)
-        else
-            expanderButton= (<Entypo name='chevron-up' size={24} color={'black'}/>)
-
-        return (
-          <Animatable.View
-            duration={400}
-            style={Styles.collapsedView}
-            transition="backgroundColor"
-          >
-            <Text style={Styles.collapsedText}>{section.category}</Text>
-            {expanderButton}
-          </Animatable.View>
-        );
-      };
+        var      actualUser= this.props.route.params.actualUser;
+            console.log('vs',actualUser);
+    
+            var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
+            console.log('meh',section);
+    
+            if(!isActive)
+                expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)
+            else
+                expanderButton= (<Entypo name='chevron-up' size={24} color={'black'}/>)
+    
+            return (
+              <Animatable.View
+                duration={400}
+                style={Styles.collapsedView}
+                transition="backgroundColor"
+              >
+                <Text style={Styles.collapsedText}>{(Object.keys(section))[0]}</Text>
+                {expanderButton}
+              </Animatable.View>
+            );
+          };
     
 
     renderContent= (section,_,isactive)=>{
@@ -129,6 +153,7 @@ export default class VendorScreen1 extends React.Component{
     }
 
     render(){
+        const {name,stars,reviews,address,vendorAddress,imageUrl}=this.props.route.params;
     return (<View>
         <AppBar back 
         funct={() => {
@@ -138,7 +163,7 @@ export default class VendorScreen1 extends React.Component{
         <View style={Styles.parentContainer}>
             <View style={Styles.fortyUpperPanel}>
                
-                        <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address={'Mosque road Shivajinagar 560045'}/>
+                         <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
 
                         <Text style={{fontWeight: 'bold',fontSize: 16,marginLeft: 10}}>Brands:</Text>
                  
@@ -242,21 +267,27 @@ const ScrapFlatList = ({route}) => {
         data = {plist}
         keyExtractor = {(item) => item.name}
         renderItem = {({item}) => { 
+            console.log(item.product_img_url);
+            
+            
             return(
-                <Product name={item.name} quantity={item.quantity} price={item.price}  price_={item.price_}
+                <Product name={item.name} quantity={item.quantity} price={item.price}  url={item.product_img_url} imageUrl={item.product_img_url}
                 subscribe={() => {
                    
                     const prodName = item.name;
                     const prodQuan = item.quantity;
                     const prodRate = item.price;
-                    const prodRate_ = item.price_;
-
-                       navigation.navigate('SubscribeScreen',{
+                    
+               
+                    navigation.navigate('SubscribeScreen',{
                         tag : 'paper',
                         pname : prodName,
                         pquan : prodQuan,
                         prate: prodRate,
-                        prate_: prodRate_
+                        imageUrl: item.product_img_url,
+                        actualUser: actualUser,
+                        vendorId: vendorId,
+                        productId: item.id
                     }) } 
                 }/>
 

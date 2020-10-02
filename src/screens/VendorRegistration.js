@@ -21,6 +21,8 @@ export default function VendorRegistration({navigation}){
     const [name,companyName]=useState('');
     const [email,companyEmail]=useState('');
     const [gst,companyGstNumber]=useState('');
+    const [address,setAddress]=useState(null);
+
 
     
 
@@ -30,7 +32,7 @@ export default function VendorRegistration({navigation}){
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
                 console.log(response.data.user[0]);
-                setActualUser(response.data.user[0]);
+                setActualUser('theactualuser',response.data.user[0]);
                 var b=response.data.user[0];
                 Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+b.user_id,)
                     .then((response)=>{
@@ -42,6 +44,7 @@ export default function VendorRegistration({navigation}){
                         setVerification(Constants.veFirstTime)
                     else
                         setVerification(Constants.veInProgress);
+                    setVerification(Constants.veFirstTime);
                 }
                 catch(error){
                     setVerification(Constants.veFirstTime);
@@ -133,7 +136,7 @@ export default function VendorRegistration({navigation}){
                     <TextBox title="COMPANY EMAIL ADDRESS" hint="Enter company's E-mail address" changeText={companyEmail}/>
                     <TextBox title="COMPANY GST NUMBER" hint="Enter company's GST number" changeText={companyGstNumber}/>
                     <UploadButton title='GST CERTIFICATE' browseresult={fileselect} fileSetter={setGSTFile}/>
-                    <UploadButton title='ADDRESS' buttonTitle='Map' />
+                    <UploadButton title='ADDRESS' buttonTitle='Map' setAddress={setAddress} actualUser={actualUser} />
                     <UploadButton title='AADHAR/VERIFICATION' browseresult={fileselect} fileSetter={setAadharFile}/>
                 </ScrollView>
                 </View>
@@ -179,7 +182,7 @@ const styl = StyleSheet.create({
     }
 })
 
-const UploadButton =({hint,title,browseresult,fileSetter,buttonTitle='Browse'})=>{
+const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle='Browse',setAddress})=>{
     const [filename,setFileName] = useState('Please select a file');
     const [uri,setUri] = useState(null);
     var navigation;
@@ -195,7 +198,23 @@ const UploadButton =({hint,title,browseresult,fileSetter,buttonTitle='Browse'})=
 
     const browse= async()=>{
         if(buttonTitle == 'Map'){
-            navigation.navigate('Homescreen');
+            navigation.navigate('AddAddress',{
+                type: 'vendorRegistration',
+                callback: setAddress,
+                actualUser: actualUser,
+                addrNameSetter: setFileName,
+                initialCamera: {
+                    center:{
+                    latitude: 13.062314,
+                    longitude: 77.591136,
+                    },
+                    pitch: 0,
+                    heading: 0,
+                    zoom: 14
+                    
+        
+                  }
+            });
             return;
         }
         
@@ -220,7 +239,7 @@ const UploadButton =({hint,title,browseresult,fileSetter,buttonTitle='Browse'})=
     return (<View style={{width: '90%',marginHorizontal: dimen.width*0.05}}>
         <Text style={{...Styles.subheading,marginTop: dimen.height/50,color: 'black',fontSize: 15,fontWeight: 'bold'}}>{title}</Text>
         <View style={{...Styles.horizontalRow,marginTop: dimen.height/80,alignSelf: 'flex-start',marginLeft: 0,alignContent: 'space-between',width: '100%'}}>
-            <Text>{filename}</Text>
+            <Text style={{width: '70%'}}>{filename}</Text>
             <Button text={buttonTitle} onTouch={browse}/>
         </View>
     </View>)
