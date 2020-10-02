@@ -71,7 +71,7 @@ const MilkVendors = (props) => {
     </View>
     <View style={Styles.grayfullline} />
 <View style={style.heading}>
-<Text style={Styles.heading}>{words.milk}</Text>
+<Text style={{...Styles.title,fontSize: 17}}>{words.milk}</Text>
 </View>
    
 

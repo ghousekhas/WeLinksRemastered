@@ -66,7 +66,9 @@ const City = ({navigation,route}) =>{
         <Text style={style.city}>{item.cityname}</Text>
       
       </View>)
-           }} />
+           }} 
+             
+           />
         </RadioButton.Group>
         
         
