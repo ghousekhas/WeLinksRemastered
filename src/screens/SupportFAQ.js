@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-import {View,StyleSheet,TextInput, Dimensions,BackHandler,Linking} from 'react-native';
-=======
 import React, { useEffect,useState } from 'react';
 import {View,StyleSheet,TextInput, Dimensions,BackHandler} from 'react-native';
->>>>>>> 319d81de604dd215c2b406591dc734e26b62e02f
 import {Text} from 'react-native-paper';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 import sendFeedback, {sendEmail} from '../../src/EmailUtility'
@@ -17,12 +12,8 @@ import {Colors} from '../Constants';
 import Axios from 'axios';
 
 const SupportFAQ = ({navigation}) => {
-<<<<<<< HEAD
-    
-=======
     const [phone,setPhone]=useState(null);
     const [email,setEmail]=useState(null);
->>>>>>> 319d81de604dd215c2b406591dc734e26b62e02f
     const words = {
         allTopics: 'All Topics',
         faq: 'Frequently Asked Questions',
