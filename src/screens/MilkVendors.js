@@ -13,7 +13,7 @@ import qs from 'qs';
 
 const MilkVendors = (props) => {
     const address= props.route.params.address;
-    const actualUser=props.route.params.actualUser;
+const {actualUser}=props.route.params;
     console.log(address);
     console.log('milky',actualUser)
 

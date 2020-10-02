@@ -82,6 +82,7 @@ export default class AddAddress extends React.Component{
         })
         
       }
+    //  this.props.navigation.pop();
 
     };
 
@@ -257,10 +258,10 @@ export default class AddAddress extends React.Component{
 
 
       if(this.state.inputsValid)
-        submitButton= (<View style={styles.submitButton}>
+        submitButton= (
           <SubmitButton text='Continue' onTouch={this.addAddress}
           />
-          </View>);
+          );
       else
           submitButton= (<View style={{...styles.submitButton}}>
             <SubmitButton text='Continue' onTouch={this.addAddress} otherColor={'gray'}
@@ -367,7 +368,7 @@ const styles= StyleSheet.create({
      margin: 15,
      bottom: '1%',
      alignSelf: 'center',
-     backgroundColor: Colors.primary
+    
    },
    lowerhorizontal:{
      flexDirection: 'column',
