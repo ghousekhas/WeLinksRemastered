@@ -49,10 +49,7 @@ const City = ({navigation,route}) =>{
 
   
 
- //  setValue(cityList[0])
-  
-  // console.log(cityList)
-
+ 
    
     return(<View style={style.mainContainer}>
         <Text style = {style.text}>Select your city</Text>

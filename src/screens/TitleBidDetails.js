@@ -10,8 +10,9 @@ import { AntDesign } from '@expo/vector-icons';
 import SubmitButton from '../components/SubmitButton';
 
 export default function TitleBidDetails({navigation,route}){
- const { bidTitle } = route.params;
-    console.log('dets ' + bidTitle)
+ const { cardDetails } = route.params;
+ console.log(cardDetails)
+  
     const [title,stitle]=useState("Bid Title");
     const [address,sAddress]=useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.')
 
@@ -23,7 +24,7 @@ export default function TitleBidDetails({navigation,route}){
                     color: 'black',
                     padding: 20
                 }
-            }>Mix it up with some Aderall and wait to get to the top</Text>
+            }>Local Vendor</Text>
         )
     }
 
@@ -67,7 +68,7 @@ export default function TitleBidDetails({navigation,route}){
                 </View>
                 <View style={{flex: 0}}>
                     <Text style={{...styles.title}}>Additional Notes</Text>
-                    <Text style={{...styles.info}}>Anything but the text that was here before. That was very annoying. Start proper nouns with a capital letter, please. </Text>
+                    <Text style={{...styles.info}}>There's a hope that's waiting for you in the dark.</Text>
                 </View>
                 <View>
                     <Text style={{...styles.title,marginVertical:'3%',color: Colors.blue}}>Bid Status</Text>
@@ -86,9 +87,11 @@ export default function TitleBidDetails({navigation,route}){
         )
     }
 
+    
+
     return(<View>
      <AppBar 
-    back
+     back
       funct={() => {
         navigation.pop();
          }} />

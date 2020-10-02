@@ -11,8 +11,25 @@ import Axios from 'axios';
 
 
 const MyProfile = ({navigation}) => {
+<<<<<<< HEAD
+   const [profileDetails,setProfileDetails] = useState({
+   
+    "name": "Loading...",
+   
+    "email": "Loading...",
+   
+   });
+   const [addresses,setAddresses] = useState([{
+    
+      
+       
+        "addr_details": "Loading...",
+       
+   }]);
+=======
    const [profileDetails,setProfileDetails] = useState([{name: 'holder',email: 'holder'}]);
    const [addresses,setAddresses] = useState([]);
+>>>>>>> 319d81de604dd215c2b406591dc734e26b62e02f
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
@@ -25,8 +42,9 @@ const MyProfile = ({navigation}) => {
         'Accept-Encoding': 'gzip'
        }).then((response) => {
          
-           setProfileDetails(response.data.user)
-           console.log(response.data.user)
+     
+      setProfileDetails(response.data.user[0])
+   //   console.log(profileDetails)
     
        }).catch((e) => {
            console.log('Error with profile: '+e);
@@ -40,7 +58,7 @@ const MyProfile = ({navigation}) => {
         
       //     console.log("add " + response.data.addresses)
       setAddresses(response.data.addresses)
-     // console.log("jc" + addresses[5].addr_id)
+     //  console.log("jc" + addresses[1])
        }).catch((e) => {
            console.log('Error with addresses: '+e);
        });
@@ -66,14 +84,17 @@ const MyProfile = ({navigation}) => {
       );
 
       const renderAddresses = () => {
-          let num = addresses.length,i;
+     
           let addressArray = [];
-          for(i in num){
+          for(let i in addresses){
+                 // console.log(addresses[i].addr_details)
               addressArray.push(<View>
      <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{addresses[i].addr_details}</Text>
 
               </View>)
           }
+        //  console.log(addressArray)
+   
           return addressArray;
       }
     return(<View>
@@ -110,7 +131,7 @@ const MyProfile = ({navigation}) => {
                        </View>
     </View>
 
-    <Text style={style.name}>{profileDetails[0].name}</Text>
+    <Text style={style.name}>{profileDetails.name}</Text>
     
     
 
@@ -147,8 +168,8 @@ const MyProfile = ({navigation}) => {
 
         <View style={{flexDirection: 'column'}}>
             <Text style={style.blackText}>Profile details</Text>
-            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{profileDetails[0].name}</Text>
-            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{profileDetails[0].email}</Text>
+            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{profileDetails.name}</Text>
+            <Text style={{...style.blackText,fontWeight: '900', color: 'gray',marginTop: '1%'}}>{profileDetails.email}</Text>
         </View>
     <View style={{position: 'absolute',right: 8}}>
 
