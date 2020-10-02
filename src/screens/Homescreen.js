@@ -153,7 +153,7 @@ export default class Homescreen extends React.Component{
     render(){
         const {navigation} =this.props;
         const {user} = this.props.route.params;
-        console.log("pROPS" + user)
+       
 
     
         

@@ -65,7 +65,7 @@ const PaperVendors = (props) => {
         <View style={Styles.grayfullline} />
     
         <View style={style.heading}>
-<Text style={Styles.heading}>{words.paper}</Text>
+<Text style={{...Styles.title,fontSize: 17}}>{words.paper}</Text>
 </View>
     
         <FlatList 

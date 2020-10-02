@@ -43,6 +43,15 @@ export const Styles=StyleSheet.create({
         color: 'black'
         
     },
+    title: {
+      
+            color: 'black',
+            margin: '5%',
+            fontSize: 20,
+            marginVertical: '5%',
+            fontWeight: 'bold'
+         
+    },
     subheading:{
         fontSize: 14,
         color: 'gray'
