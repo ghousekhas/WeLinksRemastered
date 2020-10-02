@@ -15,6 +15,7 @@ import Product from '../components/Product';
 import {Entypo} from '@expo/vector-icons'
 import AppBar from '../components/AppBar';
 import Axios from 'axios';
+import qs from 'qs';
 
 const brandsArray=['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Amul_Logo.jpg/220px-Amul_Logo.jpg',
 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ-PN3yAMsBkQdlKVjDsM19qCdITU5T-WT3vQ&usqp=CAU',
@@ -28,11 +29,7 @@ export default class VendorScreen extends React.Component{
         super(props);
             this.state={
                 brandImagesData: [],
-                sections: [{one: 1,
-                    category: 'Toned',two: 2},{one: 1,
-                        category: 'Cow',two: 2},{one: 1,
-                            category: 'Full Cream',two: 2},{one: 1,
-                                category: 'Organic',two: 2}],
+                sections: [],
                 collapsed: true,
                 activesections: []
                                 
@@ -41,7 +38,10 @@ export default class VendorScreen extends React.Component{
 
     componentDidMount(){
         console.log('MilkVendorEntered')
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&vendorID=1&vendor_type=milk',{
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&'+qs.stringify({
+            vendorID: this.props.route.params.vendorId,
+            vendor_type: 'milk'
+        }),{
             'Accept-Encoding': 'gzip'
         }
         ).then((result) => {
@@ -96,6 +96,8 @@ export default class VendorScreen extends React.Component{
             );
     };
     renderHeader = (section, _, isActive) => {
+    var      actualUser= this.props.route.params.actualUser;
+        console.log('vs',actualUser);
 
         var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
         console.log('meh',section);
@@ -126,7 +128,7 @@ export default class VendorScreen extends React.Component{
             duration={400}
             style={Styles.collapsibleView}
             transition="backgroundColor">
-        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68}}} data={section[(Object.keys(section))[0]]}/>
+        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId,actualUser: this.props.route.params.actualUser}}} data={section[(Object.keys(section))[0]]}/>
         </Animatable.View>);
         /*return(
             <Animatable.View
@@ -238,6 +240,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
     const {name} = route.params;
     const {stars} = route.params;
     const {reviews,actualUser} = route.params;
+    console.log(actualUser)
 
     useFocusEffect(
         React.useCallback(() => {
@@ -254,6 +257,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         },)
       );
+      const vendorId=route.params.vendorId;
 
    // const order = navigation.getParams('order');
     return(<View style={style.container}>
@@ -263,6 +267,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
         renderItem = {({item}) => { 
             console.log(item.product_img_url);
             
+            
             return(
                 <Product name={item.name} quantity={item.quantity} price={item.price}  url={item.product_img_url} imageUrl={item.product_img_url}
                 subscribe={() => {
@@ -270,6 +275,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                     const prodName = item.name;
                     const prodQuan = item.quantity;
                     const prodRate = item.price;
+                    
                
                     navigation.navigate('SubscribeScreen',{
                         tag : 'paper',
@@ -277,7 +283,9 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         pquan : prodQuan,
                         prate: prodRate,
                         imageUrl: item.product_img_url,
-                        actualUser: actualUser
+                        actualUser: actualUser,
+                        vendorId: vendorId,
+                        productId: item.id
                     }) } 
                 }/>
 

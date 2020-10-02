@@ -14,9 +14,8 @@ import {Colors} from '../Constants'
 const height= Dimensions.get('window').height;
 
 
-export default HomeAddress=({item,style})=>{
+export default HomeAddress=({item,style,route})=>{
     const navigation= useNavigation();
-    const route= useRoute();
     const [currentAddress,setCurrentAddress]=useState(item.addr_details+' '+item.addr_landmark+' '+ item.addr_pincode);
     const [label,setCurrentLabel]= useState(item.addr_name);
     const [image,setImage]=useState(require('../../assets/pin.png'));
@@ -36,10 +35,12 @@ export default HomeAddress=({item,style})=>{
     }
 
     setSelectedAddress= async (itemnow)=>{
+      console.log('ardino',route.params.actualUser);
       
       navigation.navigate(route.params.next,{
         address: itemnow,
         actualUser: route.params.actualUser
+
       });
       
 

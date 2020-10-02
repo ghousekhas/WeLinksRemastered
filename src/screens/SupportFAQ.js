@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { useState,useEffect } from 'react';
 import {View,StyleSheet,TextInput, Dimensions,BackHandler,Linking} from 'react-native';
+=======
+import React, { useEffect,useState } from 'react';
+import {View,StyleSheet,TextInput, Dimensions,BackHandler} from 'react-native';
+>>>>>>> 4138a2c1c297ffa04f42ad18ddd9522fc5a11303
 import {Text} from 'react-native-paper';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 import sendFeedback, {sendEmail} from '../../src/EmailUtility'
