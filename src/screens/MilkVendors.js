@@ -80,7 +80,7 @@ const {actualUser}=props.route.params;
   
    
     <View style={style.header}>
-        <Text style ={style.username}>{userDetails.USER_NAME}</Text>
+        <Text style ={style.username}>{actualUser.name}</Text>
         <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
     </View>
     </View>

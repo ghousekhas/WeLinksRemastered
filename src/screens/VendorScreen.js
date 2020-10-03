@@ -200,38 +200,7 @@ export default class VendorScreen extends React.Component{
 
 const ScrapFlatList = ({route,navigation,data}) => {
    
-    const [mlist,updatemList] = useState([
-        {
-            name: 'Nandini Toned Milk',
-            quantity: '1 packet',
-            price: '22'
-        },
-        {
-            name: 'Heritage Toned Milk',
-            quantity: '1 packet',
-            price: '27'
-        },
-        {
-            name: 'Thirumala Toned Milk',
-            quantity: '1 packet',
-            price: '24'
-        }, {
-            name: 'Nandini Toned Milk 1',
-            quantity: '1 packet',
-            price: '22'
-        },
-        {
-            name: 'Heritage Toned Milk 1',
-            quantity: '1 packet',
-            price: '22'
-        },
-        {
-            name: 'Thirumala Toned Milk 1',
-            quantity: '1 packet',
-            price: '23'
-        }
-
-    ]);
+    
 
    
 

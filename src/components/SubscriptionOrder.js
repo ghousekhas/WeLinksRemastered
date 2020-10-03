@@ -5,7 +5,8 @@ import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
 import {Colors} from '../Constants'
 
-const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought}) => {
+const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought,imageUrl}) => {
+    console.log('theimageurl',imageUrl);
     var dayString = "";
    
         console.log(days[i])
@@ -19,10 +20,8 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
        
   
     return(<View style={{flexDirection: 'row'}}>
-       <Image style={quantity.includes('unit',0)? style.image : style.image1} source={
-            quantity.includes('unit',0) ? 
-            require('./../../assets/news_p.png')
-            : require('./../../assets/milk_p.png')}/>
+       <Image style={ style.image} width={60} height={60} resizeMethod={'resize'} resizeMode='center' source={
+            {uri: imageUrl}}/>
     
     <View style = {style.container}>
     <View style={{flexDirection: 'row'}}>
@@ -149,20 +148,20 @@ const style = StyleSheet.create({
         
     },
     image1: {
-        width: 73,
-        height: 70,
+        width: 60,
+        height: 60,
         position: 'absolute',
         marginStart: '4%',
-        
-        marginTop : '16%'
+        marginTop : '16%',
+        padding: 10
         
        
     },
     image: {
-        width: 90,
+        width: 60,
         height: 60,
         position: 'absolute',
-        marginStart: '3%',
+        marginStart: '8%',
         
         marginTop : '16%'
         

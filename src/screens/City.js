@@ -14,9 +14,11 @@ import qs from 'qs';
 
 
 
-const City = ({navigation,route}) =>{
+const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
     const [cities,setCities] = useState([])
     const [value,setValue] = useState([])
+    const [done,setDone]=useState(false);
+
     
 
     const getCitiesData= async ()=>{
@@ -34,7 +36,6 @@ const City = ({navigation,route}) =>{
         setCities(cityList);
     
            
-
         }).catch((error) => {
             console.log("Error reading city data: " + err);
             
@@ -45,7 +46,38 @@ const City = ({navigation,route}) =>{
         getCitiesData();
       },[]);
    // console.log(cities)
-   
+
+   const registerUser=()=>{
+    const {name,email}= userDetails;
+    //AsyncStorage.setItem('firstLogin','true');
+    var config = {
+      method: 'post',
+      url: 'https://api.dev.we-link.in/user_app.php?action=registerUser&name=New User&phone=9144200060&email=newuser@user.wl&city_id=2',
+    };
+    
+  Axios.post('https://api.dev.we-link.in/user_app.php?'+qs.stringify(
+  {
+      action: 'registerUser',
+      name: name,
+      phone: auth().currentUser.phoneNumber.substring(3),
+      email: email,
+      city_id: value
+  }),)
+    .then(function (response) {
+      console.log(response.data);
+      getUserDetails(5);
+      
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+   }
+
+
+
+  
+      
+
 
   
 
@@ -73,35 +105,9 @@ const City = ({navigation,route}) =>{
         
         
       <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '0%',borderRadius: 10}}
-          onPress={()=>{
+          onPress={()=>{ registerUser()
 
-              const {name,email}= route.params;
-                //AsyncStorage.setItem('firstLogin','true');
-                var config = {
-                  method: 'post',
-                  url: 'https://api.dev.we-link.in/user_app.php?action=registerUser&name=New User&phone=9144200060&email=newuser@user.wl&city_id=2',
-                };
-                
-              Axios.post('https://api.dev.we-link.in/user_app.php?'+qs.stringify(
-              {
-                  action: 'registerUser',
-                  name: name,
-                  phone: auth().currentUser.phoneNumber,
-                  email: email,
-                  city_id: value
-              }),)
-                .then(function (response) {
-                  console.log(response.data);
-                  console.log(response.data.user_id);
-                  navigation.navigate('Homescreen');
-                })
-                .catch(function (error) {
-                  console.log(error);
-                });
-                
-            }
-
-          }>
+          }}>
         <Text style={{backgroundColor: Colors.primary,alignSelf: 'center',padding: 10,color: 'white',width: dimen.width*0.9,textAlign: 'center',borderRadius: 10}}>Next</Text>
       </TouchableOpacity>
       

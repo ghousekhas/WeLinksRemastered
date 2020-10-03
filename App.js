@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState} from 'react';
-import { View,StyleSheet,Text } from 'react-native';
+import { View,StyleSheet,Text,Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -54,7 +54,7 @@ const Drawer = createDrawerNavigator();
 
 const NavigationDrawer = ({user,actualUser}) => {
   const [vendor,setVendor] = useState(false);
-  const [updateState,setUpdateState]=useState(actualUser!=null? actualUser:{name: 'loading'});
+  const [updateState,setUpdateState]=useState(actualUser!=null? actualUser:{name: 'loading',user_id: -1,email: 'f'});
 
   React.useEffect(()=>{
     setUpdateState(actualUser!=null? actualUser:{name: 'loading'});
@@ -153,6 +153,7 @@ export default function App() {
   const [user,setUser]=useState(auth().currentUser);
   const [userDetails,setUserDetails]=useState(null);
   const [networkState,setNetworkState]=useState('available');
+  const [splash,setSplash]=useState(true);
 
   const getUserDetails= async (networkTries)=>{
     if(networkTries>10){
@@ -166,8 +167,13 @@ export default function App() {
             .then((response)=>{
               try{
                 console.log(response.data.user[0]);
-
-                setUserDetails(response.data.user[0]);
+                if(response.data.user != null &&response.data.user!= undefined )
+                  if(response.data.user[0].hasOwnProperty("status_code"))
+                    setUserDetails(null)
+                  else
+                    setUserDetails(response.data.user[0]);
+                else
+                  setUserDetails(null);
                 setNetworkState('working');
 
               }
@@ -205,16 +211,27 @@ export default function App() {
   }
   
   React.useEffect(()=>{
+    console.group(auth().currentUser)
+    setInterval(()=>{
+      setSplash(false);
+    },2500);
     setUser(auth().currentUser);
-    checkIfFirstLogin();
+    //checkIfFirstLogin();
     console.log(user);
     if(user!=null)
-      fetchUserDetails();
+      getUserDetails(0);
     //setUser('something')
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
 
    
   },[]);
+
+  if(splash){
+    return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
+        <Image resizeMode={'center'} resizeMethod={'auto'} style={{...StyleSheet.absoluteFill}} source={require('./assets/ic_launcher.png')} />
+      
+    </View>)
+  }
 
   
  
@@ -227,31 +244,38 @@ export default function App() {
         <Stack.Screen  name="Introduction" component={Introduction} 
           options={{
             headerShown: false
-          }}/>
+          }} initialParams={{getUserDetails: getUserDetails}}/>
           <Stack.Screen name='Login' component={LoginScreen} options={{
             headerShown: false 
           }}/>
-          <Stack.Screen name='AddressSearch' component={AddressSearch}/>
-          <Stack.Screen name='AddAddress' component={AddAddress} options={{
-            headerShown: false
-          }}/>
-          <Stack.Screen name = "City" component={City}/>
-          <Stack.Screen name = "About" component={About}/>
-          <Stack.Screen name='MilkVendors' component={MilkVendors} options={{headerShown: false}}/>
-          <Stack.Screen name='PaperVendors' component={PaperVendors} options={{headerShown: false}}/>
-          <Stack.Screen name='VendorScreen' component={VendorScreen} options={{headerShown: false}}/>
-          <Stack.Screen name='VendorScreen1' component={VendorScreen1} options={{headerShown: false}} />
-          <Stack.Screen name='FAQ' component={FAQ} options={{headerShown: false}} />
-          
-
         </Stack.Navigator>
       </NavigationContainer> 
     </View>
     );
     }
-    if(userDetails == null)
-      getUserDetails(0);
-  
+    else if(userDetails == null ){
+      //getUserDetails(5);
+      return (
+        <View style={{flex: 1}}>
+          <About user={user} getUserDetails={getUserDetails} />
+          {/*
+          <NavigationContainer independent={true}>
+          <Stack.Navigator initialRouteName='About'>
+            <Stack.Screen  name="About" component={About} 
+              options={{
+                headerShown: false
+              }}/>
+              <Stack.Screen name='City' component={City} options={{
+                headerShown: false 
+              }}/>
+          </Stack.Navigator>
+         
+        </NavigationContainer> 
+         */}
+      </View>
+      )
+    }
+   
     return (
       <View style={{flex: 1}}>
         <NavigationDrawer user={user} actualUser={userDetails} />

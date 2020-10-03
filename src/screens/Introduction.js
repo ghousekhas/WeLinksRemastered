@@ -53,7 +53,9 @@ export default class Introduction extends React.Component {
         // User finished the introduction. Show real app through
         // navigation or simply by controlling state
         showRealApp=true;
-        this.props.navigation.navigate('Login')
+        this.props.navigation.navigate('Login',{
+          getUserDetails: this.props.route.params.getUserDetails
+        })
       }
     
       render(){

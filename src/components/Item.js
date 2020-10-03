@@ -3,6 +3,8 @@ import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Item = ({name, quantity, price, imageUrl}) => {
+    const dimg= require('../../assets/ic_launcher.png');
+    const defaultimg=dimg.uri;
     return(
     <View style={{flexDirection: 'row'}}>
      
@@ -18,7 +20,7 @@ const Item = ({name, quantity, price, imageUrl}) => {
        
         
         </View>
-        <Image style={style.image} source={{uri: imageUrl}}/>
+        <Image style={style.image} source={{uri: imageUrl!=''? imageUrl: defaultimg}}/>
         
         </View>)
         

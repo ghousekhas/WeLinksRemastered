@@ -181,6 +181,7 @@ const Cart = ({route,navigation}) => {
          endDate={porder.e.end}
           days={porder.days}
           num = {calculateDeliveries(porder.s.start,porder.e.end)}
+          imageUrl={route.params.imageUrl}
          />
          </View>
 

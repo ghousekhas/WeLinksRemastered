@@ -100,7 +100,7 @@ const PaperVendors = (props) => {
                 console.log('itembrands',brands);
                 for(let i=0;i<brands.length-1;i++)
                     brandsString=brandsString+brands[i].brand.toString()+','+' ';
-                brandsString=brandsString+brands[brands.length-1].brands.toString();
+                brandsString=brandsString+brands[brands.length-1].brand.toString();
     
                 return(
                     <Vendor name={item.name} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}

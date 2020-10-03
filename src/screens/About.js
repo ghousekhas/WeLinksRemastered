@@ -9,7 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import City from './City';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const About = ({navigation,route}) =>{
+const About = ({navigation,route,getUserDetails}) =>{
     const [name,setName] = useState(' ');
     const [email,setEmail] = useState(' ');
     const [referral,setReferral]= useState(' ');
@@ -29,20 +29,18 @@ const About = ({navigation,route}) =>{
         await AsyncStorage.setItem(Constants.username,name);
         if(ValidateEmail(email) && name.trim() != ''){
             try{
-                navigation.navigate('City',{
-                    name: name,
-                    email: email,
-                    referral: referral
-                })
+                setAboutDone(true);
             }
             catch(error){
-                navigation.navigate('City');
             }
         }
         else{
             Alert.alert('Invalid mail','Please enter a valid email ID');
         }
     }
+
+    if(aboutDone)
+        return(<City userDetails={{email: email,name: name}} getUserDetails={getUserDetails}/>)
 
 
 
@@ -55,7 +53,7 @@ const About = ({navigation,route}) =>{
         <TextBox title='Referral Code (Optional)' hint='Add referral code (optional)' icon='smile'/>
         <View style={Styles.submitButton}>
         <SubmitButton text='Continue' onTouch={aboutSubmit}
-    />
+                    />
     </View>
     </View>);
   
