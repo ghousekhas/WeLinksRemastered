@@ -126,7 +126,7 @@ const DrawerContent = (props) => {
                                 />
                             )}
 
-    label="Switch to User"
+    label="Switch to Consumer"
     onPress = {switchToVendor}
     
   />

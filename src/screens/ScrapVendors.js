@@ -11,7 +11,7 @@ import { Avatar } from 'react-native-paper';
 import { Styles,Colors } from '../Constants';
 
 
-const ScrapVendors = (props) => {
+const ScrapVendors = ({navigation}) => {
 
     const words = {
         milk: 'Scrap vendors in your locality',
@@ -63,7 +63,7 @@ const ScrapVendors = (props) => {
         React.useCallback(() => {
           const onBackPress = () => {
           console.log('Go to homescreen');
-           props.navigation.navigate('AddressList');
+           navigation.navigate('AddressList');
               return true;
             
           };
@@ -78,8 +78,8 @@ const ScrapVendors = (props) => {
     
     return(<View style={{flex: 1,backgroundColor: 'white'}}>
  
-    <AppBar back ={true} funct={() => {
-       props.navigation.pop();
+    <AppBar back  funct={() => {
+      navigation.pop();
         }} />
             <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
 
@@ -108,7 +108,7 @@ const ScrapVendors = (props) => {
                 <Vendor name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews} scrap={'Mobiles, Tablets, Paper'}
                 onSelected={() => {
              
-                props.navigation.navigate('ScrapVendor',{
+                navigation.navigate('ScrapVendor',{
                     tag: 'milk',
                     name: vendorName,
                     stars: vendorStars,
@@ -138,8 +138,9 @@ const style = StyleSheet.create({
     },
     username: {
         fontWeight: 'bold',
-        marginStart: '25%',
-        fontSize: 18
+        marginStart: 50,
+        fontSize: 18,
+        color: 'black'
     },
     address: {
         marginTop: '3%',

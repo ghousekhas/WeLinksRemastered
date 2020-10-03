@@ -80,7 +80,7 @@ const {actualUser}=props.route.params;
   
    
     <View style={style.header}>
-        <Text style ={style.username}>{actualUser.name}</Text>
+        <Text style ={style.username}>{userDetails.USER_NAME}</Text>
         <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
     </View>
     </View>
@@ -145,11 +145,7 @@ const style = StyleSheet.create({
         marginStart: '20%'
         
     },
-    username: {
-        fontWeight: 'bold',
-        marginStart: '25%',
-        fontSize: 18
-    },
+ 
     address: {
         marginTop: '3%',
         borderRadius: 5,
@@ -179,6 +175,11 @@ const style = StyleSheet.create({
         position: 'absolute'
         
        
+    },username: {
+        fontWeight: 'bold',
+        marginStart: 50,
+        fontSize: 18,
+        color: 'black'
     }
 
 })
