@@ -54,10 +54,10 @@ const Drawer = createDrawerNavigator();
 
 const NavigationDrawer = ({user,actualUser}) => {
   const [vendor,setVendor] = useState(false);
-  const [updateState,setUpdateState]=useState(actualUser);
+  const [updateState,setUpdateState]=useState(actualUser!=null? actualUser:{name: 'loading'});
 
   React.useEffect(()=>{
-    setUpdateState(actualUser);
+    setUpdateState(actualUser!=null? actualUser:{name: 'loading'});
   },[actualUser]);
 
 
@@ -200,11 +200,16 @@ export default function App() {
       setFirstLog(1);
     
   }
+  const fetchUserDetails = ()=>{
+    var i=5;
+  }
   
   React.useEffect(()=>{
     setUser(auth().currentUser);
     checkIfFirstLogin();
     console.log(user);
+    if(user!=null)
+      fetchUserDetails();
     //setUser('something')
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
 
@@ -247,24 +252,6 @@ export default function App() {
     if(userDetails == null)
       getUserDetails(0);
   
-  
-
-
-  if(networkState==='unavailable'){
-      return(
-        <View style={{...Styles.parentContainer,justifyContent: 'center'}}>
-          <Text style={{...Styles.heading}}>Error connecting to server</Text>
-        </View>
-      )   
-  }
-
-  if(userDetails!=null)
-    return (
-      <View style={{flex: 1}}>
-        <NavigationDrawer user={user} actualUser={userDetails} />
-      </View>
-    );  
-  else
     return (
       <View style={{flex: 1}}>
         <NavigationDrawer user={user} actualUser={userDetails} />
