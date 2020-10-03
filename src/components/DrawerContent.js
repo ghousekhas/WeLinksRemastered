@@ -16,6 +16,7 @@ import { Constants,Colors } from '../Constants';
 const DrawerContent = (props) => {
   const [vendor,setVendor] = useState(false);
   const {switchVendor} = props;
+  const actualUser= props.actualUser;
 
   useEffect(()=>{
     switchVendor(vendor);
@@ -41,7 +42,7 @@ const DrawerContent = (props) => {
           </View>
 
           <Text style={styles.username}>
-          {userDetails.USER_NAME}
+          {actualUser.name}
           </Text>
 
           <View style={{flexDirection: 'row',marginStart: '5%',marginTop: '1%'}}>
@@ -51,7 +52,7 @@ const DrawerContent = (props) => {
 
             </View>
           <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'1%',fontSize: 14,alignSelf: 'center'}}>
-          {userDetails.USER_PHONE}
+          {actualUser.phone}
           </Text>
 
           </View>
@@ -185,7 +186,7 @@ const DrawerContent = (props) => {
           </View>
 
           <Text style={styles.username}>
-          {userDetails.USER_NAME}
+          {actualUser.name}
           </Text>
 
           <View style={{flexDirection: 'row',marginStart: '5%',marginTop: '1%'}}>
@@ -195,7 +196,7 @@ const DrawerContent = (props) => {
 
             </View>
           <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'1%',fontSize: 14,alignSelf: 'center'}}>
-          {userDetails.USER_PHONE}
+          {actualUser.phone}
           </Text>
 
           </View>

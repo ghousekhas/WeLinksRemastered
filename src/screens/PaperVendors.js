@@ -12,6 +12,7 @@ import qs from 'qs';
 
 const PaperVendors = (props) => {
     const address= props.route.params.address;
+    const {actualUser}=props.route.params;
     const words = {
         paper: 'Newspaper vendors in your locality',
 
@@ -21,15 +22,30 @@ const PaperVendors = (props) => {
 
     const [vendors,updateVendors] = useState([]);
 
-    useEffect(()=>{
+    const retrieveData= async (t)=>{
+        if(t<=0)
+            return;
         Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
             vendor_type: 'newspaper',
             lat: address.lat,
             lng: address.lng
         }),).then((response)=>{
-            console.log('one',response.data.vendor);
-            updateVendors(response.data.vendor);
+            try{
+                console.log('one',response.data.vendor);
+                updateVendors(response.data.vendor);
+            }
+            catch(error){
+                console.log('milkvendoreasarror',error);
+                //retrieveData(t-1);
+            }
+        },(error)=>{
+            console.log('milkvendorerror',error);
+            //retrieveData(t-1);
         })
+    }
+
+    useEffect(()=>{
+        retrieveData(10);
     },[]);
     useFocusEffect(
         React.useCallback(() => {
@@ -58,8 +74,8 @@ const PaperVendors = (props) => {
       
        
         <View style={style.header}>
-            <Text style ={style.username}>{userDetails.USER_NAME}</Text>
-            <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
+            <Text style ={style.username}>{actualUser.name}</Text>
+            <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
         </View>
         </View>
         <View style={Styles.grayfullline} />
@@ -134,10 +150,9 @@ const style = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: Colors.primary,
         color: 'white',
-        padding: 3,
         marginStart: 50,
-        paddingHorizontal: 6,
-        
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         fontSize: 13,
         
     },

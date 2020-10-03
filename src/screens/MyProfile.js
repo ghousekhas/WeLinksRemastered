@@ -34,7 +34,7 @@ const MyProfile = ({navigation}) => {
        });
 
 
-       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id=1',{
+       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id='+profileDetails.user_id,{
         'Accept-Encoding': 'gzip'
        }).then((response) => {
          

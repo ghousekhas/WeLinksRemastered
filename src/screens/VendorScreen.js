@@ -166,7 +166,7 @@ export default class VendorScreen extends React.Component{
             <View style={Styles.fortyUpperPanel}>
                
                 <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
-                 <Text style={{paddingLeft: 10,fontSize: 15, fontWeight: 'bold'}}>Brands:</Text>
+                 <Text style={{paddingLeft: 10,fontSize: 15, fontWeight: 'bold',marginBottom: 5}}>Brands:</Text>
                 <FlatList
                     style={Styles.halfFlatlist}
                     renderItem={this.renderItem}

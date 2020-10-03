@@ -22,15 +22,30 @@ const {actualUser}=props.route.params;
 
     }
 
-    useEffect(()=>{
+    const retrieveData= async (t)=>{
+        if(t<0)
+            return;
         Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
             vendor_type: 'milk',
             lat: address.lat,
             lng: address.lng
         }),).then((response)=>{
-            console.log('one',response.data.vendor);
-            updateVendors(response.data.vendor);
+            try{
+                console.log('one',response.data.vendor);
+                updateVendors(response.data.vendor);
+            }
+            catch(error){
+                console.log('milkvendoreasarror',error);
+                //retrieveData(t-1);
+            }
+        },(error)=>{
+            console.log('milkvendorerror',error);
+           // retrieveData(t-1);
         })
+    }
+
+    useEffect(()=>{
+        retrieveData(10);
     },[]);
   
    
@@ -140,10 +155,9 @@ const style = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: Colors.primary,
         color: 'white',
-        padding: 3,
-        marginStart: '25%',
-        paddingHorizontal: 6,
-        
+        marginStart: 50,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         fontSize: 13,
         
     },

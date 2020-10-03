@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState} from 'react';
-import { View,StyleSheet } from 'react-native';
+import { View,StyleSheet,Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -38,6 +38,8 @@ import TitleBidDetails from './src/screens/TitleBidDetails';
 import PrivacyPolicy from './src/screens/PrivacyPolicy';
 import CancellationScreen from './src/screens/CancellationScreen';
 import ScrapCart from './src/screens/ScrapCart';
+import Axios from 'axios';
+import { Styles } from './src/Constants';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -50,8 +52,16 @@ navigator.geolocation = require('@react-native-community/geolocation');
 
 const Drawer = createDrawerNavigator();
 
-const NavigationDrawer = ({user}) => {
+const NavigationDrawer = ({user,actualUser}) => {
   const [vendor,setVendor] = useState(false);
+  const [updateState,setUpdateState]=useState(actualUser);
+
+  React.useEffect(()=>{
+    setUpdateState(actualUser);
+  },[actualUser]);
+
+
+  
 
   const switchVendorApp = (flag)=>{
     setVendor(flag);
@@ -64,10 +74,9 @@ const NavigationDrawer = ({user}) => {
     return(
       <NavigationContainer independent={true} >
       <Drawer.Navigator initialRouteName='Home'
-        drawerContent={props => <DrawerContent {...props}  switchVendor={switchVendorApp} />}>
+        drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} />}>
        
       <Drawer.Screen name="Home" component={vendorStack} />
-      <Drawer.Screen name="HomeScreen" component={Homescreen} />
       <Drawer.Screen name="ProfileStack" component={myProfileStack}/>
       <Drawer.Screen name="SupportStack" component={userSupportStack}/>
      
@@ -79,12 +88,12 @@ const NavigationDrawer = ({user}) => {
  // return(<BidCreation2 />)
   return (
     <NavigationContainer independent={true}  >
-      <Drawer.Navigator initialRouteName='Home' backBehavior='none'
-        drawerContent={props => <DrawerContent {...props} switchVendor={switchVendorApp} />}  >
+      <Drawer.Navigator initialRouteName='HomeStack' backBehavior='none' 
+        drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} />}  >
        
-      <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user}} />
-      <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user}}/>
-      <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user}}/>
+      <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user,actualUser: updateState,sm: 1}} />
+      <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
+      <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState}}/>
        
       </Drawer.Navigator>
     </NavigationContainer>
@@ -142,6 +151,36 @@ const userSupportStack = () => {
 export default function App() {
   const [firstlogin,setFirstLog]=useState(0);
   const [user,setUser]=useState(auth().currentUser);
+  const [userDetails,setUserDetails]=useState(null);
+  const [networkState,setNetworkState]=useState('available');
+
+  const getUserDetails= async (networkTries)=>{
+    if(networkTries>10){
+      setNetworkState('unavailable');
+      return;
+    }
+    else{
+
+
+    Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
+            .then((response)=>{
+              try{
+                console.log(response.data.user[0]);
+
+                setUserDetails(response.data.user[0]);
+                setNetworkState('working');
+
+              }
+              catch(error){
+                console.log(error);
+                getUserDetails(networkTries+1)
+              }
+            },(error)=>{
+                console.log('error');
+                getUserDetails(networkTries+1);
+            });
+      }
+  };
 
 
 
@@ -167,8 +206,6 @@ export default function App() {
     checkIfFirstLogin();
     console.log(user);
     //setUser('something')
-    
-   
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
 
    
@@ -207,26 +244,51 @@ export default function App() {
     </View>
     );
     }
-
-
+    if(userDetails == null)
+      getUserDetails(0);
+  
   
 
-  return (
-    <View style={{flex: 1}}>
-      <NavigationDrawer user={user} />
-    </View>
-  );  
+
+  if(networkState==='unavailable'){
+      return(
+        <View style={{...Styles.parentContainer,justifyContent: 'center'}}>
+          <Text style={{...Styles.heading}}>Error connecting to server</Text>
+        </View>
+      )   
+  }
+
+  if(userDetails!=null)
+    return (
+      <View style={{flex: 1}}>
+        <NavigationDrawer user={user} actualUser={userDetails} />
+      </View>
+    );  
+  else
+    return (
+      <View style={{flex: 1}}>
+        <NavigationDrawer user={user} actualUser={userDetails} />
+      </View>
+    );  
 }
 
 const PostLoginHome =({route})=>{
-  const {user}=route.params;
+  const {user,actualUser,sm}=route.params;
+  const [updateState,setUpdateState]=useState(route.params.actualUser);
+  
+  React.useEffect(()=>{
+    setUpdateState(route.params.actualUser);
+  },[route])
+
+  if(updateState != false){
+    console.log('got my feet up on the dash ',updateState)
   return(
     <View style={{flex: 1}}>
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName='Homescreen' >
         <Stack.Screen name='Homescreen' component={Homescreen} options={{
           headerShown: false 
-        }} initialParams={{user: route.params.user}}/>
+        }} initialParams={{user: route.params.user,actualUser: updateState}}/>
         {/* <Stack.Screen name='School' component={School} options={{headerShown: false}}/>  */}
         <Stack.Screen name='AddressSearch' component={AddressSearch}/>
         <Stack.Screen name='AddAddress' component={AddAddress} options={{
@@ -261,4 +323,5 @@ const PostLoginHome =({route})=>{
     </NavigationContainer>
     </View>
   )
+  }
 }

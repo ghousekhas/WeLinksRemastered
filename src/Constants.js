@@ -89,7 +89,7 @@ export const Styles=StyleSheet.create({
     },
     fortyUpperPanel:{
         width: '100%',
-        height: '40%',
+        height: '33%',
         backgroundColor: Colors.secondary,
          
         
@@ -117,7 +117,7 @@ export const Styles=StyleSheet.create({
     halfFlatList:{
         height: '40%',
         width: '100%',
-        padding: 10,
+        alignSelf: 'center'
          
            
     },

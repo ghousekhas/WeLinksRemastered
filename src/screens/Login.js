@@ -16,6 +16,7 @@ const LoginScreen = ({navigation}) => {
     const [confirm,setConfirm] = useState(null);
     const [code,setCode] =useState(' ');
     const [user,setUser] =useState(null);
+    const [timeout,stmots]=useState(60);
 
     onAuthStateChanged = (user)=>{
         setUser(user);
@@ -27,7 +28,7 @@ const LoginScreen = ({navigation}) => {
     },[]);
 
 
-    async function authenticate(){
+    async function authenticate(re=null){
         if(phoneno.length==10){
             const confirmation= await auth().signInWithPhoneNumber('+91'+phoneno);
             setConfirm(confirmation);
@@ -100,16 +101,20 @@ const LoginScreen = ({navigation}) => {
         codeInputFieldStyle={LoginScreenStyle.underlineStyleBase}
         codeInputHighlightStyle={LoginScreenStyle.underlineStyleHighLighted}
             pinCount={6}
-            onCodeFilled={(code) => {
-               // setCode(code);
-                confirmCode(code);
-
+            onCodeFilled={(codec) => {
+                setCode(codec);
             }}
         />
-       <Text style={style.resend}>Resend OTP </Text>
+        <TouchableOpacity onPress={()=> authenticate(re)} disabled={timeout==0 ? true : false}  >
+            <Text style={style.resend}>Resend OTP in {timeout} seconds </Text>
+        </TouchableOpacity>
        <SubmitButton text='Submit'
            onTouch={()=>{
-               confirmCode();
+               if(code!=null)
+                    if(code.toString().length==6)
+                        confirmCode(code);
+                else 
+                    Alert.alert('Please fill the OTP recieved in the message');
            }}
        />
      

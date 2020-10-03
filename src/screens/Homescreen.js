@@ -4,7 +4,7 @@ import {StyleSheet,Text,View,TextInput, Dimensions,Image,StatusBar,FlatList} fro
 import { TouchableOpacity, ScrollView  } from 'react-native-gesture-handler';
 import {CommonActions,useNavigation} from '@react-navigation/native';
 
-import {Constants,Styles} from '../Constants';
+import {Constants,dimen,Styles} from '../Constants';
 import Axios from 'axios';
 import { BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
@@ -24,7 +24,6 @@ export default class Homescreen extends React.Component{
         this.state={
         
             firstLogin: false,
-            
             username: 'William',
             city: 'Bengaluru',
             title: 'What are you looking for?',
@@ -34,7 +33,10 @@ export default class Homescreen extends React.Component{
             scrap: 'Corporate Scrap',
             corporate: 'Home Scrap',
             address: 'Tap here to add an address',
-            actualUser: ''
+            actualUser: {
+                name: 'loading',
+                city: 'loading'
+            }
         };
         this.images={
             milk: require('./../../assets/milk.png'),
@@ -60,56 +62,39 @@ export default class Homescreen extends React.Component{
         }
         
       }
-      retreiveInitData= async()=>{
-          const {navigation} =this.props;
-          try{
-              //Load Coupons, username and city
-            const selectedAddress= await JSON.parse(await AsyncStorage.getItem(Constants.selectedAddress));
-            const userName= await JSON.parse(await AsyncStorage.getItem(Constants.username));
-            const city= await JSON.parse(await AsyncStorage.getItem(Constants.city));
-            console.log('cc',selectedAddress);
-            if(userName == null )
-                navigation.navigate('About');
-            else if(city== null)
-                navigation.navigate('City');
-            else if(selectedAddress == null)
-                navigation.navigate('AddressSearch');
-            this.setState({address: selectedAddress.text,lat: selectedAddress.lat,lng: selectedAddress.lng,username: userName});
-          }
-          catch(error){
-              console.log(error);
-          }
-      }
+    
 
     
-    
+    async retrieveUserData(networkTries){
+        const {user}=this.props.route.params;
+        if(networkTries<=0)
+            return;
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
+            .then((response)=>{
+              try{
+                console.log(response.data.user[0]);
+                this.setState({actualUser: response.data.user[0]})
+
+              }
+              catch(error){
+                console.log(error);
+                this.retrieveUserData(networkTries-11)
+              }
+            },(error)=>{
+                console.log('error');
+                getUserDetails(networkTries-1);
+            });
+      }
+
 
     componentDidMount(){
         const {navigation}= this.props;
         this.checkIfFirstLogin();
-        this.retreiveInitData();
+        this.retrieveUserData(10);
         this.focusListener= navigation.addListener('focus',()=>{
-            console.log('fjknkf');
             this.checkIfFirstLogin();
-            this.retreiveInitData();
+            this.retrieveUserData();
        });
-     //   BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-        /*Axios.post('https://5f1552a54693a6001627551c.mockapi.io/ahyeah')
-        .then((response)=>{
-            console.log(response.data);
-        });
-        this.props.navigation.po*/
-        const {user}=this.props.route.params;
-        console.log('ph',user.phoneNumber.substring(3));
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
-            .then((response)=>{
-                console.log(response.data.user[0]);
-                this.setState({actualUser: response.data.user[0]});
-            },(error)=>{
-                console.log('error');
-            })
-
-
         BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
 
 
@@ -169,14 +154,14 @@ export default class Homescreen extends React.Component{
                     <TouchableOpacity style={styles.usernamecontainer} onPress={()=>{this.props.navigation.navigate('About')}}>
                         <Image style={styles.userimage} source={require('../../assets/avatar.png')}/>
                         <View style={styles.usernandd}>
-                            <Text style={styles.username}>{this.state.username}</Text>
+                            <Text style={styles.username}>{this.state.actualUser.name}</Text>
                            {/* <Text style={styles.userdes}>{this.state.userdes}</Text>*/}
                         </View>
                     </TouchableOpacity>
                     </View>
                     <TouchableOpacity  style={styles.usernamecontainer} onPress={()=>{this.props.navigation.navigate('City')}}>
                         <Image style={styles.locim} source={require('../../assets/pin.png')}/>
-                        <Text style={styles.city}>{this.state.city}</Text>
+                        <Text style={styles.city}>{this.state.actualUser.city}</Text>
                     </TouchableOpacity>
                 </View>
                <View style={styles.banner}> 
@@ -324,12 +309,11 @@ const styles= StyleSheet.create({
             },
         shadowOpacity: 0.37,
         shadowRadius: 6.49,
-
-            elevation: 4,
+        elevation: 4
     },
     usernamecontainer:{
         alignSelf: 'center',
-        flexWrap: 'wrap',
+        width: dimen.width/4,
         flexDirection: 'row',
         alignContent: 'center' ,
         borderRadius: 100,
