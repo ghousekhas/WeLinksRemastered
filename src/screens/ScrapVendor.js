@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
@@ -10,6 +9,7 @@ import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
+import AppBar from '../components/AppBar'
 import Appliance from '../components/Appliance';
 import {Colors} from '../Constants'
 export default class ScrapVendor extends React.Component{
@@ -111,7 +111,9 @@ export default class ScrapVendor extends React.Component{
     }
 
     render(){
-    return (
+    return (<View>
+        <AppBar back funct={() => this.props.navigation.pop()} />
+   
         <View style={Styles.parentContainer}>
             <View style={Styles.fortyUpperPanel}>
                
@@ -139,6 +141,7 @@ export default class ScrapVendor extends React.Component{
                 </ScrollView>
             </View>
 
+        </View>
         </View>
     )
     }

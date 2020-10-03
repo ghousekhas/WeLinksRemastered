@@ -12,6 +12,7 @@ import qs from 'qs';
 
 const PaperVendors = (props) => {
     const address= props.route.params.address;
+    const {actualUser}=props.route.params;
     const words = {
         paper: 'Newspaper vendors in your locality',
 

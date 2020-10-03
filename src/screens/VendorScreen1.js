@@ -38,7 +38,7 @@ export default class VendorScreen1 extends React.Component{
     }
 
     componentDidMount(){
-        console.log('MilkVendorEntered')
+        //console.log('MilkVendorEntered')
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&'+qs.stringify({
             vendorID: this.props.route.params.vendorId,
             vendor_type: 'newspaper'
