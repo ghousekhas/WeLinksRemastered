@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Styles, Colors } from '../Constants';
 
 const Item = ({name, quantity, price, imageUrl}) => {
     const dimg= require('../../assets/ic_launcher.png');
@@ -28,7 +29,9 @@ const Item = ({name, quantity, price, imageUrl}) => {
 };
 const style = StyleSheet.create({
     container: {
-        backgroundColor: '#EDF9F9',
+        ...Styles.parentContainer,
+        marginTop: '0%',
+        backgroundColor: Colors.lightBlue,
        height:Dimensions.get('window').height/5.5,
        width:Dimensions.get('window').width,
       

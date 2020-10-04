@@ -1,6 +1,6 @@
 import React, { useState, useImperativeHandle, useEffect } from 'react';
 import {View, StyleSheet, Text, Dimensions, Picker} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 
 import SubmitButton from '../components/SubmitButton';
 import Button from '../components/Button';
@@ -61,22 +61,19 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
        days: [{m},{t},{w},{th},{f},{s},{su}]
 
    };
-   const [allSet,setAllSet] = useState(true);
-   const checkAllSet = () => {
-       console.log('Check: ' + dateref + " " +dateref1)
-       if(dateref == 'Select start' || dateref1 == 'Select end')
-       return true;
-       
-       
-       return false;
+ 
 
-   };
+return(
+<View style={style.container}>
 
-  
-
-return(<View style={style.container} >
+     
+    <View style={{flex:1,marginBottom: '38%'}}>
     <Item name={pname} quantity={pquan} price={prate} imageUrl={imageUrl}/>
-    <View style={style.view1}>
+
+    <ScrollView>
+
+<View>
+    <View style={{...style.view1}}>
     <Feather name="shopping-bag" size={22} color= {Colors.lightIcon} />
 
     <Text style={style.greyText}>{words.quantityPerDay}</Text>
@@ -117,9 +114,10 @@ return(<View style={style.container} >
     <Text style={style.greyText}>{words.repeat}</Text>
     </View>
 
-                {/* days */}
+     {/* This view aligns days and buttons */}
     <View style={{flexDirection: 'column',alignItems: 'center',width:Dimensions.get('window').width,marginVertical:'8%'}}>
-    <View style={style.weekPick}> 
+    {/* days */}
+    <View style={{...style.weekPick}}> 
     <TouchableOpacity onPress={() => {
             m ? ms(false) : ms(true)
            
@@ -186,6 +184,7 @@ return(<View style={style.container} >
 
         
      </View>
+    {/* Daily/Weekdays/Weekends */}
      <View style={{...style.weekPick,marginTop: '8%'}}>
         
      <TouchableOpacity onPress={() => {
@@ -209,7 +208,7 @@ return(<View style={style.container} >
                 }
             
         }}>
-        <View style={button1 ?  {...style.dbutton,backgroundColor: '#64e4ce',borderColor:'white'} : style.dbutton}> 
+        <View style={button1 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white'} : style.dbutton}> 
         <Text style={button1 ? {...style.btext,color: 'white'}: style.btext}>Daily</Text>
         </View>
 
@@ -232,7 +231,7 @@ return(<View style={style.container} >
                 
                 }
         }}>
-       <View style={button2 ?  {...style.dbutton,backgroundColor: '#64e4ce',borderColor:'white'} : style.dbutton}> 
+       <View style={button2 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white'} : style.dbutton}> 
         <Text style={button2 ? {...style.btext,color: 'white'}: style.btext}>Weekdays</Text>
         </View>
 
@@ -254,7 +253,7 @@ return(<View style={style.container} >
                 
                 }
         }}>
-       <View style={button3 ?  {...style.dbutton,backgroundColor: '#64e4ce',borderColor:'white'} : style.dbutton}> 
+       <View style={button3 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white'} : style.dbutton}> 
         <Text style={button3 ? {...style.btext,color: 'white'}: style.btext}>Weekends</Text>
         </View>
 
@@ -272,25 +271,24 @@ return(<View style={style.container} >
     
     <View style={Styles.grayfullline}/>
 
-
+{/* Last section */}
+<View>
     <View style={style.view1}>
     <Feather name="calendar" size={22} color={Colors.lightIcon} />
 
     <Text style={style.greyText}>{words.duration}</Text>
     </View>
 
-    <View>
+  {/* Start date */}
     <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%'}}>
-        {/* <Button text={words.startDate} onTouch={onCalendarOpen}/> */}
         <TouchableOpacity onPress={onCalendarOpen} style={style.dbutton}>
         <Text style={style.btext}>{words.startDate}</Text>
             
         </TouchableOpacity>
         <Text style={{...style.dates,position: 'absolute',bottom: -7,end:30}}>{start}</Text>
     </View>
-
+{/* End date */}
     <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%',marginTop: '5%'}}>
-    {/* <Button text={words.endDate} onTouch={onCalendarOpen1}/> */}
     <TouchableOpacity disabled={dateref == 'Select start'? true : false} onPress={onCalendarOpen1} 
     style={dateref == 'Select start' ? style.disabled : style.dbutton}>
         <Text style={dateref == 'Select start' ? {...style.btext,color:Colors.disabledButton} : style.btext}>{words.endDate}</Text>
@@ -298,32 +296,9 @@ return(<View style={style.container} >
         </TouchableOpacity>
     <Text style={{...style.dates,position: 'absolute',bottom: -7,end:30}}>{end}</Text>
     </View>
-
-
-    </View>
-
-   
-   
-       
-       
-      
-   
-
-      
-  
-       
-
-         
-       
-   
-
-
-   
-    
-
-  
-    <View style={{position:'absolute',top:Dimensions.get('window').height/1.25,alignSelf:'center'}}>
-    <TouchableOpacity style={(dateref == 'Select start' || dateref1 == 'Select end' ||
+ {/* Button */}
+ <View style={{marginTop: '8%',marginBottom: '5%'}}>
+       <TouchableOpacity style={(dateref == 'Select start' || dateref1 == 'Select end' ||
     (m == false && t == false && w == false && th == false && f == false && s == false && su == false)) ? 
     {...style.subscribe, backgroundColor: Colors.disabledButton} :style.subscribe }
     disabled={(dateref == 'Select start' || dateref1 == 'Select end' ||
@@ -338,30 +313,36 @@ return(<View style={style.container} >
     }}>
         <Text style={style.subscribeText}>Subscribe</Text>
     </TouchableOpacity>
+    {/* button end */}
+</View>
 
-    {/* <SubmitButton text='Subscribe' onTouch={() => {
-            if(subsResult.s.start == 'Select start')
-            console.log(subsResult.s.start)
-        
 
-      else result(subsResult)
-        
-    }}/> */}
-    </View>
+</View>
+
    
+</View>  
+   
+
+  
+</ScrollView>
+</View>
 
     
 
-</View>)
+</View>
+)
 
 };
 
 const style = StyleSheet.create({
     container:{
        
+       ...Styles.parentContainer,
+       marginTop: '0%',
+      
        
-        width: '100%',
-        height: Dimensions.get('window').height
+      
+     
        
       
         
@@ -373,8 +354,8 @@ const style = StyleSheet.create({
         flexDirection: 'row',
        
         marginVertical: '6%',
-        marginStart: '5%'
-       
+        marginStart: '5%',
+      
         
       
     },
@@ -508,30 +489,39 @@ dbutton: {
     height: Dimensions.get('window').height/25,
     aspectRatio:3/1 ,
     alignItems: 'center',
-    paddingVertical: '5%',
+   
   
-   justifyContent: 'center'
+  
+   flexDirection: 'row'
 
 }, 
 disabled: {
     borderRadius: 5,
-    borderColor: Colors.disabledButton,
+   
     borderWidth: 1.5,
     
   //  width: Dimensions.get('window').width/10,
     height: Dimensions.get('window').height/25,
     aspectRatio:3/1 ,
     alignItems: 'center',
-    paddingVertical: '5%',
+   
   
-   justifyContent: 'center'
+  
+   flexDirection: 'row',
 
+          
+    borderColor: Colors.disabledButton,
+   
 }, 
 btext:{
 color:Colors.primary,
 fontSize: 12,
 fontWeight: 'bold',
 flex: 1,
+alignItems: 'center',
+justifyContent: 'center',
+textAlign: 'center',
+
 
 },
 subscribe: {

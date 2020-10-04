@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {View, StyleSheet, Text, Dimensions,BackHandler,Alert} from 'react-native';
@@ -6,13 +6,15 @@ import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
-import { Styles} from '../Constants'
+import { Styles, Colors,dimen} from '../Constants'
 import AppBar from '../components/AppBar'
 import Axios from 'axios';
 import qs from 'qs';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const Cart = ({route,navigation}) => {
+    const [orderMade,setOrderMade] = useState(false);
     const words = {
         title : 'Subscription Orders',
         disclaimer: 'Total number of deliveries may be adjusted as per market rates.',
@@ -172,9 +174,16 @@ const Cart = ({route,navigation}) => {
          
            navigation.pop();
         }} />
-      <View style={{...Styles.parentContainer}}>
-    <Text style={style.title}>{words.title}</Text>
-    <View style={{alignItems: 'center'}}>
+      <View style={Styles.parentContainer}>
+
+      {/*ScrollView parent */}
+      <View style={{flex: 1,marginBottom: '35%'}}>
+      <ScrollView>
+      <View>
+      
+    <Text style={Styles.title}>{words.title}</Text>
+
+    <View style={{alignItems: 'center',width: dimen.width}}>
         <SubscriptionOrder name={pname}
          quantity={pquan} rate={prate}  bought={porder.perDayQuan.number}
          startDate={porder.s.start} 
@@ -190,7 +199,7 @@ const Cart = ({route,navigation}) => {
          </View>
 
 
-         <View style={style.gray1}>
+         <View style={{...style.gray, flexDirection: 'row',justifyContent: 'flex-start'}}>
          <MaterialCommunityIcons name="sale" size={30} color="#6CC35A" style={style.couponIcon}/>
          
              <Text style={style.coupon}>{words.couponText}</Text>
@@ -212,9 +221,10 @@ const Cart = ({route,navigation}) => {
              <Text style={style.billCost}>₹{cartTotal + 50}</Text>
          </View>
 
-         <View style={{position: 'absolute',bottom: '-55%',alignSelf:'center',backgroundColor: 'white'}}>
+         <View style={{marginTop : '5%'}}>
 
-            <SubmitButton text='Confirm' onTouch={() => {
+            <SubmitButton styling={orderMade ? true : false} text='Confirm' onTouch={() => {
+                setOrderMade(true);
                 console.log('pop to top')
                 Axios.post('http://api.dev.we-link.in/user_app.php?action=addSubscription&'+qs.stringify({
                     user_id: actualUser.user_id,
@@ -228,6 +238,7 @@ const Cart = ({route,navigation}) => {
                     order_gst: 0
                 }),).then((response)=>{
                     console.log(response.data);
+                    
                     navigation.popToTop();
                 },(error)=>{
                     console.log(error);
@@ -238,8 +249,10 @@ const Cart = ({route,navigation}) => {
          </View>
 
          </View>
-
-        
+         </View>
+</ScrollView>
+         </View>
+         
     </View>
     </View>)
 
@@ -253,6 +266,7 @@ const style = StyleSheet.create({
       
     },
     container: {
+        
         ...StyleSheet.absoluteFill,
         padding: 15,
         backgroundColor: 'white'
@@ -265,12 +279,15 @@ const style = StyleSheet.create({
         color: 'black'
     },
     gray: {
-        marginTop: '3%',
+       
         padding: '1%',
-       backgroundColor: '#e0e0e0',
+       backgroundColor: Colors.seperatorGray,
         borderRadius: 10,
-        height: Dimensions.get('window').height/12,
-        margin: '3%'
+        height: Dimensions.get('window').height/11,
+        margin: '3%',
+        alignItems: 'center',
+        justifyContent:'center',
+        elevation:1
         
     },
     gray1: {
@@ -292,10 +309,11 @@ const style = StyleSheet.create({
       
         fontWeight: '800',
         fontSize: 16,
-        padding: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: '4%',
+        padding: '2%',
+        
+       
+       
+       
         fontWeight: 'bold'
 
     },

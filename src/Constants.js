@@ -12,9 +12,11 @@ export const Colors = {
     lightIcon: '#D3D3D3',
     disabledButton: '#BBC0C4',
     white : '#FFFFFF',
-    blue: '#6775DD',
-    red: '#EB5757',
-    whiteBackground: '#F9F9F9'
+    blue: '#6775DD', // Bids
+    red: '#EB5757', // Cancel
+    whiteBackground: '#F9F9F9',
+    buttonEnabledGreen: '#64E4cE',
+    lightBlue : '#EDF9F9'
 }
 
 export const Constants={
