@@ -18,6 +18,8 @@ const LoginScreen = ({navigation,route}) => {
     const [user,setUser] =useState(null);
     const [timeout,stmots]=useState(60);
 
+    const [pressed,setPressed] = useState(false);
+
     onAuthStateChanged = (user)=>{
         setUser(user);
         try{
@@ -41,11 +43,13 @@ const LoginScreen = ({navigation,route}) => {
         if(phoneno.length==10){
             const confirmation= await auth().signInWithPhoneNumber('+91'+phoneno);
             setConfirm(confirmation);
+           
         }
         else{
             Alert.alert('Phone number invalid',"Please enter a 10 digit phone number",[{
                 text: "OKAY",
                 onPress: ()=>{
+                    setPressed(false)
 
                 }
             }])
@@ -95,8 +99,9 @@ const LoginScreen = ({navigation,route}) => {
         <Text style = {LoginScreenStyle.descStyle2}>Don't worry, your number will not be shared with anyone.</Text>
         </View>
         <View style={LoginScreenStyle.bottom}>
-            <SubmitButton text='Get OTP'
+            <SubmitButton styling={pressed} text='Get OTP'
             onTouch={()=>{
+                setPressed(true);
                 authenticate();
             }} />
         </View> 
@@ -119,6 +124,7 @@ const LoginScreen = ({navigation,route}) => {
         </TouchableOpacity>
        <SubmitButton text='Submit'
            onTouch={()=>{
+           
                if(code!=null)
                     if(code.toString().length==6)
                         confirmCode(code);

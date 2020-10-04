@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet,Text,View,TextInput, Dimensions,Image,StatusBar,FlatList} from 'react-native';
+import {StyleSheet,Text,View,TextInput, Dimensions,Image,Animated,FlatList} from 'react-native';
 
 import { TouchableOpacity, ScrollView  } from 'react-native-gesture-handler';
 import {CommonActions,useNavigation} from '@react-navigation/native';
@@ -12,6 +12,7 @@ import About from './About';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { EvilIcons } from '@expo/vector-icons';
+import { DEFAULT_APPBAR_HEIGHT } from 'react-native-paper';
 
 
 
@@ -21,10 +22,11 @@ var promoImageData = ['https://phlearn.com/wp-content/uploads/2019/03/fixed-rati
 export default class Homescreen extends React.Component{
     constructor(props){
         super(props);
+        this.NAME = 'Albus Percival Wulfric Brian Dumbledore'
         this.state={
         
             firstLogin: false,
-            username: 'William',
+            username: 'William Darcy',
             city: 'Bengaluru',
             title: 'What are you looking for?',
             desc: 'Select services and checkout easily',
@@ -36,7 +38,8 @@ export default class Homescreen extends React.Component{
             actualUser: {
                 name: 'loading',
                 city: 'loading'
-            }
+            },
+            pressedMenu: false
         };
         this.images={
             milk: require('./../../assets/milk.png'),
@@ -138,32 +141,34 @@ export default class Homescreen extends React.Component{
     render(){
         const {navigation} =this.props;
         const {user} = this.props.route.params;
+
+        let displayName = this.state.actualUser.name.split(' ');
        
 
     
         
         return(
             <View style={styles.fullscreen}>
-                <View style={styles.topbar}>
-                <View style={{flexDirection: 'row',justifyContent: 'center',paddingVertical: 10, height: '100%'}}>
-                    <TouchableOpacity onPress={() => {
-                        navigation.toggleDrawer();
-                    }}>
-                    <EvilIcons name="navicon" size={24} color="black" style={{alignSelf: 'center',padding: 10}} />
-                </TouchableOpacity>
-                    <TouchableOpacity style={styles.usernamecontainer} onPress={()=>{this.props.navigation.navigate('About')}}>
-                        <Image style={styles.userimage} source={require('../../assets/avatar.png')}/>
-                        <View style={styles.usernandd}>
-                            <Text style={styles.username}>{this.state.actualUser.name}</Text>
-                           {/* <Text style={styles.userdes}>{this.state.userdes}</Text>*/}
-                        </View>
-                    </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity  style={styles.usernamecontainer} onPress={()=>{this.props.navigation.navigate('City')}}>
-                        <Image style={styles.locim} source={require('../../assets/pin.png')}/>
-                        <Text style={styles.city}>{this.state.actualUser.city}</Text>
-                    </TouchableOpacity>
-                </View>
+               <View style={styles.topbar}>
+              
+               <TouchableOpacity onPress={() => {
+                   this.setState({pressedMenu: true});
+                  navigation.toggleDrawer();
+                  }}>
+    <EvilIcons name="navicon" size={24} color="black" style={{alignSelf: 'center',padding: 10}} />
+    </TouchableOpacity>
+    <View style={styles.topBarAlignChips}>
+    <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{this.props.navigation.navigate('About')}}>
+    <Image style={styles.userimage} source={require('../../assets/avatar.png')}/>
+    <Text adjustsFontSizeToFit style={styles.username}>{displayName[0]}</Text>
+    </TouchableOpacity>
+    <TouchableOpacity  style={{...styles.usernamecontainer1}} onPress={()=>{this.props.navigation.navigate('City')}}>
+        <Image style={styles.locim} source={require('../../assets/pin.png')}/>
+        <Text adjustsFontSizeToFit style={styles.username}>{this.state.actualUser.city}</Text>
+    </TouchableOpacity>
+    </View>
+              
+               </View>
                <View style={styles.banner}> 
                    <FlatList 
                         data = {promoImageData}
@@ -294,13 +299,13 @@ const styles= StyleSheet.create({
         backgroundColor: 'white'
     },
     topbar:{
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: '8%',
+       flexDirection: 'row',
+     alignItems: 'center',
+        height: '7%',
         width: '100%',
-        marginBottom: '7%',
+        marginBottom: '5%',
         alignContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#f9f9f9',
         flexDirection: 'row',
         shadowColor: "#000",
         shadowOffset: {
@@ -309,11 +314,12 @@ const styles= StyleSheet.create({
             },
         shadowOpacity: 0.37,
         shadowRadius: 6.49,
-        elevation: 4
+        elevation: 3,
+       
     },
     usernamecontainer:{
         alignSelf: 'center',
-        width: dimen.width/4,
+        width: dimen.width/3,
         flexDirection: 'row',
         alignContent: 'center' ,
         borderRadius: 100,
@@ -324,21 +330,45 @@ const styles= StyleSheet.create({
         marginLeft: Dimensions.get('window').width*0.005,
         marginRight: Dimensions.get('window').width*0.02,
     },
-    usernameactualcontainer:{
+    usernamecontainer1 : {
         flexDirection: 'row',
+        borderRadius: 100,
         borderWidth: 0.525,
-        justifyContent: 'space-between',
         borderColor: 'rgba(211,211,211,255)',
-        alignItems: 'center'
+        padding: '3%',
+        paddingVertical: '0.5%',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+    
+        height: '70%',
+        
+        
+       
+        
+     
 
     },
     username:{
         fontWeight: 'bold',
         fontSize: 14,
+      
         alignSelf: 'center',
-        color: 'black'
+        color: 'black',
+        paddingVertical: '1%',
+        paddingHorizontal: "2%"
 
     },
+    topBarAlignChips: {
+      
+        flexDirection:'row',
+        width: dimen.width-50,
+        alignSelf:'center',
+       justifyContent: "space-between",
+       height: '100%',
+       alignItems: 'center'
+    },
+ 
+    
     userdes:{
         fontSize: 11,
         alignSelf: 'center'
@@ -347,13 +377,13 @@ const styles= StyleSheet.create({
     userimage:{
         height: Dimensions.get('window').height*0.023,
         width: Dimensions.get('window').height*0.023,
-        marginRight: 10,
+       
     },
     locim:{
-        height: Dimensions.get('window').height*0.022,
-        width: Dimensions.get('window').height*0.022,
-        alignSelf: 'center',
-        marginRight: Dimensions.get('window').width*0.015
+        height: Dimensions.get('window').height*0.018,
+        width: Dimensions.get('window').height*0.018,
+       
+     
     },
     city:{
         fontWeight: '600',

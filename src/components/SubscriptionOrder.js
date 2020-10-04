@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
-import {Colors} from '../Constants'
+import {Colors,dimen} from '../Constants'
 
 const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought,imageUrl}) => {
     console.log('theimageurl',imageUrl);
@@ -19,8 +19,8 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
          days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
        
   
-    return(<View style={{flexDirection: 'row'}}>
-       <Image style={ style.image} width={60} height={60} resizeMethod={'resize'} resizeMode='center' source={
+    return(<View style={{flexDirection: 'row',height: dimen.height/3.5 }}>
+       <Image style={ style.image} width={60} height={60} resizeMethod={'auto'} resizeMode='center' source={
             {uri: imageUrl}}/>
     
     <View style = {style.container}>
@@ -35,13 +35,13 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
  <Feather name="trash-2" size={22} color='gray' style={style.icon}/>
  </View>
  
-        <View style={{flexDirection: 'column'}}>
+        <View>
     
       
      
         
        
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row',margin: '2%'}}>
         <Text style={style.quantity}>{bought+ " unit/s  · "}</Text>
         <Text style={dayString[0]=='Y'? style.yes : {...style.yes,color: 'gray'}}>  M </Text>
         <Text style={dayString[1]=='Y'? style.yes : {...style.yes,color: 'gray'}}>T </Text>
@@ -51,9 +51,10 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
         <Text style={dayString[5]=='Y'? style.yes : {...style.yes,color: 'gray'}}>S </Text>
         <Text style={dayString[6]=='Y'? style.yes : {...style.yes,color: 'gray'}}>S </Text>
         </View>
-       <View style={{flexDirection:'row'}}>
+
+       <View style={{flexDirection:'row',paddingBottom: '5%'}}>
        <Text style={style.rate}>₹{rate}</Text>
-       <Text style = {style.greyText}>{num+" deliveries"}</Text>
+       <Text style = {{...style.rate,color: 'gray',marginStart: '17%'}}>{num+" deliveries"}</Text>
        </View>
        
        
@@ -71,13 +72,21 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
 
 const style = StyleSheet.create({
     container:{
-        marginTop: '3%',
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: 'gray',
-        height: Dimensions.get('window').height/4,
+    
+      
+       
         width: Dimensions.get('window').width-30,
         margin: '3%',
+        elevation: 1,
+        padding: '1%',
+       
+        borderRadius: 15,
+        borderColor: Colors.seperatorGray,
+        borderWidth: 0.5,
+       
+        marginTop: '1%',
+        alignSelf: 'center',
+        backgroundColor: 'white',
         elevation: 1,
         
 
@@ -87,7 +96,7 @@ const style = StyleSheet.create({
   
     line:{
         borderWidth: 0.5,
-        borderColor: 'gray',
+        borderColor: Colors.seperatorGray,
         marginVertical: '2%',
       
     }
@@ -119,7 +128,7 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         marginTop: '3%',
-        padding: 5,
+        paddingVertical: '3%',
         color:'black'
       
 
@@ -129,8 +138,8 @@ const style = StyleSheet.create({
         color: 'gray',
         fontSize: 15,
         fontWeight: 'bold',
-      marginStart: '13%',
-       
+      marginStart: '10%',
+      paddingVertical: '3%',
       
         marginVertical: '4%'
         

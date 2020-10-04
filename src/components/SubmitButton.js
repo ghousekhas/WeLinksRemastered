@@ -3,15 +3,15 @@ import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Colors} from '../Constants'
-const SubmitButton = ({text,onTouch,styles,otherColor}) => {
+const SubmitButton = ({text,onTouch,styling,otherColor}) => {
 
     var primaryColor = Colors.primary;
     if(otherColor != undefined)
         primaryColor = otherColor
 
     return(
-        <TouchableOpacity style={{
-        backgroundColor: primaryColor,
+        <TouchableOpacity disabled={styling} style={styling == true ? {
+        backgroundColor: Colors.buttonEnabledGreen,
         width: Dimensions.get('window').width-30,
         height: 45,
         borderRadius: 5,
@@ -20,16 +20,33 @@ const SubmitButton = ({text,onTouch,styles,otherColor}) => {
        
        
 
+    } : {
+        backgroundColor: primaryColor,
+        width: Dimensions.get('window').width-30,
+        height: 45,
+        borderRadius: 5,
+        alignSelf: 'center',
+
     }}
          onPress={onTouch}>
-        <Text style={{
+        <Text style={styling == true ? {
             textAlign: "center",
             textAlignVertical: "center",
             alignSelf:"center",
             color: 'white',
             fontWeight: '300',
+            fontStyle: 'italic',
             ...StyleSheet.absoluteFill,
             
+        } : {
+            textAlign: "center",
+            textAlignVertical: "center",
+            alignSelf:"center",
+            color: 'white',
+           
+            fontWeight: '300',
+            ...StyleSheet.absoluteFill,
+
         }}>{text}</Text>
        
         </TouchableOpacity>)

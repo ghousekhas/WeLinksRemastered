@@ -31,6 +31,7 @@ try {
 
 const Otp = ({route,navigation}) => {
     const recaptchaVerifier = React.useRef(null);
+    const [otpSent,setOtpSent] = useState(false);
     var num = route.params;
     num = '+91'+num
     
