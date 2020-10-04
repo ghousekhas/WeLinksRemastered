@@ -24,9 +24,11 @@ const DrawerContent = (props) => {
 
   const switchToVendor = async ()=>{
     setVendor(!vendor);
+    
   }
 
   if(vendor)
+    props.navigation.navigate('Home');
     return(
       <View style={{height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props} scrollEnabled={false}>
@@ -66,6 +68,12 @@ const DrawerContent = (props) => {
            </Drawer.Section>
 
     <Drawer.Section >
+
+    <Drawer.Item
+     style={{}}
+     icon="shop"
+     label="Vendor Zone"
+     onPress={()=>{props.navigation.navigate('Home')}}/>
         
     <Drawer.Item
      style={{}}

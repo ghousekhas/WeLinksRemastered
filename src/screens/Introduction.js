@@ -49,12 +49,13 @@ export default class Introduction extends React.Component {
           </View>
         );
       }
+
      _onDone = () => {
         // User finished the introduction. Show real app through
         // navigation or simply by controlling state
         showRealApp=true;
         this.props.navigation.navigate('Login',{
-          getUserDetails: this.props.route.params.getUserDetails
+          getUserDetails: this.props.route.params.getUserDetailsa
         })
       }
     
@@ -72,7 +73,9 @@ export default class Introduction extends React.Component {
               <View style={styles.bottom}>
                           <SubmitButton text='GET STARTED'
                           onTouch={()=>{
-                              this.props.navigation.navigate('Login');
+                            this.props.navigation.navigate('Login',{
+                              getUserDetails: this.props.route.params.getUserDetailsa
+                            });
                           }} />
                       </View> 
             </View>

@@ -155,7 +155,9 @@ export default function App() {
   const [networkState,setNetworkState]=useState('available');
   const [splash,setSplash]=useState(true);
 
-  const getUserDetails= async (networkTries)=>{
+  const getUserDetails= async (networkTries,user)=>{
+    setSplash(true);
+    console.log('getUserDetails');
     if(networkTries>10){
       setNetworkState('unavailable');
       return;
@@ -165,6 +167,7 @@ export default function App() {
 
     Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
+              setSplash(false);
               try{
                 console.log(response.data.user[0]);
                 if(response.data.user != null &&response.data.user!= undefined )
@@ -179,11 +182,11 @@ export default function App() {
               }
               catch(error){
                 console.log(error);
-                getUserDetails(networkTries+1)
+                //getUserDetails(networkTries+1,user)
               }
             },(error)=>{
                 console.log('error');
-                getUserDetails(networkTries+1);
+                //getUserDetails(networkTries+1,user);
             });
       }
   };
@@ -211,15 +214,15 @@ export default function App() {
   }
   
   React.useEffect(()=>{
-    console.group(auth().currentUser)
+    console.group('firebaseuser',auth().currentUser)
     setInterval(()=>{
       setSplash(false);
     },2500);
     setUser(auth().currentUser);
     //checkIfFirstLogin();
     console.log(user);
-    if(user!=null)
-      getUserDetails(0);
+    if(userDetails==null)
+      getUserDetails(0,user);
     //setUser('something')
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
 
@@ -227,8 +230,8 @@ export default function App() {
   },[]);
 
   if(splash){
-    return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
-        <Image resizeMode={'center'} resizeMethod={'auto'} style={{...StyleSheet.absoluteFill}} source={require('./assets/ic_launcher.png')} />
+    return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',justifyContent: 'center',alignItems: 'center'}}>
+        <Image resizeMode={'center'} resizeMethod={'auto'} style={{...StyleSheet.absoluteFill,alignSelf: 'center'}} source={require('./assets/ic_launcher.png')} />
       
     </View>)
   }
@@ -244,8 +247,8 @@ export default function App() {
         <Stack.Screen  name="Introduction" component={Introduction} 
           options={{
             headerShown: false
-          }} initialParams={{getUserDetails: getUserDetails}}/>
-          <Stack.Screen name='Login' component={LoginScreen} options={{
+          }} initialParams={{getUserDetailsa: getUserDetails}}/>
+          <Stack.Screen name='Login' component={LoginScreen} initialParams={{getUserDetailsa: getUserDetails}} options={{
             headerShown: false 
           }}/>
         </Stack.Navigator>

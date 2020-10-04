@@ -11,7 +11,7 @@ import City from './City';
 import About from './About';
 import {Colors} from '../Constants'
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({navigation,route}) => {
     const [phoneno,setPhoneno] = useState(' ');
     const [confirm,setConfirm] = useState(null);
     const [code,setCode] =useState(' ');
@@ -20,12 +20,21 @@ const LoginScreen = ({navigation}) => {
 
     onAuthStateChanged = (user)=>{
         setUser(user);
+        try{
+            if(user!=null)
+                route.params.getUserDetails(0,user);
+        }
+        catch(er){
+            console.log('getparams not found in loginscreen');
+        }
         
     }
     useEffect(()=>{
         const unsubscribe= auth().onAuthStateChanged(onAuthStateChanged);
 
     },[]);
+
+   
 
 
     async function authenticate(re=null){
@@ -105,8 +114,8 @@ const LoginScreen = ({navigation}) => {
                 setCode(codec);
             }}
         />
-        <TouchableOpacity onPress={()=> authenticate(re)} disabled={timeout==0 ? true : false}  >
-            <Text style={style.resend}>Resend OTP in {timeout} seconds </Text>
+        <TouchableOpacity onPress={()=> authenticate('re')} disabled={timeout==0 ? true : false}  >
+            <ResendButton/>
         </TouchableOpacity>
        <SubmitButton text='Submit'
            onTouch={()=>{
@@ -121,6 +130,15 @@ const LoginScreen = ({navigation}) => {
     </View>);
 
 };
+
+const ResendButton=({vaar})=>{
+    const [timeout,stmots]=useState(60);
+    useEffect(()=>{
+       timeout>0 && setTimeout(()=>stmots(timeout-1),1000);
+    },[timeout])
+   
+    return <Text style={{...style.resend,color: timeout>0? 'gray': Colors.primary}}>{ timeout>0 ? 'Resend OTP in '+timeout+' seconds': 'Resend OTP' }</Text>
+}
 
 const LoginScreenStyle = StyleSheet.create({
     OTPInputView:{
