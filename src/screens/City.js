@@ -50,10 +50,6 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
    const registerUser=()=>{
     const {name,email}= userDetails;
     //AsyncStorage.setItem('firstLogin','true');
-    var config = {
-      method: 'post',
-      url: 'https://api.dev.we-link.in/user_app.php?action=registerUser&name=New User&phone=9144200060&email=newuser@user.wl&city_id=2',
-    };
     
   Axios.post('https://api.dev.we-link.in/user_app.php?'+qs.stringify(
   {

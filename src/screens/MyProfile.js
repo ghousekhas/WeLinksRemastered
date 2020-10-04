@@ -8,6 +8,7 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppBar from '../components/AppBar';
 import Axios from 'axios';
+import auth from '@react-native-firebase/auth';
 
 
 const MyProfile = ({navigation}) => {
@@ -21,30 +22,31 @@ const MyProfile = ({navigation}) => {
     }
 
    useEffect(() => {
-       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone=9144200060',{
+       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+auth().currentUser.phoneNumber.substring(3),{
         'Accept-Encoding': 'gzip'
        }).then((response) => {
-         
-     
-      setProfileDetails(response.data.user[0])
-   //   console.log(profileDetails)
+
+            var temp= response.data.user[0]
+            setProfileDetails(response.data.user[0])
+            Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id='+temp.user_id,{
+            'Accept-Encoding': 'gzip'
+                }).then((response) => {
+                    
+                    
+                //     console.log("add " + response.data.addresses)
+                setAddresses(response.data.addresses)
+                //  console.log("jc" + addresses[1])
+                }).catch((e) => {
+                    console.log('Error with addresses: '+e);
+                });
+    //   console.log(profileDetails)
     
        }).catch((e) => {
            console.log('Error with profile: '+e);
        });
 
 
-       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id='+profileDetails.user_id,{
-        'Accept-Encoding': 'gzip'
-       }).then((response) => {
-         
-        
-      //     console.log("add " + response.data.addresses)
-      setAddresses(response.data.addresses)
-     //  console.log("jc" + addresses[1])
-       }).catch((e) => {
-           console.log('Error with addresses: '+e);
-       });
+       
        
    })
    
