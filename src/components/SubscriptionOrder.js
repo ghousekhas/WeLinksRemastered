@@ -20,17 +20,19 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
        
   
     return(<View style={{flexDirection: 'row',height: dimen.height/3.5 }}>
-       <Image style={ style.image} width={60} height={60} resizeMethod={'auto'} resizeMode='center' source={
-            {uri: imageUrl}}/>
+       
     
     <View style = {style.container}>
+    
     <View style={{flexDirection: 'row'}}>
+    
     <Text style={style.greyText1}>Period : {startDate+" - "+endDate}</Text>
    
     </View>
     
     <View style={style.line}/>
     <View style={{flexDirection: 'row'}}>
+    <Image style={ style.image} width={60}  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
  <Text style={style.name}>{name}</Text>
  <Feather name="trash-2" size={22} color='gray' style={style.icon}/>
  </View>
@@ -160,19 +162,18 @@ const style = StyleSheet.create({
         width: 60,
         height: 60,
         position: 'absolute',
-        marginStart: '4%',
-        marginTop : '16%',
-        padding: 10
+        padding: 10,
+        zIndex: 10000
+
         
        
     },
     image: {
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 80,
         position: 'absolute',
-        marginStart: '8%',
-        
-        marginTop : '16%'
+        marginStart: '4%',
+        marginTop: '10%'
         
        
     },

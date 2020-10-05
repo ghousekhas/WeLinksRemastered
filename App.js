@@ -70,17 +70,16 @@ const NavigationDrawer = ({user,actualUser}) => {
 
 
 
+
   if(vendor)
     return(
       <NavigationContainer independent={true} >
-      <Drawer.Navigator initialRouteName='Home'
-        drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} />}>
-       
-      <Drawer.Screen name="Home" component={vendorStack} />
-      <Drawer.Screen name="ProfileStack" component={myProfileStack}/>
-      <Drawer.Screen name="SupportStack" component={userSupportStack}/>
-     
-       
+        <Drawer.Navigator initialRouteName='Home'
+          drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} />}>
+        
+        <Drawer.Screen name="Home" component={vendorStack} initialParams={{user: user,actualUser: updateState}} />
+        <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
+        <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState}}/>
       </Drawer.Navigator>
     </NavigationContainer>
     );
@@ -102,7 +101,7 @@ const NavigationDrawer = ({user,actualUser}) => {
 
 const Stack = createStackNavigator();
 
-const vendorStack=()=>{
+const vendorStack=({navigation})=>{
   return(
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
@@ -115,21 +114,21 @@ const vendorStack=()=>{
   </View>)
 }
 
-const myProfileStack = () => {
+const myProfileStack = ({navigation,route}) => {
+  const {user,actualUser} = route.params;
   console.log('Starting Profile Stack');
   return(
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
   <Stack.Navigator initialRouteName="Profile">
-
-  <Stack.Screen name = "Profile" component = {MyProfile} options={{headerShown: false}} />
+    <Stack.Screen name = "Profile" component = {MyProfile} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser}}/>
   </Stack.Navigator>
   </NavigationContainer>
   </View>)
 
 };
 
-const userSupportStack = () => {
+const userSupportStack = ({navigation}) => {
   console.log('Starting Support Stack')
    //return(<BidCreation1 />)
   return(
@@ -171,8 +170,8 @@ export default function App() {
               try{
                 console.log(response.data.user[0]);
                 if(response.data.user != null &&response.data.user!= undefined )
-                  if(response.data.user[0].hasOwnProperty("status_code"))
-                    setUserDetails(null)
+                  if(response.data.user[0].status_code === 100)
+                    setUserDetails(100)
                   else
                     setUserDetails(response.data.user[0]);
                 else
@@ -221,7 +220,7 @@ export default function App() {
     setUser(auth().currentUser);
     //checkIfFirstLogin();
     console.log(user);
-    if(userDetails==null)
+    if(userDetails===null)
       getUserDetails(0,user);
     //setUser('something')
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
@@ -256,7 +255,7 @@ export default function App() {
     </View>
     );
     }
-    else if(userDetails == null ){
+    else if(userDetails === 100 ){
       //getUserDetails(5);
       return (
         <View style={{flex: 1}}>
@@ -278,20 +277,29 @@ export default function App() {
       </View>
       )
     }
+    else if(userDetails!= 100 && userDetails !=null){
+      return (
+        <View style={{flex: 1}}>
+          <NavigationDrawer user={user} actualUser={userDetails} />
+        </View>
+      ); 
+
+    }
    
-    return (
-      <View style={{flex: 1}}>
-        <NavigationDrawer user={user} actualUser={userDetails} />
-      </View>
-    );  
+    return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',justifyContent: 'center',alignItems: 'center'}}>
+        <Image resizeMode={'center'} resizeMethod={'auto'} style={{...StyleSheet.absoluteFill,alignSelf: 'center'}} source={require('./assets/ic_launcher.png')} />
+      
+    </View>)
 }
 
-const PostLoginHome =({route})=>{
+const PostLoginHome =({route,navigation})=>{
   const {user,actualUser,sm}=route.params;
   const [updateState,setUpdateState]=useState(route.params.actualUser);
+
   
   React.useEffect(()=>{
     setUpdateState(route.params.actualUser);
+    console.log(route.params.actualUser,"I will not go through no dum")
   },[route])
 
   if(updateState != false){
@@ -302,7 +310,7 @@ const PostLoginHome =({route})=>{
       <Stack.Navigator initialRouteName='Homescreen' >
         <Stack.Screen name='Homescreen' component={Homescreen} options={{
           headerShown: false 
-        }} initialParams={{user: route.params.user,actualUser: updateState}}/>
+        }} initialParams={{user: route.params.user,actualUser: updateState,drawer: navigation}}/>
         {/* <Stack.Screen name='School' component={School} options={{headerShown: false}}/>  */}
         <Stack.Screen name='AddressSearch' component={AddressSearch}/>
         <Stack.Screen name='AddAddress' component={AddAddress} options={{

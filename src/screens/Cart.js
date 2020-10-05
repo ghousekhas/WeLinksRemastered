@@ -169,16 +169,15 @@ const Cart = ({route,navigation}) => {
     
 
 
-    return(<View>
+    return(<View style={{width: '100%',height: dimen.height-dimen.height/14,backgroundColor: 'white',alignSelf: 'center',justifyContent: 'center'}}>
       <AppBar back={true} funct={() => {
          
            navigation.pop();
         }} />
-      <View style={Styles.parentContainer}>
+   
 
       {/*ScrollView parent */}
-      <View style={{flex: 1,marginBottom: '35%'}}>
-      <ScrollView>
+      <ScrollView style={{flex: 1,padding: 5,alignSelf: 'center'}}>
       <View>
       
     <Text style={Styles.title}>{words.title}</Text>
@@ -221,12 +220,16 @@ const Cart = ({route,navigation}) => {
              <Text style={style.billCost}>₹{cartTotal + 50}</Text>
          </View>
 
-         <View style={{marginTop : '5%'}}>
+         
+         </View>
+         </View>
+</ScrollView>
+<View style={{marginTop : '5%'}}>
 
             <SubmitButton styling={orderMade ? true : false} text='Confirm' onTouch={() => {
                 setOrderMade(true);
                 console.log('pop to top')
-                Axios.post('http://api.dev.we-link.in/user_app.php?action=addSubscription&'+qs.stringify({
+                Axios.post('https://api.dev.we-link.in/user_app.php?action=addSubscription&'+qs.stringify({
                     user_id: actualUser.user_id,
                     vendor_id: route.params.vendorId,
                     quantity: pquan,
@@ -248,12 +251,8 @@ const Cart = ({route,navigation}) => {
 
          </View>
 
-         </View>
-         </View>
-</ScrollView>
-         </View>
          
-    </View>
+  
     </View>)
 
 };

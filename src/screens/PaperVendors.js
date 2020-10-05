@@ -25,7 +25,7 @@ const PaperVendors = (props) => {
     const retrieveData= async (t)=>{
         if(t<=0)
             return;
-        Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
             vendor_type: 'newspaper',
             lat: address.lat,
             lng: address.lng

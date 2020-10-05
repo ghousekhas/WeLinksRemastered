@@ -40,7 +40,7 @@ q:'Is there a delivery fee?',
 a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
 }];
 useEffect(() => {
-  Axios.get('http://api.dev.we-link.in/user_app.php?action=getFAQs',{
+  Axios.get('https://api.dev.we-link.in/user_app.php?action=getFAQs',{
       'Accept-Encoding': 'gzip'
   }
   ).then((result) => {

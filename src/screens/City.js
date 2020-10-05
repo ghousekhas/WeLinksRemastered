@@ -18,6 +18,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
     const [cities,setCities] = useState([])
     const [value,setValue] = useState([])
     const [done,setDone]=useState(false);
+    const {edit} = route.params;
 
     
 
@@ -40,6 +41,10 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
             console.log("Error reading city data: " + err);
             
         });
+    }
+
+    const editCity = ()=>{
+      
     }
 
     useEffect(() => {
@@ -101,7 +106,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
         
         
       <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '0%',borderRadius: 10}}
-          onPress={()=>{ registerUser()
+          onPress={()=>{ edit ? editCity() : registerUser()
 
           }}>
         <Text style={{backgroundColor: Colors.primary,alignSelf: 'center',padding: 10,color: 'white',width: dimen.width*0.9,textAlign: 'center',borderRadius: 10}}>Next</Text>

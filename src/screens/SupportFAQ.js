@@ -27,8 +27,9 @@ const SupportFAQ = ({navigation}) => {
     };
 
     useEffect(()=>{
-        Axios.get('http://api.dev.we-link.in/user_app.php?action=getContactUs&city_id=1')
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getContactUs&city_id=1')
         .then((response)=>{
+            console.log('supportfaq');
             console.log(response.data.phone);
             setPhone(response.data.phone);
             setEmail(response.data.email);

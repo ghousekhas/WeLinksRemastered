@@ -12,7 +12,7 @@ export default function PrivacyPolicy ({navigation}) {
       'content' : `Mann yeh saahib ji, jaane hai sab ji  Phir bhi banaye bahaane  Naina nawaabi ji, dekhe hain sab ji  Phir bhi na samjhe ishaare  Mann yeh saahib ji haan karta bahaane   Naina nawaabi ji na samjhe ishaare (na samjhe ishaare) Dheere dheere, nainon ko dheere dheere  Jiya ko dheere dheere bhaayo re Saibo  Dheere dheere, begaana dheere dheere  Apna sa dheere dheere lage re Saibo  Surkhhiyaan hain hawaaon mein, do dilon ke milne ki  Dheere dheere, nainon ko dheere dheere  Jiya ko dheere dheere bhaayo re Saibo  Dheere dheere, begaana dheere dheere  Apna sa dheere dheere lage re Saibo  Saibo... Saibo...`
   }]
   useEffect(() => {
-    Axios.get('http://api.dev.we-link.in/user_app.php?action=getPrivacyPolicy',{
+    Axios.get('https://api.dev.we-link.in/user_app.php?action=getPrivacyPolicy',{
         'Accept-Encoding': 'gzip'
     }
     ).then((result) => {

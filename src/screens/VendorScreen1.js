@@ -235,10 +235,10 @@ const ScrapFlatList = ({route,navigation,data}) => {
         keyExtractor = {(item) => item.name}
         renderItem = {({item}) => { 
             console.log(item.product_image_url);
-            
+            const imageUrl= item.product_image_url;
             
             return(
-                <Product name={item.name} quantity={item.quantity} price={item.weekday_price} price_={item.weekend_price} url={item.product_image_url} imageUrl={item.product_image_url}
+                <Product name={item.name} quantity={item.quantity} price={item.weekday_price} price_={item.weekend_price} url={item.product_image_url} imageUrl={imageUrl}
                 subscribe={() => {
                    
                     const prodName = item.name;
@@ -251,7 +251,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         pname : prodName,
                         pquan : prodQuan,
                         prate: prodRate,
-                        imageUrl: item.product_img_url,
+                        imageUrl: imageUrl,
                         actualUser: actualUser,
                         vendorId: vendorId,
                         productId: item.id

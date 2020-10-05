@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet,Text,View,TextInput, Dimensions,Image,Animated,FlatList} from 'react-native';
 
 import { TouchableOpacity, ScrollView  } from 'react-native-gesture-handler';
@@ -13,6 +13,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { EvilIcons } from '@expo/vector-icons';
 import { DEFAULT_APPBAR_HEIGHT } from 'react-native-paper';
+import { DrawerActions } from 'react-navigation-drawer';
+import { NavigationActions } from 'react-navigation';
 
 
 
@@ -35,11 +37,9 @@ export default class Homescreen extends React.Component{
             scrap: 'Corporate Scrap',
             corporate: 'Home Scrap',
             address: 'Tap here to add an address',
-            actualUser: {
-                name: 'loading',
-                city: 'loading'
-            },
-            pressedMenu: false
+            actualUser: this.props.route.params.actualUser,
+            pressedMenu: false,
+            drawer: this.props.route.params.drawer
         };
         this.images={
             milk: require('./../../assets/milk.png'),
@@ -49,6 +49,8 @@ export default class Homescreen extends React.Component{
         }
 
     }
+
+    com
 
     checkIfFirstLogin= async ()=>{
       //  console.log('someeeeeething');
@@ -92,17 +94,20 @@ export default class Homescreen extends React.Component{
 
     componentDidMount(){
         const {navigation}= this.props;
-        this.checkIfFirstLogin();
-        this.retrieveUserData(10);
+        //this.checkIfFirstLogin();
+        //this.retrieveUserData(10);
+        //this.setState({actualUser: this.props.actualUser});
         this.focusListener= navigation.addListener('focus',()=>{
-            this.checkIfFirstLogin();
-            this.retrieveUserData();
+            //this.checkIfFirstLogin();
+            //this.retrieveUserData(10);
        });
+
         BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
-
-
-
     }
+    componentWillReceiveProps(nextprops){
+       // this.setState({actualUser: nextprops.actualUser});
+
+    } 
 
 
     onBackPress=()=>{
@@ -158,11 +163,10 @@ export default class Homescreen extends React.Component{
     <EvilIcons name="navicon" size={24} color="black" style={{alignSelf: 'center',padding: 10}} />
     </TouchableOpacity>
     <View style={styles.topBarAlignChips}>
-    <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{this.props.navigation.navigate('About')}}>
-    <Image style={styles.userimage} source={require('../../assets/avatar.png')}/>
-    <Text adjustsFontSizeToFit style={styles.username}>{displayName[0]}</Text>
-    </TouchableOpacity>
-    <TouchableOpacity  style={{...styles.usernamecontainer1}} onPress={()=>{this.props.navigation.navigate('City')}}>
+    <ProfileSmallView actualUser={this.state.actualUser} drawer={this.state.drawer}/>
+    <TouchableOpacity  style={{...styles.usernamecontainer1}} disabled={true} onPress={()=>{this.props.navigation.navigate('City',{
+        edit: true
+    })}}>
         <Image style={styles.locim} source={require('../../assets/pin.png')}/>
         <Text adjustsFontSizeToFit style={styles.username}>{this.state.actualUser.city}</Text>
     </TouchableOpacity>
@@ -255,6 +259,22 @@ export default class Homescreen extends React.Component{
 
         );
     }
+}
+
+const ProfileSmallView = ({actualUser,drawer})=>{
+    const navigation=useNavigation();
+    const [displayName,setDisplayName]= useState('loading');
+    useEffect(()=>{
+       //s
+        if(actualUser.name!=null && actualUser.name != '')
+            setDisplayName(actualUser.name.split(' ')[0]);
+    },[actualUser]);
+    return (
+        <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{drawer.navigate('ProfileStack')}}>
+        <Image style={styles.userimage} source={require('../../assets/avatar.png')}/>
+        <Text adjustsFontSizeToFit style={styles.username}>{displayName}</Text>
+    </TouchableOpacity>
+    )
 }
 
 

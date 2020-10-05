@@ -8,7 +8,7 @@ const Product = ({name,quantity,price,price_,subscribe,url,imageUrl}) => {
     if(!price_ == ''){
     
     return(<View style={style.container}>
-    <Image style={style.image} source={{url: url}}/>
+    <Image style={style.image} source={{uri: imageUrl}}/>
     <View>
     <Text style={style.name}>{name}</Text>
     <Text style={style.quantity}>{quantity}</Text>

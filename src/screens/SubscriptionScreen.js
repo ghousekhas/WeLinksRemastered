@@ -6,7 +6,7 @@ import SubmitButton from '../components/SubmitButton';
 import Button from '../components/Button';
 import Item from '../components/Item'
 import { Feather } from '@expo/vector-icons';
-import {Colors, Styles} from '../Constants'
+import {Colors, dimen, Styles} from '../Constants'
 
 
 const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result,imageUrl,actualUser}) => {
@@ -64,13 +64,13 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
  
 
 return(
-<View style={style.container}>
+<View style={{height: dimen.height-dimen.height/8,width: '100%',backgroundColor: Colors.lightBlue}}>
 
-     
-    <View style={{flex:1,marginBottom: '38%'}}>
-    <Item name={pname} quantity={pquan} price={prate} imageUrl={imageUrl}/>
+     <View style={{flex: 0,marginHorizontal: 30}}>
+        <Item name={pname} quantity={pquan} price={prate} imageUrl={imageUrl}/>
+    </View>
 
-    <ScrollView>
+    <ScrollView style={{flex: 1,backgroundColor: 'white',margin: 3}}>
 
 <View>
     <View style={{...style.view1}}>
@@ -298,7 +298,20 @@ return(
     </View>
  {/* Button */}
  <View style={{marginTop: '8%',marginBottom: '5%'}}>
-       <TouchableOpacity style={(dateref == 'Select start' || dateref1 == 'Select end' ||
+       
+    {/* button end */}
+</View>
+
+
+</View>
+
+   
+</View>  
+   
+
+  
+</ScrollView>
+<TouchableOpacity style={(dateref == 'Select start' || dateref1 == 'Select end' ||
     (m == false && t == false && w == false && th == false && f == false && s == false && su == false)) ? 
     {...style.subscribe, backgroundColor: Colors.disabledButton} :style.subscribe }
     disabled={(dateref == 'Select start' || dateref1 == 'Select end' ||
@@ -313,22 +326,6 @@ return(
     }}>
         <Text style={style.subscribeText}>Subscribe</Text>
     </TouchableOpacity>
-    {/* button end */}
-</View>
-
-
-</View>
-
-   
-</View>  
-   
-
-  
-</ScrollView>
-</View>
-
-    
-
 </View>
 )
 

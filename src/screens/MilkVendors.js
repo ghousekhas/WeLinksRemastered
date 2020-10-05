@@ -13,7 +13,7 @@ import qs from 'qs';
 
 const MilkVendors = (props) => {
     const address= props.route.params.address;
-const {actualUser}=props.route.params;
+    const {actualUser}=props.route.params;
     console.log(address);
     console.log('milky',actualUser)
 
@@ -25,7 +25,7 @@ const {actualUser}=props.route.params;
     const retrieveData= async (t)=>{
         if(t<0)
             return;
-        Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
             vendor_type: 'milk',
             lat: address.lat,
             lng: address.lng

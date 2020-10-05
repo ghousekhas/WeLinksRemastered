@@ -4,8 +4,8 @@ import { RadioButton } from 'react-native-paper';
 import SubmitButton from '../components/SubmitButton';
 import TextBox from '../components/TextBox';
 import {FontAwesome5} from '@expo/vector-icons'
-import {Styles,Constants} from '../Constants'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {Styles,Constants, dimen,Colors} from '../Constants'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import City from './City';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -45,6 +45,7 @@ const About = ({navigation,route,getUserDetails}) =>{
 
 
         return(<View style={style.mainContainer}>
+         <ScrollView style={{flex: 1,marginVertical:3}}>  
         <Text style={style.text}>Tell us about yourself</Text>
         <TextBox title='Name' hint='Enter your name' changeText={setName}/>
         <TextBox title='Email Address' hint='Enter your email address' changeText={(text)=>{
@@ -52,9 +53,12 @@ const About = ({navigation,route,getUserDetails}) =>{
         }}/>
         <TextBox title='Referral Code (Optional)' hint='Add referral code (optional)' icon='smile'/>
         <View style={Styles.submitButton}>
-        <SubmitButton text='Continue' onTouch={aboutSubmit}
-                    />
+        
     </View>
+    </ScrollView> 
+    <TouchableOpacity style={{flex: 0,padding: 10,marginHorizontal: 5, marginVertical: 3,backgroundColor: Colors.primary,width: dimen.width-10,borderRadius: 7,alignSelf: 'center'}}>
+        <Text style={{...Styles.heading,width: '100%',textAlign: 'center',alignSelf: 'center',color: 'white'}}>Continue</Text>
+    </TouchableOpacity>
     </View>);
   
     

@@ -24,17 +24,13 @@ export default function VendorRegistration({navigation}){
     const [address,setAddress]=useState(null);
 
 
-    
-
-    useEffect(()=>{
-        
-        console.log('ph',user.phoneNumber.substring(3));
+    const checkVendorStatus=()=>{
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
                 console.log(response.data.user[0]);
                 setActualUser('theactualuser',response.data.user[0]);
                 var b=response.data.user[0];
-                Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+b.user_id,)
+                Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+b.user_id,)
                     .then((response)=>{
                 try{
                     var status= response.data.vendor[0].vendor_status;
@@ -53,6 +49,16 @@ export default function VendorRegistration({navigation}){
             },(error)=>{
                 console.log('error');
             })
+    }
+
+
+    
+
+    useEffect(()=>{
+        
+        console.log('ph',user.phoneNumber.substring(3));
+        checkVendorStatus();
+        
     },[]);
 
     const submitRegistration= (services)=>{
@@ -68,7 +74,7 @@ export default function VendorRegistration({navigation}){
             name: aadharFile.name
 
         })
-        Axios.post('http://api.dev.we-link.in/user_app.php?action=registerVendor&'+qs.stringify({
+        Axios.post('https://api.dev.we-link.in/user_app.php?action=registerVendor&'+qs.stringify({
             user_id: actualUser.user_id,
             company_name: name,
             vendor_gstin: gst,
@@ -81,6 +87,8 @@ export default function VendorRegistration({navigation}){
 
         }),fromData).then((response)=>{
             console.log(response.data);
+            checkVendorStatus();
+
         },(error)=>{
             console.log(error);
         })

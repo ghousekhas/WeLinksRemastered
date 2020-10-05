@@ -42,7 +42,9 @@ export default class AddressList extends React.Component{
                 }
             }
             this.state={
-              arraydata: []
+              arraydata: [],
+              somekey: 0
+              
             };
             this.data=[];
 
@@ -71,15 +73,18 @@ export default class AddressList extends React.Component{
       BackHandler.removeEventListener('hardwareBackPress',this.onBackPress);
     }
 
+    
 
 
     retrieveAddresses= async ()=>{
       const {user_id}= this.props.route.params.actualUser;
+      console.log('alistuserid',user_id)
       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
         user_id: user_id
       })).then((response)=>{
         console.log('response',response.data);
-        this.setState({arraydata: response.data.addresses});
+       this.data= response.data.addresses;
+       this.setState({somekey: Math.random(0.5)});
 
       },(error)=>{
         console.log('error',error);
@@ -203,8 +208,9 @@ export default class AddressList extends React.Component{
           <Text style={styles.address}>SAVED ADDRESSES</Text>
 
             <FlatList 
-            data={this.state.arraydata.reverse()}
+            data={this.data.reverse()}
             renderItem={this.renderSavedAddress}
+            extraData={this.state.somekey}
             ItemSeparatorComponent={this.renderSeperator}
             keyExtractor={(item,index)=> Math.random().toString(36).substr(2, 10)}
             />

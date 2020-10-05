@@ -42,6 +42,7 @@ const LoginScreen = ({navigation,route}) => {
     async function authenticate(re=null){
         if(phoneno.length==10){
             const confirmation= await auth().signInWithPhoneNumber('+91'+phoneno);
+            console.log(confirmation);
             setConfirm(confirmation);
            
         }
@@ -65,6 +66,7 @@ const LoginScreen = ({navigation,route}) => {
         }
         if(auth().currentUser!=null){
             setUser(auth().currentUser);
+            console.log('coming through');
         }
         else{
             Alert.alert('OTP incorrect ','Please try again');

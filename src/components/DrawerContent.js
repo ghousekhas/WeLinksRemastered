@@ -28,7 +28,7 @@ const DrawerContent = (props) => {
   }
 
   if(vendor)
-    props.navigation.navigate('Home');
+    //props.navigation.navigate('Home');
     return(
       <View style={{height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props} scrollEnabled={false}>
