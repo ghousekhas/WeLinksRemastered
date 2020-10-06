@@ -5,6 +5,7 @@ import {Colors} from '../Constants'
 
 
 const Product = ({name,quantity,price,price_,subscribe,url,imageUrl}) => {
+    const [imageHeight,setImageHeight]=useState(0);
     if(!price_ == ''){
     
     return(<View style={style.container}>
@@ -29,8 +30,8 @@ const Product = ({name,quantity,price,price_,subscribe,url,imageUrl}) => {
 
     </View>)
     }else return(
-        <View style={style.container}>
-         <Image style={style.image} source={{uri: imageUrl}}/>
+        <View onLayout={({nativeEvent})=>setImageHeight(nativeEvent.layout.height)} style={style.container}>
+         <Image style={{...style.image,height: imageHeight*0.85,width: imageHeight*0.85}} source={{uri: imageUrl}}/>
     <View>
     <Text style={style.name}>{name}</Text>
     <Text style={style.quantity}>{quantity}</Text>

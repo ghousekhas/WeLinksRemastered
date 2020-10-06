@@ -8,6 +8,7 @@ import { userDetails } from '../UserDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SupportFAQ from '../screens/SupportFAQ';
 import { Constants,Colors } from '../Constants';
+import auth from '@react-native-firebase/auth';
 
 
 
@@ -155,7 +156,9 @@ const DrawerContent = (props) => {
      
      label="Sign Out"
      
-     onPress={()=>{}}
+     onPress={()=>{
+       auth().signOut();
+     }}
      
    />
 
@@ -328,7 +331,10 @@ const DrawerContent = (props) => {
      
      label="Sign Out"
      
-     onPress={()=>{}}
+     onPress={()=>{
+       alert('signing out');
+       auth().signOut();
+     }}
      
    />
 

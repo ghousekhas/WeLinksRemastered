@@ -10,7 +10,7 @@ import { Styles, Colors,dimen} from '../Constants'
 import AppBar from '../components/AppBar'
 import Axios from 'axios';
 import qs from 'qs';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const Cart = ({route,navigation}) => {
@@ -169,16 +169,19 @@ const Cart = ({route,navigation}) => {
     
 
 
-    return(<View style={{width: '100%',height: dimen.height-dimen.height/14,backgroundColor: 'white',alignSelf: 'center',justifyContent: 'center'}}>
+    return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
+        <View>
       <AppBar back={true} funct={() => {
          
            navigation.pop();
         }} />
+        </View>
    
 
       {/*ScrollView parent */}
+      <View style={{height:  dimen.height-dimen.height/8,position: 'absolute',top: dimen.height/14}}>
       <ScrollView style={{flex: 1,padding: 5,alignSelf: 'center'}}>
-      <View>
+      <View style={{flex: 1}}>
       
     <Text style={Styles.title}>{words.title}</Text>
 
@@ -224,9 +227,8 @@ const Cart = ({route,navigation}) => {
          </View>
          </View>
 </ScrollView>
-<View style={{marginTop : '5%'}}>
 
-            <SubmitButton styling={orderMade ? true : false} text='Confirm' onTouch={() => {
+        <TouchableOpacity style={{backgroundColor: Colors.primary,flex: 0,marginHorizontal: 10,marginVertical: 3,justifyContent: 'center',borderRadius: 7}} onPress={() => {
                 setOrderMade(true);
                 console.log('pop to top')
                 Axios.post('https://api.dev.we-link.in/user_app.php?action=addSubscription&'+qs.stringify({
@@ -241,13 +243,17 @@ const Cart = ({route,navigation}) => {
                     order_gst: 0
                 }),).then((response)=>{
                     console.log(response.data);
+                    alert('Your order Has been placed');
                     
                     navigation.popToTop();
                 },(error)=>{
                     console.log(error);
                 })
                 
-            }}/>
+            }}>
+                <Text style={{fontSize: 14,alignSelf: 'center',textAlign: 'center',color: 'white',paddingVertical: 15}}>Confirm Order</Text>
+            </TouchableOpacity>
+
 
          </View>
 

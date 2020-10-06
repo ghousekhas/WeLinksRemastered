@@ -12,6 +12,7 @@ import {NavigationActions} from 'react-navigation';
 import VendorsList from './VendorsList';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import qs from 'qs';
+import LottieView from 'lottie-react-native';
 
 const height= Dimensions.get('window').height;
 var lowerPanelHeight= height/1.7;
@@ -79,6 +80,7 @@ export default class AddAddress extends React.Component{
 
       
       if(this.state.title != 'loading'){
+        console.log('attempting to add an address');
         Axios.post('https://api.dev.we-link.in/user_app.php?action=addAddress&',qs.stringify({
           user_id: user_id,
           label: label,
@@ -89,8 +91,9 @@ export default class AddAddress extends React.Component{
           lng: longitude
         }),).then((response)=>{
           console.log(response.data);
-          
-          this.props.route.params.refresh();
+          this.setState({adding: false});
+          //this.props.route.params.refresh();
+          this.props.route.params.onComeBack(true);
           this.props.navigation.goBack();
         },(error)=>{
           console.log(error);
@@ -266,11 +269,18 @@ export default class AddAddress extends React.Component{
       const {circlemark,circleopacity,circlemarktrail,circleopacitytrail,bottomPanelAnimation,arrowOpacity} =this.state;
 
       var submitButton;
+
       if(this.state.adding)
-        return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',justifyContent: 'center'}}>
-                <Text style={{...Styles.heading,alignSelf: 'center',fontWeight: 'bold'}}>Adding address, please wait</Text>
-            </View>
-          )
+        return(
+      <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',justifyContent: 'center'}}>
+        <View style={{width: '70%',height: '50%',alignSelf: 'center',margin: 30,alignContent: 'center'}}>
+         <LottieView  
+          enableMergePathsAndroidForKitKatAndAbove
+         style={{flex:1}}  source={require('../../assets/animations/28064-delivery.json')} resizeMode={'cover'} autoPlay={true} loop={true}/>
+         </View>
+         <Text style={{...Styles.heading,textAlign: 'center',flex: 0,padding: 10,margin: 50,alignSelf: 'center'}}>Adding Address</Text>
+       </View>
+       )
 
 
       if(this.state.inputsValid)
@@ -280,7 +290,7 @@ export default class AddAddress extends React.Component{
           );
       else
           submitButton= (<View style={{...styles.submitButton}}>
-            <SubmitButton text='Continue' onTouch={this.addAddress} otherColor={'gray'}
+            <SubmitButton text='Continue' onTouch={()=> {var i = 5}} otherColor={'gray'}
             />
             </View>);
 

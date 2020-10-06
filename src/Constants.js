@@ -81,7 +81,7 @@ export const Styles=StyleSheet.create({
   
     parentContainer:{
         width: '100%',
-        height: '100%',
+        height: dimen.height-dimen.height/14,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         backgroundColor: 'white',

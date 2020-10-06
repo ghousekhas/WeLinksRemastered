@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import {View,StyleSheet,TextInput, Dimensions,BackHandler} from 'react-native';
+import {View,StyleSheet,TextInput, Dimensions,BackHandler, Linking} from 'react-native';
 import {Text} from 'react-native-paper';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 import sendFeedback, {sendEmail} from '../../src/EmailUtility'
@@ -153,7 +153,7 @@ const SupportFAQ = ({navigation}) => {
 
 
     <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('Terms')}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '1%'}}>
 
         <View style={{marginTop: '1%'}}>
@@ -224,7 +224,10 @@ const SupportFAQ = ({navigation}) => {
     </View>
 
     <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{
+            if(phone.trim() != '')
+                Linking.openURL(`tel:${phone}`);
+        }}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '1%'}}>
 
         <View style={{marginTop: '1%',marginStart: '10%'}}>
@@ -264,7 +267,10 @@ const SupportFAQ = ({navigation}) => {
 
 
     <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{
+            if(email.trim() != '')
+            sendFeedback(email,'','')
+        }}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '1%'}}>
 
         <View style={{marginTop: '1%',marginStart: '10%'}}>
@@ -340,7 +346,7 @@ multiline>
 onTouch={() => {
     sendFeedback(
     'anamxali1@gmail.com',
-    `Feedback from ${userDetails.USER_NAME}`,
+    `Feedback from user`,
     content
     
 ).then(() => {

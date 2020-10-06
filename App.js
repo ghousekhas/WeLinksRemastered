@@ -40,6 +40,11 @@ import CancellationScreen from './src/screens/CancellationScreen';
 import ScrapCart from './src/screens/ScrapCart';
 import Axios from 'axios';
 import { Styles } from './src/Constants';
+import LottieView from 'lottie-react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import TermsAndConditions from './src/screens/TermsAndConditions';
+import MySubscriptions from './src/screens/MySubscriptions';
+import MySubscriptionOrder from './src/components/MySubscriptionOrder';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -55,6 +60,7 @@ const Drawer = createDrawerNavigator();
 const NavigationDrawer = ({user,actualUser}) => {
   const [vendor,setVendor] = useState(false);
   const [updateState,setUpdateState]=useState(actualUser!=null? actualUser:{name: 'loading',user_id: -1,email: 'f'});
+  var ref;
 
   React.useEffect(()=>{
     setUpdateState(actualUser!=null? actualUser:{name: 'loading'});
@@ -67,6 +73,10 @@ const NavigationDrawer = ({user,actualUser}) => {
     setVendor(flag);
 
   }
+
+
+
+  
 
 
 
@@ -138,6 +148,7 @@ const userSupportStack = ({navigation}) => {
   <Stack.Screen name = "SupportFAQ" component = {SupportFAQ} options={{headerShown: false}} />
   <Stack.Screen name = "FAQ" component = {FAQ} options={{headerShown: false}} />
   <Stack.Screen name = "PrivacyPolicy" component = {PrivacyPolicy} options={{headerShown: false}} />
+  <Stack.Screen name= "Terms" component={TermsAndConditions} options={{headerShown: false}}/> 
 
   </Stack.Navigator>
 
@@ -229,10 +240,13 @@ export default function App() {
   },[]);
 
   if(splash){
-    return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',justifyContent: 'center',alignItems: 'center'}}>
-        <Image resizeMode={'center'} resizeMethod={'auto'} style={{...StyleSheet.absoluteFill,alignSelf: 'center'}} source={require('./assets/ic_launcher.png')} />
-      
-    </View>)
+    return(
+      <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
+         <LottieView  
+          enableMergePathsAndroidForKitKatAndAbove
+         style={{flex:1,padding: 50,margin:50}}  source={require('./assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
+       </View>
+    )
   }
 
   
@@ -286,10 +300,12 @@ export default function App() {
 
     }
    
-    return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',justifyContent: 'center',alignItems: 'center'}}>
-        <Image resizeMode={'center'} resizeMethod={'auto'} style={{...StyleSheet.absoluteFill,alignSelf: 'center'}} source={require('./assets/ic_launcher.png')} />
-      
-    </View>)
+    return(<View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
+    <LottieView  
+     enableMergePathsAndroidForKitKatAndAbove
+    style={{flex:1,padding: 50,margin:50}}  source={require('./assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
+  </View>
+    ) 
 }
 
 const PostLoginHome =({route,navigation})=>{

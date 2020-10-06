@@ -26,6 +26,7 @@ export default function VendorServices({submit}){
 
     return(<View style={{...StyleSheet.absoluteFill}}>
                 <AppBar back={false} />
+                <View style={{height: dimen.height/12}}/> 
                 <Text style = {style.text}>What services do you offer?</Text>
             <View style={{paddingHorizontal: 10}}>
                 <ScrollView>

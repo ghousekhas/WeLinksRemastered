@@ -11,9 +11,14 @@ import {Colors, Styles} from '../Constants';
 import Axios from 'axios';
 import qs from 'qs';
 
+var vendors;
+
 const MilkVendors = (props) => {
     const address= props.route.params.address;
     const {actualUser}=props.route.params;
+    const [vendorExtraData,updateVendor]=useState(1);
+    
+
     console.log(address);
     console.log('milky',actualUser)
 
@@ -25,6 +30,7 @@ const MilkVendors = (props) => {
     const retrieveData= async (t)=>{
         if(t<0)
             return;
+        console.log('retrieving milk vendors');
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
             vendor_type: 'milk',
             lat: address.lat,
@@ -32,7 +38,9 @@ const MilkVendors = (props) => {
         }),).then((response)=>{
             try{
                 console.log('one',response.data.vendor);
-                updateVendors(response.data.vendor);
+                vendors= response.data.vendor;
+                updateVendor(Math.random(0.5));
+                
             }
             catch(error){
                 console.log('milkvendoreasarror',error);
@@ -50,9 +58,7 @@ const MilkVendors = (props) => {
   
    
 
-    const [vendors,updateVendors] = useState([
-
-    ]);
+    
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
@@ -92,6 +98,7 @@ const MilkVendors = (props) => {
 
     <FlatList 
         data={vendors}
+        extraData={vendorExtraData}
         keyExtractor={(item) => item.name}
         renderItem={({item}) => {
             const vendorName = item.name;

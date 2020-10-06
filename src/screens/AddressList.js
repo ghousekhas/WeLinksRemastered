@@ -163,7 +163,8 @@ export default class AddressList extends React.Component{
             },
             pitch: 0,
             heading: 0,
-            zoom: 14
+            zoom: 14,
+            type: 'userAddress'
             
 
           },
@@ -185,6 +186,7 @@ export default class AddressList extends React.Component{
            // props.navigation.toggleDrawer();
            this.props.navigation.pop();
         }} />
+
         <View style={Styles.parentContainer}>
           <GooglePlacesAutocomplete
               style={{elevation: 10,zIndex: 10,backgroundColor: 'white'}}
@@ -208,7 +210,7 @@ export default class AddressList extends React.Component{
           <Text style={styles.address}>SAVED ADDRESSES</Text>
 
             <FlatList 
-            data={this.data.reverse()}
+            data={this.data}
             renderItem={this.renderSavedAddress}
             extraData={this.state.somekey}
             ItemSeparatorComponent={this.renderSeperator}

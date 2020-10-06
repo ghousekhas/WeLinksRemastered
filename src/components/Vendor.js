@@ -8,6 +8,7 @@ import { color } from 'react-native-reanimated';
 
 
 const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,address,scrap,imageUrl}) => {
+    const [imageHeight,setImageHeight]=useState(0);
 
     const renderButton=()=>{
         if(buttonVisible!= false){
@@ -42,7 +43,12 @@ const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,addr
     };
 
     return(
-    <View style={style.container}>
+    <View onLayout={({nativeEvent})=>{
+        console.log('nativeevent',nativeEvent)
+        if(nativeEvent.layout.height!=null)
+        setImageHeight(nativeEvent.layout.height);
+
+    }} style={style.container}>
     <View style={{marginStart: '4%'}}>
         
         <View style={style.top}>
@@ -64,7 +70,7 @@ const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,addr
 
        
         </View>
-        <Image style={style.image} source={{uri: imageUrl}}/>
+        <Image style={{...style.image,height: imageHeight*0.8,width: imageHeight*0.8}} source={{uri: imageUrl}}/>
     </View>)
 };
 

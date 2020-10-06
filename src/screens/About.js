@@ -32,6 +32,7 @@ const About = ({navigation,route,getUserDetails}) =>{
                 setAboutDone(true);
             }
             catch(error){
+                alert('something');
             }
         }
         else{
@@ -40,7 +41,7 @@ const About = ({navigation,route,getUserDetails}) =>{
     }
 
     if(aboutDone)
-        return(<City userDetails={{email: email,name: name}} getUserDetails={getUserDetails}/>)
+        return(<City userDetails={{email: email,name: name}} getUserDetails={getUserDetails} route={{params:{edit: false}}}/>);
 
 
 
@@ -56,7 +57,7 @@ const About = ({navigation,route,getUserDetails}) =>{
         
     </View>
     </ScrollView> 
-    <TouchableOpacity style={{flex: 0,padding: 10,marginHorizontal: 5, marginVertical: 3,backgroundColor: Colors.primary,width: dimen.width-10,borderRadius: 7,alignSelf: 'center'}}>
+    <TouchableOpacity style={{flex: 0,padding: 10,marginHorizontal: 5, marginVertical: 3,backgroundColor: Colors.primary,width: dimen.width-10,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
         <Text style={{...Styles.heading,width: '100%',textAlign: 'center',alignSelf: 'center',color: 'white'}}>Continue</Text>
     </TouchableOpacity>
     </View>);

@@ -1,9 +1,9 @@
 import React,{useState,useEffect}  from 'react';
 import { useFocusEffect} from '@react-navigation/native';
 import { BackHandler, View, StyleSheet, Dimensions,Image } from 'react-native';
-import { Styles } from '../Constants';
+import { dimen, Styles } from '../Constants';
 import {Colors} from '../Constants';
-import {Text,Appbar} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppBar from '../components/AppBar';
@@ -82,18 +82,21 @@ const MyProfile = ({navigation}) => {
    
           return addressArray;
       }
-    return(<View>
-   
-     
+
+    return(<View style={{...StyleSheet.absoluteFill}}>
+        <View style={{elevation: 100,zIndex: 100}}>
    <AppBar funct={() => {
         navigation.toggleDrawer();
         }} />
+    </View> 
+   
+    
 
    <View style={Styles.parentContainer}>
    
     
     <ScrollView>
-        <View style={{flex: 1}}>
+        <View style={{flex: 0,marginBottom: 50}}>
 
     <View style={style.header}>
 
@@ -176,25 +179,30 @@ const MyProfile = ({navigation}) => {
     </View>
 
 
-    <View style={{borderWidth: 0.3,borderRadius: 10,margin: '1%',elevation: 0.3,borderColor: Colors.seperatorGray}}>
+    <View style={{borderWidth: 0.3,borderRadius: 10,marginHorizontal: '1%',elevation: 0.3,borderColor: Colors.seperatorGray,flex: 0,marginVertical: '5%',justifyContent: 'flex-start'}}>
         <TouchableOpacity>
-        <View style={{flexDirection: 'row',margin: '5%',marginTop: '7%'}}>
+        <View style={{flexDirection: 'row',margin: '5%',flex: 0}}>
+        
 
         <View style={{marginTop: '1%'}}>
         <Icon 
                                 name="map-marker-outline" 
                                 color='black'
+
                                 
                                 size={30}
                                 />
         </View>
       
 
-    <View style={{flexDirection: 'column'}}>
+    <View style={{flexDirection: 'column',flex: 1}}>
+    <Text style={{...style.blackText,marginBottom: dimen.height/70}}>Addresses</Text>
+    
       {renderAddresses()} 
+     
        
     </View>
-    <View style={{position: 'absolute',right: 8}}>
+    <View style={{flex:0,alignSelf: 'flex-start'}}>
 
     <Icon 
                                 name="chevron-right" 
@@ -214,6 +222,7 @@ const MyProfile = ({navigation}) => {
     </View>
 
     </View>
+    <View style={{height: dimen.height/30,width: dimen.width}}/>
     </ScrollView>
 
     </View>

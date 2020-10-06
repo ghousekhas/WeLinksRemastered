@@ -15,6 +15,7 @@ import { EvilIcons } from '@expo/vector-icons';
 import { DEFAULT_APPBAR_HEIGHT } from 'react-native-paper';
 import { DrawerActions } from 'react-navigation-drawer';
 import { NavigationActions } from 'react-navigation';
+import auth from '@react-native-firebase/auth';
 
 
 
@@ -70,10 +71,9 @@ export default class Homescreen extends React.Component{
     
 
     
-    async retrieveUserData(networkTries){
-        const {user}=this.props.route.params;
-        if(networkTries<=0)
-            return;
+     retrieveUserData= async ()=>{
+        const user= auth().currentUser;
+        
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
               try{
@@ -82,12 +82,12 @@ export default class Homescreen extends React.Component{
 
               }
               catch(error){
-                console.log(error);
-                this.retrieveUserData(networkTries-11)
+                console.log('theerror',error);
+                
               }
             },(error)=>{
                 console.log('error');
-                getUserDetails(networkTries-1);
+             
             });
       }
 
@@ -104,11 +104,6 @@ export default class Homescreen extends React.Component{
 
         BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
     }
-    componentWillReceiveProps(nextprops){
-       // this.setState({actualUser: nextprops.actualUser});
-
-    } 
-
 
     onBackPress=()=>{
      //   this.props.navigation.navigate('Homescreen');
@@ -164,8 +159,10 @@ export default class Homescreen extends React.Component{
     </TouchableOpacity>
     <View style={styles.topBarAlignChips}>
     <ProfileSmallView actualUser={this.state.actualUser} drawer={this.state.drawer}/>
-    <TouchableOpacity  style={{...styles.usernamecontainer1}} disabled={true} onPress={()=>{this.props.navigation.navigate('City',{
-        edit: true
+    <TouchableOpacity  style={{...styles.usernamecontainer1}} onPress={()=>{this.props.navigation.navigate('City',{
+        edit: true,
+        refreshUser: this.retrieveUserData,
+        user_id: this.state.actualUser.user_id
     })}}>
         <Image style={styles.locim} source={require('../../assets/pin.png')}/>
         <Text adjustsFontSizeToFit style={styles.username}>{this.state.actualUser.city}</Text>

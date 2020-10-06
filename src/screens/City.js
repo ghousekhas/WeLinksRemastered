@@ -8,6 +8,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { RadioButton } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import qs from 'qs';
+import LottieView from 'lottie-react-native';
 
 
 
@@ -18,7 +19,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
     const [cities,setCities] = useState([])
     const [value,setValue] = useState([])
     const [done,setDone]=useState(false);
-    const {edit} = route.params;
+    const {edit,user_id} = route.params;
 
     
 
@@ -53,25 +54,54 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
    // console.log(cities)
 
    const registerUser=()=>{
+    if(edit){
+      Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&',qs.stringify({
+        city_id: value,
+        user_id: user_id
+      })).then((response)=>{
+        console.log(response.data);
+        route.params.refreshUser();
+        navigation.goBack();
+      },(error)=>{
+        console.log(error,'while city change');
+        navigation.goBack();
+      })
+
+      return;
+    }
     const {name,email}= userDetails;
+    setDone(true);
     //AsyncStorage.setItem('firstLogin','true');
     
-  Axios.post('https://api.dev.we-link.in/user_app.php?'+qs.stringify(
-  {
-      action: 'registerUser',
-      name: name,
-      phone: auth().currentUser.phoneNumber.substring(3),
-      email: email,
-      city_id: value
-  }),)
-    .then(function (response) {
-      console.log(response.data);
-      getUserDetails(5);
-      
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    
+    Axios.post('https://api.dev.we-link.in/user_app.php?'+qs.stringify(
+    {
+        action: 'registerUser',
+        name: name,
+        phone: auth().currentUser.phoneNumber.substring(3),
+        email: email,
+        city_id: value
+    }),)
+      .then(function (response) {
+        console.log(response.data);
+        getUserDetails(5,auth().currentUser);
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert('Server unreachable, make sure you are connected to the internet');
+        setDone(false);
+      });
+   }
+
+   if(done){
+    return(
+      <View style={{...StyleSheet.absoluteFill,backgroundColor: 'gray'}}>
+         <LottieView  
+          enableMergePathsAndroidForKitKatAndAbove
+         style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/2077-loading.json')} resizeMode={'cover'} autoPlay={true} loop={true}/>
+       </View>
+    )
    }
 
 
@@ -106,10 +136,10 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
         
         
       <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '0%',borderRadius: 10}}
-          onPress={()=>{ edit ? editCity() : registerUser()
+          onPress={()=>{ registerUser()
 
           }}>
-        <Text style={{backgroundColor: Colors.primary,alignSelf: 'center',padding: 10,color: 'white',width: dimen.width*0.9,textAlign: 'center',borderRadius: 10}}>Next</Text>
+        <Text style={{backgroundColor: Colors.primary,alignSelf: 'center',padding: 10,color: 'white',width: dimen.width*0.9,textAlign: 'center',borderRadius: 10}}>{edit? 'Select': 'Next'}</Text>
       </TouchableOpacity>
       
      
