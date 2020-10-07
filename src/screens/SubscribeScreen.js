@@ -52,6 +52,7 @@ const SubscribeScreen = ({navigation,route}) => {
   const {actualUser}=route.params;
   const {tag} = route.params;
   const{prate_,imageUrl,productId,vendorId} = route.params;
+  console.log('Tag Subscribe ' + tag)
 const [isPressed,setIsPressed] = useState(false);
 
 
@@ -167,7 +168,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
         productId: productId,
         vendorId: vendorId,
         tag: tag
-        
+
       
 
 

@@ -121,7 +121,7 @@ const MilkVendors = (props) => {
                 onSelected={() => {
              
                 props.navigation.navigate('VendorScreen',{
-                    tag: tag,
+                    tag: 'Milk',
                     name: vendorName,
                     stars: vendorStars,
                     reviews: vendorReviews,

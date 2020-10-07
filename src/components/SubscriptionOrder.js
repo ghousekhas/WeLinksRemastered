@@ -5,8 +5,10 @@ import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
 import {Colors,dimen} from '../Constants'
 
-const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought,imageUrl}) => {
-    console.log('theimageurl',imageUrl);
+const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_}) => {
+    console.log('Tag :' + tag);
+
+    const [alignment,setAlign] = useState(0);
     var dayString = "";
    
         //console.log(days[i])
@@ -32,8 +34,10 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
     
     <View style={style.line}/>
     <View style={{flexDirection: 'row'}}>
-    <Image style={ style.image} width={60}  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
- <Text style={style.name}>{name}</Text>
+    <Image onLayout={({nativeEvent}) => {
+        setAlign(nativeEvent.layout.width)
+    }} style={ style.image} width={60}  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+ <Text style={{...style.name,marginStart: alignment+alignment/4}}>{name}</Text>
  <Feather name="trash-2" size={22} color='gray' style={style.icon}/>
  </View>
  
@@ -44,7 +48,7 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
         
        
         <View style={{flexDirection: 'row',margin: '2%'}}>
-        <Text style={style.quantity}>{bought+ " unit/s  · "}</Text>
+        <Text style={{...style.quantity,marginStart: alignment+alignment/4}}>{bought+ " unit/s  · "}</Text>
         <Text style={dayString[0]=='Y'? style.yes : {...style.yes,color: 'gray'}}>  M </Text>
         <Text style={dayString[1]=='Y'? style.yes : {...style.yes,color: 'gray'}}>T </Text>
         <Text style={dayString[2]=='Y'? style.yes : {...style.yes,color: 'gray'}}>W </Text>
@@ -55,8 +59,11 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
         </View>
 
        <View style={{flexDirection:'row',paddingBottom: '5%'}}>
-       <Text style={style.rate}>₹{rate}</Text>
-       <Text style = {{...style.rate,color: 'gray',marginStart: '17%'}}>{num+" deliveries"}</Text>
+       {tag == 'Milk' ? <Text style={{...style.rate,marginStart: alignment+alignment/4}}>₹{rate}</Text> : <View>
+       <Text style={{...style.rate,marginStart: alignment+alignment/4}}>Weekdays : ₹{rate}</Text>
+       <Text style={{...style.rate,marginStart: alignment+alignment/4}}>Weekends : ₹{rate_}</Text>
+       </View>}
+       <Text style = {{...style.rate,color: 'gray',marginStart: alignment/8,fontSize: 12,alignSelf:'center'}}>{num+" deliveries"}</Text>
        </View>
        
        
@@ -85,6 +92,7 @@ const style = StyleSheet.create({
         borderRadius: 15,
         borderColor: Colors.seperatorGray,
         borderWidth: 0.5,
+      
        
       
         alignSelf: 'center',
@@ -125,10 +133,10 @@ const style = StyleSheet.create({
        
     },
     rate: {
-        marginStart: '34%',
+        
         
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 14,
         marginTop: '3%',
         paddingVertical: '3%',
         color:'black'
@@ -173,7 +181,8 @@ const style = StyleSheet.create({
         height: 80,
         position: 'absolute',
         marginStart: '4%',
-        marginTop: '10%'
+        marginTop: '10%',
+       
         
        
     },

@@ -244,15 +244,17 @@ const ScrapFlatList = ({route,navigation,data}) => {
                    
                     const prodName = item.name;
                     const prodQuan = item.quantity;
-                    const prodRate = item.price;
+                    const prodRate = item.weekday_price;
+                    const prodRate_ = item.weekend_price;
                     const productId = item.id
                     
                
                     navigation.navigate('SubscribeScreen',{
-                        tag : tag,
+                        tag : 'Paper',
                         pname : prodName,
                         pquan : prodQuan,
                         prate: prodRate,
+                        prate_: prodRate_ ,
                         imageUrl: imageUrl,
                         actualUser: actualUser,
                         vendorId: vendorId,

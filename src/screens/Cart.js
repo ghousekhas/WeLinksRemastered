@@ -32,7 +32,7 @@ const Cart = ({route,navigation}) => {
     const {pnumber} = route.params;
     const {porder,actualUser} = route.params;
     const {tag} = route.params;
-    console.log(actualUser);
+    console.log(tag);
     
 
     var ans,numberOfDeliveries;

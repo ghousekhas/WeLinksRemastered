@@ -253,7 +253,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                     
                
                     navigation.navigate('SubscribeScreen',{
-                        tag : tag,
+                        tag : 'Milk',
                         pname : prodName,
                         pquan : prodQuan,
                         prate: prodRate,

@@ -109,7 +109,7 @@ const PaperVendors = (props) => {
                     onSelected={() => {
                  
                     props.navigation.navigate('VendorScreen1',{
-                        tag: tag,
+                        tag: "Paper",
                         name: vendorName,
                         stars: vendorStars,
                         reviews: vendorReviews,
