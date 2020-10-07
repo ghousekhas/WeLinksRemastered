@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'white'
     },
     address:{alignSelf: 'center', 
-          fontSize: 14,
+          fontSize: 13,
           padding: 10,
           fontWeight: 'bold',
           color: 'black',
@@ -254,12 +254,14 @@ const styles = StyleSheet.create({
       height: Dimensions.get('window').height/6,flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
+    
       margin: 10
     },
     home:{
       position: 'absolute',
       width: Dimensions.get('window').width-50,
-      height: Dimensions.get('window').height/6-40,flexDirection: 'row',
+      height: Dimensions.get('window').height/6-40,
+      flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       top: height/7
@@ -292,36 +294,51 @@ const styles = StyleSheet.create({
       borderRightWidth: 0.5,
       borderLeftColor: 'gray',
       borderRightColor: 'gray',
-      borderRadius: 0
+      borderRadius: 0,
+     
     },
     listView:{
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      padding: '1%',
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     textInputContainer:{
       width: '100%',
       backgroundColor: 'white',
+   
+      alignItems: 'center',
+      
       //borderRadius: 10,
       
     },
     textInput:{
         fontWeight: 'bold',
         fontSize: 15,
-        padding: 40
+        padding :'1%',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     predefinedPlacesDescription:{
       color: 'black'
     },
     description:{
-      color: 'gray'
+      color: 'gray',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: 11.5,
+      
     },
     seperator:{
       width: '100%',
       color: 'gray',
-      height: 0.5
+      height: 0.5,
+     
     },
     poweredContainer:{
       marginTop: 30,
       marginBottom: 5,
-      marginRight: 5
+      marginRight: 5,
+      alignItems: 'center'
     }
   })

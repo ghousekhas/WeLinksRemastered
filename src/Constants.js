@@ -225,7 +225,8 @@ export const Styles=StyleSheet.create({
         margin: 5,
         width: '90%',
         alignSelf: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        
     },
     horizontalCalendarRow:{
         fontSize: 14,

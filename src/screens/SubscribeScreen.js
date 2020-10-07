@@ -187,7 +187,7 @@ const [dateref1,setDateRef1] = useState('Select end');
            navigation.pop();
         }} />
 
-    <View style={{...Styles.parentContainer,margin:'0%'}}>
+    <View style={{...Styles.parentContainer}}>
     
 
       <BottomSheet

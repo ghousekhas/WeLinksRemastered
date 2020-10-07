@@ -4,7 +4,7 @@ import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-hand
 import Vendor from '../components/Vendor';
 import { userDetails } from '../UserDetails';
 import { Avatar, Button } from 'react-native-paper';
-import {Styles} from '../Constants';
+import {Styles, dimen} from '../Constants';
 import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
@@ -12,17 +12,18 @@ import Product from '../components/Product';
 import AppBar from '../components/AppBar'
 import Appliance from '../components/Appliance';
 import {Colors} from '../Constants'
+import {Entypo} from '@expo/vector-icons'
 export default class ScrapVendor extends React.Component{
 
     constructor(props){
         super(props);
             this.state={
                 brangImagesdata: [1,2,3,4,5,6,7,8,9,10],
-                sections: [{one: 1,
-                    category: 'Small Appliances',two: 2},{one: 1,
-                        category: 'Large Appliances',two: 2},{one: 1,
-                            category: 'Electronics',two: 2},{one: 1,
-                                category: 'Recyclable',two: 2}],
+                sections: [
+                    {'Small Appliances':''},
+                      { 'Large Appliances':''},
+                           { 'Electronics':''},
+                               { 'Recyclable':''}],
                 collapsed: true,
                 activesections: []
                                 
@@ -58,20 +59,27 @@ export default class ScrapVendor extends React.Component{
         return(
             <View style={Styles.collapsedView} >
                 <Text style={Styles.collapsedText}>collapsedText</Text>
-                <Text style= {Styles.expander}>v</Text>
+                <Entypo name='chevron-down' size={24} color={'black'}/>
             </View>
 
             );
     };
     renderHeader = (section, _, isActive) => {
+        let expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
+       
+
+        if(!isActive)
+            expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)
+        else
+            expanderButton= (<Entypo name='chevron-up' size={24} color={'black'}/>)
         return (
           <Animatable.View
             duration={400}
             style={Styles.collapsedView}
             transition="backgroundColor"
           >
-            <Text style={Styles.collapsedText}>{section.category}</Text>
-            <Text style= {Styles.expander}>v</Text>
+           <Text style={Styles.collapsedText}>{(Object.keys(section))[0]}</Text>
+            {expanderButton}
           </Animatable.View>
         );
       };
@@ -104,9 +112,8 @@ export default class ScrapVendor extends React.Component{
 
     rendCont=(section,_,isactive)=>{
         return(
-            <View style={{height:300,width:300}}>
+            <View style={{height:300,width:300}} />
 
-            </View>
         )
     }
 
@@ -120,16 +127,17 @@ export default class ScrapVendor extends React.Component{
                         <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address={'7th cross near hebbal flyover Bengaluru 560092'
                         }/>
                  
-                <View style={{flexDirection: 'row',alignSelf: 'center',margin: 10,justifyContent: 'space-between',width: '80%'}}>
+                {/* <View style={{flexDirection: 'row',alignSelf: 'center',margin: 10,justifyContent: 'space-between',width: '80%'}}>
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}>Items in cart</Text>
-                    <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}} > Schedule Pickup'</Text>
-                </View>
+                    <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}> Schedule Pickup</Text>
+                </View> */}
 
             </View>
             <View style={Styles.sixtyLowerPanel}>
                 <ScrollView ref={(ref)=>this.scrollView=ref}>
+                <View style={{marginTop: dimen.height/25}}>
                 <Accordion
-                    style={Styles.accordion}
+                    style={{...Styles.accordion}}
                     sections= {this.state.sections}
                     renderContent= {this.renderContent}
                     touchableComponent={TouchableOpacity}
@@ -138,7 +146,9 @@ export default class ScrapVendor extends React.Component{
                     activeSections={this.state.activesections}
                     onChange={this.setSectionsFunction}
                 />
+                </View>
                 </ScrollView>
+                
             </View>
 
         </View>

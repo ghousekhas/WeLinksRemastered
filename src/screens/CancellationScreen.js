@@ -3,12 +3,14 @@ import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity,TextInput} fro
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
+import AppBar from '../components/AppBar';
 
-export default function CancellationScreen(){
+export default function CancellationScreen({navigation,route}){
     const [notes,setNotes]=useState('');
+    const { bidTitle } = route.params;
 
     const onButton=(type)=>{
-        if(notes.trim() === ''){
+        if(type != 'cancel' && notes.trim() === ''){
             alert('Please enter a reason/some information');
             return;
         }
@@ -20,11 +22,13 @@ export default function CancellationScreen(){
     }
 
 
-    return(
-        <View style={{...StyleSheet.absoluteFill,flex: 1}}>
-            <Text style={{...Styles.heading,alignSelf: 'center',flex: 0}}>Bid Title</Text>
-            <Text style={{marginTop: dimen.height/20,marginHorizontal: dimen.width*0.05,flex: 0}}>Are you sure you want to cancel/close?</Text>
+    return(<View>
+    <AppBar back funct={() => {navigation.pop()}}/>
+        <View style={{...Styles.parentContainer}}>
+            <Text style={{...Styles.heading,alignSelf: 'center',flex: 0}}>{bidTitle}</Text>
+            <Text style={{marginTop: dimen.height/30,alignSelf: 'center',marginHorizontal: dimen.width*0.05,flex: 0,fontWeight: 'bold',color: 'black',alignItems:'center'}}>Are you sure you want to cancel/close?</Text>
             <TextInput 
+            placeholder= {`Reason for cancellation/other information`}
                 onChangeText={setNotes}
                 textAlignVertical={'top'}
                multiline={true}
@@ -39,6 +43,7 @@ export default function CancellationScreen(){
                     <Text style={{color: 'white'}}> Confirm</Text>
                 </TouchableOpacity>
             </View>
+        </View>
         </View>
     )
 

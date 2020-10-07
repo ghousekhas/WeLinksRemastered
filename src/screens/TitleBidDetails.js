@@ -10,9 +10,11 @@ import { AntDesign } from '@expo/vector-icons';
 import SubmitButton from '../components/SubmitButton';
 
 export default function TitleBidDetails({navigation,route}){
- const { cardDetails } = route.params;
+ const  cardDetails  = route.params;
+ const { tag } = route.params;
+
  console.log(cardDetails)
-  
+  console.log(tag)
     const [title,stitle]=useState("Bid Title");
     const [address,sAddress]=useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.')
 
@@ -32,7 +34,7 @@ export default function TitleBidDetails({navigation,route}){
         return (<View style={{flex: 0}}>
             <Text style={{...Styles.heading,alignSelf: 'center'}}>Bid Details</Text>
             <View style={styles.bidcard}>
-                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.title}>{cardDetails.bidTitle}</Text>
                 <Text style={styles.info}> {address}</Text>
                 <View style={styles.duration}>
                     <Text style={{...styles.title,color: 'gray',marginVertical: '3%'}}> {moment().toString()} </Text>
@@ -41,29 +43,33 @@ export default function TitleBidDetails({navigation,route}){
                 <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
                     <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
                         <MaterialCommunityIcons name="anvil" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}} />
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>Metal</Text>
+                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItems}</Text>
                     </View>
                     <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center'}}>          
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingLeft: 10}}>9-12</Text>
+                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingLeft: 10}}>{cardDetails.bidItemsWeight}</Text>
                         <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
                     </View>
                     <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
                         <AntDesign name="clockcircleo" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>9-12</Text>
+                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.pickUpTimeSlot}</Text>
                     </View>
                 </View>
                 <View style={styles.duration}>
                 <View style={{flexDirection: 'row',alignItems:'center',justifyContent: 'space-between'}}>
                     <Text style={{alignSelf: 'center',fontWeight: 'bold',marginTop: '4%',paddingVertical:2}}>Require: </Text>
+                    {cardDetails.manpower ? 
                     <View style={{...styles.requirementsButton,backgroundColor: Colors.primary,marginTop:'2%'}}>
+                  
                         <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Manpower</Text>
-                    </View>
-                    <View style={{...styles.requirementsButton,backgroundColor: 'gray'}}>
-                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Insurance</Text>
-                    </View>
+                    </View> : null}
+                    {cardDetails.insurance ? 
                     <View style={{...styles.requirementsButton,backgroundColor: Colors.primary}}>
+                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Insurance</Text>
+                    </View>  : null}
+
+                   {cardDetails.vehicle ?  <View style={{...styles.requirementsButton,backgroundColor: Colors.primary}}>
                         <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Vehicle</Text>
-                    </View>
+                    </View> : null}
                     </View>
                 </View>
                 <View style={{flex: 0}}>
@@ -75,13 +81,17 @@ export default function TitleBidDetails({navigation,route}){
                 </View>
             </View>
             {/* <SubmitButton text='Cancel Bid' /> */}
+            {tag == 'Open'  ?
             <TouchableOpacity style={styles.cancelButton} onPress={()=>{
-                alert('Are you sure you want to cancel this bid?');
+                // alert('Are you sure you want to cancel this bid?');
+                navigation.navigate('CancellationScreen',{
+                    bidTitle : cardDetails.bidTitle
+                    });
             }}>
                 <Text style={styles.cancelText}>Cancel Bid</Text>
             </TouchableOpacity>
-
-            <Text style={{...Styles.heading,alignSelf:'center'}}>Bids Received</Text>
+            : <View style={{marginTop : dimen.height/50}} /> }
+            <Text style={{...Styles.heading,alignSelf:'center', marginTop : dimen.height/20}}>Bids Received</Text>
 
         </View>
         )

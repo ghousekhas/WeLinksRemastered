@@ -18,43 +18,68 @@ export default function Bids({navigation}){
         closedBids: 'Closed Bids'
     }
     const [tab,setTab]=useState(1);
+    const [cardWidth,setCardWidth] = useState(0);
     const openBidArray = [{
         bidTitle: 'Fiesty First',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
-        bidders : 14
+        bidders : 14,
+        pickUpTimeSlot: "7-10",
+        manpower : true,
+        insurance : false,
+        vehicle: true
     },{
         bidTitle: 'Sensational Second',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
-        bidders : 6
+        bidders : 6,
+        pickUpTimeSlot: "7-10",
+        manpower : true,
+        insurance : true,
+        vehicle: false   
     },{
         bidTitle: 'Terrific Third',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
-        bidders : 10
+        bidders : 10,
+        pickUpTimeSlot: "7-10",
+        manpower : true,
+        insurance : false,
+        vehicle: false
     },{
         bidTitle: 'Fabulous Fourth',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
-        bidders : 10
+        bidders : 10,
+        pickUpTimeSlot: "7-10",
+        manpower : true,
+        insurance : true,
+        vehicle: true
     },
     {
         bidTitle: 'Terrific Third',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
-        bidders : 10
+        bidders : 10,
+        pickUpTimeSlot: "7-10",
+        manpower : true,
+        insurance : true,
+        vehicle: true
     },{
         bidTitle: 'Fabulous Fourth',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
-        bidders : 10
+        bidders : 10,
+        pickUpTimeSlot: "7-10",
+        manpower : true,
+        insurance : true,
+        vehicle: true
     }];
     const closedBidArray = [{
         bidTitle: 'Fiesty First Frozen',
@@ -125,7 +150,9 @@ export default function Bids({navigation}){
 
     const renderCard = (cardDetails) => {
         if(tab == 1){
-        return(<View  style={styles.card}>
+        return(<View onLayout={(event) => {
+            setCardWidth(event.nativeEvent.layout.width);
+        }}  style={styles.card}>
      
             <Text style={{...styles.cardTitle,fontSize:16}}>{cardDetails.bidTitle}</Text>
            
@@ -139,28 +166,28 @@ export default function Bids({navigation}){
            
            
        
-        <Text style={{...styles.cardTitle,color:'gray',marginVertical:'5%'}}>{openBidArray[0].bidDuration}</Text>
+        <Text style={{...styles.cardTitle,color:'gray',marginVertical:'5%'}}>{cardDetails.bidDuration}</Text>
 
         <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
                     <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
                         <MaterialCommunityIcons name="anvil" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}} />
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>Metal</Text>
+                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItems}</Text>
                     </View>
                     <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%'}}>          
                         <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>9-12</Text>
+                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItemsWeight}</Text>
 
                     </View>
                     <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
                         <AntDesign name="clockcircleo" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>9-12</Text>
+                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.pickUpTimeSlot}</Text>
                     </View>
                 </View>
                 <View style={{flexDirection:'row',marginTop: '6%'}}>
                 <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,marginVertical:'5%',fontSize:16}}>Active</Text>
       
-            <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart:'35%'}}/>
-            <Text style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${cardDetails.bidders}`}</Text>
+            <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart: cardWidth/4.5}}/>
+            <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${cardDetails.bidders}`}</Text>
 
             </View>
 
@@ -216,7 +243,7 @@ return(<View style={styles.card}>
     
         {renderTabs()}
     
-        <View style={{flex:1,paddingBottom: '35%'}}>
+        <View style={{flex:1,paddingBottom: dimen.height/17}}>
         <FlatList 
             style={{marginBottom:'5%'}}
           
@@ -225,14 +252,22 @@ return(<View style={styles.card}>
                 let cardDetails = {
         bidTitle: item.bidTitle,
         bidDuration: item.bidDuration,
-        bidItems : item.bidItems[0],
+        bidItems: item.bidItems[0],
         bidItemsWeight: item.bidItemsWeight,
-        bidders:item.bidders,
-        status:item.status,
-        awardedTo: item.awardedTo
+        bidders: item.bidders,
+        status: item.status,
+        awardedTo: item.awardedTo,
+        pickUpTimeSlot: item.pickUpTimeSlot,
+        manpower : item.manpower,
+        insurance : item.insurance,
+        vehicle : item.vehicle
+      
                 }
                 return(<TouchableOpacity onPress={() => {
-            navigation.navigate('TitleBidDetails', cardDetails)
+            navigation.navigate('TitleBidDetails', {
+                ...cardDetails,
+                tag : tab == 1 ? 'Open' : 'Closed'
+                })
         }}>
                 {renderCard(cardDetails)}
                 </TouchableOpacity>)
@@ -242,7 +277,9 @@ return(<View style={styles.card}>
       <View style={{alignItems: 'center'}}>
       <SubmitButton 
       text='+ Make a new bid' 
-      onTouch = {() => {navigation.navigate('BidCreation1')}}
+      onTouch = {() => {navigation.navigate('BidCreation1')
+       
+      }}
       />
       </View>
     
@@ -290,11 +327,11 @@ const styles = StyleSheet.create({
     },
     card: {
         width: dimen.width-dimen.width/10,
-        height: dimen.height/3.4,
+        
         borderRadius: 15,
         borderColor: Colors.seperatorGray,
         borderWidth: 0.5,
-       padding:'2%',
+        padding:'2%',
         marginTop: '5%',
         alignSelf: 'center',
         backgroundColor: 'white',
