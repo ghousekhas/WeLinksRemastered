@@ -271,14 +271,14 @@ export default function App() {
   }
   
   React.useEffect(()=>{
-    const dummyUser={phoneNumber: '+918548080254'};
-    setTimeout(()=>setUser(dummyUser),1000);
+    //const dummyUser={phoneNumber: '+918548080254'};
+    //setTimeout(()=>setUser(dummyUser),1000);
     console.group('firebaseuser',auth().currentUser);
     setSplash(false);
-    //setInterval(()=>{
-      //setSplash(false);
-    //},2500);
-    //setUser(auth().currentUser);
+    setInterval(()=>{
+      setSplash(false);
+    },2500);
+    setUser(auth().currentUser);
     //checkIfFirstLogin();
     console.log(user);
     if(userDetails===null)
