@@ -12,6 +12,7 @@ import qs from 'qs';
 
 const PaperVendors = (props) => {
     const address= props.route.params.address;
+    const {tag} = props.route.params;
     const {actualUser}=props.route.params;
     const words = {
         paper: 'Newspaper vendors in your locality',
@@ -107,7 +108,7 @@ const PaperVendors = (props) => {
                     onSelected={() => {
                  
                     props.navigation.navigate('VendorScreen1',{
-                        tag: 'milk',
+                        tag: tag,
                         name: vendorName,
                         stars: vendorStars,
                         reviews: vendorReviews,

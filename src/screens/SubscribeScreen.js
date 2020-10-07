@@ -50,6 +50,7 @@ const SubscribeScreen = ({navigation,route}) => {
   const {pquan} = route.params;
   const {prate} = route.params;
   const {actualUser}=route.params;
+  const {tag} = route.params;
   const{prate_,imageUrl,productId,vendorId} = route.params;
 const [isPressed,setIsPressed] = useState(false);
 
@@ -164,7 +165,9 @@ const [usableEndDate,setUsableEndDate]=useState(null);
         startDate: usableStartDate,
         endDate: usableEndDate,
         productId: productId,
-        vendorId: vendorId
+        vendorId: vendorId,
+        tag: tag
+        
       
 
 

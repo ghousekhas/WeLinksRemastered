@@ -209,6 +209,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
     const {name} = route.params;
     const {stars} = route.params;
     const {reviews,actualUser} = route.params;
+    const {tag} = route.params;
     console.log(actualUser)
 
     useFocusEffect(
@@ -248,7 +249,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                     
                
                     navigation.navigate('SubscribeScreen',{
-                        tag : 'paper',
+                        tag : tag,
                         pname : prodName,
                         pquan : prodQuan,
                         prate: prodRate,

@@ -45,6 +45,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import TermsAndConditions from './src/screens/TermsAndConditions';
 import MySubscriptions from './src/screens/MySubscriptions';
 import MySubscriptionOrder from './src/components/MySubscriptionOrder';
+import SubscriptionScreen from './src/screens/SubscriptionScreen';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -122,8 +123,8 @@ const NavigationDrawer = ({user,actualUser}) => {
     </NavigationContainer>
     );
 
- // return(<BidCreation2 />)
   return (
+  
     <NavigationContainer independent={true}  >
       <Drawer.Navigator initialRouteName='HomeStack' backBehavior='none' 
         drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
@@ -205,6 +206,7 @@ const userSupportStack = ({navigation,route}) => {
 
 
 export default function App() {
+ 
   const [firstlogin,setFirstLog]=useState(0);
   const [user,setUser]=useState(auth().currentUser);
   const [userDetails,setUserDetails]=useState(null);

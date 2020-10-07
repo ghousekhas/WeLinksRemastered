@@ -27,9 +27,11 @@ const Cart = ({route,navigation}) => {
 
     const {pname} = route.params;
     const {prate} = route.params;
+    const {prate_} = route.params;
     const {pquan} = route.params;
     const {pnumber} = route.params;
     const {porder,actualUser} = route.params;
+    const {tag} = route.params;
     console.log(actualUser);
     
 
@@ -191,6 +193,8 @@ const Cart = ({route,navigation}) => {
          startDate={porder.s.start} 
          endDate={porder.e.end}
           days={porder.days}
+          tag = {tag}
+          rate_={prate_}
           num = {calculateDeliveries(porder.s.start,porder.e.end)}
           imageUrl={route.params.imageUrl}
          />

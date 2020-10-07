@@ -197,7 +197,8 @@ export default class Homescreen extends React.Component{
                         this.props.navigation.navigate('AddressList',{
                             next: 'MilkVendors',
                             user: user,
-                            actualUser: this.state.actualUser
+                            actualUser: this.state.actualUser,
+                            tag: 'Milk'
                         });
                     }
                         //this.props.navigation.navigate('MilkVendors')}
@@ -209,7 +210,8 @@ export default class Homescreen extends React.Component{
                     onPress={()=>{this.props.navigation.navigate('AddressList',{
                         next: 'PaperVendors',
                         user: user,
-                        actualUser: this.state.actualUser
+                        actualUser: this.state.actualUser,
+                        tag: 'Paper'
                     });}}>
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.news}/>
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.news}</Text>

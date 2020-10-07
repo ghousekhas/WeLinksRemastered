@@ -81,7 +81,7 @@ export default class VendorScreen extends React.Component{
     
     renderItem=({item})=>{
         return(
-            <View style={{,flex:0}}>
+            <View style={{flex:0}}>
             <Image style={{...Styles.horizontalImage}} source={{uri: item.brand_img_url}
         }/>
         </View>
@@ -99,6 +99,7 @@ export default class VendorScreen extends React.Component{
     };
     renderHeader = (section, _, isActive) => {
     var      actualUser= this.props.route.params.actualUser;
+    const {tag} = this.props.route.params;
         console.log('vs',actualUser);
 
         var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)

@@ -37,7 +37,7 @@ const MilkVendors = (props) => {
             lng: address.lng
         }),).then((response)=>{
             try{
-                console.log('one',response.data.vendor);
+                console.log('vend ',response.data.vendor);
                 vendors= response.data.vendor;
                 updateVendor(Math.random(0.5));
                 
@@ -108,7 +108,7 @@ const MilkVendors = (props) => {
             var brandsString= '';
             const brands= item.brands;
             const imageUrl=item.img_url;
-            const vendorAddress= item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode;
+            const vendorAddress= item.addresses.addr_details+' '+item.addresses.addr_landmark+' '+item.addresses.addr_pincode;
             console.log('itembrands',brands);
             for(let i=0;i<brands.length-1;i++)
                brandsString= brandsString+brands[i].brand.toString()+','+' ';

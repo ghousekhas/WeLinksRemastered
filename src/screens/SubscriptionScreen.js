@@ -285,7 +285,7 @@ return(
         <TouchableOpacity onLayout={(event) => {
                 setStartButtonWidth(event.nativeEvent.layout.width);
 
-        }} onPress={onCalendarOpen} style={style.dbutton}>
+        }} onPress={onCalendarOpen} style={style.dbutton1}>
         <Text numberOfLines={1} style={style.btext}>{words.startDate}</Text>
             
         </TouchableOpacity>
@@ -294,7 +294,7 @@ return(
 {/* End date */}
     <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%',marginTop: '5%'}}>
     <TouchableOpacity disabled={dateref == 'Select start'? true : false} onPress={onCalendarOpen1} 
-    style={dateref == 'Select start' ? {...style.disabled,width: startButtonWidth} : {...style.dbutton,width: startButtonWidth}}>
+    style={dateref == 'Select start' ? {...style.disabled,width: startButtonWidth} : {...style.dbutton1,width: startButtonWidth}}>
         <Text numberOfLines={1} style={dateref == 'Select start' ? {...style.btext,color:Colors.disabledButton} : style.btext}>{words.endDate}</Text>
             
         </TouchableOpacity>
@@ -493,9 +493,9 @@ dbutton: {
     borderWidth: 1.5,
     flex: 0,
     
-  //  width: Dimensions.get('window').width/10,
+  //  width: Dimensions.get('window').width/3,
     height: Dimensions.get('window').height/25,
-    aspectRatio:4/1 ,
+    aspectRatio:3.4/1 ,
     alignItems: 'center',
     justifyContent: 'center',
      
@@ -504,6 +504,24 @@ dbutton: {
    flexDirection: 'row'
 
 }, 
+dbutton1: {
+    borderRadius: 5,
+    borderColor: Colors.primary,
+    borderWidth: 1.5,
+    flex: 0,
+    
+  //  width: Dimensions.get('window').width/3,
+    height: Dimensions.get('window').height/25,
+    aspectRatio: 4/1 ,
+    alignItems: 'center',
+    justifyContent: 'center',
+     
+  
+  
+   flexDirection: 'row'
+
+}, 
+
 disabled: {
     borderRadius: 5,
    

@@ -144,6 +144,7 @@ export default class AddressList extends React.Component{
 
     addressSelected =async (data,details) =>{
       const actualUser= this.props.route.params.actualUser;
+      const {tag} = this.props.route.params;
       console.log(details);
       console.log(details.place_id);
       axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
@@ -169,7 +170,8 @@ export default class AddressList extends React.Component{
 
           },
           refresh: this.retrieveAddresses,
-          actualUser: actualUser
+          actualUser: actualUser,
+          tag : tag
         })
       });
       

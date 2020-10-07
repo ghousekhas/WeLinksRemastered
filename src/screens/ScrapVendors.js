@@ -103,10 +103,12 @@ const address = route.params.address;
         data={vendors}
         keyExtractor={(item) => item.name}
         renderItem={({item}) => {
+            
             const vendorName = item.name;
             const vendorStars = item.stars;
-            const vendorReviews = item.reviews
+            const vendorReviews = item.reviews;
             const imageUrl = 'https:\/\/dev.we-link.in\/dist\/img\/users\/user_img_1601972083.jpg';
+            
             return(
                 <Vendor imageUrl={imageUrl} name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews} scrap={'Mobiles, Tablets, Paper'}
                 onSelected={() => {
