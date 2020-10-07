@@ -180,10 +180,10 @@ const Cart = ({route,navigation}) => {
 
       {/*ScrollView parent */}
       <View style={{height:  dimen.height-dimen.height/8,position: 'absolute',top: dimen.height/14}}>
-      <ScrollView style={{flex: 1,padding: 5,alignSelf: 'center'}}>
-      <View style={{flex: 1}}>
+      <ScrollView style={{flex: 1,padding: 5}}>
+      <View style={{flex: 1,alignSelf: 'center',justifyContent: 'center'}}>
       
-    <Text style={Styles.title}>{words.title}</Text>
+    <Text style={{...Styles.title,marginBottom : '10%'}}>{words.title}</Text>
 
     <View style={{alignItems: 'center',width: dimen.width}}>
         <SubscriptionOrder name={pname}
@@ -195,7 +195,7 @@ const Cart = ({route,navigation}) => {
           imageUrl={route.params.imageUrl}
          />
          </View>
-
+<View style={{marginTop: dimen.height/60}}>
          <View style={style.gray}>
              <Text style={style.text}>{words.disclaimer}</Text>
          </View>
@@ -206,8 +206,8 @@ const Cart = ({route,navigation}) => {
          
              <Text style={style.coupon}>{words.couponText}</Text>
          </View>
-
-         <View  style={{padding: 10,backgroundColor: 'white'}}>
+</View>
+         <View  style={{padding: 10,backgroundColor: 'white',marginTop:dimen.width/60}}>
         
          <View style={{flexDirection:'row'}}>
              <Text style={style.billText}>{words.cartAmount}</Text>
@@ -299,6 +299,7 @@ const style = StyleSheet.create({
         borderRadius: 10,
         height: Dimensions.get('window').height/11,
         margin: '3%',
+       
         alignItems: 'center',
         justifyContent:'center',
         elevation:1

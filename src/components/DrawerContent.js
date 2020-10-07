@@ -7,7 +7,7 @@ import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-nativ
 import { userDetails } from '../UserDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SupportFAQ from '../screens/SupportFAQ';
-import { Constants,Colors } from '../Constants';
+import { Constants,Colors, dimen } from '../Constants';
 import auth from '@react-native-firebase/auth';
 
 
@@ -38,12 +38,13 @@ const DrawerContent = (props) => {
       <View style={{height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props} scrollEnabled={false}>
          <View style={{height: Dimensions.get('window').height-StatusBar.currentHeight}}>
-         <Drawer.Section>
+         <Drawer.Section style={{margin: dimen.height/60}}>
         
            <View style={styles.header}>
              {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
           <View style={{marginTop: '5%', margin: '5%'}}>
           <Image source={require('../../assets/avatar.png')}
+          
             style={{height: 50,width: 50,marginTop: 10}}
           />
           </View>
@@ -54,13 +55,13 @@ const DrawerContent = (props) => {
 
           <View style={{flexDirection: 'row',marginStart: '5%',marginTop: '1%'}}>
 
-            <View style={{marginTop:'0.7%'}}>
-              <Icon name="phone" color='gray' size={13}/>
-
-            </View>
-          <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'1%',fontSize: 14,alignSelf: 'center'}}>
+            <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'center'}}>
+              <Icon name="phone" color='gray' size={13} />
+              <Text style={{...styles.username,fontWeight: '200',color:'gray',marginStart:'1%',fontSize: 14,alignSelf: 'center'}}>
           {actualUser.phone}
           </Text>
+            </View>
+          
 
           </View>
 
@@ -72,7 +73,7 @@ const DrawerContent = (props) => {
            </View>
            </Drawer.Section>
 
-    <Drawer.Section >
+    <Drawer.Section style={{margin:dimen.height/60}} >
 
     <Drawer.Item
      style={{}}

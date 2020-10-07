@@ -11,7 +11,9 @@ import { Avatar } from 'react-native-paper';
 import { Styles,Colors } from '../Constants';
 
 
-const ScrapVendors = ({navigation}) => {
+const ScrapVendors = ({navigation,route}) => {
+const {actualUser} = route.params;
+const address = route.params.address;
 
     const words = {
         milk: 'Scrap vendors in your locality',
@@ -87,8 +89,8 @@ const ScrapVendors = ({navigation}) => {
   
    
     <View style={style.header}>
-        <Text style ={style.username}>{userDetails.USER_NAME}</Text>
-        <Text style={style.address}>{userDetails.USER_ADDRESS}</Text>
+        <Text style ={style.username}>{actualUser.name}</Text>
+        <Text style={style.address}>{`${address.addr_name} ${address.addr_pincode}`}</Text>
     </View>
     </View>
     <View style={Styles.grayfullline} />
@@ -104,8 +106,9 @@ const ScrapVendors = ({navigation}) => {
             const vendorName = item.name;
             const vendorStars = item.stars;
             const vendorReviews = item.reviews
+            const imageUrl = 'https:\/\/dev.we-link.in\/dist\/img\/users\/user_img_1601972083.jpg';
             return(
-                <Vendor name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews} scrap={'Mobiles, Tablets, Paper'}
+                <Vendor imageUrl={imageUrl} name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews} scrap={'Mobiles, Tablets, Paper'}
                 onSelected={() => {
              
                 navigation.navigate('ScrapVendor',{
@@ -147,10 +150,9 @@ const style = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: Colors.primary,
         color: 'white',
-        padding: 3,
-        marginStart: '25%',
-        paddingHorizontal: 6,
-        
+        marginStart: 50,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         fontSize: 13,
         
     },

@@ -196,7 +196,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
            navigation.pop();
         }} />
 
-    <View style={{...Styles.parentContainer,margin:'0%'}}>
+    <View style={{...Styles.parentContainer}}>
     
 
       <BottomSheet

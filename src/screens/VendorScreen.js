@@ -74,15 +74,17 @@ export default class VendorScreen extends React.Component{
         this.scrollView.scrollTo({
             x: 0,
             y: (Dimensions.get('window').height/9-20)*(sections[0]),
-            animated: true
+               animated: true
         });
         },1000);
       };
     
     renderItem=({item})=>{
         return(
-            <Image style={Styles.horizontalImage} source={{uri: item.brand_img_url}
+            <View style={{backgroundColor: 'pink',flex:0}}>
+            <Image style={{...Styles.horizontalImage}} source={{uri: item.brand_img_url}
         }/>
+        </View>
         );
     };
 
@@ -100,7 +102,7 @@ export default class VendorScreen extends React.Component{
         console.log('vs',actualUser);
 
         var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
-        console.log('meh',section);
+     
 
         if(!isActive)
             expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)
@@ -126,7 +128,7 @@ export default class VendorScreen extends React.Component{
         return(
             <Animatable.View
             duration={400}
-            style={Styles.collapsibleView}
+            style={{...Styles.collapsibleView}}
             transition="backgroundColor">
         <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId,actualUser: this.props.route.params.actualUser}}} data={section[(Object.keys(section))[0]]}/>
         </Animatable.View>);

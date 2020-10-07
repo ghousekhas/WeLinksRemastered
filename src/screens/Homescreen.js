@@ -40,7 +40,8 @@ export default class Homescreen extends React.Component{
             address: 'Tap here to add an address',
             actualUser: this.props.route.params.actualUser,
             pressedMenu: false,
-            drawer: this.props.route.params.drawer
+            drawer: this.props.route.params.drawer,
+            imageHeight : 0
         };
         this.images={
             milk: require('./../../assets/milk.png'),
@@ -51,7 +52,7 @@ export default class Homescreen extends React.Component{
 
     }
 
-    com
+
 
     checkIfFirstLogin= async ()=>{
       //  console.log('someeeeeething');
@@ -189,7 +190,9 @@ export default class Homescreen extends React.Component{
 
                
 
-                    <TouchableOpacity style={styles.menuitem} onPress={()=>{
+                    <TouchableOpacity onLayout={(event) => {
+                                this.setState({imageHeight : event.nativeEvent.layout.height/2})
+                    }} style={styles.menuitem} onPress={()=>{
                         console.log('actualuser',this.state.actualUser);
                         this.props.navigation.navigate('AddressList',{
                             next: 'MilkVendors',
@@ -199,8 +202,8 @@ export default class Homescreen extends React.Component{
                     }
                         //this.props.navigation.navigate('MilkVendors')}
                 }>
-                        <Image style={styles.menuimage} source={this.images.milk} />
-                        <Text style={styles.menutext}>{this.state.milk}</Text>
+                        <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.milk} />
+                        <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.milk}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{this.props.navigation.navigate('AddressList',{
@@ -208,8 +211,8 @@ export default class Homescreen extends React.Component{
                         user: user,
                         actualUser: this.state.actualUser
                     });}}>
-                        <Image style={styles.menuimage} source={this.images.news}/>
-                        <Text style={styles.menutext}>{this.state.news}</Text>
+                        <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.news}/>
+                        <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.news}</Text>
                     </TouchableOpacity>
                     </View>
 
@@ -223,8 +226,8 @@ export default class Homescreen extends React.Component{
                         //     department: 'scrap'
                         // })
                     }}>
-                        <Image style={styles.menuimage} source={this.images.scrap} />
-                        <Text style={styles.menutext}>{this.state.scrap}</Text>
+                        <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.scrap} />
+                        <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.scrap}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
@@ -237,8 +240,8 @@ export default class Homescreen extends React.Component{
                         //     department: 'scrap'
                         // })
                     }}>
-                        <Image style={styles.menuimage} source={this.images.scrap} />
-                        <Text style={styles.menutext}>{this.state.corporate}</Text>
+                        <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.scrap} />
+                        <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.corporate}</Text>
                     </TouchableOpacity>
                     </View>
               
@@ -334,6 +337,7 @@ const styles= StyleSheet.create({
         elevation: 3,
        
     },
+
     usernamecontainer:{
         alignSelf: 'center',
         width: dimen.width/3,
@@ -347,6 +351,7 @@ const styles= StyleSheet.create({
         marginLeft: Dimensions.get('window').width*0.005,
         marginRight: Dimensions.get('window').width*0.02,
     },
+
     usernamecontainer1 : {
         flexDirection: 'row',
         borderRadius: 100,

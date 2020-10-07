@@ -22,7 +22,8 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
     };
     const[number,setNumber] = useState(1);
     const[start,setStart]= useState('Select start');
-    const[end,setEnd] = useState('Select end')
+    const[end,setEnd] = useState('Select end');
+    const [startButtonWidth,setStartButtonWidth] = useState(0);
   //  const[wo,setWeek]= useState([true,true,true,true,true,true,true]);
     useEffect(()=>{
         setStart(dateref);
@@ -117,7 +118,7 @@ return(
      {/* This view aligns days and buttons */}
     <View style={{flexDirection: 'column',alignItems: 'center',width:Dimensions.get('window').width,marginVertical:'8%'}}>
     {/* days */}
-    <View style={{...style.weekPick}}> 
+    <View style={{...style.weekPick,alignSelf: 'center'}}> 
     <TouchableOpacity onPress={() => {
             m ? ms(false) : ms(true)
            
@@ -281,8 +282,11 @@ return(
 
   {/* Start date */}
     <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%'}}>
-        <TouchableOpacity onPress={onCalendarOpen} style={style.dbutton}>
-        <Text style={style.btext}>{words.startDate}</Text>
+        <TouchableOpacity onLayout={(event) => {
+                setStartButtonWidth(event.nativeEvent.layout.width);
+
+        }} onPress={onCalendarOpen} style={style.dbutton}>
+        <Text numberOfLines={1} style={style.btext}>{words.startDate}</Text>
             
         </TouchableOpacity>
         <Text style={{...style.dates,position: 'absolute',bottom: -7,end:30}}>{start}</Text>
@@ -290,8 +294,8 @@ return(
 {/* End date */}
     <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%',marginTop: '5%'}}>
     <TouchableOpacity disabled={dateref == 'Select start'? true : false} onPress={onCalendarOpen1} 
-    style={dateref == 'Select start' ? style.disabled : style.dbutton}>
-        <Text style={dateref == 'Select start' ? {...style.btext,color:Colors.disabledButton} : style.btext}>{words.endDate}</Text>
+    style={dateref == 'Select start' ? {...style.disabled,width: startButtonWidth} : {...style.dbutton,width: startButtonWidth}}>
+        <Text numberOfLines={1} style={dateref == 'Select start' ? {...style.btext,color:Colors.disabledButton} : style.btext}>{words.endDate}</Text>
             
         </TouchableOpacity>
     <Text style={{...style.dates,position: 'absolute',bottom: -7,end:30}}>{end}</Text>
@@ -405,11 +409,14 @@ plus: {
     alignSelf: 'center'
 },
 circleTapped : {
+   
     backgroundColor: Colors.primary,
-    height: 43,
-    width: 43, 
-    borderRadius: 45/2,
-    flexDirection: 'row',
+    height: dimen.width/8.5,
+    width: dimen.width/8.5, 
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius:dimen.width/8.5/2,
+    
     
     
 
@@ -418,12 +425,13 @@ circleTapped : {
 circle : {  //yes
     borderWidth: 1.5,
     borderColor: Colors.primary,
-    height: 43,
-    width: 43, 
+    height: dimen.width/8.5,
+    width: dimen.width/8.5, 
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius:dimen.width/8.5/2,
     
-    borderRadius: 45/2,
-    flexDirection: 'row',
-    
+   
 
 
 },
@@ -432,13 +440,11 @@ dayTapped: {  //yes
     
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: dimen.width/8.5/3.2,
     
-    textAlign: 'center',
+  
     alignItems: 'center',
-    marginVertical: '25%',
-    ...StyleSheet.absoluteFill
-    
+    justifyContent: 'center',
    
   
     
@@ -450,13 +456,13 @@ day: {  //yes
     
     color: Colors.primary,
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: dimen.width/8.5/3.2,
     
-    textAlign: 'center',
+  
     alignItems: 'center',
-    marginVertical: '25%',
-    ...StyleSheet.absoluteFill
-    
+    justifyContent: 'center',
+   
+  
    
   
     
@@ -470,6 +476,10 @@ weekPick : {
   
    alignItems: 'center',
    width: Dimensions.get('window').width-30,
+  
+   margin:'1%',
+   padding: '0.5%'
+ 
    
   
   
@@ -481,12 +491,14 @@ dbutton: {
     borderRadius: 5,
     borderColor: Colors.primary,
     borderWidth: 1.5,
+    flex: 0,
     
   //  width: Dimensions.get('window').width/10,
     height: Dimensions.get('window').height/25,
-    aspectRatio:3/1 ,
+    aspectRatio:4/1 ,
     alignItems: 'center',
-   
+    justifyContent: 'center',
+     
   
   
    flexDirection: 'row'
@@ -499,7 +511,7 @@ disabled: {
     
   //  width: Dimensions.get('window').width/10,
     height: Dimensions.get('window').height/25,
-    aspectRatio:3/1 ,
+ 
     alignItems: 'center',
    
   
@@ -518,6 +530,8 @@ flex: 1,
 alignItems: 'center',
 justifyContent: 'center',
 textAlign: 'center',
+
+
 
 
 },

@@ -78,7 +78,7 @@ const style = StyleSheet.create({
       
        
         width: Dimensions.get('window').width-30,
-        margin: '3%',
+        
         elevation: 1,
         padding: '1%',
        
@@ -86,7 +86,7 @@ const style = StyleSheet.create({
         borderColor: Colors.seperatorGray,
         borderWidth: 0.5,
        
-        marginTop: '1%',
+      
         alignSelf: 'center',
         backgroundColor: 'white',
         elevation: 1,
