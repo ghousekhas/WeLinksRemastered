@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { Profiler, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native';
@@ -244,6 +244,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                     const prodName = item.name;
                     const prodQuan = item.quantity;
                     const prodRate = item.price;
+                    const productId = item.id
                     
                
                     navigation.navigate('SubscribeScreen',{
@@ -254,7 +255,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         imageUrl: imageUrl,
                         actualUser: actualUser,
                         vendorId: vendorId,
-                        productId: item.id
+                        productId: item.id,
+                        productId: productId
                     }) } 
                 }/>
 

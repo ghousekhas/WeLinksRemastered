@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react';
-import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions} from 'react-native';
+import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions, BackHandler} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
+import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 import {Ionicons} from '@expo/vector-icons';
 import AppBar from '../components/AppBar';
 import SubmitButton from '../components/SubmitButton'
@@ -14,57 +15,125 @@ import Axios from 'axios';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 
 var data=[];
+for(var i=0;i<1;i=i+1){
+    data.push({
+        name: 'something',
+        quantity: 'something',
+        rate: 'something',
+        num: 'something',
+        startDate: 'something',
+        endDate: 'something',
+        bought: 'somethings',
+        imageUrl: 'https://dev.we-link.in/dist/img/products/milk_product_1596612180.jpg'
+    })
+}
 
 
-export default function MySubscriptions({navigation}){
+export default function MySubscriptions({navigation,route}){
     const [extraData,setExtraData]=useState(0);
+    const {user}=route.params;
 
-    useEffect(()=>{
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getSubscriptions&user_id='+'2')
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+         console.log('Can\'t go back from here');
+         navigation.toggleDrawer();
+       
+        // navigation.goBack();
+         //   navigation.reset();
+                  
+              return true;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+          retrieveData();
+          
+
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
+
+    const prepareResponse =(dataa)=>{
+        console.log(dataa);
+        data=[];
+        dataa.forEach(item => {
+            data.push({
+                name: item.product_name,
+                imageUrl: item.product_image,
+                startDate: item.subscription_start_date.substring(0,11),
+                endDate: item.subscription_end_date.substring(0,11),
+                bought: item.quantity,
+                rate: item.order_amount,
+                num: item.no_of_deliveries
+
+
+            })
+        });
+        setExtraData(Math.random(0.3));
+
+    }
+
+    const retrieveData=()=>{
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
-            console.log(response.data);
-            data=response.data;
+            //console.log(response.data);
+            //data=response.data;
+            prepareResponse(response.data);
             setExtraData(Math.random(0.5));
         },(error)=>{
             console.log(error);
         })
+    }
+
+    useEffect(()=>{
+        retrieveData();
+       
     },[]);
     
 
     
-    const renderCard = (cardDetails) => {
-        const {name,quantity,rate,num,days,startDate,endDate,bought,imageUrl}=cardDetails;
+    const renderCard = (item) => {
+        //const {name,quantity,rate,num,days,startDate,endDate,bought,imageUrl}=cardDetails;
+        //console.log('myorder',item);
+        
        
         return(
-            <View>
-                <SubscriptionOrder name={name} quantity={quantity} rate={rate} num={nuum} days={days} startDate={startDate} endDate={endDate} bought={bought} imageUrl={imageUrl} />
+            <View style={{marginVertical: dimen.height/100}}>
+                <SubscriptionOrder {...item} days={[{m: true},{t: false},{w: true},{th: false},{fr: true},{s: false},{su: true}]} />
             </View>
-        )
+            )   
     }
 
 
    
 
-    return(<View>
- <AppBar funct={() => {
-       navigation.toggleDrawer();
-        }} />
+    return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
+    <View>
+        <AppBar back={false} funct={() => {
+            
+            navigation.toggleDrawer();
+            }} />
+        </View>
 
         <View style={{...Styles.parentContainer,backgroundColor: Colors.whiteBackground}}>
         <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>Your subscriptions</Text>
-        <View style={{flex:1,paddingBottom: '35%'}}>
+        <View style={{flex:1,marginBottom: 20}}>
         <FlatList 
             style={{marginBottom:'5%'}}
             extraData={extraData}
             data = {data}
+            keyExtractor= {(item,index)=>index.toString()}
             renderItem = {({item}) => {
                 let cardDetails = {
                     
                 }
-                return(<TouchableOpacity onPress={() => {
-            navigation.navigate('TitleBidDetails', cardDetails)
-        }}>
-                {renderCard(cardDetails)}
+                return(<TouchableOpacity disabled={true} onPress={() => {
+                        return null
+                    }}>
+                {renderCard(item)}
                 </TouchableOpacity>)
                  
             }}

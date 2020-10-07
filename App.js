@@ -60,10 +60,30 @@ const Drawer = createDrawerNavigator();
 const NavigationDrawer = ({user,actualUser}) => {
   const [vendor,setVendor] = useState(false);
   const [updateState,setUpdateState]=useState(actualUser!=null? actualUser:{name: 'loading',user_id: -1,email: 'f'});
+  const [privacyData,setPrivacyData]=useState(null);
+  const [termsData,setTermsData]=useState(null);
+  const [contactUsData,setContactUsData]=useState(null);
   var ref;
+
+  const updateChildScreens = async ()=>{
+    const privacyUrl= 'https://api.dev.we-link.in/user_app.php?action=getPrivacyPolicy';
+    const termsUrl= 'https://api.dev.we-link.in/user_app.php?action=getTerms';
+    const contactUsUrl = 'https://api.dev.we-link.in/user_app.php?action=getContactUs&city_id=';
+
+    Axios.get(privacyUrl,)
+      .then(({data})=>setPrivacyData(data));
+    Axios.get(termsUrl,)
+      .then(({data})=>setTermsData(data));
+    if(user!=null && actualUser.user_id != undefined){
+      Axios.get(contactUsUrl+actualUser.city_id,)
+        .then(({data})=>setContactUsData(data));
+    }
+
+  }
 
   React.useEffect(()=>{
     setUpdateState(actualUser!=null? actualUser:{name: 'loading'});
+    updateChildScreens();
   },[actualUser]);
 
 
@@ -83,13 +103,21 @@ const NavigationDrawer = ({user,actualUser}) => {
 
   if(vendor)
     return(
-      <NavigationContainer independent={true} >
+      <NavigationContainer independent={true}>
         <Drawer.Navigator initialRouteName='Home'
-          drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} />}>
+          drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
+            termsData: termsData,
+            contactUsData: contactUsData,
+            privacyData: privacyData
+          }} />}>
         
         <Drawer.Screen name="Home" component={vendorStack} initialParams={{user: user,actualUser: updateState}} />
         <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
-        <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState}}/>
+        <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
+          termsData: termsData,
+          contactUsData: contactUsData,
+          privacyData: privacyData
+        }}}/>
       </Drawer.Navigator>
     </NavigationContainer>
     );
@@ -98,11 +126,20 @@ const NavigationDrawer = ({user,actualUser}) => {
   return (
     <NavigationContainer independent={true}  >
       <Drawer.Navigator initialRouteName='HomeStack' backBehavior='none' 
-        drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} />}  >
+        drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
+          termsData: termsData,
+          contactUsData: contactUsData,
+          privacyData: privacyData
+        }} />} >
        
       <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user,actualUser: updateState,sm: 1}} />
       <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
-      <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState}}/>
+      <Drawer.Screen name="MySubscriptions" component={MySubscriptions}  />
+      <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
+          termsData: termsData,
+          contactUsData: contactUsData,
+          privacyData: privacyData
+        }}}/>
        
       </Drawer.Navigator>
     </NavigationContainer>
@@ -138,17 +175,26 @@ const myProfileStack = ({navigation,route}) => {
 
 };
 
-const userSupportStack = ({navigation}) => {
+const userSupportStack = ({navigation,route}) => {
   console.log('Starting Support Stack')
+  const [cachedData,setCachedData]=useState(route.params.cachedData);
+  React.useEffect(()=>{
+    const {privacyData,termsData,contactUsData}=route.params.cachedData;
+    setCachedData(route.params.cachedData);
+    console.log('dome',route.params.cachedData);
+  },[route]);
+  
    //return(<BidCreation1 />)
   return(
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
   <Stack.Navigator initialRouteName="SupportFAQ">
-  <Stack.Screen name = "SupportFAQ" component = {SupportFAQ} options={{headerShown: false}} />
-  <Stack.Screen name = "FAQ" component = {FAQ} options={{headerShown: false}} />
-  <Stack.Screen name = "PrivacyPolicy" component = {PrivacyPolicy} options={{headerShown: false}} />
-  <Stack.Screen name= "Terms" component={TermsAndConditions} options={{headerShown: false}}/> 
+    <Stack.Screen name = "SupportFAQ" component = {SupportFAQ} options={{headerShown: false}} initialParams={{
+      cachedData: cachedData
+    }} />
+    <Stack.Screen name = "FAQ" component = {FAQ} options={{headerShown: false}} />
+    <Stack.Screen name = "PrivacyPolicy" component = {PrivacyPolicy} options={{headerShown: false}} />
+    <Stack.Screen name= "Terms" component={TermsAndConditions} options={{headerShown: false}}/> 
 
   </Stack.Navigator>
 
@@ -168,6 +214,7 @@ export default function App() {
   const getUserDetails= async (networkTries,user)=>{
     setSplash(true);
     console.log('getUserDetails');
+
     if(networkTries>10){
       setNetworkState('unavailable');
       return;
@@ -224,17 +271,24 @@ export default function App() {
   }
   
   React.useEffect(()=>{
-    console.group('firebaseuser',auth().currentUser)
-    setInterval(()=>{
-      setSplash(false);
-    },2500);
-    setUser(auth().currentUser);
+    const dummyUser={phoneNumber: '+918548080254'};
+    setTimeout(()=>setUser(dummyUser),1000);
+    console.group('firebaseuser',auth().currentUser);
+    setSplash(false);
+    //setInterval(()=>{
+      //setSplash(false);
+    //},2500);
+    //setUser(auth().currentUser);
     //checkIfFirstLogin();
     console.log(user);
     if(userDetails===null)
       getUserDetails(0,user);
     //setUser('something')
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
+
+    
+
+    
 
    
   },[]);

@@ -9,7 +9,7 @@ const SubscriptionOrder = ({name,quantity,rate,num,days,startDate,endDate,bought
     console.log('theimageurl',imageUrl);
     var dayString = "";
    
-        console.log(days[i])
+        //console.log(days[i])
          days[0].m ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
          days[1].t ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
          days[2].w ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
