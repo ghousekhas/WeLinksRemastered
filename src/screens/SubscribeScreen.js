@@ -50,20 +50,23 @@ const SubscribeScreen = ({navigation,route}) => {
   const {pquan} = route.params;
   const {prate} = route.params;
   const {actualUser}=route.params;
-  const{prate_,imageUrl} = route.params;
+  const{prate_,imageUrl,productId,vendorId} = route.params;
 const [isPressed,setIsPressed] = useState(false);
 
 
 
 const [dateref,setDateRef] = useState('Select start');
 const [dateref1,setDateRef1] = useState('Select end');
+const [usableStartDate,setUsableStartDate]=useState(null);
+const [usableEndDate,setUsableEndDate]=useState(null);
 
   // This sets start
   const setDate=(date)=> {
+
     setDateRef(date);
     setDateRef1('Select end');
    
-   // console.log('date ' + date);
+    console.log('date ' + date);
     bs.current.snapTo(2);
     
      
@@ -83,10 +86,11 @@ const [dateref1,setDateRef1] = useState('Select end');
     
     
   //    console.log(starting)
-   return(<View>
+   return(<View style={{backgroundColor: 'white'}}>
 
     <Date 
     setDate={setDate1}
+    setUsableDate={setUsableStartDate}
   
     text = 'Set End Day'
     starting={figureDate(dateref)}
@@ -106,10 +110,11 @@ const [dateref1,setDateRef1] = useState('Select end');
   // End date Calendar
   const renderContent2 = () => {
     
-    return(<View>
+    return(<View style={{backgroundColor: 'white',paddingBottom: 100}}>
 
       <Date 
       text= 'Set Start Day'
+      setUsableDate={setUsableEndDate}
       setDate={setDate}
       starting = {tomorrow}
       
@@ -155,7 +160,11 @@ const [dateref1,setDateRef1] = useState('Select end');
         prate_: prate_,
         porder: order,
         actualUser: actualUser,
-        imageUrl: imageUrl
+        imageUrl: imageUrl,
+        startDate: usableStartDate,
+        endDate: usableEndDate,
+        productId: productId,
+        vendorId: vendorId
       
 
 

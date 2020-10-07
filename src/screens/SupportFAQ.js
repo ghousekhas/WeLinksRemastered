@@ -11,9 +11,11 @@ import SubmitButton from '../components/SubmitButton';
 import {Colors} from '../Constants';
 import Axios from 'axios';
 
-const SupportFAQ = ({navigation}) => {
-    const [phone,setPhone]=useState(null);
-    const [email,setEmail]=useState(null);
+const SupportFAQ = ({navigation,route}) => {
+    const {privacyData,termsData,contactUsData}=route.params.cachedData;
+    console.log(route.params.cachedData,'CachedData')
+    const [phone,setPhone]=useState(contactUsData === undefined ? null: contactUsData.phone);
+    const [email,setEmail]=useState(contactUsData === undefined? null: contactUsData.email);
     const words = {
         allTopics: 'All Topics',
         faq: 'Frequently Asked Questions',
@@ -113,7 +115,9 @@ const SupportFAQ = ({navigation}) => {
 
 
     <View>
-        <TouchableOpacity onPress={() => navigation.navigate('PrivacyPolicy')}>
+        <TouchableOpacity onPress={() => navigation.navigate('PrivacyPolicy',{
+            privacyData: privacyData
+        })}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '1%'}}>
 
         <View style={{marginTop: '1%'}}>
@@ -153,7 +157,9 @@ const SupportFAQ = ({navigation}) => {
 
 
     <View>
-        <TouchableOpacity onPress={()=>navigation.navigate('Terms')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Terms',{
+            termsData: termsData
+        })}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '1%'}}>
 
         <View style={{marginTop: '1%'}}>

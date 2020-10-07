@@ -17,11 +17,15 @@ import auth from '@react-native-firebase/auth';
 const DrawerContent = (props) => {
   const [vendor,setVendor] = useState(false);
   const {switchVendor} = props;
-  const actualUser= props.actualUser;
+  const {actualUser}= props;
+  var cachedData,initialSubs;
 
   useEffect(()=>{
     switchVendor(vendor);
-  },[vendor])
+    cachedData = props.cachedData;
+    initialSubs= props.initialSubs
+
+  },[vendor,props.cachedData,props.initialSubs])
 
   const switchToVendor = async ()=>{
     setVendor(!vendor);
@@ -116,7 +120,9 @@ const DrawerContent = (props) => {
     
     icon="card-text-outline"
     label="Support and FAQs"
-    onPress={()=> {props.navigation.navigate('SupportStack')}}
+    onPress={()=> {props.navigation.navigate('SupportStack',{
+      cachedData: cachedData
+    })}}
     
   />
  
@@ -256,7 +262,12 @@ const DrawerContent = (props) => {
     
     icon="cart-outline"
     label="My Subscriptions"
-    onPress={()=>{}}
+    onPress={()=>{
+      props.navigation.navigate('MySubscriptions',{
+        initialSubs: initialSubs,
+        user: actualUser
+      })
+    }}
     
   />
    <Drawer.Item
@@ -291,7 +302,9 @@ const DrawerContent = (props) => {
     
     icon="card-text-outline"
     label="Support and FAQs"
-    onPress={()=> {props.navigation.navigate('SupportStack')}}
+    onPress={()=> {props.navigation.navigate('SupportStack',{
+      cachedData: cachedData
+    })}}
     
   />
  

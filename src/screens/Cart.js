@@ -230,17 +230,26 @@ const Cart = ({route,navigation}) => {
 
         <TouchableOpacity style={{backgroundColor: Colors.primary,flex: 0,marginHorizontal: 10,marginVertical: 3,justifyContent: 'center',borderRadius: 7}} onPress={() => {
                 setOrderMade(true);
+                const {year,month,day}=route.params.startDate;
+                const endDate=route.params.endDate;
+
                 console.log('pop to top')
+                console.log(porder.s)
                 Axios.post('https://api.dev.we-link.in/user_app.php?action=addSubscription&'+qs.stringify({
                     user_id: actualUser.user_id,
                     vendor_id: route.params.vendorId,
                     quantity: pquan,
-                    subscription_days: porder.days,
-                    subscription_start_date: porder.s,
-                    subscription_end_date: porder.e,
+                    subscription_days: ['Monday','Tuesday','Saturday'],
+                    subscription_start_date: year.toString()+'-'+month.toString()+'-'+day.toString(),
+                    subscription_end_date:  endDate.year.toString()+'-'+endDate.month.toString()+'-'+endDate.day.toString(),
                     no_of_deliveries: 0,
                     delivery_fee: 50,
-                    order_gst: 0
+                    order_gst: 0,
+                    product_id: route.params.productId,
+                    cartamount: calculateCartAmount(),
+                    discount: 0,
+                    order_total: calculateCartAmount()+50
+
                 }),).then((response)=>{
                     console.log(response.data);
                     alert('Your order Has been placed');

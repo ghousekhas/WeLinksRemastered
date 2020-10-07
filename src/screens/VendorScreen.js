@@ -244,6 +244,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                     const prodName = item.name;
                     const prodQuan = item.quantity;
                     const prodRate = item.price;
+                    const productId = item.id
                     
                
                     navigation.navigate('SubscribeScreen',{
@@ -254,7 +255,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         imageUrl: item.product_img_url,
                         actualUser: actualUser,
                         vendorId: vendorId,
-                        productId: item.id
+                        productId: productId
                     }) } 
                 }/>
 

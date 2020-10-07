@@ -9,6 +9,7 @@ import SubmitButton from '../components/SubmitButton';
 import moment from 'moment';
 import { set } from 'react-native-reanimated';
 import {Colors} from '../Constants'
+import { mdiNumeric2CircleOutline } from '@mdi/js';
 //aterialCommunityIcon';
 // const doThis = ({props}) => {
 //   props.onSet
@@ -17,7 +18,7 @@ import {Colors} from '../Constants'
  export var okay = '';
 // const fine = 'fine';
 
-const Date = ({setDate,text,starting}) => {
+const Date = ({setDate,text,starting,setUsableDate}) => {
 
   thisDay = moment()
 .utcOffset('+05:30')
@@ -40,7 +41,11 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     const [selected, setSelected] = useState(tomorrow);
     const [month, setMonth] = useState(monthNames[parseInt(thisDay.charAt(5)+thisDay.charAt(6)-1)])
     const [year, setYear] = useState(thisDay.charAt(0)+thisDay.charAt(1)+thisDay.charAt(2)+thisDay.charAt(3))
-    
+    const [date,setThedate] = useState({
+      day: moment().utcOffset('+05:30').day(),
+      month: moment().utcOffset('+05:30').month(),
+      year: moment().utcOffset('+05:30').year()
+    });
     
 
     const onDayPress = (day) => {
@@ -48,11 +53,12 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       setSelected(day.dateString);
       setMonth(monthNames[day.month-1]);
       setYear(day.year);
+      setThedate(day);
       
 
 
     };
-    return(<View>
+    return(<View style={{backgroundColor: 'white'}}>
          <Fragment>
        
         <Calendar
@@ -112,7 +118,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       // okay =  selected.charAt(0)+selected.charAt(1)+selected.charAt(2)+selected.charAt(3)
         okay = selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year;
      //   console.log(okay);
-    
+     setUsableDate({...date});
       setDate(okay);
     
       
