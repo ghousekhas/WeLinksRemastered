@@ -211,6 +211,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
 
     const {name} = route.params;
     const {stars} = route.params;
+    const {tag} = route.params;
+    
     const {reviews,actualUser} = route.params;
     console.log(actualUser)
 
@@ -251,7 +253,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                     
                
                     navigation.navigate('SubscribeScreen',{
-                        tag : 'paper',
+                        tag : tag,
                         pname : prodName,
                         pquan : prodQuan,
                         prate: prodRate,

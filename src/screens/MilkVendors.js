@@ -17,7 +17,7 @@ const MilkVendors = (props) => {
     const address= props.route.params.address;
     const {actualUser}=props.route.params;
     const [vendorExtraData,updateVendor]=useState(1);
-    
+    const {tag} = props.route.params;
 
     console.log(address);
     console.log('milky',actualUser)
@@ -106,12 +106,13 @@ const MilkVendors = (props) => {
             const vendorReviews = item.reviews_number;
             const vendor_id= item.vendor_id;
             var brandsString= '';
-            const brands= item.brands;
+            const brands= item.brands != undefined? item.brands: [];
             const imageUrl=item.img_url;
-            const vendorAddress= item.addresses.addr_details+' '+item.addresses.addr_landmark+' '+item.addresses.addr_pincode;
+            const vendorAddress= item.addresses[0] !=undefined ? item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode : ' ';
             console.log('itembrands',brands);
             for(let i=0;i<brands.length-1;i++)
                brandsString= brandsString+brands[i].brand.toString()+','+' ';
+            if(brands.length>0)
             brandsString=brandsString+brands[brands.length-1].brand.toString();
             console.log(brandsString);
 
@@ -120,7 +121,7 @@ const MilkVendors = (props) => {
                 onSelected={() => {
              
                 props.navigation.navigate('VendorScreen',{
-                    tag: 'milk',
+                    tag: tag,
                     name: vendorName,
                     stars: vendorStars,
                     reviews: vendorReviews,
