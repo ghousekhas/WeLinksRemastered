@@ -94,14 +94,15 @@ const PaperVendors = (props) => {
                 const vendorStars = item.avg_ratings;
                 const vendorReviews = item.reviews_number;
                 var brandsString= '';
-                const brands= item.brands;
+                const brands= item.brands!=undefined? item.brands: [];
                 const imageUrl=item.img_url;
                 const vendorId=item.vendor_id;
-                const vendorAddress= item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode;
+                const vendorAddress= item.addresses[0]!= undefined? item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode: ' ';
                 console.log('itembrands',brands);
                 for(let i=0;i<brands.length-1;i++)
                     brandsString=brandsString+brands[i].brand.toString()+','+' ';
-                brandsString=brandsString+brands[brands.length-1].brand.toString();
+                if(brands.length>0)
+                    brandsString=brandsString+brands[brands.length-1].brand.toString();
     
                 return(
                     <Vendor name={item.name} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
