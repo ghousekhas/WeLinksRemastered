@@ -62,8 +62,19 @@ const NavigationDrawer = ({user,actualUser}) => {
   const [updateState,setUpdateState]=useState(actualUser!=null? actualUser:{name: 'loading',user_id: -1,email: 'f'});
   var ref;
 
+  const updateChildScreens = async ()=>{
+    const privacyUrl= 'http://api.dev.we-link.in/user_app.php?action=getPrivacyPolicy';
+    const termsUrl= 'http://api.dev.we-link.in/user_app.php?action=getTerms';
+    const contactUsUrl = 'http://api.dev.we-link.in/user_app.php?action=getContactUs&city_id=1';
+    if(user!=null && actualUser.user_id != undefined){
+      Axios.get()
+    }
+
+  }
+
   React.useEffect(()=>{
     setUpdateState(actualUser!=null? actualUser:{name: 'loading'});
+    updateChildScreens();
   },[actualUser]);
 
 
