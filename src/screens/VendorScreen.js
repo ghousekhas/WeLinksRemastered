@@ -81,7 +81,7 @@ export default class VendorScreen extends React.Component{
     
     renderItem=({item})=>{
         return(
-            <View style={{backgroundColor: 'pink',flex:0}}>
+            <View style={{,flex:0}}>
             <Image style={{...Styles.horizontalImage}} source={{uri: item.brand_img_url}
         }/>
         </View>

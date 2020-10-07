@@ -40,7 +40,7 @@ export default function VendorRegistration({navigation}){
                         setVerification(Constants.veFirstTime)
                     else
                         setVerification(Constants.veInProgress);
-                    setVerification(Constants.veFirstTime);
+                    //setVerification(Constants.veFirstTime);
                 }
                 catch(error){
                     setVerification(Constants.veFirstTime);
@@ -131,7 +131,7 @@ export default function VendorRegistration({navigation}){
       );
     if(verification==67)
         return <VendorServices submit={submitRegistration}/>
-    if(verification == Constants.veFirstTime)
+    if(verification === Constants.veFirstTime)
         return(
             <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
                 <AppBar  funct={() => {
@@ -152,7 +152,7 @@ export default function VendorRegistration({navigation}){
 
             </View>
         )
-    else if(verification == Constants.veInProgress)
+    else if(verification === Constants.veInProgress)
             return(<View style={{...StyleSheet.absoluteFill,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
                 <View>
                     <Text style={styl.head}>Your Application has been submitted</Text>  
@@ -160,7 +160,7 @@ export default function VendorRegistration({navigation}){
                 </View>
 
             </View>)
-    else if(verification == Constants.veTryAgain)
+    else if(verification ===Constants.veTryAgain)
             return(
                 <View style={{...StyleSheet.absoluteFill,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
                 <View>
@@ -173,9 +173,18 @@ export default function VendorRegistration({navigation}){
 
             </View>
             )
-    else if(verification == Constants.verified)
+    else if(verification === Constants.verified)
                 return(
-                    <SubmitButton/>
+                    <View style={{...StyleSheet.absoluteFill,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
+                <View>
+                    <Text style={styl.head}>Vendor Verified</Text>  
+                    <Text style={styl.subheading}>{getChangesToBeMade()}</Text>      
+                </View>
+                <View style={{padding: 10,position: 'absolute',bottom: 0,alignSelf: 'center'}}>
+                    <SubmitButton text='Try Again' onTouch={()=>{tryingAgain()}}/>
+                </View>
+
+            </View>
                 )
 }
 

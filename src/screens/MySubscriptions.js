@@ -101,7 +101,7 @@ export default function MySubscriptions({navigation,route}){
         
        
         return(
-            <View style={{marginVertical: dimen.height/100}}>
+            <View style={{marginVertical: dimen.height/100,alignSelf: 'center'}}>
                 <SubscriptionOrder {...item} days={[{m: true},{t: false},{w: true},{th: false},{fr: true},{s: false},{su: true}]} />
             </View>
             )   
