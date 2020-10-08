@@ -258,7 +258,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         actualUser: actualUser,
                         vendorId: vendorId,
                         productId: item.id,
-                        productId: productId
+                        productId: productId,
+                        vendorType: 'newspaper'
                     }) } 
                 }/>
 

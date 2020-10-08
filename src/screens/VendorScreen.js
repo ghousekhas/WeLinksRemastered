@@ -259,7 +259,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         imageUrl: item.product_img_url,
                         actualUser: actualUser,
                         vendorId: vendorId,
-                        productId: productId
+                        productId: productId,
+                        vendor_type: 'milk'
                     }) } 
                 }/>
 
