@@ -241,7 +241,8 @@ const MyProfile = ({navigation,route}) => {
         <TouchableOpacity onPress={()=>{
             navigation.navigate('AddressList',{
                 myAddresses: true,
-                actualUser: actualUser
+                actualUser: actualUser,
+                profileEdit: true
             })
         }}>
         <View style={{flexDirection: 'row',margin: '5%',flex: 0}}>

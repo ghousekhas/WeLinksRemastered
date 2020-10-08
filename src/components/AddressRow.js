@@ -4,17 +4,17 @@ import {Text,View,StyleSheet,navigator,FlatList, Dimensions,Image} from 'react-n
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Geolocation from '@react-native-community/geolocation';
 import Qs from 'qs';
-import * as axios from 'axios';
+import Axios, * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation,useRoute} from "@react-navigation/native";
 import Button from '../components/Button'
 
-import {Colors} from '../Constants'
+import {Colors, dimen} from '../Constants'
 const height= Dimensions.get('window').height;
 
 
-export default HomeAddress=({item,style,route,deletae})=>{
+export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
     const navigation= useNavigation();
     const [currentAddress,setCurrentAddress]=useState(item.addr_details+'\n'+item.addr_landmark+' '+ item.addr_pincode);
     const [label,setCurrentLabel]= useState(item.addr_name);
@@ -34,7 +34,7 @@ export default HomeAddress=({item,style,route,deletae})=>{
         }
     }
 
-    setSelectedAddress= async (itemnow)=>{
+    setSelectedAddress= async (itemnow,index)=>{
       console.log('ardino',route.params.actualUser);
       
       navigation.navigate(route.params.next,{
@@ -47,6 +47,13 @@ export default HomeAddress=({item,style,route,deletae})=>{
     }
     delSelectedAddress= async (itemnow)=>{
       console.log(item);
+      Axios.post('https://api.dev.we-link.in/user_app.php?action=delAddress&address_id='+itemnow.addr_id,)
+        .then((response)=>{
+          console.log(response.data);
+        },(error)=>{
+          console.log(error);
+        });
+      popItem(index);
     }
     
 
@@ -64,14 +71,13 @@ export default HomeAddress=({item,style,route,deletae})=>{
       
     },[]);
     return(
-      <View style={style}>
+      <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginVertical: dimen.height/70,marginHorizontal: dimen.width/50}}>
         <Image source={image} style={styles.imageIcon}  />
-            <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
               <View style={{flexDirection: 'column',width: '100%',justifyContent: 'flex-start',flex: 1,marginBottom: '5%'}}>
                 <Text style={styles.label}>{label}</Text>
                 <Text style={styles.address}>{currentAddress}</Text>
               </View>
-            </ScrollView>
+      
             { deletae === true ? 
                <Button text='Delete' red={true} onTouch={()=>{delSelectedAddress(item)}} /> :  <Button text='Select' onTouch={()=>{setSelectedAddress(item)}} />}
            
@@ -123,7 +129,7 @@ export default HomeAddress=({item,style,route,deletae})=>{
           width: height/27,
           alignSelf: 'flex-start',
           marginLeft: Dimensions.get('window').width/30,
-          marginTop: '4%'
+          marginTop: '1%'
       },
       buttonPos: {
         position: 'absolute',

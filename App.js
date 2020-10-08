@@ -115,6 +115,7 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
         <Drawer.Screen name="Home" component={vendorStack} initialParams={{user: user,actualUser: updateState}} />
         <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
         <Drawer.Screen name="MyAddresses" component={AddressList}  />
+        <Drawer.Screen name="AddAddress" component={AddAddress}  />
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
           termsData: termsData,
           contactUsData: contactUsData,
@@ -136,6 +137,7 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
        
       <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user,actualUser: updateState,sm: 1}} />
       <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
+      <Drawer.Screen name="AddAddress" component={AddAddress}  />
       <Drawer.Screen name="MyAddresses" component={AddressList}  />
       <Drawer.Screen name="MySubscriptions" component={MySubscriptions}  />
       <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
@@ -191,6 +193,7 @@ const myProfileStack = ({navigation,route}) => {
   <Stack.Navigator initialRouteName="Profile">
     <Stack.Screen name = "Profile" component = {MyProfile}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails}}/>
     <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}}/>
+    <Drawer.Screen name="AddAddress" component={AddAddress}  />
     <Stack.Screen name="About" component={About} options={{headerShown: false}}/>
   </Stack.Navigator>
   </NavigationContainer>
