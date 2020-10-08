@@ -48,6 +48,7 @@ export default function MySubscriptions({navigation,route}){
         console.log(dataa);
         data=[];
         dataa.forEach(item => {
+            console.log('parsed',JSON.parse(item.subscription_days));
             data.push({
                 name: item.product_name,
                 imageUrl: item.product_image,

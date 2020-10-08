@@ -257,7 +257,7 @@ const Cart = ({route,navigation}) => {
                     order_total: calculateCartAmount()+50
 
                 }),).then((response)=>{
-                    console.log(response.data);
+                    console.log(response);
                     alert('Your order Has been placed');
                     
                     navigation.popToTop();
