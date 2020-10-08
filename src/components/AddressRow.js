@@ -4,7 +4,7 @@ import {Text,View,StyleSheet,navigator,FlatList, Dimensions,Image} from 'react-n
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Geolocation from '@react-native-community/geolocation';
 import Qs from 'qs';
-import * as axios from 'axios';
+import Axios, * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation,useRoute} from "@react-navigation/native";
@@ -14,7 +14,7 @@ import {Colors} from '../Constants'
 const height= Dimensions.get('window').height;
 
 
-export default HomeAddress=({item,style,route,deletae})=>{
+export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
     const navigation= useNavigation();
     const [currentAddress,setCurrentAddress]=useState(item.addr_details+'\n'+item.addr_landmark+' '+ item.addr_pincode);
     const [label,setCurrentLabel]= useState(item.addr_name);
@@ -34,7 +34,7 @@ export default HomeAddress=({item,style,route,deletae})=>{
         }
     }
 
-    setSelectedAddress= async (itemnow)=>{
+    setSelectedAddress= async (itemnow,index)=>{
       console.log('ardino',route.params.actualUser);
       
       navigation.navigate(route.params.next,{
@@ -47,6 +47,13 @@ export default HomeAddress=({item,style,route,deletae})=>{
     }
     delSelectedAddress= async (itemnow)=>{
       console.log(item);
+      Axios.post('https://api.dev.we-link.in/user_app.php?action=delAddress&address_id='+itemnow.addr_id,)
+        .then((response)=>{
+          console.log(response.data);
+        },(error)=>{
+          console.log(error);
+        });
+      popItem(index);
     }
     
 

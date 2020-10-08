@@ -236,6 +236,7 @@ const Cart = ({route,navigation}) => {
                 setOrderMade(true);
                 const {year,month,day}=route.params.startDate;
                 const endDate=route.params.endDate;
+                console.log('vendortype',route.params.vendorType);
 
                 console.log('pop to top')
                 console.log(porder.s)

@@ -260,7 +260,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         actualUser: actualUser,
                         vendorId: vendorId,
                         productId: productId,
-                        vendor_type: 'milk'
+                        vendorType: 'milk'
                     }) } 
                 }/>
 

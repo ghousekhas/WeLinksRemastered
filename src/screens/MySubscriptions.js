@@ -15,18 +15,6 @@ import Axios from 'axios';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 
 var data=[];
-for(var i=0;i<1;i=i+1){
-    data.push({
-        name: 'something',
-        quantity: 'something',
-        rate: 'something',
-        num: 'something',
-        startDate: 'something',
-        endDate: 'something',
-        bought: 'somethings',
-        imageUrl: 'https://dev.we-link.in/dist/img/products/milk_product_1596612180.jpg'
-    })
-}
 
 
 export default function MySubscriptions({navigation,route}){
@@ -47,7 +35,7 @@ export default function MySubscriptions({navigation,route}){
           };
     
           BackHandler.addEventListener('hardwareBackPress', onBackPress);
-          retrieveData();
+          
           
 
     
@@ -90,6 +78,9 @@ export default function MySubscriptions({navigation,route}){
 
     useEffect(()=>{
         retrieveData();
+        const unsub = navigation.addListener('focus',()=>{
+            retrieveData();
+          })
        
     },[]);
     
@@ -101,7 +92,7 @@ export default function MySubscriptions({navigation,route}){
         
        
         return(
-            <View style={{marginVertical: dimen.height/100,alignSelf: 'center'}}>
+            <View style={{marginVertical: dimen.height/17,alignSelf: 'center',backgroundColor: 'white'}}>
                 <SubscriptionOrder {...item} days={[{m: true},{t: false},{w: true},{th: false},{fr: true},{s: false},{su: true}]} />
             </View>
             )   
@@ -118,11 +109,11 @@ export default function MySubscriptions({navigation,route}){
             }} />
         </View>
 
-        <View style={{...Styles.parentContainer,backgroundColor: Colors.whiteBackground}}>
+        <View style={{...Styles.parentContainer,backgroundColor: 'white'}}>
         <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>Your subscriptions</Text>
-        <View style={{flex:1,marginBottom: 20}}>
+        <View style={{flex:1,marginBottom: 20,backgroundColor: 'white'}}>
         <FlatList 
-            style={{marginBottom:'5%'}}
+            style={{marginBottom:'5%',backgroundColor: 'white'}}
             extraData={extraData}
             data = {data}
             keyExtractor= {(item,index)=>index.toString()}

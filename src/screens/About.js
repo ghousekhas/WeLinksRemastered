@@ -12,6 +12,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import auth from '@react-native-firebase/auth';
+import AppBar from '../components/AppBar';
 
 const About = ({navigation,route,getUserDetails}) =>{
     const [name,setName] = useState(' ');
@@ -83,7 +84,12 @@ const About = ({navigation,route,getUserDetails}) =>{
 
 
         return(<View style={style.mainContainer}>
-         <ScrollView style={{flex: 1,marginVertical:3}}>  
+            {edit ? (
+                <AppBar back={true} funct={()=>{
+                    navigation.goBack();
+                }}/>
+            ) : null}
+         <ScrollView style={{flex: 1,marginVertical: dimen.width/20}}>  
         <Text style={style.text}>Tell us about yourself</Text>
         <TextBox title='Name' hint='Enter your name' changeText={setName}/>
         <TextBox title='Email Address' hint='Enter your email address' changeText={(text)=>{
@@ -107,7 +113,6 @@ const About = ({navigation,route,getUserDetails}) =>{
 const style = StyleSheet.create({
     mainContainer: {
         ...StyleSheet.absoluteFill,
-        padding: 15,
         backgroundColor: 'white',
 
     },

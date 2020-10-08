@@ -62,10 +62,15 @@ export default class AddressList extends React.Component{
 
     componentDidMount(){
       this.retrieveAddresses();
+      const unsub = this.props.navigation.addListener('focus',()=>{
+        this.retrieveAddresses();
+      })
       BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
       console.log('mount');
       
     }
+
+
 
     onComeBack= (item)=>{
       if( item)
@@ -73,6 +78,10 @@ export default class AddressList extends React.Component{
     }
 
    onBackPress=()=>{
+     if(this.state.myAddresses){
+       return true;
+        
+     }
       this.props.navigation.navigate('Homescreen');
       return true;
     }
@@ -100,6 +109,12 @@ export default class AddressList extends React.Component{
       })
     }
 
+    popItem = (index)=>{
+      console.log(index,'deleting');
+      this.data.splice(index,1);
+      this.setState({somekey: Math.random(0.5)});
+    }
+
   
     setSelectedAddress= async (item)=>{
       const jsonString= await JSON.stringify({firstLogin: false})
@@ -111,13 +126,13 @@ export default class AddressList extends React.Component{
 
     }
 
-    renderSavedAddress=({item})=>{
+    renderSavedAddress=({item,index})=>{
       const {next,actualUser}=this.props.route.params;
 
       return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} deletae={this.state.myAddresses} route={{params:{
         next: next,
         actualUser: actualUser
-      }}}/>
+      }}} popItem={this.popItem} index={index} />
       /*return(
         <View style={styles.horiz}>
           <ScrollView>
