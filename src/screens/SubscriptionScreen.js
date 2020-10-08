@@ -341,7 +341,7 @@ const style = StyleSheet.create({
        
        ...Styles.parentContainer,
        marginTop: '0%',
-      
+    
        
       
      
@@ -357,7 +357,7 @@ const style = StyleSheet.create({
        
         marginVertical: '6%',
         marginStart: '5%',
-      
+        backgroundColor: 'white'
         
       
     },

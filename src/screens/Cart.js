@@ -248,7 +248,7 @@ const Cart = ({route,navigation}) => {
          </View>
 </ScrollView>
 
-        <View style={{flex: 0,marginHorizontal: 10,marginVertical: 3,justifyContent: 'center',borderRadius: 7}}>
+        <View style={{flex: 0,marginHorizontal: 10,marginVertical: 3,justifyContent: 'center'}}>
          <SubmitButton styling={orderMade} text='Confirm Order' onTouch={() => {
                 setOrderMade(true);
                 const {year,month,day}=route.params.startDate;
@@ -266,7 +266,7 @@ const Cart = ({route,navigation}) => {
                     subscription_end_date:  endDate.year.toString()+'-'+endDate.month.toString()+'-'+endDate.day.toString(),
                     no_of_deliveries: 0,
                     delivery_fee: 50,
-                    product_type: route.params.vendorType,
+                    ventor_type: route.params.vendorType,
                     order_gst: 0,
                     product_id: route.params.productId,
                     cartamount: calculateCartAmount(),
@@ -274,13 +274,8 @@ const Cart = ({route,navigation}) => {
                     order_total: calculateCartAmount()+50
 
                 }),).then((response)=>{
-<<<<<<< HEAD
                     console.log(response.data);
                     alert('Your order has been placed');
-=======
-                    console.log(response);
-                    alert('Your order Has been placed');
->>>>>>> 34c5c93e8e6d56c519f6b32d7718b1a8651a183d
                     
                     navigation.popToTop();
                 },(error)=>{
