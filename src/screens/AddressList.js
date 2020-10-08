@@ -46,7 +46,8 @@ export default class AddressList extends React.Component{
               arraydata: [],
               somekey: 0,
               myAddresses: props.route.params.myAddresses === true ? true: false,
-              apiLoaded: false
+              apiLoaded: false,
+              profileEdit: props.route.params.profileEdit
               
               
             };
@@ -209,9 +210,9 @@ export default class AddressList extends React.Component{
         if(this.data[0] == undefined)
           return(
             <View style={styles.container}>
-            <AppBar back ={!this.state.myAddresses} funct={() => {
+            <AppBar back ={this.state.profileEdit != undefined ? true: this.state.myAddresses} funct={() => {
           
-            if(!this.state.myAddresses)
+            if(!this.state.myAddresses || this.state.profileEdit)
               this.props.navigation.pop();
             else
               this.props.navigation.toggleDrawer();
