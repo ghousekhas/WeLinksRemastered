@@ -12,7 +12,7 @@ import {Colors, dimen, Styles} from '../Constants'
 const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result,imageUrl,actualUser,tag}) => {
 
     const words = {
-        quantityPerDay:'Quantity per day' ,
+        quantityPerDay:'Quantity per day',
         repeat:'Repeat' ,
         recharge:'Recharge/Top-Up' ,
         duration: 'Duration',
@@ -22,8 +22,8 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
     };
     console.log('ss ' + tag)
     const[number,setNumber] = useState(1);
-    const[start,setStart]= useState('Select start');
-    const[end,setEnd] = useState('Select end');
+    const[start,setStart]= useState('Not selected');
+    const[end,setEnd] = useState('Not selected');
     const [startButtonWidth,setStartButtonWidth] = useState(0);
   //  const[wo,setWeek]= useState([true,true,true,true,true,true,true]);
     useEffect(()=>{
@@ -294,9 +294,9 @@ return(
     </View>
 {/* End date */}
     <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%',marginTop: '5%'}}>
-    <TouchableOpacity disabled={dateref == 'Select start'? true : false} onPress={onCalendarOpen1} 
-    style={dateref == 'Select start' ? {...style.disabled,width: startButtonWidth} : {...style.dbutton1,width: startButtonWidth}}>
-        <Text numberOfLines={1} style={dateref == 'Select start' ? {...style.btext,color:Colors.disabledButton} : style.btext}>{words.endDate}</Text>
+    <TouchableOpacity disabled={dateref == 'Not selected'? true : false} onPress={onCalendarOpen1} 
+    style={dateref == 'Not selected' ? {...style.disabled,width: startButtonWidth} : {...style.dbutton1,width: startButtonWidth}}>
+        <Text numberOfLines={1} style={dateref == 'Not selected' ? {...style.btext,color:Colors.disabledButton} : style.btext}>{words.endDate}</Text>
             
         </TouchableOpacity>
     <Text style={{...style.dates,position: 'absolute',bottom: -7,end:30}}>{end}</Text>
@@ -316,13 +316,13 @@ return(
 
   
 </ScrollView>
-<TouchableOpacity style={(dateref == 'Select start' || dateref1 == 'Select end' ||
+<TouchableOpacity style={(dateref == 'Not selected' || dateref1 == 'Not selected' ||
     (m == false && t == false && w == false && th == false && f == false && s == false && su == false)) ? 
     {...style.subscribe, backgroundColor: Colors.disabledButton} :style.subscribe }
-    disabled={(dateref == 'Select start' || dateref1 == 'Select end' ||
+    disabled={(dateref == 'Not selected' || dateref1 == 'Not selected' ||
     (m == false && t == false && w == false && th == false && f == false && s == false && su == false)) ? 
     true : false} onPress={() => {
-        if(subsResult.s.start == 'Select start')
+        if(subsResult.s.start == 'Not selected')
             console.log(subsResult.s.start)
         
 

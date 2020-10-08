@@ -63,7 +63,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bo
        <Text style={{...style.rate,marginStart: alignment+alignment/4}}>Weekdays : ₹{rate}</Text>
        <Text style={{...style.rate,marginStart: alignment+alignment/4}}>Weekends : ₹{rate_}</Text>
        </View>}
-       <Text style = {{...style.rate,color: 'gray',marginStart: alignment/8,fontSize: 12,alignSelf:'center'}}>{num+" deliveries"}</Text>
+       <Text style = {{...style.rate,color: 'gray',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop: tag == 'Paper' ? 0 : '3%'}}>{num+" deliveries"}</Text>
        </View>
        
        
@@ -138,7 +138,7 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 14,
         marginTop: '3%',
-        paddingVertical: '3%',
+       
         color:'black'
       
 

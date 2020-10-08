@@ -22,6 +22,7 @@ const About = ({navigation,route,getUserDetails}) =>{
     const [edit,setEdit]=useState(route.params.edit === undefined ? false: true);
     const [actualUser,setActualUser]=useState(route.params.actualUser);
     const [loading,setLoading]=useState(false);
+    const [pressed,setPressed] = useState(false);
 
     function ValidateEmail(email) 
         {
@@ -103,7 +104,7 @@ const About = ({navigation,route,getUserDetails}) =>{
     </View>
     </ScrollView> 
     <View style={{marginVertical: 3,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
-        <SubmitButton text= {edit ? 'Save': 'Continue' } />
+        <SubmitButton styling={pressed} text= {edit ? 'Save': 'Continue' } onTouch={()=>aboutSubmit()}  />
     </View>
     </View>);
   

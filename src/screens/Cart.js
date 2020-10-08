@@ -14,6 +14,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const Cart = ({route,navigation}) => {
+    let selectedDays = [],i;
     const [orderMade,setOrderMade] = useState(false);
     const words = {
         title : 'Subscription Orders',
@@ -32,7 +33,7 @@ const Cart = ({route,navigation}) => {
     const {pnumber} = route.params;
     const {porder,actualUser} = route.params;
     const {tag} = route.params;
-    console.log(tag);
+    console.log("days " +porder.days);
     
 
     var ans,numberOfDeliveries;
@@ -65,6 +66,21 @@ const Cart = ({route,navigation}) => {
     
         dayString = dayString + dayString[0];
         const dayString1 = dayString[6] + dayString.substring(0,6)
+
+        console.log(dayString1)
+      
+        const daysOfTheWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+       
+           for(i in dayString1)
+           if(dayString1[i] == 'Y')
+           selectedDays.push(daysOfTheWeek[i]);
+
+           console.log(selectedDays)
+
+
+            
+        
      
         var count = 0;
         for(i=0;i<7;i++){
@@ -192,7 +208,7 @@ const Cart = ({route,navigation}) => {
          quantity={pquan} rate={prate}  bought={porder.perDayQuan.number}
          startDate={porder.s.start} 
          endDate={porder.e.end}
-          days={porder.days}
+          days={porder.days} 
           tag = {tag}
           rate_={prate_}
           num = {calculateDeliveries(porder.s.start,porder.e.end)}
@@ -232,7 +248,8 @@ const Cart = ({route,navigation}) => {
          </View>
 </ScrollView>
 
-        <TouchableOpacity style={{backgroundColor: Colors.primary,flex: 0,marginHorizontal: 10,marginVertical: 3,justifyContent: 'center',borderRadius: 7}} onPress={() => {
+        <View style={{flex: 0,marginHorizontal: 10,marginVertical: 3,justifyContent: 'center',borderRadius: 7}}>
+         <SubmitButton styling={orderMade} text='Confirm Order' onTouch={() => {
                 setOrderMade(true);
                 const {year,month,day}=route.params.startDate;
                 const endDate=route.params.endDate;
@@ -244,7 +261,7 @@ const Cart = ({route,navigation}) => {
                     user_id: actualUser.user_id,
                     vendor_id: route.params.vendorId,
                     quantity: pquan,
-                    subscription_days: ['Monday','Tuesday','Saturday'],
+                    subscription_days: selectedDays,
                     subscription_start_date: year.toString()+'-'+month.toString()+'-'+day.toString(),
                     subscription_end_date:  endDate.year.toString()+'-'+endDate.month.toString()+'-'+endDate.day.toString(),
                     no_of_deliveries: 0,
@@ -258,16 +275,16 @@ const Cart = ({route,navigation}) => {
 
                 }),).then((response)=>{
                     console.log(response.data);
-                    alert('Your order Has been placed');
+                    alert('Your order has been placed');
                     
                     navigation.popToTop();
                 },(error)=>{
                     console.log(error);
                 })
                 
-            }}>
-                <Text style={{fontSize: 14,alignSelf: 'center',textAlign: 'center',color: 'white',paddingVertical: 15}}>Confirm Order</Text>
-            </TouchableOpacity>
+            }}/>
+         
+            </View>
 
 
          </View>

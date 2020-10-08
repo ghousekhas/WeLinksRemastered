@@ -57,8 +57,8 @@ const [isPressed,setIsPressed] = useState(false);
 
 
 
-const [dateref,setDateRef] = useState('Not Selected Yet');
-const [dateref1,setDateRef1] = useState('Not Select Yet');
+const [dateref,setDateRef] = useState('Not selected');
+const [dateref1,setDateRef1] = useState('Not selected');
 const [usableStartDate,setUsableStartDate]=useState(null);
 const [usableEndDate,setUsableEndDate]=useState(null);
 
@@ -66,7 +66,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
   const setDate=(date)=> {
 
     setDateRef(date);
-    setDateRef1('Select end');
+    setDateRef1('Not selected');
    
     console.log('date ' + date);
     bs.current.snapTo(2);
@@ -124,7 +124,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
       />
   
       <TouchableOpacity style={style.button} onPress={() => {
-        // if(dateref == 'Select Start'){
+        // if(dateref == 'Not selected'){
         //   isSet(false);
         //   console.log('isSet: ' + set);
         // } 
@@ -167,8 +167,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
         endDate: usableEndDate,
         productId: productId,
         vendorId: vendorId,
-        tag: tag,
-        vendorType: route.params.vendorType
+        tag: tag
 
       
 
@@ -225,7 +224,6 @@ const [usableEndDate,setUsableEndDate]=useState(null);
            dateref= {dateref}
            dateref1 = {dateref1}
             result = {subsResult}
-            tag = {tag}
 
         
           
