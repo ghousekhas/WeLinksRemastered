@@ -9,7 +9,7 @@ import { Feather } from '@expo/vector-icons';
 import {Colors, dimen, Styles} from '../Constants'
 
 
-const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result,imageUrl,actualUser}) => {
+const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result,imageUrl,actualUser,tag}) => {
 
     const words = {
         quantityPerDay:'Quantity per day' ,
@@ -20,6 +20,7 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
         endDate: 'Set End Date',
         subscribe: 'Subscribe'
     };
+    console.log('ss ' + tag)
     const[number,setNumber] = useState(1);
     const[start,setStart]= useState('Select start');
     const[end,setEnd] = useState('Select end');
@@ -68,7 +69,7 @@ return(
 <View style={{height: dimen.height-dimen.height/8,width: '100%',backgroundColor: Colors.lightBlue}}>
 
      <View style={{flex: 0,marginHorizontal: 30}}>
-        <Item name={pname} quantity={pquan} price={prate} imageUrl={imageUrl}/>
+        <Item name={pname} quantity={pquan} price={prate} imageUrl={imageUrl} tag={tag}/>
     </View>
 
     <ScrollView style={{flex: 1,backgroundColor: 'white',margin: 3}}>
