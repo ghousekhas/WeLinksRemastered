@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Styles, Colors } from '../Constants';
 
-const Item = ({name, quantity, price, imageUrl}) => {
+const Item = ({name, quantity, price, imageUrl,tag}) => {
     const dimg= require('../../assets/ic_launcher.png');
+    console.log(tag)
     const defaultimg=dimg.uri;
     return(
     <View style={{flexDirection: 'row'}}>
@@ -16,7 +16,7 @@ const Item = ({name, quantity, price, imageUrl}) => {
         <View style={{flexDirection: 'row'}}>
        
         <Text style={style.price}>₹{price}</Text>
-        <Text style={style.quantity}>{quantity}</Text>
+        <Text style={style.quantity}>{quantity + (tag == 'Paper' ? ' unit/s' : '')}</Text>
         </View>
        
         
