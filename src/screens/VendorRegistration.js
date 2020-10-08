@@ -32,6 +32,7 @@ export default function VendorRegistration({navigation}){
                 var b=response.data.user[0];
                 Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+b.user_id,)
                     .then((response)=>{
+                        console.log(response.data)
                 try{
                     var status= response.data.vendor[0].vendor_status;
                     if(status=== 'active')
@@ -55,7 +56,9 @@ export default function VendorRegistration({navigation}){
     
 
     useEffect(()=>{
-        
+        navigation.addListener('focus',()=>{
+            checkVendorStatus();
+        })
         console.log('ph',user.phoneNumber.substring(3));
         checkVendorStatus();
         

@@ -110,7 +110,7 @@ const About = ({navigation,route,getUserDetails}) =>{
     </View>
     </ScrollView> 
     <View style={{marginVertical: 3,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
-        <SubmitButton text= {edit ? 'Save': 'Continue' } />
+        <SubmitButton onTouch={()=>aboutSubmit()} text= {edit ? 'Save': 'Continue' } />
     </View>
     </View>);
   

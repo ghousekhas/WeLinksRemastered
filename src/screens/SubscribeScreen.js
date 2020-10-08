@@ -58,7 +58,7 @@ const [isPressed,setIsPressed] = useState(false);
 
 
 const [dateref,setDateRef] = useState('Not Selected Yet');
-const [dateref1,setDateRef1] = useState('Not Select Yet');
+const [dateref1,setDateRef1] = useState('Not Selected Yet');
 const [usableStartDate,setUsableStartDate]=useState(null);
 const [usableEndDate,setUsableEndDate]=useState(null);
 
