@@ -73,7 +73,7 @@ export default class AddressList extends React.Component{
     }
 
    onBackPress=()=>{
-      this.props.navigation.navigate('Homescreen');
+      this.state.myAddresses ? this.props.navigation.toggleDrawer() : this.props.navigation.navigate('Homescreen');
       return true;
     }
 

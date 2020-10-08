@@ -96,9 +96,9 @@ const About = ({navigation,route,getUserDetails}) =>{
         
     </View>
     </ScrollView> 
-    <TouchableOpacity style={{flex: 0,padding: 10,marginHorizontal: 5, marginVertical: 3,backgroundColor: Colors.primary,width: dimen.width-10,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
-        <Text style={{...Styles.heading,width: '100%',textAlign: 'center',alignSelf: 'center',color: 'white'}}>{edit ? 'Save': 'Continue' }</Text>
-    </TouchableOpacity>
+    <View style={{marginVertical: 3,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
+        <SubmitButton text= {edit ? 'Save': 'Continue' } />
+    </View>
     </View>);
   
     

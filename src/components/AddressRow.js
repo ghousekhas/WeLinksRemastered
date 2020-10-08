@@ -110,7 +110,8 @@ export default HomeAddress=({item,style,route,deletae})=>{
             fontWeight: '500',
             color: 'gray',
             width: '100%',
-          maxHeight: 200},
+            flex: 1
+          },
       horiz:{
         width: Dimensions.get('window').width-40,
         height: Dimensions.get('window').height/6,flexDirection: 'row',
