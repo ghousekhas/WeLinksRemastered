@@ -193,6 +193,7 @@ const myProfileStack = ({navigation,route}) => {
   <Stack.Navigator initialRouteName="Profile">
     <Stack.Screen name = "Profile" component = {MyProfile}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails}}/>
     <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}}/>
+    <Drawer.Screen name="AddAddress" component={AddAddress}  />
     <Stack.Screen name="About" component={About} options={{headerShown: false}}/>
   </Stack.Navigator>
   </NavigationContainer>
