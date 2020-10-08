@@ -4,7 +4,6 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 import { Avatar,Subheading,Button } from 'react-native-paper';
 import { View } from 'react-native-animatable';
-import { userDetails } from '../UserDetails';
 import { Entypo } from '@expo/vector-icons'; 
 import { EvilIcons } from '@expo/vector-icons';
 import { NavigationActions } from 'react-navigation';

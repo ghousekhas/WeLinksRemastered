@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import {View, StyleSheet, Text, Dimensions,Image, BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList, BorderlessButton } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
-import { userDetails } from '../UserDetails';
+;
 import { Avatar } from 'react-native-paper';
 import AppBar from '../components/AppBar';
 import {Colors, Styles} from '../Constants';
@@ -107,7 +107,7 @@ const MilkVendors = (props) => {
             const vendor_id= item.vendor_id;
             var brandsString= '';
             const brands= item.brands != undefined? item.brands: [];
-            const imageUrl=item.img_url;
+            const imageUrl=item.vendor_img_url;
             const vendorAddress= item.addresses[0] !=undefined ? item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode : ' ';
             console.log('itembrands',brands);
             for(let i=0;i<brands.length-1;i++)

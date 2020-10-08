@@ -6,7 +6,6 @@ import sendFeedback, {sendEmail} from '../../src/EmailUtility'
 import AppBar from '../components/AppBar';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { userDetails } from '../UserDetails';
 import SubmitButton from '../components/SubmitButton';
 import {Colors} from '../Constants';
 import Axios from 'axios';

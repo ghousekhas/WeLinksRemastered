@@ -4,7 +4,6 @@ import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 import {Text,Drawer, Switch, TouchableRipple, Divider, Avatar} from 'react-native-paper';
-import { userDetails } from '../UserDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SupportFAQ from '../screens/SupportFAQ';
 import { Constants,Colors, dimen } from '../Constants';
@@ -17,15 +16,17 @@ import auth from '@react-native-firebase/auth';
 const DrawerContent = (props) => {
   const [vendor,setVendor] = useState(false);
   const {switchVendor} = props;
-  const {actualUser}= props;
+  var {setUser}= props;
+  const [actualUser,setActualUser]=useState(props.actualUser);
   var cachedData,initialSubs;
 
   useEffect(()=>{
     switchVendor(vendor);
     cachedData = props.cachedData;
-    initialSubs= props.initialSubs
+    initialSubs= props.initialSubs;
+    setActualUser(props.actualUser);
 
-  },[vendor,props.cachedData,props.initialSubs])
+  },[vendor,props.cachedData,props.initialSubs,props.actualUser])
 
   const switchToVendor = async ()=>{
     setVendor(!vendor);
@@ -43,7 +44,7 @@ const DrawerContent = (props) => {
            <View style={styles.header}>
              {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
           <View style={{marginTop: '5%', margin: '5%'}}>
-          <Image source={require('../../assets/avatar.png')}
+          <Image source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }
           
             style={{height: 50,width: 50,marginTop: 10}}
           />
@@ -79,13 +80,19 @@ const DrawerContent = (props) => {
      style={{}}
      icon="shop"
      label="Vendor Zone"
-     onPress={()=>{props.navigation.navigate('Home')}}/>
+     onPress={()=>{props.navigation.navigate('Home',{
+       actualUser: actualUser
+     })}}/>
         
     <Drawer.Item
      style={{}}
      icon="account-outline"
      label="My Profile"
-     onPress={()=>{props.navigation.navigate('ProfileStack')}}
+     onPress={()=>{props.navigation.navigate('ProfileStack',{
+       actualUser: actualUser,
+       getUserDetails: props.getUserDetails
+       
+     })}}
      
    />
 
@@ -122,7 +129,8 @@ const DrawerContent = (props) => {
     icon="card-text-outline"
     label="Support and FAQs"
     onPress={()=> {props.navigation.navigate('SupportStack',{
-      cachedData: cachedData
+      cachedData: cachedData,
+      actualUser: actualUser
     })}}
     
   />
@@ -198,7 +206,7 @@ const DrawerContent = (props) => {
            <View style={styles.header}>
              {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
           <View style={{marginTop: '5%', margin: '5%'}}>
-          <Image source={require('../../assets/avatar.png')}
+          <Image source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }
             style={{height: 50,width: 50,marginTop: 10}}
           />
           </View>
@@ -233,21 +241,31 @@ const DrawerContent = (props) => {
      style={{ }}
      icon="home-outline"
      label="Consumer Zone"
-     onPress={()=>{props.navigation.navigate('HomeStack')}}
+     onPress={()=>{props.navigation.navigate('HomeStack',{
+       actualUser: actualUser
+     })}}
      
    />
     <Drawer.Item
      style={{}}
      icon="account-outline"
      label="My Profile"
-     onPress={()=>{props.navigation.navigate('ProfileStack')}}
+     onPress={()=>{props.navigation.navigate('ProfileStack',{
+       user: actualUser,
+       getUserDetails: props.getUserDetails
+     })}}
      
    />
    <Drawer.Item
   
      icon= 'map-marker-outline'
      label="Addresses"
-     onPress={()=>{}}
+     onPress={()=>{
+       props.navigation.navigate('MyAddresses',{
+         actualUser: actualUser,
+         myAddresses: true
+       })
+     }}
      
    />
    <Drawer.Item
@@ -304,7 +322,9 @@ const DrawerContent = (props) => {
     icon="card-text-outline"
     label="Support and FAQs"
     onPress={()=> {props.navigation.navigate('SupportStack',{
-      cachedData: cachedData
+      cachedData: cachedData,
+      actualUser: actualUser
+      
     })}}
     
   />
@@ -347,7 +367,11 @@ const DrawerContent = (props) => {
      
      onPress={()=>{
        alert('signing out');
-       auth().signOut();
+       auth().signOut().
+        then((value)=>{
+          setUser(null);
+        })
+
      }}
      
    />

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useState} from 'react';
 import { View,StyleSheet,Text,Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import Introduction from './src/screens/Introduction'
@@ -58,7 +58,7 @@ navigator.geolocation = require('@react-native-community/geolocation');
 
 const Drawer = createDrawerNavigator();
 
-const NavigationDrawer = ({user,actualUser}) => {
+const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
   const [vendor,setVendor] = useState(false);
   const [updateState,setUpdateState]=useState(actualUser!=null? actualUser:{name: 'loading',user_id: -1,email: 'f'});
   const [privacyData,setPrivacyData]=useState(null);
@@ -106,7 +106,7 @@ const NavigationDrawer = ({user,actualUser}) => {
     return(
       <NavigationContainer independent={true}>
         <Drawer.Navigator initialRouteName='Home'
-          drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
+          drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
             termsData: termsData,
             contactUsData: contactUsData,
             privacyData: privacyData
@@ -114,6 +114,7 @@ const NavigationDrawer = ({user,actualUser}) => {
         
         <Drawer.Screen name="Home" component={vendorStack} initialParams={{user: user,actualUser: updateState}} />
         <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
+        <Drawer.Screen name="MyAddresses" component={AddressList}  />
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
           termsData: termsData,
           contactUsData: contactUsData,
@@ -127,7 +128,7 @@ const NavigationDrawer = ({user,actualUser}) => {
   
     <NavigationContainer independent={true}  >
       <Drawer.Navigator initialRouteName='HomeStack' backBehavior='none' 
-        drawerContent={props => <DrawerContent {...props} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
+        drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
           termsData: termsData,
           contactUsData: contactUsData,
           privacyData: privacyData
@@ -135,6 +136,7 @@ const NavigationDrawer = ({user,actualUser}) => {
        
       <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user,actualUser: updateState,sm: 1}} />
       <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
+      <Drawer.Screen name="MyAddresses" component={AddressList}  />
       <Drawer.Screen name="MySubscriptions" component={MySubscriptions}  />
       <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
           termsData: termsData,
@@ -163,13 +165,33 @@ const vendorStack=({navigation})=>{
 }
 
 const myProfileStack = ({navigation,route}) => {
-  const {user,actualUser} = route.params;
+  const [user,setUser]=useState(route.params.user);
+  const [actualUser,setActualUser]=useState(route.params.actualUser);
+  const {getUserDetails} = route.params;
+  const [remountKey,setRemountKey]=useState(0);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(route.params.actualUser);
+      setActualUser(route.params.actualUser);
+      setRemountKey(Math.random(0.5));
+      return () => null;
+    }, [route])
+  );
+
+  React.useEffect(()=>{
+    console.log(route.params.actualUser);
+    setActualUser(route.params.actualUser);
+    setRemountKey(Math.random(0.5));
+  },[route.params]);
   console.log('Starting Profile Stack');
   return(
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
   <Stack.Navigator initialRouteName="Profile">
-    <Stack.Screen name = "Profile" component = {MyProfile} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser}}/>
+    <Stack.Screen name = "Profile" component = {MyProfile}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails}}/>
+    <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}}/>
+    <Stack.Screen name="About" component={About} options={{headerShown: false}}/>
   </Stack.Navigator>
   </NavigationContainer>
   </View>)
@@ -208,9 +230,9 @@ const userSupportStack = ({navigation,route}) => {
 export default function App() {
  
   const [firstlogin,setFirstLog]=useState(0);
-  const [user,setUser]=useState(auth().currentUser);
+  const [user,setUser]=useState(auth().currentUser);//{phoneNumber: '+915498476214'})//
   const [userDetails,setUserDetails]=useState(null);
-  const [networkState,setNetworkState]=useState('available');
+  const [networkState,setNetworkState]=useState(true);
   const [splash,setSplash]=useState(true);
 
   const getUserDetails= async (networkTries,user)=>{
@@ -218,7 +240,7 @@ export default function App() {
     console.log('getUserDetails');
 
     if(networkTries>10){
-      setNetworkState('unavailable');
+      //setNetworkState('unavailable');
       return;
     }
     else{
@@ -236,7 +258,7 @@ export default function App() {
                     setUserDetails(response.data.user[0]);
                 else
                   setUserDetails(null);
-                setNetworkState('working');
+                //setNetworkState('working');
 
               }
               catch(error){
@@ -271,10 +293,20 @@ export default function App() {
   const fetchUserDetails = ()=>{
     var i=5;
   }
+
+  const checkNetworkState= async ()=>{
+    Axios.get('https://api.dev.we-link.in/user_app.php?action=getTerms')
+      .then((response)=>{
+        setNetworkState(true);
+      },(error)=>{
+        setNetworkState(false);
+      });
+  }
   
   React.useEffect(()=>{
-    //const dummyUser={phoneNumber: '+918548080254'};
-    //setTimeout(()=>setUser(dummyUser),1000);
+    checkNetworkState()
+    //getUserDetails(0,user);
+    
     console.group('firebaseuser',auth().currentUser);
     setSplash(false);
     setInterval(()=>{
@@ -287,6 +319,7 @@ export default function App() {
       getUserDetails(0,user);
     //setUser('something')
     const suser= auth().onAuthStateChanged(onAuthStateChanged);
+    
 
     
 
@@ -294,6 +327,15 @@ export default function App() {
 
    
   },[]);
+
+  if(networkState == false)
+    return(
+      <View style={{flex: 1,justifyContent: 'center',alignContent: 'center'}}>
+        <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center'}}>Network connection failed, Try again later</Text>
+      </View>
+
+    )
+
 
   if(splash){
     return(
@@ -343,14 +385,14 @@ export default function App() {
           </Stack.Navigator>
          
         </NavigationContainer> 
-         */}
+            */}
       </View>
       )
     }
     else if(userDetails!= 100 && userDetails !=null){
       return (
         <View style={{flex: 1}}>
-          <NavigationDrawer user={user} actualUser={userDetails} />
+          <NavigationDrawer user={user} actualUser={userDetails} getUserDetails={getUserDetails} setUser={setUser} />
         </View>
       ); 
 

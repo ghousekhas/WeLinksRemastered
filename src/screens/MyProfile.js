@@ -9,11 +9,16 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppBar from '../components/AppBar';
 import Axios from 'axios';
 import auth from '@react-native-firebase/auth';
+import DocumentPicker from 'react-native-document-picker';
+import qs from 'qs';
 
 
-const MyProfile = ({navigation}) => {
-   const [profileDetails,setProfileDetails] = useState([{name: 'holder',email: 'holder'}]);
+
+const MyProfile = ({navigation,route}) => {
+   const [profileDetails,setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
    const [addresses,setAddresses] = useState([]);
+   const [user_id,setUserID] = useState(route.params.actualUser.user_id);
+   const [actualUser,setActualUser] = useState(route.params.actualUser);
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
@@ -21,14 +26,54 @@ const MyProfile = ({navigation}) => {
         balance : 'Balance'
     }
 
-   useEffect(() => {
-       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+auth().currentUser.phoneNumber.substring(3),{
-        'Accept-Encoding': 'gzip'
-       }).then((response) => {
+    const changeImage= async ()=>{
+        try{
+            const res = await DocumentPicker.pick({type: [DocumentPicker.types.images]});
+            var formdata = new FormData();
+            formdata.append('user_image_url',{
+                uri: res.uri,
+                type:'image/jpeg',
+                name: res.name
+            });
+            console.log('attempting to upload picture');
+            Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&'+qs.stringify({
+                user_id: profileDetails.user_id,
 
-            var temp= response.data.user[0]
-            setProfileDetails(response.data.user[0])
-            Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id='+temp.user_id,{
+
+            }),formdata).then((response)=>{
+                console.log(response.data,"picutre uploaded");
+                //setActualUser({...actualUser,})
+                setProfileDetails({...profileDetails,img_url: res.uri})
+                route.params.getUserDetails(0,auth().currentUser);
+                
+
+            },(error)=>{
+                console.log(error);
+            })
+
+        }
+        catch(error){
+            console.log(error);
+            alert('Please pick a valid jpeg or png image');
+        }
+    }
+
+   useEffect(() => {
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+actualUser.phone,).
+            then(({data})=>{
+                if(data.user[0]!=undefined)
+                    setProfileDetails(data.user[0]);
+                else
+                    console.log('User does not exitst',data);
+            },
+            (error)=>console.log('Error logged in profile',error))
+        //setProfileDetails(route)
+        console.log('mounted');
+        console.log(route.params.actualUser);
+        setActualUser(route.params.actualUser);
+        setProfileDetails(route.params.actualUser);
+      
+            Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id='+user_id,{
             'Accept-Encoding': 'gzip'
                 }).then((response) => {
                     
@@ -39,19 +84,22 @@ const MyProfile = ({navigation}) => {
                 }).catch((e) => {
                     console.log('Error with addresses: '+e);
                 });
-    //   console.log(profileDetails)
-    
-       }).catch((e) => {
-           console.log('Error with profile: '+e);
-       });
-
+   
 
        
        
-   })
+   },[route.params.actualUser])
    
     useFocusEffect(
         React.useCallback(() => {
+            Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+actualUser.phone,).
+            then(({data})=>{
+                if(data.user[0]!=undefined)
+                    setProfileDetails(data.user[0]);
+                else
+                    console.log('User does not exitst',data);
+            },
+            (error)=>console.log('Error logged in profile',error))
           const onBackPress = () => {
        //  console.log('Can\'t go back from here');
          navigation.toggleDrawer();
@@ -62,6 +110,7 @@ const MyProfile = ({navigation}) => {
           };
     
           BackHandler.addEventListener('hardwareBackPress', onBackPress);
+          setActualUser(route.params.actualUser);
     
           return () =>
             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
@@ -102,12 +151,15 @@ const MyProfile = ({navigation}) => {
 
     
     <View style={style.avatarBG}>
-        <Image   // Change to Image
-                style={style.avatar}
-              
-            />
+        {profileDetails!=null? (
+            <Image   // Change to Image
+            style={style.avatar}
+            source={ profileDetails.img_url.trim()  != ''? {uri: profileDetails.img_url}: require('../../assets/notmaleavatar.png')  }
+          
+        />
+        ) : null}
             <View style={{position: 'absolute',bottom: '5%'}}>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={()=> changeImage()} >
             <Icon 
                     name='pencil'
                     size={20}
@@ -126,12 +178,12 @@ const MyProfile = ({navigation}) => {
             <View style={style.chips}>
 
             <TouchableOpacity>
-                <Text style = {style.chip}>{words.subscriptions}</Text>
+                <Text style = {style.chip}>{words.subscriptions + ' ( '+ actualUser.subscription_count + ' )' }</Text>
             </TouchableOpacity>
 
 
            <TouchableOpacity>
-                <Text style = {style.chip}>{words.balance}</Text>
+                <Text style = {style.chip}>{words.balance + ' ( '+ actualUser.wallet_balance + ' )'}</Text>
             </TouchableOpacity>
 
             </View>
@@ -141,7 +193,13 @@ const MyProfile = ({navigation}) => {
     </View>
 
     <View style={{borderWidth: 0.5,borderRadius: 7,margin: '1%',borderColor: Colors.seperatorGray}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{
+            navigation.navigate('About',{
+                edit: true,
+                actualUser: actualUser,
+                getUserDetails: route.params.getUserDetails
+            })
+        }}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '7%'}}>
 
         <View style={{marginTop: '1%'}}>
@@ -180,7 +238,12 @@ const MyProfile = ({navigation}) => {
 
 
     <View style={{borderWidth: 0.3,borderRadius: 10,marginHorizontal: '1%',elevation: 0.3,borderColor: Colors.seperatorGray,flex: 0,marginVertical: '5%',justifyContent: 'flex-start'}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{
+            navigation.navigate('AddressList',{
+                myAddresses: true,
+                actualUser: actualUser
+            })
+        }}>
         <View style={{flexDirection: 'row',margin: '5%',flex: 0}}>
         
 

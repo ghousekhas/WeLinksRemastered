@@ -4,11 +4,11 @@ import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Colors} from '../Constants'
 
-const Button = ({text,onTouch}) => {
+const Button = ({text,onTouch,red}) => {
     return(<View>
-        <TouchableOpacity style={style.button}
+        <TouchableOpacity style={{...style.button,borderColor: red ? 'red': Colors.primary}}
          onPress={onTouch}>
-        <Text style={style.text}>{text}</Text>
+        <Text style={{...style.text,color: red ? 'red': Colors.primary}}>{text}</Text>
        
         </TouchableOpacity>
     </View>)

@@ -4,7 +4,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
-import { userDetails } from '../UserDetails';
 import AppBar from '../components/AppBar';
 import {Colors,Styles} from '../Constants';
 import Axios from 'axios';
@@ -95,7 +94,7 @@ const PaperVendors = (props) => {
                 const vendorReviews = item.reviews_number;
                 var brandsString= '';
                 const brands= item.brands!=undefined? item.brands: [];
-                const imageUrl=item.img_url;
+                const imageUrl=item.vendor_img_url;
                 const vendorId=item.vendor_id;
                 const vendorAddress= item.addresses[0]!= undefined? item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode: ' ';
                 console.log('itembrands',brands);

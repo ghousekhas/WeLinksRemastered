@@ -5,7 +5,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
-import { userDetails } from '../UserDetails';
 import { Avatar } from 'react-native-paper';
 import {Styles} from '../Constants';
 import Accordion  from 'react-native-collapsible/Accordion';
@@ -260,7 +259,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         imageUrl: item.product_img_url,
                         actualUser: actualUser,
                         vendorId: vendorId,
-                        productId: productId
+                        productId: productId,
+                        vendor_type: 'milk'
                     }) } 
                 }/>
 

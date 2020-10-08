@@ -57,8 +57,8 @@ const [isPressed,setIsPressed] = useState(false);
 
 
 
-const [dateref,setDateRef] = useState('Select start');
-const [dateref1,setDateRef1] = useState('Select end');
+const [dateref,setDateRef] = useState('Not Selected Yet');
+const [dateref1,setDateRef1] = useState('Not Select Yet');
 const [usableStartDate,setUsableStartDate]=useState(null);
 const [usableEndDate,setUsableEndDate]=useState(null);
 
@@ -167,7 +167,8 @@ const [usableEndDate,setUsableEndDate]=useState(null);
         endDate: usableEndDate,
         productId: productId,
         vendorId: vendorId,
-        tag: tag
+        tag: tag,
+        vendorType: route.params.vendorType
 
       
 

@@ -44,7 +44,7 @@ export default class AddAddress extends React.Component{
                 title: 'Home',
                 description: 'Move map around to focus on point',
             },
-            title: 'LatLng',
+            title: props.route.params.placeName,
             description: 'city',
             flexfor: 3,
             latitude: this.props.route.params.initialCamera.center.latitude,
@@ -62,10 +62,11 @@ export default class AddAddress extends React.Component{
     };
 
     addAddress= async ()=>{
-      this.setState({adding: true});
+      
       const {user_id}=this.props.route.params.actualUser;
       const {label,pincode,title,description,latitude,longitude,landmark}=this.state;
       if(this.state.type===0){
+        this.setState({adding: true});
         this.props.route.params.callback({ user_id: user_id,
           label: label,
           pincode: pincode,
@@ -77,6 +78,7 @@ export default class AddAddress extends React.Component{
           this.props.navigation.goBack();
       }
       else{
+      
 
       
       if(this.state.title != 'loading'){
@@ -98,6 +100,7 @@ export default class AddAddress extends React.Component{
         },(error)=>{
           console.log(error);
         })
+        this.setState({adding: true});
       }
         
       }
@@ -188,7 +191,7 @@ export default class AddAddress extends React.Component{
     };
 
     checkFieldsValidity=()=>{
-      if(this.state.landmark.length<1 || this.state.fineAddressInfo.length<1 || this.state.label.length <1)
+      if(this.state.landmark.trim().length<2 || this.state.fineAddressInfo.trim().length<2 || this.state.label.trim().length <2)
         this.setState({inputsValid: false});
       else  
         this.setState({inputsValid: true})
@@ -276,7 +279,7 @@ export default class AddAddress extends React.Component{
         <View style={{width: '70%',height: '50%',alignSelf: 'center',margin: 30,alignContent: 'center'}}>
          <LottieView  
           enableMergePathsAndroidForKitKatAndAbove
-         style={{flex:1}}  source={require('../../assets/animations/28064-delivery.json')} resizeMode={'cover'} autoPlay={true} loop={true}/>
+         style={{flex:1}}  source={require('../../assets/animations/logistics.json')} resizeMode={'cover'} autoPlay={true} loop={true}/>
          </View>
          <Text style={{...Styles.heading,textAlign: 'center',flex: 0,padding: 10,margin: 50,alignSelf: 'center'}}>Adding Address</Text>
        </View>
@@ -315,7 +318,7 @@ export default class AddAddress extends React.Component{
                 <Animated.View style={{...styles.lowerpanel,transform:[{translateY: bottomPanelAnimation } ]}} >
                     <ScrollView style={styles.lowerhorizontal}>
                       <Text style={styles.heading}>{this.state.title}</Text>
-                      <Text style={styles.otherHeading}> Additional Address info:</Text>
+                      <Text style={styles.otherHeading}> Additional Address Info:</Text>
                       <TextInput ref={this.landmarkBox} placeholder={'Enter fine address information here'} accessibilityHint={'Landmark'} style={styles.inputBox} onChangeText={(text)=>{
                           this.setState({fineAddressInfo: text})
                           this.checkFieldsValidity()}}/>
