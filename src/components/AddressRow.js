@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation,useRoute} from "@react-navigation/native";
 import Button from '../components/Button'
 
-import {Colors} from '../Constants'
+import {Colors, dimen} from '../Constants'
 const height= Dimensions.get('window').height;
 
 
@@ -71,14 +71,13 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
       
     },[]);
     return(
-      <View style={style}>
+      <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginVertical: dimen.height/70,marginHorizontal: dimen.width/50}}>
         <Image source={image} style={styles.imageIcon}  />
-            <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
               <View style={{flexDirection: 'column',width: '100%',justifyContent: 'flex-start',flex: 1,marginBottom: '5%'}}>
                 <Text style={styles.label}>{label}</Text>
                 <Text style={styles.address}>{currentAddress}</Text>
               </View>
-            </ScrollView>
+      
             { deletae === true ? 
                <Button text='Delete' red={true} onTouch={()=>{delSelectedAddress(item)}} /> :  <Button text='Select' onTouch={()=>{setSelectedAddress(item)}} />}
            
@@ -129,7 +128,7 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
           width: height/27,
           alignSelf: 'flex-start',
           marginLeft: Dimensions.get('window').width/30,
-          marginTop: '4%'
+          marginTop: '1%'
       },
       buttonPos: {
         position: 'absolute',
