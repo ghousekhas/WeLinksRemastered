@@ -12,6 +12,7 @@ import HomeAddress from '../components/AddressRow'
 import AppBar from '../components/AppBar';
 import { Styles } from '../Constants';
 import qs from 'qs';
+import LottieView from 'lottie-react-native'
 
 const height= Dimensions.get('window').height;
 
@@ -43,13 +44,20 @@ export default class AddressList extends React.Component{
             }
             this.state={
               arraydata: [],
-              somekey: 0
+              somekey: 0,
+              myAddresses: props.route.params.myAddresses === true ? true: false,
+              apiLoaded: false
+              
               
             };
             this.data=[];
 
             
             
+    }
+
+    UNSAFE_componentWillReceiveProps(props){
+
     }
 
     componentDidMount(){
@@ -76,7 +84,7 @@ export default class AddressList extends React.Component{
     
 
 
-    retrieveAddresses= async ()=>{
+    retrieveAddresses=  ()=>{
       const {user_id}= this.props.route.params.actualUser;
       console.log('alistuserid',user_id)
       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
@@ -84,6 +92,7 @@ export default class AddressList extends React.Component{
       })).then((response)=>{
         console.log('response',response.data);
        this.data= response.data.addresses;
+       this.setState({apiLoaded: true});
        this.setState({somekey: Math.random(0.5)});
 
       },(error)=>{
@@ -105,7 +114,7 @@ export default class AddressList extends React.Component{
     renderSavedAddress=({item})=>{
       const {next,actualUser}=this.props.route.params;
 
-      return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} route={{params:{
+      return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} deletae={this.state.myAddresses} route={{params:{
         next: next,
         actualUser: actualUser
       }}}/>
@@ -145,6 +154,7 @@ export default class AddressList extends React.Component{
     addressSelected =async (data,details) =>{
       const actualUser= this.props.route.params.actualUser;
       const {tag} = this.props.route.params;
+      console.log(data);
       console.log(details);
       console.log(details.place_id);
       axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
@@ -171,6 +181,7 @@ export default class AddressList extends React.Component{
           },
           refresh: this.retrieveAddresses,
           actualUser: actualUser,
+          placeName: data.description,
           tag : tag
         })
       });
@@ -180,14 +191,61 @@ export default class AddressList extends React.Component{
     
 
     render(){
+        if(this.data[0] == undefined)
+          return(
+            <View style={styles.container}>
+            <AppBar back ={!this.state.myAddresses} funct={() => {
+          
+            if(!this.state.myAddresses)
+              this.props.navigation.pop();
+            else
+              this.props.navigation.toggleDrawer();
+          }} />
+          <View style={Styles.parentContainer}>
+          <GooglePlacesAutocomplete
+              style={{elevation: 10,zIndex: 10,backgroundColor: 'white'}}
+              query={{
+                key: 'AIzaSyAWOAzPnGPVoGCxK7pMgU4TZx6sZQNiofQ',
+                language: 'en', // language of the results
+                components: 'country:in',
+                location: '12.972442,77.580643',
+                radius: 100000
+              }}
+              placeholder={'Type here to add a new address'}
+              onPress={this.addressSelected}
+              onFail={error => console.error(error)}
+              styles={placesstyle}   
+              currentLocation= {true}
+              currentLocationLabel= "Select Current Location"
+            />
+            <View style={{justifyContent: 'center',alignItems: 'center',flex: 1}}>
+              {!this.state.apiLoaded ?
+                (<LottieView  
+                enableMergePathsAndroidForKitKatAndAbove
+              style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>)
+              :
+              <Text style={{...Styles.subbold}}>No addresses to show, please add an address </Text>
+            }
+            </View>
+            </View>
+          
+
+          </View>
+
+          )
+
+
         return(
         
             
           <View style={styles.container}>
-          <AppBar back ={true} funct={() => {
-           // props.navigation.toggleDrawer();
-           this.props.navigation.pop();
-        }} />
+            <AppBar back ={!this.state.myAddresses} funct={() => {
+          
+            if(!this.state.myAddresses)
+              this.props.navigation.pop();
+            else
+              this.props.navigation.toggleDrawer();
+          }} />
 
         <View style={Styles.parentContainer}>
           <GooglePlacesAutocomplete

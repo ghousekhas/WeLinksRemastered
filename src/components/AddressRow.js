@@ -14,9 +14,9 @@ import {Colors} from '../Constants'
 const height= Dimensions.get('window').height;
 
 
-export default HomeAddress=({item,style,route})=>{
+export default HomeAddress=({item,style,route,deletae})=>{
     const navigation= useNavigation();
-    const [currentAddress,setCurrentAddress]=useState(item.addr_details+' '+item.addr_landmark+' '+ item.addr_pincode);
+    const [currentAddress,setCurrentAddress]=useState(item.addr_details+'\n'+item.addr_landmark+' '+ item.addr_pincode);
     const [label,setCurrentLabel]= useState(item.addr_name);
     const [image,setImage]=useState(require('../../assets/pin.png'));
     const init=()=>{
@@ -45,6 +45,9 @@ export default HomeAddress=({item,style,route})=>{
       
 
     }
+    delSelectedAddress= async (itemnow)=>{
+      console.log(item);
+    }
     
 
     
@@ -63,13 +66,15 @@ export default HomeAddress=({item,style,route})=>{
     return(
       <View style={style}>
         <Image source={image} style={styles.imageIcon}  />
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
               <View style={{flexDirection: 'column',width: '100%',justifyContent: 'flex-start',flex: 1,marginBottom: '5%'}}>
                 <Text style={styles.label}>{label}</Text>
                 <Text style={styles.address}>{currentAddress}</Text>
               </View>
             </ScrollView>
-            <Button text='Select' onTouch={()=>{setSelectedAddress(item)}} />
+            { deletae === true ? 
+               <Button text='Delete' red={true} onTouch={()=>{delSelectedAddress(item)}} /> :  <Button text='Select' onTouch={()=>{setSelectedAddress(item)}} />}
+           
           </View>
     );
   }

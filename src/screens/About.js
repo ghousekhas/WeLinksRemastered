@@ -8,12 +8,19 @@ import {Styles,Constants, dimen,Colors} from '../Constants'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import City from './City';
 import AsyncStorage from '@react-native-community/async-storage';
+import Axios from 'axios';
+import qs from 'qs';
+import LottieView from 'lottie-react-native';
+import auth from '@react-native-firebase/auth';
 
 const About = ({navigation,route,getUserDetails}) =>{
     const [name,setName] = useState(' ');
     const [email,setEmail] = useState(' ');
     const [referral,setReferral]= useState(' ');
     const [aboutDone,setAboutDone]=useState(false);
+    const [edit,setEdit]=useState(route.params.edit === undefined ? false: true);
+    const [actualUser,setActualUser]=useState(route.params.actualUser);
+    const [loading,setLoading]=useState(false);
 
     function ValidateEmail(email) 
         {
@@ -29,7 +36,28 @@ const About = ({navigation,route,getUserDetails}) =>{
         await AsyncStorage.setItem(Constants.username,name);
         if(ValidateEmail(email) && name.trim() != ''){
             try{
-                setAboutDone(true);
+                if(edit){
+                    Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&'+qs.stringify({
+                        user_id: actualUser.user_id,
+                        name: name,
+                        email: email
+                    })).then((response)=>{
+                        setLoading(false);
+                        alert('Your changes have been saved successfully');
+                        route.params.getUserDetails(0,auth().currentUser);
+                        navigation.goBack();
+
+                    },(error)=>{
+                        console.log(error);
+
+                        alert('An unexpected error occured while contacting the servers, kindly try again later');
+                        navigation.goBack();
+                    })
+                    setLoading(true);
+
+                }
+                else
+                    setAboutDone(true);
             }
             catch(error){
                 alert('something');
@@ -43,6 +71,15 @@ const About = ({navigation,route,getUserDetails}) =>{
     if(aboutDone)
         return(<City userDetails={{email: email,name: name}} getUserDetails={getUserDetails} route={{params:{edit: false}}}/>);
 
+    if(loading)
+    return(
+        <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
+           <LottieView  
+            enableMergePathsAndroidForKitKatAndAbove
+           style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
+         </View>
+      )
+
 
 
         return(<View style={style.mainContainer}>
@@ -52,13 +89,15 @@ const About = ({navigation,route,getUserDetails}) =>{
         <TextBox title='Email Address' hint='Enter your email address' changeText={(text)=>{
             setEmail(text);
         }}/>
+        {/*
         <TextBox title='Referral Code (Optional)' hint='Add referral code (optional)' icon='smile'/>
+        */}
         <View style={Styles.submitButton}>
         
     </View>
     </ScrollView> 
     <TouchableOpacity style={{flex: 0,padding: 10,marginHorizontal: 5, marginVertical: 3,backgroundColor: Colors.primary,width: dimen.width-10,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
-        <Text style={{...Styles.heading,width: '100%',textAlign: 'center',alignSelf: 'center',color: 'white'}}>Continue</Text>
+        <Text style={{...Styles.heading,width: '100%',textAlign: 'center',alignSelf: 'center',color: 'white'}}>{edit ? 'Save': 'Continue' }</Text>
     </TouchableOpacity>
     </View>);
   
@@ -83,3 +122,4 @@ const style = StyleSheet.create({
 });
 
 export default About;
+

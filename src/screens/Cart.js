@@ -248,6 +248,7 @@ const Cart = ({route,navigation}) => {
                     subscription_end_date:  endDate.year.toString()+'-'+endDate.month.toString()+'-'+endDate.day.toString(),
                     no_of_deliveries: 0,
                     delivery_fee: 50,
+                    ventor_type: 'milk',
                     order_gst: 0,
                     product_id: route.params.productId,
                     cartamount: calculateCartAmount(),

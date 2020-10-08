@@ -99,7 +99,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
       <View style={{...StyleSheet.absoluteFill,backgroundColor: 'gray'}}>
          <LottieView  
           enableMergePathsAndroidForKitKatAndAbove
-         style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/2077-loading.json')} resizeMode={'cover'} autoPlay={true} loop={true}/>
+         style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
        </View>
     )
    }

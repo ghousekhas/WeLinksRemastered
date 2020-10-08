@@ -96,7 +96,7 @@ export default class Homescreen extends React.Component{
     componentDidMount(){
         const {navigation}= this.props;
         //this.checkIfFirstLogin();
-        //this.retrieveUserData(10);
+        this.retrieveUserData(10);
         //this.setState({actualUser: this.props.actualUser});
         this.focusListener= navigation.addListener('focus',()=>{
             //this.checkIfFirstLogin();
@@ -266,14 +266,23 @@ export default class Homescreen extends React.Component{
 const ProfileSmallView = ({actualUser,drawer})=>{
     const navigation=useNavigation();
     const [displayName,setDisplayName]= useState('loading');
+    const [user,setUser]=useState(actualUser);
     useEffect(()=>{
        //s
+       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phone,).
+       then(({data})=>{
+           if(data.user[0]!=undefined)
+               setUser(data.user[0]);
+           else
+               console.log('User does not exitst',data);
+       },
+       (error)=>console.log('Error logged in profile',error))
         if(actualUser.name!=null && actualUser.name != '')
             setDisplayName(actualUser.name.split(' ')[0]);
     },[actualUser]);
     return (
         <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{drawer.navigate('ProfileStack')}}>
-        <Image style={styles.userimage} source={require('../../assets/avatar.png')}/>
+        <Image style={styles.userimage} source={ user.img_url.trim()  != ''? {uri: user.img_url}: require('../../assets/notmaleavatar.png')  }/>
         <Text adjustsFontSizeToFit style={styles.username}>{displayName}</Text>
     </TouchableOpacity>
     )

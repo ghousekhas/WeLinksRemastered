@@ -4,8 +4,6 @@ import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { useFocusEffect } from '@react-navigation/native';
-
-import { userDetails } from '../UserDetails';
 import AppBar from '../components/AppBar';
 import { Avatar } from 'react-native-paper';
 import { Styles,Colors } from '../Constants';
