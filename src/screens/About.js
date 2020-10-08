@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions, Alert} from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import SubmitButton from '../components/SubmitButton';
@@ -32,6 +32,13 @@ const About = ({navigation,route,getUserDetails}) =>{
         }
             return (false)
         }
+
+    useEffect(()=>{
+        if(actualUser != undefined){
+            setEmail(actualUser.email);
+            setName(actualUser.name);
+        }
+    },[])
 
 
     const aboutSubmit= async ()=>{

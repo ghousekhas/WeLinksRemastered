@@ -177,7 +177,9 @@ const MyProfile = ({navigation,route}) => {
 
             <View style={style.chips}>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigation.navigate('MySubscriptions',{
+                user: actualUser
+            })}>
                 <Text style = {style.chip}>{words.subscriptions + ' ( '+ actualUser.subscription_count + ' )' }</Text>
             </TouchableOpacity>
 

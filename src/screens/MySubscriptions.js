@@ -13,6 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Axios from 'axios';
 import SubscriptionOrder from '../components/SubscriptionOrder';
+import LottieView from 'lottie-react-native';
 
 var data=[];
 
@@ -20,6 +21,7 @@ var data=[];
 export default function MySubscriptions({navigation,route}){
     const [extraData,setExtraData]=useState(0);
     const {user}=route.params;
+    const [apiLoaded,setApiLoaded]=useState(false);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -48,6 +50,7 @@ export default function MySubscriptions({navigation,route}){
         console.log(dataa);
         data=[];
         dataa.forEach(item => {
+            //console.log('parsed',JSON.parse(item.subscription_days));
             data.push({
                 name: item.product_name,
                 imageUrl: item.product_image,
@@ -65,15 +68,19 @@ export default function MySubscriptions({navigation,route}){
     }
 
     const retrieveData=()=>{
+        
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
-            //console.log(response.data);
+            console.log(response.data);
             //data=response.data;
-            prepareResponse(response.data);
+            //prepareResponse(response.data);
             setExtraData(Math.random(0.5));
+            setApiLoaded(true);
         },(error)=>{
             console.log(error);
+            setApiLoaded(true);
         })
+        setApiLoaded(false);
     }
 
     useEffect(()=>{
@@ -129,6 +136,14 @@ export default function MySubscriptions({navigation,route}){
                  
             }}
         />
+        {!apiLoaded ?
+                (<LottieView  
+                enableMergePathsAndroidForKitKatAndAbove
+              style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>)
+              :
+               data[0] === undefined ? <Text style={{...Styles.subbold}}>No addresses to show, please add an address </Text> : null
+               
+            }
 
     
         </View>

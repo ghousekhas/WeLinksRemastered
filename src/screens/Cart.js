@@ -266,7 +266,7 @@ const Cart = ({route,navigation}) => {
                     subscription_end_date:  endDate.year.toString()+'-'+endDate.month.toString()+'-'+endDate.day.toString(),
                     no_of_deliveries: 0,
                     delivery_fee: 50,
-                    ventor_type: route.params.vendorType,
+                    product_type: route.params.vendorType,
                     order_gst: 0,
                     product_id: route.params.productId,
                     cartamount: calculateCartAmount(),
@@ -274,8 +274,13 @@ const Cart = ({route,navigation}) => {
                     order_total: calculateCartAmount()+50
 
                 }),).then((response)=>{
+<<<<<<< HEAD
                     console.log(response.data);
                     alert('Your order has been placed');
+=======
+                    console.log(response);
+                    alert('Your order Has been placed');
+>>>>>>> 34c5c93e8e6d56c519f6b32d7718b1a8651a183d
                     
                     navigation.popToTop();
                 },(error)=>{

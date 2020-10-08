@@ -82,7 +82,7 @@ const MilkVendors = (props) => {
        props.navigation.pop();
         }} />
     <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
-    <Image  style ={style.avatar} source={require('./../../assets/avatar.png')}/>
+    <Image  style ={style.avatar} source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }/>
   
    
     <View style={style.header}>
