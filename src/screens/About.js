@@ -100,10 +100,30 @@ const About = ({navigation,route,getUserDetails}) =>{
             ) : null}
          <ScrollView style={{flex: 1,marginVertical: dimen.width/20}}>  
         <Text style={style.text}>Tell us about yourself</Text>
-        <TextBox title='Name' defaultValue={name}  hint='Enter your name' changeText={setName}/>
-        <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={(text)=>{
-            setEmail(text);
-        }}/>
+        {
+            edit ? (
+                <View>
+                <TextBox title='Name' defaultValue={name}  hint='Enter your name' changeText={setName}/>
+            <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={(text)=>{
+                setEmail(text);
+                
+            }}/>
+            </View>
+            ) : 
+            
+            (
+            <View>
+            <TextBox title='Name'   hint='Enter your name' changeText={setName}/>
+            <TextBox title='Email Address'  hint='Enter your email address' changeText={(text)=>{
+                setEmail(text);
+            
+            
+            }}
+            />
+            </View>
+            )
+        }
+        
         {/*
         <TextBox title='Referral Code (Optional)' hint='Add referral code (optional)' icon='smile'/>
         */}
