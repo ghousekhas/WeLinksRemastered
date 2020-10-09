@@ -10,7 +10,7 @@ import AppBar from '../components/AppBar';
 import {Colors, Styles} from '../Constants';
 import Axios from 'axios';
 import qs from 'qs';
-
+import { Feather } from '@expo/vector-icons';
 var vendors;
 
 const MilkVendors = (props) => {
@@ -18,6 +18,7 @@ const MilkVendors = (props) => {
     const {actualUser}=props.route.params;
     const [vendorExtraData,updateVendor]=useState(1);
     const {tag} = props.route.params;
+    const [nameY,setNameY] = useState(0);
 
     console.log(address);
     console.log('milky',actualUser)
@@ -82,12 +83,19 @@ const MilkVendors = (props) => {
        props.navigation.pop();
         }} />
     <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
-    <Image  style ={style.avatar} source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }/>
+    <Image style ={style.avatar} source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }/>
   
    
     <View style={style.header}>
-        <Text style ={style.username}>{actualUser.name}</Text>
-        <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
+        <Text style ={{...style.username}}>{actualUser.name}</Text>
+        <View style ={{...style.address}}>
+        <View style = {{flexDirection: 'row',alignItems: 'center'}}>
+        <Feather name="map-pin" size={12} color="black" />
+        <Text style={{fontSize: 13}}>{ " " +address.addr_name}</Text>
+        </View>
+       
+        <Text style={{fontSize: 13}}>{address.addr_details+".\nLanmark: " + address.addr_landmark }</Text>
+        </View>
     </View>
     </View>
     <View style={Styles.grayfullline} />
@@ -157,12 +165,15 @@ const style = StyleSheet.create({
     address: {
         marginTop: '3%',
         borderRadius: 5,
-        backgroundColor: Colors.primary,
-        color: 'white',
-        marginStart: 50,
+        backgroundColor: Colors.whiteBackground,
+       borderColor: Colors.seperatorGray,
+       borderWidth: 0.5,
+        marginStart:48,
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontSize: 13,
+        elevation: 1
+
         
     },
     line:{

@@ -5,12 +5,15 @@ import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import AppBar from '../components/AppBar';
+import { Feather } from '@expo/vector-icons';
+
 import {Colors,Styles} from '../Constants';
 import Axios from 'axios';
 import qs from 'qs';
 
 const PaperVendors = (props) => {
     const address= props.route.params.address;
+    const [offset,setOffset] = useState(0);
     const {tag} = props.route.params;
     const {actualUser}=props.route.params;
     const words = {
@@ -69,14 +72,23 @@ const PaperVendors = (props) => {
         props.navigation.pop();
         }} />
 
-        <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
-        <Image  style ={style.avatar} source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }/>
+        <View onLayout={({nativeEvent}) => {
+                setOffset(nativeEvent.layout.height);
+        }} style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
+        <Image  style ={{...style.avatar}} source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }/>
       
        
         <View style={style.header}>
-            <Text style ={style.username}>{actualUser.name}</Text>
-            <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
+        <Text style ={{...style.username}}>{actualUser.name}</Text>
+        <View style ={{...style.address}}>
+        <View style = {{flexDirection: 'row',alignItems: 'center'}}>
+        <Feather name="map-pin" size={12} color="black" />
+        <Text style={{fontSize: 13}}>{ " " +address.addr_name}</Text>
         </View>
+       
+        <Text style={{fontSize: 13}}>{address.addr_details+".\nLanmark: " + address.addr_landmark }</Text>
+        </View>
+    </View>
         </View>
         <View style={Styles.grayfullline} />
     
@@ -144,17 +156,20 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         marginStart: 50,
         fontSize: 18,
+      
         color: 'black'
     },
     address: {
         marginTop: '3%',
         borderRadius: 5,
-        backgroundColor: Colors.primary,
-        color: 'white',
-        marginStart: 50,
+        backgroundColor: Colors.whiteBackground,
+       borderColor: Colors.seperatorGray,
+       borderWidth: 0.5,
+        marginStart:48,
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontSize: 13,
+        elevation: 1
         
     },
     line:{
@@ -175,6 +190,7 @@ const style = StyleSheet.create({
         margin: '5%',
         padding: '3%',
         position: 'absolute',
+     
         
        
     }

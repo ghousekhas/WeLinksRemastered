@@ -15,6 +15,8 @@ import qs from 'qs';
 import LottieView from 'lottie-react-native'
 
 const height= Dimensions.get('window').height;
+const {from} = this.props.route.params;
+      console.log('from:'+ from)
 
 // useFocusEffect(
 //   React.useCallback(() => {
@@ -46,12 +48,8 @@ export default class AddressList extends React.Component{
               arraydata: [],
               somekey: 0,
               myAddresses: props.route.params.myAddresses === true ? true: false,
-<<<<<<< HEAD
-              apiLoaded: false
-=======
               apiLoaded: false,
               profileEdit: props.route.params.profileEdit === true ? true : false
->>>>>>> 0da9dfb22561d1e5d66be96361310e840eab7328
               
               
             };
@@ -78,7 +76,7 @@ export default class AddressList extends React.Component{
     }
 
    onBackPress=()=>{
-      this.props.navigation.navigate('Homescreen');
+     this.state.myAddresses ? navigation.toggleDrawer() : this.props.navigation.pop();
       return true;
     }
 
@@ -91,6 +89,7 @@ export default class AddressList extends React.Component{
 
     retrieveAddresses=  ()=>{
       const {user_id}= this.props.route.params.actualUser;
+      
       console.log('alistuserid',user_id)
       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
         user_id: user_id
@@ -207,11 +206,7 @@ export default class AddressList extends React.Component{
             <View style={styles.container}>
             <AppBar back ={!this.state.myAddresses} funct={() => {
           
-<<<<<<< HEAD
-            if(!this.state.myAddresses)
-=======
             if(this.state.myAddresses || this.state.profileEdit)
->>>>>>> 0da9dfb22561d1e5d66be96361310e840eab7328
               this.props.navigation.pop();
             else
               this.props.navigation.toggleDrawer();
@@ -254,12 +249,12 @@ export default class AddressList extends React.Component{
         
             
           <View style={styles.container}>
-            <AppBar back ={this.state.profileEdit != undefined ? true: this.state.myAddresses} funct={() => {
+            <AppBar back ={this.state.myAddresses ? false : true} funct={() => {
           
-          if(this.state.myAddresses || this.state.profileEdit)
-          this.props.navigation.pop();
-        else
+          if(this.state.myAddresses)
           this.props.navigation.toggleDrawer();
+        else
+          this.props.navigation.pop();
       }} />
 
         <View style={Styles.parentContainer}>

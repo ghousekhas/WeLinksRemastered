@@ -64,7 +64,7 @@ const MyProfile = ({navigation,route}) => {
                 if(data.user[0]!=undefined)
                     setProfileDetails(data.user[0]);
                 else
-                    console.log('User does not exitst',data);
+                    console.log('User does not exist',data);
             },
             (error)=>console.log('Error logged in profile',error))
         //setProfileDetails(route)
@@ -133,10 +133,10 @@ const MyProfile = ({navigation,route}) => {
       }
 
     return(<View style={{...StyleSheet.absoluteFill}}>
-        <View style={{elevation: 0,zIndex: 0}}>
-    <AppBar back={false} funct={() => {
-            navigation.toggleDrawer();
-            }} />
+        <View style={{elevation: 100,zIndex: 100}}>
+   <AppBar funct={() => {
+        navigation.toggleDrawer();
+        }} />
     </View> 
    
     
@@ -177,9 +177,7 @@ const MyProfile = ({navigation,route}) => {
 
             <View style={style.chips}>
 
-            <TouchableOpacity onPress={()=>navigation.navigate('MySubscriptions',{
-                user: actualUser
-            })}>
+            <TouchableOpacity>
                 <Text style = {style.chip}>{words.subscriptions + ' ( '+ actualUser.subscription_count + ' )' }</Text>
             </TouchableOpacity>
 
@@ -243,8 +241,8 @@ const MyProfile = ({navigation,route}) => {
         <TouchableOpacity onPress={()=>{
             navigation.navigate('AddressList',{
                 myAddresses: true,
-                actualUser: actualUser,
-                profileEdit: true
+                from: 'profile',
+                actualUser: actualUser
             })
         }}>
         <View style={{flexDirection: 'row',margin: '5%',flex: 0}}>

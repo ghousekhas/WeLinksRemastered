@@ -7,6 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import AppBar from '../components/AppBar';
 import { Avatar } from 'react-native-paper';
 import { Styles,Colors } from '../Constants';
+import { Feather } from '@expo/vector-icons';
 
 
 const ScrapVendors = ({navigation,route}) => {
@@ -85,11 +86,18 @@ const address = route.params.address;
 
     <Image  style ={style.avatar} source={require('./../../assets/avatar.png')}/>
   
-   
     <View style={style.header}>
-        <Text style ={style.username}>{actualUser.name}</Text>
-        <Text style={style.address}>{`${address.addr_name} ${address.addr_pincode}`}</Text>
+        <Text style ={{...style.username}}>{actualUser.name}</Text>
+        <View style ={{...style.address}}>
+        <View style = {{flexDirection: 'row',alignItems: 'center'}}>
+        <Feather name="map-pin" size={12} color="black" />
+        <Text style={{fontSize: 13}}>{ " " +address.addr_name}</Text>
+        </View>
+       
+        <Text style={{fontSize: 13}}>{address.addr_details+".\nLanmark: " + address.addr_landmark }</Text>
+        </View>
     </View>
+    
     </View>
     <View style={Styles.grayfullline} />
 
@@ -148,13 +156,14 @@ const style = StyleSheet.create({
     address: {
         marginTop: '3%',
         borderRadius: 5,
-        backgroundColor: Colors.primary,
-        color: 'white',
-        marginStart: 50,
+        backgroundColor: Colors.whiteBackground,
+       borderColor: Colors.seperatorGray,
+       borderWidth: 0.5,
+        marginStart:48,
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontSize: 13,
-        
+        elevation: 1
     },
     line:{
         borderWidth: 0.5,

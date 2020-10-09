@@ -264,7 +264,7 @@ const DrawerContent = (props) => {
        props.navigation.navigate('MyAddresses',{
          actualUser: actualUser,
          myAddresses: true,
-         drawer : true
+         from: 'drawer'
        })
      }}
      

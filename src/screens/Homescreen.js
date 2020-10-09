@@ -197,6 +197,7 @@ export default class Homescreen extends React.Component{
                         this.props.navigation.navigate('AddressList',{
                             next: 'MilkVendors',
                             user: user,
+                            from: 'home',
                             actualUser: this.state.actualUser,
                             tag: 'Milk'
                         });
@@ -210,6 +211,7 @@ export default class Homescreen extends React.Component{
                     onPress={()=>{this.props.navigation.navigate('AddressList',{
                         next: 'PaperVendors',
                         user: user,
+                        from: 'home',
                         actualUser: this.state.actualUser,
                         tag: 'Paper'
                     });}}>
@@ -235,6 +237,7 @@ export default class Homescreen extends React.Component{
                     onPress={()=>{
                         this.props.navigation.navigate('AddressList',{
                             next: 'ScrapVendors',
+                            from: 'home',
                             actualUser: this.state.actualUser,
                             user: user
                         });
