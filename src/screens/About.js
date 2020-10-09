@@ -24,14 +24,15 @@ const About = ({navigation,route,getUserDetails}) =>{
     const [loading,setLoading]=useState(false); 
     const [pressed,setPressed] = useState(false);
 
-    function ValidateEmail(email) 
-        {
-        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-        {
-            return (true)
-        }
-            return (false)
-        }
+    function validateEmail() 
+    {
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email))
+    {
+        return (true)
+    }
+        alert("You have entered an invalid email address!")
+        return (false)
+    }
 
     useEffect(()=>{
         if(actualUser != undefined){
@@ -42,8 +43,11 @@ const About = ({navigation,route,getUserDetails}) =>{
 
 
     const aboutSubmit= async ()=>{
-        await AsyncStorage.setItem(Constants.username,name);
-        if(ValidateEmail(email) && name.trim() != ''){
+        //await AsyncStorage.setItem(Constants.username,name);
+        console.log(email);
+        console.log(name);
+        console.log(validateEmail());
+        if(validateEmail() && name.trim() != ''){
             try{
                 if(edit){
                     Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&'+qs.stringify({
@@ -104,21 +108,14 @@ const About = ({navigation,route,getUserDetails}) =>{
             edit ? (
                 <View>
                 <TextBox title='Name' defaultValue={name}  hint='Enter your name' changeText={setName}/>
-            <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={(text)=>{
-                setEmail(text);
-                
-            }}/>
+            <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={setEmail}/>
             </View>
             ) : 
             
             (
             <View>
             <TextBox title='Name'   hint='Enter your name' changeText={setName}/>
-            <TextBox title='Email Address'  hint='Enter your email address' changeText={(text)=>{
-                setEmail(text);
-            
-            
-            }}
+            <TextBox title='Email Address'  hint='Enter your email address' changeText={setEmail}
             />
             </View>
             )
@@ -131,7 +128,7 @@ const About = ({navigation,route,getUserDetails}) =>{
         
     </View>
     </ScrollView> 
-    <View style={{marginVertical: 3,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
+    <View style={{marginVertical: 3,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} >
         <SubmitButton styling={pressed} text= {edit ? 'Update': 'Continue' } onTouch={()=>aboutSubmit()}  />
     </View>
     </View>);
