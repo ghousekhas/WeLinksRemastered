@@ -192,6 +192,7 @@ export default class VendorScreen1 extends React.Component{
             </View>
 
         </View>
+    )
      
     }
 }
