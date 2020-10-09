@@ -6,7 +6,7 @@ import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native
 import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { Avatar } from 'react-native-paper';
-import {Styles} from '../Constants';
+import {Styles,Colors,dimen} from '../Constants';
 import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
@@ -158,14 +158,16 @@ export default class VendorScreen extends React.Component{
 
     render(){
         const {name,stars,reviews,address,vendorAddress,imageUrl}=this.props.route.params;
-    return (<View>
+    return (<View style={{...StyleSheet.absoluteFill}}>
+        <View>
      <AppBar back={true} funct={() => {
            // props.navigation.toggleDrawer();
            this.props.navigation.pop();
         }} />
-        <View style={Styles.parentContainer}>
+        </View>
+        <View style={{height: dimen.height/16}}/>
        
-            <View style={Styles.fortyUpperPanel}>
+            <View style={{flex: 0,backgroundColor: Colors.secondary,padding: 10}}>
                
                 <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
                  <Text style={{paddingLeft: 10,fontSize: 15, fontWeight: 'bold',marginBottom: 5}}>Brands:</Text>
@@ -177,23 +179,23 @@ export default class VendorScreen extends React.Component{
                     keyExtractor={(item,index)=>  index.toString()}/>
 
             </View>
-            <View style={Styles.sixtyLowerPanel}>
+            <View style={{flex: 1,backgroundColor: 'white'}}>
                 <ScrollView ref={(ref)=>this.scrollView=ref}>
-                <Accordion
-                    style={Styles.accordion}
-                    sections= {this.state.sections}
-                    renderContent= {this.renderContent}
-                    touchableComponent={TouchableOpacity}
-                    expandMultiple={false}
-                    renderHeader= {this.renderHeader}
-                    activeSections={this.state.activesections}
-                    onChange={this.setSectionsFunction}
-                />
+                    <Accordion
+                        style={Styles.accordion}
+                        sections= {this.state.sections}
+                        renderContent= {this.renderContent}
+                        touchableComponent={TouchableOpacity}
+                        expandMultiple={false}
+                        renderHeader= {this.renderHeader}
+                        activeSections={this.state.activesections}
+                        onChange={this.setSectionsFunction}
+                    />
                 </ScrollView>
             </View>
 
         </View>
-        </View>
+    
     )
     }
 }

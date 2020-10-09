@@ -117,9 +117,11 @@ export const Styles=StyleSheet.create({
            
     },
     halfFlatList:{
-        height: '40%',
+        height: '50%',
         width: '100%',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        margin: 10,
+        padding: 10
          
            
     },
