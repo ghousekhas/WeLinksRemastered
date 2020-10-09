@@ -1,6 +1,6 @@
 
 import React,{useState,useEffect} from 'react';
-import {Text,View,StyleSheet,navigator,FlatList, Dimensions,Image} from 'react-native';
+import {Text,View,StyleSheet,navigator,FlatList, Dimensions,Image, Alert} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Geolocation from '@react-native-community/geolocation';
 import Qs from 'qs';
@@ -16,7 +16,7 @@ const height= Dimensions.get('window').height;
 
 export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
     const navigation= useNavigation();
-    const [currentAddress,setCurrentAddress]=useState(item.addr_details+'\n'+item.addr_landmark+' '+ item.addr_pincode);
+    const [currentAddress,setCurrentAddress]=useState(item.addr_details+'\n'+' '+ item.addr_landmark);
     const [label,setCurrentLabel]= useState(item.addr_name);
     const [image,setImage]=useState(require('../../assets/pin.png'));
     const init=()=>{
@@ -34,7 +34,7 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
         }
     }
 
-    setSelectedAddress= async (itemnow,index)=>{
+    const setSelectedAddress= async (itemnow,index)=>{
       console.log('ardino',route.params.actualUser);
       
       navigation.navigate(route.params.next,{
@@ -45,15 +45,38 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
       
 
     }
-    delSelectedAddress= async (itemnow)=>{
+    const delSelectedAddress= async (itemnow)=>{
       console.log(item);
-      Axios.post('https://api.dev.we-link.in/user_app.php?action=delAddress&address_id='+itemnow.addr_id,)
-        .then((response)=>{
-          console.log(response.data);
-        },(error)=>{
-          console.log(error);
-        });
-      popItem(index);
+     Alert.alert('Delete Address','Are you sure you want to delete the address ',
+       [
+        {
+          text: 'No',
+          onPress: ()=>console.log('dum')
+        },
+        {
+         text: 'Yes',
+         onPress: ()=>{
+          Axios.post('https://api.dev.we-link.in/user_app.php?action=delAddress&address_id='+itemnow.addr_id,)
+          .then((response)=>{
+            console.log(response.data);
+            Alert.alert('Delete success','The address was deleted successfully',[
+              {
+                text: 'Okay',
+                onPress: ()=> console.log('pressed')
+              }
+            ])
+            
+          },(error)=>{
+            console.log(error);
+            alert('Error deleting address');
+          });
+        popItem(index);
+
+         }
+       }
+      
+     ])
+      
     }
     
 

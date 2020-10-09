@@ -191,7 +191,7 @@ const myAddressStack = ({navigation,route}) => {
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
   <Stack.Navigator initialRouteName="Profile">
-    <Stack.Screen name = "AddressList" component = {AddressList}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails,navtoggle: navigation}}/>
+    <Stack.Screen name = "AddressList" component = {AddressList}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails,navtoggle: navigation,myAddresses: true,profile: route.params.profile}}/>
     <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
   </Stack.Navigator>
   </NavigationContainer>
@@ -224,7 +224,7 @@ const myProfileStack = ({navigation,route}) => {
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
   <Stack.Navigator initialRouteName="Profile">
-    <Stack.Screen name = "Profile" component = {MyProfile}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails}}/>
+    <Stack.Screen name = "Profile" component = {MyProfile}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails,navDrawer: navigation}}/>
     <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}}/>
     <Stack.Screen name="AddAddress" component={AddAddress}  />
     <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{headerShown: false}} />
@@ -272,7 +272,7 @@ export default function App() {
   const [networkState,setNetworkState]=useState(true);
   const [splash,setSplash]=useState(true);
 
-  const getUserDetails= async (networkTries,user)=>{
+  const getUserDetails= async (networkTries,user,nextRoute=0)=>{
     setSplash(true);
     console.log('getUserDetails');
 

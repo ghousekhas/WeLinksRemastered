@@ -30,26 +30,38 @@ const MyProfile = ({navigation,route}) => {
         try{
             const res = await DocumentPicker.pick({type: [DocumentPicker.types.images]});
             var formdata = new FormData();
-            formdata.append('user_image_url',{
-                uri: res.uri,
-                type:'image/jpeg',
-                name: res.name
-            });
-            console.log('attempting to upload picture');
-            Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&'+qs.stringify({
-                user_id: profileDetails.user_id,
+            if(res.size/1000>50)
+                alert('Selected picture must be below 50kb');
+            else{
+                formdata.append('user_image_url',{
+                    uri: res.uri,
+                    type:'image/jpeg',
+                    name: res.name,
+                });
+                console.log('attempting to upload picture');
+                Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&'+qs.stringify({
+                    user_id: profileDetails.user_id,
 
 
-            }),formdata).then((response)=>{
-                console.log(response.data,"picutre uploaded");
-                //setActualUser({...actualUser,})
-                setProfileDetails({...profileDetails,img_url: res.uri})
-                route.params.getUserDetails(0,auth().currentUser);
-                
+                }),formdata).then((response)=>{
+                    console.log(response.data,"picutre uploaded");
+                    //setActualUser({...actualUser,})
+                    setProfileDetails({...profileDetails,img_url: res.uri})
+                    route.params.getUserDetails(0,auth().currentUser);
+                    alert('Profile Picture uploaded succesfully');
+                    
+                    setTimout(()=> route.params.navdrawer.navigate('ProfileStack',{
+                        actualUser: actualUser,
+                        getUserDetails: route.params.getUserDetails
+                        
+                      }),1000);
+                    
 
-            },(error)=>{
-                console.log(error);
-            })
+                },(error)=>{
+                    console.log(error);
+                    alert('Error uploading your profile picture, please try again later');
+                })
+            }
 
         }
         catch(error){
@@ -198,7 +210,7 @@ const MyProfile = ({navigation,route}) => {
         <TouchableOpacity onPress={()=>{
             navigation.navigate('About',{
                 edit: true,
-                actualUser: actualUser,
+                actualUser: profileDetails,
                 getUserDetails: route.params.getUserDetails
             })
         }}>
@@ -244,7 +256,8 @@ const MyProfile = ({navigation,route}) => {
             navigation.navigate('AddressList',{
                 myAddresses: true,
                 actualUser: actualUser,
-                profileEdit: true
+                profileEdit: true,
+                profile: true
             })
         }}>
         <View style={{flexDirection: 'row',margin: '5%',flex: 0}}>

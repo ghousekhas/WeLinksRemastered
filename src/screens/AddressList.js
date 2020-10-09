@@ -212,9 +212,9 @@ export default class AddressList extends React.Component{
         if(this.data[0] == undefined)
           return(
             <View style={styles.container}>
-            <AppBar back ={this.state.profileEdit != undefined ? true: this.state.myAddresses} funct={() => {
+            <AppBar back ={this.props.route.params.profile} funct={() => {
           
-            if(this.state.myAddresses || this.state.profileEdit)
+            if(this.props.route.params.profile)
               this.props.navigation.pop();
             else
               this.props.navigation.toggleDrawer();
@@ -257,13 +257,13 @@ export default class AddressList extends React.Component{
         
             
           <View style={styles.container}>
-            <AppBar back ={this.state.profileEdit != undefined ? true: this.state.myAddresses} funct={() => {
+            <AppBar back ={this.props.route.params.profile} funct={() => {
           
-          if(this.state.myAddresses || this.state.profileEdit)
-          this.props.navigation.pop();
-        else
-          this.props.navigation.toggleDrawer();
-      }} />
+          if(this.props.route.params.profile)
+            this.props.navigation.pop();
+          else
+            this.props.navigation.toggleDrawer();
+        }} />
 
         <View style={Styles.parentContainer}>
           <GooglePlacesAutocomplete

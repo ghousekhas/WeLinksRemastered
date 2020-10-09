@@ -53,8 +53,8 @@ const About = ({navigation,route,getUserDetails}) =>{
                     })).then((response)=>{
                         setLoading(false);
                         alert('Your changes have been saved successfully');
-                        if(route!= undefined)
-                            route.params.getUserDetails(0,auth().currentUser);
+                        //if(route!= undefined)
+                          //  route.params.getUserDetails(0,auth().currentUser,3);
                         navigation.goBack();
 
                     },(error)=>{
@@ -100,8 +100,8 @@ const About = ({navigation,route,getUserDetails}) =>{
             ) : null}
          <ScrollView style={{flex: 1,marginVertical: dimen.width/20}}>  
         <Text style={style.text}>Tell us about yourself</Text>
-        <TextBox title='Name' hint='Enter your name' changeText={setName}/>
-        <TextBox title='Email Address' hint='Enter your email address' changeText={(text)=>{
+        <TextBox title='Name' defaultValue={name}  hint='Enter your name' changeText={setName}/>
+        <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={(text)=>{
             setEmail(text);
         }}/>
         {/*
@@ -112,7 +112,7 @@ const About = ({navigation,route,getUserDetails}) =>{
     </View>
     </ScrollView> 
     <View style={{marginVertical: 3,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
-        <SubmitButton styling={pressed} text= {edit ? 'Save': 'Continue' } onTouch={()=>aboutSubmit()}  />
+        <SubmitButton styling={pressed} text= {edit ? 'Update': 'Continue' } onTouch={()=>aboutSubmit()}  />
     </View>
     </View>);
   

@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import {View, StyleSheet, Text, Dimensions,Image, BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList, BorderlessButton } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
-;
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Avatar } from 'react-native-paper';
 import AppBar from '../components/AppBar';
 import {Colors, Styles} from '../Constants';
@@ -87,7 +87,18 @@ const MilkVendors = (props) => {
    
     <View style={style.header}>
         <Text style ={style.username}>{actualUser.name}</Text>
-        <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
+        <View style={{flexDirection: 'row',marginStart: 45,marginTop: 5}}>
+            <View>
+                <Icon 
+                                        name="map-marker-outline" 
+                                        color='black'
+
+                                        
+                                        size={30}
+                                        />
+            </View>
+            <Text style={{...style.address}}>{address.addr_name+' '+ address.addr_pincode}</Text>
+        </View>
     </View>
     </View>
     <View style={Styles.grayfullline} />
@@ -159,7 +170,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: Colors.primary,
         color: 'white',
-        marginStart: 50,
+        marginStart: 0,
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontSize: 13,

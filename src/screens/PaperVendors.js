@@ -74,9 +74,20 @@ const PaperVendors = (props) => {
       
        
         <View style={style.header}>
-            <Text style ={style.username}>{actualUser.name}</Text>
-            <Text style={style.address}>{address.addr_name+' '+ address.addr_pincode}</Text>
+        <Text style ={style.username}>{actualUser.name}</Text>
+        <View style={{flexDirection: 'row',marginStart: 45,marginTop: 5}}>
+            <View>
+                <Icon 
+                                        name="map-marker-outline" 
+                                        color='black'
+
+                                        
+                                        size={30}
+                                        />
+            </View>
+            <Text style={{...style.address}}>{address.addr_name+' '+ address.addr_pincode}</Text>
         </View>
+    </View>
         </View>
         <View style={Styles.grayfullline} />
     
@@ -151,7 +162,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: Colors.primary,
         color: 'white',
-        marginStart: 50,
+        marginStart: 0,
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontSize: 13,
