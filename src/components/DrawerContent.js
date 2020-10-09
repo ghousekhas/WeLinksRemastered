@@ -263,7 +263,8 @@ const DrawerContent = (props) => {
      onPress={()=>{
        props.navigation.navigate('MyAddresses',{
          actualUser: actualUser,
-         myAddresses: true
+         myAddresses: true,
+         drawer : true
        })
      }}
      

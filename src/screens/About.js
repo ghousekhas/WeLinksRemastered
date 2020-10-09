@@ -99,8 +99,8 @@ const About = ({navigation,route,getUserDetails}) =>{
             ) : null}
          <ScrollView style={{flex: 1,marginVertical: dimen.width/20}}>  
         <Text style={style.text}>Tell us about yourself</Text>
-        <TextBox title='Name' hint='Enter your name' changeText={setName}/>
-        <TextBox title='Email Address' hint='Enter your email address' changeText={(text)=>{
+        <TextBox title='Name' text={name} changeText={setName}/>
+        <TextBox title='Email Address' text={email} changeText={(text)=>{
             setEmail(text);
         }}/>
         {/*
@@ -110,8 +110,8 @@ const About = ({navigation,route,getUserDetails}) =>{
         
     </View>
     </ScrollView> 
-    <View style={{marginVertical: 3,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
-        <SubmitButton styling={pressed} text= {edit ? 'Save': 'Continue' } onTouch={()=>aboutSubmit()}  />
+    <View style={{marginVertical: 20,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
+        <SubmitButton styling={pressed} text= {edit ? 'Update': 'Continue' } onTouch={()=>aboutSubmit()}  />
     </View>
     </View>);
   

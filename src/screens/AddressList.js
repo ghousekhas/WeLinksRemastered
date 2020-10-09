@@ -46,8 +46,7 @@ export default class AddressList extends React.Component{
               arraydata: [],
               somekey: 0,
               myAddresses: props.route.params.myAddresses === true ? true: false,
-              apiLoaded: false,
-              profileEdit: props.route.params.profileEdit
+              apiLoaded: false
               
               
             };
@@ -63,15 +62,10 @@ export default class AddressList extends React.Component{
 
     componentDidMount(){
       this.retrieveAddresses();
-      const unsub = this.props.navigation.addListener('focus',()=>{
-        this.retrieveAddresses();
-      })
       BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
       console.log('mount');
       
     }
-
-
 
     onComeBack= (item)=>{
       if( item)
@@ -79,7 +73,7 @@ export default class AddressList extends React.Component{
     }
 
    onBackPress=()=>{
-      this.state.myAddresses ? this.props.navigation.toggleDrawer() : this.props.navigation.navigate('Homescreen');
+      this.props.navigation.navigate('Homescreen');
       return true;
     }
 
@@ -106,12 +100,6 @@ export default class AddressList extends React.Component{
       })
     }
 
-    popItem = (index)=>{
-      console.log(index,'deleting');
-      this.data.splice(index,1);
-      this.setState({somekey: Math.random(0.5)});
-    }
-
   
     setSelectedAddress= async (item)=>{
       const jsonString= await JSON.stringify({firstLogin: false})
@@ -123,13 +111,13 @@ export default class AddressList extends React.Component{
 
     }
 
-    renderSavedAddress=({item,index})=>{
+    renderSavedAddress=({item})=>{
       const {next,actualUser}=this.props.route.params;
 
       return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} deletae={this.state.myAddresses} route={{params:{
         next: next,
         actualUser: actualUser
-      }}} popItem={this.popItem} index={index} />
+      }}}/>
       /*return(
         <View style={styles.horiz}>
           <ScrollView>
@@ -206,9 +194,9 @@ export default class AddressList extends React.Component{
         if(this.data[0] == undefined)
           return(
             <View style={styles.container}>
-            <AppBar back ={this.state.profileEdit != undefined ? true: this.state.myAddresses} funct={() => {
+            <AppBar back ={!this.state.myAddresses} funct={() => {
           
-            if(!this.state.myAddresses || this.state.profileEdit)
+            if(!this.state.myAddresses)
               this.props.navigation.pop();
             else
               this.props.navigation.toggleDrawer();
