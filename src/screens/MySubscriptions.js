@@ -147,16 +147,19 @@ export default function MySubscriptions({navigation,route}){
        
         </View>
 
-        <View style={{...StyleSheet.absoluteFill}}>
-        {!apiLoaded ?
-                (<LottieView  
+       
+        {!apiLoaded && data[0] === undefined ?
+        (
+         <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',zIndex: 10}}>
+                <LottieView  
                 enableMergePathsAndroidForKitKatAndAbove
-              style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>)
+              style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
+              </View>)
               :
-               data[0] === undefined ? <Text style={{...Styles.subbold,alignSelf: 'center'}}>No addresses to show, please add an address </Text> : null
+               data[0] === undefined ? <Text style={{...Styles.subbold,alignSelf: 'center'}}>No subscriptions to show </Text> : null
                
             }
-        </View>
+        
       
 
        

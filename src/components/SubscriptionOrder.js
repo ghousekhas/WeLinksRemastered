@@ -36,7 +36,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bo
     <View style={{flexDirection: 'row'}}>
     <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
-    }} style={ style.image} width={60}  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+    }} style={{...style.image,height: alignment*0.8,width: alignment*0.8,zIndex: 100} } width={60}  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
  <Text style={{...style.name,marginStart: alignment+alignment/4}}>{name}</Text>
  <Feather name="trash-2" size={22} color='gray' style={style.icon}/>
  </View>

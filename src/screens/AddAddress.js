@@ -335,7 +335,9 @@ export default class AddAddress extends React.Component{
                     {submitButton}
                 </Animated.View>      
                 <TouchableOpacity style= {styles.backbuttoncontainer} 
-                    onPress={this.addAddress}>
+                    onPress={()=>{
+                      this.props.navigation.goBack();
+                    }}>
                   <Animated.Image style={{...styles.backbutton,opacity: arrowOpacity}} source={require('./../../assets/backbutton.png')}/>
                 </TouchableOpacity>    
                 {/*<TouchableOpacity style= {styles.currentlocationcontainer} 
