@@ -96,7 +96,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
 
    if(done){
     return(
-      <View style={{...StyleSheet.absoluteFill,backgroundColor: 'gray'}}>
+      <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
          <LottieView  
           enableMergePathsAndroidForKitKatAndAbove
          style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
