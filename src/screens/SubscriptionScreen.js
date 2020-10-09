@@ -357,7 +357,6 @@ const style = StyleSheet.create({
        
         marginVertical: '6%',
         marginStart: '5%',
-        backgroundColor: 'white'
         
       
     },

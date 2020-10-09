@@ -121,10 +121,11 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
        
          <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
            <FlatList
+           style={{flex: 1}}
            data = {cities}
            renderItem = {({item}) => {
             
-               return( <View style ={style.view}>
+               return( <View style ={{...style.view}}>
        <RadioButton value={item.city_id} /> 
         <Text style={style.city}>{item.cityname}</Text>
       
@@ -135,7 +136,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
         </RadioButton.Group>
         
         
-      <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '0%',borderRadius: 10}}
+      <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '0%',borderRadius: 10,flex: 0}}
           onPress={()=>{ registerUser()
 
           }}>

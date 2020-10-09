@@ -94,7 +94,7 @@ const address = route.params.address;
         <Text style={{fontSize: 13}}>{ " " +address.addr_name}</Text>
         </View>
        
-        <Text style={{fontSize: 13}}>{address.addr_details+".\nLanmark: " + address.addr_landmark }</Text>
+        <Text style={{fontSize: 13}}>{address.addr_details+".\nLandmark: " + address.addr_landmark }</Text>
         </View>
     </View>
     

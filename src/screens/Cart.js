@@ -13,7 +13,7 @@ import qs from 'qs';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const Cart = ({route,navigation}) => {
+const Cart = ({route,navigation,Tag}) => {
     let selectedDays = [],i;
     const [orderMade,setOrderMade] = useState(false);
     const words = {

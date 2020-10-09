@@ -26,7 +26,7 @@ const About = ({navigation,route,getUserDetails}) =>{
 
     function ValidateEmail(email) 
         {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
         {
             return (true)
         }
@@ -100,13 +100,8 @@ const About = ({navigation,route,getUserDetails}) =>{
             ) : null}
          <ScrollView style={{flex: 1,marginVertical: dimen.width/20}}>  
         <Text style={style.text}>Tell us about yourself</Text>
-<<<<<<< HEAD
-        <TextBox title='Name' text={name} changeText={setName}/>
-        <TextBox title='Email Address' text={email} changeText={(text)=>{
-=======
         <TextBox title='Name' defaultValue={name}  hint='Enter your name' changeText={setName}/>
         <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={(text)=>{
->>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
             setEmail(text);
         }}/>
         {/*
@@ -116,11 +111,7 @@ const About = ({navigation,route,getUserDetails}) =>{
         
     </View>
     </ScrollView> 
-<<<<<<< HEAD
-    <View style={{marginVertical: 20,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
-=======
     <View style={{marginVertical: 3,backgroundColor: Colors.primary,borderRadius: 7,alignSelf: 'center'}} onPress={()=>aboutSubmit()} >
->>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
         <SubmitButton styling={pressed} text= {edit ? 'Update': 'Continue' } onTouch={()=>aboutSubmit()}  />
     </View>
     </View>);

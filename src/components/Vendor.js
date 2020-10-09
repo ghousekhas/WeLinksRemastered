@@ -70,7 +70,7 @@ const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,addr
 
        
         </View>
-        <Image style={{...style.image,height: imageHeight*0.6,width: imageHeight*0.6,alignSelf: 'center'}} source={{uri: imageUrl}}/>
+        <Image style={{...style.image,height: imageHeight*0.3,width: imageHeight*0.3,alignSelf: 'center'}} source={{uri: imageUrl}}/>
     </View>)
 };
 

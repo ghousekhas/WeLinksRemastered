@@ -5,20 +5,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {FontAwesome5} from '@expo/vector-icons';
 import {Colors,dimen,TextSpinnerBoxStyles} from '../Constants';
 
-<<<<<<< HEAD
-const TextBox = ({title,hint,icon,changeText,text}) => {
-    return(<View style={style.mainContainer}>
-       <Text style={style.text}>{title}</Text>
-       <View style={style.answer}>
-       <TextInput style={style.input} value={text}
-=======
 const TextBox = ({title,hint,icon,changeText,defaultValue}) => {
     return(<View style={style.mainContainer}>
        <Text style={style.text}>{title}</Text>
        <View style={style.answer}>
        <TextInput style={style.input} 
        defaultValue={defaultValue}
->>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
        placeholder={hint} onChangeText={changeText}></TextInput>
        <View style={style.icon}>
        <FontAwesome5 name={icon} size={30} color='#5D5D5D' backgroundColor='white' />

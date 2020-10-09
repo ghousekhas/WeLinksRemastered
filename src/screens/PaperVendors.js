@@ -6,7 +6,6 @@ import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import AppBar from '../components/AppBar';
 import { Feather } from '@expo/vector-icons';
-
 import {Colors,Styles} from '../Constants';
 import Axios from 'axios';
 import qs from 'qs';
@@ -21,6 +20,8 @@ const PaperVendors = (props) => {
 
     }
 
+    console.log('add' + address.lat)
+
 
 
     const [vendors,updateVendors] = useState([]);
@@ -34,7 +35,7 @@ const PaperVendors = (props) => {
             lng: address.lng
         }),).then((response)=>{
             try{
-                console.log('one',response.data.vendor);
+                console.log('LOGGGGSSSS',address.lat);
                 updateVendors(response.data.vendor);
             }
             catch(error){
@@ -79,7 +80,6 @@ const PaperVendors = (props) => {
       
        
         <View style={style.header}>
-<<<<<<< HEAD
         <Text style ={{...style.username}}>{actualUser.name}</Text>
         <View style ={{...style.address}}>
         <View style = {{flexDirection: 'row',alignItems: 'center'}}>
@@ -87,21 +87,7 @@ const PaperVendors = (props) => {
         <Text style={{fontSize: 13}}>{ " " +address.addr_name}</Text>
         </View>
        
-        <Text style={{fontSize: 13}}>{address.addr_details+".\nLanmark: " + address.addr_landmark }</Text>
-=======
-        <Text style ={style.username}>{actualUser.name}</Text>
-        <View style={{flexDirection: 'row',marginStart: 45,marginTop: 5}}>
-            <View>
-                <Icon 
-                                        name="map-marker-outline" 
-                                        color='black'
-
-                                        
-                                        size={30}
-                                        />
-            </View>
-            <Text style={{...style.address}}>{address.addr_name+' '+ address.addr_pincode}</Text>
->>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
+        <Text style={{fontSize: 13}}>{address.addr_details+".\nLandmark: " + address.addr_landmark }</Text>
         </View>
     </View>
         </View>
@@ -124,7 +110,7 @@ const PaperVendors = (props) => {
                 const imageUrl=item.vendor_img_url;
                 const vendorId=item.vendor_id;
                 const vendorAddress= item.addresses[0]!= undefined? item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode: ' ';
-                console.log('itembrands',brands);
+              //  console.log('itembrands',brands);
                 for(let i=0;i<brands.length-1;i++)
                     brandsString=brandsString+brands[i].brand.toString()+','+' ';
                 if(brands.length>0)
@@ -177,16 +163,10 @@ const style = StyleSheet.create({
     address: {
         marginTop: '3%',
         borderRadius: 5,
-<<<<<<< HEAD
         backgroundColor: Colors.whiteBackground,
        borderColor: Colors.seperatorGray,
        borderWidth: 0.5,
         marginStart:48,
-=======
-        backgroundColor: Colors.primary,
-        color: 'white',
-        marginStart: 0,
->>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontSize: 13,

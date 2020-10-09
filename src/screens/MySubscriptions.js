@@ -61,7 +61,8 @@ export default function MySubscriptions({navigation,route}){
                 bought: item.quantity,
                 rate: item.order_amount,
                 num: item.no_of_deliveries,
-                daynotprop: item.subscription_days
+                daynotprop: item.subscription_days,
+                tag : item.product_type
 
 
             })
@@ -74,7 +75,7 @@ export default function MySubscriptions({navigation,route}){
         
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
-            console.log(response.data);
+            console.log("res" +response.data);
             //data=response.data;
             prepareResponse(response.data);
             setExtraData(Math.random(0.5));
@@ -103,7 +104,7 @@ export default function MySubscriptions({navigation,route}){
        
         return(
         
-                <MySubscriptionOrder {...item} days={[{m: item.daynotprop.includes('monday')},{t: item.daynotprop.includes('tuesday')},{w: item.daynotprop.includes('wednesday')},{th: item.daynotprop.includes('thursday')},{fr: item.daynotprop.includes('friday')},{s: item.daynotprop.includes('saturday')},{su: item.daynotprop.includes('sunday')}]} />
+                <MySubscriptionOrder  {...item} tag={item.tag} days={[{m: item.daynotprop.includes('monday')},{t: item.daynotprop.includes('tuesday')},{w: item.daynotprop.includes('wednesday')},{th: item.daynotprop.includes('thursday')},{fr: item.daynotprop.includes('friday')},{s: item.daynotprop.includes('saturday')},{su: item.daynotprop.includes('sunday')}]} />
             )   
     }
 
@@ -156,7 +157,7 @@ export default function MySubscriptions({navigation,route}){
               style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
               </View>)
               :
-               data[0] === undefined ? <Text style={{...Styles.subbold,alignSelf: 'center'}}>No subscriptions to show </Text> : null
+               data[0] === undefined || data[0] === null? <Text style={{...Styles.subbold,alignSelf: 'center',flex:1}}>No subscriptions to show </Text> : null
                
             }
         
@@ -191,7 +192,9 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
         <Text style={styles.greyText1}>Period : {startDate+" - "+endDate}</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
-        <Image style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+        <Image onLayout={({nativeEvent}) => {
+        setAlign(nativeEvent.layout.width)
+    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
 
         <View style={{flex: 1,backgroundColor: 'transparent'}}>
         <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',width: '100%',backgroundColor: 'transparent'}}>{name}</Text>
@@ -212,11 +215,9 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
             </View>
 
             <View style={{flexDirection:'row',paddingBottom: '5%'}}>
-            {tag == 'Milk' ? <Text style={{...styles.rate,marginStart: alignment+alignment/4}}>₹{rate}</Text> : <View>
-            <Text style={{...styles.rates,marginStart: 30}}>Weekdays : ₹{rate}</Text>
-            <Text style={{...styles.rates,marginStart: 30}}>Weekends : ₹{rate_}</Text>
-            </View>}
-            <Text style = {{...styles.rate,color: 'gray',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop: tag == 'Paper' ? 0 : '3%'}}>{num+" deliveries"}</Text>
+             <Text style={{...styles.rate,marginStart: alignment/3.5}}>Order Total : ₹{rate}</Text>
+
+            <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop: tag == 'Paper' ? 0 : '3%'}}>{num+" deliveries"}</Text>
             </View>
         </View>
 

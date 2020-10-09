@@ -15,8 +15,6 @@ import qs from 'qs';
 import LottieView from 'lottie-react-native'
 
 const height= Dimensions.get('window').height;
-const {from} = this.props.route.params;
-      console.log('from:'+ from)
 
 // useFocusEffect(
 //   React.useCallback(() => {
@@ -65,10 +63,15 @@ export default class AddressList extends React.Component{
 
     componentDidMount(){
       this.retrieveAddresses();
+      const unsub = this.props.navigation.addListener('focus',()=>{
+        this.retrieveAddresses();
+      })
       BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
       console.log('mount');
       
     }
+
+
 
     onComeBack= (item)=>{
       if( item)
@@ -76,7 +79,7 @@ export default class AddressList extends React.Component{
     }
 
    onBackPress=()=>{
-     this.state.myAddresses ? navigation.toggleDrawer() : this.props.navigation.pop();
+      this.state.myAddresses ? this.props.navigation.toggleDrawer() : this.props.navigation.navigate('Homescreen');
       return true;
     }
 
@@ -89,7 +92,6 @@ export default class AddressList extends React.Component{
 
     retrieveAddresses=  ()=>{
       const {user_id}= this.props.route.params.actualUser;
-      
       console.log('alistuserid',user_id)
       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
         user_id: user_id
@@ -104,6 +106,12 @@ export default class AddressList extends React.Component{
       })
     }
 
+    popItem = (index)=>{
+      console.log(index,'deleting');
+      this.data.splice(index,1);
+      this.setState({somekey: Math.random(0.5)});
+    }
+
   
     setSelectedAddress= async (item)=>{
       const jsonString= await JSON.stringify({firstLogin: false})
@@ -115,13 +123,13 @@ export default class AddressList extends React.Component{
 
     }
 
-    renderSavedAddress=({item})=>{
+    renderSavedAddress=({item,index})=>{
       const {next,actualUser}=this.props.route.params;
 
       return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} deletae={this.state.myAddresses} route={{params:{
         next: next,
         actualUser: actualUser
-      }}}/>
+      }}} popItem={this.popItem} index={index} />
       /*return(
         <View style={styles.horiz}>
           <ScrollView>
@@ -204,11 +212,7 @@ export default class AddressList extends React.Component{
         if(this.data[0] == undefined)
           return(
             <View style={styles.container}>
-<<<<<<< HEAD
-            <AppBar back ={!this.state.myAddresses} funct={() => {
-=======
             <AppBar back ={this.props.route.params.profile} funct={() => {
->>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
           
             if(this.props.route.params.profile)
               this.props.navigation.pop();
@@ -253,15 +257,6 @@ export default class AddressList extends React.Component{
         
             
           <View style={styles.container}>
-<<<<<<< HEAD
-            <AppBar back ={this.state.myAddresses ? false : true} funct={() => {
-          
-          if(this.state.myAddresses)
-          this.props.navigation.toggleDrawer();
-        else
-          this.props.navigation.pop();
-      }} />
-=======
             <AppBar back ={this.props.route.params.profile} funct={() => {
           
           if(this.props.route.params.profile)
@@ -269,7 +264,6 @@ export default class AddressList extends React.Component{
           else
             this.props.navigation.toggleDrawer();
         }} />
->>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
 
         <View style={Styles.parentContainer}>
           <GooglePlacesAutocomplete
