@@ -55,7 +55,8 @@ export default class AddAddress extends React.Component{
             pincode: ''
         };
         this.location={
-
+            latitude: this.props.route.params.initialCamera.center.latitude,
+            longitude: this.props.route.params.initialCamera.center.longitude
         };
         this.errorMst={};
         this.landmarkBox= null;
@@ -72,8 +73,8 @@ export default class AddAddress extends React.Component{
           pincode: pincode,
           address: fineAddressInfo+ ' '+ title,
           landmark: landmark,
-          lat: latitude,
-          lng: longitude});
+          lat: this.location.latitude,
+          lng: this.location.longitude});
         this.props.route.params.addrNameSetter(title);
           this.props.navigation.goBack();
       }
@@ -89,8 +90,8 @@ export default class AddAddress extends React.Component{
           pincode: pincode,
           address: title,
           landmark: landmark,
-          lat: latitude,
-          lng: longitude
+          lat: this.location.latitude,
+          lng: this.location.longitude
         }),).then((response)=>{
           console.log(response.data);
           this.setState({adding: false});
@@ -228,6 +229,10 @@ export default class AddAddress extends React.Component{
       }).start();
     };
     addressChanged=(parameter)=>{     
+      this.location={
+        latitude: parameter.latitude,
+        longitude: parameter.longitude
+      }
       this.setState({latitude: parameter.latitude,longitude: parameter.longitude}) 
       //this.setState({title: parameter.latitude,description: parameter.longitude});
       Axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
