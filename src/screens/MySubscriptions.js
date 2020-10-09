@@ -101,7 +101,7 @@ export default function MySubscriptions({navigation,route}){
         
        
         return(
-            <View style={{marginVertical: dimen.height/17,marginStart: dimen.width/20,backgroundColor: 'black',height: 100,width: 100}}>
+            <View style={{marginVertical: dimen.height/10,marginStart: dimen.width/20,backgroundColor: 'black',height: 100,width: 100}}>
                 <SubscriptionOrder {...item} days={[{m: item.days.includes('Monday')},{t: item.days.includes('Tues')},{w: item.days.includes('Wednesday')},{th: item.days.includes('Thursday')},{fr: item.days.includes('Friday')},{s: item.days.includes('Saturday')},{su: item.days.includes('Sunday')}]} />
             </View>
             )   
@@ -122,7 +122,7 @@ export default function MySubscriptions({navigation,route}){
         <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>Your subscriptions</Text>
 
         <FlatList 
-            style={{marginBottom:'5%',backgroundColor: 'white'}}
+            style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
             extraData={extraData}
             data = {data}
             keyExtractor= {(item,index)=>index.toString()}
