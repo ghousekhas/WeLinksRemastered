@@ -19,9 +19,9 @@ const About = ({navigation,route,getUserDetails}) =>{
     const [email,setEmail] = useState(' ');
     const [referral,setReferral]= useState(' ');
     const [aboutDone,setAboutDone]=useState(false);
-    const [edit,setEdit]=useState(route.params.edit === undefined ? false: true);
-    const [actualUser,setActualUser]=useState(route.params.actualUser);
-    const [loading,setLoading]=useState(false);
+    const [edit,setEdit]=useState(route === undefined ? false: true);
+    const [actualUser,setActualUser]=useState(route!= undefined ? route.params.actualUser: null);
+    const [loading,setLoading]=useState(false); 
     const [pressed,setPressed] = useState(false);
 
     function ValidateEmail(email) 
@@ -53,7 +53,8 @@ const About = ({navigation,route,getUserDetails}) =>{
                     })).then((response)=>{
                         setLoading(false);
                         alert('Your changes have been saved successfully');
-                        route.params.getUserDetails(0,auth().currentUser);
+                        if(route!= undefined)
+                            route.params.getUserDetails(0,auth().currentUser);
                         navigation.goBack();
 
                     },(error)=>{

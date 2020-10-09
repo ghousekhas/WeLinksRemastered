@@ -69,7 +69,7 @@ const Cart = ({route,navigation}) => {
 
         console.log(dayString1)
       
-        const daysOfTheWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        const daysOfTheWeek = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
 
        
            for(i in dayString1)
@@ -274,6 +274,7 @@ const Cart = ({route,navigation}) => {
                     order_total: calculateCartAmount()+50
 
                 }),).then((response)=>{
+                    console.log(response);
                     console.log(response.data);
                     alert('Your order has been placed');
                     

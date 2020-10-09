@@ -133,10 +133,10 @@ const MyProfile = ({navigation,route}) => {
       }
 
     return(<View style={{...StyleSheet.absoluteFill}}>
-        <View style={{elevation: 100,zIndex: 100}}>
-   <AppBar funct={() => {
-        navigation.toggleDrawer();
-        }} />
+        <View style={{elevation: 0,zIndex: 0}}>
+    <AppBar back={false} funct={() => {
+            navigation.toggleDrawer();
+            }} />
     </View> 
    
     

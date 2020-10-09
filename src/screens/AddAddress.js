@@ -97,6 +97,7 @@ export default class AddAddress extends React.Component{
           //this.props.route.params.refresh();
           this.props.route.params.onComeBack(true);
           this.props.navigation.goBack();
+          
         },(error)=>{
           console.log(error);
         })
@@ -274,16 +275,14 @@ export default class AddAddress extends React.Component{
       var submitButton;
 
       if(this.state.adding)
-        return(
-      <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',justifyContent: 'center'}}>
-        <View style={{width: '70%',height: '50%',alignSelf: 'center',margin: 30,alignContent: 'center'}}>
-         <LottieView  
-          enableMergePathsAndroidForKitKatAndAbove
-         style={{flex:1}}  source={require('../../assets/animations/logistics.json')} resizeMode={'cover'} autoPlay={true} loop={true}/>
+      return(
+        <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
+           <LottieView  
+            enableMergePathsAndroidForKitKatAndAbove
+           style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
+           <Text style={{...Styles.heading,textAlign: 'center',flex: 0,padding: 10,margin: 50,alignSelf: 'center'}}>Adding Address</Text>
          </View>
-         <Text style={{...Styles.heading,textAlign: 'center',flex: 0,padding: 10,margin: 50,alignSelf: 'center'}}>Adding Address</Text>
-       </View>
-       )
+      )
 
 
       if(this.state.inputsValid)
@@ -336,7 +335,9 @@ export default class AddAddress extends React.Component{
                     {submitButton}
                 </Animated.View>      
                 <TouchableOpacity style= {styles.backbuttoncontainer} 
-                    onPress={this.addAddress}>
+                    onPress={()=>{
+                      this.props.navigation.goBack();
+                    }}>
                   <Animated.Image style={{...styles.backbutton,opacity: arrowOpacity}} source={require('./../../assets/backbutton.png')}/>
                 </TouchableOpacity>    
                 {/*<TouchableOpacity style= {styles.currentlocationcontainer} 
