@@ -47,7 +47,7 @@ export default class AddressList extends React.Component{
               somekey: 0,
               myAddresses: props.route.params.myAddresses === true ? true: false,
               apiLoaded: false,
-              profileEdit: props.route.params.profileEdit
+              profileEdit: props.route.params.profileEdit === true ? true : false
               
               
             };
@@ -187,7 +187,7 @@ export default class AddressList extends React.Component{
             pitch: 0,
             heading: 0,
             zoom: 14,
-            type: 'userAddress'
+            type: 1
             
 
           },
@@ -200,6 +200,12 @@ export default class AddressList extends React.Component{
       
     
     }
+
+    evalnavi=()=>{
+      if(!this.state.myAddresses || this.state.profileEdit)
+              return true;
+      return false;
+    }
     
 
     render(){
@@ -208,7 +214,7 @@ export default class AddressList extends React.Component{
             <View style={styles.container}>
             <AppBar back ={this.state.profileEdit != undefined ? true: this.state.myAddresses} funct={() => {
           
-            if(!this.state.myAddresses || this.state.profileEdit)
+            if(this.state.myAddresses || this.state.profileEdit)
               this.props.navigation.pop();
             else
               this.props.navigation.toggleDrawer();
@@ -251,13 +257,13 @@ export default class AddressList extends React.Component{
         
             
           <View style={styles.container}>
-            <AppBar back ={!this.state.myAddresses} funct={() => {
+            <AppBar back ={this.state.profileEdit != undefined ? true: this.state.myAddresses} funct={() => {
           
-            if(!this.state.myAddresses)
-              this.props.navigation.pop();
-            else
-              this.props.navigation.toggleDrawer();
-          }} />
+          if(this.state.myAddresses || this.state.profileEdit)
+          this.props.navigation.pop();
+        else
+          this.props.navigation.toggleDrawer();
+      }} />
 
         <View style={Styles.parentContainer}>
           <GooglePlacesAutocomplete

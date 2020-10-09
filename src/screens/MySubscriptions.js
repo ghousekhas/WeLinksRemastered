@@ -50,6 +50,7 @@ export default function MySubscriptions({navigation,route}){
         console.log(dataa);
         data=[];
         dataa.forEach(item => {
+            console.log(item);
             //console.log('parsed',JSON.parse(item.subscription_days));
             data.push({
                 name: item.product_name,
@@ -58,7 +59,8 @@ export default function MySubscriptions({navigation,route}){
                 endDate: item.subscription_end_date.substring(0,11),
                 bought: item.quantity,
                 rate: item.order_amount,
-                num: item.no_of_deliveries
+                num: item.no_of_deliveries,
+                days: item.subscription_days
 
 
             })
@@ -73,7 +75,7 @@ export default function MySubscriptions({navigation,route}){
         .then((response)=>{
             console.log(response.data);
             //data=response.data;
-            //prepareResponse(response.data);
+            prepareResponse(response.data);
             setExtraData(Math.random(0.5));
             setApiLoaded(true);
         },(error)=>{
@@ -99,8 +101,8 @@ export default function MySubscriptions({navigation,route}){
         
        
         return(
-            <View style={{marginVertical: dimen.height/17,alignSelf: 'center',backgroundColor: 'white'}}>
-                <SubscriptionOrder {...item} days={[{m: true},{t: false},{w: true},{th: false},{fr: true},{s: false},{su: true}]} />
+            <View style={{marginVertical: dimen.height/17,marginStart: dimen.width/20,backgroundColor: 'black',height: 100,width: 100}}>
+                <SubscriptionOrder {...item} days={[{m: item.days.includes('Monday')},{t: item.days.includes('Tues')},{w: item.days.includes('Wednesday')},{th: item.days.includes('Thursday')},{fr: item.days.includes('Friday')},{s: item.days.includes('Saturday')},{su: item.days.includes('Sunday')}]} />
             </View>
             )   
     }
@@ -109,16 +111,16 @@ export default function MySubscriptions({navigation,route}){
    
 
     return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
-    <View>
+    <View style={{height: dimen.height/13}}>
         <AppBar back={false} funct={() => {
             
             navigation.toggleDrawer();
             }} />
         </View>
 
-        <View style={{...Styles.parentContainer,backgroundColor: 'white'}}>
+        <View style={{flex: 1,backgroundColor: 'white'}}>
         <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>Your subscriptions</Text>
-        <View style={{flex:1,marginBottom: 20,backgroundColor: 'white'}}>
+
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white'}}
             extraData={extraData}
@@ -136,19 +138,24 @@ export default function MySubscriptions({navigation,route}){
                  
             }}
         />
+       
+    
+
+        
+
+      
+       
+        </View>
+
+        <View style={{...StyleSheet.absoluteFill}}>
         {!apiLoaded ?
                 (<LottieView  
                 enableMergePathsAndroidForKitKatAndAbove
               style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>)
               :
-               data[0] === undefined ? <Text style={{...Styles.subbold}}>No addresses to show, please add an address </Text> : null
+               data[0] === undefined ? <Text style={{...Styles.subbold,alignSelf: 'center'}}>No addresses to show, please add an address </Text> : null
                
             }
-
-    
-        </View>
-      
-       
         </View>
       
 

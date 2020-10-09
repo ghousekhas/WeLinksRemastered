@@ -114,8 +114,8 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
         
         <Drawer.Screen name="Home" component={vendorStack} initialParams={{user: user,actualUser: updateState}} />
         <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
-        <Drawer.Screen name="MyAddresses" component={AddressList}  />
         <Drawer.Screen name="AddAddress" component={AddAddress}  />
+        <Drawer.Screen name="myAddresses" component={myAddressStack}  />
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
           termsData: termsData,
           contactUsData: contactUsData,
@@ -138,7 +138,7 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
       <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user,actualUser: updateState,sm: 1}} />
       <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
       <Drawer.Screen name="AddAddress" component={AddAddress}  />
-      <Drawer.Screen name="MyAddresses" component={AddressList}  />
+      <Drawer.Screen name="MyAddresses" component={myAddressStack}  />
       <Drawer.Screen name="MySubscriptions" component={MySubscriptions}  />
       <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
           termsData: termsData,
@@ -165,6 +165,39 @@ const vendorStack=({navigation})=>{
   </NavigationContainer>
   </View>)
 }
+
+const myAddressStack = ({navigation,route}) => {
+  const [user,setUser]=useState(route.params.user);
+  const [actualUser,setActualUser]=useState(route.params.actualUser);
+  const {getUserDetails} = route.params;
+  const [remountKey,setRemountKey]=useState(0);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(route.params.actualUser);
+      setActualUser(route.params.actualUser);
+      setRemountKey(Math.random(0.5));
+      return () => null;
+    }, [route])
+  );
+
+  React.useEffect(()=>{
+    console.log(route.params.actualUser);
+    setActualUser(route.params.actualUser);
+    setRemountKey(Math.random(0.5));
+  },[route.params]);
+  console.log('Starting address Stack');
+  return(
+    <View style={{flex: 1}}>
+  <NavigationContainer independent = {true}>
+  <Stack.Navigator initialRouteName="Profile">
+    <Stack.Screen name = "AddressList" component = {AddressList}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails,navtoggle: navigation}}/>
+    <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
+  </Stack.Navigator>
+  </NavigationContainer>
+  </View>)
+
+};
 
 const myProfileStack = ({navigation,route}) => {
   const [user,setUser]=useState(route.params.user);
