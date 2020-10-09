@@ -167,7 +167,8 @@ const [usableEndDate,setUsableEndDate]=useState(null);
         endDate: usableEndDate,
         productId: productId,
         vendorId: vendorId,
-        tag: tag
+        tag: tag,
+        vendorType: route.params.vendorType
 
       
 

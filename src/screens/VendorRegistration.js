@@ -243,7 +243,7 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
             setUri(res.uri);
             setFileName(res.name);
             console.log(res);
-            if(res.size%100>200){
+            if(res.size/100>200){
                 Alert.alert('Size of the file should be lesser than 200kb')
                 setFileName('Please select a file');
             }

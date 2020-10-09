@@ -64,13 +64,13 @@ export default class AddAddress extends React.Component{
     addAddress= async ()=>{
       
       const {user_id}=this.props.route.params.actualUser;
-      const {label,pincode,title,description,latitude,longitude,landmark}=this.state;
+      const {label,pincode,title,description,latitude,longitude,landmark,fineAddressInfo}=this.state;
       if(this.state.type===0){
         this.setState({adding: true});
         this.props.route.params.callback({ user_id: user_id,
           label: label,
           pincode: pincode,
-          address: title,
+          address: fineAddressInfo+ ' '+ title,
           landmark: landmark,
           lat: latitude,
           lng: longitude});

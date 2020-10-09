@@ -100,7 +100,7 @@ export default class Homescreen extends React.Component{
         //this.setState({actualUser: this.props.actualUser});
         this.focusListener= navigation.addListener('focus',()=>{
             //this.checkIfFirstLogin();
-            //this.retrieveUserData(10);
+            this.retrieveUserData(10);
        });
 
         BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
@@ -199,7 +199,8 @@ export default class Homescreen extends React.Component{
                             user: user,
                             from: 'home',
                             actualUser: this.state.actualUser,
-                            tag: 'Milk'
+                            tag: 'Milk',
+                            profile: true
                         });
                     }
                         //this.props.navigation.navigate('MilkVendors')}
@@ -213,7 +214,8 @@ export default class Homescreen extends React.Component{
                         user: user,
                         from: 'home',
                         actualUser: this.state.actualUser,
-                        tag: 'Paper'
+                        tag: 'Paper',
+                        profile: true
                     });}}>
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.news}/>
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.news}</Text>

@@ -16,8 +16,12 @@ const height= Dimensions.get('window').height;
 
 export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
     const navigation= useNavigation();
+<<<<<<< HEAD
     
     const [currentAddress,setCurrentAddress]=useState(item.addr_details+'.\n\n'+'Landmark: ' +item.addr_landmark+'.');
+=======
+    const [currentAddress,setCurrentAddress]=useState(item.addr_details+'\n'+' '+ item.addr_landmark);
+>>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
     const [label,setCurrentLabel]= useState(item.addr_name);
     const [image,setImage]=useState(require('../../assets/pin.png'));
     const init=()=>{
@@ -35,7 +39,7 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
         }
     }
 
-    setSelectedAddress= async (itemnow,index)=>{
+    const setSelectedAddress= async (itemnow,index)=>{
       console.log('ardino',route.params.actualUser);
       
       navigation.navigate(route.params.next,{
@@ -46,8 +50,9 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
       
 
     }
-    delSelectedAddress= async (itemnow)=>{
+    const delSelectedAddress= async (itemnow)=>{
       console.log(item);
+<<<<<<< HEAD
       Alert('Are you sure you want to delete this address?');
       Axios.post('https://api.dev.we-link.in/user_app.php?action=delAddress&address_id='+itemnow.addr_id,)
         .then((response)=>{
@@ -56,6 +61,38 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
           console.log(error);
         });
       popItem(index);
+=======
+     Alert.alert('Delete Address','Are you sure you want to delete the address ',
+       [
+        {
+          text: 'No',
+          onPress: ()=>console.log('dum')
+        },
+        {
+         text: 'Yes',
+         onPress: ()=>{
+          Axios.post('https://api.dev.we-link.in/user_app.php?action=delAddress&address_id='+itemnow.addr_id,)
+          .then((response)=>{
+            console.log(response.data);
+            Alert.alert('Delete success','The address was deleted successfully',[
+              {
+                text: 'Okay',
+                onPress: ()=> console.log('pressed')
+              }
+            ])
+            
+          },(error)=>{
+            console.log(error);
+            alert('Error deleting address');
+          });
+        popItem(index);
+
+         }
+       }
+      
+     ])
+      
+>>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
     }
     
 

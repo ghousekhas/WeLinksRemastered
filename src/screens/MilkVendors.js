@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import {View, StyleSheet, Text, Dimensions,Image, BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList, BorderlessButton } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
-;
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Avatar } from 'react-native-paper';
 import AppBar from '../components/AppBar';
 import {Colors, Styles} from '../Constants';
@@ -87,6 +87,7 @@ const MilkVendors = (props) => {
   
    
     <View style={style.header}>
+<<<<<<< HEAD
         <Text style ={{...style.username}}>{actualUser.name}</Text>
         <View style ={{...style.address}}>
         <View style = {{flexDirection: 'row',alignItems: 'center'}}>
@@ -95,6 +96,20 @@ const MilkVendors = (props) => {
         </View>
        
         <Text style={{fontSize: 13}}>{address.addr_details+".\nLanmark: " + address.addr_landmark }</Text>
+=======
+        <Text style ={style.username}>{actualUser.name}</Text>
+        <View style={{flexDirection: 'row',marginStart: 45,marginTop: 5}}>
+            <View>
+                <Icon 
+                                        name="map-marker-outline" 
+                                        color='black'
+
+                                        
+                                        size={30}
+                                        />
+            </View>
+            <Text style={{...style.address}}>{address.addr_name+' '+ address.addr_pincode}</Text>
+>>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
         </View>
     </View>
     </View>
@@ -165,10 +180,16 @@ const style = StyleSheet.create({
     address: {
         marginTop: '3%',
         borderRadius: 5,
+<<<<<<< HEAD
         backgroundColor: Colors.whiteBackground,
        borderColor: Colors.seperatorGray,
        borderWidth: 0.5,
         marginStart:48,
+=======
+        backgroundColor: Colors.primary,
+        color: 'white',
+        marginStart: 0,
+>>>>>>> 8a2f08ec480097d72103684f14385b4670b6d7b0
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontSize: 13,

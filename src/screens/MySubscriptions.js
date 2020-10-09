@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions, BackHandler} from 'react-native';
+import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions, BackHandler,Image} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
@@ -9,12 +9,12 @@ import AppBar from '../components/AppBar';
 import SubmitButton from '../components/SubmitButton'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
-
+import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Axios from 'axios';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import LottieView from 'lottie-react-native';
-
+import { setStatusBarHidden } from 'expo-status-bar';
 var data=[];
 
 
@@ -51,7 +51,8 @@ export default function MySubscriptions({navigation,route}){
         data=[];
         dataa.forEach(item => {
             console.log(item);
-            //console.log('parsed',JSON.parse(item.subscription_days));
+        
+            console.log(item.subscription_days);
             data.push({
                 name: item.product_name,
                 imageUrl: item.product_image,
@@ -60,7 +61,7 @@ export default function MySubscriptions({navigation,route}){
                 bought: item.quantity,
                 rate: item.order_amount,
                 num: item.no_of_deliveries,
-                days: item.subscription_days
+                daynotprop: item.subscription_days
 
 
             })
@@ -101,9 +102,8 @@ export default function MySubscriptions({navigation,route}){
         
        
         return(
-            <View style={{marginVertical: dimen.height/10,marginStart: dimen.width/20,backgroundColor: 'black',height: 100,width: 100}}>
-                <SubscriptionOrder {...item} days={[{m: item.days.includes('Monday')},{t: item.days.includes('Tues')},{w: item.days.includes('Wednesday')},{th: item.days.includes('Thursday')},{fr: item.days.includes('Friday')},{s: item.days.includes('Saturday')},{su: item.days.includes('Sunday')}]} />
-            </View>
+        
+                <MySubscriptionOrder {...item} days={[{m: item.daynotprop.includes('monday')},{t: item.daynotprop.includes('tuesday')},{w: item.daynotprop.includes('wednesday')},{th: item.daynotprop.includes('thursday')},{fr: item.daynotprop.includes('friday')},{s: item.daynotprop.includes('saturday')},{su: item.daynotprop.includes('sunday')}]} />
             )   
     }
 
@@ -167,6 +167,64 @@ export default function MySubscriptions({navigation,route}){
    
 }
 
+const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_}) => {
+    console.log('Tag :' + tag);
+
+    const [alignment,setAlign] = useState(0);
+    var dayString = "";
+   
+        //console.log(days[i])
+         days[0].m ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+         days[1].t ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+         days[2].w ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+         days[3].th ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+         days[4].f ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+         days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+         days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+       
+  
+    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,alignSelf: 'center',marginVertical: dimen.height/50}}>
+       
+    
+
+    <View style={{flexDirection: 'row'}}>
+        <Text style={styles.greyText1}>Period : {startDate+" - "+endDate}</Text>
+    </View>
+    <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
+        <Image style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+
+        <View style={{flex: 1,backgroundColor: 'transparent'}}>
+        <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',width: '100%',backgroundColor: 'transparent'}}>{name}</Text>
+        
+        
+        
+            
+        
+            <View style={{flexDirection: 'row',marginVertical: '2%'}}>
+                <Text style={{...styles.quantity,marginStart: 30}}>{bought+ " unit/s  · "}</Text>
+                <Text style={dayString[0]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>  M </Text>
+                <Text style={dayString[1]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>T </Text>
+                <Text style={dayString[2]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>W </Text>
+                <Text style={dayString[3]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>T </Text>
+                <Text style={dayString[4]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>F </Text>
+                <Text style={dayString[5]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>S </Text>
+                <Text style={dayString[6]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>S </Text>
+            </View>
+
+            <View style={{flexDirection:'row',paddingBottom: '5%'}}>
+            {tag == 'Milk' ? <Text style={{...styles.rate,marginStart: alignment+alignment/4}}>₹{rate}</Text> : <View>
+            <Text style={{...styles.rates,marginStart: 30}}>Weekdays : ₹{rate}</Text>
+            <Text style={{...styles.rates,marginStart: 30}}>Weekends : ₹{rate_}</Text>
+            </View>}
+            <Text style = {{...styles.rate,color: 'gray',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop: tag == 'Paper' ? 0 : '3%'}}>{num+" deliveries"}</Text>
+            </View>
+        </View>
+
+    </View>
+    </View>)
+
+};
+
 
 const styles = StyleSheet.create({
     tabs: {
@@ -226,4 +284,101 @@ const styles = StyleSheet.create({
         borderColor: Colors.primary,
         flexDirection: 'row'
     },
+    
+    line:{
+        borderWidth: 0.5,
+        borderColor: Colors.seperatorGray,
+        marginVertical: '2%',
+      
+    }
+    ,
+    name: {
+        fontWeight: '400',
+        fontSize: 18,
+        padding: 5,
+        marginTop: '2%',
+        fontWeight: 'bold',
+        color:'black'
+        
+    },
+    quantity: {
+        marginStart: '35%',
+        marginTop: '3%',
+        fontWeight: 'bold',
+        
+        
+        fontSize: 15,
+       
+        padding: 1
+       
+    },
+    rate: {
+        
+        
+        fontWeight: 'bold',
+        fontSize: 14,
+        marginTop: '3%',
+       
+        color:'black'
+      
+
+    },
+    greyText: {
+       
+        color: 'gray',
+        fontSize: 15,
+        fontWeight: 'bold',
+      marginStart: '10%',
+      paddingVertical: '3%',
+      
+        marginVertical: '4%'
+        
+    },
+    greyText1: {
+        marginStart: '3%',
+        color: 'gray',
+        fontSize: 12,
+        fontWeight: 'bold',
+        margin: '2%',
+        marginTop:'4%'
+        
+     
+        
+        
+    },
+    image1: {
+        width: 60,
+        height: 60,
+        position: 'absolute',
+        padding: 10,
+        zIndex: 10000
+
+        
+       
+    },
+    image: {
+        width: 80,
+        height: 80,
+        position: 'absolute',
+        marginStart: '4%',
+        marginTop: '10%',
+       
+        
+       
+    },
+    icon: {
+        marginVertical: '2.2%',
+        
+     position: 'absolute',
+     right: '2%'
+       
+    },
+    yes: {
+        color: Colors.primary,
+        marginTop: '3.5%',
+        fontWeight: 'bold',
+        fontSize: 15,
+        
+        
+    }
 })
