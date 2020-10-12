@@ -17,7 +17,7 @@ const height= Dimensions.get('window').height;
 export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
     const navigation= useNavigation();
     
-    const [currentAddress,setCurrentAddress]=useState(item.addr_details+'.\n\n'+'Landmark: ' +item.addr_landmark+'.');
+    const [currentAddress,setCurrentAddress]=useState(item.addr_details+'.\n'+'Landmark: ' +item.addr_landmark+'.');
     const [label,setCurrentLabel]= useState(item.addr_name);
     const [image,setImage]=useState(require('../../assets/pin.png'));
     const init=()=>{
