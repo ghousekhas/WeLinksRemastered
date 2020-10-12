@@ -1,0 +1,145 @@
+Response ok: 200
+Error: 500
+
+POST REQUESTS:
+
+a. userAuthenticated
+params:
+{
+    phone:,
+    uid:    
+}
+Whenever user signs in thorugh OTP
+Response:{
+    status: 200,
+    message: type text "User added in database"
+}
+
+b. userInfoUpdated:
+params:{
+    phone:,//primary key
+    city:,
+    mail:,
+    referral:
+    name:
+}
+first time or information updated
+Response:{
+    status: 200,
+    message: type "application/json"
+    data: {
+        phone:,
+         city:,
+        mail:,
+        referral:
+        name:
+}
+        
+    }
+
+
+
+c. validateReferal:
+params:{
+    referralCode:,
+    phone:
+}
+Check if referral is valid
+response:{
+    status: 200,
+    messagetype: 'application/json'
+    data:[{
+        referral: 'true/false' //if exists/notexists
+    }]
+}
+
+d. addAddress
+params:{
+    phone:,
+    addresses: [{label:,address:,lat:,lng},{label2:,address:,lat:,lng}........{labeln:,address:,lat:,lng:}]
+}
+Whenever user adds a new address
+response:{
+    status: 200,
+    type: 'application/json'
+    data:[{
+        addressID: //number of addresses stored in the table
+    }]
+}
+
+
+GET REQUESTS
+
+a. getVendorsList:
+params:{
+    category: 'milk/newspaper'
+}
+give list of vendors in json 
+response:{
+    status: 200,
+    type: 'application/json'
+    data:[{vendors: [
+        {vendor1Name:,brands:,stars:,vendorID: //primarykeyofvendortable},
+        {vendor2Name:,brands:,stars:,vendorID: //primarykeyofvendortable},
+        .
+        .
+        {vendornName:,brands:,stars:,vendorID: //primarykeyofvendortable},
+    ]}]
+}
+
+b. getProductsList
+params:{
+    vendorID:
+}
+gives list of products in their categories
+response:{
+    status: 200,
+    type: 'application/json',
+    data: [products:{categories:[
+        {category1:[{
+            name: ,
+            productID,
+            price:
+        },
+        {
+            name: ,
+            productID,
+            price:
+        },
+        .
+        .
+        {
+            name: ,
+            productID,
+            price:
+        }
+    }
+        {category2:[{
+            name: ,
+            productID,
+            price:
+        },
+        {
+            name: ,
+            productID,
+            price:
+        },
+        .
+        .
+        {
+            name: ,
+            productID,
+            price:
+        },
+    }
+    ....n
+        ]
+        },
+    ]}],
+
+    {
+        brandImages:[uri1,uri2,uri3....uriN]
+    }
+}
+
+
