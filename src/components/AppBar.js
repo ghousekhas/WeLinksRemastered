@@ -13,7 +13,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 //Something here because github decides to change stuff in the middle fo something lol wth
 //Does this work now
-// I wanna commit lol
+// I wanna commit lol 
+// heyyyyyy
 const AppBar = ({funct,back}) => { 
   if(!back){
     return(
