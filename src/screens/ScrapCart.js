@@ -29,8 +29,8 @@ export default class ScrapCart extends React.Component{
             selectedDate: null,
             selectedTIme: null,
             timeSelected: [false,false,false],
-            cartItems: ['Electronics- Mobile','Recyclables= Paper','Large Appliance- Fridge','Electronics- Mobile','Recyclables= Paper','Large Appliance- Fridge']
-
+            cartItems: ['Electronics- Mobile','Recyclables= Paper','Large Appliance- Fridge','Electronics- Mobile',
+            'Recyclables= Paper','Large Appliance- Fridge']
         };
     };
 

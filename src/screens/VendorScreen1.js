@@ -6,7 +6,7 @@ import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native
 import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { Avatar } from 'react-native-paper';
-import {Styles} from '../Constants';
+import {Styles,Colors,dimen} from '../Constants';
 import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';

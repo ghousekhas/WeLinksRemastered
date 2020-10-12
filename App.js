@@ -135,7 +135,7 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
           privacyData: privacyData
         }} />} >
        
-      <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user,actualUser: updateState,sm: 1}} />
+      <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{user: user,actualUser: updateState,sm: 1,getUserDetails: getUserDetails}} />
       <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
       <Drawer.Screen name="AddAddress" component={AddAddress}  />
       <Drawer.Screen name="MyAddresses" component={myAddressStack}  />
@@ -224,7 +224,7 @@ const myProfileStack = ({navigation,route}) => {
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
   <Stack.Navigator initialRouteName="Profile">
-    <Stack.Screen name = "Profile" component = {MyProfile}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails,navDrawer: navigation}}/>
+    <Stack.Screen name = "Profile" component = {MyProfile}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails,navDrawer: navigation,setActualUser: route.params.setActualUser}}/>
     <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}}/>
     <Stack.Screen name="AddAddress" component={AddAddress}  />
     <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{headerShown: false}} />
@@ -454,14 +454,14 @@ const PostLoginHome =({route,navigation})=>{
   },[route])
 
   if(updateState != false){
-    console.log('got my feet up on the dash ',updateState)
+    console.log('got my  on the dash ',updateState)
   return(
     <View style={{flex: 1}}>
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName='Homescreen' >
         <Stack.Screen name='Homescreen' component={Homescreen} options={{
           headerShown: false 
-        }} initialParams={{user: route.params.user,actualUser: updateState,drawer: navigation}}/>
+        }} initialParams={{user: route.params.user,actualUser: updateState,drawer: navigation,getUserDetails: route.params.getUserDetails,setActualUser: route.params.setActualUser}}/>
         {/* <Stack.Screen name='School' component={School} options={{headerShown: false}}/>  */}
         <Stack.Screen name='AddressSearch' component={AddressSearch}/>
         <Stack.Screen name='AddAddress' component={AddAddress} options={{

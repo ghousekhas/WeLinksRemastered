@@ -17,16 +17,10 @@ const AppBar = ({funct,back}) => {
     return(
     <View style={{zIndex: 150,elevation: 100}}><Appbar style={styles.bottom}>
         <Appbar.Header style={styles.header}>
-        <TouchableOpacity onPress={funct} underlayColor='rgba(0,0,0,0)' rippleColor= 'transparent' style={styles.ripple}  >
-             
+        <TouchableOpacity onPress={funct} underlayColor='rgba(0,0,0,0)' rippleColor= 'transparent' style={styles.ripple} > 
               <EvilIcons name="navicon" size={26} color="white" style={styles.hamburger} />
         </TouchableOpacity>
-        
-           
           </Appbar.Header>
-
-        
-         
          </Appbar>
        
         </View>)

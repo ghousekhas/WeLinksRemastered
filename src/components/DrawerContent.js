@@ -81,7 +81,9 @@ const DrawerContent = (props) => {
      icon="shop"
      label="Vendor Zone"
      onPress={()=>{props.navigation.navigate('Home',{
-       actualUser: actualUser
+      actualUser: actualUser,
+      getUserDetails: props.getUserDetails,
+      setActualUser: setActualUser
      })}}/>
         
     <Drawer.Item
@@ -90,7 +92,8 @@ const DrawerContent = (props) => {
      label="My Profile"
      onPress={()=>{props.navigation.navigate('ProfileStack',{
        actualUser: actualUser,
-       getUserDetails: props.getUserDetails
+       getUserDetails: props.getUserDetails,
+       setActualUser: setActualUser
        
      })}}
      
@@ -242,7 +245,9 @@ const DrawerContent = (props) => {
      icon="home-outline"
      label="Consumer Zone"
      onPress={()=>{props.navigation.navigate('HomeStack',{
-       actualUser: actualUser
+       actualUser: actualUser,
+       getUserDetails: props.getUserDetails,
+       setActualUser: setActualUser
      })}}
      
    />
@@ -252,7 +257,8 @@ const DrawerContent = (props) => {
      label="My Profile"
      onPress={()=>{props.navigation.navigate('ProfileStack',{
        user: actualUser,
-       getUserDetails: props.getUserDetails
+       getUserDetails: props.getUserDetails,
+       setActualUser: setActualUser
      })}}
      
    />

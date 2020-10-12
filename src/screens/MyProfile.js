@@ -106,8 +106,10 @@ const MyProfile = ({navigation,route}) => {
         React.useCallback(() => {
             Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+actualUser.phone,).
             then(({data})=>{
-                if(data.user[0]!=undefined)
+                if(data.user[0]!=undefined){
                     setProfileDetails(data.user[0]);
+                    route.params.setActualUser(data.user[0]);
+                }
                 else
                     console.log('User does not exitst',data);
             },
