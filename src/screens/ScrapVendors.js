@@ -6,11 +6,13 @@ import Vendor from '../components/Vendor';
 import { useFocusEffect } from '@react-navigation/native';
 import AppBar from '../components/AppBar';
 import { Avatar } from 'react-native-paper';
-import { Styles,Colors } from '../Constants';
+import { Styles,Colors, dimen } from '../Constants';
 import { Feather } from '@expo/vector-icons';
 
 
 const ScrapVendors = ({navigation,route}) => {
+
+   
 const {actualUser} = route.params;
 const address = route.params.address;
 
@@ -99,7 +101,11 @@ const address = route.params.address;
     </View>
     
     </View>
-    <View style={Styles.grayfullline} />
+
+   
+    <View style={{...Styles.grayfullline,marginTop: '5%'}} />
+   
+  
 
     <View style={style.heading}>
 <Text style={Styles.heading}>{words.milk}</Text>

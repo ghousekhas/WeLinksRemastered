@@ -101,7 +101,6 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
 
 
 
-
   if(vendor)
     return(
       <NavigationContainer independent={true}>
@@ -488,6 +487,7 @@ const PostLoginHome =({route,navigation})=>{
         <Stack.Screen name="BidCreation2" component={BidCreation2} options={{headerShown: false}}/>
         <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{headerShown: false}}/>
         <Stack.Screen name="CancellationScreen" component={CancellationScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="ScrapCart" component={ScrapCart} options={{headerShown: false}}/>
         {/* <Stack.Screen name='ProfileStack' component={MyProfile} options={{headerShown: false}}/> */}
 
 

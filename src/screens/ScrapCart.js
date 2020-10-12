@@ -8,6 +8,7 @@ import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
+import AppBar from '../components/AppBar';
 import {Entypo} from '@expo/vector-icons'
 import { Rect } from 'react-native-svg';
 import GenericSeperator from '../components/GenericSeperator';
@@ -19,6 +20,7 @@ import firestore from '@react-native-firebase/firestore';
 
 
 export default class ScrapCart extends React.Component{
+    
     constructor(props){
         super(props);
         this.state = {
@@ -29,8 +31,7 @@ export default class ScrapCart extends React.Component{
             selectedDate: null,
             selectedTIme: null,
             timeSelected: [false,false,false],
-            cartItems: ['Electronics- Mobile','Recyclables= Paper','Large Appliance- Fridge','Electronics- Mobile',
-            'Recyclables= Paper','Large Appliance- Fridge']
+            cartItems: [],
         };
     };
 
@@ -54,20 +55,7 @@ export default class ScrapCart extends React.Component{
     }
 
     renderCartItem = (item)=>{
-        return (
-            <View style={Styles.horizontalRow}>
-                <Text style={Styles.subbold}>{item.item}</Text>
-                <TouchableOpacity style={Styles.touchableButtonBorder} onPress={()=>{
-                    var i;
-                    var temparr=this.state.cartItems;
-                    for(i=item.index;i<temparr.length-1;i++)
-                        temparr[i] = temparr[i+1];
-                    temparr.pop();
-                    this.setState({cartItems: temparr})}}>
-                    <Text>remove</Text>
-                </TouchableOpacity>
-            </View>
-        );
+      
     };
 
     dateSelectedCallback= (date)=>{
@@ -91,16 +79,40 @@ export default class ScrapCart extends React.Component{
 
 
     render(){
-        
+
+        const cart = this.props.route.params;
+        console.log('cart: ' + cart[0].itemName)
+
 
         return(
+            <View>
+            <AppBar back funct={() => {this.props.navigation.pop()}} />
             <View style={Styles.parentContainer}>
                 <View style={Styles.scrapTopCart}>
                     <FlatList numColumns={1} 
                         scrollEnabled={true}
-                        renderItem = {this.renderCartItem}
+                        renderItem = {({item}) => {
+                          
+                            return (
+                <View style={Styles.horizontalRow}>
+                <Text style={Styles.subbold}>{item.itemName}</Text>
+                <TouchableOpacity style={{...Styles.touchableButtonBorder,borderColor: Colors.red}} onPress={()=>{
+                      var i;
+                    var temparr=this.state.cartItems;
+                    for(i=item.index;i<temparr.length-1;i++)
+                       temparr[i] = temparr[i+1];
+                     temparr.pop();
+                     this.setState({cartItems: temparr})}}
+               
+                  >
+                    <Text style={{fontWeight: 'bold',color: Colors.red}}>Remove</Text>
+                </TouchableOpacity>
+            </View>
+        );
+
+                        }}
                         ItemSeparatorComponent = {GenericSeperator}
-                        data = {this.state.cartItems}
+                        data = {cart}
                         keyExtractor= {(item,index) => index}
                         style={{width: '100%',height: '40%',paddingHorizontal: '1%',marginVertical: '2%'}}
                         />
@@ -149,9 +161,10 @@ export default class ScrapCart extends React.Component{
                 </View>
                 <View style={Styles.submitButtonBottom}>
                     <TouchableOpacity style={{width: '100%',height: '100%',justifyContent: 'center'}}>
-                       <Text style={{alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15}} >CONFIRM PICKUP</Text>
+                       <Text style={{alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15}} >Confirm Pickup</Text>
                     </TouchableOpacity>
                 </View>
+            </View>
             </View>
         );
 

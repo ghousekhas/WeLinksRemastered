@@ -12,6 +12,9 @@ import AppBar from '../components/AppBar'
 import Appliance from '../components/Appliance';
 import {Colors} from '../Constants'
 import {Entypo} from '@expo/vector-icons'
+
+let cart = [];
+
 export default class ScrapVendor extends React.Component{
 
     constructor(props){
@@ -24,9 +27,15 @@ export default class ScrapVendor extends React.Component{
                            { 'Electronics':''},
                                { 'Recyclable':''}],
                 collapsed: true,
-                activesections: []
+                activesections: [],
+                width : 0,
+                
                                 
-            };
+            }
+
+           
+
+       
     }
  
 
@@ -125,7 +134,21 @@ export default class ScrapVendor extends React.Component{
                
                         <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address={'7th cross near hebbal flyover Bengaluru 560092'
                         }/>
-                 
+                 <View style={{flexDirection: 'row',width: dimen.width,alignSelf:'center', justifyContent: 'space-around',height: dimen.height/17}}>
+   <TouchableOpacity onPress={() => {
+       console.log(cart)
+       this.props.navigation.navigate('ScrapCart',cart)}} style={{backgroundColor: Colors.primary,color: 'white',flex:1,alignItems:'center',justifyContent: 'center',padding: '3%',borderRadius:8,width:this.state.width}}>
+       <Text style={{color: 'white',fontWeight: 'bold'}}>Go to Cart</Text>
+   </TouchableOpacity>
+
+   <TouchableOpacity  onLayout={({nativeEvent}) => {
+       this.setState({width: nativeEvent.layout.width})
+
+   }}  style={{backgroundColor: Colors.primary,color: 'white',flex:1,alignItems:'center',justifyContent: 'center',padding: '3%',borderRadius:8}}>
+       <Text numberOfLines={1} style={{color: 'white',fontWeight: 'bold'}}>Schedule Pickup</Text>
+   </TouchableOpacity>
+
+   </View>
                 {/* <View style={{flexDirection: 'row',alignSelf: 'center',margin: 10,justifyContent: 'space-between',width: '80%'}}>
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}>Items in cart</Text>
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}> Schedule Pickup</Text>
@@ -157,7 +180,10 @@ export default class ScrapVendor extends React.Component{
 }
 
 
+
 const ScrapFlatList = ({route,navigation}) => {
+
+   
     
     
 
@@ -210,14 +236,43 @@ const ScrapFlatList = ({route,navigation}) => {
     const {stars} = route.params;
     const {reviews} = route.params;
 
+ //   const cart = [];
+
    // const order = navigation.getParams('order');
     return(<View style={style.container}>
     <FlatList
         data = {plist}
         keyExtractor = {(item) => item.name}
-        renderItem = {({item}) => { 
+        renderItem = {({item,index}) => { 
+            // console.log(index)
             return(
-                <Appliance name={item.name} quantity={item.quantity} price={item.price}  price_={item.price_} image={item.image}
+                <Appliance onAdd={(num) => {
+                 
+                        
+                     cart.push({
+                         itemName : item.name,
+                         itemQuantity : num
+                     });
+
+
+
+                        console.log(cart)
+                    
+                    
+                    
+                }} 
+                onRemove = {() => {
+                    console.log('Remove')
+                    // let temp = cart,i,ind = index;
+        
+                    // for(i in temp){
+                    //         if(i != ind)
+                    //         cart.push(temp[i])
+                    // }
+                    // console.log(cart)
+
+                }}
+                name={item.name} quantity={item.quantity} price={item.price}  price_={item.price_} image={item.image}
                 subscribe={() => {
                    
                     const prodName = item.name;
