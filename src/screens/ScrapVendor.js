@@ -15,6 +15,7 @@ import {Colors} from '../Constants';
 import Axios from 'axios';
 import qs from 'qs';
 import {Entypo} from '@expo/vector-icons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 let cart = [];
@@ -32,13 +33,29 @@ export default class ScrapVendor extends React.Component{
                 width: 0,
                 trasnlateCart: new Animated.Value((dimen.height-dimen.height/16)),
                 cartState: false,
-                extraData: 0
+                extraData: 0,
+                orderId: -1
                                 
             };
     }
 
+    async fetchOrderId(){
+        var orderId;
+        try{
+            orderId = await AsyncStorage.getItem("ScrapOrderIdeee");
+            console.log('roder',orderId);
+            if(orderId != null)
+                this.setState({orderId: orderId})
+        }
+        catch(error){
+            console.log('error encountered');
+        }
+    }
+
     componentDidMount(){
         console.log('MilkVendorEntered')
+        this.fetchOrderId();
+
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&'+qs.stringify({
             vendorID: this.props.route.params.vendorId,
             vendor_type: 'homescrap'
@@ -58,6 +75,14 @@ export default class ScrapVendor extends React.Component{
             console.log(err);
             
         });
+    }
+
+    addItemToCart =()=>{
+        
+    }
+
+    removeItemFromCart =()=>{
+
     }
 
     toggleCart = (retract)=>{
@@ -178,7 +203,7 @@ export default class ScrapVendor extends React.Component{
         <View style={Styles.parentContainer}>
             <View style={Styles.fortyUpperPanel}>
                
-                        <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address={'7th cross near hebbal flyover Bengaluru 560092'
+                        <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address={this.props.route.params.vendorAddress
                         }/>
                  <View style={{flexDirection: 'row',width: dimen.width,alignSelf:'center', justifyContent: 'space-around',height: dimen.height/17}}>
    <TouchableOpacity onPress={() => {
@@ -245,24 +270,27 @@ export default class ScrapVendor extends React.Component{
                             item = {item}
                             index= {index}
                             onAdd={(num) => {
+                            
+                                this.addItemToCart(item);
                  
-                        
-                                cart.push({
+                            /*    
+                                 cart.push({
                                     ...item,
                                     itemQuantity : num
                                 });
            
            
            
-                                   console.log(cart)
+                                   console.log(cart)*/
                                
                                
                                
                            }} 
                            onRemove = {() => {
-                               console.log('Remove')
+                               this.removeItemFromCart(item);
+                               /*console.log('Remove')
                                cart.splice(index,1);
-                               console.log(cart);
+                               console.log(cart);*/
                                // let temp = cart,i,ind = index;
                    
                                // for(i in temp){
