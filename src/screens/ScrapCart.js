@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
-import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
+import {View, StyleSheet, Text, Dimensions,Image,ScrollView} from 'react-native';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { Avatar } from 'react-native-paper';
-import {Styles,ScrapStyles} from '../Constants';
+import {Styles,ScrapStyles,dimen,Colors} from '../Constants';
 import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
@@ -14,8 +14,9 @@ import { Rect } from 'react-native-svg';
 import GenericSeperator from '../components/GenericSeperator';
 import SubmitButton from '../components/SubmitButton';
 import {EvilIcons} from '@expo/vector-icons';
-import { Colors } from '../Constants';
 import firestore from '@react-native-firebase/firestore';
+import Appliance from '../components/Appliance';
+import ExpandableTextBox from '../components/ExpandableTextBox';
 
 
 
@@ -32,8 +33,16 @@ export default class ScrapCart extends React.Component{
             selectedTIme: null,
             timeSelected: [false,false,false],
             cartItems: [],
+            extraData: 0,
+            cart: this.props.route.params.cart
         };
     };
+
+    onRemove = (index)=>{
+        var tempArr= this.state.cart;
+        tempArr.splice(index,1);
+        this.setState({cart: tempArr});
+    }
 
     getTodaysDate =  ()=>{
         var date =  firestore.Timestamp.now().toDate();
@@ -80,42 +89,72 @@ export default class ScrapCart extends React.Component{
 
     render(){
 
-        const cart = this.props.route.params;
-        console.log('cart: ' + cart[0].itemName)
+        const {cart} = this.props.route.params;
+        //console.log('cart: ' + cart[0].itemName)
 
 
         return(
-            <View>
+            <View style={{flex: 1}}>
             <AppBar back funct={() => {this.props.navigation.pop()}} />
-            <View style={Styles.parentContainer}>
+            
+            <ScrollView style={{flex: 1}}>
+            <View style={{marginTop: dimen.height/16}}>
                 <View style={Styles.scrapTopCart}>
-                    <FlatList numColumns={1} 
-                        scrollEnabled={true}
-                        renderItem = {({item}) => {
-                          
-                            return (
-                <View style={Styles.horizontalRow}>
-                <Text style={Styles.subbold}>{item.itemName}</Text>
-                <TouchableOpacity style={{...Styles.touchableButtonBorder,borderColor: Colors.red}} onPress={()=>{
-                      var i;
-                    var temparr=this.state.cartItems;
-                    for(i=item.index;i<temparr.length-1;i++)
-                       temparr[i] = temparr[i+1];
-                     temparr.pop();
-                     this.setState({cartItems: temparr})}}
-               
-                  >
-                    <Text style={{fontWeight: 'bold',color: Colors.red}}>Remove</Text>
-                </TouchableOpacity>
-            </View>
-        );
+                <FlatList
+                    data={this.state.cart}
+                    extraData={this.state.extraData}
+                    keyExtractor={(item,index)=>index.toString()}
+                    renderItem={({item,index})=>{
+                        return(
+                            <Appliance 
+                            remove={true}
+                            item = {item}
+                            index= {index}
+                            onAdd={(num) => {
+                 
+                        
+                                cart.push({
+                                    ...item,
+                                    itemQuantity : num
+                                });
+           
+           
+           
+                                   console.log(cart)
+                               
+                               
+                               
+                           }} 
+                           onRemove = {this.onRemove
+                               // let temp = cart,i,ind = index;
+                   
+                               // for(i in temp){
+                               //         if(i != ind)
+                               //         cart.push(temp[i])
+                               // }
+                               // console.log(cart)
+           
+                           }
+                           name={item.name} quantity={item.quantity} price={item.price}  price_={item.price_} image={item.product_url}
+                           subscribe={() => {
+                              
+                               const prodName = item.name;
+                               const prodQuan = item.quantity;
+                               const prodRate = item.price;
+                               const prodRate_ = item.price_;
+           
+                               navigation.navigate('SubscribeScreen',{
+                                   tag : 'paper',
+                                   pname : prodName,
+                                   pquan : prodQuan,
+                                   prate: prodRate
+                               }) } 
+                           }/>
+           
+                        )
 
-                        }}
-                        ItemSeparatorComponent = {GenericSeperator}
-                        data = {cart}
-                        keyExtractor= {(item,index) => index}
-                        style={{width: '100%',height: '40%',paddingHorizontal: '1%',marginVertical: '2%'}}
-                        />
+                    }}
+                    />
                 </View>
                 <View style={Styles.scrapBottom}>
                     <Text style={ScrapStyles.heading}>Pickup Date and Time</Text>
@@ -158,13 +197,19 @@ export default class ScrapCart extends React.Component{
                             <Text style={Styles.subbold}> 5:00 PM</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{height: 20,width: 100}}/>
+                    <ExpandableTextBox title="Additional notes" hint="Any additional information for the scrap pickup."/>
+                    <View style={{height: 100,width: 100}}/>
+                    
                 </View>
-                <View style={Styles.submitButtonBottom}>
-                    <TouchableOpacity style={{width: '100%',height: '100%',justifyContent: 'center'}}>
-                       <Text style={{alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15}} >Confirm Pickup</Text>
-                    </TouchableOpacity>
-                </View>
+                
             </View>
+            </ScrollView>
+        
+                    <TouchableOpacity style={{flex: 0,backgroundColor: Colors.primary,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}}>
+                       <Text style={{alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15}} >Confirm Pickup</Text>
+                    </TouchableOpacity>
+             
             </View>
         );
 
@@ -191,13 +236,13 @@ WeekView =({start,selectedChangeInParent})=>{
 
     },[]);
 
-    getNextDay = (currentDay)=>{
+    const getNextDay = (currentDay)=>{
         if(currentDay == 6)
             return 0
         return currentDay+1
     }
 
-    getNextDate= (startDate)=>{
+    const getNextDate= (startDate)=>{
         const {month,date,year} = startDate;
         if(month == 2 && date>=28){
             if(date ==28)
@@ -239,7 +284,7 @@ WeekView =({start,selectedChangeInParent})=>{
         };
     }
 
-    itemSelected= (index)=>{
+    const itemSelected= (index)=>{
         var temparr= [];
         selectedDate = initArray[index];
         for(i = 0; i<7; i++)

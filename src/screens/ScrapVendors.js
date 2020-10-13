@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
@@ -8,60 +8,54 @@ import AppBar from '../components/AppBar';
 import { Avatar } from 'react-native-paper';
 import { Styles,Colors, dimen } from '../Constants';
 import { Feather } from '@expo/vector-icons';
+import Axios from 'axios';
+import qs from 'qs';
 
-
+var vendors;
 const ScrapVendors = ({navigation,route}) => {
+    const address= route.params.address;
+    const {actualUser}=route.params;
+    const [vendorExtraData,updateVendor]=useState(1);
+    const {tag} = route.params;
+    const [nameY,setNameY] = useState(0);
 
-   
-const {actualUser} = route.params;
-const address = route.params.address;
+    console.log(address);
+    console.log('milky',actualUser)
 
     const words = {
         milk: 'Scrap vendors in your locality',
 
     }
+
+    const retrieveData= async (t)=>{
+        if(t<0)
+            return;
+        console.log('retrieving milk vendors');
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
+            vendor_type: 'homescrap',
+            lat: address.lat,
+            lng: address.lng
+        }),).then((response)=>{
+            try{
+                console.log('vend ',response.data.vendor);
+                vendors= response.data.vendor;
+                updateVendor(Math.random(0.5));
+                
+            }
+            catch(error){
+                console.log('milkvendoreasarror',error);
+                //retrieveData(t-1);
+            }
+        },(error)=>{
+            console.log('milkvendorerror',error);
+           // retrieveData(t-1);
+        })
+    }
+
+    useEffect(()=>{
+        retrieveData(10);
+    },[]);
   
-   
-
-    const [vendors,updateVendors] = useState([
-        {
-            name: 'Vendor 1',
-            brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 3,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        },
-        {
-            name: 'Vendor 2',
-            brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 2,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        },
-        {
-            name: 'Vendor 3',
-            brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 5,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        },
-        {
-            name: 'Vendor 4',
-            brands: 'Nandini, Heritage, Akshayakalpa',
-            stars: 4,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        },
-        {
-            name: 'Vendor 5',
-            brands: ' Nandini, Heritage, Akshayakalpa',
-            stars: 3,
-            reviews: '10' ,
-            image: './../../assets.vendor.png'
-        }
-
-
-    ]);
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
@@ -115,21 +109,35 @@ const address = route.params.address;
         data={vendors}
         keyExtractor={(item) => item.name}
         renderItem={({item}) => {
-            
             const vendorName = item.name;
-            const vendorStars = item.stars;
-            const vendorReviews = item.reviews;
-            const imageUrl = 'https:\/\/dev.we-link.in\/dist\/img\/users\/user_img_1601972083.jpg';
-            
+            const vendorStars = item.avg_ratings;
+            const vendorReviews = item.reviews_number;
+            const vendor_id= item.vendor_id;
+            var brandsString= '';
+            const brands= item.brands != undefined? item.brands: [];
+            const imageUrl=item.vendor_img_url;
+            const vendorAddress= item.addresses[0] !=undefined ? item.addresses[0].addr_details+' '+item.addresses[0].addr_landmark+' '+item.addresses[0].addr_pincode : ' ';
+            console.log('itembrands',brands);
+            for(let i=0;i<brands.length-1;i++)
+               brandsString= brandsString+brands[i].brand.toString()+','+' ';
+            if(brands.length>0)
+            brandsString=brandsString+brands[brands.length-1].brand.toString();
+            console.log(brandsString);
+
             return(
-                <Vendor imageUrl={imageUrl} name={item.name} brands={item.brands} stars={item.stars} reviews={item.reviews} scrap={'Mobiles, Tablets, Paper'}
+                <Vendor name={item.name} scrap={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
                 onSelected={() => {
              
                 navigation.navigate('ScrapVendor',{
-                    tag: 'milk',
+                    tag: 'scrap',
                     name: vendorName,
                     stars: vendorStars,
-                    reviews: vendorReviews
+                    reviews: vendorReviews,
+                    address: address,
+                    vendorAddress: vendorAddress,
+                    imageUrl: imageUrl,
+                    actualUser: actualUser,
+                    vendorId: vendor_id
                 })
                 
                     
