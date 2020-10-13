@@ -42,11 +42,6 @@ export default class ScrapCart extends React.Component{
             extraData: 0,
             amount: 0
         };
-        this.dates={
-            startMonth: 2,
-            startYear: 2020,
-            startDay: 0
-        }
     };
 
     placeOrder =()=>{
@@ -84,15 +79,18 @@ export default class ScrapCart extends React.Component{
             startYear: date.getFullYear(),
             startDay: date.getDay()};
         console.log(newDate);
+        this.setState({
+            newDate
+        });
         this.setState({startDate: newDate.startDate});
-        this.dates={
-            startMonth: newDate.startMonth,
-            startYear: newDate.startYear,
-            startDay: newDate.startDay
-        }
+        this.setState({startMonth: newDate.startMonth});
+        this.setState({startYear: newDate.startYear});
+        this.setState({startDay: newDate.startDay});
 
         console.log(this.state.startDate);
-       
+        this.setState({
+            extraData: Math.random(0.5)
+        })
     }
 
     componentDidMount= ()=>{
@@ -121,11 +119,6 @@ export default class ScrapCart extends React.Component{
         })
         
 
-    }
-
-    renderWeekView=()=>{
-        <WeekView start={{day: this.dates.startDay,date: this.state.startDate,
-            month: this.dates.startMonth,year: this.dates.startYear}} selectedChangeInParent={this.dateSelectedCallback}/>
     }
   
 
@@ -245,7 +238,8 @@ export default class ScrapCart extends React.Component{
                         {//SevenViewshere
                         }
                     </View>                    
-                    {this.renderWeekView()}
+                    <WeekView extraData={this.state.extraData} start={{day: this.state.startDay,date: this.state.startDate,
+                    month: this.state.startMonth,year: this.state.startYear}} selectedChangeInParent={this.dateSelectedCallback}/>
                     <Text style={ScrapStyles.heading}>Schedule Time</Text>
                     <View style={Styles.horizontalCalendarButtonsRow}>
                         <TouchableOpacity style={this.state.timeSelected[0] ? {...ScrapStyles.timebutton,
@@ -301,10 +295,11 @@ export default class ScrapCart extends React.Component{
 }
 
 
-WeekView =({start,selectedChangeInParent})=>{
+WeekView =({start,selectedChangeInParent,extraData})=>{
     var i;
     var someArray =[];
     const [initArray,setInitArray] = useState([]);
+    const [extd,setextd]=useState(0);
     var date,day,nextDay;
     const [selected,setSelected]= useState([false,false,false,false,false,false,false]);
     var selectedDate= null;
@@ -315,12 +310,11 @@ WeekView =({start,selectedChangeInParent})=>{
         for(i = 0;i < 6; i++){
            nextDay ={...getNextDate(someArray[i]),day: getNextDay(someArray[i].day)}
             someArray.push(nextDay); 
-            setInitArray(someArray);
         }
-        
+        setInitArray(someArray);
 
 
-    },[start]);
+    },[start,extraData]);
 
     const getNextDay = (currentDay)=>{
         if(currentDay == 6)
@@ -395,16 +389,18 @@ WeekView =({start,selectedChangeInParent})=>{
 
 }
 
-DayButton =({dateInfo,onSelected,selected,index})=>{
+DayButton =({dateInfo,onSelected,selected,index,extd})=>{
     var days= ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; 
     const [extraData,setExtraData]=useState(0);
-   
+    useEffect(()=>{
+        setExtraData(Math.random(0.3))
+    },[extd])
     
 
     const theNeedful=()=>{
         onSelected(index);
     }
-
+    if(extraData!=null)
     return(
         <View style={Styles.dayButton}>
             <TouchableOpacity onPress={theNeedful}>
