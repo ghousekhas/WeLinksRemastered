@@ -21,6 +21,7 @@ import ExpandableTextBox from '../components/ExpandableTextBox';
 
 
 export default class ScrapCart extends React.Component{
+       
     
     constructor(props){
         super(props);
@@ -34,7 +35,8 @@ export default class ScrapCart extends React.Component{
             timeSelected: [false,false,false],
             cartItems: [],
             extraData: 0,
-            cart: this.props.route.params.cart
+            cart: this.props.route.params.cart,
+            cartAmount : 0
         };
     };
 
@@ -85,12 +87,24 @@ export default class ScrapCart extends React.Component{
         
 
     }
+  
 
 
     render(){
 
         const {cart} = this.props.route.params;
         //console.log('cart: ' + cart[0].itemName)
+       const calculateCartAmount = () => {
+            let i,amount = 0;
+            for(i in this.state.cart){
+                amount += parseFloat(this.state.cart[i].itemPrice)
+     
+            }
+    
+         //  this.setState({cartAmount : amount})
+             return amount;
+         }
+        
 
 
         return(
@@ -155,6 +169,32 @@ export default class ScrapCart extends React.Component{
 
                     }}
                     />
+
+<View style={styles.gray}>
+             <Text style={{margin: '1%'}}>Projected rates are subject to fluctuations as per vendors.</Text>
+             <Text onPress={() => {
+                //  this.props.navigation.navigate('FAQ') What about this?
+             }} style={{textDecorationLine: 'underline',textAlign: 'left',margin: '1%',marginTop: 0}}>Learn more.</Text> 
+         </View>
+         <View  style={{padding: 10,backgroundColor: 'white',marginTop:dimen.width/60}}>
+        
+        <View style={{flexDirection:'row'}}>
+            <Text style={styles.billText}>{"Cart Amount"}</Text>
+            <Text style={styles.billCost}>₹{calculateCartAmount()}</Text>
+        </View>
+        <View style={{flexDirection:'row'}}>
+            <Text style={styles.billText}>{"Pick-Up Fee"}</Text>
+            <Text style={styles.billCost}>₹50</Text>
+        </View>
+        <View style={{...Styles.grayfullline, marginVertical: '3%'}}/>
+        <View style={{flexDirection:'row'}}>
+            <Text style={styles.billText}>{"Total Cost"}</Text>
+            <Text style={styles.billCost}>₹{"cartTotal + 50"}</Text>
+        </View>
+
+        
+        </View>
+
                 </View>
                 <View style={Styles.scrapBottom}>
                     <Text style={ScrapStyles.heading}>Pickup Date and Time</Text>
@@ -329,3 +369,33 @@ DayButton =({dateInfo,onSelected,selected,index})=>{
     )
 
 }
+
+const styles = StyleSheet.create({
+    gray: {
+        padding: '1%',
+       backgroundColor: Colors.seperatorGray,
+        borderRadius: 10,
+        height: Dimensions.get('window').height/11,
+        margin: '3%',
+       
+        alignItems: 'flex-start',
+        justifyContent:'center',
+        elevation:1
+    },
+    billText:{
+        fontSize: 18,
+        marginTop: '2%',
+        fontWeight: '900',
+        margin: '2%'
+    },
+    billCost:{
+        fontWeight: 'bold',
+        fontSize: 16,
+        margin: '2%',
+        textAlign: 'right',
+        
+       
+        ...StyleSheet.absoluteFill
+        
+    },
+})

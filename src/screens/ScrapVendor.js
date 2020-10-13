@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image,BackHandler,Animated} from 'react-native';
-import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
+import { TouchableOpacity, FlatList,ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import {useFocusEffect} from '@react-navigation/native';
 import Vendor from '../components/Vendor';
 import { Avatar, Button } from 'react-native-paper';
@@ -30,9 +30,11 @@ export default class ScrapVendor extends React.Component{
                 collapsed: true,
                 activesections: [],
                 width: 0,
-                trasnlateCart: new Animated.Value((dimen.height-dimen.height/16)),
+                translateCart: new Animated.Value((dimen.height-dimen.height/16)),
                 cartState: false,
-                extraData: 0
+                extraData: 0,
+                open : false
+               
                                 
             };
     }
@@ -61,20 +63,21 @@ export default class ScrapVendor extends React.Component{
     }
 
     toggleCart = (retract)=>{
+      //  this.setState({open: true})
         this.setState({extraData: Math.random(0.3)});
         //const {cs} = this.state;
-        console.log('toggling',this.state.trasnlateCart)
-        const {trasnlateCart} = this.state;
+        console.log('toggling',this.state.translateCart)
+        const {translateCart} = this.state;
         if(retract)
-            Animated.spring(this.state.trasnlateCart,{
-                toValue: 0,
+            Animated.spring(this.state.translateCart,{
+                toValue: dimen.height/10,
                 duration: 2500,
                 useNativeDriver: true,
                 speed: 5,
                 bounciness: 3
             }).start();
         else 
-        Animated.spring(this.state.trasnlateCart,{
+        Animated.spring(this.state.translateCart,{
             toValue: dimen.height-dimen.height/16,
             duration: 2500,
             useNativeDriver: true,
@@ -170,13 +173,32 @@ export default class ScrapVendor extends React.Component{
 
         )
     }
+    
+    
 
     render(){
+       const calculateCartAmount = () => {
+            let i,amount = 0;
+            for(i in cart){
+                amount += ((parseFloat(cart[i].itemPrice)) * parseInt(cart[i].itemQuantity))
+     
+            }
+    
+         //  this.setState({cartAmount : amount})
+             return amount;
+         }
     return (<View>
         <AppBar back funct={() => this.props.navigation.pop()} />
    
         <View style={Styles.parentContainer}>
             <View style={Styles.fortyUpperPanel}>
+            <TouchableWithoutFeedback onPress={() => {
+              
+                console.log('Pressed outside')
+             //   if(this.state.open)
+                 //  this.toggleCart(false)
+                //   else console.log('Wont close')
+            }}>
                
                         <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address={'7th cross near hebbal flyover Bengaluru 560092'
                         }/>
@@ -195,7 +217,7 @@ export default class ScrapVendor extends React.Component{
 
    }}  
    onPress={()=>this.props.navigation.navigate('ScrapCart',{
-       cart: cart
+      cart,
    })}
    style={{backgroundColor: Colors.primary,color: 'white',flex:1,alignItems:'center',justifyContent: 'center',padding: '3%',borderRadius:8}}>
        <Text numberOfLines={1} style={{color: 'white',fontWeight: 'bold'}}>Schedule Pickup</Text>
@@ -206,7 +228,7 @@ export default class ScrapVendor extends React.Component{
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}>Items in cart</Text>
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}> Schedule Pickup</Text>
                 </View> */}
-
+</TouchableWithoutFeedback>
             </View>
             <View style={Styles.sixtyLowerPanel}>
                 <ScrollView ref={(ref)=>this.scrollView=ref}>
@@ -227,7 +249,7 @@ export default class ScrapVendor extends React.Component{
             </View>
 
         </View>
-        <Animated.View style={{width: dimen.width,height: dimen.height-dimen.height/16,backgroundColor: 'white',zIndex: 100,elevation: 10,position: 'absolute',bottom: 0,transform: [{translateY: this.state.trasnlateCart }]}} onTouchEnd={()=>this.toggleCart(false)}>
+        <Animated.View style={{width: dimen.width,height: dimen.height-dimen.height/16,backgroundColor: 'white',zIndex: 100,elevation: 10,position: 'absolute',bottom: 0,transform: [{translateY: this.state.translateCart }]}} onTouchEnd={()=>this.toggleCart(false)}>
              <View style={{flex: 1}}>
                  <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',padding: 10}}>Cart</Text>
                  {
@@ -292,6 +314,37 @@ export default class ScrapVendor extends React.Component{
 
                     }}
                     />
+
+
+<View style={style.gray}>
+             <Text style={{margin: '1%'}}>Projected rates are subject to fluctuations as per vendors.</Text>
+             <Text onPress={() => {
+                //  this.props.navigation.navigate('FAQ') What about this?
+             }} style={{textDecorationLine: 'underline',textAlign: 'left',margin: '1%',marginTop: 0}}>Learn more.</Text> 
+         </View>   
+
+           <View  style={{padding: 10,backgroundColor: 'white',marginTop:dimen.width/60}}>
+        
+        <View style={{flexDirection:'row'}}>
+            <Text style={style.billText}>{"Cart Amount"}</Text>
+            <Text style={style.billCost}>₹{calculateCartAmount()}</Text>
+        </View>
+        <View style={{flexDirection:'row'}}>
+            <Text style={style.billText}>{"Pick-Up Fee"}</Text>
+            <Text style={style.billCost}>₹50</Text>
+        </View>
+        <View style={{...Styles.grayfullline, marginVertical: '3%'}}/>
+        <View style={{flexDirection:'row'}}>
+            <Text style={style.billText}>{"Total Cost"}</Text>
+            <Text style={style.billCost}>₹{"cartTotal + 50"}</Text>
+        </View>
+
+        
+        </View> 
+
+
+
+
              </View>
              
         </Animated.View>
@@ -352,7 +405,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         
                     cart.push({
                         ...item,
-                        itemQuantity : num
+                        itemQuantity : num,
+                        itemPrice : item.price
                     });
 
 
@@ -367,13 +421,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
                     console.log('Remove')
                     cart.splice(index,1);
                     console.log(cart);
-                    // let temp = cart,i,ind = index;
-        
-                    // for(i in temp){
-                    //         if(i != ind)
-                    //         cart.push(temp[i])
-                    // }
-                    // console.log(cart)
+                    
 
                 }}
                 name={item.name} quantity={item.quantity} price={item.price}  price_={item.price_} image={item.product_url}
@@ -397,6 +445,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
         
 
     />
+     
   
 
     </View>)
@@ -461,6 +510,33 @@ const style = StyleSheet.create({
         width: 100,
         position: 'absolute',
         marginTop: '3%'
+    },
+     gray: {
+        padding: '1%',
+       backgroundColor: Colors.seperatorGray,
+        borderRadius: 10,
+        height: Dimensions.get('window').height/11,
+        margin: '3%',
+       
+        alignItems: 'flex-start',
+        justifyContent:'center',
+        elevation:1
+    },
+    billText:{
+        fontSize: 18,
+        marginTop: '2%',
+        fontWeight: '900',
+        margin: '2%'
+    },
+    billCost:{
+        fontWeight: 'bold',
+        fontSize: 16,
+        margin: '2%',
+        textAlign: 'right',
+        
+       
+        ...StyleSheet.absoluteFill
+        
     }
 });
 
