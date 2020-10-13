@@ -40,7 +40,32 @@ const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,
             style={style.button}>
             <Text style={{color: Colors.primary,fontWeight: 'bold',color: Colors.primary} }>{'Remove'}</Text>
             </TouchableOpacity>
+            <View style = {added ? {...style.quantityPick,marginTop: '20%',backgroundColor: Colors.buttonEnabledGreen} :{...style.quantityPick,marginTop: '20%'} }>
+   
+   <TouchableOpacity style={style.minus} onPress={() => {
+       setNumber(number!=1 ? number-1 : number)
+       selectedQuantity = number;
+       console.log(selectedQuantity)
+   }}>
+   
+   <Text style={added ? {fontSize: 17,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6,color: 'white'} : {fontSize: 17,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6,color: Colors.primary}}>-</Text>
 
+
+   </TouchableOpacity>
+
+
+<Text style ={added ? {fontWeight: 'bold',color:'white'} : {fontWeight: 'bold'}}>{number}</Text>
+
+
+<TouchableOpacity style={style.plus} onPress={() => {
+setNumber(number+1)
+}}>
+
+<Text 
+style={added ? {fontSize: 17,color: 'white',
+alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,borderLeftWidth: 0.7,paddingLeft: 6} :{fontSize: 17,color: Colors.primary,alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,borderLeftWidth: 0.7,paddingLeft: 6} }>+</Text>
+</TouchableOpacity>
+</View>
                 
                 </View>
 
