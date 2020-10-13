@@ -49,7 +49,7 @@ const SubscribeScreen = ({navigation,route}) => {
   const {pname} = route.params;
   const {pquan} = route.params;
   const {prate} = route.params;
-  const {actualUser}=route.params;
+  const {actualUser,address}=route.params;
   const {tag} = route.params;
   const{prate_,imageUrl,productId,vendorId} = route.params;
   console.log('Tag Subscribe ' + tag)
@@ -168,7 +168,8 @@ const [usableEndDate,setUsableEndDate]=useState(null);
         productId: productId,
         vendorId: vendorId,
         tag: tag,
-        vendorType: route.params.vendorType
+        vendorType: route.params.vendorType,
+        address: address
 
       
 
