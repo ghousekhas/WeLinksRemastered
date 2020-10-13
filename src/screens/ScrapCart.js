@@ -97,7 +97,7 @@ export default class ScrapCart extends React.Component{
        const calculateCartAmount = () => {
             let i,amount = 0;
             for(i in this.state.cart){
-                amount += parseFloat(this.state.cart[i].itemPrice)
+                amount += ((parseFloat(this.state.cart[i].itemPrice)) * parseInt(this.state.cart[i].itemQuantity))
      
             }
     
@@ -189,7 +189,7 @@ export default class ScrapCart extends React.Component{
         <View style={{...Styles.grayfullline, marginVertical: '3%'}}/>
         <View style={{flexDirection:'row'}}>
             <Text style={styles.billText}>{"Total Cost"}</Text>
-            <Text style={styles.billCost}>₹{"cartTotal + 50"}</Text>
+            <Text style={styles.billCost}>₹{calculateCartAmount() + 50}</Text>
         </View>
 
         
