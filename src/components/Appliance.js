@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Button from './Button';
 
 import { dimen,Colors, Styles } from '../Constants';
 
-const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,quanchange,initquan,schedule}) => {
-    const [number,setNumber] = useState( initquan);
+const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule}) => {
+    const [number,setNumber] = useState( parseInt(initquan));
     const [gap,setGap] = useState(0);
     const [added,setAdded] = useState(false)
+
+    useEffect(()=>{
+        setNumber(parseInt(initquan));
+    },initquan)
 
     const renderAddSubtract =()=>{
         if(schedule)
@@ -33,7 +37,8 @@ const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,
        setNumber(number!=1 ? number-1 : number)
        selectedQuantity = number;
        console.log(selectedQuantity)
-       quanchange(selectedQuantity)
+       if(added || remove)
+            onAdd(selectedQuantity);
    }}>
    
    <Text style={added ? {fontSize: 17,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6,color: 'white'} : {fontSize: 17,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6,color: Colors.primary}}>-</Text>
@@ -47,7 +52,8 @@ const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,
 
 <TouchableOpacity style={style.plus} onPress={() => {
 setNumber(number+1)
-quanchange(number+1)
+if(added|| remove)
+        onAdd(number+1);
 }}>
 
 <Text 
@@ -87,7 +93,9 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
                 setNumber(number!=1 ? number-1 : number)
                 selectedQuantity = number;
                 console.log(selectedQuantity)
-                quanchange(selectedQuantity);
+                if(added || remove)
+                    onAdd(selectedQuantity);
+                //quanchange(selectedQuantity);
             }}>
             
             <Text style={added ? {fontSize: 17,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6,color: 'white'} : {fontSize: 17,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6,color: Colors.primary}}>-</Text>
@@ -101,7 +109,8 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
   
 <TouchableOpacity style={style.plus} onPress={() => {
    setNumber(number+1)
-   quanchange(number+1)
+   if(added || remove)
+        onAdd(number+1);
 }}>
 
    <Text 

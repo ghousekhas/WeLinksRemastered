@@ -251,7 +251,7 @@ export const Styles=StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     scrapTopCart:{
-        height: '40%',
+        height: dimen.height/1.2,
         width: '100%',
         paddingVertical: '5%'
     },

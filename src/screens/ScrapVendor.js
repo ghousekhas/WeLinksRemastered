@@ -18,7 +18,7 @@ import {Entypo} from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-let cart = [];
+var cart = [];
 
 //a
 export default class ScrapVendor extends React.Component{
@@ -38,7 +38,8 @@ export default class ScrapVendor extends React.Component{
                 orderId: -1,
                 open : false,
                 actualUser: props.route.params.actualUser,
-                address: props.route.params.address
+                address: props.route.params.address,
+                cart: []
                
                                 
             };
@@ -46,21 +47,50 @@ export default class ScrapVendor extends React.Component{
     }
 
     async fetchOrderId(){
-        var orderId;
+        var orderId,prevVendor;
+        const {vendorId} = this.props.route.params;
+        const {actualUser} =this.state;
         try{
             orderId = await AsyncStorage.getItem("ScrapOrderId");
+            prevVendor = await AsyncStorage.getItem("PrevScrapVendor");
             console.log('roder',orderId);
             if(orderId != null){
                 this.setState({orderId: orderId})
                 this.orderId=orderId
-                Axios.post('https://api.dev.we-link.in/user_app.php?action=getHomeScrapOrders&order_id='+orderId)
-                    .then((response)=>{
-                        cart= response.data.order.cart != undefined ? response.data.order.cart: [];
-                        this.setState({extraData: Math.random(0.5)})
-                    })
+                
             }
             else
                 this.orderId = -1;
+
+                if(prevVendor != null && prevVendor != vendorId){
+                    alert('Your cart has been reset due to vendor change');
+                    Axios.post('https://api.dev.we-link.in/user_app.php?action=resetCart&'+qs.stringify({
+                        user_id: actualUser.user_id,
+                        order_id: orderId
+                    })).then((response)=>{
+                        cart=[];
+                    this.setState({extraData: Math.random(0.5)});
+                    this.setState({cart: cart})
+                    this.orderId=-1;
+                    })
+                    
+                }
+                else if(prevVendor === null){
+                    this.orderId = -1;
+                    cart=[];
+                    this.setState({extraData: Math.random(0.5)});
+                    this.setState({cart: cart})
+                }
+                else{
+                    if(orderId!= -1)
+                    Axios.post('https://api.dev.we-link.in/user_app.php?action=getHomeScrapOrders&order_id='+orderId)
+                    .then((response)=>{
+                        console.log('response',response.data)
+                        cart= response.data.order[0].cart != undefined ? response.data.order[0].cart: [];
+                        console.log('carty',cart);
+                        this.setState({extraData: Math.random(0.5)});
+                    })
+                }
         }
         catch(error){
             console.log('error encountered');
@@ -98,8 +128,10 @@ export default class ScrapVendor extends React.Component{
     addItemToCart =(item,num)=>{
         console.log(item);
         console.log(num);
+        const {vendorId} = this.props.route.params;
       
-        if(this.orderId === -1 ){
+        if(this.orderId === -1 || this.orderId === null ){
+            console.log('firstorder');
             Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
                 user_id: this.state.actualUser.user_id,
                 product_id: item.id,
@@ -111,8 +143,15 @@ export default class ScrapVendor extends React.Component{
                     .then(()=>{
                         this.orderId= response.data.order.scrap_order_id;
                         console.log(response.data.order.cart);
-                        cart= response.data.order.cart;
-                        this.setState({extraData: Math.random(0.5)})
+                        cart= response.data.order.cart != undefined ? response.data.order.cart: [];
+                        AsyncStorage.setItem("PrevScrapVendor",vendorId);
+                        this.setState({extraData: Math.random(0.3)})
+                        tempcart= cart;
+                        cart =[];
+                        this.setState({extraData: Math.random(0.2)});
+                        cart= tempcart;
+                        this.setState({extraData: Math.random(0.7)});
+                        this.setState({cart: cart})
                     })
             })
         }
@@ -136,8 +175,10 @@ export default class ScrapVendor extends React.Component{
                     console.log(response.data)
                     cart= response.data.order.cart;
                     this.setState({extraData: Math.random(0.5)})
+                    AsyncStorage.setItem("PrevScrapVendor",vendorId);
               
                         console.log(response.data.order.cart);
+                    this.setState({cart: cart})
                     
             })
         }
@@ -153,8 +194,15 @@ export default class ScrapVendor extends React.Component{
                 vendor_id: this.props.route.params.vendorId,
                 order_id: this.orderId
             })).then((response)=>{
+                if(response.data.order.cart!= undefined)
+                    cart= response.data.order.cart;
+                else 
+                    cart=[]
+                 this.setState({extraData: Math.random(0.5)})
+                AsyncStorage.setItem("PrevScrapVendor",vendorId);
                 
                         console.log(response.data.order.cart);
+                this.setState({cart: cart})
                     
             })
 
@@ -163,6 +211,7 @@ export default class ScrapVendor extends React.Component{
     toggleCart = (retract)=>{
       //  this.setState({open: true})
         this.setState({extraData: Math.random(0.3)});
+        this.setState({cart: cart})
         //const {cs} = this.state;
         console.log('toggling',this.state.translateCart)
         const {translateCart} = this.state;
@@ -271,6 +320,7 @@ export default class ScrapVendor extends React.Component{
 
         )
     }
+
     
     
 
@@ -363,7 +413,7 @@ export default class ScrapVendor extends React.Component{
                  <FlatList
                    
                     data={cart}
-                    extraData={this.state.extraData}
+                    extraData={this.state.cart}
                     keyExtractor={(item,index)=>index.toString()}
                     renderItem={({item,index})=>{
                         return(
