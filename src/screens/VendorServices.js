@@ -20,6 +20,7 @@ export default function VendorServices({submit}){
             else
                 tempArray.push(item);
         });
+        console.log(tempArray);
         setServices(tempArray);
     }
 
@@ -41,7 +42,20 @@ export default function VendorServices({submit}){
             </View>    
             <View style={{padding: 10,position: 'absolute',bottom: 0,alignSelf: 'center'}}>
                 <SubmitButton text='Submit' onTouch={()=>{
-                    submit(null);
+                    var temparr=[];
+                    if(services[0]==='checked')
+                        temparr.push('milk');
+                    if(services[1]==='checked')
+                        temparr.push('newspaper')
+                    if(services[2]==='checked')
+                        temparr.push('homescrap')
+                    if(services[3]==='checked')
+                        temparr.push('officescrap')
+
+                    if(temparr === [])
+                        alert('Please select at least one service');
+                    else
+                        submit(temparr);
                 }}/>
             </View>
 

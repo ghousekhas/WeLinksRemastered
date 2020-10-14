@@ -39,7 +39,8 @@ export default class ScrapVendor extends React.Component{
                 open : false,
                 actualUser: props.route.params.actualUser,
                 address: props.route.params.address,
-                cart: []
+                cart: [],
+                cartAmount: 0
                
                                 
             };
@@ -69,6 +70,7 @@ export default class ScrapVendor extends React.Component{
                         order_id: orderId
                     })).then((response)=>{
                         cart=[];
+                        AsyncStorage.removeItem("ScrapOrderId");
                     this.setState({extraData: Math.random(0.5)});
                     this.setState({cart: cart})
                     this.orderId=-1;
@@ -89,6 +91,7 @@ export default class ScrapVendor extends React.Component{
                         cart= response.data.order[0].cart != undefined ? response.data.order[0].cart: [];
                         console.log('carty',cart);
                         this.setState({extraData: Math.random(0.5)});
+                        this.calculateCartAmount();
                     })
                 }
         }
@@ -128,13 +131,18 @@ export default class ScrapVendor extends React.Component{
     addItemToCart =(item,num)=>{
         console.log(item);
         console.log(num);
+        var itemid,quantity;
         const {vendorId} = this.props.route.params;
+        if(item.id != undefined)
+            itemid= item.id;
+        else
+            itemid= item.cart_product_id;
       
         if(this.orderId === -1 || this.orderId === null ){
             console.log('firstorder');
             Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
                 user_id: this.state.actualUser.user_id,
-                product_id: item.id,
+                product_id: itemid,
                 quantity: num,
                 address_id: this.state.address.addr_id,
                 vendor_id: this.props.route.params.vendorId
@@ -146,19 +154,20 @@ export default class ScrapVendor extends React.Component{
                         cart= response.data.order.cart != undefined ? response.data.order.cart: [];
                         AsyncStorage.setItem("PrevScrapVendor",vendorId);
                         this.setState({extraData: Math.random(0.3)})
-                        tempcart= cart;
+                        var tempcart= cart;
                         cart =[];
                         this.setState({extraData: Math.random(0.2)});
                         cart= tempcart;
                         this.setState({extraData: Math.random(0.7)});
                         this.setState({cart: cart})
+                        this.calculateCartAmount();
                     })
             })
         }
         else{
-            console.log({
+            console.log('rigsbee',{
                 user_id: this.state.actualUser.user_id,
-                product_id: item.id,
+                product_id: itemid,
                 quantity: num,
                 address_id: this.state.address.addr_id,
                 vendor_id: this.props.route.params.vendorId,
@@ -166,19 +175,21 @@ export default class ScrapVendor extends React.Component{
             })
             Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
                 user_id: this.state.actualUser.user_id,
-                product_id: item.id,
+                product_id: parseInt(itemid),
                 quantity: num,
-                address_id: this.state.address.addr_id,
-                vendor_id: this.props.route.params.vendorId,
-                order_id: this.orderId
+                address_id: parseInt(this.state.address.addr_id),
+                vendor_id: parseInt(this.props.route.params.vendorId),
+                order_id: parseInt(this.orderId)
             })).then((response)=>{
-                    console.log(response.data)
+                    console.log(response);
+                    console.log('frisbee',response.data)
                     cart= response.data.order.cart;
                     this.setState({extraData: Math.random(0.5)})
                     AsyncStorage.setItem("PrevScrapVendor",vendorId);
               
                         console.log(response.data.order.cart);
                     this.setState({cart: cart})
+                    this.calculateCartAmount();
                     
             })
         }
@@ -219,6 +230,7 @@ export default class ScrapVendor extends React.Component{
                 
                         console.log(response.data.order.cart);
                 this.setState({cart: cart})
+                this.calculateCartAmount();
                     
             })
 
@@ -336,22 +348,23 @@ export default class ScrapVendor extends React.Component{
 
         )
     }
+    calculateCartAmount = () => {
+        let i,amount = 0;
+        for(i in cart){
+            amount += ((parseFloat(cart[i].homescrap_price)) * parseInt(cart[i].cart_quantity))
+ 
+        }
+
+        this.setState({cartAmount : amount})
+         return amount;
+     }
 
     
     
 
     render(){
         const {name,stars,reviews,address,vendorAddress,imageUrl}=this.props.route.params;
-       const calculateCartAmount = () => {
-            let i,amount = 0;
-            for(i in cart){
-                amount += ((parseFloat(cart[i].homescrap_price)) * parseInt(cart[i].cart_quantity))
-     
-            }
-    
-         //  this.setState({cartAmount : amount})
-             return amount;
-         }
+       
     return (<View>
         <AppBar back funct={() => this.props.navigation.pop()} />
    
@@ -420,7 +433,7 @@ export default class ScrapVendor extends React.Component{
         </View>
         <Animated.View style={{width: dimen.width,height: dimen.height,zIndex: 100,elevation: 10,position: 'absolute',bottom: 0,transform: [{translateY: this.state.translateCart }]}} >
              <View style={{flex: 1,width: '100%',backgroundColor: 'rgba(255,255,255,0.7)',zIndex: 1000}} onTouchEnd={()=>this.toggleCart(false)}/>
-             <View style={{flex: 4,backgroundColor: 'white'}}>
+             <View style={{flex: 7,backgroundColor: 'white'}}>
                  <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',padding: 10}}>Cart</Text>
                  {
                      this.state.extraData != null && cart[0] != undefined ? null: <Text style={{...Styles.subbold,margin: 100,alignSelf: 'center'}}>Cart is empty</Text> 
@@ -469,6 +482,7 @@ export default class ScrapVendor extends React.Component{
            
                            }}
                            initquan={item.cart_quantity}
+                           //onquanchange={calculateCartAmount}
                            name={item.homescrap_name} quantity={item.quantity} price={item.homescrap_price}  price_={item.price_} image={item.homescrap_image_url}
                            subscribe={() => {
                               
@@ -502,7 +516,7 @@ export default class ScrapVendor extends React.Component{
         
         <View style={{flexDirection:'row'}}>
             <Text style={style.billText}>{"Cart Amount"}</Text>
-            <Text style={style.billCost}>₹{calculateCartAmount()}</Text>
+            <Text style={style.billCost}>₹{this.state.cartAmount}</Text>
         </View>
         <View style={{flexDirection:'row'}}>
             <Text style={style.billText}>{"Pick-Up Fee"}</Text>
@@ -511,8 +525,18 @@ export default class ScrapVendor extends React.Component{
         <View style={{...Styles.grayfullline, marginVertical: '3%'}}/>
         <View style={{flexDirection:'row'}}>
             <Text style={style.billText}>{"Total Cost"}</Text>
-            <Text style={style.billCost}>₹{ calculateCartAmount() + 50}</Text>
+            <Text style={style.billCost}>₹{ this.state.cartAmount + 50}</Text>
         </View>
+        <TouchableOpacity style={{backgroundColor: Colors.primary,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginTop: 5}}onPress={()=>this.props.navigation.navigate('ScrapCart',{
+      cart,
+      actualUser: this.state.actualUser,
+      address: this.state.address,
+      vendorId: this.props.route.params.vendorId,
+      orderId: this.orderId
+
+   })}>
+            <Text style={{...Styles.subheading,alignSelf: 'center',color: 'white',textAlign: 'center',padding: 15}}>Schedule Pickup</Text> 
+        </TouchableOpacity>
         
 
         
@@ -551,7 +575,7 @@ const ScrapFlatList = ({route,navigation,data,addItemToCart,removeItemFromCart})
         React.useCallback(() => {
           const onBackPress = () => {
       //     console.log('Go to milk');
-           navigation.navigate('MilkVendors');
+           navigation.navigate('ScrapVendors');
               return true;
             
           };

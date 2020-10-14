@@ -92,6 +92,7 @@ const DrawerContent = (props) => {
      label="My Profile"
      onPress={()=>{props.navigation.navigate('ProfileStack',{
        actualUser: actualUser,
+       user: actualUser,
        getUserDetails: props.getUserDetails,
        setActualUser: setActualUser
        

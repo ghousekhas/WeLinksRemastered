@@ -115,6 +115,7 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
         <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{user: user,actualUser: updateState}}/>
         <Drawer.Screen name="AddAddress" component={AddAddress}  />
         <Drawer.Screen name="myAddresses" component={myAddressStack}  />
+        <Drawer.Screen name="MySubscriptions" component={MySubscriptions}  />
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
           termsData: termsData,
           contactUsData: contactUsData,
@@ -152,13 +153,14 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
 
 const Stack = createStackNavigator();
 
-const vendorStack=({navigation})=>{
+const vendorStack=({navigation,route})=>{
+  const {actualUser}=route.params;
   return(
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
     <Stack.Navigator initialRouteName="Profile">
 
-    <Stack.Screen name = "Profile" component = {VendorRegistration} options={{headerShown: false}} />
+    <Stack.Screen name = "Profile" component = {VendorRegistration} options={{headerShown: false}} initialParams={{actualUser: actualUser}} />
     <Stack.Screen name ="AddAddress" component={AddAddress} options={{headerShown: false}}/>
   </Stack.Navigator>
   </NavigationContainer>

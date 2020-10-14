@@ -11,13 +11,13 @@ import Axios from 'axios';
 import qs from 'qs';
 import auth from '@react-native-firebase/auth'
 import VendorServices from './VendorServices';
-export default function VendorRegistration({navigation}){
+export default function VendorRegistration({navigation,route}){
     const [aadharFile,setAadharFile] = useState(null);
     const [gstFile,setGSTFile] = useState(null);
     const [uri,setUri] = useState(null);
     const [verification,setVerification] = useState(Constants.veFirstTime); 
     const [user,setUser]=useState(auth().currentUser);
-    const [actualUser,setActualUser]=useState();
+    const [actualUser,setActualUser]=useState(route.params.actualUser);
     const [name,companyName]=useState('');
     const [email,companyEmail]=useState('');
     const [gst,companyGstNumber]=useState('');
@@ -25,31 +25,24 @@ export default function VendorRegistration({navigation}){
 
 
     const checkVendorStatus=()=>{
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{
-                console.log(response.data.user[0]);
-                setActualUser('theactualuser',response.data.user[0]);
-                var b=response.data.user[0];
-                Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+b.user_id,)
-                    .then((response)=>{
-                        console.log(response.data)
-                try{
-                    var status= response.data.vendor[0].vendor_status;
-                    if(status=== 'active')
-                        setVerification(Constants.verified);
-                    else if(status=== 'inactive')
-                        setVerification(Constants.veFirstTime)
-                    else
-                        setVerification(Constants.veInProgress);
-                    //setVerification(Constants.veFirstTime);
-                }
-                catch(error){
-                    setVerification(Constants.veFirstTime);
-                }
-            })
-            },(error)=>{
-                console.log('error');
-            })
+                console.log(response.data)
+            try{
+                var status= response.data.vendor[0].vendor_status;
+                if(status=== 'active')
+                    setVerification(Constants.verified);
+                else if(status=== 'inactive')
+                    setVerification(Constants.veFirstTime)
+                else
+                    setVerification(Constants.veInProgress);
+                //setVerification(Constants.veFirstTime);
+            }
+            catch(error){
+                setVerification(Constants.veFirstTime);
+            }
+        });
+        
     }
 
 
@@ -57,7 +50,7 @@ export default function VendorRegistration({navigation}){
 
     useEffect(()=>{
         navigation.addListener('focus',()=>{
-            checkVendorStatus();
+            //checkVendorStatus();
         })
         console.log('ph',user.phoneNumber.substring(3));
         checkVendorStatus();
@@ -65,6 +58,7 @@ export default function VendorRegistration({navigation}){
     },[]);
 
     const submitRegistration= (services)=>{
+        console.log(services);
         var fromData=new FormData();
         fromData.append('id_proof_document',{
             uri: aadharFile.uri,
@@ -77,6 +71,20 @@ export default function VendorRegistration({navigation}){
             name: aadharFile.name
 
         })
+        console.log({
+            user_id: 95,//actualUser.user_id,
+            company_name: name,
+            vendor_gstin: gst,
+            email: email,
+            lat: 1,
+            lng: 1,
+            pincode: address.pincode,
+            label: address.label,
+            address: address.address,
+            vendor_type: services
+
+
+        });
         Axios.post('https://api.dev.we-link.in/user_app.php?action=registerVendor&'+qs.stringify({
             user_id: actualUser.user_id,
             company_name: name,
@@ -84,8 +92,10 @@ export default function VendorRegistration({navigation}){
             email: email,
             lat: 1,
             lng: 1,
-            pincode: 560092,
-            label: 'office'
+            pincode: address.pincode,
+            label: address.label,
+            address: address.address,
+            vendor_type: services
 
 
         }),fromData).then((response)=>{
@@ -132,6 +142,19 @@ export default function VendorRegistration({navigation}){
             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         },)
       );
+    
+    const completeStepOne=()=>{
+        if(companyName.toString().trim()==='' || companyEmail.toString().trim() === '' || companyGstNumber.toString().trim() === '')
+            alert('Please fill all the fields and try again');
+        else if(aadharFile === null || gstFile === null)
+            alert('Please choose appropriate picutres and try again');
+        else if(address === null)
+            alert('Please choose your address and try again'); 
+        else
+            setVerification(67);
+    } 
+    
+    
     if(verification==67)
         return <VendorServices submit={submitRegistration}/>
     if(verification === Constants.veFirstTime)
@@ -151,21 +174,36 @@ export default function VendorRegistration({navigation}){
                     <UploadButton title='AADHAR/VERIFICATION' browseresult={fileselect} fileSetter={setAadharFile}/>
                 </ScrollView>
                 </View>
-                <SubmitButton onTouch={()=>setVerification(67)} text='Submit' />
+                <SubmitButton onTouch={()=> completeStepOne()} text='Submit' />
 
             </View>
         )
     else if(verification === Constants.veInProgress)
-            return(<View style={{...StyleSheet.absoluteFill,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
+            return(
+
+                <View style={{...StyleSheet.absoluteFill,justifyContent: 'flex-start',backgroundColor: 'white'}}>
+                        <View>
+                        <AppBar  funct={() => {
+        navigation.toggleDrawer();
+        }} />
+        </View>
+        <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
                 <View>
                     <Text style={styl.head}>Your Application has been submitted</Text>  
-                    <Text style={styl.subheading}>Please wait patiently until your application is verified</Text>      
+                    <Text style={styl.subheading}>Please wait patiently until your application is verified, click here to refresh</Text>      
+                </View>
                 </View>
 
             </View>)
     else if(verification ===Constants.veTryAgain)
             return(
-                <View style={{...StyleSheet.absoluteFill,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
+                <View style={{...StyleSheet.absoluteFill,justifyContent: 'flex-start',backgroundColor: 'white'}}>
+                        <View>
+                        <AppBar  funct={() => {
+        navigation.toggleDrawer();
+        }} />
+        </View>
+        <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
                 <View>
                     <Text style={styl.head}>Your Application needs some changes to be approved</Text>  
                     <Text style={styl.subheading}>{getChangesToBeMade()}</Text>      
@@ -175,16 +213,21 @@ export default function VendorRegistration({navigation}){
                 </View>
 
             </View>
+            </View>
             )
     else if(verification === Constants.verified)
                 return(
-                    <View style={{...StyleSheet.absoluteFill,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
+                    <View style={{...StyleSheet.absoluteFill,justifyContent: 'flex-start',backgroundColor: 'white'}}>
+                        <View>
+                        <AppBar  funct={() => {
+        navigation.toggleDrawer();
+        }} />
+        </View>
+        <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
                 <View>
                     <Text style={styl.head}>Vendor Verified</Text>  
-                    <Text style={styl.subheading}>{getChangesToBeMade()}</Text>      
+                    <Text style={styl.subheading}>{'Vendor Dashboard Appears here'}</Text>      
                 </View>
-                <View style={{padding: 10,position: 'absolute',bottom: 0,alignSelf: 'center'}}>
-                    <SubmitButton text='Try Again' onTouch={()=>{tryingAgain()}}/>
                 </View>
 
             </View>

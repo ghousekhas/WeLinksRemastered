@@ -5,14 +5,14 @@ import Button from './Button';
 
 import { dimen,Colors, Styles } from '../Constants';
 
-const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule}) => {
+const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule,onquanchange}) => {
     const [number,setNumber] = useState( parseInt(initquan));
     const [gap,setGap] = useState(0);
     const [added,setAdded] = useState(false)
 
     useEffect(()=>{
         setNumber(parseInt(initquan));
-    },initquan)
+    },[initquan])
 
     const renderAddSubtract =()=>{
         if(schedule)
@@ -37,8 +37,9 @@ const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,
        setNumber(number!=1 ? number-1 : number)
        selectedQuantity = number;
        console.log(selectedQuantity)
-       if(added || remove)
-            onAdd(selectedQuantity);
+       if( remove)
+            onAdd(number!=1? number-1: number);
+        
    }}>
    
    <Text style={added ? {fontSize: 17,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6,color: 'white'} : {fontSize: 17,color: 'gray',alignSelf: 'center',fontWeight: 'bold',borderRightColor: Colors.seperatorGray,borderRightWidth: 0.7,paddingRight: 6,color: Colors.primary}}>-</Text>
@@ -52,8 +53,8 @@ const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,
 
 <TouchableOpacity style={style.plus} onPress={() => {
 setNumber(number+1)
-if(added|| remove)
-        onAdd(number+1);
+if(remove)
+    onAdd(number+1);
 }}>
 
 <Text 
@@ -71,13 +72,13 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
                     setGap(nativeEvent.layout.height)
             }}
             onPress = {() => {
-                if(added){
+               // if(added){
                     //alert('Item removal possible from the cart');
-                    onRemove(index);
-                }
-                else
+                //    onRemove(index);
+                //}
+                //else
                     onAdd(number);
-                setAdded(!added);
+                //setAdded(!added);
                 
                 //setAdded(!added);
 
@@ -93,8 +94,8 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
                 setNumber(number!=1 ? number-1 : number)
                 selectedQuantity = number;
                 console.log(selectedQuantity)
-                if(added || remove)
-                    onAdd(selectedQuantity);
+                if( remove)
+                    onAdd(number!=1 ? number-1 : number);
                 //quanchange(selectedQuantity);
             }}>
             
@@ -109,7 +110,7 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
   
 <TouchableOpacity style={style.plus} onPress={() => {
    setNumber(number+1)
-   if(added || remove)
+   if(remove)
         onAdd(number+1);
 }}>
 
