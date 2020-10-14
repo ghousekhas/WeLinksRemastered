@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
-import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
+import React, { useState,useEffect } from 'react';
+import {View, StyleSheet, Text, Dimensions,Image,BackHandler,Animated} from 'react-native';
+import { TouchableOpacity, FlatList,ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {useFocusEffect} from '@react-navigation/native';
 import Vendor from '../components/Vendor';
 import { Avatar, Button } from 'react-native-paper';
 import {Styles, dimen} from '../Constants';
@@ -10,23 +11,227 @@ import Stars from '../components/Stars';
 import Product from '../components/Product';
 import AppBar from '../components/AppBar'
 import Appliance from '../components/Appliance';
-import {Colors} from '../Constants'
-import {Entypo} from '@expo/vector-icons'
+import {Colors} from '../Constants';
+import Axios from 'axios';
+import qs from 'qs';
+import {Entypo} from '@expo/vector-icons';
+import AsyncStorage from '@react-native-community/async-storage';
+
+
+var cart = [];
+
+//a
 export default class ScrapVendor extends React.Component{
 
+    
     constructor(props){
         super(props);
             this.state={
-                brangImagesdata: [1,2,3,4,5,6,7,8,9,10],
-                sections: [
-                    {'Small Appliances':''},
-                      { 'Large Appliances':''},
-                           { 'Electronics':''},
-                               { 'Recyclable':''}],
+                brandImagesData: [],
+                sections: [],
                 collapsed: true,
-                activesections: []
+                activesections: [],
+                width: 0,
+                translateCart: new Animated.Value((dimen.height-dimen.height/16)),
+                cartState: false,
+                extraData: 0,
+                orderId: -1,
+                open : false,
+                actualUser: props.route.params.actualUser,
+                address: props.route.params.address,
+                cart: []
+               
                                 
             };
+            this.orderId=-1
+    }
+
+    async fetchOrderId(){
+        var orderId,prevVendor;
+        const {vendorId} = this.props.route.params;
+        const {actualUser} =this.state;
+        try{
+            orderId = await AsyncStorage.getItem("ScrapOrderId");
+            prevVendor = await AsyncStorage.getItem("PrevScrapVendor");
+            console.log('roder',orderId);
+            if(orderId != null){
+                this.setState({orderId: orderId})
+                this.orderId=orderId
+                
+            }
+            else
+                this.orderId = -1;
+
+                if(prevVendor != null && prevVendor != vendorId){
+                    alert('Your cart has been reset due to vendor change');
+                    Axios.post('https://api.dev.we-link.in/user_app.php?action=resetCart&'+qs.stringify({
+                        user_id: actualUser.user_id,
+                        order_id: orderId
+                    })).then((response)=>{
+                        cart=[];
+                    this.setState({extraData: Math.random(0.5)});
+                    this.setState({cart: cart})
+                    this.orderId=-1;
+                    })
+                    
+                }
+                else if(prevVendor === null){
+                    this.orderId = -1;
+                    cart=[];
+                    this.setState({extraData: Math.random(0.5)});
+                    this.setState({cart: cart})
+                }
+                else{
+                    if(orderId!= -1)
+                    Axios.post('https://api.dev.we-link.in/user_app.php?action=getHomeScrapOrders&order_id='+orderId)
+                    .then((response)=>{
+                        console.log('response',response.data)
+                        cart= response.data.order[0].cart != undefined ? response.data.order[0].cart: [];
+                        console.log('carty',cart);
+                        this.setState({extraData: Math.random(0.5)});
+                    })
+                }
+        }
+        catch(error){
+            console.log('error encountered');
+             this.setState({orderId: -1});
+             this.orderId=-1;
+        }
+    }
+
+    componentDidMount(){
+        console.log('MilkVendorEntered')
+
+        this.fetchOrderId();
+
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&'+qs.stringify({
+            vendorID: this.props.route.params.vendorId,
+            vendor_type: 'homescrap'
+        }),{
+            'Accept-Encoding': 'gzip'
+        }
+        ).then((result) => {
+           var res = result.data.products;
+           console.log('result',res);
+           console.log('res',res.categories);
+           this.setState({sections: res.categories});
+           this.setState({brandImagesData: res.brands});
+    
+           
+
+        }).catch((err) => {
+            console.log(err);
+            
+        });
+    }
+
+    addItemToCart =(item,num)=>{
+        console.log(item);
+        console.log(num);
+        const {vendorId} = this.props.route.params;
+      
+        if(this.orderId === -1 || this.orderId === null ){
+            console.log('firstorder');
+            Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
+                user_id: this.state.actualUser.user_id,
+                product_id: item.id,
+                quantity: num,
+                address_id: this.state.address.addr_id,
+                vendor_id: this.props.route.params.vendorId
+            })).then((response)=>{
+                AsyncStorage.setItem("ScrapOrderId",response.data.order.scrap_order_id)
+                    .then(()=>{
+                        this.orderId= response.data.order.scrap_order_id;
+                        console.log(response.data.order.cart);
+                        cart= response.data.order.cart != undefined ? response.data.order.cart: [];
+                        AsyncStorage.setItem("PrevScrapVendor",vendorId);
+                        this.setState({extraData: Math.random(0.3)})
+                        tempcart= cart;
+                        cart =[];
+                        this.setState({extraData: Math.random(0.2)});
+                        cart= tempcart;
+                        this.setState({extraData: Math.random(0.7)});
+                        this.setState({cart: cart})
+                    })
+            })
+        }
+        else{
+            console.log({
+                user_id: this.state.actualUser.user_id,
+                product_id: item.id,
+                quantity: num,
+                address_id: this.state.address.addr_id,
+                vendor_id: this.props.route.params.vendorId,
+                order_id: this.orderId
+            })
+            Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
+                user_id: this.state.actualUser.user_id,
+                product_id: item.id,
+                quantity: num,
+                address_id: this.state.address.addr_id,
+                vendor_id: this.props.route.params.vendorId,
+                order_id: this.orderId
+            })).then((response)=>{
+                    console.log(response.data)
+                    cart= response.data.order.cart;
+                    this.setState({extraData: Math.random(0.5)})
+                    AsyncStorage.setItem("PrevScrapVendor",vendorId);
+              
+                        console.log(response.data.order.cart);
+                    this.setState({cart: cart})
+                    
+            })
+        }
+        
+    }
+
+    removeItemFromCart =(item)=>{
+        Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
+                user_id: this.state.actualUser.user_id,
+                product_id: item.id,
+                quantity: 0,
+                address_id: this.state.address.addr_id,
+                vendor_id: this.props.route.params.vendorId,
+                order_id: this.orderId
+            })).then((response)=>{
+                if(response.data.order.cart!= undefined)
+                    cart= response.data.order.cart;
+                else 
+                    cart=[]
+                 this.setState({extraData: Math.random(0.5)})
+                AsyncStorage.setItem("PrevScrapVendor",vendorId);
+                
+                        console.log(response.data.order.cart);
+                this.setState({cart: cart})
+                    
+            })
+
+    }
+
+    toggleCart = (retract)=>{
+      //  this.setState({open: true})
+        this.setState({extraData: Math.random(0.3)});
+        this.setState({cart: cart})
+        //const {cs} = this.state;
+        console.log('toggling',this.state.translateCart)
+        const {translateCart} = this.state;
+        if(retract)
+            Animated.spring(this.state.translateCart,{
+                toValue: 0,
+                duration: 2500,
+                useNativeDriver: true,
+                speed: 5,
+                bounciness: 3
+            }).start();
+        else 
+        Animated.spring(this.state.translateCart,{
+            toValue: dimen.height,
+            duration: 2500,
+            useNativeDriver: true,
+            speed: 5,
+            bounciness: 3
+        }).start();
+
     }
  
 
@@ -91,7 +296,7 @@ export default class ScrapVendor extends React.Component{
             duration={400}
             style={Styles.collapsibleView}
             transition="backgroundColor">
-        <ScrapFlatList route={{params:{name: 'SampleVendor',stars: 4,reviews: 68}}}/>
+        <ScrapFlatList removeItemFromCart={this.removeItemFromCart} addItemToCart={this.addItemToCart} navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId,actualUser: this.props.route.params.actualUser}}} data={section[(Object.keys(section))[0]]}/>
         </Animatable.View>);
         /*return(
             <Animatable.View
@@ -116,21 +321,67 @@ export default class ScrapVendor extends React.Component{
         )
     }
 
+    
+    
+
     render(){
+        const {name,stars,reviews,address,vendorAddress,imageUrl}=this.props.route.params;
+       const calculateCartAmount = () => {
+            let i,amount = 0;
+            for(i in cart){
+                amount += ((parseFloat(cart[i].homescrap_price)) * parseInt(cart[i].cart_quantity))
+     
+            }
+    
+         //  this.setState({cartAmount : amount})
+             return amount;
+         }
     return (<View>
         <AppBar back funct={() => this.props.navigation.pop()} />
    
         <View style={Styles.parentContainer}>
             <View style={Styles.fortyUpperPanel}>
+            <TouchableWithoutFeedback onPress={() => {
+              
+                console.log('Pressed outside')
+             //   if(this.state.open)
+                 //  this.toggleCart(false)
+                //   else console.log('Wont close')
+            }}>
                
-                        <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={'Vendor 1'} reviews={68} stars={4} address={'7th cross near hebbal flyover Bengaluru 560092'
-                        }/>
-                 
+               <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
+                 <View style={{flexDirection: 'row',width: dimen.width,alignSelf:'center', justifyContent: 'space-around',height: dimen.height/17}}>
+   <TouchableOpacity onPress={() => {
+       console.log(cart)
+        this.toggleCart(true);   
+       //this.props.navigation.navigate('ScrapCart',cart)
+    }
+       } style={{backgroundColor: Colors.primary,color: 'white',flex:1,alignItems:'center',justifyContent: 'center',padding: '3%',borderRadius:8,width:this.state.width}}>
+       <Text style={{color: 'white',fontWeight: 'bold'}}>Go to Cart</Text>
+   </TouchableOpacity>
+
+   <TouchableOpacity  onLayout={({nativeEvent}) => {
+       this.setState({width: nativeEvent.layout.width})
+
+   }}  
+   onPress={()=>this.props.navigation.navigate('ScrapCart',{
+      cart,
+      actualUser: this.state.actualUser,
+      address: this.state.address,
+      vendorId: this.props.route.params.vendorId,
+      orderId: this.orderId
+
+   })}
+   style={{backgroundColor: Colors.primary,color: 'white',flex:1,alignItems:'center',justifyContent: 'center',padding: '3%',borderRadius:8}}>
+       <Text numberOfLines={1} style={{color: 'white',fontWeight: 'bold'}}>Schedule Pickup</Text>
+   </TouchableOpacity>
+
+   </View>
                 {/* <View style={{flexDirection: 'row',alignSelf: 'center',margin: 10,justifyContent: 'space-between',width: '80%'}}>
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}>Items in cart</Text>
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}> Schedule Pickup</Text>
                 </View> */}
-
+</TouchableWithoutFeedback>
             </View>
             <View style={Styles.sixtyLowerPanel}>
                 <ScrollView ref={(ref)=>this.scrollView=ref}>
@@ -151,56 +402,122 @@ export default class ScrapVendor extends React.Component{
             </View>
 
         </View>
+        <Animated.View style={{width: dimen.width,height: dimen.height,zIndex: 100,elevation: 10,position: 'absolute',bottom: 0,transform: [{translateY: this.state.translateCart }]}} >
+             <View style={{flex: 1,width: '100%',backgroundColor: 'rgba(255,255,255,0.7)',zIndex: 1000}} onTouchEnd={()=>this.toggleCart(false)}/>
+             <View style={{flex: 4,backgroundColor: 'white'}}>
+                 <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',padding: 10}}>Cart</Text>
+                 {
+                     this.state.extraData != null && cart[0] != undefined ? null: <Text style={{...Styles.subbold,margin: 100,alignSelf: 'center'}}>Cart is empty</Text> 
+                 } 
+                 
+                 <FlatList
+                   
+                    data={cart}
+                    extraData={this.state.cart}
+                    keyExtractor={(item,index)=>index.toString()}
+                    renderItem={({item,index})=>{
+                        return(
+                            <Appliance 
+                            remove={true}
+                            item = {item}
+                            index= {index}
+                            onAdd={(num) => {
+                            
+                                this.addItemToCart(item,num);
+                 
+                            /*    
+                                 cart.push({
+                                    ...item,
+                                    itemQuantity : num
+                                });
+           
+           
+           
+                                   console.log(cart)*/
+                               
+                               
+                               
+                           }} 
+                           onRemove = {() => {
+                               this.removeItemFromCart(item);
+                               /*console.log('Remove')
+                               cart.splice(index,1);
+                               console.log(cart);*/
+                               // let temp = cart,i,ind = index;
+                   
+                               // for(i in temp){
+                               //         if(i != ind)
+                               //         cart.push(temp[i])
+                               // }
+                               // console.log(cart)
+           
+                           }}
+                           initquan={item.cart_quantity}
+                           name={item.homescrap_name} quantity={item.quantity} price={item.homescrap_price}  price_={item.price_} image={item.homescrap_image_url}
+                           subscribe={() => {
+                              
+                               const prodName = item.name;
+                               const prodQuan = item.quantity;
+                               const prodRate = item.price;
+                               const prodRate_ = item.price_;
+           
+                               navigation.navigate('SubscribeScreen',{
+                                   tag : 'paper',
+                                   pname : prodName,
+                                   pquan : prodQuan,
+                                   prate: prodRate
+                               }) } 
+                           }/>
+           
+                        )
+
+                    }}
+                    />
+
+
+        <View style={style.gray}>
+             <Text style={{margin: '1%'}}>Disclaimer: Prices shown are only approximate value. They can differ for different vendors/products.</Text>
+             {/*<Text onPress={() => {
+                //  this.props.navigation.navigate('FAQ') What about this?
+             }} style={{textDecorationLine: 'underline',textAlign: 'left',margin: '1%',marginTop: 0}}>Learn more.</Text> */}
+         </View>   
+
+           <View  style={{padding: 10,backgroundColor: 'white',marginTop:dimen.width/60}}>
+        
+        <View style={{flexDirection:'row'}}>
+            <Text style={style.billText}>{"Cart Amount"}</Text>
+            <Text style={style.billCost}>₹{calculateCartAmount()}</Text>
         </View>
+        <View style={{flexDirection:'row'}}>
+            <Text style={style.billText}>{"Pick-Up Fee"}</Text>
+            <Text style={style.billCost}>₹50</Text>
+        </View>
+        <View style={{...Styles.grayfullline, marginVertical: '3%'}}/>
+        <View style={{flexDirection:'row'}}>
+            <Text style={style.billText}>{"Total Cost"}</Text>
+            <Text style={style.billCost}>₹{ calculateCartAmount() + 50}</Text>
+        </View>
+
+        
+        </View> 
+
+
+
+
+             </View>
+             <View style={{height: 20}}/>
+             
+        </Animated.View>
+    </View>
     )
     }
 }
 
 
-const ScrapFlatList = ({route,navigation}) => {
+
+const ScrapFlatList = ({route,navigation,data,addItemToCart,removeItemFromCart}) => {
+   
     
-    
-
-    const [plist,updatepList] = useState([
-        {
-            name: 'Mobile Phone',
-            quantity: '1 unit',
-            price: '5',
-            price_: '8',
-            image: 'https://png.pngtree.com/png-vector/20190120/ourlarge/pngtree-mobile-vector-icon-png-image_470662.jpg'
-        },
-        {
-            name: 'Washing Machine',
-            quantity: '1 unit',
-            price: '5',  
-            price_: '8',   
-            image: 'data:image/png;base64,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'   },
-        {
-            name: 'Fridge',
-            quantity: '1 unit',
-            price: '5', 
-            price_: '8',
-            image: 'https://static.vecteezy.com/system/resources/thumbnails/000/351/209/small/Electronic_Devices__28456_29.jpg'
-               }, {
-            name: 'TV',
-            quantity: '1 unit',
-            price: '5', 
-            price_: '8'       },
-        {
-            name: 'Chair',
-            quantity: '1 unit',
-            price: '5',  
-            price_: '8'      },
-        {
-            name: 'Table',
-            quantity: '1 unit',
-            price: '5',    
-            price_: '8',
-            
-
-        }
-
-    ]);
 
    
 
@@ -208,16 +525,76 @@ const ScrapFlatList = ({route,navigation}) => {
 
     const {name} = route.params;
     const {stars} = route.params;
-    const {reviews} = route.params;
+    const {tag} = route.params;
+    
+    const {reviews,actualUser} = route.params;
+    console.log(actualUser)
+
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+      //     console.log('Go to milk');
+           navigation.navigate('MilkVendors');
+              return true;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
+      const vendorId=route.params.vendorId;
 
    // const order = navigation.getParams('order');
     return(<View style={style.container}>
     <FlatList
-        data = {plist}
+        data = {data}
         keyExtractor = {(item) => item.name}
-        renderItem = {({item}) => { 
+        renderItem = {({item,index}) => { 
+            console.log(item.product_img_url);
+            
+            
             return(
-                <Appliance name={item.name} quantity={item.quantity} price={item.price}  price_={item.price_} image={item.image}
+                <Appliance 
+                item={ item}
+                initquan={1}
+                index={index}
+                onAdd={(num) => {
+
+                    addItemToCart(item,num);
+                 
+                        
+                   /* cart.push({
+                        ...item,
+                        itemQuantity : num,
+                        itemPrice : item.price
+                    });
+
+
+
+
+                        console.log(cart)*/
+                    
+                    
+                    
+                }} 
+                onRemove = {() => {
+                    removeItemFromCart(item);
+                               /*console.log('Remove')
+                               cart.splice(index,1);
+                               console.log(cart);*/
+                               // let temp = cart,i,ind = index;
+                   
+                               // for(i in temp){
+                               //         if(i != ind)
+                               //         cart.push(temp[i])
+                               // }
+                               // console.log(cart)
+
+                }}
+                name={item.name} quantity={item.quantity} price={item.price}  price_={item.price_} image={item.product_url}
                 subscribe={() => {
                    
                     const prodName = item.name;
@@ -235,12 +612,21 @@ const ScrapFlatList = ({route,navigation}) => {
 
             )
         }}
+        
 
     />
+     
   
 
     </View>)
 };
+
+
+
+
+
+
+
 
 
 const style = StyleSheet.create({
@@ -294,6 +680,33 @@ const style = StyleSheet.create({
         width: 100,
         position: 'absolute',
         marginTop: '3%'
+    },
+     gray: {
+        padding: '1%',
+       backgroundColor: Colors.seperatorGray,
+        borderRadius: 10,
+        height: Dimensions.get('window').height/11,
+        margin: '3%',
+       
+        alignItems: 'flex-start',
+        justifyContent:'center',
+        elevation:1
+    },
+    billText:{
+        fontSize: 18,
+        marginTop: '2%',
+        fontWeight: '900',
+        margin: '2%'
+    },
+    billCost:{
+        fontWeight: 'bold',
+        fontSize: 16,
+        margin: '2%',
+        textAlign: 'right',
+        
+       
+        ...StyleSheet.absoluteFill
+        
     }
 });
 

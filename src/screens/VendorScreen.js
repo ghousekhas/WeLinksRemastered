@@ -130,7 +130,7 @@ export default class VendorScreen extends React.Component{
             duration={400}
             style={{...Styles.collapsibleView}}
             transition="backgroundColor">
-        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId,actualUser: this.props.route.params.actualUser}}} data={section[(Object.keys(section))[0]]}/>
+        <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId,actualUser: this.props.route.params.actualUser,address: this.props.route.params.address}}} data={section[(Object.keys(section))[0]]}/>
         </Animatable.View>);
         /*return(
             <Animatable.View
@@ -214,7 +214,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
     const {stars} = route.params;
     const {tag} = route.params;
     
-    const {reviews,actualUser} = route.params;
+    const {reviews,actualUser,address} = route.params;
     console.log(actualUser)
 
     useFocusEffect(
@@ -243,6 +243,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
             console.log(item.product_img_url);
             
             
+            
             return(
                 <Product name={item.name} quantity={item.quantity} price={item.price}  url={item.product_img_url} imageUrl={item.product_img_url}
                 subscribe={() => {
@@ -262,7 +263,8 @@ const ScrapFlatList = ({route,navigation,data}) => {
                         actualUser: actualUser,
                         vendorId: vendorId,
                         productId: productId,
-                        vendorType: 'milk'
+                        vendorType: 'milk',
+                        address: address
                     }) } 
                 }/>
 

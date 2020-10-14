@@ -7,13 +7,14 @@ import { color } from 'react-native-reanimated';
 
 
 
-const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,address,scrap,imageUrl}) => {
+const Vendor = ({name,brands,stars,reviews,onSelected,buttonVisible,address,scrap,imageUrl}) => {
     const [imageHeight,setImageHeight]=useState(0);
 
     const renderButton=()=>{
         if(buttonVisible!= false){
             return(
-                <View style={{...style.button,flex: 1,alignSelf: 'center',justifyContent: 'center'}}>
+                <View style={{...style.button,flexDirection: 'column',flex: 1,alignSelf: 'center',justifyContent: 'center'}}>
+                <Button text='Select' onTouch={onSelected} />
                 <Button text='Select' onTouch={onSelected} />
             </View>
             );
@@ -70,7 +71,7 @@ const Vendor = ({name,brands,stars,reviews,onSelected,picture,buttonVisible,addr
 
        
         </View>
-        <Image style={{...style.image,height: imageHeight*0.75,width: imageHeight*0.75,alignSelf: 'center'}} source={{uri: imageUrl}}/>
+        <Image style={{...style.image,height: imageHeight*0.3,width: imageHeight*0.3,alignSelf: 'center'}} source={{uri: imageUrl}}/>
     </View>)
 };
 

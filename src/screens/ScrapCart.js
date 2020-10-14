@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
-import { TouchableOpacity, FlatList,ScrollView } from 'react-native-gesture-handler';
+import {View, StyleSheet, Text, Dimensions,Image,ScrollView} from 'react-native';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { Avatar } from 'react-native-paper';
-import {Styles,ScrapStyles} from '../Constants';
+import {Styles,ScrapStyles,dimen,Colors} from '../Constants';
 import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
+import AppBar from '../components/AppBar';
 import {Entypo} from '@expo/vector-icons'
 import { Rect } from 'react-native-svg';
 import GenericSeperator from '../components/GenericSeperator';
 import SubmitButton from '../components/SubmitButton';
 import {EvilIcons} from '@expo/vector-icons';
-import { Colors } from '../Constants';
 import firestore from '@react-native-firebase/firestore';
+import Appliance from '../components/Appliance';
+import ExpandableTextBox from '../components/ExpandableTextBox';
+import moment from 'moment';
+import Axios from 'axios';
+import qs from 'qs';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
 export default class ScrapCart extends React.Component{
+       
+    
     constructor(props){
         super(props);
         this.state = {
@@ -29,13 +37,53 @@ export default class ScrapCart extends React.Component{
             selectedDate: null,
             selectedTIme: null,
             timeSelected: [false,false,false],
-            cartItems: ['Electronics- Mobile','Recyclables= Paper','Large Appliance- Fridge','Electronics- Mobile',
-            'Recyclables= Paper','Large Appliance- Fridge']
+            cartItems: [],
+            extraData: 0,
+            cart: this.props.route.params.cart,
+            cartAmount : 0,
+            notes: '',
+            extraData: 0,
+            amount: 0
         };
     };
 
+    placeOrder =()=>{
+        const {selectedDate,selectedTime}=this.state;
+        const {navigation}=this.props;
+        if(selectedDate === null || selectedTime === null)
+            alert('Please select the data and timeslot for the pickup and try Again');
+        else{
+            Axios.post('https://api.dev.we-link.in/user_app.php?action=schedulePickup&'+qs.stringify({
+                user_id: this.props.route.params.actualUser.user_id,
+                address_id: this.props.route.params.address.addr_id,
+                vendor_id: this.props.route.params.vendorId,
+                order_id: this.props.route.params.orderId,
+                pickup_date: this.state.selectedDate,
+                time_slot: this.state.selectedTIme,
+                order_amount: this.state.amount,
+                notes:this.state.notes
+            }),).then((response)=>{
+                console.log(response)
+                alert("Order placed successfully");
+                AsyncStorage.removeItem('ScrapOrderId').then(()=>{
+                    AsyncStorage.removeItem('PrevScrapVendor').then(()=>{
+                        navigation.navigate('Homescreen');
+                    })
+                });
+                
+                navigation.navigate('Homescreen');
+            });
+        }
+    }
+
+    onRemove = (index)=>{
+        var tempArr= this.state.cart;
+        tempArr.splice(index,1);
+        this.setState({cart: tempArr});
+    }
+
     getTodaysDate =  ()=>{
-        var date =  firestore.Timestamp.now().toDate();
+        var date =  moment().utcOffset("+05:30").toDate();
         var newDate =  {
             startDate: date.getDate(),
             startMonth: date.getMonth(),
@@ -45,29 +93,25 @@ export default class ScrapCart extends React.Component{
         this.setState({
             newDate
         });
+        this.setState({startDate: newDate.startDate});
+        this.setState({startMonth: newDate.startMonth});
+        this.setState({startYear: newDate.startYear});
+        this.setState({startDay: newDate.startDay});
+
         console.log(this.state.startDate);
+        this.setState({
+            extraData: Math.random(0.5)
+        })
     }
 
     componentDidMount= ()=>{
         this.getTodaysDate();
+        this.calculateCartAmount();
         
     }
 
     renderCartItem = (item)=>{
-        return (
-            <View style={Styles.horizontalRow}>
-                <Text style={Styles.subbold}>{item.item}</Text>
-                <TouchableOpacity style={Styles.touchableButtonBorder} onPress={()=>{
-                    var i;
-                    var temparr=this.state.cartItems;
-                    for(i=item.index;i<temparr.length-1;i++)
-                        temparr[i] = temparr[i+1];
-                    temparr.pop();
-                    this.setState({cartItems: temparr})}}>
-                    <Text>remove</Text>
-                </TouchableOpacity>
-            </View>
-        );
+      
     };
 
     dateSelectedCallback= (date)=>{
@@ -89,21 +133,118 @@ export default class ScrapCart extends React.Component{
 
     }
 
+    calculateCartAmount = () => {
+        let i,amount = 0;
+        for(i in this.state.cart){
+            amount += ((parseFloat(this.state.cart[i].homescrap_price)) * parseInt(this.state.cart[i].cart_quantity))
+ 
+        }
+        this.setState({amount: amount})
+
+     //  this.setState({cartAmount : amount})
+         return amount;
+     }
+  
+
 
     render(){
+
+        const {cart} = this.props.route.params;
+        //console.log('cart: ' + cart[0].itemName)
+       
+
+        
         
 
+
         return(
-            <View style={Styles.parentContainer}>
+            <View style={{flex: 1}}>
+            <AppBar back funct={() => {this.props.navigation.pop()}} />
+            
+            <ScrollView style={{flex: 1}}>
+            <View style={{marginTop: dimen.height/16,flex: 1}}>
                 <View style={Styles.scrapTopCart}>
-                    <FlatList numColumns={1} 
-                        scrollEnabled={true}
-                        renderItem = {this.renderCartItem}
-                        ItemSeparatorComponent = {GenericSeperator}
-                        data = {this.state.cartItems}
-                        keyExtractor= {(item,index) => index}
-                        style={{width: '100%',height: '40%',paddingHorizontal: '1%',marginVertical: '2%'}}
-                        />
+                <FlatList
+                    data={cart}
+                    extraData={this.state.extraData}
+                    keyExtractor={(item,index)=>index.toString()}
+                    renderItem={({item,index})=>{
+                        return(
+                            <Appliance 
+                            schedule={true}
+                            remove={true}
+                            item = {item}
+                            index= {index}
+                            onAdd={(num) => {
+                 
+                        
+                                cart.push({
+                                    ...item,
+                                    itemQuantity : num
+                                });
+           
+           
+           
+                                   console.log(cart)
+                               
+                               
+                               
+                           }} 
+                           onRemove = {this.onRemove
+                               // let temp = cart,i,ind = index;
+                   
+                               // for(i in temp){
+                               //         if(i != ind)
+                               //         cart.push(temp[i])
+                               // }
+                               // console.log(cart)
+           
+                           }
+                           initquan={item.cart_quantity}
+                           name={item.homescrap_name} quantity={item.quantity} price={item.homescrap_price}  price_={item.price_} image={item.homescrap_image_url}
+                           subscribe={() => {
+                              
+                               const prodName = item.name;
+                               const prodQuan = item.quantity;
+                               const prodRate = item.price;
+                               const prodRate_ = item.price_;
+           
+                               navigation.navigate('SubscribeScreen',{
+                                   tag : 'paper',
+                                   pname : prodName,
+                                   pquan : prodQuan,
+                                   prate: prodRate
+                               }) } 
+                           }/>
+           
+                        )
+
+                    }}
+                    />
+
+<View style={styles.gray}>
+             <Text style={{margin: '1%'}}>Disclaimer: Prices shown are only approximate value. They can differ for different vendors/products.</Text>
+         
+         </View>
+         <View  style={{padding: 10,backgroundColor: 'white',marginTop:dimen.width/60}}>
+        
+        <View style={{flexDirection:'row'}}>
+            <Text style={styles.billText}>{"Cart Amount"}</Text>
+            <Text style={styles.billCost}>₹{this.state.amount}</Text>
+        </View>
+        <View style={{flexDirection:'row'}}>
+            <Text style={styles.billText}>{"Pick-Up Fee"}</Text>
+            <Text style={styles.billCost}>₹50</Text>
+        </View>
+        <View style={{...Styles.grayfullline, marginVertical: '3%'}}/>
+        <View style={{flexDirection:'row'}}>
+            <Text style={styles.billText}>{"Total Cost"}</Text>
+            <Text style={styles.billCost}>₹{this.state.amount + 50}</Text>
+        </View>
+
+        
+        </View>
+
                 </View>
                 <View style={Styles.scrapBottom}>
                     <Text style={ScrapStyles.heading}>Pickup Date and Time</Text>
@@ -111,13 +252,14 @@ export default class ScrapCart extends React.Component{
                         {//SevenViewshere
                         }
                     </View>                    
-                    <WeekView start={{day: this.state.startDay,date: this.state.startDate,
+                    <WeekView extraData={this.state.extraData} start={{day: this.state.startDay,date: this.state.startDate,
                     month: this.state.startMonth,year: this.state.startYear}} selectedChangeInParent={this.dateSelectedCallback}/>
                     <Text style={ScrapStyles.heading}>Schedule Time</Text>
                     <View style={Styles.horizontalCalendarButtonsRow}>
                         <TouchableOpacity style={this.state.timeSelected[0] ? {...ScrapStyles.timebutton,
                             borderColor: Colors.primary,paddingVertical: 10}:{...ScrapStyles.timebutton,borderColor: Colors.seperatorGray}}
-                                        onPress={()=>{this.timeSelected(0)}}
+                                        onPress={()=>{this.timeSelected(0);
+                                            this.setState({selectedTime: '9:00AM to 12:00PM'})}}
                                         >
                             <View style={{flexDirection: 'row'}}>
                                 <EvilIcons name="clock" size={24} color="black" />
@@ -127,7 +269,10 @@ export default class ScrapCart extends React.Component{
                         </TouchableOpacity>
                         <TouchableOpacity style={ this.state.timeSelected[1] ? {...ScrapStyles.timebutton,
                             borderColor: Colors.primary,paddingVertical: 10}:{...ScrapStyles.timebutton,borderColor: Colors.seperatorGray}}
-                                        onPress={()=>{this.timeSelected(1)}}
+                                        onPress={()=>{this.timeSelected(1);
+                                           
+                                            this.setState({selectedTime: '12:00PM to 3:00PM'})
+                                        }}
                                         >
                             <View style={{flexDirection: 'row'}}>
                                 <EvilIcons name="clock" size={24} color="black" />
@@ -137,7 +282,10 @@ export default class ScrapCart extends React.Component{
                         </TouchableOpacity>
                         <TouchableOpacity style={this.state.timeSelected[2]? {...ScrapStyles.timebutton,
                             borderColor: Colors.primary,paddingVertical: 10}:{...ScrapStyles.timebutton,borderColor: Colors.seperatorGray}}
-                                        onPress={()=>{this.timeSelected(2)}}
+                                        onPress={()=>{this.timeSelected(2);
+                                            this.setState({selectedTime: '12:00PM to 3:00PM'})
+                                           
+                                        }}
                                         >
                             <View style={{flexDirection: 'row'}}>
                                 <EvilIcons name="clock" size={24} color="black" />
@@ -146,12 +294,21 @@ export default class ScrapCart extends React.Component{
                             <Text style={Styles.subbold}> 5:00 PM</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{height: 20,width: 100}}/>
+                    <ExpandableTextBox changeText={(text)=>this.setState({notes: text})} title="Additional notes" hint="Any additional information for the scrap pickup."/>
+                    <View style={{height: 10,width: 100}}/>
+                    
                 </View>
-                <View style={Styles.submitButtonBottom}>
-                    <TouchableOpacity style={{width: '100%',height: '100%',justifyContent: 'center'}}>
-                       <Text style={{alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15}} >CONFIRM PICKUP</Text>
+                
+            </View>
+            </ScrollView>
+        
+                    <TouchableOpacity onPress={()=>{
+                        this.placeOrder();
+                    }} style={{flex: 0,backgroundColor: Colors.primary,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}}>
+                       <Text style={{alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15}} >Confirm Pickup</Text>
                     </TouchableOpacity>
-                </View>
+             
             </View>
         );
 
@@ -159,10 +316,11 @@ export default class ScrapCart extends React.Component{
 }
 
 
-WeekView =({start,selectedChangeInParent})=>{
+WeekView =({start,selectedChangeInParent,extraData})=>{
     var i;
     var someArray =[];
-    var [initArray,setInitArray] = useState([]);
+    const [initArray,setInitArray] = useState([]);
+    const [extd,setextd]=useState(0);
     var date,day,nextDay;
     const [selected,setSelected]= useState([false,false,false,false,false,false,false]);
     var selectedDate= null;
@@ -172,19 +330,20 @@ WeekView =({start,selectedChangeInParent})=>{
         setInitArray(someArray);
         for(i = 0;i < 6; i++){
            nextDay ={...getNextDate(someArray[i]),day: getNextDay(someArray[i].day)}
-            someArray.push(nextDay);
-           setInitArray(someArray);
+            someArray.push(nextDay); 
         }
+        setInitArray(someArray);
 
-    },[]);
 
-    getNextDay = (currentDay)=>{
+    },[extraData,start]);
+
+    const getNextDay = (currentDay)=>{
         if(currentDay == 6)
             return 0
         return currentDay+1
     }
 
-    getNextDate= (startDate)=>{
+    const getNextDate= (startDate)=>{
         const {month,date,year} = startDate;
         if(month == 2 && date>=28){
             if(date ==28)
@@ -226,7 +385,7 @@ WeekView =({start,selectedChangeInParent})=>{
         };
     }
 
-    itemSelected= (index)=>{
+    const itemSelected= (index)=>{
         var temparr= [];
         selectedDate = initArray[index];
         for(i = 0; i<7; i++)
@@ -243,7 +402,7 @@ WeekView =({start,selectedChangeInParent})=>{
         <View style={Styles.scrapWeekView}>
             {initArray.map((item,index) =>{
                 return (
-                    <DayButton key={index} dateInfo={item} onSelected={itemSelected} selected={selected[index]} index={index}/>
+                    <DayButton  key={index} dateInfo={item} onSelected={itemSelected} selected={selected[index]} index={index}/>
                 );
             })}
         </View>
@@ -253,12 +412,12 @@ WeekView =({start,selectedChangeInParent})=>{
 
 DayButton =({dateInfo,onSelected,selected,index})=>{
     var days= ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; 
-    
+  
 
     const theNeedful=()=>{
         onSelected(index);
     }
-
+  
     return(
         <View style={Styles.dayButton}>
             <TouchableOpacity onPress={theNeedful}>
@@ -271,3 +430,33 @@ DayButton =({dateInfo,onSelected,selected,index})=>{
     )
 
 }
+
+const styles = StyleSheet.create({
+    gray: {
+        padding: '1%',
+       backgroundColor: Colors.seperatorGray,
+        borderRadius: 10,
+        height: Dimensions.get('window').height/11,
+        margin: '3%',
+       
+        alignItems: 'flex-start',
+        justifyContent:'center',
+        elevation:1
+    },
+    billText:{
+        fontSize: 18,
+        marginTop: '2%',
+        fontWeight: '900',
+        margin: '2%'
+    },
+    billCost:{
+        fontWeight: 'bold',
+        fontSize: 16,
+        margin: '2%',
+        textAlign: 'right',
+        
+       
+        ...StyleSheet.absoluteFill
+        
+    },
+})
