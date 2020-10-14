@@ -73,7 +73,7 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
             onPress = {() => {
                 if(added){
                     //alert('Item removal possible from the cart');
-                    onRemove();
+                    onRemove(index);
                 }
                 else
                     onAdd(number);

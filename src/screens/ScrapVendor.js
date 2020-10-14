@@ -186,14 +186,30 @@ export default class ScrapVendor extends React.Component{
     }
 
     removeItemFromCart =(item)=>{
+        console.log('removing');
+        var itemid = -1;
+        if(item.id != undefined)
+            itemid= item.id;
+        else
+            itemid= item.cart_product_id;
+        
+        console.log({
+            user_id: this.state.actualUser.user_id,
+            product_id: item.id,
+            quantity: 0,
+            address_id: this.state.address.addr_id,
+            vendor_id: this.props.route.params.vendorId,
+            order_id: this.orderId
+        });
         Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
                 user_id: this.state.actualUser.user_id,
-                product_id: item.id,
+                product_id: itemid,
                 quantity: 0,
                 address_id: this.state.address.addr_id,
                 vendor_id: this.props.route.params.vendorId,
                 order_id: this.orderId
             })).then((response)=>{
+                console.log(response.data);
                 if(response.data.order.cart!= undefined)
                     cart= response.data.order.cart;
                 else 
@@ -438,7 +454,7 @@ export default class ScrapVendor extends React.Component{
                                
                                
                            }} 
-                           onRemove = {() => {
+                           onRemove = {(whatever) => {
                                this.removeItemFromCart(item);
                                /*console.log('Remove')
                                cart.splice(index,1);
@@ -497,6 +513,7 @@ export default class ScrapVendor extends React.Component{
             <Text style={style.billText}>{"Total Cost"}</Text>
             <Text style={style.billCost}>₹{ calculateCartAmount() + 50}</Text>
         </View>
+        
 
         
         </View> 
