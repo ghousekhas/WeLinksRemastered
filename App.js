@@ -46,6 +46,7 @@ import TermsAndConditions from './src/screens/TermsAndConditions';
 import MySubscriptions from './src/screens/MySubscriptions';
 import MySubscriptionOrder from './src/components/MySubscriptionOrder';
 import SubscriptionScreen from './src/screens/SubscriptionScreen';
+import VendorServices from './src/screens/VendorServices';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -152,13 +153,14 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
 
 const Stack = createStackNavigator();
 
-const vendorStack=({navigation})=>{
+const vendorStack=()=>{
   return(
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
-    <Stack.Navigator initialRouteName="Profile">
+    <Stack.Navigator initialRouteName="VendorRegistration">
 
-    <Stack.Screen name = "Profile" component = {VendorRegistration} options={{headerShown: false}} />
+    <Stack.Screen name = "VendorRegistration" component = {VendorRegistration} options={{headerShown: false}} />
+    <Stack.Screen name= "Services" component = {VendorServices} options={{headerShown: false}} />
     <Stack.Screen name ="AddAddress" component={AddAddress} options={{headerShown: false}}/>
   </Stack.Navigator>
   </NavigationContainer>
@@ -189,8 +191,8 @@ const myAddressStack = ({navigation,route}) => {
   return(
     <View style={{flex: 1}}>
   <NavigationContainer independent = {true}>
-  <Stack.Navigator initialRouteName="Profile">
-    <Stack.Screen name = "AddressList" component = {AddressList}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails,navtoggle: navigation,myAddresses: true,profile: route.params.profile}}/>
+  <Stack.Navigator>
+   <Stack.Screen name = "AddressList" component = {AddressList}  key={remountKey.toString()} options={{headerShown: false}} initialParams={{user: user,actualUser: actualUser,getUserDetails: getUserDetails,navtoggle: navigation,myAddresses: true,profile: route.params.profile}}/>
     <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
   </Stack.Navigator>
   </NavigationContainer>

@@ -151,7 +151,14 @@ export default function VendorRegistration({navigation}){
                     <UploadButton title='AADHAR/VERIFICATION' browseresult={fileselect} fileSetter={setAadharFile}/>
                 </ScrollView>
                 </View>
-                <SubmitButton onTouch={()=>setVerification(67)} text='Submit' />
+                <SubmitButton onTouch={()=>{
+                    if(companyName == '' || companyEmail == '' || gst == '' ||
+                     aadharFile == null || gstFile ==null || aadharFile == null || address == null)
+                     alert('Please fill the entire form.')
+                   else if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)))
+                    alert('You have entered an invalid email address.')
+                   else console.log(setAddress) }}/>
+                {/* //    else setVerification(67)}} text='Submit' /> */}
 
             </View>
         )

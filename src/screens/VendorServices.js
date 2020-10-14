@@ -1,15 +1,35 @@
 import React,{useState, useEffect} from 'react';
-import {View,TextInput,Text,StyleSheet,ScrollView, Alert,Dimensions, CheckBox} from 'react-native';
+import {View,TextInput,Text,StyleSheet,ScrollView, Alert,Dimensions, CheckBox,BackHandler} from 'react-native';
 import {Styles,dimen,Colors} from '../Constants';
 import TextBox from '../components/TextBox';
 import Button from '../components/Button';
 import SubmitButton from '../components/SubmitButton';
 import  DocumentPicker from 'react-native-document-picker';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,useFocusEffect} from '@react-navigation/native';
 import { Checkbox} from 'react-native-paper';
 import AppBar from '../components/AppBar';
 
-export default function VendorServices({submit}){
+
+
+export default function VendorServices(props){
+    let navigation = useNavigation();
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+        //   console.log('Go to vendor');
+           navigation.navigate('VendorRegistration');
+              return true;
+            
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        },)
+      );
+   
+ 
     const [services,setServices] = useState(['unchecked','unchecked','unchecked','unchecked']);
 
     const checkBox =(index)=>{
@@ -25,14 +45,14 @@ export default function VendorServices({submit}){
 
 
     return(<View style={{...StyleSheet.absoluteFill}}>
-                <AppBar back={false} />
+                <AppBar back funct={() => {navigation.navigate('VendorRegistration')}} />
                 <View style={{height: dimen.height/12}}/> 
                 <Text style = {style.text}>What services do you offer?</Text>
             <View style={{paddingHorizontal: 10}}>
                 <ScrollView>
                     <Checkbox.Item label="Milk Delivery" status={services[0]} labelStyle={{color: 'black'}} theme={{colors:{primary: 'black'}}} color={Colors.primary} onPress={()=>{checkBox(0)}} />
                     <View style={Styles.grayfullline}/>
-                    <Checkbox.Item label="NewsPaper Delivery" status={services[1]} labelStyle={{color: 'black'}} theme={{colors:{primary: 'black'}}} onPress={()=>{checkBox(1)}}/>
+                    <Checkbox.Item label="Newspaper Delivery" status={services[1]} labelStyle={{color: 'black'}} theme={{colors:{primary: 'black'}}} onPress={()=>{checkBox(1)}}/>
                     <View style={Styles.grayfullline}/>
                     <Checkbox.Item label="Home Scrap Collection" status={services[2]} labelStyle={{color: 'black'}} theme={{colors:{primary: 'black'}}} onPress={()=>{checkBox(2)}}/>
                     <View style={Styles.grayfullline}/>
@@ -41,7 +61,7 @@ export default function VendorServices({submit}){
             </View>    
             <View style={{padding: 10,position: 'absolute',bottom: 0,alignSelf: 'center'}}>
                 <SubmitButton text='Submit' onTouch={()=>{
-                    submit(null);
+                    props.submit(null);
                 }}/>
             </View>
 

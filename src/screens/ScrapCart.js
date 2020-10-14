@@ -110,7 +110,7 @@ export default class ScrapCart extends React.Component{
         
     }
 
-    renderCartItem = (item)=>{
+    renderCartItem = (item)=> {
       
     };
 
