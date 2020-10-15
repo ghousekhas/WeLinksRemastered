@@ -44,6 +44,7 @@ import LottieView from 'lottie-react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import TermsAndConditions from './src/screens/TermsAndConditions';
 import MySubscriptions from './src/screens/MySubscriptions';
+import MyScrapSales from './src/screens/MyScrapSales';
 import MySubscriptionOrder from './src/components/MySubscriptionOrder';
 import SubscriptionScreen from './src/screens/SubscriptionScreen';
 
@@ -116,6 +117,7 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
         <Drawer.Screen name="AddAddress" component={AddAddress}  />
         <Drawer.Screen name="myAddresses" component={myAddressStack}  />
         <Drawer.Screen name="MySubscriptions" component={MySubscriptions}  />
+        <Drawer.Screen name="MyScrapSales" component={MyScrapSales}  />
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
           termsData: termsData,
           contactUsData: contactUsData,
@@ -140,6 +142,7 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
       <Drawer.Screen name="AddAddress" component={AddAddress}  />
       <Drawer.Screen name="MyAddresses" component={myAddressStack}  />
       <Drawer.Screen name="MySubscriptions" component={MySubscriptions}  />
+      <Drawer.Screen name="MyScrapSales" component={MyScrapSales}  />
       <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{user: user,actualUser: updateState,cachedData:{
           termsData: termsData,
           contactUsData: contactUsData,
@@ -229,6 +232,7 @@ const myProfileStack = ({navigation,route}) => {
     <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}}/>
     <Stack.Screen name="AddAddress" component={AddAddress}  />
     <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{headerShown: false}} />
+    <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{headerShown: false}} />
     <Stack.Screen name="About" component={About} options={{headerShown: false}}/>
   </Stack.Navigator>
   </NavigationContainer>

@@ -18,10 +18,15 @@ import { setStatusBarHidden } from 'expo-status-bar';
 var data=[];
 
 
-export default function MySubscriptions({navigation,route}){
+export default function MyScrapSales({navigation,route}){
     const [extraData,setExtraData]=useState(0);
     const {user}=route.params;
     const [apiLoaded,setApiLoaded]=useState(false);
+
+    const words = {
+
+        title : 'Your scrap sales'
+    }
 
     useFocusEffect(
         React.useCallback(() => {
@@ -46,38 +51,40 @@ export default function MySubscriptions({navigation,route}){
         },)
       );
 
+
+
+      // here
     const prepareResponse =(dataa)=>{
-        console.log(dataa);
+       // console.log(dataa);
         data=[];
         dataa.forEach(item => {
-            console.log(item);
+       //     console.log(item);
         
-            console.log(item.subscription_days);
+           
             data.push({
-                name: item.product_name,
-                imageUrl: item.product_image,
-                startDate: item.subscription_start_date.substring(0,11),
-                endDate: item.subscription_end_date.substring(0,11),
-                bought: item.quantity,
-                rate: item.order_amount,
-                num: item.no_of_deliveries,
-                daynotprop: item.subscription_days,
-                tag : item.product_type
-
-
-            })
+               name: item.company_name,
+               pickUpDate : item.pickup_date,
+               orderDate : item.order_date,
+               orderAmount : item.order_amount,
+               orderStatus: item.order_status,
+               cart : item.cart,
+               image : item.vendor_img_url
+         })
         });
+
+        console.log('prepaered ' + data)
         setExtraData(Math.random(0.3));
 
     }
 
     const retrieveData=()=>{
+       
         
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getSubscriptions&user_id='+user.user_id)
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getHomeScrapOrders&user_id='+user.user_id)
         .then((response)=>{
-            console.log("resp" +response.data);
+            console.log("res" +response.data.order);
             //data=response.data;
-            prepareResponse(response.data);
+            prepareResponse(response.data.order);
             setExtraData(Math.random(0.5));
             setApiLoaded(true);
         },(error)=>{
@@ -92,6 +99,7 @@ export default function MySubscriptions({navigation,route}){
         const unsub = navigation.addListener('focus',()=>{
             retrieveData();
           })
+          console.log('retrieving')
        
     },[]);
     
@@ -104,7 +112,7 @@ export default function MySubscriptions({navigation,route}){
        
         return(
         
-                <MySubscriptionOrder  {...item} tag={item.tag} days={[{m: item.daynotprop.includes('monday')},{t: item.daynotprop.includes('tuesday')},{w: item.daynotprop.includes('wednesday')},{th: item.daynotprop.includes('thursday')},{fr: item.daynotprop.includes('friday')},{s: item.daynotprop.includes('saturday')},{su: item.daynotprop.includes('sunday')}]} />
+                <MySubscriptionOrder  {...item} name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.orderStatus} />
             )   
     }
 
@@ -120,7 +128,7 @@ export default function MySubscriptions({navigation,route}){
         </View>
 
         <View style={{flex: 1,backgroundColor: 'white'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>Your subscriptions</Text>
+        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>{words.title}</Text>
 
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
@@ -157,7 +165,7 @@ export default function MySubscriptions({navigation,route}){
               style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
               </View>)
               :
-               data[0] === undefined || data[0] === null? <Text style={{...Styles.subbold,alignSelf: 'center',flex:1}}>No subscriptions to show </Text> : null
+               data[0] === undefined || data[0] === null? <Text style={{...Styles.subbold,alignSelf: 'center',flex:1}}>No sales to show </Text> : null
                
             }
         
@@ -168,20 +176,20 @@ export default function MySubscriptions({navigation,route}){
    
 }
 
-const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_}) => {
-    console.log('Tag :' + tag);
+const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status}) => {
+    
 
     const [alignment,setAlign] = useState(0);
-    var dayString = "";
+    // var dayString = "";
    
         //console.log(days[i])
-         days[0].m ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-         days[1].t ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-         days[2].w ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-         days[3].th ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-         days[4].f ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-         days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-         days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+        //  days[0].m ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+        //  days[1].t ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+        //  days[2].w ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+        //  days[3].th ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+        //  days[4].f ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+        //  days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+        //  days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
        
   
     return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,alignSelf: 'center',marginVertical: dimen.height/50}}>
@@ -189,7 +197,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
     
 
     <View style={{flexDirection: 'row'}}>
-        <Text style={styles.greyText1}>Period : {startDate+" - "+endDate}</Text>
+        <Text style={styles.greyText1}>Order Date : {orderDate.substring(0,10)}</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
         <Image onLayout={({nativeEvent}) => {
@@ -201,24 +209,19 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
         
         
         
-            
+        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'center'}}>{pickUpDate}</Text>
+        <View style={{flexDirection:'row',paddingBottom: '5%',alignItems:'center',justifyContent:'center'}}>
+             <Text style={{...styles.rate,alignSelf:'center'}}>Order Total : ₹{orderAmount}</Text>
+
+            {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
+            </View>
+            <View style={{flexDirection:'row'}}>
+        <Text style={{...styles.quantity,marginStart: 30}}>{`Status :`}</Text>
+        <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue}}>{status}</Text>
         
-            <View style={{flexDirection: 'row',marginVertical: '2%'}}>
-                <Text style={{...styles.quantity,marginStart: 30}}>{bought+ " unit/s  · "}</Text>
-                <Text style={dayString[0]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>  M </Text>
-                <Text style={dayString[1]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>T </Text>
-                <Text style={dayString[2]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>W </Text>
-                <Text style={dayString[3]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>T </Text>
-                <Text style={dayString[4]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>F </Text>
-                <Text style={dayString[5]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>S </Text>
-                <Text style={dayString[6]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>S </Text>
-            </View>
+        </View>
 
-            <View style={{flexDirection:'row',paddingBottom: '5%'}}>
-             <Text style={{...styles.rate,marginStart: alignment/3.5}}>Order Total : ₹{rate}</Text>
-
-            <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop: tag == 'Paper' ? 0 : '3%'}}>{num+" deliveries"}</Text>
-            </View>
+            
         </View>
 
     </View>

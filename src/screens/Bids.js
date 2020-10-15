@@ -5,6 +5,7 @@ import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import {Ionicons} from '@expo/vector-icons';
 import AppBar from '../components/AppBar';
+import { Feather } from '@expo/vector-icons';
 import SubmitButton from '../components/SubmitButton'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
@@ -169,16 +170,16 @@ export default function Bids({navigation}){
         <Text style={{...styles.cardTitle,color:'gray',marginVertical:'5%'}}>{cardDetails.bidDuration}</Text>
 
         <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
-                    <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
-                        <MaterialCommunityIcons name="anvil" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}} />
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItems}</Text>
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
+                    <Feather name="truck" size={24} color="black" style={{paddingHorizontal:5,paddingVertical:2}} />                     
+                       <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItems}</Text>
                     </View>
-                    <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%'}}>          
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%'}}>          
                         <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
                         <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItemsWeight}</Text>
 
                     </View>
-                    <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
                         <AntDesign name="clockcircleo" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
                         <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.pickUpTimeSlot}</Text>
                     </View>
@@ -207,16 +208,16 @@ return(<View style={styles.card}>
     <Text style={{...styles.cardTitle,color:'gray',marginVertical:'5%'}}>{openBidArray[0].bidDuration}</Text>
 
     <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
-                <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
-                    <MaterialCommunityIcons name="anvil" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}} />
+                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
+                <Feather name="truck" size={24} color="black" style={{paddingHorizontal:5,paddingVertical:2}} />                     
                     <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>Metal</Text>
                 </View>
-                <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%'}}>          
+                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%'}}>          
                     <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
                     <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>9-12</Text>
 
                 </View>
-                <View style={{...styles.duration,borderStyle: 'dashed',borderRadius: 10,borderWidth: 2,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
+                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
                     <AntDesign name="clockcircleo" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
                     <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>9-12</Text>
                 </View>
@@ -350,7 +351,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 3,
         margin: 3,
-        borderStyle: 'dashed',
+      
         borderColor: Colors.primary,
         flexDirection: 'row'
     },
