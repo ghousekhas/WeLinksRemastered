@@ -37,7 +37,7 @@ const DrawerContent = (props) => {
     //props.navigation.navigate('Home');
     return(
       <View style={{height: Dimensions.get('window').height}}>
-       <DrawerContentScrollView {...props} scrollEnabled={false}>
+       <DrawerContentScrollView {...props} scrollEnabled={true}>
          <View style={{height: Dimensions.get('window').height-StatusBar.currentHeight}}>
          <Drawer.Section style={{margin: dimen.height/60}}>
         
@@ -299,7 +299,7 @@ const DrawerContent = (props) => {
 
 <Drawer.Item
     
-    icon="bank-transfer"
+    icon="delete-circle-outline"
     label="My Scrap Sales"
     onPress={()=>{
       props.navigation.navigate('MyScrapSales',{

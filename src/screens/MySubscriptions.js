@@ -50,7 +50,7 @@ export default function MySubscriptions({navigation,route}){
         console.log(dataa);
         data=[];
         dataa.forEach(item => {
-            console.log(item);
+            console.log("dataaa " + item.product_name);
         
             console.log(item.subscription_days);
             data.push({
@@ -151,6 +151,7 @@ export default function MySubscriptions({navigation,route}){
        
         {!apiLoaded && data[0] === undefined ?
         (
+         
          <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',zIndex: 10}}>
                 <LottieView  
                 enableMergePathsAndroidForKitKatAndAbove

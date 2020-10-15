@@ -116,8 +116,8 @@ export default class ScrapCart extends React.Component{
     };
 
     dateSelectedCallback= (date)=>{
-        this.setState({selectedDate: date})
-        console.log("dayte: " +date);
+        this.setState({selectedDate: date.year + "-" + date.month + "-" + date.date})
+        console.log("dayte: " +date.year + "-" + date.month + "-" + date.date);
     };
     timeSelected= (index) =>{
         var i;

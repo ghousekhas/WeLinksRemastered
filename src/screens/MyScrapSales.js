@@ -15,13 +15,15 @@ import Axios from 'axios';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import LottieView from 'lottie-react-native';
 import { setStatusBarHidden } from 'expo-status-bar';
-var data=[];
+
+let data=[];
 
 
 export default function MyScrapSales({navigation,route}){
     const [extraData,setExtraData]=useState(0);
     const {user}=route.params;
     const [apiLoaded,setApiLoaded]=useState(false);
+    
 
     const words = {
 
@@ -57,8 +59,10 @@ export default function MyScrapSales({navigation,route}){
     const prepareResponse =(dataa)=>{
        // console.log(dataa);
         data=[];
+        let i;
+        try{
         dataa.forEach(item => {
-       //     console.log(item);
+       console.log("dataa " + item.company_name);
         
            
             data.push({
@@ -71,9 +75,12 @@ export default function MyScrapSales({navigation,route}){
                image : item.vendor_img_url
          })
         });
+    
 
-        console.log('prepaered ' + data)
+     //   console.log('prepaered ' + data)
         setExtraData(Math.random(0.3));
+    }
+    catch(e){}
 
     }
 
@@ -82,7 +89,7 @@ export default function MyScrapSales({navigation,route}){
         
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getHomeScrapOrders&user_id='+user.user_id)
         .then((response)=>{
-            console.log("res" +response.data.order);
+      //      console.log("res" +response.data.order);
             //data=response.data;
             prepareResponse(response.data.order);
             setExtraData(Math.random(0.5));
@@ -99,7 +106,7 @@ export default function MyScrapSales({navigation,route}){
         const unsub = navigation.addListener('focus',()=>{
             retrieveData();
           })
-          console.log('retrieving')
+     //     console.log('retrieving')
        
     },[]);
     
@@ -117,6 +124,7 @@ export default function MyScrapSales({navigation,route}){
     }
 
 
+   
    
 
     return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
@@ -157,7 +165,7 @@ export default function MyScrapSales({navigation,route}){
         </View>
 
        
-        {!apiLoaded && data[0] === undefined ?
+        {!apiLoaded && data[0] === undefined?
         (
          <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white',zIndex: 10}}>
                 <LottieView  
@@ -176,7 +184,16 @@ export default function MyScrapSales({navigation,route}){
    
 }
 
-const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status}) => {
+const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart}) => {
+    const renderCartItems = (cart) => {
+      //  console.log(cart)
+        let i,res = [];
+        for(i in cart){
+                res.push(<Text style={{fontWeight: 'bold',fontSize:13}}>{`${cart[i].homescrap_name}${i==cart.length-1? "." : ", "}`}</Text>)
+        }
+        return(res)
+    }
+
     
 
     const [alignment,setAlign] = useState(0);
@@ -192,7 +209,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         //  days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
        
   
-    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,alignSelf: 'center',marginVertical: dimen.height/50}}>
+    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,alignSelf: 'center',marginVertical: dimen.height/50,padding:'1%',paddingEnd: '3%'}}>
        
     
 
@@ -205,17 +222,20 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
 
         <View style={{flex: 1,backgroundColor: 'transparent'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',width: '100%',backgroundColor: 'transparent'}}>{name}</Text>
+        <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',width: '100%',backgroundColor: 'transparent',marginBottom: '5%'}}>{name}</Text>
+<ScrollView horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+{renderCartItems(cart)}
+</ScrollView>
+
         
         
-        
-        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'center'}}>{pickUpDate}</Text>
-        <View style={{flexDirection:'row',paddingBottom: '5%',alignItems:'center',justifyContent:'center'}}>
-             <Text style={{...styles.rate,alignSelf:'center'}}>Order Total : ₹{orderAmount}</Text>
+        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start'}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
+     
+             <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start'}}>Order Total : ₹{orderAmount}</Text>
 
             {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
-            </View>
-            <View style={{flexDirection:'row'}}>
+           
+            <View style={{flexDirection:'row',justifyContent: 'flex-end'}}>
         <Text style={{...styles.quantity,marginStart: 30}}>{`Status :`}</Text>
         <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue}}>{status}</Text>
         
