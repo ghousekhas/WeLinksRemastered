@@ -63,7 +63,8 @@ export default class ScrapCart extends React.Component{
                 order_amount: this.state.amount,
                 notes:this.state.notes
             }),).then((response)=>{
-                console.log(response)
+                console.log("order is " + response)
+                console.log(this.state.selectedDate)
                 alert("Order placed successfully");
                 AsyncStorage.removeItem('ScrapOrderId').then(()=>{
                     AsyncStorage.removeItem('PrevScrapVendor').then(()=>{
@@ -98,7 +99,7 @@ export default class ScrapCart extends React.Component{
         this.setState({startYear: newDate.startYear});
         this.setState({startDay: newDate.startDay});
 
-        console.log(this.state.startDate);
+        console.log("tod" + this.state.startDate);
         this.setState({
             extraData: Math.random(0.5)
         })
@@ -115,8 +116,8 @@ export default class ScrapCart extends React.Component{
     };
 
     dateSelectedCallback= (date)=>{
-        this.setState({selectedDate: date})
-        console.log(date);
+        this.setState({selectedDate: date.year + "-" + date.month + "-" + date.date})
+        console.log("dayte: " +date.year + "-" + date.month + "-" + date.date);
     };
     timeSelected= (index) =>{
         var i;

@@ -91,8 +91,10 @@ export const Styles=StyleSheet.create({
     },
     fortyUpperPanel:{
         width: '100%',
-        height: '33%',
+        minHeight: '40%',
+     
         backgroundColor: Colors.secondary,
+        flex:0
          
         
     },

@@ -37,7 +37,7 @@ const DrawerContent = (props) => {
     //props.navigation.navigate('Home');
     return(
       <View style={{height: Dimensions.get('window').height}}>
-       <DrawerContentScrollView {...props} scrollEnabled={false}>
+       <DrawerContentScrollView {...props} scrollEnabled={true}>
          <View style={{height: Dimensions.get('window').height-StatusBar.currentHeight}}>
          <Drawer.Section style={{margin: dimen.height/60}}>
         
@@ -205,9 +205,10 @@ const DrawerContent = (props) => {
    <View style={{height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props} scrollEnabled={false}>
          <View style={{height: Dimensions.get('window').height-StatusBar.currentHeight}}>
+
+
          <Drawer.Section>
-        
-           <View style={styles.header}>
+          <View style={styles.header}>
              {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
           <View style={{marginTop: '5%', margin: '5%'}}>
           <Image source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }
@@ -230,16 +231,10 @@ const DrawerContent = (props) => {
           </Text>
 
           </View>
-
-         
-         
-
-            
-          
-           </View>
+            </View>
            </Drawer.Section>
 
-    <Drawer.Section >
+    <Drawer.Section>
         
          <Drawer.Item
      style={{ }}
@@ -252,6 +247,7 @@ const DrawerContent = (props) => {
      })}}
      
    />
+
     <Drawer.Item
      style={{}}
      icon="account-outline"
@@ -263,6 +259,7 @@ const DrawerContent = (props) => {
      })}}
      
    />
+
    <Drawer.Item
   
      icon= 'map-marker-outline'
@@ -276,6 +273,7 @@ const DrawerContent = (props) => {
      }}
      
    />
+
    <Drawer.Item
 
    
@@ -285,12 +283,26 @@ const DrawerContent = (props) => {
      onPress={()=>{}}
      
    />
+
    <Drawer.Item
     
     icon="cart-outline"
     label="My Subscriptions"
     onPress={()=>{
       props.navigation.navigate('MySubscriptions',{
+        initialSubs: initialSubs,
+        user: actualUser
+      })
+    }}
+    
+  />
+
+<Drawer.Item
+    
+    icon="delete-circle-outline"
+    label="My Scrap Sales"
+    onPress={()=>{
+      props.navigation.navigate('MyScrapSales',{
         initialSubs: initialSubs,
         user: actualUser
       })

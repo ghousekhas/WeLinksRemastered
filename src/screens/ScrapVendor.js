@@ -40,7 +40,8 @@ export default class ScrapVendor extends React.Component{
                 actualUser: props.route.params.actualUser,
                 address: props.route.params.address,
                 cart: [],
-                cartAmount: 0
+                cartAmount: 0,
+                buttons: 0
                
                                 
             };
@@ -367,9 +368,14 @@ export default class ScrapVendor extends React.Component{
        
     return (<View>
         <AppBar back funct={() => this.props.navigation.pop()} />
+
+
    
         <View style={Styles.parentContainer}>
-            <View style={Styles.fortyUpperPanel}>
+            <View onLayout={({nativeEvent}) => {
+                this.setState({buttons : nativeEvent.layout.height/3})
+
+            }} style={{...Styles.fortyUpperPanel,flex:0}}>
             <TouchableWithoutFeedback onPress={() => {
               
                 console.log('Pressed outside')
@@ -378,8 +384,10 @@ export default class ScrapVendor extends React.Component{
                 //   else console.log('Wont close')
             }}>
                
-               <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
-                 <View style={{flexDirection: 'row',width: dimen.width,alignSelf:'center', justifyContent: 'space-around',height: dimen.height/17}}>
+               <Vendor style={{height:'50%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
+                
+                
+                 <View style={{flexDirection: 'row',width: dimen.width,alignSelf:'flex-end', justifyContent: 'space-around',height: dimen.height/17}}>
    <TouchableOpacity onPress={() => {
        console.log(cart)
         this.toggleCart(true);   
@@ -412,6 +420,8 @@ export default class ScrapVendor extends React.Component{
                 </View> */}
 </TouchableWithoutFeedback>
             </View>
+
+
             <View style={Styles.sixtyLowerPanel}>
                 <ScrollView ref={(ref)=>this.scrollView=ref}>
                 <View style={{marginTop: dimen.height/25}}>
@@ -431,6 +441,9 @@ export default class ScrapVendor extends React.Component{
             </View>
 
         </View>
+
+
+
         <Animated.View style={{width: dimen.width,height: dimen.height,zIndex: 100,elevation: 10,position: 'absolute',bottom: 0,transform: [{translateY: this.state.translateCart }]}} >
              <View style={{flex: 1,width: '100%',backgroundColor: 'rgba(255,255,255,0.7)',zIndex: 1000}} onTouchEnd={()=>this.toggleCart(false)}/>
              <View style={{flex: 7,backgroundColor: 'white'}}>
@@ -589,8 +602,9 @@ const ScrapFlatList = ({route,navigation,data,addItemToCart,removeItemFromCart})
       const vendorId=route.params.vendorId;
 
    // const order = navigation.getParams('order');
-    return(<View style={style.container}>
+    return(<View>
     <FlatList
+    
         data = {data}
         keyExtractor = {(item) => item.name}
         renderItem = {({item,index}) => { 
