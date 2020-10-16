@@ -198,12 +198,12 @@ const MyProfile = ({navigation,route}) => {
             }
 
             }>
-                <Text style = {style.chip}>{words.subscriptions + ' ( '+ actualUser.subscription_count + ' )' }</Text>
+                <Text style = {style.chip}>{words.subscriptions + ' ('+ actualUser.subscription_count + ')' }</Text>
             </TouchableOpacity>
 
 
            <TouchableOpacity>
-                <Text style = {style.chip}>{words.balance + ' ( '+ actualUser.wallet_balance + ' )'}</Text>
+                <Text style = {style.chip}>{words.balance + ' ('+ actualUser.wallet_balance + ')'}</Text>
             </TouchableOpacity>
 
             </View>

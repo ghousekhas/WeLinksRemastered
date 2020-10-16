@@ -147,7 +147,7 @@ export default function VendorRegistration({navigation,route}){
         if(companyName.toString().trim()==='' || companyEmail.toString().trim() === '' || companyGstNumber.toString().trim() === '')
             alert('Please fill all the fields and try again');
         else if(aadharFile === null || gstFile === null)
-            alert('Please choose appropriate picutres and try again');
+            alert('Please upload appropriate document and try again');
         else if(address === null)
             alert('Please choose your address and try again'); 
         else

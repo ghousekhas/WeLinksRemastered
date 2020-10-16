@@ -148,7 +148,7 @@ const style = StyleSheet.create({
         color: 'black',
         
         marginTop: 10,
-        margin: 5
+        margin: '5%'
     }
 });
 

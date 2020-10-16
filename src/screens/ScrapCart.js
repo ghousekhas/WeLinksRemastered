@@ -43,7 +43,8 @@ export default class ScrapCart extends React.Component{
             cartAmount : 0,
             notes: '',
             extraData: 0,
-            amount: 0
+            amount: 0,
+            confirm : false
         };
     };
 
@@ -53,6 +54,7 @@ export default class ScrapCart extends React.Component{
         if(selectedDate === null || selectedTime === null)
             alert('Please select the data and timeslot for the pickup and try Again');
         else{
+            this.setState({confirm : true})
             Axios.post('https://api.dev.we-link.in/user_app.php?action=schedulePickup&'+qs.stringify({
                 user_id: this.props.route.params.actualUser.user_id,
                 address_id: this.props.route.params.address.addr_id,
@@ -305,9 +307,10 @@ export default class ScrapCart extends React.Component{
             </ScrollView>
         
                     <TouchableOpacity onPress={()=>{
+                      
                         this.placeOrder();
-                    }} style={{flex: 0,backgroundColor: Colors.primary,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}}>
-                       <Text style={{alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15}} >Confirm Pickup</Text>
+                    }} style={this.state.confirm ? {flex: 0,backgroundColor: Colors.buttonEnabledGreen,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}:{flex: 0,backgroundColor: Colors.primary,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}}>
+                       <Text style={this.state.confirm ? {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15,fontStyle: 'italic'} : {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15}}>Confirm Pickup</Text>
                     </TouchableOpacity>
              
             </View>

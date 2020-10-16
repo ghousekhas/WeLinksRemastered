@@ -8,7 +8,7 @@ const Button = ({text,onTouch,red}) => {
     return(<View>
         <TouchableOpacity style={{...style.button,borderColor: red ? 'red': Colors.primary}}
          onPress={onTouch}>
-        <Text style={{...style.text,color: red ? 'red': Colors.primary}}>{text}</Text>
+        <Text numberOfLines={1} style={{...style.text,color: red ? 'red': Colors.primary}}>{text}</Text>
        
         </TouchableOpacity>
     </View>)
