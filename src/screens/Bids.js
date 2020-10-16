@@ -21,19 +21,19 @@ export default function Bids({navigation}){
     const [tab,setTab]=useState(1);
     const [cardWidth,setCardWidth] = useState(0);
     const openBidArray = [{
-        bidTitle: 'Fiesty First',
+        bidTitle: 'Heavy Metals',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
-        bidItemsWeight: 15,
+        bidItemsWeight: 40,
         bidders : 14,
         pickUpTimeSlot: "7-10",
         manpower : true,
         insurance : false,
         vehicle: true
     },{
-        bidTitle: 'Sensational Second',
+        bidTitle: 'Paper Scrap',
         bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
+        bidItems : ['Paper'],
         bidItemsWeight: 15,
         bidders : 6,
         pickUpTimeSlot: "7-10",
@@ -41,41 +41,41 @@ export default function Bids({navigation}){
         insurance : true,
         vehicle: false   
     },{
-        bidTitle: 'Terrific Third',
+        bidTitle: 'Broken Electronics',
         bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
+        bidItems : ['Electronics'],
+        bidItemsWeight: 5,
         bidders : 10,
         pickUpTimeSlot: "7-10",
         manpower : true,
         insurance : false,
         vehicle: false
     },{
-        bidTitle: 'Fabulous Fourth',
+        bidTitle: 'Tyre Scrap',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
-        bidItemsWeight: 15,
-        bidders : 10,
+        bidItemsWeight: 25,
+        bidders : 3,
         pickUpTimeSlot: "7-10",
         manpower : true,
         insurance : true,
         vehicle: true
     },
     {
-        bidTitle: 'Terrific Third',
+        bidTitle: 'Plastics',
         bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
-        bidders : 10,
+        bidItems : ['Plastics'],
+        bidItemsWeight: 30,
+        bidders : 8,
         pickUpTimeSlot: "7-10",
         manpower : true,
         insurance : true,
         vehicle: true
     },{
-        bidTitle: 'Fabulous Fourth',
+        bidTitle: 'Old Books',
         bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
+        bidItems : ['Paper'],
+        bidItemsWeight: 10,
         bidders : 10,
         pickUpTimeSlot: "7-10",
         manpower : true,
@@ -83,51 +83,36 @@ export default function Bids({navigation}){
         vehicle: true
     }];
     const closedBidArray = [{
-        bidTitle: 'Fiesty First Frozen',
+        bidTitle: 'Old Books',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
         status: 'Cancelled',
        
     },{
-        bidTitle: 'Sensational Second Successful',
+        bidTitle: 'Wood Scrap',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
         status: 'Closed',
-        awardedTo: 'Mr. Vendor'
+        awardedTo: 'New Scrap Collectors'
         
     },{
-        bidTitle: 'Terrific Third Triumphed',
+        bidTitle: 'Metal Waste',
         bidDuration: '18th January 2000 - 17th January 2001',
         bidItems : ['Metals'],
         bidItemsWeight: 15,
         status: 'Closed',
-        awardedTo: 'Mr. Vendor'
+        awardedTo: 'New Scrap Collectors'
     },{
-        bidTitle: 'Fabulous Fourth Failed',
+        bidTitle: 'Glass Scrap',
         bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
+        bidItems : ['Glass'],
+        bidItemsWeight: 20,
         status: 'Cancelled'
 
     },
-    {
-        bidTitle: 'Fabulous Fourth Failed',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
-        status: 'Cancelled'
-
-    },
-{
-        bidTitle: 'Fabulous Fourth Failed',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
-        status: 'Cancelled'
-
-    }];
+   ];
 
     const renderTabs = () => {
 

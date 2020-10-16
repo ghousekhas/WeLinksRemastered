@@ -223,7 +223,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
         <View style={{flex: 1,backgroundColor: 'transparent'}}>
         <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',width: '100%',backgroundColor: 'transparent',marginBottom: '5%'}}>{name}</Text>
-<ScrollView horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+<ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
 {renderCartItems(cart)}
 </ScrollView>
 
