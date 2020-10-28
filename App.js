@@ -47,6 +47,7 @@ import MySubscriptions from './src/screens/MySubscriptions';
 import MyScrapSales from './src/screens/MyScrapSales';
 import MySubscriptionOrder from './src/components/MySubscriptionOrder';
 import SubscriptionScreen from './src/screens/SubscriptionScreen';
+import VendorServices from './src/screens/VendorServices';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -100,9 +101,10 @@ const NavigationDrawer = ({user,actualUser,getUserDetails}) => {
 
   
 
-
+  return(<VendorServices/>)
 
   if(vendor)
+ // return(<VendorServices/>)
     return(
       <NavigationContainer independent={true}>
         <Drawer.Navigator initialRouteName='Home'
