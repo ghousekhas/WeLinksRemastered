@@ -78,21 +78,21 @@ const DrawerContent = (props) => {
 
     <Drawer.Item
      style={{}}
-     icon="shop"
+     icon="desktop-mac-dashboard"
      label="Vendor Zone"
      onPress={()=>{props.navigation.navigate('Home',{
-      actualUser: actualUser,
-      getUserDetails: props.getUserDetails,
-      setActualUser: setActualUser
+       actualUser: actualUser,
+       getUserDetails: props.getUserDetails,
+       setActualUser: setActualUser
      })}}/>
         
     <Drawer.Item
      style={{}}
      icon="account-outline"
-     label="My Profile"
-     onPress={()=>{props.navigation.navigate('ProfileStack',{
+     label="Vendor Profile"
+     onPress={()=>{props.navigation.navigate('VendorProfileStack',{
        actualUser: actualUser,
-       user: actualUser,
+      
        getUserDetails: props.getUserDetails,
        setActualUser: setActualUser
        

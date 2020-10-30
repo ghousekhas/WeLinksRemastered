@@ -29,14 +29,12 @@ export default class ScrapVendor extends React.Component{
             this.state={
                 brandImagesData: [],
                 sections: [],
-                collapsed: true,
                 activesections: [],
                 width: 0,
-                translateCart: new Animated.Value((dimen.height-dimen.height/16)),
+                translateCart: new Animated.Value(dimen.height-dimen.height/16),
                 cartState: false,
                 extraData: 0,
                 orderId: -1,
-                open : false,
                 actualUser: props.route.params.actualUser,
                 address: props.route.params.address,
                 cart: [],
@@ -376,27 +374,22 @@ export default class ScrapVendor extends React.Component{
                 this.setState({buttons : nativeEvent.layout.height/3})
 
             }} style={{...Styles.fortyUpperPanel,flex:0}}>
-            <TouchableWithoutFeedback onPress={() => {
-              
-                console.log('Pressed outside')
-             //   if(this.state.open)
-                 //  this.toggleCart(false)
-                //   else console.log('Wont close')
-            }}>
+          
                
                <Vendor style={{height:'50%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
                 
                 
                  <View style={{flexDirection: 'row',width: dimen.width,alignSelf:'flex-end', justifyContent: 'space-around',height: dimen.height/17}}>
+  {/* Go To Cart Button */}
    <TouchableOpacity onPress={() => {
-       console.log(cart)
+       console.log("?")
         this.toggleCart(true);   
        //this.props.navigation.navigate('ScrapCart',cart)
     }
        } style={{backgroundColor: Colors.primary,color: 'white',flex:1,alignItems:'center',justifyContent: 'center',padding: '3%',borderRadius:8,width:this.state.width}}>
        <Text style={{color: 'white',fontWeight: 'bold'}}>Go to Cart</Text>
    </TouchableOpacity>
-
+       {/* Schedule Pickup Button */}
    <TouchableOpacity  onLayout={({nativeEvent}) => {
        this.setState({width: nativeEvent.layout.width})
 
@@ -418,7 +411,7 @@ export default class ScrapVendor extends React.Component{
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}>Items in cart</Text>
                     <Text style={{backgroundColor: Colors.primary,padding: 10, borderRadius: 5,color: 'white',fontWeight: 'bold'}}> Schedule Pickup</Text>
                 </View> */}
-</TouchableWithoutFeedback>
+
             </View>
 
 
@@ -445,8 +438,10 @@ export default class ScrapVendor extends React.Component{
 
 
         <Animated.View style={{width: dimen.width,height: dimen.height,zIndex: 100,elevation: 10,position: 'absolute',bottom: 0,transform: [{translateY: this.state.translateCart }]}} >
-             <View style={{flex: 1,width: '100%',backgroundColor: 'rgba(255,255,255,0.7)',zIndex: 1000}} onTouchEnd={()=>this.toggleCart(false)}/>
-             <View style={{flex: 7,backgroundColor: 'white'}}>
+      {/* background blur */}   
+         <View style={{flex: 1,width: '100%',backgroundColor: 'rgba(255,255,255,0.7)',zIndex: 1000}} onTouchEnd={()=>this.toggleCart(false)}/> 
+      {/* Bottom sheet */}      
+         <View style={{flex: 7,backgroundColor: 'white'}}>
                  <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',padding: 10}}>Cart</Text>
                  {
                      this.state.extraData != null && cart[0] != undefined ? null: <Text style={{...Styles.subbold,margin: 100,alignSelf: 'center'}}>Cart is empty</Text> 

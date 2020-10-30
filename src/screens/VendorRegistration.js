@@ -28,6 +28,7 @@ export default function VendorRegistration({navigation,route}){
         Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{
                 console.log(response.data)
+                setVerification(Constants.veFirstTime) // uncomment this
             try{
                 var status= response.data.vendor[0].vendor_status;
                 if(status=== 'active')
@@ -174,7 +175,10 @@ export default function VendorRegistration({navigation,route}){
                     <UploadButton title='AADHAR/VERIFICATION' browseresult={fileselect} fileSetter={setAadharFile}/>
                 </ScrollView>
                 </View>
-                <SubmitButton onTouch={()=> completeStepOne()} text='Submit' />
+                <SubmitButton onTouch={()=> {
+                    completeStepOne()
+                   }} 
+                    text='Submit' />
 
             </View>
         )
@@ -261,7 +265,7 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
 
     const browse= async()=>{
         if(buttonTitle == 'Map'){
-            navigation.navigate('AddAddress',{
+            ('AddAddress',{
                 type: 'vendorRegistration',
                 callback: setAddress,
                 actualUser: actualUser,
