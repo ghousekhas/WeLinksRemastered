@@ -384,7 +384,7 @@ export default class ScrapVendor extends React.Component{
                 //   else console.log('Wont close')
             }}>
                
-               <Vendor style={{height:'50%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
+               <Vendor style={{height:'50%',width: '100%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
                 
                 
                  <View style={{flexDirection: 'row',width: dimen.width,alignSelf:'flex-end', justifyContent: 'space-around',height: dimen.height/17}}>
