@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet,Text,View,TextInput, Dimensions,Image,Animated,FlatList} from 'react-native';
+import {StyleSheet,Text,View,TextInput, Dimensions,Image,Animated,FlatList,ScrollView} from 'react-native';
 
-import { TouchableOpacity, ScrollView  } from 'react-native-gesture-handler';
+import { TouchableOpacity  } from 'react-native-gesture-handler';
 import {CommonActions,useNavigation} from '@react-navigation/native';
 
 import {Constants,dimen,Styles} from '../Constants';
