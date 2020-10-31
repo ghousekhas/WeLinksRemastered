@@ -132,7 +132,7 @@ const DrawerContent = (props) => {
     
     icon="card-text-outline"
     label="Support and FAQs"
-    onPress={()=> {props.navigation.navigate('SupportStack',{
+    onPress={()=> {props.navigation.navigate('VendorSupportStack',{
       cachedData: cachedData,
       actualUser: actualUser
     })}}

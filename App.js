@@ -120,11 +120,13 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
           <Drawer.Screen name="VendorDashboard" component={VendorDashboard} initialParams={{ user: user, actualUser: updateState }} />
           <Drawer.Screen name="VendorRegistration" component={VendorRegistration} initialParams={{ user: user, actualUser: updateState }} />
           <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
+          {/*
           <Drawer.Screen name="AddAddress" component={AddAddress} />
           <Drawer.Screen name="myAddresses" component={myAddressStack} />
           <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
           <Drawer.Screen name="MyScrapSales" component={MyScrapSales} />
-          <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{
+          */}
+          <Drawer.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
             user: user, actualUser: updateState, cachedData: {
               termsData: termsData,
               contactUsData: contactUsData,
@@ -147,9 +149,8 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
         <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{ user: user, actualUser: updateState, sm: 1, getUserDetails: getUserDetails }} />
         <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser }} options={{ headerShown: false }} />
-        <Drawer.Screen name="AddAddress" component={AddAddress} />
-        <Drawer.Screen name="MyAddresses" component={myAddressStack} />
-        <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
+        <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{actualUser: updateState}} />
+        <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{user: actualUser}} />
         <Drawer.Screen name="MyScrapSales" component={MyScrapSales} />
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{
           user: user, actualUser: updateState, cachedData: {
