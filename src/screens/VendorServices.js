@@ -134,7 +134,7 @@ export default function VendorServices({ submit }) {
     ]);
 
     const getMilkProducts = () => {
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getAllMilkProducts&city_id='+2)
+        Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllMilkProducts&city_id='+2)
         .then((response)=>{
             console.log("res" +response.data.products);
             setMilkProducts(response.data.products)
@@ -146,7 +146,7 @@ export default function VendorServices({ submit }) {
         })
     }
         const getPaperProducts = () => {
-            Axios.get('https://api.dev.we-link.in/user_app.php?action=getAllNewsPaperProducts&city_id='+2)
+            Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllNewsPaperProducts&city_id='+2)
             .then((response)=>{
                 console.log("res" +response.data.products);
                 setPaperProducts(response.data.products)
@@ -159,7 +159,7 @@ export default function VendorServices({ submit }) {
             })
         }
             const getHomeProducts = () => {
-                Axios.get('https://api.dev.we-link.in/user_app.php?action=getAllHomeScrapProducts&city_id='+2)
+                Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllHomeScrapProducts&city_id='+2)
                 .then((response)=>{
                     console.log("res" +response.data.products);
                     setHomeProducts(response.data.products)
@@ -172,7 +172,7 @@ export default function VendorServices({ submit }) {
                 })
             }
                 const getOfficeProducts = () => {
-                    Axios.get('https://api.dev.we-link.in/user_app.php?action=getAllCorporateScrapCategories&city_id='+2)
+                    Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllCorporateScrapCategories&city_id='+2)
                     .then((response)=>{
                         console.log("res" +response.data.categories);
                         setOfficeProducts(response.data.categories)
@@ -568,7 +568,7 @@ export default function VendorServices({ submit }) {
                 if (temparr === [])
                     alert('Please select at least one service');
                 else
-                  //  submit(temparr);
+                    
                 { 
                     let set = [];
                     finalProducts = finalProducts.sort()
@@ -581,6 +581,7 @@ export default function VendorServices({ submit }) {
                     finalProducts.forEach((i) => {
                         console.log("SET "  +i.name)
                     })
+                    submit(temparr);
                 
                   }
             }} />

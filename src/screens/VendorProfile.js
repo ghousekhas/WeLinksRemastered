@@ -18,8 +18,13 @@ import { AntDesign } from '@expo/vector-icons';
 const VendorProfile = ({ navigation, route }) => {
     const [profileDetails, setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
     const [addresses, setAddresses] = useState([]);
-    const [user_id, setUserID] = useState(route.params.actualUser.user_id);
+    const [servedAddresses,setServedAddresses] = useState([])
+    const [VendorProfileDetails,setVPD] = useState({
+        company_name :"",
+        vendor_img_url:""
+    })
     const [actualUser, setActualUser] = useState(route.params.actualUser);
+    const [vendorImage,setVendorImage] = useState('')
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
 
@@ -40,28 +45,28 @@ const VendorProfile = ({ navigation, route }) => {
                     name: res.name,
                 });
                 console.log('attempting to upload picture');
-                Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&' + qs.stringify({
-                    user_id: profileDetails.user_id,
+                // Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&' + qs.stringify({
+                //     user_id: profileDetails.user_id,
 
 
-                }), formdata).then((response) => {
-                    console.log(response.data, "picutre uploaded");
-                    //setActualUser({...actualUser,})
-                    setProfileDetails({ ...profileDetails, img_url: res.uri })
-                    route.params.getUserDetails(0, auth().currentUser);
-                    alert('Profile Picture uploaded succesfully');
+                // }), formdata).then((response) => {
+                //     console.log(response.data, "picutre uploaded");
+                //     //setActualUser({...actualUser,})
+                //     setProfileDetails({ ...profileDetails, img_url: res.uri })
+                //     route.params.getUserDetails(0, auth().currentUser);
+                //     alert('Profile Picture uploaded succesfully');
 
-                    setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
-                        actualUser: actualUser,
-                        getUserDetails: route.params.getUserDetails
+                //     setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
+                //         actualUser: actualUser,
+                //         getUserDetails: route.params.getUserDetails
 
-                    }), 1000);
+                //     }), 1000);
 
 
-                }, (error) => {
-                    console.log(error);
-                    alert('Error uploading your profile picture, please try again later');
-                })
+                // }, (error) => {
+                //     console.log(error);
+                //     alert('Error uploading your profile picture, please try again later');
+                // })
             }
 
         }
@@ -76,6 +81,8 @@ const VendorProfile = ({ navigation, route }) => {
             then(({ data }) => {
                 if (data.user[0] != undefined)
                     setProfileDetails(data.user[0]);
+                    
+                   
                 else
                     console.log('User does not exist', data);
             },
@@ -86,16 +93,43 @@ const VendorProfile = ({ navigation, route }) => {
         setActualUser(route.params.actualUser);
         setProfileDetails(route.params.actualUser);
 
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id=' + user_id, {
-            'Accept-Encoding': 'gzip'
-        }).then((response) => {
 
 
-            //     console.log("add " + response.data.addresses)
-            setAddresses(response.data.addresses)
-            //  console.log("jc" + addresses[1])
-        }).catch((e) => {
-            console.log('Error with addresses: ' + e);
+        // Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id=' + user_id, {
+        //     'Accept-Encoding': 'gzip'
+        // }).then((response) => {
+
+
+        //     //     console.log("add " + response.data.addresses)
+        //     setAddresses(response.data.addresses)
+        //     //  console.log("jc" + addresses[1])
+        // }).catch((e) => {
+        //     console.log('Error with addresses: ' + e);
+        // });
+
+        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43)
+        .then((response)=>{
+          try{
+           // console.log(response.data.vendor[0]);
+        console.log(response.data.vendor[0])
+        setVPD(response.data.vendor[0])
+        setVendorImage(response.data.vendor[0].vendor_img_url);
+        setServedAddresses(response.data.vendor[0].addresses);
+        console.log("add" + response.data.vendor[0].addresses[0].addr_name)
+        console.log("image" +vendorImage)
+        
+       //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+      //  console.log('Vd' + this.state.actualVendor)
+          }
+          catch(error){
+            //  this.setState({validVendor: false})
+            
+            console.log('the error'+ error);
+            
+          }
+        },(error)=>{
+            console.log('error');
+         
         });
 
 
@@ -123,13 +157,61 @@ const VendorProfile = ({ navigation, route }) => {
                 return true;
 
             };
+            
 
             BackHandler.addEventListener('hardwareBackPress', onBackPress);
             setActualUser(route.params.actualUser);
 
             return () =>
                 BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        })
+        }
+        
+        
+        
+        ),
+        React.useCallback(() => {
+            Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43)
+            .then((response)=>{
+              try{
+               // console.log(response.data.vendor[0]);
+            console.log(response.data.vendor[0])
+            setVPD(response.data.vendor[0])
+            setVendorImage(response.data.vendor[0].vendor_img_url);
+            console.log("image" +vendorImage)
+            
+           //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+          //  console.log('Vd' + this.state.actualVendor)
+              }
+              catch(error){
+                //  this.setState({validVendor: false})
+                
+                console.log('the error'+ error);
+                
+              }
+            },(error)=>{
+                console.log('error');
+             
+            });
+            const onBackPress = () => {
+                //  console.log('Can\'t go back from here');
+                navigation.toggleDrawer();
+
+
+                return true;
+
+            };
+            
+
+            BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            setActualUser(route.params.actualUser);
+
+            return () =>
+                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        }
+        
+        
+        
+        )
     );
 
     const renderAddresses = () => {
@@ -166,10 +248,10 @@ const VendorProfile = ({ navigation, route }) => {
 
 
                         <View style={style.avatarBG}>
-                            {profileDetails != null ? (
+                            {VendorProfileDetails != null ? (
                                 <Image   // Change to Image
                                     style={style.avatar}
-                                    source={profileDetails.img_url.trim() != '' ? { uri: profileDetails.img_url } : require('../../assets/notmaleavatar.png')}
+                                    source={vendorImage.trim() != ''  ? { uri: vendorImage } : require('../../assets/notmaleavatar.png')}
 
                                 />
                             ) : null}
@@ -186,7 +268,7 @@ const VendorProfile = ({ navigation, route }) => {
                             </View>
                         </View>
 
-                        <Text style={style.name}>{profileDetails.name}</Text>
+                        <Text style={style.name}>{VendorProfileDetails.company_name}</Text>
 
 
 
@@ -197,7 +279,6 @@ const VendorProfile = ({ navigation, route }) => {
                                     user: profileDetails
                                 })
                             }
-
                             }>
                                 <Text style={style.chip}>{words.subscriptions + ' (' + actualUser.subscription_count + ')'}</Text>
                             </TouchableOpacity> */}
@@ -265,11 +346,11 @@ const VendorProfile = ({ navigation, route }) => {
                             {/* Addresses Served */}
                     <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('AddressList', {
-                                myAddresses: true,
+                            navigation.navigate('AddressesServedList', {
+                             //   myAddresses: true,
                                 actualUser: actualUser,
-                                profileEdit: true,
-                                profile: true
+                             //   profileEdit: true,
+                             //   profile: true
                             })
                         }}>
                             <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>

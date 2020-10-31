@@ -11,6 +11,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import auth from '@react-native-firebase/auth'
 import VendorServices from './VendorServices';
+import VendorDashboard from './VendorDashboard';
 export default function VendorRegistration({navigation,route}){
     const [aadharFile,setAadharFile] = useState(null);
     const [gstFile,setGSTFile] = useState(null);
@@ -220,22 +221,23 @@ export default function VendorRegistration({navigation,route}){
             </View>
             )
     else if(verification === Constants.verified)
-                return(
-                    <View style={{...StyleSheet.absoluteFill,justifyContent: 'flex-start',backgroundColor: 'white'}}>
-                        <View>
-                        <AppBar  funct={() => {
-        navigation.toggleDrawer();
-        }} />
-        </View>
-        <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
-                <View>
-                    <Text style={styl.head}>Vendor Verified</Text>  
-                    <Text style={styl.subheading}>{'Vendor Dashboard Appears here'}</Text>      
-                </View>
-                </View>
+    navigation.navigate('VendorDashboard');
+         //       return(<VendorDashboard />)
+        //             <View style={{...StyleSheet.absoluteFill,justifyContent: 'flex-start',backgroundColor: 'white'}}>
+        //                 <View>
+        //                 <AppBar  funct={() => {
+        // navigation.toggleDrawer();
+        // }} />
+        // </View>
+        // <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
+        //         <View>
+        //             <Text style={styl.head}>Vendor Verified</Text>  
+        //             <Text style={styl.subheading}>{'Vendor Dashboard Appears here'}</Text>      
+        //         </View>
+        //         </View>
 
-            </View>
-                )
+        //     </View>
+                
 }
 
 const styl = StyleSheet.create({
