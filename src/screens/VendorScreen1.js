@@ -15,6 +15,7 @@ import {Entypo} from '@expo/vector-icons'
 import AppBar from '../components/AppBar';
 import Axios from 'axios';
 import qs from 'qs';
+import {Config} from  '../Constants';
 
 const brandsArray=['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Amul_Logo.jpg/220px-Amul_Logo.jpg',
 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ-PN3yAMsBkQdlKVjDsM19qCdITU5T-WT3vQ&usqp=CAU',
@@ -37,7 +38,7 @@ export default class VendorScreen1 extends React.Component{
 
     componentDidMount(){
         console.log('MilkVendorEntered')
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&'+qs.stringify({
+        Axios.get(Config.api_url+'php?action=getProductsList&'+qs.stringify({
             vendorID: this.props.route.params.vendorId,
             vendor_type: 'newspaper'
         }),{

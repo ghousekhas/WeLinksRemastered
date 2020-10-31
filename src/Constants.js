@@ -1,5 +1,9 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
+export const Config={
+    api_url: 'https://api.dev.we-link.in/user_app_dev.'
+}
+
 export const dimen={
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width

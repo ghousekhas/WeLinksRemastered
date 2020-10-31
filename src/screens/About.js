@@ -13,6 +13,7 @@ import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import auth from '@react-native-firebase/auth';
 import AppBar from '../components/AppBar';
+import {Config} from  '../Constants';
 
 const About = ({navigation,route,getUserDetails}) =>{
     const [name,setName] = useState(' ');
@@ -50,7 +51,7 @@ const About = ({navigation,route,getUserDetails}) =>{
         if(validateEmail() && name.trim() != ''){
             try{
                 if(edit){
-                    Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&'+qs.stringify({
+                    Axios.post(Config.api_url+'php?action=editUserProfile&'+qs.stringify({
                         user_id: actualUser.user_id,
                         name: name,
                         email: email

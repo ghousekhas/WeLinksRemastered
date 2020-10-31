@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SubmitButton from '../components/SubmitButton';
 import {Colors} from '../Constants';
 import Axios from 'axios';
+import {Config} from  '../Constants';
 
 const SupportFAQ = ({navigation,route}) => {
     const {privacyData,termsData,contactUsData}=route.params.cachedData;
@@ -28,7 +29,7 @@ const SupportFAQ = ({navigation,route}) => {
     };
 
     useEffect(()=>{
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getContactUs&city_id=1')
+        Axios.get(Config.api_url+'php?action=getContactUs&city_id=1')
         .then((response)=>{
             console.log('supportfaq');
             console.log(response.data.phone);

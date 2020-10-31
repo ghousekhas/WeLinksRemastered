@@ -13,6 +13,7 @@ import VendorsList from './VendorsList';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
+import {Config} from  '../Constants';
 
 const height= Dimensions.get('window').height;
 var lowerPanelHeight= height/1.7;
@@ -84,7 +85,7 @@ export default class AddAddress extends React.Component{
       
       if(this.state.title != 'loading'){
         console.log('attempting to add an address');
-        Axios.post('https://api.dev.we-link.in/user_app.php?action=addAddress&',qs.stringify({
+        Axios.post(Config.api_url+'php?action=addAddress&',qs.stringify({
           user_id: user_id,
           label: label,
           pincode: pincode,

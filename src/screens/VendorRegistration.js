@@ -12,6 +12,8 @@ import qs from 'qs';
 import auth from '@react-native-firebase/auth'
 import VendorServices from './VendorServices';
 import VendorDashboard from './VendorDashboard';
+import {Config} from  '../Constants';
+
 export default function VendorRegistration({navigation,route}){
     const [aadharFile,setAadharFile] = useState(null);
     const [gstFile,setGSTFile] = useState(null);
@@ -24,9 +26,9 @@ export default function VendorRegistration({navigation,route}){
     const [gst,companyGstNumber]=useState('');
     const [address,setAddress]=useState(null);
 
-
+    //USERAPK change userid
     const checkVendorStatus=()=>{
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id='+ actualUser.user_id,)
+        Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ 102,)
             .then((response)=>{
                 console.log(response.data)
                 setVerification(Constants.veFirstTime) // uncomment this
@@ -87,7 +89,7 @@ export default function VendorRegistration({navigation,route}){
 
 
         });
-        Axios.post('https://api.dev.we-link.in/user_app.php?action=registerVendor&'+qs.stringify({
+        Axios.post(Config.api_url+'php?action=registerVendor&'+qs.stringify({
             user_id: actualUser.user_id,
             company_name: name,
             vendor_gstin: gst,
@@ -267,7 +269,7 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
 
     const browse= async()=>{
         if(buttonTitle == 'Map'){
-            ('AddAddress',{
+            navigation.navigate('AddAddress',{
                 type: 'vendorRegistration',
                 callback: setAddress,
                 actualUser: actualUser,
@@ -292,8 +294,9 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
             setUri(res.uri);
             setFileName(res.name);
             console.log(res);
-            if(res.size/100>200){
-                Alert.alert('Size of the file should be lesser than 200kb')
+            console.log(res.size)
+            if( (res.size/1000) >= 50){
+                Alert.alert('Size of the file should be lesser than 50kb')
                 setFileName('Please select a file');
             }
             fileSetter(res);

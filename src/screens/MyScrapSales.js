@@ -15,6 +15,7 @@ import Axios from 'axios';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import LottieView from 'lottie-react-native';
 import { setStatusBarHidden } from 'expo-status-bar';
+import {Config} from  '../Constants';
 
 let data=[];
 
@@ -87,7 +88,7 @@ export default function MyScrapSales({navigation,route}){
     const retrieveData=()=>{
        
         
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getHomeScrapOrders&user_id='+user.user_id)
+        Axios.get(Config.api_url+'php?action=getHomeScrapOrders&user_id='+user.user_id)
         .then((response)=>{
       //      console.log("res" +response.data.order);
             //data=response.data;

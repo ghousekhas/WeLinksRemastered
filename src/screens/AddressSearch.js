@@ -6,6 +6,7 @@ import Qs from 'qs';
 import * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Config} from  '../Constants';
 
 
 
@@ -53,7 +54,7 @@ export default class AddressSearch extends React.Component{
     componentDidMount(){
       this.retrieveAddresses();
       console.log('mount');
-      Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
+      Axios.get(Config.api_url+'php?action=getUserAddresses&'+qs.stringify({
         user_id: 1
       })).then((response)=>{
         console.log('response',response.data);

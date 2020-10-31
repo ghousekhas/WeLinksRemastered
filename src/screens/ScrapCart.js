@@ -21,6 +21,7 @@ import moment from 'moment';
 import Axios from 'axios';
 import qs from 'qs';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Config} from  '../Constants';
 
 
 
@@ -55,7 +56,7 @@ export default class ScrapCart extends React.Component{
             alert('Please select the data and timeslot for the pickup and try Again');
         else{
             this.setState({confirm : true})
-            Axios.post('https://api.dev.we-link.in/user_app.php?action=schedulePickup&'+qs.stringify({
+            Axios.post(Config.api_url+'php?action=schedulePickup&'+qs.stringify({
                 user_id: this.props.route.params.actualUser.user_id,
                 address_id: this.props.route.params.address.addr_id,
                 vendor_id: this.props.route.params.vendorId,

@@ -12,7 +12,8 @@ import HomeAddress from '../components/AddressRow'
 import AppBar from '../components/AppBar';
 import { Styles } from '../Constants';
 import qs from 'qs';
-import LottieView from 'lottie-react-native'
+import LottieView from 'lottie-react-native';
+import {Config} from  '../Constants';
 
 const height= Dimensions.get('window').height;
 
@@ -93,7 +94,7 @@ export default class AddressList extends React.Component{
     retrieveAddresses=  ()=>{
       const {user_id}= this.props.route.params.actualUser;
       console.log('alistuserid',user_id)
-      Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
+      Axios.get(Config.api_url+'php?action=getUserAddresses&'+qs.stringify({
         user_id: user_id
       })).then((response)=>{
         console.log('response',response.data);

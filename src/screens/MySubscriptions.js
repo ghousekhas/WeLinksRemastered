@@ -15,6 +15,9 @@ import Axios from 'axios';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import LottieView from 'lottie-react-native';
 import { setStatusBarHidden } from 'expo-status-bar';
+import {Config} from  '../Constants';
+
+
 var data=[];
 
 
@@ -73,7 +76,7 @@ export default function MySubscriptions({navigation,route}){
 
     const retrieveData=()=>{
         
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getSubscriptions&user_id='+user.user_id)
+        Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
             console.log("resp" +response.data);
             //data=response.data;

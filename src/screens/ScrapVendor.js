@@ -16,6 +16,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import {Entypo} from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Config} from  '../Constants';
 
 
 var cart = [];
@@ -64,7 +65,7 @@ export default class ScrapVendor extends React.Component{
 
                 if(prevVendor != null && prevVendor != vendorId){
                     alert('Your cart has been reset due to vendor change');
-                    Axios.post('https://api.dev.we-link.in/user_app.php?action=resetCart&'+qs.stringify({
+                    Axios.post(Config.api_url+'php?action=resetCart&'+qs.stringify({
                         user_id: actualUser.user_id,
                         order_id: orderId
                     })).then((response)=>{
@@ -84,7 +85,7 @@ export default class ScrapVendor extends React.Component{
                 }
                 else{
                     if(orderId!= -1)
-                    Axios.post('https://api.dev.we-link.in/user_app.php?action=getHomeScrapOrders&order_id='+orderId)
+                    Axios.post(Config.api_url+'php?action=getHomeScrapOrders&order_id='+orderId)
                     .then((response)=>{
                         console.log('response',response.data)
                         cart= response.data.order[0].cart != undefined ? response.data.order[0].cart: [];
@@ -106,7 +107,7 @@ export default class ScrapVendor extends React.Component{
 
         this.fetchOrderId();
 
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&'+qs.stringify({
+        Axios.get(Config.api_url+'php?action=getProductsList&'+qs.stringify({
             vendorID: this.props.route.params.vendorId,
             vendor_type: 'homescrap'
         }),{
@@ -139,7 +140,7 @@ export default class ScrapVendor extends React.Component{
       
         if(this.orderId === -1 || this.orderId === null ){
             console.log('firstorder');
-            Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
+            Axios.post(Config.api_url+'php?action=addToCart&'+ qs.stringify({
                 user_id: this.state.actualUser.user_id,
                 product_id: itemid,
                 quantity: num,
@@ -172,7 +173,7 @@ export default class ScrapVendor extends React.Component{
                 vendor_id: this.props.route.params.vendorId,
                 order_id: this.orderId
             })
-            Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
+            Axios.post(Config.api_url+'php?action=addToCart&'+ qs.stringify({
                 user_id: this.state.actualUser.user_id,
                 product_id: parseInt(itemid),
                 quantity: num,
@@ -211,7 +212,7 @@ export default class ScrapVendor extends React.Component{
             vendor_id: this.props.route.params.vendorId,
             order_id: this.orderId
         });
-        Axios.post('https://api.dev.we-link.in/user_app.php?action=addToCart&'+ qs.stringify({
+        Axios.post(Config.api_url+'php?action=addToCart&'+ qs.stringify({
                 user_id: this.state.actualUser.user_id,
                 product_id: itemid,
                 quantity: 0,

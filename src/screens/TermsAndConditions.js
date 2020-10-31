@@ -4,6 +4,7 @@ import {Styles} from '../Constants';
 import AppBar from '../components/AppBar';
 import Axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
+import {Config} from  '../Constants';
 
 export default function TermsAndConditions ({navigation,route}) {
   const {termsData}=route.params;
@@ -14,7 +15,7 @@ export default function TermsAndConditions ({navigation,route}) {
       'content' : `Mann yeh saahib ji, jaane hai sab ji  Phir bhi banaye bahaane  Naina nawaabi ji, dekhe hain sab ji  Phir bhi na samjhe ishaare  Mann yeh saahib ji haan karta bahaane   Naina nawaabi ji na samjhe ishaare (na samjhe ishaare) Dheere dheere, nainon ko dheere dheere  Jiya ko dheere dheere bhaayo re Saibo  Dheere dheere, begaana dheere dheere  Apna sa dheere dheere lage re Saibo  Surkhhiyaan hain hawaaon mein, do dilon ke milne ki  Dheere dheere, nainon ko dheere dheere  Jiya ko dheere dheere bhaayo re Saibo  Dheere dheere, begaana dheere dheere  Apna sa dheere dheere lage re Saibo  Saibo... Saibo...`
   }]
   useEffect(() => {
-    Axios.get('https://api.dev.we-link.in/user_app.php?action=getTerms',{
+    Axios.get(Config.api_url+'php?action=getTerms',{
         'Accept-Encoding': 'gzip'
     }
     ).then((result) => {

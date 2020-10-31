@@ -237,9 +237,9 @@ export default function VendorServices({ submit }) {
 
 
     // Component for product in flatlist
-    const VendorSelectProduct = ({ name, imageURL, product_id }) => {
+    const VendorSelectProduct = ({ name, imageURL, product_id,defaultSelected }) => {
 
-        const [selected, setSelected] = useState(false);
+        const [selected, setSelected] = useState(defaultSelected);
         const adding = (name, imageURL) => {
             
             switch(service){
@@ -517,14 +517,14 @@ export default function VendorServices({ submit }) {
             </ScrollView>
         </View>
 
-        <Animated.View style={{ width: dimen.width, height: dimen.height, zIndex: 100, elevation: 10, position: 'absolute', bottom: 0, transform: [{ translateY: translateCart }] }} >
+        <Animated.View style={{ width: dimen.width, height: dimen.height, zIndex: 100, elevation: 10, position: 'absolute', top: 0, transform: [{ translateY: translateCart }] }} >
             {/*Background blur*/}
-            <View style={{ flex: 1, width: '100%', backgroundColor: 'rgba(255,255,255,0.7)', zIndex: 1000 }} onTouchEnd={() => {
+            <View style={{ height: dimen.height*0.3, width: '100%', backgroundColor: 'rgba(255,255,255,0.7)', zIndex: 1000 }} onTouchEnd={() => {
 
                 toggleProducts(false)
             }} />
             {/*Bottom Sheet*/}
-            <View style={{ flex: 7, backgroundColor: 'white' }}>
+            <View style={{ height: dimen.height*0.7,position: 'absolute',top: dimen.height*0.3,width: dimen.width, backgroundColor: 'white' }}>
                 <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center', padding: 10 }}>{selectHeading()}</Text>
                 <TextInput placeholder='Enter search value' style={{backgroundColor: Colors.whiteBackground,padding:'1%',borderRadius:50,height:dimen.height/20,margin: '5%'}}/>
 
@@ -532,7 +532,7 @@ export default function VendorServices({ submit }) {
                     data={selectData()}
                     renderItem={({ item }) => {
                         //   return(<Text>{item.name}</Text>)
-                        return (<VendorSelectProduct name={service == 'Office' ? item.officescrap_category_name : item.name} imageURL={item.product_image_url} product_id={item.id}/>)
+                        return (<VendorSelectProduct name={service == 'Office' ? item.officescrap_category_name : item.name} imageURL={item.product_image_url} product_id={item.id} defaultSelected={item.sel}/>)
                     }}
 
                     keyExtractor={(item, index) => index.toString()} />

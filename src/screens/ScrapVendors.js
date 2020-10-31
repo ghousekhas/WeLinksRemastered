@@ -10,6 +10,7 @@ import { Styles,Colors, dimen } from '../Constants';
 import { Feather } from '@expo/vector-icons';
 import Axios from 'axios';
 import qs from 'qs';
+import {Config} from  '../Constants';
 
 var vendors;
 const ScrapVendors = ({navigation,route}) => {
@@ -31,7 +32,7 @@ const ScrapVendors = ({navigation,route}) => {
         if(t<0)
             return;
         console.log('retrieving milk vendors');
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
+        Axios.get(Config.api_url+'php?action=getVendors&'+qs.stringify({
             vendor_type: 'homescrap',
             lat: address.lat,
             lng: address.lng

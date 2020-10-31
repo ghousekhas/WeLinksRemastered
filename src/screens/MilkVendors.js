@@ -11,6 +11,7 @@ import {Colors, Styles} from '../Constants';
 import Axios from 'axios';
 import qs from 'qs';
 import { Feather } from '@expo/vector-icons';
+import {Config} from  '../Constants';
 var vendors;
 
 const MilkVendors = (props) => {
@@ -32,7 +33,7 @@ const MilkVendors = (props) => {
         if(t<0)
             return;
         console.log('retrieving milk vendors');
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
+        Axios.get(Config.api_url+'php?action=getVendors&'+qs.stringify({
             vendor_type: 'milk',
             lat: address.lat,
             lng: address.lng

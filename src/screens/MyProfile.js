@@ -11,6 +11,7 @@ import Axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import DocumentPicker from 'react-native-document-picker';
 import qs from 'qs';
+import {Config} from  '../Constants';
 
 
 
@@ -39,7 +40,7 @@ const MyProfile = ({navigation,route}) => {
                     name: res.name,
                 });
                 console.log('attempting to upload picture');
-                Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&'+qs.stringify({
+                Axios.post(Config.api_url+'php?action=editUserProfile&'+qs.stringify({
                     user_id: profileDetails.user_id,
 
 
@@ -71,7 +72,7 @@ const MyProfile = ({navigation,route}) => {
     }
 
    useEffect(() => {
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+actualUser.phone,).
+        Axios.get(Config.api_url+'php?action=getUser&phone='+actualUser.phone,).
             then(({data})=>{
                 if(data.user[0]!=undefined)
                     setProfileDetails(data.user[0]);
@@ -85,7 +86,7 @@ const MyProfile = ({navigation,route}) => {
         setActualUser(route.params.actualUser);
         setProfileDetails(route.params.actualUser);
       
-            Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id='+user_id,{
+            Axios.get(Config.api_url+'php?action=getUserAddresses&user_id='+user_id,{
             'Accept-Encoding': 'gzip'
                 }).then((response) => {
                     
@@ -104,7 +105,7 @@ const MyProfile = ({navigation,route}) => {
    
     useFocusEffect(
         React.useCallback(() => {
-            Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+actualUser.phone,).
+            Axios.get(Config.api_url+'php?action=getUser&phone='+actualUser.phone,).
             then(({data})=>{
                 if(data.user[0]!=undefined){
                     setProfileDetails(data.user[0]);
