@@ -1,566 +1,514 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, StyleSheet, ScrollView, Image, FlatList, Dimensions, TouchableOpacity, Animated, Modal, TouchableHighlight } from 'react-native';
-import { Style, dimen, Colors, Styles } from '../Constants';
-import TextBox from '../components/TextBox';
-import Button from '../components/Button';
-import VendorSelectProduct from '../components/VendorSelectProduct';
-import SubmitButton from '../components/SubmitButton';
-import DocumentPicker from 'react-native-document-picker';
-import { useNavigation, DrawerActions, useTheme } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler, View, StyleSheet, Dimensions, Image } from 'react-native';
+import { dimen, Styles } from '../Constants';
+import { Colors } from '../Constants';
+import { Text } from 'react-native-paper';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppBar from '../components/AppBar';
+import Axios from 'axios';
+import auth from '@react-native-firebase/auth';
+import DocumentPicker from 'react-native-document-picker';
+import qs from 'qs';
 import { AntDesign } from '@expo/vector-icons';
 
 
-export default function VendorServices({ submit }) {
-    const navigation = useNavigation();
 
+const VendorProfile = ({ navigation, route }) => {
+    const [profileDetails, setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
+    const [addresses, setAddresses] = useState([]);
+    const [VendorProfileDetails,setVPD] = useState({
+        company_name :"",
+        vendor_img_url:""
+    })
+    const [actualUser, setActualUser] = useState(route.params.actualUser);
+    const [vendorImage,setVendorImage] = useState('')
+    // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
-        milkDelivery: 'Milk Delivery',
-        newspaperDelivery: 'Newspaper Delivery',
-        homescrapCollection: 'Home Scrap Collection',
-        officescrapCollection: 'Office Scrap Collection'
+
+        rupee: '₹',
 
     }
-// Final selected sets
-    // let selectedMilk = new Set();
-    // let selectedPaper = new Set();
-    // let selectedHome = new Set();
-    // let selectedOffice = new Set();
 
-    const [selectedMilk,setSM] = useState(new Set());
-    const [selectedPaper,setSP] = useState(new Set());
+    const changeImage = async () => {
+        try {
+            const res = await DocumentPicker.pick({ type: [DocumentPicker.types.images] });
+            var formdata = new FormData();
+            if (res.size / 1000 > 50)
+                alert('Selected picture must be below 50kb');
+            else {
+                formdata.append('user_image_url', {
+                    uri: res.uri,
+                    type: 'image/jpeg',
+                    name: res.name,
+                });
+                console.log('attempting to upload picture');
+                // Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&' + qs.stringify({
+                //     user_id: profileDetails.user_id,
 
 
+                // }), formdata).then((response) => {
+                //     console.log(response.data, "picutre uploaded");
+                //     //setActualUser({...actualUser,})
+                //     setProfileDetails({ ...profileDetails, img_url: res.uri })
+                //     route.params.getUserDetails(0, auth().currentUser);
+                //     alert('Profile Picture uploaded succesfully');
+
+                //     setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
+                //         actualUser: actualUser,
+                //         getUserDetails: route.params.getUserDetails
+
+                //     }), 1000);
 
 
-    const [service, setService] = useState(''); // Selected service
-
-    const [translateCart, setTranslateCart] = useState(new Animated.Value((dimen.height - dimen.height / 16)));
-   
-    const [check1, setCheck1] = useState(false);
-    const [check2, setCheck2] = useState(false);
-    const [check3, setCheck3] = useState(false);
-    const [check4, setCheck4] = useState(false);
-
-    const [width, setWidth] = useState(0);
-    let list = [];
-    let available = new Set();
-
-    const addProducts = () => {
-        list = Array.from(available);
-
-        switch (service) {
-            case 'Milk':
-                setSMP(list);
-                break;
-            case 'Paper':
-                setSPP(list);
-                break;
-            case 'Home':
-                setSHP(list);
-                break;
-            case 'Office':
-               setSOP(list);
-                break;
+                // }, (error) => {
+                //     console.log(error);
+                //     alert('Error uploading your profile picture, please try again later');
+                // })
+            }
 
         }
+        catch (error) {
+            console.log(error);
+            alert('Please pick a valid jpeg or png image');
+        }
+    }
+
+    useEffect(() => {
+        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone=' + actualUser.phone,).
+            then(({ data }) => {
+                if (data.user[0] != undefined)
+                    setProfileDetails(data.user[0]);
+                   
+                else
+                    console.log('User does not exist', data);
+            },
+                (error) => console.log('Error logged in profile', error))
+        //setProfileDetails(route)
+        console.log('mounted');
+        console.log(route.params.actualUser);
+        setActualUser(route.params.actualUser);
+        setProfileDetails(route.params.actualUser);
 
 
 
+        // Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&user_id=' + user_id, {
+        //     'Accept-Encoding': 'gzip'
+        // }).then((response) => {
 
 
-        // console.log('LIST_M: ');
-        // SelectedMilkProducts.forEach((p) => {
-        //     console.log(p.name);
+        //     //     console.log("add " + response.data.addresses)
+        //     setAddresses(response.data.addresses)
+        //     //  console.log("jc" + addresses[1])
+        // }).catch((e) => {
+        //     console.log('Error with addresses: ' + e);
         // });
-        // console.log('LIST_P: ');
-        // SelectedPaperProducts.forEach((p) => {
-        //     console.log(p.name);
-        // });
-        // console.log('LIST_H: ');
-        // SelectedHomeProducts.forEach((p) => {
-        //     console.log(p.name);
-        // })
-        // console.log('LIST_O: ');
-        // SelectedOfficeProducts.forEach((p) => {
-        //     console.log(p.name);
-        // })
-    }
 
-    
-
-
-   
-
-    const [milkProducts, setMilkProducts] = useState([
-        {
-            name: 'Nandini Toned',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-
-
-        }, {
-            name: 'Heritage',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }, {
-            name: 'Amul',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }, {
-            name: 'Mother Dairy',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }
-
-    ]);
-    const [paperProducts, setPaperProducts] = useState([
-        {
-            name: 'Times',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-
-
-        }, {
-            name: 'Hindu',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }, {
-            name: 'Indian Express',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }, {
-            name: 'Deccan Herald',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }
-
-    ]);
-
-    const [homeProducts, setHomeProducts] = useState([
-        {
-            name: 'Phone',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-
-
-        }, {
-            name: 'Newspapers',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }, {
-            name: 'Electronics',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }
-    ]);
-    const [officeProducts, setOfficeProducts] = useState([
-        {
-            name: 'Metal',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-
-
-        }, {
-            name: 'Plastic',
-            image: 'https://reactnative.dev/img/tiny_logo.png',
-            in: 0
-        }
-
-    ]);
-    // Opens bottom sheet
-    const toggleProducts = (retract) => {
-
-        console.log('toggling', translateCart)
-
-        if (retract)
-            Animated.spring(translateCart, {
-                toValue: 0,
-                duration: 2500,
-                useNativeDriver: true,
-                speed: 5,
-                bounciness: 3
-            }).start();
-        else {
-
-
-            Animated.spring(translateCart, {
-                toValue: dimen.height,
-                duration: 2500,
-                useNativeDriver: true,
-                speed: 5,
-                bounciness: 3
-            }).start();
-
-        }
-
-
-
-    };
-    // To select a service
-    const CheckBox = (check) => {
-        if (!check) return (<AntDesign name="checksquareo" size={24} color="gray" />)
-        else return (<AntDesign name="checksquare" size={24} color={Colors.primary} />)
-    }
-
-
-
-
-
-    // Component for product in flatlist
-    const VendorSelectProduct = ({ name, imageURL }) => {
-
-        const [selected, setSelected] = useState(false);
-        const adding = (name, imageURL) => {
+        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43)
+        .then((response)=>{
+          try{
+           // console.log(response.data.vendor[0]);
+        console.log(response.data.vendor[0])
+        setVPD(response.data.vendor[0])
+        setVendorImage(response.data.vendor[0].vendor_img_url);
+        console.log("image" +vendorImage)
+        
+       //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+      //  console.log('Vd' + this.state.actualVendor)
+          }
+          catch(error){
+            //  this.setState({validVendor: false})
             
-            switch(service){
-                case 'Milk':
-                    if (!selected) {
-                        let obj = {
-                            name,
-                            imageURL
-                        };
-                        //selectedMilk.add(obj);
-                        setSM(new Set(selectedMilk).add(obj));
-                      
-        
-                    }
-                    else if (selected) {
-                        selectedMilk.forEach((product) => {
-                            if (product.name == name)
-                            setSM(new Set(selectedMilk.delete(product)));
-                             //   selectedMilk.delete(product)
-                        });
-                        //          list = Array.from(available);
-        
-        
-                    }
-                    break;
-                case 'Paper' :
-                    if (!selected) {
-                        let obj = {
-                            name,
-                            imageURL
-                        };
-                   //     selectedPaper.add(obj);
-                        //       list = Array.from(smp);
-        
-                    }
-                    else if (selected) {
-                   //     selectedPaper.forEach((product) => {
-                     //       if (product.name == name)
-                       //         selectedPaper.delete(product)
-                       // });
-                        //          list = Array.from(available);
-        
-        
-                    }
-                   break;
-                }
-            //     case 'Home' : 
-            //     if (!selected) {
-            //         let obj = {
-            //             name,
-            //             imageURL
-            //         };
-            //         selectedHome.add(obj);
-            //         //       list = Array.from(smp);
-    
-            //     }
-            //     else if (selected) {
-            //         selectedHome.forEach((product) => {
-            //             if (product.name == name)
-            //                 selectedHome.delete(product)
-            //         });
-            //         //          list = Array.from(available);
-    
-    
-            //     }
-            //     break;
-            // case 'Office' :
-            //     if (!selected) {
-            //         let obj = {
-            //             name,
-            //             imageURL
-            //         };
-            //         selectedOffice.add(obj);
-            //         //       list = Array.from(smp);
-    
-            //     }
-            //     else if (selected) {
-            //         selectedOffice.forEach((product) => {
-            //             if (product.name == name)
-            //                 selectedOffice.delete(product)
-            //         });
-            //         //          list = Array.from(available);
-    
-    
-            //     }
-            //     break;
-            // }
-           
+            console.log('the error'+ error);
+            
+          }
+        },(error)=>{
+            console.log('error');
+         
+        });
 
-           console.log('Milk: \n');
-           selectedMilk.forEach((p) => {
-               console.log(p.name);
-           });
-           console.log('Paper: \n');
-           selectedPaper.forEach((p) => {
-               console.log(p.name);
-           });
-        //    console.log('Home: \n');
-        //    selectedHome.forEach((p) => {
-        //        console.log(p.name);
-        //    });
-        //    console.log('Office: \n');
-        //    selectedOffice.forEach((p) => {
-        //        console.log(p.name);
-        //    });
-           
 
+
+
+    }, [route.params.actualUser])
+
+    useFocusEffect(
+        React.useCallback(() => {
+            Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone=' + actualUser.phone,).
+                then(({ data }) => {
+                    if (data.user[0] != undefined) {
+                        setProfileDetails(data.user[0]);
+                      //  route.params.setActualUser(data.user[0]);
+                    }
+                    else
+                        console.log('User does not exitst', data);
+                },
+                    (error) => console.log('Error logged in profile', error))
+            const onBackPress = () => {
+                //  console.log('Can\'t go back from here');
+                navigation.toggleDrawer();
+
+
+                return true;
+
+            };
             
 
+            BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            setActualUser(route.params.actualUser);
+
+            return () =>
+                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         }
+        
+        
+        
+        ),
+        React.useCallback(() => {
+            Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43)
+            .then((response)=>{
+              try{
+               // console.log(response.data.vendor[0]);
+            console.log(response.data.vendor[0])
+            setVPD(response.data.vendor[0])
+            setVendorImage(response.data.vendor[0].vendor_img_url);
+            console.log("image" +vendorImage)
+            
+           //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+          //  console.log('Vd' + this.state.actualVendor)
+              }
+              catch(error){
+                //  this.setState({validVendor: false})
+                
+                console.log('the error'+ error);
+                
+              }
+            },(error)=>{
+                console.log('error');
+             
+            });
+            const onBackPress = () => {
+                //  console.log('Can\'t go back from here');
+                navigation.toggleDrawer();
 
 
-        return (<View style={{ flexDirection: 'row', marginVertical: '2%', margin: '1%', backgroundColor: Colors.whiteBackground, height: dimen.height / 8 }}>
-            <Image style={style.image} source={{ uri: imageURL }} />
+                return true;
 
-            <View style={{ alignSelf: 'center', flex: 1, flexDirection: 'row', marginStart: 80 }}>
-                <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 16 }}>{name}</Text>
-                <AntDesign onPress={() => {
-                    setSelected(!selected);
-                    adding(name, imageURL);
-                }} style={{ position: 'absolute', right: 10 }} name={selected ? "checksquare" : "checksquareo"} size={30} color={!selected ? Colors.seperatorGray : Colors.primary} />
+            };
+            
 
-            </View>
-        </View>)
-    }
+            BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            setActualUser(route.params.actualUser);
 
-    // Heading of the type of product
-    const selectHeading = () => {
-        switch (service) {
-            case 'Milk':
-                return 'Choose Milk Products'
-
-            case 'Paper':
-                return 'Choose Newspapers'
-
-            case 'Home':
-                return 'Choose Home Scrap Items'
-
-            case 'Office':
-                return 'Choose Corporate Scrap Items'
-
+            return () =>
+                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         }
-    }
-    const selectData = () => {
-        switch (service) {
-            case 'Milk':
-                return milkProducts
+        
+        
+        
+        )
+    );
 
-            case 'Paper':
-                return paperProducts
+    const renderAddresses = () => {
 
-            case 'Home':
-                return homeProducts
+        let addressArray = [];
+        for (let i in addresses) {
+            // console.log(addresses[i].addr_details)
+            addressArray.push(<View>
+                <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{addresses[i].addr_details}</Text>
 
-            case 'Office':
-                return officeProducts
-
+            </View>)
         }
+        //  console.log(addressArray)
+
+        return addressArray;
     }
-
-
-
-
 
     return (<View style={{ ...StyleSheet.absoluteFill }}>
-        <AppBar back={false} funct={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
-        <View style={{ height: dimen.height / 12 }} />
-        <Text style={style.text}>What services do you offer?</Text>
-        <View style={{ paddingHorizontal: 10 }}>
+        <View style={{ elevation: 100, zIndex: 100 }}>
+            <AppBar funct={() => {
+                navigation.toggleDrawer();
+            }} />
+        </View>
+
+
+
+        <View style={Styles.parentContainer}>
+
+
             <ScrollView>
+                <View style={{ flex: 0, marginBottom: 50 }}>
 
-                <View style={{ flexDirection: 'row', padding: '1%', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text style={{ ...style.checkableText, width: width }}>{words.milkDelivery}</Text>
-                    <View style={{ opacity: check1 ? 1 : 0 }}>
-                        <Button text='Select' onTouch={() => {
-                            // { addProducts() }
+                    <View style={style.header}>
 
-                            setService('Milk');
 
-                            toggleProducts(true)
-                        }} />
+                        <View style={style.avatarBG}>
+                            {VendorProfileDetails != null ? (
+                                <Image   // Change to Image
+                                    style={style.avatar}
+                                    source={vendorImage.trim() != ''  ? { uri: vendorImage } : require('../../assets/notmaleavatar.png')}
+
+                                />
+                            ) : null}
+                            <View style={{ position: 'absolute', bottom: '5%' }}>
+                                <TouchableOpacity onPress={() => changeImage()} >
+                                    <Icon
+                                        name='pencil'
+                                        size={20}
+                                        elevation={1}
+                                        color='white'
+                                    />
+
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+                        <Text style={style.name}>{VendorProfileDetails.company_name}</Text>
+
+
+
+                        <View style={style.chips}>
+
+                            {/* <TouchableOpacity onPress={() => {
+                                route.params.navDrawer.navigate('MySubscriptions', {
+                                    user: profileDetails
+                                })
+                            }
+                            }>
+                                <Text style={style.chip}>{words.subscriptions + ' (' + actualUser.subscription_count + ')'}</Text>
+                            </TouchableOpacity> */}
+
+
+                            {/* <TouchableOpacity>
+                                <Text style={style.chip}>{words.balance + ' (' + actualUser.wallet_balance + ')'}</Text>
+                            </TouchableOpacity> */}
+
+                        </View>
+
+
+
                     </View>
-                    <View>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={() => { setCheck1(!check1); console.log(check1) }}>
-                            {CheckBox(check1)}
+
+                    {/* Basic Details */}
+
+
+                    <View style={{ borderWidth: 0.5, borderRadius: 7, margin: '1%', borderColor: Colors.seperatorGray }}>
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate('About', {
+                                edit: true,
+                                actualUser: profileDetails,
+                                getUserDetails: route.params.getUserDetails
+                            })
+                        }}>
+                            <View style={{ flexDirection: 'row', margin: '5%', marginTop: '7%' }}>
+
+                                <View style={{ marginTop: '1%' }}>
+                                    <Icon
+                                        name="account-outline"
+                                        color='black'
+
+                                        size={30}
+                                    />
+                                </View>
+
+
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text style={style.blackText}>Vendor details</Text>
+                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{profileDetails.name}</Text>
+                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{profileDetails.email}</Text>
+                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{'#201 B, Manjunahta Homes'}</Text>
+                                    </View>
+                                    <View style={{ position: 'absolute', right: 8 }}>
+
+                                        <Icon
+                                            name="chevron-right"
+                                            color={Colors.primary}
+
+                                            size={24}
+                                        />
+
+                                    </View>
+
+
+                               
+                            </View>
+
                         </TouchableOpacity>
+
                     </View>
+
+
+                            {/* Addresses Served */}
+                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate('AddressList', {
+                                myAddresses: true,
+                                actualUser: actualUser,
+                                profileEdit: true,
+                                profile: true
+                            })
+                        }}>
+                            <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>
+
+
+                                <View style={{ marginTop: '1%' }}>
+                                    <Icon
+                                        name="map-marker-outline"
+                                        color='black'
+
+
+                                        size={30}
+                                    />
+                                </View>
+
+
+                                <View style={{ flexDirection: 'column', flex: 1 }}>
+                                    <Text style={{ ...style.blackText, marginBottom: dimen.height / 70 }}>Addresses Served</Text>
+
+                                    {renderAddresses()}
+
+
+                                </View>
+                                <View style={{ position: 'absolute',right:8}}>
+
+                                    <Icon
+                                        name="chevron-right"
+                                        color={Colors.primary}
+
+                                        size={24}
+                                    />
+
+                                </View>
+
+
+                            </View>
+
+
+                        </TouchableOpacity>
+
+                    </View>
+{/* Products */}
+<View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate('VendorServices')
+                            
+                        }}>
+                            <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>
+
+
+                                <View style={{ marginTop: '1%' }}>
+                                    <Icon
+                                        name="id-card"
+                                        color='black'
+
+
+                                        size={30}
+                                    />
+                                </View>
+
+
+                                <View style={{ flexDirection: 'column', flex: 1 }}>
+                                    <Text style={{ ...style.blackText, marginBottom: dimen.height / 70 }}>My Services & Products</Text>
+
+                                  
+
+
+                                </View>
+                                <View style={{position: 'absolute',right: 8}}>
+
+                                    <Icon
+                                        name="chevron-right"
+                                        color={Colors.primary}
+
+                                        size={24}
+                                    />
+
+                                </View>
+
+
+                            </View>
+
+
+                        </TouchableOpacity>
+
+                    </View>
+
+
+               
+
                 </View>
 
-                <View style={Styles.grayfullline} />
-
-                <View style={{ flexDirection: 'row', padding: '1%', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text style={{ ...style.checkableText, width: width }}>{words.newspaperDelivery}</Text>
-                    <View style={{ opacity: check2 ? 1 : 0 }}>
-                        <Button text='Select' onTouch={() => {
-                            // { addProducts() }
-                            setService('Paper');
-                            toggleProducts(true);
-                        }} />
-                    </View>
-                    <View>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={() => { setCheck2(!check2) }}>
-                            {CheckBox(check2)}
-                        </TouchableOpacity>
-                    </View>
-                </View>
 
 
-                <View style={Styles.grayfullline} />
-                <View style={{ flexDirection: 'row', padding: '1%', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text style={{ ...style.checkableText, width: width }}>{words.homescrapCollection}</Text>
-                    <View style={{ opacity: check3 ? 1 : 0 }}>
-                        <Button text='Select' onTouch={() => {
-                            // { addProducts() }
-                            setService('Home');
-                            toggleProducts(true);
-                        }} />
-                    </View>
-                    <View>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={() => { setCheck3(!check3); console.log(check1) }}>
-                            {CheckBox(check3)}
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View style={Styles.grayfullline} />
-
-                <View style={{ flexDirection: 'row', padding: '1%', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text onLayout={({ nativeEvent }) => { setWidth(nativeEvent.layout.width) }} style={style.checkableText}>{words.officescrapCollection}</Text>
-                    <View style={{ opacity: check4 ? 1 : 0 }}>
-                        <Button text='Select' onTouch={() => {
-                            // { addProducts() }
-                            setService('Office');
-                            toggleProducts(true);
-                        }} />
-                    </View>
-                    <View>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={() => { setCheck4(!check4); console.log(check1) }}>
-                            {CheckBox(check4)}
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                <View style={{ height: dimen.height / 30, width: dimen.width }} />
+                
             </ScrollView>
+
         </View>
+    </View>)
+};
 
-        <Animated.View style={{ width: dimen.width, height: dimen.height, zIndex: 100, elevation: 10, position: 'absolute', bottom: 0, transform: [{ translateY: translateCart }] }} >
-            {/*Background blur*/}
-            <View style={{ flex: 1, width: '100%', backgroundColor: 'rgba(255,255,255,0.7)', zIndex: 1000 }} onTouchEnd={() => {
-
-                toggleProducts(false)
-            }} />
-            {/*Bottom Sheet*/}
-            <View style={{ flex: 7, backgroundColor: 'white' }}>
-                <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center', padding: 10 }}>{selectHeading()}</Text>
-
-                <FlatList style={Styles.productList}
-                    data={selectData()}
-                    renderItem={({ item }) => {
-                        //   return(<Text>{item.name}</Text>)
-                        return (<VendorSelectProduct name={item.name} imageURL={item.image} />)
-                    }}
-
-                    keyExtractor={(item, index) => index.toString()} />
-
-            </View>
-
-        </Animated.View>
-        <View style={{ padding: 10, position: 'absolute', bottom: 0, alignSelf: 'center' }}>
-            <SubmitButton text='Submit' onTouch={() => {
-                var temparr = [];
-                if (check1) {
-                    temparr.push('milk');
-                }
-                if (check2) {
-
-                    temparr.push('newspaper')
-                }
-                if (check3) {
-                    temparr.push('homescrap')
-                }
-                if (check4) {
-                    temparr.push('officescrap')
-                }
-
-                if (temparr === [])
-                    alert('Please select at least one service');
-                else
-                    submit(temparr);
-            }} />
-        </View>
-
-    </View>
-    );
-}
 
 const style = StyleSheet.create({
-    mainContainer: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
-        padding: 10,
-        backgroundColor: 'white',
+    container: {
+        margin: '1%'
+    },
+    header: {
+        backgroundColor: Colors.primary,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        height: Dimensions.get('window').height / 2
 
     },
-    text: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'black',
-        alignSelf: 'center',
-        marginBottom: dimen.height / 20,
-        width: dimen.width / 1.5,
-        textAlign: 'center',
-        letterSpacing: 1,
-        lineHeight: 25,
+    avatar: {
+        width: '100%',
+        height: '100%',
+        opacity: 0.9,
+        borderRadius: 1000
 
-
-        marginTop: 10,
-        margin: 5
-    },
-    line: {
-        borderWidth: 0.5,
-        borderColor: '#5D5D5D',
-        marginTop: 10,
 
     },
-    view: {
+    avatarBG: {
+        height: Dimensions.get('window').width / 3.5,
+        aspectRatio: 1 / 1, alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 8
+
+    },
+    chips: {
         flexDirection: 'row',
-        marginTop: 12
+        justifyContent: 'center',
+        width: Dimensions.get('window').width,
+        marginTop: '5%'
 
     },
-    city: {
-        marginTop: 5,
-        marginStart: 7,
-        fontSize: 18
+    chip: {
+        borderWidth: 1,
+        borderRadius: 20,
+        borderColor: Colors.seperatorGray,
+        color: 'white',
+        padding: '2%',
+        width: Dimensions.get('window').width / 3.2,
+        textAlign: 'center',
+        fontSize: 10,
+        margin: '1%'
+
     },
-    checkableText: {
-        marginStart: 10,
-        alignSelf: 'center',
+    blackText: {
+        margin: '1%',
         fontWeight: 'bold',
-        color: 'black',
-
+        fontSize: 14,
+        marginStart: '15%',
+        marginTop: '1%'
     },
-    image: {
-        width: 79,
-        height: 80,
-        position: 'absolute',
-        marginStart: '-1%',
-
-        marginTop: '3%'
-
-
+    name: {
+        color: 'white',
+        fontSize: 15,
+        marginVertical: '3%'
     }
 
-});
+})
+
+export default VendorProfile;

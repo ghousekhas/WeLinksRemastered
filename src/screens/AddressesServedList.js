@@ -45,9 +45,10 @@ export default class AddressesServedList extends React.Component{
             this.state={
               arraydata: [],
               somekey: 0,
-              myAddresses: props.route.params.myAddresses === true ? true: false,
+        //      myAddresses: props.route.params.myAddresses === true ? true: false,
               apiLoaded: false,
-              profileEdit: props.route.params.profileEdit === true ? true : false
+              addressesServed: []
+          //    profileEdit: props.route.params.profileEdit === true ? true : false
               
               
             };
@@ -79,7 +80,7 @@ export default class AddressesServedList extends React.Component{
     }
 
    onBackPress=()=>{
-      this.state.myAddresses ? this.props.navigation.toggleDrawer() : this.props.navigation.navigate('Homescreen');
+       this.props.navigation.pop()
       return true;
     }
 
@@ -92,18 +93,23 @@ export default class AddressesServedList extends React.Component{
 
     retrieveAddresses=  ()=>{
       const {user_id}= this.props.route.params.actualUser;
-      console.log('alistuserid',user_id)
-      Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
-        user_id: user_id
-      })).then((response)=>{
-        console.log('response',response.data);
-       this.data= response.data.addresses;
-       this.setState({apiLoaded: true});
-       this.setState({somekey: Math.random(0.5)});
+      const {addressesServed} = this.props.route.params
+      this.setState({addressesServed : addressesServed})
 
-      },(error)=>{
-        console.log('error',error);
-      })
+      console.log(addressesServed)
+      console.log('alistuserid',user_id)
+      // Axios.get('https://api.dev.we-link.in/user_app.php?action=getUserAddresses&'+qs.stringify({
+      //   user_id: user_id
+      // })).then((response)=>{
+      //   console.log('response',response.data);
+      //  this.data= response.data.addresses;
+      //  this.setState({apiLoaded: true});
+      //  this.setState({somekey: Math.random(0.5)});
+
+      // },(error)=>{
+      //   console.log('error',error);
+      // })
+     // return addressesServed;
     }
 
     popItem = (index)=>{
@@ -126,7 +132,7 @@ export default class AddressesServedList extends React.Component{
     renderSavedAddress=({item,index})=>{
       const {next,actualUser}=this.props.route.params;
 
-      return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} deletae={this.state.myAddresses} route={{params:{
+      return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} deletae={this.state.addressesServed} route={{params:{
         next: next,
         actualUser: actualUser
       }}} popItem={this.popItem} index={index} />
@@ -246,12 +252,11 @@ export default class AddressesServedList extends React.Component{
         
             
           <View style={styles.container}>
-            <AppBar back ={this.props.route.params.profile} funct={() => {
+            <AppBar back  funct={() => {
           
-          if(this.props.route.params.profile)
+          
             this.props.navigation.pop();
-          else
-            this.props.navigation.toggleDrawer();
+         
         }} />
 
         <View style={Styles.parentContainer}>
@@ -264,7 +269,7 @@ export default class AddressesServedList extends React.Component{
                 location: '12.972442,77.580643',
                 radius: 100000
               }}
-              placeholder={'Type here to add a new address'}
+              placeholder={'Type here to add a new service address'}
               onPress={this.addressSelected}
               onFail={error => console.error(error)}
               styles={placesstyle}   
@@ -274,7 +279,7 @@ export default class AddressesServedList extends React.Component{
 
             
             <View style={styles.savedaddresspanel}>
-          <Text style={styles.address}>SAVED ADDRESSES</Text>
+          <Text style={styles.address}>SAVED SERVICE ADDRESSES</Text>
 
             <FlatList 
             data={this.data}

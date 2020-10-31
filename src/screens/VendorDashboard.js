@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Image,ScrollView} from 'react-native';
 import Axios from 'axios';
 import { EvilIcons } from '@expo/vector-icons';
@@ -11,10 +11,13 @@ class VendorDashboard extends React.Component {
     //     actualVendor: this.props.route.params.actualVendor,
          actualUser: this.props.route.params.actualUser,
       //   drawer: this.props.route.params.drawer,
-         vendorDetails: {},
+         vendorDetails: {
+             company_name: ""
+         },
       //   navigation : useNavigation(),
-         actualVendor: 'loading',
-         imageHeight: 0
+         actualVendor: 'Loading',
+         imageHeight: 0,
+         validVendor : true
         
 
 
@@ -30,16 +33,18 @@ class VendorDashboard extends React.Component {
         console.log(this.state.actualUser.user_id + "id")
      
         
-        Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendor&vendor_id='+43)
+        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43)
             .then((response)=>{
               try{
                // console.log(response.data.vendor[0]);
                this.setState({vendorDetails : response.data.vendor[0]})
-            //    console.log("vd:"+this.state.vendorDetails.milk_service)
-
+           //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+          //  console.log('Vd' + this.state.actualVendor)
               }
               catch(error){
-                console.log('theerror',error);
+                  this.setState({validVendor: false})
+                
+                console.log('theerror'+ error);
                 
               }
             },(error)=>{
@@ -49,18 +54,22 @@ class VendorDashboard extends React.Component {
       }
       componentDidMount(){
         const {navigation}= this.props;
+        console.log("User"+this.state.actualUser.user_id)
        
        this.retrieveVendorData();
-        // this.setState({actualUser: this.props.actualUser});
+   //       this.setState({actualUser: this.props.actualUser});
         this.focusListener= navigation.addListener('focus',()=>{
-            //this.checkIfFirstLogin();
+    //        this.setState({actualUser: this.props.actualUser});
           this.retrieveVendorData();
        });
     }
+    
     render(){
         const {navigation} = this.props;
   //      console.log('actual'+ this.state.actualUser.name)
-        return( <View style={styles.fullscreen}>
+  
+  return(
+        <View style={styles.fullscreen}>
         <View style={styles.topbar}>
               
               <TouchableOpacity onPress={() => {
@@ -70,7 +79,7 @@ class VendorDashboard extends React.Component {
    <EvilIcons name="navicon" size={24} color="black" style={{alignSelf: 'center',padding: 10}} />
    </TouchableOpacity>
    <View style={styles.topBarAlignChips}>
-   <ProfileSmallView actualVendor={this.state.actualVendor} navigation={navigation} />
+   <ProfileSmallView  navigation={navigation} userID={this.state.actualUser.user_id}/>
 
    </View>
              
@@ -78,7 +87,7 @@ class VendorDashboard extends React.Component {
 
               <Text style={{...Styles.heading,alignSelf:'center',margin:'2%'}}>Vendor Dashboard</Text>
               <Text style={{...Styles.heading,margin:'2%',alignSelf: 'center',fontSize: 14}}>My Services</Text>
-
+             {this.state.vendorDetails != {} && this.state.vendorDetails != undefined && this.state.vendorDetails != null ? 
               <ScrollView style={{flex: 1}}>
               
                 <View style={styles.view1}>
@@ -118,20 +127,50 @@ class VendorDashboard extends React.Component {
                     </TouchableOpacity> : null}
                     </View> 
               
-                </ScrollView>
+                </ScrollView> : <View onLayout={() => console.log('no data')} style={{...StyleSheet.absoluteFill}}>
+                    {/* <Text>No services</Text> */}
+                </View>}
 
 
         </View>)
+           
     }
 }
 
-const ProfileSmallView = ({actualVendor,navigation})=>{
-   // console.log('Drawer '+ drawer)
-    const [displayName,setDisplayName]= useState(actualVendor);
-  //  const [user,setUser]=useState(actualUser);
+const ProfileSmallView = ({navigation,userID})=>{
+    console.log("Profile "+userID)
+    const [vendor,setVendor] = useState({})
+    const [displayName,setDisplayName]= useState("");
+    const [vendorImage,setVendorImage] = useState(require('../../assets/notmaleavatar.png'))
+    useEffect(()=>{
+        //s
+        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43).
+        then(({data})=>{
+            try{
+            if(data.vendor[0]!=undefined && data.vendor[0]!= null && data.vendor.size != 0)
+              {  
+                  console.log(data.vendor.size)
+                  setVendor(data.vendor[0])
+                if(data.vendor[0].company_name != undefined)
+                setDisplayName(data.vendor[0].company_name)
+                if(data.vendor[0].vendor_img_url.trim() != '')
+                setVendorImage({uri : data.vendor[0].vendor_img_url})
+            console.log("Vndor " + data.vendor[0].vendor_img_url)}
+            else
+                console.log('User does not exitst',data);
+              }
+              catch(error){
+                  console.log('caught')
+
+              }
+        },
+        (error)=>console.log('Error logged in profile',error))
+        //  if(actualUser.name!=null && actualUser.name != '')
+        //      setDisplayName(actualUser.name.split(' ')[0]);
+     },[displayName]);
     return (
         <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{navigation.navigate('VendorProfileStack')}}>
-        <Image style={styles.userimage} source={require('../../assets/notmaleavatar.png')  }/>
+        <Image style={styles.userimage} source={vendorImage}/>
         <Text adjustsFontSizeToFit style={styles.username}>{displayName}</Text>
     </TouchableOpacity>
 

@@ -50,6 +50,7 @@ import MySubscriptionOrder from './src/components/MySubscriptionOrder';
 import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import VendorServices from './src/screens/VendorServices';
 import VendorDashboard from './src/screens/VendorDashboard';
+import AddressesServedList from './src/screens/AddressesServedList';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -104,21 +105,21 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
 
 
-  // return(<VendorServices/>)
 
   if (vendor)
     // return(<VendorServices/>)
     return (
       <NavigationContainer independent={true}>
-        <Drawer.Navigator initialRouteName='Home'
+        <Drawer.Navigator initialRouteName='VendorRegistration'
           drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} getVendorDetails={getVendorDetails} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
             termsData: termsData,
             contactUsData: contactUsData,
             privacyData: privacyData
           }} />}>
 
-          <Drawer.Screen name="Home" component={vendorStack} initialParams={{ user: user, actualUser: updateState , getVendorDetails : getVendorDetails }} />
-           <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
+          <Drawer.Screen name="VendorDashboard" component={VendorDashboard} initialParams={{ user: user, actualUser: updateState }} />
+          <Drawer.Screen name="VendorRegistration" component={VendorRegistration} initialParams={{ user: user, actualUser: updateState }} />
+          <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
           <Drawer.Screen name="AddAddress" component={AddAddress} />
           <Drawer.Screen name="myAddresses" component={myAddressStack} />
           <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
@@ -145,7 +146,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
         }} />} >
 
         <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{ user: user, actualUser: updateState, sm: 1, getUserDetails: getUserDetails }} />
-        <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{actualUser: actualUser }} options={{ headerShown: false }} />
+        <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser }} options={{ headerShown: false }} />
         <Drawer.Screen name="AddAddress" component={AddAddress} />
         <Drawer.Screen name="MyAddresses" component={myAddressStack} />
         <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
@@ -165,21 +166,21 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
 const Stack = createStackNavigator();
 
-const vendorStack = ({ navigation, route }) => {
-  const { actualUser } = route.params;
-  return (
-    <View style={{ flex: 1 }}>
-      <NavigationContainer independent={true}>
-        <Stack.Navigator initialRouteName="Dashboard">
-        {/* <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{  actualUser: actualUser }} options={{ headerShown: false }}  />  */}
-         <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-          <Stack.Screen name="Dashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-          <Stack.Screen name="Profile" component={VendorRegistration} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-          <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>)
-}
+// const vendorStack = ({ navigation, route }) => {
+//   const { actualUser } = route.params;
+//   return (
+//     <View style={{ flex: 1 }}>
+//       <NavigationContainer independent={true}>
+//         <Stack.Navigator initialRouteName="Dashboard">
+//         {/* <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{  actualUser: actualUser }} options={{ headerShown: false }}  />   */}
+//          <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
+//           <Stack.Screen name="Dashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
+//           <Stack.Screen name="Profile" component={VendorRegistration} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
+//           <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
+//         </Stack.Navigator>
+//       </NavigationContainer>
+//     </View>)
+// }
 
 const myAddressStack = ({ navigation, route }) => {
   const [user, setUser] = useState(route.params.user);
@@ -279,6 +280,7 @@ const VendorProfileStack = ({ navigation, route }) => {
         <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} />
         <Stack.Screen name="AddAddress" component={AddAddress} />
         <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
+        <Stack.Screen name="AddressesServedList" component = {AddressesServedList} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
 
       </Stack.Navigator>
     </NavigationContainer>
@@ -315,6 +317,7 @@ const userSupportStack = ({ navigation, route }) => {
 
 
 export default function App() {
+  
 
   const [firstlogin, setFirstLog] = useState(0);
   const [user, setUser] = useState(auth().currentUser);//{phoneNumber: '+915498476214'})//
