@@ -396,7 +396,9 @@ const VendorProfile = ({ navigation, route }) => {
 {/* Products */}
 <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('VendorServices')
+                            navigation.navigate('VendorServices',{
+                                back: true
+                            })
                             
                         }}>
                             <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>

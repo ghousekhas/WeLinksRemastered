@@ -20,6 +20,7 @@ import {Config} from  '../Constants';
 const brandsArray=['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Amul_Logo.jpg/220px-Amul_Logo.jpg',
 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ-PN3yAMsBkQdlKVjDsM19qCdITU5T-WT3vQ&usqp=CAU',
 'https://images.squarespace-cdn.com/content/v1/57617d6101dbaeb2afbdb889/1515476392795-I9QJ7R79V49PD8JTUU10/ke17ZwdGBToddI8pDm48kK3ps5ejmz3q62CXHbquzbxZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7aXK0t8ahyzoOLFEHArbPTLJhEsaYD6KiXgEn3u8MxqgwDJueXeye6jBpkNIR7uTkw/heritage+foods.png3'
+
 ];
 
 export default class VendorScreen extends React.Component{

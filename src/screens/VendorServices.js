@@ -16,8 +16,13 @@ import Axios from 'axios';
     let selectedPaper = new Set();
     let selectedHome = new Set();
     let selectedOffice = new Set();
-export default function VendorServices({ submit }) {
+export default function VendorServices({ submit,route }) {
     const navigation = useNavigation();
+    var back= false;
+    if(route!= undefined)
+        if(route.params.back !=undefined)
+            back=true;
+
 
     const words = {
         milkDelivery: 'Milk Delivery',
@@ -437,7 +442,7 @@ export default function VendorServices({ submit }) {
 
 
     return (<View style={{ ...StyleSheet.absoluteFill }}>
-        <AppBar back={false} funct={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
+        <AppBar back={back} funct={back ? () => navigation.goBack() :() => navigation.dispatch(DrawerActions.toggleDrawer())} />
         <View style={{ height: dimen.height / 12 }} />
         <Text style={style.text}>What services do you offer?</Text>
         <View style={{ paddingHorizontal: 10 }}>
