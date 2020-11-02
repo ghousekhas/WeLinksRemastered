@@ -93,7 +93,11 @@ export default function EditVendorDetails({ route, navigation }) {
 
         }),fromData).then((response) => {
            try{ console.log("response: " + response.data.vendorID);
-            alert('Details updated successfully')}
+            alert('Details updated successfully')
+            route.params.refresh();
+            navigation.goBack();
+        }
+            
             catch(e){}
 
         }, (error) => {

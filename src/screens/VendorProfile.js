@@ -62,6 +62,7 @@ const VendorProfile = ({ navigation, route }) => {
                    // setProfileDetails({ ...profileDetails, img_url: res.uri })
                   //  route.params.getUserDetails(0, auth().currentUser);
                     alert('Profile Picture uploaded succesfully');
+                    retrieveData();
 
                     // setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
                     //     actualUser: actualUser,
@@ -101,11 +102,11 @@ const VendorProfile = ({ navigation, route }) => {
 
 
         });
-        Axios.post(Config.api_url+'php?action=registerVendor&'+qs.stringify({
+        var dataUnFormatted = qs.stringify({
             user_id: actualUser.user_id,
             vendor_id: VendorProfileDetails.vendor_id,
             vendor_type: services,
-            milk_product_ids : milk,
+            milk_product_ids: milk,
             news_product_ids: paper,
             office_cat_ids: office,
             homescrap_product_ids: home,
@@ -113,7 +114,21 @@ const VendorProfile = ({ navigation, route }) => {
 
 
 
-        })).then((response)=>{
+        });
+        var replaer = new RegExp('%5B.%5D','g');
+        var dataFormatted = dataUnFormatted.replace(replaer,'\[\]');
+        /*
+        var dataFormatted = dataUnFormatted.replaceAll('milk_product_ids%5B0%5D','milk_product_ids\[\]');
+        var dataFormatted = dataFormatted.replaceAll('news_product_ids%5B0%5D','news_product_ids\[\]');
+        var dataFormatted = dataFormatted.replaceAll('office_cat_ids%5B0%5D','office_cat_ids\[\]');
+        var dataFormatted = dataFormatted.replaceAll('homescrap_product_ids%5B0%5D','homescrap_product_ids\[\]');
+        var dataFormatted = dataFormatted.replaceAll('vendor_type%5B0%5D','vendor_type\[\]');
+        */
+        console.log(dataFormatted);
+        
+       // console.log(dataUnFormatted);
+        Axios.post(Config.api_url+'php?action=updateVendor&'+dataFormatted).then((response)=>{
+            console.log(response);
             console.log(response.data);
            // checkVendorStatus();
 
@@ -124,7 +139,7 @@ const VendorProfile = ({ navigation, route }) => {
         
     }
 
-    useEffect(() => {
+    const retrieveData = ()=>{
         Axios.get(Config.api_url + 'php?action=getUser&phone=' + actualUser.phone).
             then(({ data }) => {
                 if (data.user[0] != undefined) {
@@ -193,11 +208,15 @@ const VendorProfile = ({ navigation, route }) => {
         console.log(route.params.actualUser);
         setActualUser(route.params.actualUser);
         setProfileDetails(route.params.actualUser);
+    }
+
+    useEffect(() => {
+        retrieveData();
 
 
 
         // Axios.get(Config.api_url+'php?action=getUserAddresses&user_id=' + user_id, {
-        //     'Accept-Encoding': 'gzip'
+        //     'Accept-Encoding': 'gzip'ret
         // }).then((response) => {
 
 
@@ -375,7 +394,8 @@ const VendorProfile = ({ navigation, route }) => {
                             navigation.navigate('EditVendorDetails', {
 
                                 actualUser: profileDetails,
-                                VendorProfileDetails: VendorProfileDetails
+                                VendorProfileDetails: VendorProfileDetails,
+                                refresh: retrieveData
 
                             })
                         }}>
@@ -424,7 +444,8 @@ const VendorProfile = ({ navigation, route }) => {
                              //   myAddresses: true,
                                 actualUser: actualUser,
                                 actualVendor: {vendor_id: VendorProfileDetails.vendor_id},
-                                vendorEdit: true
+                                vendorEdit: true,
+                                myAddresses: true
                              //   profileEdit: true,,
                              //   profile: true
                             })
@@ -474,7 +495,8 @@ const VendorProfile = ({ navigation, route }) => {
                             navigation.navigate('VendorServices', {
                                 back: true,
                                 editVendorFunction: editVendorFunction,
-                                vendorEdit: true
+                                vendorEdit: true,
+                                actualVendor: VendorProfileDetails
                             })
 
                         }}>

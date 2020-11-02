@@ -41,7 +41,7 @@ import EditVendorDetails from './src/screens/EditVendorDetails';
 import VendorProfile from './src/screens/VendorProfile';
 import ScrapCart from './src/screens/ScrapCart';
 import Axios from 'axios';
-import { Styles } from './src/Constants';
+import { Constants, Styles } from './src/Constants';
 import LottieView from 'lottie-react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import TermsAndConditions from './src/screens/TermsAndConditions';
@@ -126,9 +126,9 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
             contactUsData: contactUsData,
             privacyData: privacyData
           }} />}>
-          {/* <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/> */}
+           <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/> 
 
-          <Drawer.Screen name="VendorDashboard" component={VendorDashboard} initialParams={{ user: user, actualUser: updateState }} />
+         {/* <Drawer.Screen name="VendorDashboard" component={VendorDashboard} initialParams={{ user: user, actualUser: updateState }} />*/}
           {/* <Drawer.Screen name="VendorRegistration" component={VendorRegistration} initialParams={{ user: user, actualUser: updateState }} /> */}
           <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
           {/*
@@ -270,6 +270,7 @@ const VendorHomeStack=({navigation,route})=>{
   const[actualUser,setActualUser]= useState(route.params.actualUser);
   const {getUserDetails} = route.params;
   const [remountKey, setRemountKey] = useState(0);
+  const [verification,setVerification] = useState(Constants.veFirstTime);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -280,19 +281,71 @@ const VendorHomeStack=({navigation,route})=>{
     }, [route])
   );
 
+  const retreieveVendorData = ()=>{
+    Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
+            .then((response)=>{
+                console.log("HERE"+response.data)
+                setVerification(Constants.veFirstTime) // uncomment this
+            try{
+                var status= response.data.vendor[0].vendor_status;
+                if(status=== 'active')
+                    setVerification(Constants.verified);
+                else if(status=== 'inactive')
+                    setVerification(Constants.veFirstTime)
+                else
+                    setVerification(Constants.veInProgress);
+                //setVerification(Constants.veFirstTime);
+            }
+            catch(error){
+                setVerification(Constants.veFirstTime);
+            }
+        });
+  }
+
   React.useEffect(() => {
     console.log(route.params.actualUser);
     setActualUser(route.params.actualUser);
     setRemountKey(Math.random(0.5));
+    retreieveVendorData();
   }, [route.params]);
+
+  if(verification != Constants.verified)
+    return  (<View style={{ flex: 1 }}>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator initialRouteName="VendorRegistration">
+          <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+          <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
+          
+    
+  
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>)
+  
+
 
   return (<View style={{ flex: 1 }}>
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="VendorRegistration">
-        <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+
         <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
 
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
+        <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
+          {/*
+          <Drawer.Screen name="AddAddress" component={AddAddress} />
+          <Drawer.Screen name="myAddresses" component={myAddressStack} />
+          <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
+          <Drawer.Screen name="MyScrapSales" component={MyScrapSales} />
+          */}
+          <Stack.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
+            user: user, actualUser: updateState, cachedData: {
+              termsData: termsData,
+              contactUsData: contactUsData,
+              privacyData: privacyData
+            }
+          }} />
+
         
   
 

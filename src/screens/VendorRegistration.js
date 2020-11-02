@@ -77,7 +77,9 @@ export default function VendorRegistration({navigation,route}){
             name: gstFile.name
 
         })
-        console.log({
+
+        
+        var dataUnFormatted = qs.stringify({
             user_id: actualUser.user_id,
             company_name: name,
             vendor_gstin: gst,
@@ -95,25 +97,9 @@ export default function VendorRegistration({navigation,route}){
 
 
         });
-        Axios.post(Config.api_url+'php?action=registerVendor&'+qs.stringify({
-            user_id: actualUser.user_id,
-            company_name: name,
-            vendor_gstin: gst,
-            email: email,
-            lat: 1,
-            lng: 1,
-            pincode: address.pincode,
-            label: address.label,
-            address: address.address,
-            vendor_type: services,
-            milk_product_ids : milk,
-            news_product_ids: paper,
-            office_cat_ids: office,
-            homescrap_product_ids: home
-
-
-
-        }),fromData).then((response)=>{
+        var replaer = new RegExp('%5B.%5D','g');
+        var dataFormatted = dataUnFormatted.replace(replaer,'\[\]');
+        Axios.post(Config.api_url+'php?action=registerVendor&'+dataFormatted,fromData).then((response)=>{
             console.log(response.data);
             checkVendorStatus();
 
@@ -171,7 +157,7 @@ export default function VendorRegistration({navigation,route}){
     
     
     if(verification==67)
-        return <VendorServices submit={submitRegistration} actualUser={actualUser} navigation={navigation}/>
+        return <VendorServices submit={submitRegistration} actualUser={actualUser} navigation={navigation} route={{params:{vendorEdit: false}}}/>
     if(verification === Constants.veFirstTime)
         return(
             <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>

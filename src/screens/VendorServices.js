@@ -161,6 +161,25 @@ export default function VendorServices({ submit, route, actualUser, navigation }
 
 
                 milkProducts = arr;
+                var initArr = 0;
+                if(vendorEdit){
+                    route.params.actualVendor.milk_product_ids.forEach((p)=>{
+                        try{
+                        milkProducts.forEach((item,index)=>{
+                            if(item.id === p ){
+                                milkProducts[index] = {...milkProducts[index],sel: true}
+                                var temp = milkProducts[index];
+                                milkProducts[index] = milkProducts[initArr];
+                                milkProducts[initArr] = temp;
+                                initArr++;
+                                throw 'Ah, finally found it'
+                            }
+                        })
+                        }
+                        catch(err){}
+                    })
+                }
+
                 setMilkRemount(Math.random(0.3))
                 //data=response.data;
 
@@ -179,7 +198,27 @@ export default function VendorServices({ submit, route, actualUser, navigation }
                     arr.push({ ...p, sel: false })
                 })
                 paperProducts = arr;
-                setNewsRemount(Math.random(0.3));
+                var initArr= 0;
+
+                if(vendorEdit){
+                    route.params.actualVendor.news_product_ids.forEach((p)=>{
+                        try{
+                            paperProducts.forEach((item,index)=>{
+                            if(item.id === p ){
+                                paperProducts[index] = {...paperProducts[index],sel: true}
+                                var temp = paperProducts[index];
+                                paperProducts[index] =paperProducts[initArr];
+                                paperProducts[initArr] = temp;
+                                initArr++;
+                                throw 'Ah, finally found it'
+                            }
+                        })
+                        }
+                        catch(err){}
+                    })
+                }
+
+                setMilkRemount(Math.random(0.3));
                 // setMilkProducts
                 //data=response.data;
 
@@ -198,9 +237,27 @@ export default function VendorServices({ submit, route, actualUser, navigation }
                     arr.push({ ...p, sel: false })
                 })
                 homeProducts = arr;
-                setHomeRemount(Math.random(0.5));
-                // setMilkProducts
-                //data=response.data;
+                var initArr = 0;
+                if(vendorEdit){
+                    route.params.actualVendor.homescrap_product_ids.forEach((p)=>{
+                        try{
+                            homeProducts.forEach((item,index)=>{
+                            if(item.id === p ){
+                                homeProducts[index] = {...homeProducts[index],sel: true}
+                                
+                                var temp = homeProducts[index];
+                                homeProducts[index] = homeProducts[initArr];
+                                homeProducts[initArr] = temp;
+                                initArr++;
+                                throw 'Ah, finally found it';
+                            }
+                        })
+                        }
+                        catch(err){}
+                    })
+                }
+
+                setMilkRemount(Math.random(0.3));
 
             }, (error) => {
                 console.log(error);
@@ -217,9 +274,28 @@ export default function VendorServices({ submit, route, actualUser, navigation }
                     arr.push({ ...p, sel: false })
                 })
                 officeProducts = arr;
-                setOfficeRemount(Math.random(0.7));
-                // setMilkProducts
-                //data=response.data;
+                var initArr = 0;
+                if(vendorEdit ){
+                    if(route.params.actualVendor.officescrap_cat_ids != null){
+                    route.params.actualVendor.officescrap_cat_ids.forEach((p)=>{
+                        try{
+                            officeProducts.forEach((item,index)=>{
+                            if(item.id === p ){
+                                officeProducts[index] = {...officeProducts[index],sel: true}
+                                var temp = officeProducts[index];
+                                officeProducts[index] = officeProducts[initArr];
+                                officeProducts[initArr] = temp;
+                                initArr++;
+                                throw 'Ah, finally found it'
+                            }
+                        })
+                        }
+                        catch(err){}
+                    })
+                }
+                }
+
+                setMilkRemount(Math.random(0.3));
 
             }, (error) => {
                 console.log(error);
