@@ -30,7 +30,7 @@ export default function VendorRegistration({navigation,route}){
     const checkVendorStatus=()=>{
         Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{
-                console.log(response.data)
+                console.log("HERE"+response.data)
                 setVerification(Constants.veFirstTime) // uncomment this
             try{
                 var status= response.data.vendor[0].vendor_status;
@@ -78,7 +78,7 @@ export default function VendorRegistration({navigation,route}){
 
         })
         console.log({
-            user_id: 95,//actualUser.user_id,
+            user_id: actualUser.user_id,
             company_name: name,
             vendor_gstin: gst,
             email: email,

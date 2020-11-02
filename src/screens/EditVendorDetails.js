@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, Alert } from 'react-native';
-import { Styles, dimen, Constants } from '../Constants';
+import { Styles, dimen, Constants, Config } from '../Constants';
 import TextBox from '../components/TextBox';
 import Button from '../components/Button';
 import SubmitButton from '../components/SubmitButton';
@@ -68,17 +68,17 @@ export default function EditVendorDetails({ route, navigation }) {
 
     //    console.log(name + " " + gst + " " + email + " " + address)
 
-        Axios.post('https://api.dev.we-link.in/user_app_dev.php?' + qs.stringify({
+        Axios.post(Config.api_url+'php?' + qs.stringify({
             action: 'updateVendor',
-            user_id: 81,          // actualUser.user_id,
-            vendor_id: 78,            // presentDetails.vendor_id,
+            user_id: actualUser.user_id,
+            vendor_id: presentDetails.vendor_id,
             company_name: name,
             vendor_gstin: gst,
             company_email_id: email,
             milk_product_ids: presentDetails.milk_product_ids,
             //  lat: 1,
             //  lng: 1,
-            address_id: 1,
+            address_id: presentDetails.address[0].addr_id ,
             address: address.address,
             landmark: address.landmark,
             pincode: address.pincode,

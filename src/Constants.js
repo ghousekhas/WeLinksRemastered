@@ -1,7 +1,7 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
 export const Config={
-    api_url: 'https://api.dev.we-link.in/user_app_dev.'
+    api_url: 'https://api.dev.we-link.in/user_app.'
 }
 
 export const dimen={

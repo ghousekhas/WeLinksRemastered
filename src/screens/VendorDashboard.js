@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Image,ScrollView} from 'react-native';
 import Axios from 'axios';
 import { EvilIcons } from '@expo/vector-icons';
-import {dimen,Colours,Styles} from '../Constants';
+import {dimen,Colours,Styles, Config} from '../Constants';
 import { useNavigation } from '@react-navigation/native';
 class VendorDashboard extends React.Component { 
     constructor(props){
@@ -17,7 +17,8 @@ class VendorDashboard extends React.Component {
       //   navigation : useNavigation(),
          actualVendor: 'Loading',
          imageHeight: 0,
-         validVendor : true
+         validVendor : true,
+         vendorID : null
         
 
 
@@ -30,31 +31,55 @@ class VendorDashboard extends React.Component {
         }
     }
     retrieveVendorData= async () => {
-        console.log(this.state.actualUser.user_id + "id")
+        console.log(this.state.actualUser.user_id + "userid")
+        Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ this.state.actualUser.user_id)
+        .then((response)=>{
+          try{
+           console.log("VID"+response.data.vendor[0].vendor_id);
+            this.setState({vendorID : response.data.vendor[0].vendor_id})
+
+           Axios.get(Config.api_url+'php?action=getVendor&vendor_id='+ this.state.vendorID)
+           .then((response)=>{
+             try{
+               console.log("vendor" + JSON.stringify(response.data.vendor));
+              this.setState({vendorDetails : response.data.vendor})
+          //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+         //  console.log('Vd' + this.state.actualVendor)
+             }
+             catch(error){
+                 this.setState({validVendor: false})
+               
+               console.log('theerror'+ error);
+               
+             }
+           },(error)=>{
+               console.log('error');
+            
+           });
+
+
+
+
+       //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+      //  console.log('Vd' + this.state.actualVendor)
+          }
+          catch(error){
+              this.setState({validVendor: false})
+            
+            console.log('theerror'+ error);
+            
+          }
+        },(error)=>{
+            console.log('error');
+         
+        });
      
         
-        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43)
-            .then((response)=>{
-              try{
-               // console.log(response.data.vendor[0]);
-               this.setState({vendorDetails : response.data.vendor[0]})
-           //    this.setState({actualVendor : this.state.vendorDetails.company_name})
-          //  console.log('Vd' + this.state.actualVendor)
-              }
-              catch(error){
-                  this.setState({validVendor: false})
-                
-                console.log('theerror'+ error);
-                
-              }
-            },(error)=>{
-                console.log('error');
-             
-            });
+     
       }
       componentDidMount(){
         const {navigation}= this.props;
-        console.log("User"+this.state.actualUser.user_id)
+        console.log("Userid"+this.state.actualUser.user_id)
        
        this.retrieveVendorData();
    //       this.setState({actualUser: this.props.actualUser});
@@ -138,36 +163,80 @@ class VendorDashboard extends React.Component {
 }
 
 const ProfileSmallView = ({navigation,userID})=>{
-    console.log("Profile "+userID)
+    console.log("userid ? "+userID)
     const [vendor,setVendor] = useState({})
+    const [vendorID,setVendorID] = useState(0);
     const [displayName,setDisplayName]= useState("");
     const [vendorImage,setVendorImage] = useState(require('../../assets/notmaleavatar.png'))
     useEffect(()=>{
-        //s
-        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43).
+        
+        Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ userID).
+        then((response)=>{
+            try{
+            
+                console.log("VIDD"+response.data.vendor[0].vendor_id);
+               setVendorID(response.data.vendor[0].vendor_id)
+
+
+        Axios.get(Config.api_url+'php?action=getVendor&vendor_id='+response.data.vendor[0].vendor_id).
         then(({data})=>{
             try{
-            if(data.vendor[0]!=undefined && data.vendor[0]!= null && data.vendor.size != 0)
+            if(data.vendor!=undefined && data.vendor!= null)
               {  
-                  console.log(data.vendor.size)
-                  setVendor(data.vendor[0])
-                if(data.vendor[0].company_name != undefined)
-                setDisplayName(data.vendor[0].company_name)
-                if(data.vendor[0].vendor_img_url.trim() != '')
-                setVendorImage({uri : data.vendor[0].vendor_img_url})
-            console.log("Vndor " + data.vendor[0].vendor_img_url)}
+                  console.log("Company name "+data.vendor.company_name)
+                  setVendor(data.vendor)
+                if(data.vendor.company_name != undefined)
+                setDisplayName(data.vendor.company_name)
+                if(data.vendor.vendor_img_url.trim() != '')
+                setVendorImage({uri : data.vendor.vendor_img_url})
+            console.log("Vendor Image " + data.vendor.vendor_img_url)}
             else
                 console.log('User does not exitst',data);
               }
               catch(error){
-                  console.log('caught')
+                  console.log('caught 1')
 
               }
         },
         (error)=>console.log('Error logged in profile',error))
         //  if(actualUser.name!=null && actualUser.name != '')
         //      setDisplayName(actualUser.name.split(' ')[0]);
-     },[displayName]);
+
+
+
+
+
+
+
+            
+              }
+         
+              catch(error){
+                  console.log('caught 2 '+error)
+
+              }
+        },
+        (error)=>console.log('Error logged in profile',error))
+        //  if(actualUser.name!=null && actualUser.name != '')
+        //      setDisplayName(actualUser.name.split(' ')[0]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+     
+     },[]);
     return (
         <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{navigation.navigate('VendorProfileStack')}}>
         <Image style={styles.userimage} source={vendorImage}/>

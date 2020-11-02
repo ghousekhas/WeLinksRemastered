@@ -78,7 +78,7 @@ const VendorProfile = ({ navigation, route }) => {
     }
 
     useEffect(() => {
-        Axios.get(Config.api_url+'php?action=getUser&phone=' + actualUser.phone,).
+        Axios.get(Config.api_url+'php?action=getUser&phone=' + actualUser.phone).
             then(({ data }) => {
                 if (data.user[0] != undefined)
                     setProfileDetails(data.user[0]);
@@ -108,15 +108,15 @@ const VendorProfile = ({ navigation, route }) => {
         //     console.log('Error with addresses: ' + e);
         // });
 
-        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+82)
+        Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendor&vendor_id='+43)
         .then((response)=>{
           try{
-           // console.log(response.data.vendor[0]);
-        console.log(response.data.vendor[0])
-        setVPD(response.data.vendor[0])
-        setVendorImage(response.data.vendor[0].vendor_img_url);
-     //   setServedAddresses(response.data.vendor[0].addresses);
-        console.log("add" + response.data.vendor[0].addresses[0].addr_name)
+           // console.log(response.data.vendor);
+        console.log("vpd "+response.data.vendor)
+        setVPD(response.data.vendor)
+        setVendorImage(response.data.vendor.vendor_img_url);
+     //   setServedAddresses(response.data.vendor.addresses);
+        console.log("add" + response.data.vendor.addresses[0].addr_name)
         console.log("image" +vendorImage)
         
        //    this.setState({actualVendor : this.state.vendorDetails.company_name})
@@ -125,7 +125,7 @@ const VendorProfile = ({ navigation, route }) => {
           catch(error){
             //  this.setState({validVendor: false})
             
-            console.log('the error'+ error);
+            console.log('the error '+ error);
             
           }
         },(error)=>{
@@ -170,16 +170,16 @@ const VendorProfile = ({ navigation, route }) => {
         
         
         ),
-        React.useCallback(() => {
-            Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+82)
+        React.useCallback(() => {  //vendor_id of Anjali = 81
+            Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+90)
             .then((response)=>{
               try{
-               // console.log(response.data.vendor[0]);
-            console.log(response.data.vendor[0])
-            setVPD(response.data.vendor[0])
-            setVendorImage(response.data.vendor[0].vendor_img_url);
+               // console.log(response.data.vendor);
+            console.log(response.data.vendor)
+            setVPD(response.data.vendor)
+            setVendorImage(response.data.vendor.vendor_img_url);
             console.log("image" +vendorImage)
-            setAddress(response.data.vendor[0].addresses[0])
+            setAddress(response.data.vendor.addresses[0])
           //  if(address.size !=0)
             console.log("Addrs: "+ address)
             
