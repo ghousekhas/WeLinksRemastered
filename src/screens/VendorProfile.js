@@ -347,10 +347,12 @@ const VendorProfile = ({ navigation, route }) => {
                             {/* Addresses Served */}
                     <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('AddressesServedList', {
+                            navigation.navigate('AddressList', {
                              //   myAddresses: true,
                                 actualUser: actualUser,
-                             //   profileEdit: true,
+                                actualVendor: {vendor_id: 90},
+                                vendorEdit: true
+                             //   profileEdit: true,,
                              //   profile: true
                             })
                         }}>

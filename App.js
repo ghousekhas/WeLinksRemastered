@@ -284,6 +284,7 @@ const VendorHomeStack=({navigation,route})=>{
       <Stack.Navigator initialRouteName="VendorRegistration">
         <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
         <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
+
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
         
   
@@ -320,10 +321,9 @@ const VendorProfileStack = ({ navigation, route }) => {
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="VendorProfile">
         <Stack.Screen name="VendorProfile" component={VendorProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
-        <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} />
-        <Stack.Screen name="AddAddress" component={AddAddress} />
+        <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}}  />
         <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-        <Stack.Screen name="AddressesServedList" component = {AddressesServedList} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
+        <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}} initialParams={{actualUser: actualUser}} />
 
       </Stack.Navigator>
     </NavigationContainer>
@@ -364,7 +364,7 @@ export default function App() {
 
   const [firstlogin, setFirstLog] = useState(0);
   const [user, setUser] = useState(//auth().currentUser);
-                      {phoneNumber: '+917856402588'});//
+                      {phoneNumber: '+917777777777'});//
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);

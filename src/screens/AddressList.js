@@ -48,7 +48,8 @@ export default class AddressList extends React.Component{
               somekey: 0,
               myAddresses: props.route.params.myAddresses === true ? true: false,
               apiLoaded: false,
-              profileEdit: props.route.params.profileEdit === true ? true : false
+              profileEdit: props.route.params.profileEdit === true ? true : false,
+              vendorEdit: props.route.params.vendorEdit === true ? true : false
               
               
             };
@@ -94,9 +95,15 @@ export default class AddressList extends React.Component{
     retrieveAddresses=  ()=>{
       const {user_id}= this.props.route.params.actualUser;
       console.log('alistuserid',user_id)
-      Axios.get(Config.api_url+'php?action=getUserAddresses&'+qs.stringify({
-        user_id: user_id
-      })).then((response)=>{
+      var vendor_id;
+      if(this.state.vendorEdit){
+         vendor_id = this.props.route.params.actualVendor.vendor_id;
+      }
+      else 
+         vendor_id = 0;
+      const data = this.state.vendorEdit ? qs.stringify({vendor_id: vendor_id}) : qs.stringify({user_id: user_id});
+      Axios.get(Config.api_url+'php?action=getUserAddresses&'+data)
+        .then((response)=>{
         console.log('response',response.data);
        this.data= response.data.addresses;
        this.setState({apiLoaded: true});
@@ -167,6 +174,41 @@ export default class AddressList extends React.Component{
     addressSelected =async (data,details) =>{
       const actualUser= this.props.route.params.actualUser;
       const {tag} = this.props.route.params;
+      if(this.state.vendorEdit){
+        const {vendor_id} = this.props.route.params.actualVendor;
+      axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+        params:{
+          place_id: details.place_id,
+          key: 'AIzaSyAghIaP3yetD5ooDpwcAK5GF0b6-YkpV8w'
+        }
+      }).then((response)=>{
+        var locy= response.data.results[0].geometry.location;
+        console.log(locy);
+        this.props.navigation.navigate('AddAddress',{
+          onComeBack: this.onComeBack,
+          initialCamera: {
+            center:{
+            latitude: locy.lat,
+            longitude: locy.lng,
+            },
+            pitch: 0,
+            heading: 0,
+            zoom: 14,
+            type: 1
+            
+
+          },
+          refresh: this.retrieveAddresses,
+          actualUser: actualUser,
+          placeName: data.description,
+          vendor_id: vendor_id,
+          vendorEdit: true,
+          tag : tag
+        })
+      });
+    }
+    else{
+
       console.log(data);
       console.log(details);
       console.log(details.place_id);
@@ -198,6 +240,7 @@ export default class AddressList extends React.Component{
           tag : tag
         })
       });
+    }
       
     
     }

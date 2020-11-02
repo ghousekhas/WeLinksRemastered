@@ -235,8 +235,13 @@ export default function VendorRegistration({navigation,route}){
             </View>
             </View>
             )
-    else if(verification === Constants.verified)
-    navigation.navigate('VendorDashboard');
+    else if(verification === Constants.verified){
+        
+        navigation.navigate('VendorDashboard',{
+            actualUser: actualUser
+        });
+        return (<View/>)
+    }
          //       return(<VendorDashboard />)
         //             <View style={{...StyleSheet.absoluteFill,justifyContent: 'flex-start',backgroundColor: 'white'}}>
         //                 <View>
