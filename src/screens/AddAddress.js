@@ -39,6 +39,7 @@ export default class AddAddress extends React.Component{
           inputsValid: false,
           adding: false,
           type: props.route.params.type==='vendorRegistration' ? 0:1,
+          vendorEdit: props.route.params.vendorEdit === true ? true : false,
 
           arrowOpacity: new Animated.Value(0),
             marker:{
@@ -85,7 +86,16 @@ export default class AddAddress extends React.Component{
       
       if(this.state.title != 'loading'){
         console.log('attempting to add an address');
-        Axios.post(Config.api_url+'php?action=addAddress&',qs.stringify({
+        const data = this.state.vendorEdit ? qs.stringify({
+          vendor_id: this.props.route.params.vendor_id,
+          label: label,
+          pincode: pincode,
+          address: title,
+          landmark: landmark,
+          lat: this.location.latitude,
+          lng: this.location.longitude
+        }) :
+        qs.stringify({
           user_id: user_id,
           label: label,
           pincode: pincode,
@@ -93,7 +103,8 @@ export default class AddAddress extends React.Component{
           landmark: landmark,
           lat: this.location.latitude,
           lng: this.location.longitude
-        }),).then((response)=>{
+        });
+        Axios.post(Config.api_url+'php?action=addAddress&'+data,).then((response)=>{
           console.log(response.data);
           this.setState({adding: false});
           //this.props.route.params.refresh();
