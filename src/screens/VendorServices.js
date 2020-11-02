@@ -102,6 +102,7 @@ export default function VendorServices({ submit,route,actualUser,navigation }) {
     const [newsRemount,setNewsRemount] = useState(0);
     const [HomeRemount,setHomeRemount] = useState(0);
     const [officeRemount,setOfficeRemount] = useState(0);
+    var textRef;
     if(route!= undefined)
         if(route.params.back !=undefined)
             back=true;
@@ -238,6 +239,9 @@ export default function VendorServices({ submit,route,actualUser,navigation }) {
     },[]);
     // Opens bottom sheet
     const toggleProducts = (retract) => {
+
+        if(textRef != undefined)
+            textRef.clear();
 
         console.log('toggling', translateCart)
 
@@ -485,23 +489,29 @@ export default function VendorServices({ submit,route,actualUser,navigation }) {
 
     const searchProducts = (text)=>{
         var initIndex=0;
-        console.log(boyerMooreHorspool(Buffer.from('haystack'),Buffer.from('sta')));
+        //console.log(boyerMooreHorspool(Buffer.from('haystack'),Buffer.from('asda')));
         var arr= selectData();
-        milkProducts.forEach((item,index)=>{
-            if(boyerMooreHorspool(Buffer.from(item.name),Buffer.from(text.toString().trim()) != -1)){
-                var temp = milkProducts[initIndex];
-                milkProducts[initIndex] = item;
-                milkProducts[index] = temp;
+        console.log(text.toString())
+        if(text.toString().length > 3)
+        arr.forEach((item,index)=>{
+            var itemname = item.name.toString().toLowerCase().trim();
+            var searchname = text.toString().toLowerCase().trim();
+           
+            if(boyerMooreHorspool(Buffer.from(itemname) ,Buffer.from( searchname),0 ) !=-1){
+                console.log(initIndex);
+                var temp = arr[initIndex];
+                arr[initIndex] = item;
+                arr[index] = temp;
                 initIndex++;
-                console.log('something');
+                console.log(item.name);
+               
             }
-            setMilkRemount(Math.random(0.69));
-        })
-        console.log('textchange')
-        console.log(text)
-        milkProducts.reverse();
+            
+        });
+    
+        //arr.reverse();
    
-        setMilkRemount(0.1);
+        setMilkRemount(Math.random(0.69));
     }
 
 
@@ -599,7 +609,7 @@ export default function VendorServices({ submit,route,actualUser,navigation }) {
             {/*Bottom Sheet*/}
             <View style={{ height: dimen.height*0.7,position: 'absolute',top: dimen.height*0.3,width: dimen.width, backgroundColor: 'white' }}>
                 <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center', padding: 10 }}>{selectHeading()}</Text>
-                <TextInput placeholder='Enter search value' dfg onChangeText={searchProducts} style={{backgroundColor: Colors.whiteBackground,padding:'1%',borderRadius:50,height:dimen.height/20,margin: '5%'}}/>
+                <TextInput ref={(ref)=>textRef=ref} placeholder='Enter search value' dfg onChangeText={searchProducts} style={{backgroundColor: Colors.whiteBackground,padding:'1%',borderRadius:50,height:dimen.height/20,margin: '5%'}}/>
 
                 <FlatList style={Styles.productList}
                     extraData = {milkRemount}
