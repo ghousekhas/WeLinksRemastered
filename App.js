@@ -315,6 +315,7 @@ const VendorHomeStack=({navigation,route})=>{
         <Stack.Navigator initialRouteName="VendorRegistration">
           <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
           <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
+          <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
           
     
   
