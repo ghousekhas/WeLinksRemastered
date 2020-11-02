@@ -51,6 +51,7 @@ import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import VendorServices from './src/screens/VendorServices';
 import VendorDashboard from './src/screens/VendorDashboard';
 import AddressesServedList from './src/screens/AddressesServedList';
+import EditVendorDetails from './src/screens/EditVendorDetails';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -105,7 +106,6 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
 
 
-
   if (vendor)
     // return(<VendorServices/>)
     return (
@@ -136,6 +136,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
     );
 
   return (
+
 
     <NavigationContainer independent={true}  >
       <Drawer.Navigator initialRouteName='HomeStack' backBehavior='none'
@@ -281,6 +282,7 @@ const VendorProfileStack = ({ navigation, route }) => {
         <Stack.Screen name="AddAddress" component={AddAddress} />
         <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
         <Stack.Screen name="AddressesServedList" component = {AddressesServedList} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
+        <Stack.Screen name="EditVendorDetails" component = {EditVendorDetails} options={{ headerShown: false }}/>
 
       </Stack.Navigator>
     </NavigationContainer>

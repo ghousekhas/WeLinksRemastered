@@ -94,7 +94,7 @@ export default class AddressesServedList extends React.Component{
     retrieveAddresses=  ()=>{
       const {user_id}= this.props.route.params.actualUser;
       const {addressesServed} = this.props.route.params
-      this.setState({addressesServed : addressesServed})
+     // this.setState({addressesServed : addressesServed})
 
       console.log(addressesServed)
       console.log('alistuserid',user_id)

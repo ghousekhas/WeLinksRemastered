@@ -51,9 +51,7 @@ export default function VendorRegistration({navigation,route}){
     
 
     useEffect(()=>{
-        navigation.addListener('focus',()=>{
-            //checkVendorStatus();
-        })
+    
         console.log('ph',user.phoneNumber.substring(3));
         checkVendorStatus();
         
@@ -70,7 +68,7 @@ export default function VendorRegistration({navigation,route}){
         fromData.append('vendor_img_url',{
             uri: gstFile.uri,
             type:'image/jpeg',
-            name: aadharFile.name
+            name: gstFile.name
 
         })
         console.log({
@@ -267,6 +265,7 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
 
     const browse= async()=>{
         if(buttonTitle == 'Map'){
+            console.log('Map')
             ('AddAddress',{
                 type: 'vendorRegistration',
                 callback: setAddress,
@@ -291,7 +290,7 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
             const res = await DocumentPicker.pick({type: [DocumentPicker.types.images,DocumentPicker.types.pdf]});
             setUri(res.uri);
             setFileName(res.name);
-            console.log(res);
+            console.log("res"+res);
             if(res.size/100>200){
                 Alert.alert('Size of the file should be lesser than 200kb')
                 setFileName('Please select a file');

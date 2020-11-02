@@ -17,7 +17,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 const VendorProfile = ({ navigation, route }) => {
     const [profileDetails, setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
-    const [addresses, setAddresses] = useState([]);
+    const [address, setAddress] = useState([]);
     const [servedAddresses,setServedAddresses] = useState([])
     const [VendorProfileDetails,setVPD] = useState({
         company_name :"",
@@ -107,14 +107,14 @@ const VendorProfile = ({ navigation, route }) => {
         //     console.log('Error with addresses: ' + e);
         // });
 
-        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43)
+        Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+82)
         .then((response)=>{
           try{
            // console.log(response.data.vendor[0]);
         console.log(response.data.vendor[0])
         setVPD(response.data.vendor[0])
         setVendorImage(response.data.vendor[0].vendor_img_url);
-        setServedAddresses(response.data.vendor[0].addresses);
+     //   setServedAddresses(response.data.vendor[0].addresses);
         console.log("add" + response.data.vendor[0].addresses[0].addr_name)
         console.log("image" +vendorImage)
         
@@ -170,7 +170,7 @@ const VendorProfile = ({ navigation, route }) => {
         
         ),
         React.useCallback(() => {
-            Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+43)
+            Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+82)
             .then((response)=>{
               try{
                // console.log(response.data.vendor[0]);
@@ -178,6 +178,9 @@ const VendorProfile = ({ navigation, route }) => {
             setVPD(response.data.vendor[0])
             setVendorImage(response.data.vendor[0].vendor_img_url);
             console.log("image" +vendorImage)
+            setAddress(response.data.vendor[0].addresses[0])
+          //  if(address.size !=0)
+            console.log("Addrs: "+ address)
             
            //    this.setState({actualVendor : this.state.vendorDetails.company_name})
           //  console.log('Vd' + this.state.actualVendor)
@@ -299,10 +302,11 @@ const VendorProfile = ({ navigation, route }) => {
 
                     <View style={{ borderWidth: 0.5, borderRadius: 7, margin: '1%', borderColor: Colors.seperatorGray }}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('About', {
-                                edit: true,
+                            navigation.navigate('EditVendorDetails', {
+                              
                                 actualUser: profileDetails,
-                                getUserDetails: route.params.getUserDetails
+                                VendorProfileDetails : VendorProfileDetails
+                                
                             })
                         }}>
                             <View style={{ flexDirection: 'row', margin: '5%', marginTop: '7%' }}>
@@ -319,9 +323,9 @@ const VendorProfile = ({ navigation, route }) => {
 
                                 <View style={{ flexDirection: 'column' }}>
                                     <Text style={style.blackText}>Vendor details</Text>
-                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{profileDetails.name}</Text>
-                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{profileDetails.email}</Text>
-                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{'#201 B, Manjunahta Homes'}</Text>
+                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.company_name}</Text>
+                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.email}</Text>
+                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{address.addr_name + " " + address.addr_details+" Near "+address.addr_landmark}</Text>
                                     </View>
                                     <View style={{ position: 'absolute', right: 8 }}>
 
@@ -349,6 +353,7 @@ const VendorProfile = ({ navigation, route }) => {
                             navigation.navigate('AddressesServedList', {
                              //   myAddresses: true,
                                 actualUser: actualUser,
+                                addressesServed : servedAddresses
                              //   profileEdit: true,
                              //   profile: true
                             })
@@ -369,8 +374,8 @@ const VendorProfile = ({ navigation, route }) => {
 
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
                                     <Text style={{ ...style.blackText, marginBottom: dimen.height / 70 }}>Addresses Served</Text>
-
-                                    {renderAddresses()}
+{/* 
+                                    {renderAddresses()} */}
 
 
                                 </View>
