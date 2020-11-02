@@ -364,7 +364,7 @@ export default function App() {
 
   const [firstlogin, setFirstLog] = useState(0);
   const [user, setUser] = useState(//auth().currentUser);
-                      {phoneNumber: '+917542365479'});//
+                      {phoneNumber: '+917856402588'});//
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);

@@ -107,7 +107,12 @@ export default function VendorRegistration({navigation,route}){
             pincode: address.pincode,
             label: address.label,
             address: address.address,
-            vendor_type: services
+            vendor_type: services,
+            milk_product_ids : milk,
+            news_product_ids: paper,
+            office_cat_ids: office,
+            homescrap_product_ids: home
+
 
 
         }),fromData).then((response)=>{
