@@ -37,6 +37,7 @@ import TitleBidDetails from './src/screens/TitleBidDetails';
 
 import PrivacyPolicy from './src/screens/PrivacyPolicy';
 import CancellationScreen from './src/screens/CancellationScreen';
+import EditVendorDetails from './src/screens/EditVendorDetails';
 import VendorProfile from './src/screens/VendorProfile';
 import ScrapCart from './src/screens/ScrapCart';
 import Axios from 'axios';
@@ -72,6 +73,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
   const [privacyData, setPrivacyData] = useState(null);
   const [termsData, setTermsData] = useState(null);
   const [contactUsData, setContactUsData] = useState(null);
+  const [dashboard,goTodashboard] = useState(true);
   var ref;
 
   const updateChildScreens = async () => {
@@ -107,22 +109,27 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
 
 
-
   if (vendor){
-    // return(<VendorServices/>)
+
+  //  checkVendorStatus();
+   console.log('Switching to vendor')
+   console.log(dashboard)
     var initialParams= {user: user, actualUser: updateState}
+    if(!dashboard)
+    return(<VendorRegistration />)
+    
     return (
       <NavigationContainer independent={true}>
-        <Drawer.Navigator initialRouteName='VendorRegistration'
+        <Drawer.Navigator initialRouteName="VendorDashboard"
           drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} getVendorDetails={getVendorDetails} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
             termsData: termsData,
             contactUsData: contactUsData,
             privacyData: privacyData
           }} />}>
-          <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/>
+          {/* <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/> */}
 
           <Drawer.Screen name="VendorDashboard" component={VendorDashboard} initialParams={{ user: user, actualUser: updateState }} />
-          <Drawer.Screen name="VendorRegistration" component={VendorRegistration} initialParams={{ user: user, actualUser: updateState }} />
+          {/* <Drawer.Screen name="VendorRegistration" component={VendorRegistration} initialParams={{ user: user, actualUser: updateState }} /> */}
           <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
           {/*
           <Drawer.Screen name="AddAddress" component={AddAddress} />
@@ -369,8 +376,34 @@ export default function App() {
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
   const [splash, setSplash] = useState(true);
+  const [status,setStatus] = useState('no status')
 
   const getUserDetails = async (networkTries, user, nextRoute = 0) => {
+    const checkVendorStatus = (user_id) => {
+      Axios.get("http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id="+ user_id,)
+      .then((response)=>{
+          console.log("Vendor Status "+response.data.vendor[0].vendor_status)
+          setStatus(response.data.vendor[0].vendor_status)
+          
+        //  setVerification(Constants.veFirstTime) // uncomment this
+      try{
+       //   var status= response.data.vendor[0].vendor_status;
+          if(status=== 'active')
+          goTodashboard(true);
+          else if(status=== 'inactive')
+             console.log("Inac")
+          else
+             console.log("prog")
+          //setVerification(Constants.veFirstTime);
+      }
+      catch(error){
+        console.log('What the hell')
+        //  setVerification(Constants.veFirstTime);
+      }
+    });
+    
+     }
+    
     setSplash(true);
     console.log('getUserDetails');
 
@@ -395,6 +428,11 @@ export default function App() {
               setUserDetails(null);
             //setNetworkState('working');
 
+              console.log("UID"+response.data.user[0].user_id)
+
+              
+             checkVendorStatus(response.data.user[0].user_id);
+
           }
           catch (error) {
             console.log(error);
@@ -417,36 +455,35 @@ export default function App() {
     }
     else {
 
-      try{
-      Axios.get(Config.api_url+'php?action=getVendorStatus&user_id=' + userDetails.user_id)
-        .then((response) => {
-          console.log('VENDOR'+response.data.vendor[0])
-          setSplash(false);
-          try {
-            if(response.data.vendor[0] != null && response.data.vendor[0]!= undefined)
-           { console.log(response.data.vendor[0])
-            var status= response.data.vendor[0].vendor_status;
-                if(status=== 'active')
-                   setVendorDetails(response.data.vendor[0])
-    
-                else
-                    setVendorDetails(null);
-                //setVerification(Constants.veFirstTime);
-           }
-            }
+      // try{
+      // Axios.get(Config.api_url+'php?action=getVendorStatus&user_id=' + userDetails.user_id)
+      //   .then((response) => {
+      //     console.log('VENDOR'+response.data.vendor[0])
+      //     setSplash(false);
+      //     try {
+      //       if(response.data.vendor[0] != null && response.data.vendor[0]!= undefined)
+      //      { console.log(response.data.vendor[0])
+      //       var status= response.data.vendor[0].vendor_status;
+      //           if(status=== 'active')
+      //              setVendorDetails(response.data.vendor[0])
+      //           else
+      //               setVendorDetails(null);
+      //           //setVerification(Constants.veFirstTime);
+      //      }
+      //       }
           
-          catch (error) {
-            console.log(error);
-            //getUserDetails(networkTries+1,user)
-          }
-        }, (error) => {
-          console.log('error');
-          //getUserDetails(networkTries+1,user);
-        });
-      }
-      catch(error){
+      //     catch (error) {
+      //       console.log(error);
+      //       //getUserDetails(networkTries+1,user)
+      //     }
+      //   }, (error) => {
+      //     console.log('error');
+      //     //getUserDetails(networkTries+1,user);
+      //   });
+      // }
+      // catch(error){
 
-      }
+      // }
     }
   };
 
