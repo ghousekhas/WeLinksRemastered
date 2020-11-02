@@ -37,6 +37,7 @@ class VendorDashboard extends React.Component {
           try{
            console.log("VID"+response.data.vendor[0].vendor_id);
             this.setState({vendorID : response.data.vendor[0].vendor_id})
+          
 
            Axios.get(Config.api_url+'php?action=getVendor&vendor_id='+ this.state.vendorID)
            .then((response)=>{
@@ -238,7 +239,7 @@ const ProfileSmallView = ({navigation,userID})=>{
      
      },[]);
     return (
-        <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{navigation.navigate('VendorProfileStack')}}>
+        <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{navigation.navigate('VendorProfileStack',this.state.vendorDetails)}}>
         <Image style={styles.userimage} source={vendorImage}/>
         <Text adjustsFontSizeToFit style={styles.username}>{displayName}</Text>
     </TouchableOpacity>

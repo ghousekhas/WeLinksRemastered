@@ -12,20 +12,21 @@ import auth from '@react-native-firebase/auth';
 import DocumentPicker from 'react-native-document-picker';
 import qs from 'qs';
 import { AntDesign } from '@expo/vector-icons';
-import {Config} from  '../Constants';
+import { Config } from '../Constants';
 
 
 
 const VendorProfile = ({ navigation, route }) => {
     const [profileDetails, setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
     const [address, setAddress] = useState([]);
-    const [servedAddresses,setServedAddresses] = useState([])
-    const [VendorProfileDetails,setVPD] = useState({
-        company_name :"",
-        vendor_img_url:""
+    const [servedAddresses, setServedAddresses] = useState([])
+    const [vendorID, setVendorID] = useState(null);
+    const [VendorProfileDetails, setVPD] = useState({
+        company_name: "",
+        vendor_img_url: ""
     })
     const [actualUser, setActualUser] = useState(route.params.actualUser);
-    const [vendorImage,setVendorImage] = useState('')
+    const [vendorImage, setVendorImage] = useState('')
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
 
@@ -45,29 +46,32 @@ const VendorProfile = ({ navigation, route }) => {
                     type: 'image/jpeg',
                     name: res.name,
                 });
-                console.log('attempting to upload picture');
-                // Axios.post(Config.api_url+'php?action=editUserProfile&' + qs.stringify({
-                //     user_id: profileDetails.user_id,
+                console.log('attempting to upload picture '+profileDetails.user_id + " "+ VendorProfileDetails.vendor_id + " "+ VendorProfileDetails.addresses[0].addr_id);
+                Axios.post(Config.api_url+'php?' + qs.stringify({
+                    action: 'updateVendor',
+                    user_id: profileDetails.user_id,
+                    vendor_id : VendorProfileDetails.vendor_id,
+                    address_id : VendorProfileDetails.addresses[0].addr_id
 
 
-                // }), formdata).then((response) => {
-                //     console.log(response.data, "picutre uploaded");
-                //     //setActualUser({...actualUser,})
-                //     setProfileDetails({ ...profileDetails, img_url: res.uri })
-                //     route.params.getUserDetails(0, auth().currentUser);
-                //     alert('Profile Picture uploaded succesfully');
+                }), formdata).then((response) => {
+                    console.log(response.data, "picutre uploaded");
+                    //setActualUser({...actualUser,})
+                   // setProfileDetails({ ...profileDetails, img_url: res.uri })
+                  //  route.params.getUserDetails(0, auth().currentUser);
+                    alert('Profile Picture uploaded succesfully');
 
-                //     setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
-                //         actualUser: actualUser,
-                //         getUserDetails: route.params.getUserDetails
+                    // setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
+                    //     actualUser: actualUser,
+                    //     getUserDetails: route.params.getUserDetails
 
-                //     }), 1000);
+                    // }), 1000);
 
 
-                // }, (error) => {
-                //     console.log(error);
-                //     alert('Error uploading your profile picture, please try again later');
-                // })
+                }, (error) => {
+                    console.log(error);
+                    alert('Error uploading your profile picture, please try again later');
+                })
             }
 
         }
@@ -78,17 +82,70 @@ const VendorProfile = ({ navigation, route }) => {
     }
 
     useEffect(() => {
-        Axios.get(Config.api_url+'php?action=getUser&phone=' + actualUser.phone).
+        Axios.get(Config.api_url + 'php?action=getUser&phone=' + actualUser.phone).
             then(({ data }) => {
-                if (data.user[0] != undefined)
+                if (data.user[0] != undefined) {
+                    //  console.log(data.user[0])
                     setProfileDetails(data.user[0]);
-                    
-                   
+                }
+
+
                 else
-                    console.log('User does not exist', data);
-            },
-                (error) => console.log('Error logged in profile', error))
-        //setProfileDetails(route)
+                    console.log('User does not exist' + data);
+
+                Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + data.user[0].user_id).
+                    then((response) => {
+                        console.log("vendorID" + response.data.vendor[0].vendor_id)
+                        setVendorID(response.data.vendor[0].vendor_id)
+
+
+                        Axios.get(Config.api_url + "php?action=getVendor&vendor_id=" + vendorID)
+                            .then((response) => {
+                                try {
+                                    setVPD(response.data.vendor)
+                                    console.log("id" + VendorProfileDetails.vendor_id);
+                                    console.log("vpd " + response.data.vendor.company_name)
+
+                                    setVendorImage(response.data.vendor.vendor_img_url);
+                                    //   setServedAddresses(response.data.vendor.addresses);
+                                    // console.log("add" + response.data.vendor.addresses[0].addr_name)
+                                    // console.log("image" +vendorImage)
+
+                                    //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+                                    //  console.log('Vd' + this.state.actualVendor)
+                                }
+                                catch (error) {
+                                    //  this.setState({validVendor: false})
+
+                                    console.log('the error ' + error);
+
+                                }
+                            }, (error) => {
+                                console.log('error');
+
+                            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    }, (error) => console.log("VendorID error" + error))
+
+            }, (error) => console.log("Error " + error))
+
+
         console.log('mounted');
         console.log(route.params.actualUser);
         setActualUser(route.params.actualUser);
@@ -108,31 +165,6 @@ const VendorProfile = ({ navigation, route }) => {
         //     console.log('Error with addresses: ' + e);
         // });
 
-        Axios.get('http://api.dev.we-link.in/user_app.php?action=getVendor&vendor_id='+43)
-        .then((response)=>{
-          try{
-           // console.log(response.data.vendor);
-        console.log("vpd "+response.data.vendor)
-        setVPD(response.data.vendor)
-        setVendorImage(response.data.vendor.vendor_img_url);
-     //   setServedAddresses(response.data.vendor.addresses);
-        console.log("add" + response.data.vendor.addresses[0].addr_name)
-        console.log("image" +vendorImage)
-        
-       //    this.setState({actualVendor : this.state.vendorDetails.company_name})
-      //  console.log('Vd' + this.state.actualVendor)
-          }
-          catch(error){
-            //  this.setState({validVendor: false})
-            
-            console.log('the error '+ error);
-            
-          }
-        },(error)=>{
-            console.log('error');
-         
-        });
-
 
 
 
@@ -140,14 +172,57 @@ const VendorProfile = ({ navigation, route }) => {
 
     useFocusEffect(
         React.useCallback(() => {
-            Axios.get(Config.api_url+'php?action=getUser&phone=' + actualUser.phone,).
+            Axios.get(Config.api_url + 'php?action=getUser&phone=' + actualUser.phone,).
                 then(({ data }) => {
                     if (data.user[0] != undefined) {
                         setProfileDetails(data.user[0]);
-                      //  route.params.setActualUser(data.user[0]);
+
+                        //  route.params.setActualUser(data.user[0]);
                     }
                     else
                         console.log('User does not exitst', data);
+                    Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + data.user[0].user_id).
+                        then((response) => {
+                            console.log("vendorID" + response.data.vendor[0].vendor_id)
+
+                            Axios.get(Config.api_url + "php?action=getVendor&vendor_id=" + vendorID)
+                                .then((response) => {
+                                    try {
+                                        setVPD(response.data.vendor)
+                                        console.log("id" + VendorProfileDetails.vendor_id);
+                                        console.log("vpd " + response.data.vendor.company_name)
+
+                                        setVendorImage(response.data.vendor.vendor_img_url);
+                                        //   setServedAddresses(response.data.vendor.addresses);
+                                        // console.log("add" + response.data.vendor.addresses[0].addr_name)
+                                        // console.log("image" +vendorImage)
+
+                                        //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+                                        //  console.log('Vd' + this.state.actualVendor)
+                                    }
+                                    catch (error) {
+                                        //  this.setState({validVendor: false})
+
+                                        console.log('the error ' + error);
+
+                                    }
+                                }, (error) => {
+                                    console.log('error' + error);
+
+                                });
+
+
+
+
+
+                        }), (error) => console.log(error);
+
+
+
+
+
+
+
                 },
                     (error) => console.log('Error logged in profile', error))
             const onBackPress = () => {
@@ -158,65 +233,15 @@ const VendorProfile = ({ navigation, route }) => {
                 return true;
 
             };
-            
+
 
             BackHandler.addEventListener('hardwareBackPress', onBackPress);
             setActualUser(route.params.actualUser);
 
             return () =>
                 BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        }
-        
-        
-        
-        ),
-        React.useCallback(() => {  //vendor_id of Anjali = 81
-            Axios.get('http://api.dev.we-link.in/user_app_dev.php?action=getVendor&vendor_id='+90)
-            .then((response)=>{
-              try{
-               // console.log(response.data.vendor);
-            console.log(response.data.vendor)
-            setVPD(response.data.vendor)
-            setVendorImage(response.data.vendor.vendor_img_url);
-            console.log("image" +vendorImage)
-            setAddress(response.data.vendor.addresses[0])
-          //  if(address.size !=0)
-            console.log("Addrs: "+ address)
-            
-           //    this.setState({actualVendor : this.state.vendorDetails.company_name})
-          //  console.log('Vd' + this.state.actualVendor)
-              }
-              catch(error){
-                //  this.setState({validVendor: false})
-                
-                console.log('the error'+ error);
-                
-              }
-            },(error)=>{
-                console.log('error');
-             
-            });
-            const onBackPress = () => {
-                //  console.log('Can\'t go back from here');
-                navigation.toggleDrawer();
-
-
-                return true;
-
-            };
-            
-
-            BackHandler.addEventListener('hardwareBackPress', onBackPress);
-            setActualUser(route.params.actualUser);
-
-            return () =>
-                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        }
-        
-        
-        
-        )
-    );
+            },)
+            );
 
     const renderAddresses = () => {
 
@@ -255,8 +280,8 @@ const VendorProfile = ({ navigation, route }) => {
                             {VendorProfileDetails != null ? (
                                 <Image   // Change to Image
                                     style={style.avatar}
-                                    source={vendorImage.trim() != ''  ? { uri: vendorImage } : require('../../assets/notmaleavatar.png')}
-
+                                    //      source={vendorImage.trim() != ''  ? { uri: vendorImage } : require('../../assets/notmaleavatar.png')}
+                                    source={require('../../assets/notmaleavatar.png')}
                                 />
                             ) : null}
                             <View style={{ position: 'absolute', bottom: '5%' }}>
@@ -304,10 +329,10 @@ const VendorProfile = ({ navigation, route }) => {
                     <View style={{ borderWidth: 0.5, borderRadius: 7, margin: '1%', borderColor: Colors.seperatorGray }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('EditVendorDetails', {
-                              
+
                                 actualUser: profileDetails,
-                                VendorProfileDetails : VendorProfileDetails
-                                
+                                VendorProfileDetails: VendorProfileDetails
+
                             })
                         }}>
                             <View style={{ flexDirection: 'row', margin: '5%', marginTop: '7%' }}>
@@ -326,21 +351,21 @@ const VendorProfile = ({ navigation, route }) => {
                                     <Text style={style.blackText}>Vendor details</Text>
                                     <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.company_name}</Text>
                                     <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.email}</Text>
-                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{address.addr_name + " " + address.addr_details+" Near "+address.addr_landmark}</Text>
-                                    </View>
-                                    <View style={{ position: 'absolute', right: 8 }}>
+                                    <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.addresses[0].addr_details + " \nNear "+ VendorProfileDetails.addresses[0].addr_landmark}</Text>
+                                </View>
+                                <View style={{ position: 'absolute', right: 8 }}>
 
-                                        <Icon
-                                            name="chevron-right"
-                                            color={Colors.primary}
+                                    <Icon
+                                        name="chevron-right"
+                                        color={Colors.primary}
 
-                                            size={24}
-                                        />
+                                        size={24}
+                                    />
 
-                                    </View>
+                                </View>
 
 
-                               
+
                             </View>
 
                         </TouchableOpacity>
@@ -348,15 +373,15 @@ const VendorProfile = ({ navigation, route }) => {
                     </View>
 
 
-                            {/* Addresses Served */}
+                    {/* Addresses Served */}
                     <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('AddressesServedList', {
-                             //   myAddresses: true,
+                                //   myAddresses: true,
                                 actualUser: actualUser,
-                                addressesServed : servedAddresses
-                             //   profileEdit: true,
-                             //   profile: true
+                                addressesServed: servedAddresses
+                                //   profileEdit: true,
+                                //   profile: true
                             })
                         }}>
                             <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>
@@ -375,12 +400,12 @@ const VendorProfile = ({ navigation, route }) => {
 
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
                                     <Text style={{ ...style.blackText, marginBottom: dimen.height / 70 }}>Addresses Served</Text>
-{/* 
+                                    {/* 
                                     {renderAddresses()} */}
 
 
                                 </View>
-                                <View style={{ position: 'absolute',right:8}}>
+                                <View style={{ position: 'absolute', right: 8 }}>
 
                                     <Icon
                                         name="chevron-right"
@@ -398,13 +423,13 @@ const VendorProfile = ({ navigation, route }) => {
                         </TouchableOpacity>
 
                     </View>
-{/* Products */}
-<View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
+                    {/* Products */}
+                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('VendorServices',{
+                            navigation.navigate('VendorServices', {
                                 back: true
                             })
-                            
+
                         }}>
                             <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>
 
@@ -423,11 +448,11 @@ const VendorProfile = ({ navigation, route }) => {
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
                                     <Text style={{ ...style.blackText, marginBottom: dimen.height / 70 }}>My Services & Products</Text>
 
-                                  
+
 
 
                                 </View>
-                                <View style={{position: 'absolute',right: 8}}>
+                                <View style={{ position: 'absolute', right: 8 }}>
 
                                     <Icon
                                         name="chevron-right"
@@ -447,14 +472,14 @@ const VendorProfile = ({ navigation, route }) => {
                     </View>
 
 
-               
+
 
                 </View>
 
 
 
                 <View style={{ height: dimen.height / 30, width: dimen.width }} />
-                
+
             </ScrollView>
 
         </View>

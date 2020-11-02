@@ -66,7 +66,7 @@ export default function EditVendorDetails({ route, navigation }) {
             
         //   let arr = [1,2,3];
 
-    //    console.log(name + " " + gst + " " + email + " " + address)
+        console.log("UserID" + actualUser.user_id +" VendorID" + presentDetails.vendor_id+ " AddressID" + presentDetails.addresses[0].addr_id)
 
         Axios.post(Config.api_url+'php?' + qs.stringify({
             action: 'updateVendor',
@@ -78,7 +78,7 @@ export default function EditVendorDetails({ route, navigation }) {
             milk_product_ids: presentDetails.milk_product_ids,
             //  lat: 1,
             //  lng: 1,
-            address_id: presentDetails.address[0].addr_id ,
+            address_id: presentDetails.addresses[0].addr_id ,
             address: address.address,
             landmark: address.landmark,
             pincode: address.pincode,
@@ -91,9 +91,10 @@ export default function EditVendorDetails({ route, navigation }) {
 
 
 
-        }),fromData).then((response) => {
-            console.log("response: " + response.data.vendorID);
-            alert('Details updated successfully')
+        }),).then((response) => {
+           try{ console.log("response: " + response.data.vendorID);
+            alert('Details updated successfully')}
+            catch(e){}
 
         }, (error) => {
             console.log("Error in posts: " + error);

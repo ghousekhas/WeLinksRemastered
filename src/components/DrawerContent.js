@@ -80,7 +80,7 @@ const DrawerContent = (props) => {
      style={{}}
      icon="desktop-mac-dashboard"
      label="Vendor Zone"
-     onPress={()=>{props.navigation.navigate('VendorRegistration',{
+     onPress={()=>{props.navigation.navigate('VendorDashboard',{
        actualUser: actualUser,
        getUserDetails: props.getUserDetails,
        setActualUser: setActualUser
