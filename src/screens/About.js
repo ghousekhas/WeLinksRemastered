@@ -13,8 +13,9 @@ import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import auth from '@react-native-firebase/auth';
 import AppBar from '../components/AppBar';
+import {Config} from  '../Constants';
 
-const About = ({navigation,route,getUserDetails}) =>{
+const About = ({navigation,route,getUserDetails,user}) =>{
     const [name,setName] = useState(' ');
     const [email,setEmail] = useState(' ');
     const [referral,setReferral]= useState(' ');
@@ -23,6 +24,7 @@ const About = ({navigation,route,getUserDetails}) =>{
     const [actualUser,setActualUser]=useState(route!= undefined ? route.params.actualUser: null);
     const [loading,setLoading]=useState(false); 
     const [pressed,setPressed] = useState(false);
+  
 
     function validateEmail() 
     {
@@ -50,7 +52,7 @@ const About = ({navigation,route,getUserDetails}) =>{
         if(validateEmail() && name.trim() != ''){
             try{
                 if(edit){
-                    Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&'+qs.stringify({
+                    Axios.post(Config.api_url+'php?action=editUserProfile&'+qs.stringify({
                         user_id: actualUser.user_id,
                         name: name,
                         email: email
@@ -83,16 +85,16 @@ const About = ({navigation,route,getUserDetails}) =>{
     }
 
     if(aboutDone)
-        return(<City userDetails={{email: email,name: name}} getUserDetails={getUserDetails} route={{params:{edit: false}}}/>);
+        return(<City user={user} userDetails={{email: email,name: name}} getUserDetails={getUserDetails} route={{params:{edit: false}}}/>);
 
     if(loading)
-    return(
-        <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
-           <LottieView  
-            enableMergePathsAndroidForKitKatAndAbove
-           style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
-         </View>
-      )
+        return(
+            <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
+            <LottieView  
+                enableMergePathsAndroidForKitKatAndAbove
+            style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>
+            </View>
+        )
 
 
 

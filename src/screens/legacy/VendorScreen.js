@@ -1,5 +1,5 @@
 
-import React, { Profiler, useState } from 'react';
+import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native';
@@ -23,7 +23,7 @@ const brandsArray=['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Am
 
 ];
 
-export default class VendorScreen1 extends React.Component{
+export default class VendorScreen extends React.Component{
 
     constructor(props){
         super(props);
@@ -40,7 +40,7 @@ export default class VendorScreen1 extends React.Component{
         console.log('MilkVendorEntered')
         Axios.get(Config.api_url+'php?action=getProductsList&'+qs.stringify({
             vendorID: this.props.route.params.vendorId,
-            vendor_type: 'newspaper'
+            vendor_type: 'milk'
         }),{
             'Accept-Encoding': 'gzip'
         }
@@ -74,15 +74,17 @@ export default class VendorScreen1 extends React.Component{
         this.scrollView.scrollTo({
             x: 0,
             y: (Dimensions.get('window').height/9-20)*(sections[0]),
-            animated: true
+               animated: true
         });
         },1000);
       };
     
     renderItem=({item})=>{
         return(
-            <Image style={Styles.horizontalImage} source={{uri: item.brand_image_url}
+            <View style={{flex:0}}>
+            <Image style={{...Styles.horizontalImage}} source={{uri: item.brand_img_url}
         }/>
+        </View>
         );
     };
 
@@ -97,10 +99,11 @@ export default class VendorScreen1 extends React.Component{
     };
     renderHeader = (section, _, isActive) => {
     var      actualUser= this.props.route.params.actualUser;
+    const {tag} = this.props.route.params;
         console.log('vs',actualUser);
 
         var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
-        console.log('meh',section);
+     
 
         if(!isActive)
             expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)
@@ -126,7 +129,7 @@ export default class VendorScreen1 extends React.Component{
         return(
             <Animatable.View
             duration={400}
-            style={Styles.collapsibleView}
+            style={{...Styles.collapsibleView}}
             transition="backgroundColor">
         <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId,actualUser: this.props.route.params.actualUser,address: this.props.route.params.address}}} data={section[(Object.keys(section))[0]]}/>
         </Animatable.View>);
@@ -193,8 +196,8 @@ export default class VendorScreen1 extends React.Component{
             </View>
 
         </View>
+    
     )
-     
     }
 }
 
@@ -210,15 +213,16 @@ const ScrapFlatList = ({route,navigation,data}) => {
 
     const {name} = route.params;
     const {stars} = route.params;
-    const {reviews,actualUser,address} = route.params;
     const {tag} = route.params;
+    
+    const {reviews,actualUser,address} = route.params;
     console.log(actualUser)
 
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
       //     console.log('Go to milk');
-           navigation.navigate('PaperVendors');
+           navigation.navigate('MilkVendors');
               return true;
             
           };
@@ -237,32 +241,30 @@ const ScrapFlatList = ({route,navigation,data}) => {
         data = {data}
         keyExtractor = {(item) => item.name}
         renderItem = {({item}) => { 
-            console.log(item.product_image_url);
-            const imageUrl= item.product_image_url;
+            console.log(item.product_img_url);
+            
+            
             
             return(
-                <Product name={item.name} quantity={item.quantity} price={item.weekday_price} price_={item.weekend_price} url={item.product_image_url} imageUrl={imageUrl}
+                <Product name={item.name} quantity={item.quantity} price={item.price}  url={item.product_img_url} imageUrl={item.product_img_url}
                 subscribe={() => {
                    
                     const prodName = item.name;
                     const prodQuan = item.quantity;
-                    const prodRate = item.weekday_price;
-                    const prodRate_ = item.weekend_price;
+                    const prodRate = item.price;
                     const productId = item.id
                     
                
                     navigation.navigate('SubscribeScreen',{
-                        tag : 'Paper',
+                        tag : 'Milk',
                         pname : prodName,
                         pquan : prodQuan,
                         prate: prodRate,
-                        prate_: prodRate_ ,
-                        imageUrl: imageUrl,
+                        imageUrl: item.product_img_url,
                         actualUser: actualUser,
                         vendorId: vendorId,
-                        productId: item.id,
                         productId: productId,
-                        vendorType: 'newspaper',
+                        vendorType: 'milk',
                         address: address
                     }) } 
                 }/>

@@ -8,7 +8,8 @@ import Axios, * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation,useRoute} from "@react-navigation/native";
-import Button from '../components/Button'
+import Button from '../components/Button';
+import {Config} from  '../Constants';
 
 import {Colors, dimen} from '../Constants'
 const height= Dimensions.get('window').height;
@@ -58,7 +59,7 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
         {
          text: 'Yes',
          onPress: ()=>{
-          Axios.post('https://api.dev.we-link.in/user_app.php?action=delAddress&address_id='+itemnow.addr_id,)
+          Axios.post(Config.api_url+'php?action=delAddress&address_id='+itemnow.addr_id,)
           .then((response)=>{
             console.log(response.data);
             Alert.alert('Delete success','The address was deleted successfully',[

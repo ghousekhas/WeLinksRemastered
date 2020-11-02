@@ -9,6 +9,7 @@ import { RadioButton } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
+import {Config} from  '../Constants';
 
 
 
@@ -24,7 +25,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
     
 
     const getCitiesData= async ()=>{
-      Axios.get('https://api.dev.we-link.in/user_app.php?action=getCityList',{
+      Axios.get(Config.api_url+'php?action=getCityList',{
             'Accept-Encoding': 'gzip'
         }
         ).then((result) => {
@@ -50,12 +51,13 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
 
     useEffect(() => {
         getCitiesData();
+        console.log('user',user);
       },[]);
    // console.log(cities)
 
    const registerUser=()=>{
     if(edit){
-      Axios.post('https://api.dev.we-link.in/user_app.php?action=editUserProfile&',qs.stringify({
+      Axios.post(Config.api_url+'php?action=editUserProfile&',qs.stringify({
         city_id: value,
         user_id: user_id
       })).then((response)=>{
@@ -74,11 +76,11 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
     //AsyncStorage.setItem('firstLogin','true');
     
     
-    Axios.post('https://api.dev.we-link.in/user_app.php?'+qs.stringify(
+    Axios.post(Config.api_url+'php?'+qs.stringify(
     {
         action: 'registerUser',
         name: name,
-        phone: auth().currentUser.phoneNumber.substring(3),
+        phone: user.phoneNumber.substring(3),
         email: email,
         city_id: value
     }),)

@@ -53,6 +53,8 @@ import VendorDashboard from './src/screens/VendorDashboard';
 import AddressesServedList from './src/screens/AddressesServedList';
 import EditVendorDetails from './src/screens/EditVendorDetails';
 
+import {Config} from  './src/Constants';
+
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -74,9 +76,9 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
   var ref;
 
   const updateChildScreens = async () => {
-    const privacyUrl = 'https://api.dev.we-link.in/user_app.php?action=getPrivacyPolicy';
-    const termsUrl = 'https://api.dev.we-link.in/user_app.php?action=getTerms';
-    const contactUsUrl = 'https://api.dev.we-link.in/user_app.php?action=getContactUs&city_id=';
+    const privacyUrl = Config.api_url+'php?action=getPrivacyPolicy';
+    const termsUrl = Config.api_url+'php?action=getTerms';
+    const contactUsUrl = Config.api_url+'php?action=getContactUs&city_id=';
 
     Axios.get(privacyUrl)
       .then(({ data }) => setPrivacyData(data));
@@ -106,8 +108,10 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
 
 
-  if (vendor)
+
+  if (vendor){
     // return(<VendorServices/>)
+    var initialParams= {user: user, actualUser: updateState}
     return (
       <NavigationContainer independent={true}>
         <Drawer.Navigator initialRouteName='VendorRegistration'
@@ -116,15 +120,18 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
             contactUsData: contactUsData,
             privacyData: privacyData
           }} />}>
+          <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/>
 
           <Drawer.Screen name="VendorDashboard" component={VendorDashboard} initialParams={{ user: user, actualUser: updateState }} />
           <Drawer.Screen name="VendorRegistration" component={VendorRegistration} initialParams={{ user: user, actualUser: updateState }} />
           <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
+          {/*
           <Drawer.Screen name="AddAddress" component={AddAddress} />
           <Drawer.Screen name="myAddresses" component={myAddressStack} />
           <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
           <Drawer.Screen name="MyScrapSales" component={MyScrapSales} />
-          <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{
+          */}
+          <Drawer.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
             user: user, actualUser: updateState, cachedData: {
               termsData: termsData,
               contactUsData: contactUsData,
@@ -134,6 +141,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
         </Drawer.Navigator>
       </NavigationContainer>
     );
+    }
 
   return (
 
@@ -147,11 +155,10 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
         }} />} >
 
         <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{ user: user, actualUser: updateState, sm: 1, getUserDetails: getUserDetails }} />
-        <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser }} options={{ headerShown: false }} />
-        <Drawer.Screen name="AddAddress" component={AddAddress} />
-        <Drawer.Screen name="MyAddresses" component={myAddressStack} />
-        <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
-        <Drawer.Screen name="MyScrapSales" component={MyScrapSales} />
+        <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser,user: user }} options={{ headerShown: false }} />
+        <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{actualUser: updateState}} />
+        <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{user: actualUser}} />
+        <Drawer.Screen name="MyScrapSales" component={MyScrapSales} initialParams={{user: actualUser}}/>
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{
           user: user, actualUser: updateState, cachedData: {
             termsData: termsData,
@@ -253,6 +260,43 @@ const myProfileStack = ({ navigation, route }) => {
 
 };
 
+const VendorHomeStack=({navigation,route})=>{
+  const[user,setUser] = useState(route.params.user);
+  const[actualUser,setActualUser]= useState(route.params.actualUser);
+  const {getUserDetails} = route.params;
+  const [remountKey, setRemountKey] = useState(0);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(route.params.actualUser);
+      setActualUser(route.params.actualUser);
+      setRemountKey(Math.random(0.5));
+      return () => null;
+    }, [route])
+  );
+
+  React.useEffect(() => {
+    console.log(route.params.actualUser);
+    setActualUser(route.params.actualUser);
+    setRemountKey(Math.random(0.5));
+  }, [route.params]);
+
+  return (<View style={{ flex: 1 }}>
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName="VendorRegistration">
+        <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+        <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
+        <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
+        
+  
+
+      </Stack.Navigator>
+    </NavigationContainer>
+  </View>)
+
+
+}
+
 const VendorProfileStack = ({ navigation, route }) => {
   const [user, setUser] = useState(route.params.user);
   const [actualUser, setActualUser] = useState(route.params.actualUser);
@@ -322,7 +366,8 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState(auth().currentUser);//{phoneNumber: '+915498476214'})//
+  const [user, setUser] = useState(//auth().currentUser);
+                      {phoneNumber: '+917856402588'});//
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -339,7 +384,7 @@ export default function App() {
     else {
 
 
-      Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone=' + user.phoneNumber.substring(3))
+      Axios.get(Config.api_url+'php?action=getUser&phone=' + user.phoneNumber.substring(3))
         .then((response) => {
           setSplash(false);
           try {
@@ -375,8 +420,8 @@ export default function App() {
     }
     else {
 
-
-      Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id=' + userDetails.user_id)
+      try{
+      Axios.get(Config.api_url+'php?action=getVendorStatus&user_id=' + userDetails.user_id)
         .then((response) => {
           console.log('VENDOR'+response.data.vendor[0])
           setSplash(false);
@@ -401,6 +446,10 @@ export default function App() {
           console.log('error');
           //getUserDetails(networkTries+1,user);
         });
+      }
+      catch(error){
+
+      }
     }
   };
 
@@ -427,10 +476,12 @@ export default function App() {
   }
 
   const checkNetworkState = async () => {
-    Axios.get('https://api.dev.we-link.in/user_app.php?action=getTerms')
+    console.log('api_url',Config.api_url);
+    Axios.get(Config.api_url+'php?action=getTerms')
       .then((response) => {
         setNetworkState(true);
       }, (error) => {
+        console.log(error);
         setNetworkState(false);
       });
   }
@@ -441,16 +492,15 @@ export default function App() {
 
     console.group('firebaseuser', auth().currentUser);
     setSplash(false);
-    setInterval(() => {
+    /*setInterval(() => {
       setSplash(false);
-    }, 2500);
-    setUser(auth().currentUser);
+    }, 2500);*/
+    //setUser(auth().currentUser);
     //checkIfFirstLogin();
     console.log("USER" + JSON.stringify(user));
     if (userDetails === null)
       getUserDetails(0, user);
-    //setUser('something')
-    const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    //const suser = auth().onAuthStateChanged(onAuthStateChanged);
     getVendorDetails();
 
 
@@ -505,20 +555,6 @@ export default function App() {
     return (
       <View style={{ flex: 1 }}>
         <About user={user} getUserDetails={getUserDetails} />
-        {/*
-          <NavigationContainer independent={true}>
-          <Stack.Navigator initialRouteName='About'>
-            <Stack.Screen  name="About" component={About} 
-              options={{
-                headerShown: false
-              }}/>
-              <Stack.Screen name='City' component={City} options={{
-                headerShown: false 
-              }}/>
-          </Stack.Navigator>
-         
-        </NavigationContainer> 
-            */}
       </View>
     )
   }

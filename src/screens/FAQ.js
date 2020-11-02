@@ -4,8 +4,8 @@ import { List } from 'react-native-paper';
 import {Colors, Styles} from '../Constants'
 import AppBar from '../components/AppBar'
 import { ScrollView } from 'react-native-gesture-handler';
-import Axios from 'axios'
-
+import Axios from 'axios';
+import {Config} from  '../Constants';
 
 
 const FAQ = ({navigation}) => {
@@ -40,7 +40,7 @@ q:'Is there a delivery fee?',
 a:'Its simple, You choose your favourite brand, quantity and frequency. You make a payment. Sit back and enjoy products delivered to your doorstep!',
 }];
 useEffect(() => {
-  Axios.get('https://api.dev.we-link.in/user_app.php?action=getFAQs',{
+  Axios.get(Config.api_url+'php?action=getFAQs',{
       'Accept-Encoding': 'gzip'
   }
   ).then((result) => {

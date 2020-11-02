@@ -5,7 +5,8 @@ import Accordion  from 'react-native-collapsible/Accordion';
 import Vendor from '../components/Vendor';
 import ProductOne from '../components/ProductOne';
 import { FlatList, TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
-import * as Animatable from 'react-native-animatable'
+import * as Animatable from 'react-native-animatable';
+import {Config} from  '../Constants';
 
 export default class MilkVendor extends React.Component{
 
@@ -22,7 +23,7 @@ export default class MilkVendor extends React.Component{
 
     componentDidMount(){
         console.log('MilkVendorEntered')
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getProductsList&vendorID=1&vendor_type=milk',{}
+        Axios.get(Config.api_url+'php?action=getProductsList&vendorID=1&vendor_type=milk',{}
         ).then((result) => {
             console.log(result);
         }).catch((err) => {

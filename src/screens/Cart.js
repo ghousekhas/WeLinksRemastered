@@ -11,6 +11,7 @@ import AppBar from '../components/AppBar'
 import Axios from 'axios';
 import qs from 'qs';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import {Config} from  '../Constants';
 
 
 const Cart = ({route,navigation,Tag}) => {
@@ -257,7 +258,7 @@ const Cart = ({route,navigation,Tag}) => {
 
                 console.log('pop to top')
                 console.log(porder.s)
-                Axios.post('https://api.dev.we-link.in/user_app.php?action=addSubscription&'+qs.stringify({
+                Axios.post(Config.api_url+'php?action=addSubscription&'+qs.stringify({
                     user_id: actualUser.user_id,
                     vendor_id: route.params.vendorId,
                     quantity: pquan,

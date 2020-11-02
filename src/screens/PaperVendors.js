@@ -9,6 +9,7 @@ import { Feather } from '@expo/vector-icons';
 import {Colors,Styles} from '../Constants';
 import Axios from 'axios';
 import qs from 'qs';
+import {Config} from  '../Constants';
 
 const PaperVendors = (props) => {
     const address= props.route.params.address;
@@ -29,7 +30,7 @@ const PaperVendors = (props) => {
     const retrieveData= async (t)=>{
         if(t<=0)
             return;
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getVendors&'+qs.stringify({
+        Axios.get(Config.api_url+'php?action=getVendors&'+qs.stringify({
             vendor_type: 'newspaper',
             lat: address.lat,
             lng: address.lng

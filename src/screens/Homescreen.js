@@ -16,6 +16,7 @@ import { DEFAULT_APPBAR_HEIGHT } from 'react-native-paper';
 import { DrawerActions } from 'react-navigation-drawer';
 import { NavigationActions } from 'react-navigation';
 import auth from '@react-native-firebase/auth';
+import {Config} from  '../Constants';
 
 
 
@@ -73,9 +74,9 @@ export default class Homescreen extends React.Component{
 
     
      retrieveUserData= async ()=>{
-        const user= auth().currentUser;
+        const user= this.props.route.params.user;//auth().currentUser;
         
-        Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phoneNumber.substring(3))
+        Axios.get(Config.api_url+'php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
               try{
                 console.log(response.data.user[0]);
@@ -273,7 +274,7 @@ const ProfileSmallView = ({actualUser,drawer})=>{
     const [user,setUser]=useState(actualUser);
     useEffect(()=>{
        //s
-       Axios.get('https://api.dev.we-link.in/user_app.php?action=getUser&phone='+user.phone,).
+       Axios.get(Config.api_url+'php?action=getUser&phone='+user.phone,).
        then(({data})=>{
            if(data.user[0]!=undefined)
                setUser(data.user[0]);

@@ -10,14 +10,103 @@ import { useNavigation, DrawerActions, useTheme } from '@react-navigation/native
 import AppBar from '../components/AppBar';
 import { AntDesign } from '@expo/vector-icons';
 import Axios from 'axios';
+import boyerMooreHorspool from '../Utility/Boyer';
+import { Buffer } from 'buffer';
+
+
+var milkProducts = [
+    {
+        name: 'Nandini Toned',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+
+
+    }, {
+        name: 'Heritage',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }, {
+        name: 'Amul',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }, {
+        name: 'Mother Dairy',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }
+
+];
+var paperProducts = [
+    {
+        name: 'Times',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+
+
+    }, {
+        name: 'Hindu',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }, {
+        name: 'Indian Express',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }, {
+        name: 'Deccan Herald',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }
+
+];
+
+var homeProducts = [
+    {
+        name: 'Phone',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+
+
+    }, {
+        name: 'Newspapers',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }, {
+        name: 'Electronics',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }
+];
+var officeProducts = [
+    {
+        name: 'Metal',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+
+
+    }, {
+        name: 'Plastic',
+        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
+        sel: false
+    }
+
+];
 
 // Final selected sets
-    let selectedMilk = new Set();
-    let selectedPaper = new Set();
-    let selectedHome = new Set();
-    let selectedOffice = new Set();
-export default function VendorServices({ submit }) {
-    const navigation = useNavigation();
+let selectedMilk = new Set();
+let selectedPaper = new Set();
+let selectedHome = new Set();
+let selectedOffice = new Set();
+export default function VendorServices({ submit, route, actualUser, navigation }) {
+    var back = false;
+    const [milkRemount, setMilkRemount] = useState(0);
+    const [newsRemount, setNewsRemount] = useState(0);
+    const [HomeRemount, setHomeRemount] = useState(0);
+    const [officeRemount, setOfficeRemount] = useState(0);
+    var textRef;
+    if (route != undefined)
+        if (route.params.back != undefined)
+            back = true;
+
 
     const words = {
         milkDelivery: 'Milk Delivery',
@@ -34,15 +123,15 @@ export default function VendorServices({ submit }) {
     // const [selectedOffice,setSO] = useState(new Set());
 
 
- 
 
 
-    
+
+
 
     const [service, setService] = useState(''); // Selected service
 
     const [translateCart, setTranslateCart] = useState(new Animated.Value((dimen.height - dimen.height / 16)));
-   
+
     const [check1, setCheck1] = useState(false);
     const [check2, setCheck2] = useState(false);
     const [check3, setCheck3] = useState(false);
@@ -52,153 +141,107 @@ export default function VendorServices({ submit }) {
     let list = [];
     let available = new Set();
 
-    
-
-   
-
-    const [milkProducts, setMilkProducts] = useState([
-        {
-            name: 'Nandini Toned',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-            sel: false
 
 
-        }, {
-            name: 'Heritage',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }, {
-            name: 'Amul',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }, {
-            name: 'Mother Dairy',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }
-
-    ]);
-    const [paperProducts, setPaperProducts] = useState([
-        {
-            name: 'Times',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
 
 
-        }, {
-            name: 'Hindu',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }, {
-            name: 'Indian Express',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }, {
-            name: 'Deccan Herald',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }
 
-    ]);
-
-    const [homeProducts, setHomeProducts] = useState([
-        {
-            name: 'Phone',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-
-
-        }, {
-            name: 'Newspapers',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }, {
-            name: 'Electronics',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }
-    ]);
-    const [officeProducts, setOfficeProducts] = useState([
-        {
-            name: 'Metal',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-
-
-        }, {
-            name: 'Plastic',
-            product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-           sel: false
-        }
-
-    ]);
 
     const getMilkProducts = () => {
-        Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllMilkProducts&city_id='+2)
-        .then((response)=>{
-            console.log("res" +response.data.products);
-            setMilkProducts(response.data.products)
-            //data=response.data;
-         
-        },(error)=>{
-            console.log(error);
-         
-        })
-    }
-        const getPaperProducts = () => {
-            Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllNewsPaperProducts&city_id='+2)
-            .then((response)=>{
-                console.log("res" +response.data.products);
-                setPaperProducts(response.data.products)
-               // setMilkProducts
-                //data=response.data;
-             
-            },(error)=>{
-                console.log(error);
-             
-            })
-        }
-            const getHomeProducts = () => {
-                Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllHomeScrapProducts&city_id='+2)
-                .then((response)=>{
-                    console.log("res" +response.data.products);
-                    setHomeProducts(response.data.products)
-                   // setMilkProducts
-                    //data=response.data;
-                 
-                },(error)=>{
-                    console.log(error);
-                 
+        Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllMilkProducts&city_id=' + 2)
+            .then((response) => {
+                console.log("res" + response.data.products);
+                var temp = response.data.products;
+                var arr = [];
+                temp.forEach((p) => {
+                    arr.push({ ...p, sel: false })
                 })
-            }
-                const getOfficeProducts = () => {
-                    Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllCorporateScrapCategories&city_id='+2)
-                    .then((response)=>{
-                        console.log("res" +response.data.categories);
-                        setOfficeProducts(response.data.categories)
-                       // setMilkProducts
-                        //data=response.data;
-                     
-                    },(error)=>{
-                        console.log(error);
-                     
-                    })
-            
-            
-      
+
+
+                milkProducts = arr;
+                setMilkRemount(Math.random(0.3))
+                //data=response.data;
+
+            }, (error) => {
+                console.log(error);
+
+            })
+    }
+    const getPaperProducts = () => {
+        Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllNewsPaperProducts&city_id=' + 2)
+            .then((response) => {
+                console.log("res" + response.data.products);
+                var temp = response.data.products;
+                var arr = [];
+                temp.forEach((p) => {
+                    arr.push({ ...p, sel: false })
+                })
+                paperProducts = arr;
+                setNewsRemount(Math.random(0.3));
+                // setMilkProducts
+                //data=response.data;
+
+            }, (error) => {
+                console.log(error);
+
+            })
+    }
+    const getHomeProducts = () => {
+        Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllHomeScrapProducts&city_id=' + 2)
+            .then((response) => {
+                console.log("res" + response.data.products);
+                var temp = response.data.products;
+                var arr = [];
+                temp.forEach((p) => {
+                    arr.push({ ...p, sel: false })
+                })
+                homeProducts = arr;
+                setHomeRemount(Math.random(0.5));
+                // setMilkProducts
+                //data=response.data;
+
+            }, (error) => {
+                console.log(error);
+
+            })
+    }
+    const getOfficeProducts = () => {
+        Axios.get('https://api.dev.we-link.in/user_app_dev.php?action=getAllCorporateScrapCategories&city_id=' + 2)
+            .then((response) => {
+                console.log("res" + response.data.categories);
+                var temp = response.data.categories;
+                var arr = [];
+                temp.forEach((p) => {
+                    arr.push({ ...p, sel: false })
+                })
+                officeProducts = arr;
+                setOfficeRemount(Math.random(0.7));
+                // setMilkProducts
+                //data=response.data;
+
+            }, (error) => {
+                console.log(error);
+
+            })
+
+
+
 
     }
-    useEffect(()=>{
+    useEffect(() => {
         getMilkProducts();
         getPaperProducts();
         getHomeProducts();
         getOfficeProducts();
-          
-     //     console.log('retrieving')
-       
-    },[]);
+
+        //     console.log('retrieving')
+
+    }, []);
     // Opens bottom sheet
     const toggleProducts = (retract) => {
+
+        if (textRef != undefined)
+            textRef.clear();
 
         console.log('toggling', translateCart)
 
@@ -237,17 +280,17 @@ export default function VendorServices({ submit }) {
 
 
     // Component for product in flatlist
-    const VendorSelectProduct = ({ name, imageURL, product_id }) => {
+    const VendorSelectProduct = ({ name, imageURL, product_id, defaultSelected, index, sel }) => {
 
-        const [selected, setSelected] = useState(false);
+        const [selected, setSelected] = useState(sel);
         const adding = (name, imageURL) => {
-            
-            switch(service){
+
+            switch (service) {
                 case 'Milk':
                     milkProducts.forEach((p) => {
-                        if(p.name == name){
-                      //      p.sel = selected;
-                        //    console.log(name + " " + "sel " + sel + " selected " + selected)
+                        if (p.name == name) {
+                            //      p.sel = selected;
+                            //    console.log(name + " " + "sel " + sel + " selected " + selected)
                         }
                     })
                     if (!selected) {
@@ -256,27 +299,27 @@ export default function VendorServices({ submit }) {
                             imageURL
                         };
                         selectedMilk = (new Set(selectedMilk.add(obj)));
-                      //  selectedMilk.add(obj);
-                        
-                   //     setSM(new Set(selectedMilk).add(obj));
-                      
-        
+                        //  selectedMilk.add(obj);
+
+                        //     setSM(new Set(selectedMilk).add(obj));
+
+
                     }
                     else if (selected) {
                         selectedMilk.forEach((product) => {
                             if (product.name == name)
-                          //  setSM(new Set(selectedMilk.delete(product)));
+                                //  setSM(new Set(selectedMilk.delete(product)));
                                 selectedMilk.delete(product)
                         });
                         //          list = Array.from(available);
-        
-        
+
+
                     }
                     break;
-                case 'Paper' :
+                case 'Paper':
                     paperProducts.forEach((p) => {
-                        if(p.name == name){
-                    //        p.sel = selected;
+                        if (p.name == name) {
+                            //        p.sel = selected;
                         }
                     })
                     if (!selected) {
@@ -284,100 +327,110 @@ export default function VendorServices({ submit }) {
                             name,
                             imageURL
                         };
-                       selectedPaper.add(obj);
+                        selectedPaper.add(obj);
                         //       list = Array.from(smp);
-        
+
                     }
                     else if (selected) {
-                       selectedPaper.forEach((product) => {
-                           if (product.name == name)
-                               selectedPaper.delete(product)
-                       });
+                        selectedPaper.forEach((product) => {
+                            if (product.name == name)
+                                selectedPaper.delete(product)
+                        });
                         //          list = Array.from(available);
-        
-        
+
+
                     }
-                   break;
-                
-                case 'Home' : 
-                homeProducts.forEach((p) => {
-                    if(p.name == name){
-                //        p.sel = selected;
+                    break;
+
+                case 'Home':
+                    homeProducts.forEach((p) => {
+                        if (p.name == name) {
+                            //        p.sel = selected;
+                        }
+                    })
+                    if (!selected) {
+                        let obj = {
+                            name,
+                            imageURL
+                        };
+                        selectedHome.add(obj);
+                        //       list = Array.from(smp);
+
                     }
-                })
-                if (!selected) {
-                    let obj = {
-                        name,
-                        imageURL
-                    };
-                    selectedHome.add(obj);
-                    //       list = Array.from(smp);
-    
-                }
-                else if (selected) {
-                    selectedHome.forEach((product) => {
-                        if (product.name == name)
-                            selectedHome.delete(product)
-                    });
-                    //          list = Array.from(available);
-    
-    
-                }
-                break;
-            case 'Office' :
-                officeProducts.forEach((p) => {
-                    if(p.name == name){
-                //        p.sel = selected;
+                    else if (selected) {
+                        selectedHome.forEach((product) => {
+                            if (product.name == name)
+                                selectedHome.delete(product)
+                        });
+                        //          list = Array.from(available);
+
+
                     }
-                })
-                if (!selected) {
-                    let obj = {
-                        name,
-                        imageURL
-                    };
-                    selectedOffice.add(obj);
-                    //       list = Array.from(smp);
-    
-                }
-                else if (selected) {
-                    selectedOffice.forEach((product) => {
-                        if (product.name == name)
-                            selectedOffice.delete(product)
-                    });
-                    //          list = Array.from(available);
-    
-    
-                }
-                break;
+                    break;
+                case 'Office':
+                    officeProducts.forEach((p) => {
+                        if (p.name == name) {
+                            //        p.sel = selected;
+                        }
+                    })
+                    if (!selected) {
+                        let obj = {
+                            name,
+                            imageURL
+                        };
+                        selectedOffice.add(obj);
+                        //       list = Array.from(smp);
+
+                    }
+                    else if (selected) {
+                        selectedOffice.forEach((product) => {
+                            if (product.name == name)
+                                selectedOffice.delete(product)
+                        });
+                        //          list = Array.from(available);
+
+
+                    }
+                    break;
             }
-           
 
-           console.log('Milk: \n');
-           selectedMilk.forEach((p) => {
-               console.log(p.name);
-           });
-           console.log('Paper: \n');
-           selectedPaper.forEach((p) => {
-               console.log(p.name);
-           });
-           console.log('Home: \n');
-           selectedHome.forEach((p) => {
-               console.log(p.name);
-           });
-           console.log('Office: \n');
-           selectedOffice.forEach((p) => {
-               console.log(p.name);
-           });
-           
 
-            
+            console.log('Milk: \n');
+            selectedMilk.forEach((p) => {
+                console.log(p.name);
+            });
+            console.log('Paper: \n');
+            selectedPaper.forEach((p) => {
+                console.log(p.name);
+            });
+            console.log('Home: \n');
+            selectedHome.forEach((p) => {
+                console.log(p.name);
+            });
+            console.log('Office: \n');
+            selectedOffice.forEach((p) => {
+                console.log(p.name);
+            });
+
+
+
 
         }
 
-        const setSelectedAndAdd = (name,imageURL) => {
+        const setSelectedAndAdd = (name, imageURL) => {
 
-            adding(name, imageURL);
+            //adding(name, imageURL);
+            var sel = selected;
             setSelected(!selected);
+            if (service === 'Milk')
+                milkProducts[index] = { ...milkProducts[index], sel: !sel };
+            else if (service === 'Paper')
+                paperProducts[index] = { ...paperProducts[index], sel: !sel };
+            else if (service === 'Home')
+                homeProducts[index] = { ...homeProducts[index], sel: !sel };
+            else if (service === 'Office')
+                officeProducts[index] = { ...officeProducts[index], sel: !sel };
+
 
         }
 
@@ -389,10 +442,10 @@ export default function VendorServices({ submit }) {
                 <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 16 }}>{name}</Text>
                 <AntDesign onPress={() => {
 
-                    setSelectedAndAdd(name,imageURL);
-                   
-                    
-                }} style={{ position: 'absolute', right: 10 }} name={selected  ? "checksquare" : "checksquareo"} size={30} color={!selected ? Colors.seperatorGray : Colors.primary} />
+                    setSelectedAndAdd(name, imageURL);
+
+
+                }} style={{ position: 'absolute', right: 10 }} name={selected ? "checksquare" : "checksquareo"} size={30} color={!selected ? Colors.seperatorGray : Colors.primary} />
 
             </View>
         </View>)
@@ -415,7 +468,9 @@ export default function VendorServices({ submit }) {
 
         }
     }
+
     const selectData = () => {
+
         switch (service) {
             case 'Milk':
                 return milkProducts
@@ -432,12 +487,39 @@ export default function VendorServices({ submit }) {
         }
     }
 
+    const searchProducts = (text) => {
+        var initIndex = 0;
+        //console.log(boyerMooreHorspool(Buffer.from('haystack'),Buffer.from('asda')));
+        var arr = selectData();
+        console.log(text.toString())
+        if (text.toString().length > 3)
+            arr.forEach((item, index) => {
+                var itemname = item.name.toString().toLowerCase().trim();
+                var searchname = text.toString().toLowerCase().trim();
+
+                if (boyerMooreHorspool(Buffer.from(itemname), Buffer.from(searchname), 0) != -1) {
+                    console.log(initIndex);
+                    var temp = arr[initIndex];
+                    arr[initIndex] = item;
+                    arr[index] = temp;
+                    initIndex++;
+                    console.log(item.name);
+
+                }
+
+            });
+
+        //arr.reverse();
+
+        setMilkRemount(Math.random(0.69));
+    }
+
 
 
 
 
     return (<View style={{ ...StyleSheet.absoluteFill }}>
-        <AppBar back={false} funct={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
+        <AppBar back={back} funct={back ? () => navigation.goBack() : () => navigation.toggleDrawer()} />
         <View style={{ height: dimen.height / 12 }} />
         <Text style={style.text}>What services do you offer?</Text>
         <View style={{ paddingHorizontal: 10 }}>
@@ -448,6 +530,7 @@ export default function VendorServices({ submit }) {
                     <View style={{ opacity: check1 ? 1 : 0 }}>
                         <Button text='Select' onTouch={() => {
                             // { addProducts() }
+                            setMilkRemount(Math.random(0.7));
 
                             setService('Milk');
 
@@ -517,22 +600,34 @@ export default function VendorServices({ submit }) {
             </ScrollView>
         </View>
 
-        <Animated.View style={{ width: dimen.width, height: dimen.height, zIndex: 100, elevation: 10, position: 'absolute', bottom: 0, transform: [{ translateY: translateCart }] }} >
+        <Animated.View style={{ width: dimen.width, height: dimen.height, zIndex: 100, elevation: 10, position: 'absolute', top: 0, transform: [{ translateY: translateCart }] }} >
             {/*Background blur*/}
-            <View style={{ flex: 1, width: '100%', backgroundColor: 'rgba(255,255,255,0.7)', zIndex: 1000 }} onTouchEnd={() => {
+            <View style={{ height: dimen.height * 0.3, width: '100%', backgroundColor: 'rgba(255,255,255,0.7)', zIndex: 1000 }} onTouchEnd={() => {
 
                 toggleProducts(false)
             }} />
             {/*Bottom Sheet*/}
-            <View style={{ flex: 7, backgroundColor: 'white' }}>
+            <View style={{ height: dimen.height * 0.7, position: 'absolute', top: dimen.height * 0.3, width: dimen.width, backgroundColor: 'white' }}>
                 <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center', padding: 10 }}>{selectHeading()}</Text>
-                <TextInput placeholder='Enter search value' style={{backgroundColor: Colors.whiteBackground,padding:'1%',borderRadius:50,height:dimen.height/20,margin: '5%'}}/>
+                <TextInput ref={(ref) => textRef = ref} placeholder='Enter search value' dfg onChangeText={searchProducts} style={{ backgroundColor: Colors.whiteBackground, padding: '1%', borderRadius: 50, height: dimen.height / 20, margin: '5%' }} />
 
                 <FlatList style={Styles.productList}
+                    extraData={milkRemount}
                     data={selectData()}
-                    renderItem={({ item }) => {
+                    renderItem={({ item, index }) => {
                         //   return(<Text>{item.name}</Text>)
-                        return (<VendorSelectProduct name={service == 'Office' ? item.officescrap_category_name : item.name} imageURL={item.product_image_url} product_id={item.id}/>)
+                        var imageUrl;
+                        if (service === 'Home')
+                            imageUrl = item.product_url;
+                        else if (service === 'Office')
+                            imageUrl = item.product_image_url;
+                        else if (service === 'Milk')
+                            imageUrl = item.product_img_url;
+                        else if (service === 'Paper')
+                            imageUrl = item.product_image_url;
+
+
+                        return (<VendorSelectProduct index={index} service={service} sel={item.sel} name={service == 'Office' ? item.officescrap_category_name : item.name} imageURL={imageUrl} product_id={item.id} defaultSelected={item.sel} />)
                     }}
 
                     keyExtractor={(item, index) => index.toString()} />
@@ -547,43 +642,77 @@ export default function VendorServices({ submit }) {
                 if (check1) {
                     temparr.push('milk');
                     let ar = Array.from(selectedMilk);
-                    finalProducts =  finalProducts.concat(ar)
+                    finalProducts = finalProducts.concat(ar)
                 }
                 if (check2) {
                     let ar = Array.from(selectedPaper);
-                    finalProducts =  finalProducts.concat(ar)
+                    finalProducts = finalProducts.concat(ar)
                     temparr.push('newspaper')
                 }
                 if (check3) {
                     let ar = Array.from(selectedHome);
-                    finalProducts =  finalProducts.concat(ar)
+                    finalProducts = finalProducts.concat(ar)
                     temparr.push('homescrap')
                 }
                 if (check4) {
                     let ar = Array.from(selectedOffice);
-                    finalProducts =  finalProducts.concat(ar)
+                    finalProducts = finalProducts.concat(ar)
                     temparr.push('officescrap')
                 }
 
                 if (temparr === [])
                     alert('Please select at least one service');
-                else
-                    
-                { 
+                else {
                     let set = [];
                     finalProducts = finalProducts.sort()
-                    for(let i=1;i<finalProducts.length;i++){
-                       if(finalProducts[i]==finalProducts[i-1])
-                       { finalProducts.delete(finalProducts[i])}
-                        
+                    for (let i = 1; i < finalProducts.length; i++) {
+                        if (finalProducts[i] == finalProducts[i - 1]) { finalProducts.delete(finalProducts[i]) }
+
                     }
 
                     finalProducts.forEach((i) => {
-                        console.log("SET "  +i.name)
+                        console.log("SET " + i.name)
                     })
-                    submit(temparr);
-                
-                  }
+
+                    var milkIndices = [];
+                    var paperIndices = [];
+                    var officeIndices = [];
+                    var homeIndices = [];
+
+
+                    milkProducts.forEach((item) => {
+                        console.log(item);
+                        if (item.sel)
+                            milkIndices.push(item.id);
+                    });
+                    paperProducts.forEach((p) => {
+                        if (p.sel)
+                            paperIndices.push(p.id);
+                    });
+                    officeProducts.forEach((p) => {
+                        if (p.sel)
+                            officeIndices.push(p.officescrap_cat_id);
+                    });
+                    homeProducts.forEach((p) => {
+                        if (p.sel)
+                            homeIndices.push(p.id);
+                    });
+                    if ((milkIndices === [] && check1))
+                        alert('Please select at least one product from milk');
+                    else if (paperIndices === [] && check2)
+                        alert('Please select at least one product from Newspapers');
+                    else if (officeIndices === [] && check4)
+                        alert('Please select at least one category from office scrap');
+                    else if (homeIndices === [] && check3)
+                        alert('Please select at least one home scrap product');
+                    else
+                        submit(temparr, milkIndices, paperIndices, officeIndices, homeIndices);
+
+
+
+
+
+                }
             }} />
         </View>
 
