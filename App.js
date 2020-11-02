@@ -331,7 +331,7 @@ const VendorProfileStack = ({ navigation, route }) => {
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}}  />
         <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
         <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}} initialParams={{actualUser: actualUser}} />
-
+        <Stack.Screen name="EditVendorDetails" component={EditVendorDetails} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   </View>)

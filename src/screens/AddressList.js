@@ -301,9 +301,9 @@ export default class AddressList extends React.Component{
         
             
           <View style={styles.container}>
-            <AppBar back ={this.props.route.params.profile} funct={() => {
+            <AppBar back ={this.props.route.params.profile || this.props.route.params.vendorEdit} funct={() => {
           
-          if(this.props.route.params.profile)
+          if(this.props.route.params.profile|| this.props.route.params.vendorEdit)
             this.props.navigation.pop();
           else
             this.props.navigation.toggleDrawer();

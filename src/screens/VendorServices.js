@@ -102,6 +102,8 @@ export default function VendorServices({ submit, route, actualUser, navigation }
     const [newsRemount, setNewsRemount] = useState(0);
     const [HomeRemount, setHomeRemount] = useState(0);
     const [officeRemount, setOfficeRemount] = useState(0);
+    const vendorEdit = route.params.vendorEdit === true ? true : false;
+    console.log(vendorEdit);
     var textRef;
     if (route != undefined)
         if (route.params.back != undefined)
@@ -706,7 +708,13 @@ export default function VendorServices({ submit, route, actualUser, navigation }
                     else if (homeIndices === [] && check3)
                         alert('Please select at least one home scrap product');
                     else
-                        submit(temparr, milkIndices, paperIndices, officeIndices, homeIndices);
+                        if(vendorEdit){
+                            route.params.editVendorFunction(temparr, milkIndices, paperIndices, officeIndices, homeIndices);
+                            alert('Your details have been updated successfully');
+                            navigation.pop();
+                        }
+                        else
+                            submit(temparr, milkIndices, paperIndices, officeIndices, homeIndices);
 
 
 
