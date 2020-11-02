@@ -153,7 +153,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
         }} />} >
 
         <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{ user: user, actualUser: updateState, sm: 1, getUserDetails: getUserDetails }} />
-        <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser }} options={{ headerShown: false }} />
+        <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser,user: user }} options={{ headerShown: false }} />
         <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{actualUser: updateState}} />
         <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{user: actualUser}} />
         <Drawer.Screen name="MyScrapSales" component={MyScrapSales} initialParams={{user: actualUser}}/>
@@ -363,7 +363,8 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState(auth().currentUser);//{phoneNumber: '+915498476214'})//
+  const [user, setUser] = useState(//auth().currentUser);
+                      {phoneNumber: '+917542365479'});//
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -416,7 +417,7 @@ export default function App() {
     }
     else {
 
-
+      try{
       Axios.get(Config.api_url+'php?action=getVendorStatus&user_id=' + userDetails.user_id)
         .then((response) => {
           console.log('VENDOR'+response.data.vendor[0])
@@ -442,6 +443,10 @@ export default function App() {
           console.log('error');
           //getUserDetails(networkTries+1,user);
         });
+      }
+      catch(error){
+
+      }
     }
   };
 
@@ -484,16 +489,15 @@ export default function App() {
 
     console.group('firebaseuser', auth().currentUser);
     setSplash(false);
-    setInterval(() => {
+    /*setInterval(() => {
       setSplash(false);
-    }, 2500);
-    setUser(auth().currentUser);
+    }, 2500);*/
+    //setUser(auth().currentUser);
     //checkIfFirstLogin();
     console.log("USER" + JSON.stringify(user));
     if (userDetails === null)
       getUserDetails(0, user);
-    //setUser('something')
-    const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    //const suser = auth().onAuthStateChanged(onAuthStateChanged);
     getVendorDetails();
 
 
@@ -548,20 +552,6 @@ export default function App() {
     return (
       <View style={{ flex: 1 }}>
         <About user={user} getUserDetails={getUserDetails} />
-        {/*
-          <NavigationContainer independent={true}>
-          <Stack.Navigator initialRouteName='About'>
-            <Stack.Screen  name="About" component={About} 
-              options={{
-                headerShown: false
-              }}/>
-              <Stack.Screen name='City' component={City} options={{
-                headerShown: false 
-              }}/>
-          </Stack.Navigator>
-         
-        </NavigationContainer> 
-            */}
       </View>
     )
   }

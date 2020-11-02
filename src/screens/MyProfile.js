@@ -20,6 +20,7 @@ const MyProfile = ({navigation,route}) => {
    const [addresses,setAddresses] = useState([]);
    const [user_id,setUserID] = useState(route.params.actualUser.user_id);
    const [actualUser,setActualUser] = useState(route.params.actualUser);
+   const [user,setUser] = useState(route.params.user);
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
@@ -48,7 +49,7 @@ const MyProfile = ({navigation,route}) => {
                     console.log(response.data,"picutre uploaded");
                     //setActualUser({...actualUser,})
                     setProfileDetails({...profileDetails,img_url: res.uri})
-                    route.params.getUserDetails(0,auth().currentUser);
+                    route.params.getUserDetails(0,user);
                     alert('Profile Picture uploaded succesfully');
                     
                     setTimout(()=> route.params.navdrawer.navigate('ProfileStack',{

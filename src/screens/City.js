@@ -51,6 +51,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
 
     useEffect(() => {
         getCitiesData();
+        console.log('user',user);
       },[]);
    // console.log(cities)
 
@@ -79,7 +80,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
     {
         action: 'registerUser',
         name: name,
-        phone: auth().currentUser.phoneNumber.substring(3),
+        phone: user.phoneNumber.substring(3),
         email: email,
         city_id: value
     }),)

@@ -19,7 +19,7 @@ export default function VendorRegistration({navigation,route}){
     const [gstFile,setGSTFile] = useState(null);
     const [uri,setUri] = useState(null);
     const [verification,setVerification] = useState(Constants.veFirstTime); 
-    const [user,setUser]=useState(auth().currentUser);
+    const [user,setUser]=useState(route.params.user);
     const [actualUser,setActualUser]=useState(route.params.actualUser);
     const [name,companyName]=useState('');
     const [email,companyEmail]=useState('');
@@ -28,7 +28,7 @@ export default function VendorRegistration({navigation,route}){
 
     //USERAPK change userid
     const checkVendorStatus=()=>{
-        Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ 102,)
+        Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{
                 console.log(response.data)
                 setVerification(Constants.veFirstTime) // uncomment this
@@ -61,8 +61,12 @@ export default function VendorRegistration({navigation,route}){
         
     },[]);
 
-    const submitRegistration= (services)=>{
+    const submitRegistration= (services,milk,paper,office,home)=>{
         console.log(services);
+        console.log(milk);
+        console.log(paper);
+        console.log(office);
+        console.log(home);
         var fromData=new FormData();
         fromData.append('id_proof_document',{
             uri: aadharFile.uri,
@@ -85,7 +89,11 @@ export default function VendorRegistration({navigation,route}){
             pincode: address.pincode,
             label: address.label,
             address: address.address,
-            vendor_type: services
+            vendor_type: services,
+            milk_product_ids : milk,
+            news_product_ids: paper,
+            office_cat_ids: office,
+            homescrap_product_ids: home
 
 
         });
@@ -160,7 +168,7 @@ export default function VendorRegistration({navigation,route}){
     
     
     if(verification==67)
-        return <VendorServices submit={submitRegistration}/>
+        return <VendorServices submit={submitRegistration} actualUser={actualUser} navigation={navigation}/>
     if(verification === Constants.veFirstTime)
         return(
             <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
