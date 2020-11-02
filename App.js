@@ -332,7 +332,7 @@ const VendorHomeStack=({navigation,route})=>{
         <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
 
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
-        <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
+        <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: actualUser }} /> 
           {/*
           <Drawer.Screen name="AddAddress" component={AddAddress} />
           <Drawer.Screen name="myAddresses" component={myAddressStack} />
@@ -340,10 +340,10 @@ const VendorHomeStack=({navigation,route})=>{
           <Drawer.Screen name="MyScrapSales" component={MyScrapSales} />
           */}
           <Stack.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
-            user: user, actualUser: updateState, cachedData: {
-              termsData: termsData,
-              contactUsData: contactUsData,
-              privacyData: privacyData
+            user: user, actualUser: actualUser, cachedData: {
+              termsData: null,
+              contactUsData: null,
+              privacyData: null
             }
           }} />
 
