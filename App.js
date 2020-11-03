@@ -54,6 +54,8 @@ import VendorDashboard from './src/screens/VendorDashboard';
 import AddressesServedList from './src/screens/AddressesServedList';
 
 import {Config} from  './src/Constants';
+import VendorViewBids from './src/screens/VendorViewBids';
+import VendorBidDetails from './src/screens/VendorBidDetails';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -115,18 +117,24 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
    console.log('Switching to vendor')
    console.log(dashboard)
     var initialParams= {user: user, actualUser: updateState}
+   // return(<VendorViewBids />)
+
     if(!dashboard)
     return(<VendorRegistration />)
+
     
     return (
+    
       <NavigationContainer independent={true}>
-        <Drawer.Navigator initialRouteName="VendorDashboard"
+        <Drawer.Navigator initialRouteName="VendorHomeStack"
           drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} getVendorDetails={getVendorDetails} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
             termsData: termsData,
             contactUsData: contactUsData,
             privacyData: privacyData
           }} />}>
-           <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/> 
+           <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/>
+           {/* <Drawer.Screen name="VendorBids" component={VendorBids} initialParams={initialParams}/> */}
+          
 
          {/* <Drawer.Screen name="VendorDashboard" component={VendorDashboard} initialParams={{ user: user, actualUser: updateState }} />*/}
           {/* <Drawer.Screen name="VendorRegistration" component={VendorRegistration} initialParams={{ user: user, actualUser: updateState }} /> */}
@@ -316,7 +324,8 @@ const VendorHomeStack=({navigation,route})=>{
           <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
           <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
           <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
-          
+          <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />
+           
     
   
         </Stack.Navigator>
@@ -330,6 +339,8 @@ const VendorHomeStack=({navigation,route})=>{
       <Stack.Navigator initialRouteName="VendorRegistration">
 
         <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
+        <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />
+
 
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
         <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: actualUser }} /> 
@@ -337,8 +348,12 @@ const VendorHomeStack=({navigation,route})=>{
           <Drawer.Screen name="AddAddress" component={AddAddress} />
           <Drawer.Screen name="myAddresses" component={myAddressStack} />
           <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
-          <Drawer.Screen name="MyScrapSales" component={MyScrapSales} />
+          <Drawer.Screen name="MyScrapSales" component=
+            
+          {MyScrapSales} />
           */}
+          <Stack.Screen name="VendorBids" component={VendorBids} options={{ headerShown: false }} />
+
           <Stack.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
             user: user, actualUser: actualUser, cachedData: {
               termsData: null,
@@ -386,6 +401,8 @@ const VendorProfileStack = ({ navigation, route }) => {
         <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
         <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}} initialParams={{actualUser: actualUser}} />
         <Stack.Screen name="EditVendorDetails" component={EditVendorDetails} options={{headerShown: false}} />
+        <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown: false}} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   </View>)
@@ -421,10 +438,19 @@ const userSupportStack = ({ navigation, route }) => {
 
 
 export default function App() {
+  const Stack = createStackNavigator();
+
+  return(
+  <NavigationContainer independent={true}>
+  <Stack.Navigator>
+    <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown : false}} />
+    <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
+  </Stack.Navigator>
+  </NavigationContainer>)
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState(auth().currentUser);//
+  const [user, setUser] = useState( {phoneNumber: '+917777777777'});                    //auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);

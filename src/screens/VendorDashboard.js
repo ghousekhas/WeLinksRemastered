@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { EvilIcons } from '@expo/vector-icons';
 import {dimen,Colours,Styles, Config} from '../Constants';
 import { useNavigation } from '@react-navigation/native';
+import VendorBids from './VendorBids';
 class VendorDashboard extends React.Component { 
     constructor(props){
         super(props);
@@ -147,6 +148,11 @@ class VendorDashboard extends React.Component {
                     </TouchableOpacity> : null}
                     {this.state.vendorDetails.officescrap_service == "yes" ?
                     <TouchableOpacity style={styles.menuitem} 
+                    onPress = {() => {
+                        console.log('Vendor')
+                        navigation.navigate('VendorViewBids.js');
+                        
+                    }}
                   >
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.scrap} />
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>Corporate Scrap Collection</Text>
