@@ -74,7 +74,7 @@ export default class Homescreen extends React.Component{
 
     
      retrieveUserData= async ()=>{
-        const user= this.props.route.params.user;//auth().currentUser;
+        const user= auth().currentUser;//this.props.route.params.user;
         
         Axios.get(Config.api_url+'php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
