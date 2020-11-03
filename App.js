@@ -575,19 +575,19 @@ export default function App() {
 
   React.useEffect(() => {
     checkNetworkState()
-    //getUserDetails(0,user);
+    getUserDetails(0,user);
 
     console.group('firebaseuser', auth().currentUser);
     setSplash(false);
-    /*setInterval(() => {
+    setInterval(() => {
       setSplash(false);
-    }, 2500);*/
+    }, 2500);
     //setUser(auth().currentUser);
-    //checkIfFirstLogin();
+    checkIfFirstLogin();
     console.log("USER" + JSON.stringify(user));
     if (userDetails === null)
       getUserDetails(0, user);
-    //const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    const suser = auth().onAuthStateChanged(onAuthStateChanged);
     getVendorDetails();
 
 
