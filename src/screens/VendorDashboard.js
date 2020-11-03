@@ -92,7 +92,8 @@ class VendorDashboard extends React.Component {
     }
     
     render(){
-        const {navigation} = this.props;
+        const {navigation,otherNavigation} = this.props;
+
   //      console.log('actual'+ this.state.actualUser.name)
   
   return(
@@ -150,7 +151,7 @@ class VendorDashboard extends React.Component {
                     <TouchableOpacity style={styles.menuitem} 
                     onPress = {() => {
                         console.log('Vendor')
-                        navigation.navigate('VendorViewBids.js');
+                        navigation.navigate('VendorViewBids');
                         
                     }}
                   >
@@ -256,8 +257,9 @@ const ProfileSmallView = ({navigation,userID})=>{
 
 export default function(props){
     const navigation = useNavigation();
+    
 
-    return <VendorDashboard {...props} navigation={navigation} />;
+    return <VendorDashboard {...props} navigation={navigation} otherNavigation={props.navigation} />;
 
 }
 

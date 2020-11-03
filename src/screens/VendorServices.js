@@ -307,6 +307,13 @@ export default function VendorServices({ submit, route, actualUser, navigation }
 
     }
     useEffect(() => {
+        if(vendorEdit){
+            if(route.params.actualVendor.milk_product_ids != [])
+                setCheck1(true);
+            
+
+        }
+
         getMilkProducts();
         getPaperProducts();
         getHomeProducts();

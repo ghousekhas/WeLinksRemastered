@@ -338,8 +338,8 @@ return(<View style={styles.card}>
    
 
     return(<View>
- <AppBar  funct={() => {
-       navigation.toggleDrawer();
+ <AppBar  back={true} funct={() => {
+       navigation.goBack();
         }} />
 
         <View style={{...Styles.parentContainer,backgroundColor: Colors.whiteBackground}}>

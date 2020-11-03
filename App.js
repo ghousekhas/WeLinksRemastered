@@ -324,7 +324,8 @@ const VendorHomeStack=({navigation,route})=>{
           <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
           <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
           <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
-          <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />
+          <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown : false}} />
+          <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
            
     
   
@@ -340,6 +341,7 @@ const VendorHomeStack=({navigation,route})=>{
 
         <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
         <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />
+        <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
 
 
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
@@ -440,17 +442,11 @@ const userSupportStack = ({ navigation, route }) => {
 export default function App() {
   const Stack = createStackNavigator();
 
-  return(
-  <NavigationContainer independent={true}>
-  <Stack.Navigator>
-    <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown : false}} />
-    <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
-  </Stack.Navigator>
-  </NavigationContainer>)
+ 
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState( {phoneNumber: '+917777777777'});                    //auth().currentUser);
+  const [user, setUser] = useState({phoneNumber: '+917777777777'}); //auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -600,7 +596,7 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    checkNetworkState()
+   /* checkNetworkState()
     getUserDetails(0,user);
 
     console.group('firebaseuser', auth().currentUser);
@@ -614,7 +610,12 @@ export default function App() {
     if (userDetails === null)
       getUserDetails(0, user);
     const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    getVendorDetails();
+    getVendorDetails();*/
+
+
+    if (userDetails === null)
+      getUserDetails(0, user);
+
 
 
 
