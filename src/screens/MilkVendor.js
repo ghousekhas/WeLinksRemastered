@@ -107,11 +107,11 @@ export default class MilkVendor extends React.Component{
 
     render(){
     return (
-        <View style={Styles.parentContainer}>
+        <View style={{...Styles.parentContainer}}>
             <View style={Styles.fortyUpperPanel}>
-                <View style={Styles.horizontal} >
+                <View style={{...Styles.horizontal}} >
                     <Image style={Styles.vendorImage} />
-                    <View style={Styles.vendorInfo}>
+                    <View style={{...Styles.vendorInfo}}>
                         <Vendor />
                     </View>
                 </View>

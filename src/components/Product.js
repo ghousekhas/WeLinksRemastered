@@ -4,7 +4,7 @@ import Button from './Button';
 import {Colors} from '../Constants'
 
 
-const Product = ({name,quantity,price,price_,subscribe,url,imageUrl}) => {
+const Product = ({name,quantity,price,price_,subscribe,imageUrl}) => {
     const [imageHeight,setImageHeight]=useState(0);
     if(!price_ == ''){
     
@@ -32,7 +32,7 @@ const Product = ({name,quantity,price,price_,subscribe,url,imageUrl}) => {
     }else return(
         <View onLayout={({nativeEvent})=>setImageHeight(nativeEvent.layout.height)} style={style.container}>
          <Image style={{...style.image,height: imageHeight*0.85,width: imageHeight*0.85}} source={{uri: imageUrl}}/>
-    <View>
+    <View style={{marginStart: '2%'}}>
     <Text style={style.name}>{name}</Text>
     <Text style={style.quantity}>{quantity}</Text>
     <Text style={style.price}> ₹{price}</Text>
@@ -73,7 +73,7 @@ const style = StyleSheet.create({
     quantity: {
         marginStart: 70,
         marginTop: '3%',
-        color: 'gray'
+        
 
     },
     price: {

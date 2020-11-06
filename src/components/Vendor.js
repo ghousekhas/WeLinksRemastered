@@ -35,7 +35,7 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
 
         return (
             <View style={{ flexDirection: 'row', width: '60%', alignSelf: 'center' }}>
-                <Text style={style.brands}>{address}</Text>
+                <Text style={style.brands}>{address != undefined && address != null  && address != 0 ? address : null}</Text>
             </View>
         );
     };
@@ -51,7 +51,7 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
                     //   if(nativeEvent.layout.height!=null)
                     setImageHeight(nativeEvent.layout.height);
 
-                }} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+                }} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                     <View style={{ flexDirection: 'column', flex: 2, paddingLeft: 15, marginTop: 20 }}>
                         <Text style={style.name}> {name}</Text>
                         {renderDesc()}
