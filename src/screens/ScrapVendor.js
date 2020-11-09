@@ -603,6 +603,7 @@ const ScrapFlatList = ({route,navigation,data,addItemToCart,removeItemFromCart})
     
         data = {data}
         keyExtractor = {(item) => item.name}
+        style={{maxHeight: dimen.height*0.5}}
         renderItem = {({item,index}) => { 
             console.log(item.product_img_url);
             

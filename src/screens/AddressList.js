@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-
+import { Ionicons } from '@expo/vector-icons'; 
 import {Text,View,StyleSheet,BackHandler,FlatList, Dimensions} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Geolocation from '@react-native-community/geolocation';
@@ -10,10 +10,11 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeAddress from '../components/AddressRow'
 import AppBar from '../components/AppBar';
-import { Styles } from '../Constants';
+import { Colors, Styles } from '../Constants';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import {Config} from  '../Constants';
+import * as Location from 'expo-location';
 
 const height= Dimensions.get('window').height;
 
@@ -49,7 +50,8 @@ export default class AddressList extends React.Component{
               myAddresses: props.route.params.myAddresses === true ? true: false,
               apiLoaded: false,
               profileEdit: props.route.params.profileEdit === true ? true : false,
-              vendorEdit: props.route.params.vendorEdit === true ? true : false
+              vendorEdit: props.route.params.vendorEdit === true ? true : false,
+              locationLoading: false
               
               
             };
@@ -106,6 +108,7 @@ export default class AddressList extends React.Component{
         .then((response)=>{
         console.log('response',response.data);
        this.data= response.data.addresses;
+       this.data= this.data.reverse();
        this.setState({apiLoaded: true});
        this.setState({somekey: Math.random(0.5)});
 
@@ -150,6 +153,80 @@ export default class AddressList extends React.Component{
           </TouchableOpacity>
         </View>
       );*/
+    }
+
+    goToCurrentLocation = async ()=>{
+      if(!this.state.locationLoading){
+        if(this.state.vendorEdit){
+          const {navigation,route} = this.props;
+          const {actualUser,tag} = this.props.route.params;
+          const {vendor_id} = this.props.route.params.actualVendor;
+
+          let {status} = await Location.requestPermissionsAsync();
+          if(status === Location.PermissionStatus.GRANTED){
+            this.setState({locationLoading: true});
+            var location = await Location.getCurrentPositionAsync();
+            this.setState({locationLoading: false});
+            navigation.navigate('AddAddress',{
+              onComeBack: this.onComeBack,
+              initialCamera: {
+                center:{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                },
+                pitch: 0,
+                heading: 0,
+                zoom: 14,
+                type: 1
+              
+              },
+              refresh: this.retrieveAddresses,
+              actualUser: actualUser,
+              placeName: data.description,
+              vendor_id: vendor_id,
+              vendorEdit: true,
+              tag : tag
+            
+          })
+          } 
+          else{
+            alert("Please grant the location permissions in order to add an address");
+          }
+
+        }
+        else{
+          const {navigation,route} = this.props;
+          const {actualUser,tag} = this.props.route.params;
+          let {status} = await Location.requestPermissionsAsync();
+          if(status === Location.PermissionStatus.GRANTED){
+            this.setState({locationLoading: true});
+            var location = await Location.getCurrentPositionAsync();
+            this.setState({locationLoading: false});
+            navigation.navigate('AddAddress',{
+              onComeBack: this.onComeBack,
+              initialCamera: {
+                center:{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                },
+                pitch: 0,
+                heading: 0,
+                zoom: 14,
+                type: 1
+              
+              },
+              refresh: this.retrieveAddresses,
+              actualUser: actualUser,
+              placeName: '.',
+              tag : tag
+            
+          })
+          } 
+          else{
+            alert("Please grant the location permissions in order to add an address");
+          }
+      }
+      }
     }
 
 
@@ -277,16 +354,24 @@ export default class AddressList extends React.Component{
               onPress={this.addressSelected}
               onFail={error => console.error(error)}
               styles={placesstyle}   
-              currentLocation= {true}
+              currentLocation= {false}
               currentLocationLabel= "Select Current Location"
             />
             <View style={{justifyContent: 'center',alignItems: 'center',flex: 1}}>
+              
               {!this.state.apiLoaded ?
                 (<LottieView  
                 enableMergePathsAndroidForKitKatAndAbove
               style={{flex:1,padding: 50,margin:50}}  source={require('../../assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true}/>)
-              :
+              :(<View>
+                <TouchableOpacity onPress={this.goToCurrentLocation}>
+              <View style={styles.currentLocationContainer}>
+                <Ionicons name="ios-add" size={24} color="black" />
+                <Text style={styles.currentLocationText}>Add current location</Text>
+              </View>
+              </TouchableOpacity>
               <Text style={{...Styles.subbold}}>No addresses to show, please add an address </Text>
+              </View>)
             }
             </View>
             </View>
@@ -323,12 +408,19 @@ export default class AddressList extends React.Component{
               onPress={this.addressSelected}
               onFail={error => console.error(error)}
               styles={placesstyle}   
-              currentLocation= {true}
+              currentLocation= {false}
               currentLocationLabel= "Select Current Location"
             />
+            
 
             
             <View style={styles.savedaddresspanel}>
+              <TouchableOpacity onPress={this.goToCurrentLocation}>
+              <View style={styles.currentLocationContainer}>
+                  <Ionicons name="ios-add" size={24} color="black" />
+                  <Text style={styles.currentLocationText}>Add current location</Text>
+                </View>
+                </TouchableOpacity>
           <Text style={styles.address}>SAVED ADDRESSES</Text>
 
             <FlatList 
@@ -396,6 +488,24 @@ const styles = StyleSheet.create({
       height: Dimensions.get('window').height/6,flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center'
+    },
+    currentLocationContainer:{
+      flexDirection: 'row',
+      marginHorizontal: 25,
+      marginBottom: 10,
+      marginTop: 5,
+      padding: 5,
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: Colors.seperatorGray,
+      borderRadius: 15
+      
+    },
+    currentLocationText:{
+      ...Styles.subbold,
+      marginHorizontal: 5
     }
 
     
