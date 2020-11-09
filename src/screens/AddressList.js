@@ -15,6 +15,7 @@ import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import {Config} from  '../Constants';
 import * as Location from 'expo-location';
+import { ActivityIndicator } from 'react-native-paper';
 
 const height= Dimensions.get('window').height;
 
@@ -366,7 +367,12 @@ export default class AddressList extends React.Component{
               :(<View>
                 <TouchableOpacity onPress={this.goToCurrentLocation}>
               <View style={styles.currentLocationContainer}>
-                <Ionicons name="ios-add" size={24} color="black" />
+              {
+
+            !this.state.locationLoading ?
+              <Ionicons name="ios-add" size={24} color="black" /> :
+              <ActivityIndicator size={18} style={{padding: 3,margin: 3,height: 0}} />
+              }
                 <Text style={styles.currentLocationText}>Add current location</Text>
               </View>
               </TouchableOpacity>
@@ -416,8 +422,12 @@ export default class AddressList extends React.Component{
             
             <View style={styles.savedaddresspanel}>
               <TouchableOpacity onPress={this.goToCurrentLocation}>
-              <View style={styles.currentLocationContainer}>
-                  <Ionicons name="ios-add" size={24} color="black" />
+              <View style={styles.currentLocationContainer}>{
+
+                !this.state.locationLoading ?
+                  <Ionicons name="ios-add" size={24} color="black" /> :
+                  <ActivityIndicator size={18} style={{padding: 3,margin: 3,height: 0}} />
+    }
                   <Text style={styles.currentLocationText}>Add current location</Text>
                 </View>
                 </TouchableOpacity>
