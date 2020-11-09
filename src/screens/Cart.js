@@ -202,7 +202,7 @@ const Cart = ({route,navigation,Tag}) => {
       <ScrollView style={{flex: 1,padding: 5}}>
       <View style={{flex: 1,alignSelf: 'center',justifyContent: 'center'}}>
       
-    <Text style={{...Styles.title,marginBottom : '10%'}}>{words.title}</Text>
+    <Text style={{...Styles.title,marginBottom : '2%'}}>{words.title}</Text>
 
     <View style={{alignItems: 'center',width: dimen.width}}>
         <SubscriptionOrder name={pname}
@@ -359,9 +359,9 @@ const style = StyleSheet.create({
 
     },
     billText:{
-        fontSize: 18,
+        fontSize: 16,
         marginTop: '2%',
-        fontWeight: '900',
+        fontWeight: 'bold',
         margin: '2%'
     },
     billCost:{

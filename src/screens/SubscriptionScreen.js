@@ -25,6 +25,7 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,da
     const[start,setStart]= useState('Not selected');
     const[end,setEnd] = useState('Not selected');
     const [startButtonWidth,setStartButtonWidth] = useState(0);
+    const [startButtonHeight,setStartButtonHeight] = useState(0);
   //  const[wo,setWeek]= useState([true,true,true,true,true,true,true]);
     useEffect(()=>{
         setStart(dateref);
@@ -75,7 +76,7 @@ return(
     <ScrollView style={{flex: 1,backgroundColor: 'white',margin: 3}}>
 
 <View>
-    <View style={{...style.view1}}>
+    <View style={{...style.view1,marginTop: '5%'}}>
     <Feather name="shopping-bag" size={22} color= {Colors.lightIcon} />
 
     <Text style={style.greyText}>{words.quantityPerDay}</Text>
@@ -124,8 +125,8 @@ return(
             m ? ms(false) : ms(true)
            
         }}>
-        <View style ={m ? style.circleTapped : style.circle}>
-        <Text style ={m ? style.dayTapped : style.day}>M</Text>
+        <View style ={m ? {...style.circle,backgroundColor: Colors.primary} : style.circle}>
+        <Text style ={m ? {...style.day,color: 'white'} : style.day}>M</Text>
         </View>
         </TouchableOpacity>
 
@@ -133,8 +134,8 @@ return(
             t ? ts(false) : ts(true)
            
         }}>
-        <View style ={t ? style.circleTapped : style.circle}>
-        <Text style ={t ? style.dayTapped : style.day}>T</Text>
+        <View style ={t ? {...style.circle,backgroundColor: Colors.primary} : style.circle}>
+        <Text style ={t ? {...style.day,color: 'white'} : style.day}>T</Text>
         </View>
         </TouchableOpacity>
 
@@ -143,8 +144,8 @@ return(
             w ? ws(false) : ws(true)
             
         }}>
-        <View style ={w ? style.circleTapped : style.circle}>
-        <Text style ={w ? style.dayTapped : style.day}>W</Text>
+        <View style ={w ? {...style.circle,backgroundColor: Colors.primary} : style.circle}>
+        <Text style ={w ? {...style.day,color: 'white'} : style.day}>W</Text>
         </View>
         </TouchableOpacity>
 
@@ -152,8 +153,8 @@ return(
             th ? ths(false) : ths(true)
             
         }}>
-        <View style ={th ? style.circleTapped : style.circle}>
-        <Text style ={th ? style.dayTapped : style.day}>T</Text>
+        <View style ={th ? {...style.circle,backgroundColor: Colors.primary} : style.circle}>
+        <Text style ={th ? {...style.day,color: 'white'} : style.day}>T</Text>
         </View>
         </TouchableOpacity>
 
@@ -161,16 +162,16 @@ return(
             f ? fs(false) : fs(true)
             
         }}>
-        <View style ={f ? style.circleTapped : style.circle}>
-        <Text style ={f ? style.dayTapped : style.day}>F</Text>
+        <View style ={f ? {...style.circle,backgroundColor: Colors.primary} : style.circle}>
+        <Text style ={f ? {...style.day,color: 'white'} : style.day}>F</Text>
         </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
             s ? ss(false) : ss(true)
             
         }}>
-        <View style ={s ? style.circleTapped : style.circle}>
-        <Text style ={s ? style.dayTapped : style.day}>S</Text>
+        <View style ={s ? {...style.circle,backgroundColor: Colors.primary} : style.circle}>
+        <Text style ={s ? {...style.day,color: 'white'} : style.day}>S</Text>
         </View>
         </TouchableOpacity>
 
@@ -178,8 +179,8 @@ return(
             su ? sus(false) : sus(true)
            
         }}>
-        <View style ={su ? style.circleTapped : style.circle}>
-        <Text style ={su ? style.dayTapped : style.day}>S</Text>
+        <View style ={su ? {...style.circle,backgroundColor: Colors.primary} : style.circle}>
+        <Text style ={su ? {...style.day,color: 'white'} : style.day}>S</Text>
         </View>
         </TouchableOpacity>
         
@@ -285,6 +286,7 @@ return(
     <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%'}}>
         <TouchableOpacity onLayout={(event) => {
                 setStartButtonWidth(event.nativeEvent.layout.width);
+                setStartButtonHeight(event.nativeEvent.layout.height);
 
         }} onPress={onCalendarOpen} style={style.dbutton1}>
         <Text numberOfLines={1} style={style.btext}>{words.startDate}</Text>
@@ -293,9 +295,9 @@ return(
         <Text style={{...style.dates,position: 'absolute',bottom: -7,end:30}}>{start}</Text>
     </View>
 {/* End date */}
-    <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%',marginTop: '5%'}}>
+    <View style={{flexDirection:'row', justifyContent: 'space-between',marginStart:'5%',marginTop: '3%'}}>
     <TouchableOpacity disabled={dateref == 'Not selected'? true : false} onPress={onCalendarOpen1} 
-    style={dateref == 'Not selected' ? {...style.disabled,width: startButtonWidth} : {...style.dbutton1,width: startButtonWidth}}>
+    style={dateref == 'Not selected' ? {...style.disabled,width: startButtonWidth,height: startButtonHeight} : {...style.dbutton1,width: startButtonWidth}}>
         <Text numberOfLines={1} style={dateref == 'Not selected' ? {...style.btext,color:Colors.disabledButton} : style.btext}>{words.endDate}</Text>
             
         </TouchableOpacity>
@@ -355,7 +357,7 @@ const style = StyleSheet.create({
        
         flexDirection: 'row',
        
-        marginVertical: '6%',
+        marginVertical: '4.5%',
         marginStart: '5%',
         
       
@@ -372,7 +374,7 @@ const style = StyleSheet.create({
    
     quantityPick:{
         flexDirection: 'row',
-        width: '25%',
+        width: '20%',
         aspectRatio:4/1.5,
         borderColor: Colors.primary,
         borderWidth: 1.5,
@@ -408,59 +410,32 @@ const style = StyleSheet.create({
 plus: {
     alignSelf: 'center'
 },
-circleTapped : {
-   
-    backgroundColor: Colors.primary,
-    height: dimen.width/8.5,
-    width: dimen.width/8.5, 
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius:dimen.width/8.5/2,
-    
-    
-    
 
-
-}, 
 circle : {  //yes
-    borderWidth: 1.5,
-    borderColor: Colors.primary,
-    height: dimen.width/8.5,
-    width: dimen.width/8.5, 
+    backgroundColor: Colors.whiteBackground,
+    height: dimen.width/9.5,
+    width: dimen.width/9.5, 
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius:dimen.width/8.5/2,
+    borderRadius:dimen.width/9.5/2,
     
    
 
 
 },
-dayTapped: {  //yes
 
-    
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: dimen.width/8.5/3.2,
-    
-  
-    alignItems: 'center',
-    justifyContent: 'center',
-   
-  
-    
-
-    
-},
 day: {  //yes
 
     
-    color: Colors.primary,
+    color: Colors.seperatorGray,
+    
+    fontSize: dimen.width/24,
     fontWeight: 'bold',
-    fontSize: dimen.width/8.5/3.2,
     
   
     alignItems: 'center',
     justifyContent: 'center',
+
    
   
    
@@ -494,8 +469,8 @@ dbutton: {
     flex: 0,
     
   //  width: Dimensions.get('window').width/3,
-    height: Dimensions.get('window').height/25,
-    aspectRatio:3.4/1 ,
+    height: Dimensions.get('window').height/29,
+    aspectRatio:3.4/1.2 ,
     alignItems: 'center',
     justifyContent: 'center',
      
@@ -511,7 +486,7 @@ dbutton1: {
     flex: 0,
     
   //  width: Dimensions.get('window').width/3,
-    height: Dimensions.get('window').height/25,
+    height: Dimensions.get('window').height/29,
     aspectRatio: 4/1 ,
     alignItems: 'center',
     justifyContent: 'center',

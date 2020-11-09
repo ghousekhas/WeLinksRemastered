@@ -13,10 +13,11 @@ const Item = ({name, quantity, price, imageUrl,tag}) => {
     <View style={style.container}>
 
         <Text style={style.name}>{name}</Text>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row',alignItems:'center',flex:0}}>
        
         <Text style={style.price}>₹{price}</Text>
-        <Text style={style.quantity}>{quantity + (tag == 'Paper' ? ' unit/s' : '')}</Text>
+        <Text style={{...style.quantity,alignSelf:'center',fontWeight:'bold'}}>·</Text>
+        <Text style={{...style.quantity,alignSelf:'center'}}>{quantity + (tag == 'Paper' ? ' unit/s' : '')}</Text>
         </View>
        
         
@@ -32,7 +33,7 @@ const style = StyleSheet.create({
         ...Styles.parentContainer,
         marginTop: '0%',
         backgroundColor: Colors.lightBlue,
-       height:Dimensions.get('window').height/5.5,
+       height:Dimensions.get('window').height/6.5,
        width:Dimensions.get('window').width,
       
       
@@ -41,17 +42,18 @@ const style = StyleSheet.create({
     },
     name: {
         marginStart: 100,
-        fontWeight: '400',
-        fontSize: 18,
+        fontWeight: 'bold',
+        fontSize: 16,
         padding: 5
         
     },
     quantity: {
-        marginStart: '3%',
+       
         color: 'gray',
-        fontSize: 10,
-        marginTop: '4%',
-        padding: 5
+        fontSize: 11,
+       
+        padding: 5,
+        alignSelf: 'center'
        
     },
     price: {
@@ -59,7 +61,7 @@ const style = StyleSheet.create({
         
         fontWeight: 'bold',
         fontSize: 15,
-        marginTop: '3%',
+      
         padding: 5
       
 

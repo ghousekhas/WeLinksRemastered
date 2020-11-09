@@ -8,7 +8,6 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppBar from '../components/AppBar';
 import Axios from 'axios';
-import auth from '@react-native-firebase/auth';
 import DocumentPicker from 'react-native-document-picker';
 import qs from 'qs';
 import {Config} from  '../Constants';
@@ -118,7 +117,11 @@ const MyProfile = ({navigation,route}) => {
             (error)=>console.log('Error logged in profile',error))
           const onBackPress = () => {
        //  console.log('Can\'t go back from here');
-         navigation.toggleDrawer();
+        route.params.navDrawer.navigate('HomeStack',
+       { actualUser: actualUser,
+     //   getUserDetails: getUserDetails,
+        setActualUser: setActualUser}
+        )
       
                   
               return true;

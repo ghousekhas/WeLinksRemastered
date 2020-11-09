@@ -25,7 +25,7 @@ export default function BidCreation1({navigation}){
     return(<View>
     <AppBar back funct={() => navigation.pop()} />
     <View style={{...Styles.parentContainer,color: Colors.whiteBackground}}>
-            <Text style={styles.heading}>Create a new</Text>
+            <Text style={styles.heading}>{strings.bidTitle}</Text>
             <ScrollView style={{marginBottom:'10%'}}>
             <View style={{flex:1,marginBottom: '30%',marginTop: '5%'}}>
                 <Textbox title={'BID TITLE'} hint={'Title'}/>

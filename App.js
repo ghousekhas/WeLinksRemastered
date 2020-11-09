@@ -228,7 +228,7 @@ const myAddressStack = ({ navigation, route }) => {
     <View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Profile">
-          <Stack.Screen name="AddressList" component={AddressList} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navtoggle: navigation, myAddresses: true, profile: route.params.profile }} />
+          <Stack.Screen name="AddressList" component={AddressList} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navigator: navigation, myAddresses: true, profile: route.params.profile }} />
           <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -262,9 +262,9 @@ const myProfileStack = ({ navigation, route }) => {
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Profile">
           <Stack.Screen name="Profile" component={MyProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
-          <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} />
+          <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} initialParams={{navigator : navigation}}/>
           <Stack.Screen name="AddAddress" component={AddAddress} />
-          <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} />
+          <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{navigator : navigation}} />
           <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{ headerShown: false }} />
           <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
         </Stack.Navigator>
@@ -401,7 +401,7 @@ const VendorProfileStack = ({ navigation, route }) => {
         <Stack.Screen name="VendorProfile" component={VendorProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}}  />
         <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-        <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}} initialParams={{actualUser: actualUser}} />
+        <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}} initialParams={{actualUser: actualUser,navigator : navigation}} />
         <Stack.Screen name="EditVendorDetails" component={EditVendorDetails} options={{headerShown: false}} />
         <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown: false}} />
         
@@ -425,7 +425,8 @@ const userSupportStack = ({ navigation, route }) => {
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="SupportFAQ">
           <Stack.Screen name="SupportFAQ" component={SupportFAQ} options={{ headerShown: false }} initialParams={{
-            cachedData: cachedData
+            cachedData: cachedData,
+            navigator : navigation
           }} />
           <Stack.Screen name="FAQ" component={FAQ} options={{ headerShown: false }} />
           <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{ headerShown: false }} />
@@ -714,13 +715,13 @@ const PostLoginHome = ({ route, navigation }) => {
               headerShown: false
             }} />
             <Stack.Screen name="About" component={About} initialParams={{ user: user }} />
-            <Stack.Screen name="City" component={City} initialParams={{ user: user }} />
+            <Stack.Screen name="City" component={City} initialParams={{ user: user }} options={{headerShown: false}} />
             <Stack.Screen name='VendorsList' component={VendorsList} initialParams={{ user: user }} />
             <Stack.Screen name='MilkVendors' component={MilkVendors} options={{ headerShown: false }} initialParams={{ user: user }} />
             <Stack.Screen name='PaperVendors' component={PaperVendors} options={{ headerShown: false }} initialParams={{ user: user }} />
             <Stack.Screen name='VendorScreen' component={VendorScreen} options={{ headerShown: false }} initialParams={{ user: user }} />
             <Stack.Screen name='VendorScreen1' component={VendorScreen1} options={{ headerShown: false }} />
-            <Stack.Screen name='AddressList' component={AddressList} options={{ headerShown: false }} />
+            <Stack.Screen name='AddressList' component={AddressList} options={{ headerShown: false }} initialParams={{ navigator: navigation }} />
 
             <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Cart' component={Cart} options={{ headerShown: false }} />

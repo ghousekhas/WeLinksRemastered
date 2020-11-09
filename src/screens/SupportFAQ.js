@@ -2,7 +2,7 @@ import React, { useEffect,useState } from 'react';
 import {View,StyleSheet,TextInput, Dimensions,BackHandler, Linking} from 'react-native';
 import {Text} from 'react-native-paper';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
-import sendFeedback, {sendEmail} from '../../src/EmailUtility'
+import sendFeedback, {sendEmail} from '../../src/Utility/EmailUtility'
 import AppBar from '../components/AppBar';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -14,6 +14,7 @@ import {Config} from  '../Constants';
 const SupportFAQ = ({navigation,route}) => {
     const {privacyData,termsData,contactUsData}=route.params.cachedData;
     console.log(route.params.cachedData,'CachedData')
+    const {navigator} = route.params;
     const [phone,setPhone]=useState(contactUsData === undefined ? null: contactUsData.phone);
     const [email,setEmail]=useState(contactUsData === undefined? null: contactUsData.email);
     const words = {
@@ -41,11 +42,8 @@ const SupportFAQ = ({navigation,route}) => {
         React.useCallback(() => {
           const onBackPress = () => {
          console.log('Can\'t go back from here');
-         navigation.toggleDrawer();
-       
-        // navigation.goBack();
-         //   navigation.reset();
-                  
+         navigator.navigate('HomeStack')
+      
               return true;
             
           };
@@ -60,7 +58,7 @@ const SupportFAQ = ({navigation,route}) => {
       const [content,setContent] = useState('');
     return(
     <View>
-     <AppBar  funct={() => {
+     <AppBar funct={() => {
         navigation.toggleDrawer();
         }} />
 

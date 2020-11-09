@@ -97,6 +97,9 @@ export default function MySubscriptions({navigation,route}){
           })
        
     },[]);
+   
+ 
+     
     
 
     
@@ -114,7 +117,7 @@ export default function MySubscriptions({navigation,route}){
 
    
 
-    return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
+    return(<View style={{width: '100%',height: dimen.height,justifyContent: 'flex-start'}}>
     <View style={{height: dimen.height/13}}>
         <AppBar back={false} funct={() => {
             
@@ -123,12 +126,12 @@ export default function MySubscriptions({navigation,route}){
         </View>
 
         <View style={{flex: 1,backgroundColor: 'white'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>Your subscriptions</Text>
+        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>My subscriptions</Text>
 
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
             extraData={extraData}
-            data = {data}
+            data = {data.reverse()}
             keyExtractor= {(item,index)=>index.toString()}
             renderItem = {({item}) => {
                 let cardDetails = {
@@ -186,29 +189,39 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
          days[4].f ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
          days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
          days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+         const getDate = (date) => {
+            console.log("dayte"+date)
+        let dayte = date.substring(0,11)
+         let arr = dayte.split("-");
+         console.log(arr)
+         let months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+     
+             return (arr[2].trim() + "-" + months[arr[1].replace(/^0+/, "")] + "-" + arr[0])
+     
+         }
        
   
-    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,alignSelf: 'center',marginVertical: dimen.height/50}}>
+    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/50,elevation:0,}}>
        
     
 
     <View style={{flexDirection: 'row'}}>
-        <Text style={styles.greyText1}>Period : {startDate+" - "+endDate}</Text>
+        <Text style={styles.greyText1}>{getDate(startDate)+" to "+getDate(endDate)}</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
         <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
-    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center',marginHorizontal:'3%'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
 
         <View style={{flex: 1,backgroundColor: 'transparent'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',width: '100%',backgroundColor: 'transparent'}}>{name}</Text>
+        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',fontSize: 14}}>{name}</Text>
         
         
         
             
         
             <View style={{flexDirection: 'row',marginVertical: '2%'}}>
-                <Text style={{...styles.quantity,marginStart: 30}}>{bought+ " unit/s  · "}</Text>
+                <Text style={{...styles.quantity}}>{bought+ " unit/s  · "}</Text>
                 <Text style={dayString[0]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>  M </Text>
                 <Text style={dayString[1]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>T </Text>
                 <Text style={dayString[2]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>W </Text>
@@ -219,7 +232,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
             </View>
 
             <View style={{flexDirection:'row',paddingBottom: '5%'}}>
-             <Text style={{...styles.rate,marginStart: alignment/3.5}}>Order Total : ₹{rate}</Text>
+             <Text style={{...styles.rate}}>Order Total : ₹{rate}</Text>
 
             <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop: tag == 'Paper' ? 0 : '3%'}}>{num+" deliveries"}</Text>
             </View>
@@ -307,12 +320,12 @@ const styles = StyleSheet.create({
         
     },
     quantity: {
-        marginStart: '35%',
+     //   marginStart: '35%',
         marginTop: '3%',
         fontWeight: 'bold',
         
         
-        fontSize: 15,
+        fontSize: 14,
        
         padding: 1
        
@@ -321,7 +334,7 @@ const styles = StyleSheet.create({
         
         
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 12,
         marginTop: '3%',
        
         color:'black'
@@ -356,7 +369,8 @@ const styles = StyleSheet.create({
         height: 60,
         position: 'absolute',
         padding: 10,
-        zIndex: 10000
+        zIndex: 10000,
+      //  marginVertical: '10%'
 
         
        
@@ -382,7 +396,7 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         marginTop: '3.5%',
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 13,
         
         
     }

@@ -10,6 +10,7 @@ import auth from '@react-native-firebase/auth';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import {Config} from  '../Constants';
+import AppBar from '../components/AppBar';
 
 
 
@@ -20,7 +21,8 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
     const [cities,setCities] = useState([])
     const [value,setValue] = useState([])
     const [done,setDone]=useState(false);
-    const {edit,user_id} = route.params;
+    const {edit,user_id,tag} = route.params;
+    
 
     
 
@@ -116,8 +118,12 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
 
  
    
-    return(<View style={{...StyleSheet.absoluteFill,padding: 10,margin: 5,backgroundColor: 'white'}}>
-        <Text style = {style.text}>Select your city</Text>
+    return(<View>
+    <AppBar back funct={() => {
+        navigation.pop();
+        }} />
+        <View style={Styles.parentContainer}>
+        <Text style = {style.text}>{tag == 'home' ? 'Cities where our services are available' : 'Select your City'}</Text>
         <View style ={Styles.grayfullline}/>
        
        
@@ -138,7 +144,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
         </RadioButton.Group>
         
         
-      <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '0%',borderRadius: 10,flex: 0}}
+      <TouchableOpacity style={{alignSelf: 'center',backgroundColor: Colors.primary,position: 'absolute',bottom: '5%',borderRadius: 10,flex: 0}}
           onPress={()=>{ registerUser()
 
           }}>
@@ -147,7 +153,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
       
      
      
-     
+     </View>
      
     </View>)
 
@@ -167,8 +173,8 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         color: 'black',
         
-        marginTop: 10,
-        margin: 5
+      
+        margin: 15
     },
     line: {
         borderWidth: 0.5,

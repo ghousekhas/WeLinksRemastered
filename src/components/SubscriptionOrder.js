@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
+import {View, StyleSheet, Text, Dimensions,Image,Alert} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
 import {Colors,dimen} from '../Constants'
+import {useNavigation} from '@react-navigation/native';
 
 const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_}) => {
+    const navigation = useNavigation();
+    const getDate = (date) => {
+       let arr = date.split(' ');
+       console.log(arr[0] + "-" + arr[1].slice(0,3) +"-" + arr[2]);
+       return arr[0] + "-" + arr[1].slice(0,3) +"-" + arr[2];
+    }
     console.log('Tag :' + tag);
 
     const [alignment,setAlign] = useState(0);
@@ -19,6 +26,8 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bo
          days[4].f ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
          days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
          days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
+
+       //  getDate(startDate)
        
   
     return(<View style={{flexDirection: 'row',height: dimen.height/3.5 }}>
@@ -28,7 +37,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bo
     
     <View style={{flexDirection: 'row'}}>
     
-    <Text style={style.greyText1}>Period : {startDate+" - "+endDate}</Text>
+    <Text style={style.greyText1}>{getDate(startDate)+" to "+getDate(endDate)}</Text>
    
     </View>
     
@@ -37,8 +46,26 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bo
     <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.height)
     }} style={{...style.image,height: alignment*0.7,width: alignment*0.7,zIndex: 100,alignSelf:'flex-start'}} width={60}  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
- <Text style={{...style.name,marginStart: alignment+alignment/4}}>{name}</Text>
- <Feather name="trash-2" size={22} color='gray' style={style.icon}/>
+ <Text style={{...style.name,marginStart: alignment+alignment/4-9}}>{name}</Text>
+ <Feather onPress={() => {
+  Alert.alert(
+      "Are you sure you want to remove this item?",
+      "",
+      [
+    
+        {
+          text: "Confirm",
+          onPress: () => {if(tag == "Milk")
+          navigation.navigate('VendorScreen')
+          else navigation.navigate('VendorScreen1')
+          },
+         
+        },
+        { text: "Cancel", onPress: () => console.log("OK Pressed"), style: "cancel" }
+      ],
+      { cancelable: false }
+    );
+ }} name="trash-2" size={22} color={Colors.seperatorGray} style={style.icon}/>
  </View>
  
         <View>
@@ -48,7 +75,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bo
         
        
         <View style={{flexDirection: 'row',margin: '2%'}}>
-        <Text style={{...style.quantity,marginStart: alignment+alignment/4}}>{bought+ " unit/s  · "}</Text>
+        <Text style={{...style.quantity,marginStart: alignment+alignment/4-9,fontSize: 13}}>{bought+ " unit/s  · "}</Text>
         <Text style={dayString[0]=='Y'? style.yes : {...style.yes,color: 'gray'}}>  M </Text>
         <Text style={dayString[1]=='Y'? style.yes : {...style.yes,color: 'gray'}}>T </Text>
         <Text style={dayString[2]=='Y'? style.yes : {...style.yes,color: 'gray'}}>W </Text>
@@ -87,11 +114,11 @@ const style = StyleSheet.create({
         width: Dimensions.get('window').width-30,
         
         elevation: 1,
-        padding: '1%',
+        padding: '0.5%',
        
         borderRadius: 15,
         borderColor: Colors.seperatorGray,
-        borderWidth: 0.5,
+        borderWidth: 0.3,
       
        
       
@@ -112,9 +139,9 @@ const style = StyleSheet.create({
     }
     ,
     name: {
-        marginStart: '34%',
+     //   marginStart: '34%',
         fontWeight: '400',
-        fontSize: 18,
+        fontSize: 16,
         padding: 5,
         marginTop: '2%',
         fontWeight: 'bold',
@@ -122,12 +149,12 @@ const style = StyleSheet.create({
         
     },
     quantity: {
-        marginStart: '35%',
+      //  marginStart: '35%',
         marginTop: '3%',
         fontWeight: 'bold',
         
         
-        fontSize: 15,
+        fontSize: 13,
        
         padding: 1
        
@@ -136,7 +163,7 @@ const style = StyleSheet.create({
         
         
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 13,
         marginTop: '3%',
        
         color:'black'
@@ -148,7 +175,7 @@ const style = StyleSheet.create({
         color: 'gray',
         fontSize: 15,
         fontWeight: 'bold',
-      marginStart: '10%',
+     // marginStart: '10%',
       paddingVertical: '3%',
       
         marginVertical: '4%'
@@ -197,7 +224,7 @@ const style = StyleSheet.create({
         color: Colors.primary,
         marginTop: '3.5%',
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 13,
         
         
     }

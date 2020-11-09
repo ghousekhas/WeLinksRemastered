@@ -177,6 +177,8 @@ const [usableEndDate,setUsableEndDate]=useState(null);
 
       })
   };
+
+  console.log("TAG"+tag)
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {

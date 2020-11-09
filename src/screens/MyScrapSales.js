@@ -28,8 +28,10 @@ export default function MyScrapSales({navigation,route}){
 
     const words = {
 
-        title : 'Your scrap sales'
+        title : 'My Scrap Sales'
     }
+
+   
 
     useFocusEffect(
         React.useCallback(() => {
@@ -142,7 +144,7 @@ export default function MyScrapSales({navigation,route}){
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
             extraData={extraData}
-            data = {data}
+            data = {data.reverse()}
             keyExtractor= {(item,index)=>index.toString()}
             renderItem = {({item}) => {
                 let cardDetails = {
@@ -187,12 +189,22 @@ export default function MyScrapSales({navigation,route}){
 
 const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart}) => {
     const renderCartItems = (cart) => {
-      //  console.log(cart)
+        console.log("order date"+ orderDate)
         let i,res = [];
         for(i in cart){
-                res.push(<Text style={{fontWeight: 'bold',fontSize:13}}>{`${cart[i].homescrap_name}${i==cart.length-1? "." : ", "}`}</Text>)
+                res.push(<Text style={{fontWeight: 'bold',fontSize:13}}>{`${cart[i].homescrap_name}${i==cart.length-1? "" : ", "}`}</Text>)
         }
         return(res)
+    }
+    const getDate = (date) => {
+       console.log("dayte"+date)
+   let dayte = date.substring(0,11)
+    let arr = dayte.split("-");
+    console.log(arr)
+    let months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        return (arr[2].trim() + "-" + months[arr[1].replace(/^0+/, "")] + "-" + arr[0])
+
     }
 
     
@@ -210,35 +222,39 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         //  days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
        
   
-    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,alignSelf: 'center',marginVertical: dimen.height/50,padding:'1%',paddingEnd: '3%'}}>
+    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/50,padding:'1%',paddingEnd: '3%'}}>
        
     
 
-    <View style={{flexDirection: 'row'}}>
-        <Text style={styles.greyText1}>Order Date : {orderDate.substring(0,10)}</Text>
+    <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
+        <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
+        <View style={{flexDirection:'row'}}>
+        <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
+
+        <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue,fontSize:12}}>{status}</Text>
+        </View>
+
     </View>
     <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
         <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
     }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
 
-        <View style={{flex: 1,backgroundColor: 'transparent'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',textAlign: 'center',width: '100%',backgroundColor: 'transparent',marginBottom: '5%'}}>{name}</Text>
+        <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
+        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
 <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
 {renderCartItems(cart)}
 </ScrollView>
 
         
         
-        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start'}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
+        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
      
-             <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start'}}>Order Total : ₹{orderAmount}</Text>
+             <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
 
             {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
            
             <View style={{flexDirection:'row',justifyContent: 'flex-end'}}>
-        <Text style={{...styles.quantity,marginStart: 30}}>{`Status :`}</Text>
-        <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue}}>{status}</Text>
         
         </View>
 
