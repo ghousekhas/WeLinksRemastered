@@ -146,8 +146,7 @@ export const Styles=StyleSheet.create({
           
     },
     accordion:{
-        width: '100%',
-        height: Dimensions.get('window').height*0.6-20,
+        width: '100%'
        // borderWidth: 5,
           
     },
@@ -163,7 +162,6 @@ export const Styles=StyleSheet.create({
         alignItems: 'center'
     },
     collapsibleView:{
-        height: Dimensions.get('window').height*0.45,
         width: '100%'
     }
     ,

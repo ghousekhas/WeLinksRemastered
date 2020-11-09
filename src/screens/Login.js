@@ -1,9 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions, Alert} from 'react-native';
-import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { NavigationContainer,useNavigation, StackActions,CommonActions } from '@react-navigation/native';
-import { createStackNavigator, Header } from '@react-navigation/stack';
 import SubmitButton from '../components/SubmitButton';
 import auth from '@react-native-firebase/auth';
 import OTPInputView from '@twotalltotems/react-native-otp-input';

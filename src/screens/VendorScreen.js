@@ -235,10 +235,11 @@ const ScrapFlatList = ({route,navigation,data}) => {
       const vendorId=route.params.vendorId;
 
    // const order = navigation.getParams('order');
-    return(<View style={style.container}>
+    return(<View style={{...style.container}}>
     <FlatList
         data = {data}
         keyExtractor = {(item) => item.name}
+        style={{maxHeight: dimen.height*0.5}}
         renderItem = {({item}) => { 
             console.log(item.product_img_url);
             

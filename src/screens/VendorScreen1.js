@@ -236,6 +236,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
     <FlatList
         data = {data}
         keyExtractor = {(item) => item.name}
+        style={{maxHeight: dimen.height*0.5}}
         renderItem = {({item}) => { 
             console.log(item.product_image_url);
             const imageUrl= item.product_image_url;

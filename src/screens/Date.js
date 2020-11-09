@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
-import { Defs } from 'react-native-svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, Header } from '@react-navigation/stack';

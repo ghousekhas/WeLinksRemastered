@@ -3,10 +3,6 @@ import React, { useState,useEffect, useRef } from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import * as firebase from "firebase";
-
-import { Defs } from 'react-native-svg';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
 import SimpleToast from 'react-native-simple-toast';
 import Toast from 'react-native-simple-toast';
 import SubmitButton from '../components/SubmitButton';

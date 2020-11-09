@@ -447,7 +447,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState( auth().currentUser);
+  const [user, setUser] = useState({phoneNumber: '+917777777777'}) //auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -597,7 +597,7 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    checkNetworkState()
+    /*checkNetworkState()
     getUserDetails(0,user);
 
     console.group('firebaseuser', auth().currentUser);
@@ -611,11 +611,13 @@ export default function App() {
     if (userDetails === null)
       getUserDetails(0, user);
     const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    getVendorDetails();
+    getVendorDetails();*/
 
+    
 
-    // if (userDetails === null)
-    //   getUserDetails(0, user);
+    //To debug with custom phone number comment above and uncomment below
+     if (userDetails === null)
+       getUserDetails(0, user);
 
 
 
