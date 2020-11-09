@@ -371,7 +371,7 @@ export default class AddressList extends React.Component{
 
             !this.state.locationLoading ?
               <Ionicons name="ios-add" size={24} color="black" /> :
-              <ActivityIndicator size={18} style={{padding: 3,margin: 6,height: 0}} />
+              <ActivityIndicator size={18} color={Colors.primary} style={{padding: 3,margin: 6,height: 0}} />
               }
                 <Text style={styles.currentLocationText}>Add current location</Text>
               </View>
@@ -426,7 +426,7 @@ export default class AddressList extends React.Component{
 
                 !this.state.locationLoading ?
                   <Ionicons name="ios-add" size={24} color="black" /> :
-                  <ActivityIndicator size={18} style={{padding: 3,margin: 6,height: 0}} />
+                  <ActivityIndicator color={Colors.primary} size={18} style={{padding: 3,margin: 6,height: 0}} />
     }
                   <Text style={styles.currentLocationText}>Add current location</Text>
                 </View>

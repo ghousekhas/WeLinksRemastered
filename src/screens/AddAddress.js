@@ -27,9 +27,9 @@ export default class AddAddress extends React.Component {
   constructor(props) {
     super(props);
     this.constants = {
-      additionalInfoChars : 30,
-      landmarkChars : 20,
-      labelChars : 10
+      additionalInfoChars : 300,
+      landmarkChars : 200,
+      labelChars : 100
     },
     this.state = {
       circlemark: new Animated.Value(0),
