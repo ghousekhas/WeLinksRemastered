@@ -18,6 +18,7 @@ const ScrapVendors = ({navigation,route}) => {
     const {actualUser}=route.params;
     const [vendorExtraData,updateVendor]=useState(1);
     const {tag} = route.params;
+    const [imageHeight,setImageHeight] = useState(0);
     const [nameY,setNameY] = useState(0);
 
     console.log(address);
@@ -79,11 +80,13 @@ const ScrapVendors = ({navigation,route}) => {
     <AppBar back  funct={() => {
       navigation.pop();
         }} />
-            <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
+            <View onLayout={({nativeEvent}) => {
+                setImageHeight(0.75 * nativeEvent.layout.height)
+            }} style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
 
-    <Image  style ={style.avatar} source={require('./../../assets/avatar.png')}/>
+<Image style={{ ...style.avatar, height: imageHeight, aspectRatio: 1 / 1.8, flex: 1 }} source={actualUser.img_url.trim() != '' ? { uri: actualUser.img_url } : require('../../assets/notmaleavatar.png')} />
   
-    <View style={style.header}>
+    <View style={{...style.header,flex:5}}>
         <Text style ={{...style.username}}>{actualUser.name}</Text>
         <View style ={{...style.address}}>
         <View style = {{flexDirection: 'row',alignItems: 'center'}}>
@@ -103,7 +106,7 @@ const ScrapVendors = ({navigation,route}) => {
   
 
     <View style={style.heading}>
-<Text style={Styles.heading}>{words.milk}</Text>
+            <Text style={{ ...Styles.title, fontSize: 17 }}>{words.milk}</Text>
 </View>
 
     <FlatList 
@@ -159,48 +162,50 @@ const style = StyleSheet.create({
     header: {
         margin: '5%',
         padding: '3%',
-        marginStart: '20%'
+     //   marginStart: '20%',
+   //  width: 0.8* dimen.width,
+   flex:1
+     
         
+
     },
-    username: {
-        fontWeight: 'bold',
-        marginStart: 50,
-        fontSize: 18,
-        color: 'black'
-    },
+
     address: {
         marginTop: '3%',
         borderRadius: 5,
         backgroundColor: Colors.whiteBackground,
-       borderColor: Colors.seperatorGray,
-       borderWidth: 0.5,
-        marginStart:48,
+        borderColor: Colors.seperatorGray,
+        borderWidth: 0.5,
+      
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontSize: 13,
         elevation: 1
+
+
     },
-    line:{
+    line: {
         borderWidth: 0.5,
         borderColor: 'gray',
         marginVertical: '2%',
-          
-        
+
+
     },
     heading: {
-        fontSize: 20,
-        padding: 10,
-        fontWeight: 'bold',
-        marginVertical: '5%'
+        marginBottom: '5%'
     },
     avatar: {
-        width: 50,
-        height: 50,
-        margin: '5%',
-        padding: '3%',
-        position: 'absolute'
-        
        
+        margin: '3%',
+        padding: '3%',
+        alignSelf: 'center'
+       
+
+
+    }, username: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: 'black'
     }
 
 })

@@ -119,6 +119,7 @@ export const Styles=StyleSheet.create({
     vendorInfo:{
         flex: 3,
         height: '100%',
+        backgroundColor: 'pink'
          
            
     },
