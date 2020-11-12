@@ -46,7 +46,7 @@ export default class VendorScreen1 extends React.Component{
         }
         ).then((result) => {
            var res = result.data.products;
-           console.log('result',res);
+           console.log('RESULT',res);
            console.log('res',res.categories);
            this.setState({sections: res.categories});
            this.setState({brandImagesData: res.brands});
@@ -100,7 +100,7 @@ export default class VendorScreen1 extends React.Component{
         console.log('vs',actualUser);
 
         var expanderButton= (<Entypo name='triangle-down' size={24} color={'black'}/>)
-        console.log('meh',section);
+        console.log('MEH',section);
 
         if(!isActive)
             expanderButton= (<Entypo name='chevron-down' size={24} color={'black'}/>)

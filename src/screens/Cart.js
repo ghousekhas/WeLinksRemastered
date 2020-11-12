@@ -5,7 +5,7 @@ import {View, StyleSheet, Text, Dimensions,BackHandler,Alert} from 'react-native
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import moment from 'moment';
+import moment, { weekdays } from 'moment';
 import { Styles, Colors,dimen} from '../Constants'
 import AppBar from '../components/AppBar'
 import Axios from 'axios';
@@ -34,10 +34,10 @@ const Cart = ({route,navigation,Tag}) => {
     const {pnumber} = route.params;
     const {porder,actualUser} = route.params;
     const {tag} = route.params;
-    console.log("days " +porder.days);
+   // console.log("days " +porder.days);
     
 
-    var ans,numberOfDeliveries;
+    var numberOfDeliveries,numberOfPaperWeekdays,numberOfPaperWeekends;
     var dayString = "";
     var day=porder.days;
 
@@ -51,66 +51,136 @@ const Cart = ({route,navigation,Tag}) => {
      porder.days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
      porder.days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
 
-    const calculateDeliveries = (startDate,endDate) => {
-       // console.log('cd:'+ startDate)
 
-        var  start = startDate.charAt(0)+startDate.charAt(1) + " " + startDate.charAt(3) + startDate.charAt(4)
-          + startDate.charAt(5) +" " + startDate.charAt(startDate.length-4)  + startDate.charAt(startDate.length-3)
-          + startDate.charAt(startDate.length-2)  + startDate.charAt(startDate.length-1) + " 00:00:00 GMT";
-          var end = endDate.charAt(0)+endDate.charAt(1) + " " + endDate.charAt(3) + endDate.charAt(4)
-          + endDate.charAt(5) +" " + endDate.charAt(endDate.length-4)  + endDate.charAt(endDate.length-3)
-          + endDate.charAt(endDate.length-2)  + endDate.charAt(endDate.length-1) + " 00:00:00 GMT";
-  
-    
-      
-        
-    
-        dayString = dayString + dayString[0];
-        const dayString1 = dayString[6] + dayString.substring(0,6)
-
-        console.log(dayString1)
-      
-        const daysOfTheWeek = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-
+     
+    const calculatePaperDeliveries = (startDate,endDate) => {
+        // console.log('cd:'+ startDate)
+ 
+         var  start = startDate.charAt(0)+startDate.charAt(1) + " " + startDate.charAt(3) + startDate.charAt(4)
+           + startDate.charAt(5) +" " + startDate.charAt(startDate.length-4)  + startDate.charAt(startDate.length-3)
+           + startDate.charAt(startDate.length-2)  + startDate.charAt(startDate.length-1) + " 00:00:00 GMT";
+           var end = endDate.charAt(0)+endDate.charAt(1) + " " + endDate.charAt(3) + endDate.charAt(4)
+           + endDate.charAt(5) +" " + endDate.charAt(endDate.length-4)  + endDate.charAt(endDate.length-3)
+           + endDate.charAt(endDate.length-2)  + endDate.charAt(endDate.length-1) + " 00:00:00 GMT";
+   
+     
        
-           for(i in dayString1)
-           if(dayString1[i] == 'Y')
-           selectedDays.push(daysOfTheWeek[i]);
-
-           console.log(selectedDays)
-
-
-            
-        
-     
-        var count = 0;
-        for(i=0;i<7;i++){
-          var dateObj1 = new Date(Date.parse(start));
-          var dateObj2 = new Date(Date.parse(end));
-     
-      if(dayString1[i] == 'Y'){
-    
-          var dayIndex = i;
-      
-          while ( dateObj1.getTime() <= dateObj2.getTime() )
-          {
-          
-             if (dateObj1.getDay() == dayIndex )
-             {
-                count++
-             }
-      
-             dateObj1.setDate(dateObj1.getDate() + 1);
-          }
-      
          
-      }
-        }
+     
+         dayString = dayString + dayString[0];
+         const dayString1 = dayString[6] + dayString.substring(0,6)
+ 
+        // console.log(dayString1)
+       
+         const daysOfTheWeek = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+ 
+        
+            for(i in dayString1)
+            if(dayString1[i] == 'Y')
+            selectedDays.push(daysOfTheWeek[i]);
+ 
+        //    console.log(selectedDays)
+ 
+ 
+             
+         
+      
+         let weekdaysCount = 0;
+         let weekendsCount = 0;
+         for(i=0;i<7;i++){
+           var dateObj1 = new Date(Date.parse(start));
+           var dateObj2 = new Date(Date.parse(end));
+      
+       if(dayString1[i] == 'Y'){
+     
+           var dayIndex = i;
+       
+           while ( dateObj1.getTime() <= dateObj2.getTime() )
+           {
+           
+              if (dateObj1.getDay() == dayIndex && dayIndex != 0 && dayIndex != 6)
+              {
+                 weekdaysCount++
+              }
+              else if (dateObj1.getDay() == dayIndex && (dayIndex == 0 || dayIndex == 6 ))
+              {
+                 weekendsCount++;
+              }
+       
+              dateObj1.setDate(dateObj1.getDate() + 1);
+           }
+       
+          
+       }
+         }
+       
+         numberOfPaperWeekdays = weekdaysCount;
+         numberOfPaperWeekends = weekendsCount;
+       console.log("Weekends " + weekendsCount+ " Weekdays "+weekdaysCount)
+       return weekdaysCount + weekendsCount;
+   
+       };
 
-      numberOfDeliveries = count;
-       return count;
-  
-      };
+       const calculateDeliveries = (startDate,endDate) => {
+        // console.log('cd:'+ startDate)
+ 
+         var  start = startDate.charAt(0)+startDate.charAt(1) + " " + startDate.charAt(3) + startDate.charAt(4)
+           + startDate.charAt(5) +" " + startDate.charAt(startDate.length-4)  + startDate.charAt(startDate.length-3)
+           + startDate.charAt(startDate.length-2)  + startDate.charAt(startDate.length-1) + " 00:00:00 GMT";
+           var end = endDate.charAt(0)+endDate.charAt(1) + " " + endDate.charAt(3) + endDate.charAt(4)
+           + endDate.charAt(5) +" " + endDate.charAt(endDate.length-4)  + endDate.charAt(endDate.length-3)
+           + endDate.charAt(endDate.length-2)  + endDate.charAt(endDate.length-1) + " 00:00:00 GMT";
+   
+     
+       
+         
+     
+         dayString = dayString + dayString[0];
+         const dayString1 = dayString[6] + dayString.substring(0,6)
+ 
+         console.log(dayString1)
+       
+         const daysOfTheWeek = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+ 
+        
+            for(i in dayString1)
+            if(dayString1[i] == 'Y')
+            selectedDays.push(daysOfTheWeek[i]);
+ 
+            console.log(selectedDays)
+ 
+ 
+             
+         
+      
+         var count = 0;
+         for(i=0;i<7;i++){
+           var dateObj1 = new Date(Date.parse(start));
+           var dateObj2 = new Date(Date.parse(end));
+      
+       if(dayString1[i] == 'Y'){
+     
+           var dayIndex = i;
+       
+           while ( dateObj1.getTime() <= dateObj2.getTime() )
+           {
+           
+              if (dateObj1.getDay() == dayIndex )
+              {
+                 count++
+              }
+       
+              dateObj1.setDate(dateObj1.getDate() + 1);
+           }
+       
+          
+       }
+         }
+ 
+       numberOfDeliveries = count;
+        return count;
+   
+       };
 
    // This is the number of days from start to end date; unused
     const numberOfDays = (end,start) => {
@@ -154,8 +224,15 @@ const Cart = ({route,navigation,Tag}) => {
     }
     var cartTotal;
     const calculateCartAmount = () => {
-        cartTotal = (prate * numberOfDeliveries * porder.perDayQuan.number)
+        if(tag == 'Milk')
+       { cartTotal = (prate * numberOfDeliveries * porder.perDayQuan.number)
+  }
+        else if(tag == 'Paper') cartTotal = prate * numberOfPaperWeekdays * porder.perDayQuan.number 
+        + prate_ * numberOfPaperWeekends * porder.perDayQuan.number
+
         return cartTotal;
+        
+        
 
     };
     useFocusEffect(
@@ -202,7 +279,7 @@ const Cart = ({route,navigation,Tag}) => {
       <ScrollView style={{flex: 1,padding: 5}}>
       <View style={{flex: 1,alignSelf: 'center',justifyContent: 'center'}}>
       
-    <Text style={{...Styles.title,marginBottom : '10%'}}>{words.title}</Text>
+    <Text style={{...Styles.title,marginBottom : '2%'}}>{words.title}</Text>
 
     <View style={{alignItems: 'center',width: dimen.width}}>
         <SubscriptionOrder name={pname}
@@ -212,7 +289,7 @@ const Cart = ({route,navigation,Tag}) => {
           days={porder.days} 
           tag = {tag}
           rate_={prate_}
-          num = {calculateDeliveries(porder.s.start,porder.e.end)}
+          num = {tag == 'Milk' ? calculateDeliveries(porder.s.start,porder.e.end) : calculatePaperDeliveries(porder.s.start,porder.e.end)}
           imageUrl={route.params.imageUrl}
          />
          </View>
@@ -265,7 +342,7 @@ const Cart = ({route,navigation,Tag}) => {
                     subscription_days: selectedDays,
                     subscription_start_date: year.toString()+'-'+month.toString()+'-'+day.toString(),
                     subscription_end_date:  endDate.year.toString()+'-'+endDate.month.toString()+'-'+endDate.day.toString(),
-                    no_of_deliveries: numberOfDeliveries,
+                    no_of_deliveries: tag == 'Paper' ? numberOfPaperWeekdays+numberOfPaperWeekends : numberOfDeliveries,
                     delivery_fee: 50,
                     product_type: route.params.vendorType,
                     order_gst: 0,
@@ -359,9 +436,9 @@ const style = StyleSheet.create({
 
     },
     billText:{
-        fontSize: 18,
+        fontSize: 16,
         marginTop: '2%',
-        fontWeight: '900',
+        fontWeight: 'bold',
         margin: '2%'
     },
     billCost:{

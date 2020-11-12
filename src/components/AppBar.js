@@ -24,6 +24,8 @@ const AppBar = ({funct,back}) => {
               <EvilIcons name="navicon" size={26} color="white" style={styles.hamburger} />
         </TouchableOpacity>
           </Appbar.Header>
+          {/* <Appbar.Content color='white' title="My Bids" subtitle={'All bids placed by me'} /> */}
+
          </Appbar>
        
         </View>)

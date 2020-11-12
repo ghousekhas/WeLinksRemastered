@@ -163,6 +163,7 @@ export default class Homescreen extends React.Component{
     <ProfileSmallView actualUser={this.state.actualUser} drawer={this.state.drawer}/>
     <TouchableOpacity  style={{...styles.usernamecontainer1}} onPress={()=>{this.props.navigation.navigate('City',{
         edit: true,
+        tag : 'home',
         refreshUser: this.retrieveUserData,
         user_id: this.state.actualUser.user_id
     })}}>
@@ -222,18 +223,7 @@ export default class Homescreen extends React.Component{
                     </View>
 
                     <View style={styles.view1}>
-                    <TouchableOpacity style={styles.menuitem} 
-                    onPress={()=>{
-                        this.props.navigation.navigate('Bids',{
-                            department: 'corporateScrap'
-                        })
-                        // this.props.navigation.navigate('VendorsList',{
-                        //     department: 'scrap'
-                        // })
-                    }}>
-                        <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.scrap} />
-                        <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.scrap}</Text>
-                    </TouchableOpacity>
+                    
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
                         this.props.navigation.navigate('AddressList',{
@@ -249,6 +239,18 @@ export default class Homescreen extends React.Component{
                     }}>
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.scrap} />
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.corporate}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.menuitem} 
+                    onPress={()=>{
+                        this.props.navigation.navigate('Bids',{
+                            department: 'corporateScrap'
+                        })
+                        // this.props.navigation.navigate('VendorsList',{
+                        //     department: 'scrap'
+                        // })
+                    }}>
+                        <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.scrap} />
+                        <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.scrap}</Text>
                     </TouchableOpacity>
                     </View>
               

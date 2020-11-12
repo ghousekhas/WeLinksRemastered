@@ -5,7 +5,7 @@ import Button from './Button';
 
 import { dimen,Colors, Styles } from '../Constants';
 
-const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule,onquanchange}) => {
+const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule}) => {
     const [number,setNumber] = useState( parseInt(initquan));
     const [gap,setGap] = useState(0);
     const [added,setAdded] = useState(false)
@@ -77,6 +77,7 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
                 //    onRemove(index);
                 //}
                 //else
+                 //   showSnackbar();
                     onAdd(number);
                 //setAdded(!added);
                 

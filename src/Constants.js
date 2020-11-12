@@ -10,14 +10,14 @@ export const dimen={
 }
 
 export const Colors = {
-    primary: '#00C99D',
+    primary : '#00C4B6',                            // primary: '#00C99D',"#00C4B6"
     secondary: '#EDF9F9',
     seperatorGray: 'rgba(211,211,211,255)',
     lightIcon: '#D3D3D3',
     disabledButton: '#BBC0C4',
     white : '#FFFFFF',
     blue: '#6775DD', // Bids
-    red: '#EB5757', // Cancel
+    red: '#C40013', // Cancel
     whiteBackground: '#F9F9F9',
     buttonEnabledGreen: '#64E4cE',
     lightBlue : '#EDF9F9'

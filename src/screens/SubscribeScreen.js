@@ -158,7 +158,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
       navigation.navigate('Cart',{
         pname: pname,
         prate: prate,
-        pquan: pquan,         // Refers to 'Rs. 22 for 1 packet'
+        pquan: pquan,        
         prate_: prate_,
         porder: order,
         actualUser: actualUser,
@@ -169,7 +169,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
         vendorId: vendorId,
         tag: tag,
         vendorType: route.params.vendorType,
-        address: address
+        address: addressF
 
       
 
@@ -177,6 +177,8 @@ const [usableEndDate,setUsableEndDate]=useState(null);
 
       })
   };
+
+  console.log("TAG"+tag)
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
