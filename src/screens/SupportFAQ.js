@@ -41,7 +41,11 @@ const SupportFAQ = ({navigation,route}) => {
         React.useCallback(() => {
           const onBackPress = () => {
          console.log('Can\'t go back from here');
-         navigation.toggleDrawer();
+         route.params.draweNav.navigate('HomeStack',{
+            actualUser: {user_id: 1},
+            getUserDetails: route.getUserDetails,
+            setActualUser: null
+          });
        
         // navigation.goBack();
          //   navigation.reset();

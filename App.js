@@ -425,7 +425,8 @@ const userSupportStack = ({ navigation, route }) => {
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="SupportFAQ">
           <Stack.Screen name="SupportFAQ" component={SupportFAQ} options={{ headerShown: false }} initialParams={{
-            cachedData: cachedData
+            cachedData: cachedData,
+            draweNav: navigation
           }} />
           <Stack.Screen name="FAQ" component={FAQ} options={{ headerShown: false }} />
           <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{ headerShown: false }} />
@@ -446,7 +447,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState({phoneNumber: '+917777777777'}) //auth().currentUser);
+  const [user, setUser] = useState({phoneNumber: '+1547896542'}) //auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -457,11 +458,13 @@ export default function App() {
     const checkVendorStatus = (user_id) => {
       Axios.get("http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id="+ user_id,)
       .then((response)=>{
+        try{
           console.log("Vendor Status "+response.data.vendor[0].vendor_status)
           setStatus(response.data.vendor[0].vendor_status)
+    
           
         //  setVerification(Constants.veFirstTime) // uncomment this
-      try{
+     
        //   var status= response.data.vendor[0].vendor_status;
           if(status=== 'active')
           goTodashboard(true);
@@ -472,7 +475,7 @@ export default function App() {
           //setVerification(Constants.veFirstTime);
       }
       catch(error){
-        console.log('What the hell')
+        console.log('Error Encountered')
         //  setVerification(Constants.veFirstTime);
       }
     });
