@@ -13,6 +13,7 @@ import Date from './Date';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
+import MyComponent from './test';
 
 
 
@@ -205,8 +206,10 @@ export default function BidCreation1({ navigation }) {
         )
     };
     var fall = new Animated.Value(1);
+  //  return(<MyComponent />)
 
-    return (<View>
+    return (
+    <View>
         <BottomSheet
             enabledContentTapInteraction={true}
             ref={bs}
