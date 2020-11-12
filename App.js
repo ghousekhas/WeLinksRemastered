@@ -56,6 +56,7 @@ import AddressesServedList from './src/screens/AddressesServedList';
 import {Config} from  './src/Constants';
 import VendorViewBids from './src/screens/VendorViewBids';
 import VendorBidDetails from './src/screens/VendorBidDetails';
+import ChooseAddress from './src/screens/ChooseAddress';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -447,7 +448,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState({phoneNumber: '+1547896542'}) //auth().currentUser);
+  const [user, setUser] = useState({phoneNumber: '+917777777777'}) //auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -599,27 +600,27 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    checkNetworkState()
-    getUserDetails(0,user);
+    // checkNetworkState()
+    // getUserDetails(0,user);
 
-    console.group('firebaseuser', auth().currentUser);
-    setSplash(false);
-    setInterval(() => {
-      setSplash(false);
-    }, 2500);
-    //setUser(auth().currentUser);
-    checkIfFirstLogin();
-    console.log("USER" + JSON.stringify(user));
-    if (userDetails === null)
-      getUserDetails(0, user);
-    const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    getVendorDetails();
+    // console.group('firebaseuser', auth().currentUser);
+    // setSplash(false);
+    // setInterval(() => {
+    //   setSplash(false);
+    // }, 2500);
+    // //setUser(auth().currentUser);
+    // checkIfFirstLogin();
+    // console.log("USER" + JSON.stringify(user));
+    // if (userDetails === null)
+    //   getUserDetails(0, user);
+    // const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    // getVendorDetails();
 
     
 
     //To debug with custom phone number comment above and uncomment below
-    // if (userDetails === null)
-     //  getUserDetails(0, user);
+    if (userDetails === null)
+      getUserDetails(0, user);
 
 
 
@@ -736,6 +737,7 @@ const PostLoginHome = ({ route, navigation }) => {
             <Stack.Screen name='ScrapVendor' component={ScrapVendor} options={{ headerShown: false }} />
             <Stack.Screen name="Bids" component={Bids} options={{ headerShown: false }} />
             <Stack.Screen name="BidCreation1" component={BidCreation1} options={{ headerShown: false }} />
+            <Stack.Screen name = "ChooseAddress" component={ChooseAddress} options={{headerShown: false}}/>
             <Stack.Screen name="BidCreation2" component={BidCreation2} options={{ headerShown: false }} />
             <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{ headerShown: false }} />
             <Stack.Screen name="CancellationScreen" component={CancellationScreen} options={{ headerShown: false }} />

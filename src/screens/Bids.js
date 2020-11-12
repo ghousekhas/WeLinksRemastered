@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions} from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import {Ionicons} from '@expo/vector-icons';
 import AppBar from '../components/AppBar';
@@ -11,108 +11,108 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Axios from 'axios';
+
+var dataOpen = [
+    {
+        "bid_id": "1",
+        "bid_title": "Bid Title",
+        "bid_startdate": "2020-11-10",
+        "bid_enddate": "2020-11-10",
+        "bid_status": "Pickup Completed",
+        "user_id": "101",
+        "bid_addr_id": "302",
+        "bid_pickupdate": null,
+        "bid_timeslot": null,
+        "bid_category_id": "1",
+        "bid_quantity_id": "1",
+        "vehicle_need": "1",
+        "manpower_need": "1",
+        "insurance_need": "0",
+        "bid_notes": "some notes here optional",
+        "bid_cancelled_notes": null,
+        "bid_pickup_notes": null,
+        "addr_id": "302",
+        "addr_user_id": "101",
+        "addr_vendor_id": null,
+        "addr_name": "Home",
+        "addr_details": "2, Kammanahalli Main Rd, Indra Nagar, Kacharakanahalli, Bengaluru, Karnataka 560084, India",
+        "addr_pincode": "560084",
+        "addr_latitude": "13.0195",
+        "addr_longitude": "77.637",
+        "addr_landmark": "Nothing much",
+        "addr_status": "active",
+        "applied_vendors": [
+            {
+                "vendor_id": "1",
+                "user_id": "2",
+                "company_name": "Milk Shop",
+                "company_email_id": "company@welink.in",
+                "id_proof_document": "id_proof_1604229542.jpg",
+                "gst_cert_img": null,
+                "milk_service": "yes",
+                "newspaper_service": "yes",
+                "homescrap_service": "yes",
+                "officescrap_service": "yes",
+                "vendor_address_id": "1",
+                "vendor_avg_ratings": "0",
+                "milk_product_ids": "[\"1\"]",
+                "news_product_ids": "[\"2\"]",
+                "homescrap_product_ids": "[\"1\"]",
+                "milk_brand_ids": null,
+                "news_brand_ids": null,
+                "homescrap_cat_ids": null,
+                "officescrap_cat_ids": "[\"\"]",
+                "vendor_img_url": "vendor_img_1604229542.jpg",
+                "vendor_status": "active",
+                "vendor_gstin": "29DVGCH55151",
+                "bid_apply_id": "1",
+                "bid_id": "1",
+                "owner_id": "101",
+                "appln_amount": "1001",
+                "appln_timestamp": "2020-11-12 08:41:34",
+                "awarded_status": "1"
+            }
+        ]
+    },
+];
+
+var dataCloseOrCancel = [];
 
 
-export default function Bids({navigation}){
+export default function Bids({navigation,route}){
     const words = {
         openBids: 'Open Bids',
         closedBids: 'Closed Bids'
     }
     const [tab,setTab]=useState(1);
     const [cardWidth,setCardWidth] = useState(0);
-    const openBidArray = [{
-        bidTitle: 'Heavy Metals',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 40,
-        bidders : 14,
-        pickUpTimeSlot: "7-10",
-        manpower : true,
-        insurance : false,
-        vehicle: true
-    },{
-        bidTitle: 'Paper Scrap',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Paper'],
-        bidItemsWeight: 15,
-        bidders : 6,
-        pickUpTimeSlot: "7-10",
-        manpower : true,
-        insurance : true,
-        vehicle: false   
-    },{
-        bidTitle: 'Broken Electronics',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Electronics'],
-        bidItemsWeight: 5,
-        bidders : 10,
-        pickUpTimeSlot: "7-10",
-        manpower : true,
-        insurance : false,
-        vehicle: false
-    },{
-        bidTitle: 'Tyre Scrap',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 25,
-        bidders : 3,
-        pickUpTimeSlot: "7-10",
-        manpower : true,
-        insurance : true,
-        vehicle: true
-    },
-    {
-        bidTitle: 'Plastics',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Plastics'],
-        bidItemsWeight: 30,
-        bidders : 8,
-        pickUpTimeSlot: "7-10",
-        manpower : true,
-        insurance : true,
-        vehicle: true
-    },{
-        bidTitle: 'Old Books',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Paper'],
-        bidItemsWeight: 10,
-        bidders : 10,
-        pickUpTimeSlot: "7-10",
-        manpower : true,
-        insurance : true,
-        vehicle: true
-    }];
-    const closedBidArray = [{
-        bidTitle: 'Old Books',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
-        status: 'Cancelled',
-       
-    },{
-        bidTitle: 'Wood Scrap',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
-        status: 'Closed',
-        awardedTo: 'New Scrap Collectors'
-        
-    },{
-        bidTitle: 'Metal Waste',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Metals'],
-        bidItemsWeight: 15,
-        status: 'Closed',
-        awardedTo: 'New Scrap Collectors'
-    },{
-        bidTitle: 'Glass Scrap',
-        bidDuration: '18th January 2000 - 17th January 2001',
-        bidItems : ['Glass'],
-        bidItemsWeight: 20,
-        status: 'Cancelled'
+    const [remount,setRemount] = useState(5);
+     const [actualUser,setActualUser] = useState(route.params.actualUser);
 
-    },
-   ];
+ 
+
+   useEffect(()=>{
+    Axios.get(Config.api_url+'php?action=getBids&user_id='+101)
+        .then((response)=>{
+            var responseArray = response.data;
+            try{
+                responseArray.forEach((p)=>{
+                    if(p.bid_status === "Open")
+                        dataOpen.push(p);
+                    else
+                        dataCloseOrCancel.push(p);
+                    setRemount(Math.random(0.5));
+                })
+            }
+            catch(error){
+                console.log('erris to human',error);
+            }
+
+        },(error)=>{
+            console.log('error');
+        })
+   },[]);
 
     const renderTabs = () => {
 
@@ -190,7 +190,7 @@ return(<View style={styles.card}>
        
        
     </View>
-    <Text style={{...styles.cardTitle,color:'gray',marginVertical:'5%'}}>{openBidArray[0].bidDuration}</Text>
+    <Text style={{...styles.cardTitle,color:'gray',marginVertical:'5%'}}>{cardDetails.bidDuration}</Text>
 
     <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
                 <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
@@ -233,20 +233,27 @@ return(<View style={styles.card}>
         <FlatList 
             style={{marginBottom:'5%'}}
           
-            data = {tab == 1 ? openBidArray : closedBidArray}
+            data = {tab == 1 ? dataOpen : dataCloseOrCancel}
+            extraData= {remount}
             renderItem = {({item}) => {
+                var awardedVendor;
+                item.applied_vendors.forEach((i)=>{
+                    if(i.awarded_status == 1)
+                        awardedVendor = i;
+                });
+                //var item = dataOpen[0];
                 let cardDetails = {
-        bidTitle: item.bidTitle,
-        bidDuration: item.bidDuration,
-        bidItems: item.bidItems[0],
-        bidItemsWeight: item.bidItemsWeight,
-        bidders: item.bidders,
-        status: item.status,
-        awardedTo: item.awardedTo,
-        pickUpTimeSlot: item.pickUpTimeSlot,
-        manpower : item.manpower,
-        insurance : item.insurance,
-        vehicle : item.vehicle
+        bidTitle: item.bid_title,
+        bidDuration: item.bid_startdate+' to '+item.bid_enddate,
+        bidItems: item.bid_category_id,
+        bidItemsWeight: item.bid_quantity_id,
+        bidders: item.applied_vendors.length,
+        status: item.bid_status,
+        awardedTo: tab == 1 ?"not awarderd": awardedVendor.company_name,
+        pickUpTimeSlot: item.bid_timeslot,
+        manpower : item.manpower_need==="1"? "Yes": "No",
+        insurance : item.insurance_need === "1" ? "Yes": "No",
+        vehicle : item.vehicle_need === "1" ?"Yes":"No"
       
                 }
                 return(<TouchableOpacity onPress={() => {
@@ -263,7 +270,9 @@ return(<View style={styles.card}>
       <View style={{alignItems: 'center'}}>
       <SubmitButton 
       text='+ Make a new bid' 
-      onTouch = {() => {navigation.navigate('BidCreation1')
+      onTouch = {() => {navigation.navigate('BidCreation1',{
+          ...route.params
+      })
        
       }}
       />

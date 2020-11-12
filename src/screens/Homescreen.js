@@ -243,7 +243,8 @@ export default class Homescreen extends React.Component{
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
                         this.props.navigation.navigate('Bids',{
-                            department: 'corporateScrap'
+                            department: 'corporateScrap',
+                            actualUser: this.state.actualUser
                         })
                         // this.props.navigation.navigate('VendorsList',{
                         //     department: 'scrap'
