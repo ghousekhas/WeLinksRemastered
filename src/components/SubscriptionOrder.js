@@ -6,7 +6,7 @@ import moment from 'moment';
 import {Colors,dimen} from '../Constants'
 import {useNavigation} from '@react-navigation/native';
 
-const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_}) => {
+const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,quan,imageUrl,rate_}) => {
     const navigation = useNavigation();
     const getDate = (date) => {
        let arr = date.split(' ');
@@ -75,7 +75,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bo
         
        
         <View style={{flexDirection: 'row',margin: '2%'}}>
-        <Text style={{...style.quantity,marginStart: alignment+alignment/4-9,fontSize: 13}}>{bought+ " unit/s  · "}</Text>
+        <Text style={{...style.quantity,marginStart: alignment+alignment/4-9,fontSize: 13}}>{quantity.includes('unit') ? num + " units · " : quantity +" · "}</Text>
         <Text style={dayString[0]=='Y'? style.yes : {...style.yes,color: 'gray'}}>  M </Text>
         <Text style={dayString[1]=='Y'? style.yes : {...style.yes,color: 'gray'}}>T </Text>
         <Text style={dayString[2]=='Y'? style.yes : {...style.yes,color: 'gray'}}>W </Text>

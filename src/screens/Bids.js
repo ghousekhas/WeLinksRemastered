@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
         width: (dimen.width-dimen.width/10)/2,
         aspectRatio:(10/1.5)/2,
         borderRadius: 15,
-        backgroundColor:'#43E0B4' ,
+        backgroundColor:'#00dece' ,
         flexDirection: 'row',
       //  marginTop: '6%',
         alignSelf: 'center',

@@ -3,12 +3,15 @@ import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import {FontAwesome5} from '@expo/vector-icons';
 import {Colors,dimen,TextSpinnerBoxStyles} from '../Constants';
 
-const TextBox = ({title,hint,icon,changeText,defaultValue}) => {
+const TextBox = ({title,hint,icon,changeText,defaultValue,value,disable: enable}) => {
     return(<View style={style.mainContainer}>
        <Text style={style.text}>{title}</Text>
        <View style={style.answer}>
        <TextInput style={style.input} 
        defaultValue={defaultValue}
+       value = {value}
+       editable={enable != null && enable != undefined ? enable : true}
+       
        placeholder={hint} onChangeText={changeText}></TextInput>
        <View style={style.icon}>
        <FontAwesome5 name={icon} size={30} color='#5D5D5D' backgroundColor='white' />

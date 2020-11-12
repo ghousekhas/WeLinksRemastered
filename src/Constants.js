@@ -10,7 +10,7 @@ export const dimen={
 }
 
 export const Colors = {
-    primary : "#00C4B6",                            // primary: '#00C99D',
+    primary : '#00C4B6',                            // primary: '#00C99D',"#00C4B6"
     secondary: '#EDF9F9',
     seperatorGray: 'rgba(211,211,211,255)',
     lightIcon: '#D3D3D3',

@@ -65,7 +65,8 @@ export default function MySubscriptions({navigation,route}){
                 rate: item.order_amount,
                 num: item.no_of_deliveries,
                 daynotprop: item.subscription_days,
-                tag : item.product_type
+                tag : item.product_type,
+                quantity : item.quantity
 
 
             })
@@ -105,12 +106,12 @@ export default function MySubscriptions({navigation,route}){
     
     const renderCard = (item) => {
         //const {name,quantity,rate,num,days,startDate,endDate,bought,imageUrl}=cardDetails;
-        //console.log('myorder',item);
+        console.log('myorder',item);
         
        
         return(
         
-                <MySubscriptionOrder  {...item} tag={item.tag} days={[{m: item.daynotprop.includes('monday')},{t: item.daynotprop.includes('tuesday')},{w: item.daynotprop.includes('wednesday')},{th: item.daynotprop.includes('thursday')},{fr: item.daynotprop.includes('friday')},{s: item.daynotprop.includes('saturday')},{su: item.daynotprop.includes('sunday')}]} />
+                <MySubscriptionOrder  {...item} tag={item.tag} quantity={item.quantity} days={[{m: item.daynotprop.includes('monday')},{t: item.daynotprop.includes('tuesday')},{w: item.daynotprop.includes('wednesday')},{th: item.daynotprop.includes('thursday')},{fr: item.daynotprop.includes('friday')},{s: item.daynotprop.includes('saturday')},{su: item.daynotprop.includes('sunday')}]} />
             )   
     }
 
@@ -127,6 +128,7 @@ export default function MySubscriptions({navigation,route}){
 
         <View style={{flex: 1,backgroundColor: 'white'}}>
         <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>My subscriptions</Text>
+        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/300,fontSize:14,color:'gray'}}>{`Total subscriptions : ${data.length}`}</Text>
 
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
@@ -221,7 +223,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
             
         
             <View style={{flexDirection: 'row',marginVertical: '2%'}}>
-                <Text style={{...styles.quantity}}>{bought+ " unit/s  · "}</Text>
+                <Text style={{...styles.quantity}}>{quantity + " · "}</Text>
                 <Text style={dayString[0]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>  M </Text>
                 <Text style={dayString[1]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>T </Text>
                 <Text style={dayString[2]=='Y'? styles.yes : {...styles.yes,color: 'gray'}}>W </Text>
