@@ -293,7 +293,7 @@ export default function VendorViewBids({ navigation }) {
                     data={setData()}
                     extraData={setExtraData()}
                     renderItem={({ item, index }) => {
-                        console.log("item" + item)
+                   //     console.log("item" + item)
                         let cardDetails = {
                             companyName: item.bid_title,
                             bidDuration: item.bid_startdate + " to " + item.bid_enddate,
