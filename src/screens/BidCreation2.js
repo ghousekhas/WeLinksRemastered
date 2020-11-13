@@ -59,12 +59,12 @@ export default function BidCreation2({navigation,route}){
                        Axios.post(Config.api_url+'php?'+qs.stringify({
                         action: 'createCorporateBid',
                         bid_title: title,
-                        bid_startdate: '2020-1-1',
-                        bid_enddate: '2020-1-1',
+                        bid_startdate: start,
+                        bid_enddate: end,
                         //bid_status:
                         user_id: actualUser.user_id,
                         bid_addr_id: address.addr_id,
-                        bid_pickupdate: '2020-1-1',
+                        bid_pickupdate: pick,
                         bid_timeslot:  time,
                         bid_category_id: parseInt( cat),
                         bid_quantity_id:  parseInt(weight),
