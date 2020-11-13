@@ -93,9 +93,11 @@ export default function Bids({navigation,route}){
  
 
    useEffect(()=>{
-    Axios.get(Config.api_url+'php?action=getBids&user_id='+101)
+       console.log(actualUser);
+    Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
         .then((response)=>{
             var responseArray = response.data;
+            console.log(responseArray);
             try{
                 responseArray.forEach((p)=>{
                     if(p.bid_status === "Open")
@@ -221,8 +223,8 @@ return(<View style={styles.card}>
    
 
     return(<View>
- <AppBar  funct={() => {
-       navigation.toggleDrawer();
+ <AppBar back  funct={() => {
+       navigation.pop();
         }} />
 
         <View style={{...Styles.parentContainer,backgroundColor: Colors.whiteBackground}}>

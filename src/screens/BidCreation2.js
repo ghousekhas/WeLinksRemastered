@@ -62,7 +62,7 @@ export default function BidCreation2({navigation,route}){
                         bid_startdate: '2020-1-1',
                         bid_enddate: '2020-1-1',
                         //bid_status:
-                        user_id: 102,
+                        user_id: actualUser.user_id,
                         bid_addr_id: address.addr_id,
                         bid_pickupdate: '2020-1-1',
                         bid_timeslot:  time,
@@ -75,6 +75,10 @@ export default function BidCreation2({navigation,route}){
                         bid_cancelled_notes: "asa "
                        }),).then((value)=>{
                            console.log(value.data);
+                           alert('Bid created successfully');
+                           navigation.popToTop();
+
+                        
                        })
                    }} />
 

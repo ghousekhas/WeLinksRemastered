@@ -35,6 +35,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
 
 export default function BidCreation1({ navigation,route }) {
+    const {actualUser} = route.params;
     const [title,setTitle] = useState('');
     const [address,setAddress] = useState(null);
     const thisDay = moment()
@@ -257,7 +258,7 @@ export default function BidCreation1({ navigation,route }) {
                                 <TouchableOpacity onPress={()=>{
                                     navigation.navigate('ChooseAddress',{
                                         next: 'BidCreation1',
-                                        actualUser: {user_id: 102},
+                                        actualUser: actualUser.user_id,
                                         address: address,
                                         cat: cat,
                                         weight: weight,
@@ -339,15 +340,15 @@ export default function BidCreation1({ navigation,route }) {
                     <View style={{ marginTop: '5%' }}>
                         <SubmitButton text='Next' styles={{ marginTop: '5%' }} onTouch={() => navigation.navigate('BidCreation2',{
                               next: 'BidCreation1',
-                              actualUser: {user_id: 102},
+                              actualUser: actualUser,
                               address: address,
                               cat: cat,
                               weight: weight,
                               time: time,
                               title: title,
-                              pick: selected.charAt(8) + selected.charAt(9) + " " + month.substring(0,3) + " " + year,
-                              end: endDate.charAt(8) + endDate.charAt(9) + " " + emonth.substring(0,3) + " " + eyear,
-                              start: startDate.charAt(8) + startDate.charAt(9) + " " + smonth.substring(0,3) + " " + syear
+                              pick: selected.toString() ,
+                              end: endDate.toString(),
+                              start: startDate.toString()
                         })} />
                     </View>
 
