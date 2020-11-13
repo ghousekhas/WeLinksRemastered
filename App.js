@@ -57,6 +57,7 @@ import {Config} from  './src/Constants';
 import VendorViewBids from './src/screens/VendorViewBids';
 import VendorBidDetails from './src/screens/VendorBidDetails';
 import ChooseAddress from './src/screens/ChooseAddress';
+import AwardBid from './src/screens/AwardBid';
 
 
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -741,6 +742,7 @@ const PostLoginHome = ({ route, navigation }) => {
             <Stack.Screen name = "ChooseAddress" component={ChooseAddress} options={{headerShown: false}}/>
             <Stack.Screen name="BidCreation2" component={BidCreation2} options={{ headerShown: false }} />
             <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{ headerShown: false }} />
+            <Stack.Screen name="AwardBid" component={AwardBid} options={{ headerShown: false }} />
             <Stack.Screen name="CancellationScreen" component={CancellationScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ScrapCart" component={ScrapCart} options={{ headerShown: false }} />
             {/* <Stack.Screen name='ProfileStack' component={MyProfile} options={{headerShown: false}}/> */}

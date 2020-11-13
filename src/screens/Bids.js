@@ -13,6 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Axios from 'axios';
 
+let appliedVendorsList = [];
 var dataOpen = [
     
 ];
@@ -188,7 +189,7 @@ return(<View style={styles.card}>
                     if(i.awarded_status == 1)
                         awardedVendor = i;
                 });
-                //var item = dataOpen[0];
+                var item = dataOpen[0];
                 let cardDetails = {
         bidTitle: item.bid_title,
         bidDuration: item.bid_startdate+' to '+item.bid_enddate,
@@ -198,19 +199,26 @@ return(<View style={styles.card}>
         status: item.bid_status,
         awardedTo: tab == 1 ?"not awarderd": awardedVendor != null?  awardedVendor.company_name:"Not awarded yet",
         pickUpTimeSlot: item.bid_timeslot,
-        manpower : item.manpower_need==="1"? "Yes": "No",
-        insurance : item.insurance_need === "1" ? "Yes": "No",
-        vehicle : item.vehicle_need === "1" ?"Yes":"No"
+        manpower : item.manpower_need,
+        insurance : item.insurance_need,
+        vehicle : item.vehicle_need,
+        address : item.addr_details,
+        notes : item.bid_notes,
+        appliedVendors : item.applied_vendors
       
                 }
+                appliedVendorsList = item.applied_vendors
                 return(<TouchableOpacity onPress={() => {
+                    console.log("APPLIED "+ JSON.stringify(appliedVendorsList))
             navigation.navigate('TitleBidDetails', {
                 ...cardDetails,
+                appliedVendorsList,
                 tag : tab == 1 ? 'Open' : 'Closed',
                 item: {...item},
                 actualUser: actualUser
                 })
-        }}>
+        }}
+        >
                 {renderCard(cardDetails)}
                 </TouchableOpacity>)
                  
