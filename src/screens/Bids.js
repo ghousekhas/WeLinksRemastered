@@ -14,67 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Axios from 'axios';
 
 var dataOpen = [
-    {
-        "bid_id": "1",
-        "bid_title": "Dummy Bid",
-        "bid_startdate": "2020-11-10",
-        "bid_enddate": "2020-11-10",
-        "bid_status": "Pickup Completed",
-        "user_id": "101",
-        "bid_addr_id": "302",
-        "bid_pickupdate": null,
-        "bid_timeslot": null,
-        "bid_category_id": "1",
-        "bid_quantity_id": "1",
-        "vehicle_need": "1",
-        "manpower_need": "1",
-        "insurance_need": "0",
-        "bid_notes": "some notes here optional",
-        "bid_cancelled_notes": null,
-        "bid_pickup_notes": null,
-        "addr_id": "302",
-        "addr_user_id": "101",
-        "addr_vendor_id": null,
-        "addr_name": "Home",
-        "addr_details": "2, Kammanahalli Main Rd, Indra Nagar, Kacharakanahalli, Bengaluru, Karnataka 560084, India",
-        "addr_pincode": "560084",
-        "addr_latitude": "13.0195",
-        "addr_longitude": "77.637",
-        "addr_landmark": "Nothing much",
-        "addr_status": "active",
-        "applied_vendors": [
-            {
-                "vendor_id": "1",
-                "user_id": "2",
-                "company_name": "Milk Shop",
-                "company_email_id": "company@welink.in",
-                "id_proof_document": "id_proof_1604229542.jpg",
-                "gst_cert_img": null,
-                "milk_service": "yes",
-                "newspaper_service": "yes",
-                "homescrap_service": "yes",
-                "officescrap_service": "yes",
-                "vendor_address_id": "1",
-                "vendor_avg_ratings": "0",
-                "milk_product_ids": "[\"1\"]",
-                "news_product_ids": "[\"2\"]",
-                "homescrap_product_ids": "[\"1\"]",
-                "milk_brand_ids": null,
-                "news_brand_ids": null,
-                "homescrap_cat_ids": null,
-                "officescrap_cat_ids": "[\"\"]",
-                "vendor_img_url": "vendor_img_1604229542.jpg",
-                "vendor_status": "active",
-                "vendor_gstin": "29DVGCH55151",
-                "bid_apply_id": "1",
-                "bid_id": "1",
-                "owner_id": "101",
-                "appln_amount": "1001",
-                "appln_timestamp": "2020-11-12 08:41:34",
-                "awarded_status": "1"
-            }
-        ]
-    },
+    
 ];
 
 var dataCloseOrCancel = [];
@@ -94,27 +34,31 @@ export default function Bids({navigation,route}){
 
    useEffect(()=>{
        console.log(actualUser);
-    Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
-        .then((response)=>{
-            var responseArray = response.data;
-            console.log(responseArray);
-            try{
-                responseArray.forEach((p)=>{
-                    if(p.bid_status === "Open")
-                        dataOpen.push(p);
-                    else
-                        dataCloseOrCancel.push(p);
-                    setRemount(Math.random(0.5));
-                })
-            }
-            catch(error){
-                console.log('To err is human',error);
-            }
-
-        },(error)=>{
-            console.log('error');
-        })
+       populateData();
    },[]);
+
+   const populateData=()=>{
+    Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
+    .then((response)=>{
+        var responseArray = response.data;
+        console.log(responseArray);
+        try{
+            responseArray.forEach((p)=>{
+                if(p.bid_status === "Open")
+                    dataOpen.push(p);
+                else
+                    dataCloseOrCancel.push(p);
+                setRemount(Math.random(0.5));
+            })
+        }
+        catch(error){
+            console.log('To err is human',error);
+        }
+
+    },(error)=>{
+        console.log('error');
+    })
+   };
 
     const renderTabs = () => {
 

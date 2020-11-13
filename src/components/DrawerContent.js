@@ -30,8 +30,27 @@ const DrawerContent = (props) => {
 
   const switchToVendor = async ()=>{
     setVendor(!vendor);
+    props.navigation.toggleDrawer();
     
   }
+
+  const goToHomeStack =()=>{
+    props.navigation.navigate('HomeStack',{
+      actualUser: actualUser,
+      getUserDetails: props.getUserDetails,
+      setActualUser: setActualUser
+    })
+  };
+
+  
+
+  const goToVendorStack = ()=>{
+    props.navigation.navigate('VendorHomeStack',{
+      actualUser: actualUser,
+      getUserDetails: props.getUserDetails,
+      setActualUser: setActualUser
+    })
+  };
 
   if(vendor)
     //props.navigation.navigate('Home');
@@ -94,7 +113,8 @@ const DrawerContent = (props) => {
        actualUser: actualUser,
       
        getUserDetails: props.getUserDetails,
-       setActualUser: setActualUser
+       setActualUser: setActualUser,
+       goBackToHome: goToVendorStack
        
      })}}
      
@@ -134,7 +154,8 @@ const DrawerContent = (props) => {
     label="Support and FAQs"
     onPress={()=> {props.navigation.navigate('VendorSupportStack',{
       cachedData: cachedData,
-      actualUser: actualUser
+      actualUser: actualUser,
+      goBackToHome: goToVendorStack
     })}}
     
   />
@@ -243,7 +264,8 @@ const DrawerContent = (props) => {
      onPress={()=>{props.navigation.navigate('HomeStack',{
        actualUser: actualUser,
        getUserDetails: props.getUserDetails,
-       setActualUser: setActualUser
+       setActualUser: setActualUser,
+       
      })}}
      
    />
@@ -255,7 +277,8 @@ const DrawerContent = (props) => {
      onPress={()=>{props.navigation.navigate('ProfileStack',{
        user: actualUser,
        getUserDetails: props.getUserDetails,
-       setActualUser: setActualUser
+       setActualUser: setActualUser,
+       goBackToHome: goToHomeStack
      })}}
      
    />
@@ -268,7 +291,8 @@ const DrawerContent = (props) => {
        props.navigation.navigate('MyAddresses',{
          actualUser: actualUser,
          myAddresses: true,
-         profile: false
+         profile: false,
+         goBackToHome: goToHomeStack
        })
      }}
      
@@ -291,7 +315,11 @@ const DrawerContent = (props) => {
     onPress={()=>{
       props.navigation.navigate('MySubscriptions',{
         initialSubs: initialSubs,
-        user: actualUser
+        user: actualUser,
+        getUserDetails: props.getUserDetails,
+        setActualUser: setActualUser,
+        actualUser: actualUser,
+        goBackToHome: goToHomeStack
       })
     }}
     
@@ -304,7 +332,8 @@ const DrawerContent = (props) => {
     onPress={()=>{
       props.navigation.navigate('MyScrapSales',{
         initialSubs: initialSubs,
-        user: actualUser
+        user: actualUser,
+        goBackToHome: goToHomeStack
       })
     }}
     
@@ -343,7 +372,8 @@ const DrawerContent = (props) => {
     label="Support and FAQs"
     onPress={()=> {props.navigation.navigate('SupportStack',{
       cachedData: cachedData,
-      actualUser: actualUser
+      actualUser: actualUser,
+      goBackToHome: goToHomeStack
       
     })}}
     

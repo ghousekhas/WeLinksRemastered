@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { View, FlatList, StyleSheet, Text, ScrollView, TouchableOpacity, Dimensions, Image } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Colors, Constants, dimen, Styles } from '../Constants';
+import { Colors, Config, Constants, dimen, Styles } from '../Constants';
 import Textbox from '../components/TextBox';
 import Button from '../components/Button';
 import SubmitButton from '../components/SubmitButton';
@@ -14,23 +14,28 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import MyComponent from './test';
+import Axios from 'axios';
+import qs from 'qs';
+
 
 const height = Dimensions.get('window').height;
 
 
 
-const a = [{
+var a = [{
     label: '9 AM - 12 PM',
     value: 1
 }, { label: '12 PM - 3 PM', value: 2 }, { label: '3PM - 6PM', value: 3 }];
-const b = [{
+var b = [{
     label: 'Metal',
     value: "1"
 }, { label: 'Plastic', value: 2 }, { label: 'Wood', value: 3 }];
-const c = [{
+var c = [{
     label: '100-200 Kg',
     value: "1"
 }, { label: '200-400 Kg', value: 2 }, { label: '> 400 Kg', value: 3 }];
+
+const ranKey = ()=> Math.random(0.3).toString();
 
 let bs = React.createRef();
 const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -41,6 +46,9 @@ export default function BidCreation1({ navigation,route }) {
     const {actualUser} = route.params;
     const [title,setTitle] = useState('');
     const [address,setAddress] = useState(null);
+    const [remountTime,setRemountTime] = useState(ranKey());
+    const [remountScrap,setRemountScrap] = useState(ranKey);
+    const [remountWeight,setRemountWeight] = useState(ranKey);
     const thisDay = moment()
         .utcOffset('+05:30')
         .format('YYYY-MM-DD');
@@ -61,9 +69,9 @@ export default function BidCreation1({ navigation,route }) {
     const [emonth, setEMonth] = useState(monthNames[parseInt(thisDay.charAt(5) + thisDay.charAt(6) - 1)])
     const [eyear, setEYear] = useState(thisDay.charAt(0) + thisDay.charAt(1) + thisDay.charAt(2) + thisDay.charAt(3))
 
-    const [time, setDropdown] = useState(a[0].label);
-    const [cat, setCat] = useState(b[0].label);
-    const [weight, setWeight] = useState(c[0].label);
+    const [time, setDropdown] = useState(a[0].value);
+    const [cat, setCat] = useState(b[0].value);
+    const [weight, setWeight] = useState(c[0].value);
     const [screenState, setScreenState] = useState('');
 
     const [dateType, setDateType] = useState(1);
@@ -132,12 +140,68 @@ export default function BidCreation1({ navigation,route }) {
 
     }
 
-    useEffect(() => {
-        navigation.addListener('focus', () => {
-            if (route.params.address != undefined)
-                setAddress(route.params.address);
+    const loadSpinners = ()=>{
+        Axios.get(Config.api_url+'php?'+qs.stringify({
+            action: 'getAllCorporateScrapCategories',
+            city_id: actualUser.city_id
+        })).then((r)=>{
+            var tem = [];
+            try{
+                console.log('execute me');
+                r.data.categories.forEach((i)=>{
+                    tem.push({
+                        label: i.officescrap_category_name,
+                        value: i.officescrap_cat_id
+                    })
+                });
+                b = tem;
+                setCat(b[0].value);
+                setRemountScrap(Math.random(0.3).toString());
+            }
+            catch(error){console.log(error);}
+        });
+        Axios.get(Config.api_url+'php?'+qs.stringify({
+            action: 'getCorporateScrapQuantities'
+        })).then((r)=>{
+            var tem = [];
+            try{
+                console.log('execute me');
+                r.data.quantities.forEach((i)=>{
+                    tem.push({
+                        label: i.officescrap_quant_name,
+                        value: i.officescrap_quant_id
+                    })
+                });
+                c = tem;
+                setWeight(c[0].value);
+                setRemountWeight(Math.random(0.3).toString());
+            }
+            catch(error){console.log(error);}
         })
-    })
+    }
+
+    // useFocusEffect(
+    //     React.useCallback(()=>{
+
+    //         console.log('soimethioodf');
+    //         try{
+    //             setAddress(route.params.address);
+    //         }
+    //         catch(err){}
+    //     },[])
+    // );
+
+    useEffect(() => {
+        const unsub = navigation.addListener('focus', () => {
+            console.log('soimethioodf');
+            try{
+                setAddress(route.params.address);
+            }
+            catch(err){}
+        });
+        loadSpinners();
+        return unsub;
+    },[navigation,route]);
 
     const renderContent = () => {
 
@@ -266,7 +330,11 @@ export default function BidCreation1({ navigation,route }) {
                                     <Text style={Styles.heading}>Address</Text>
 
                                     <TouchableOpacity onPress={() => {
-                                        console.log("sd"+startDate)
+                                        console.log({pick: selected,
+                                        end: endDate,
+                                        start: startDate
+
+                                    });
                                         navigation.navigate('ChooseAddress', {
                                             next: 'BidCreation1',
                                             actualUser: actualUser,
@@ -340,27 +408,44 @@ export default function BidCreation1({ navigation,route }) {
 
 
                                 <SpinnerBox title="PICKUP TIME SLOT"
+                                    key={remountTime}
                                     data={a}
                                     changeOption={setDropdown} />
                                 <SpinnerBox title="SCRAP CATEGORY"
+                                    key={remountScrap}
                                     data={b}
-                                    changeOption={setDropdown} />
+                                    changeOption={setCat} />
                                 <SpinnerBox title="APPROXIMATE WEIGHT"
+                                    key={remountWeight}
                                     data={c}
-                                    changeOption={setDropdown} />
+                                    changeOption={setWeight} />
                                 <View style={{ marginTop: '5%' }}>
-                                    <SubmitButton text='Next' styles={{ marginTop: '5%' }} onTouch={() => navigation.navigate('BidCreation2', {
+                                    <SubmitButton text='Next' styles={{ marginTop: '5%' }} onTouch={() =>{ 
+                                    console.log({next: 'BidCreation1',
+                                    actualUser: actualUser,
+                                    address: address,
+                                    cat: cat,
+                                    weight: weight,
+                                    time: time,
+                                    title: title,
+                                    pick: selected,
+                                    end: endDate,
+                                    start: startDate
+
+                                    });
+                                    
+                                    navigation.navigate('BidCreation2', {
                                         next: 'BidCreation1',
                                         actualUser: actualUser,
                                         address: address,
                                         cat: cat,
                                         weight: weight,
-                                        time: time,
+                                        time: time.toString(),
                                         title: title,
-                                        pick: selected.charAt(8) + selected.charAt(9) + " " + month.substring(0, 3) + " " + year,
-                                        end: endDate.charAt(8) + endDate.charAt(9) + " " + emonth.substring(0, 3) + " " + eyear,
-                                        start: startDate.charAt(8) + startDate.charAt(9) + " " + smonth.substring(0, 3) + " " + syear
-                                    })} />
+                                        pick: selected,
+                                        end: endDate,
+                                        start: startDate
+                                    })}} />
                                 </View>
 
                             </View>

@@ -36,8 +36,8 @@ export default function MyScrapSales({navigation,route}){
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
-         console.log('Can\'t go back from here');
-         navigation.toggleDrawer();
+         console.log('Guess what? We can! go back from here');
+         route.params.goBackToHome();
        
         // navigation.goBack();
          //   navigation.reset();

@@ -27,6 +27,7 @@ export default function CancellationScreen({navigation,route}){
                 console.log(response.data);
                 alert('Request completed sucessfully');
                 navigation.goBack();
+                navigation.goBack();
             }
             );
         }

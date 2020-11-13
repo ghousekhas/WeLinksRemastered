@@ -229,7 +229,7 @@ const myAddressStack = ({ navigation, route }) => {
     <View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Profile">
-          <Stack.Screen name="AddressList" component={AddressList} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navigator: navigation, myAddresses: true, profile: route.params.profile }} />
+          <Stack.Screen name="AddressList" component={AddressList} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{...route.params ,user: user, actualUser: actualUser, getUserDetails: getUserDetails, navigator: navigation, myAddresses: true, profile: route.params.profile }} />
           <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -262,7 +262,7 @@ const myProfileStack = ({ navigation, route }) => {
     <View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Profile">
-          <Stack.Screen name="Profile" component={MyProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+          <Stack.Screen name="Profile" component={MyProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{...route.params ,user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
           <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} initialParams={{navigator : navigation}}/>
           <Stack.Screen name="AddAddress" component={AddAddress} />
           <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{navigator : navigation}} />
@@ -399,7 +399,7 @@ const VendorProfileStack = ({ navigation, route }) => {
   return (<View style={{ flex: 1 }}>
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="VendorProfile">
-        <Stack.Screen name="VendorProfile" component={VendorProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+        <Stack.Screen name="VendorProfile" component={VendorProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ ...route.params,user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}}  />
         <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
         <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}} initialParams={{actualUser: actualUser,navigator : navigation}} />
@@ -426,6 +426,7 @@ const userSupportStack = ({ navigation, route }) => {
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="SupportFAQ">
           <Stack.Screen name="SupportFAQ" component={SupportFAQ} options={{ headerShown: false }} initialParams={{
+            ...route.params,
             cachedData: cachedData,
             draweNav: navigation
           }} />
