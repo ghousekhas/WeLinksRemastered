@@ -15,6 +15,7 @@ import { Feather } from '@expo/vector-icons';
 export default function TitleBidDetails({navigation,route}){
  const  cardDetails  = route.params;
  const { tag } = route.params;
+ const {item,actualUser} = route.params;
 
  console.log(cardDetails)
   console.log(tag)
@@ -82,7 +83,10 @@ export default function TitleBidDetails({navigation,route}){
             <TouchableOpacity style={styles.cancelButton} onPress={()=>{
                 // alert('Are you sure you want to cancel this bid?');
                 navigation.navigate('CancellationScreen',{
-                    bidTitle : cardDetails.bidTitle
+                    bidTitle : cardDetails.bidTitle,
+                    item: item,
+                    actualUser: actualUser
+
                     });
             }}>
                 <Text style={styles.cancelText}>Cancel Bid</Text>

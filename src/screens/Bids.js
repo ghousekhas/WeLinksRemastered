@@ -93,9 +93,11 @@ export default function Bids({navigation,route}){
  
 
    useEffect(()=>{
-    Axios.get(Config.api_url+'php?action=getBids&user_id='+101)
+       console.log(actualUser);
+    Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
         .then((response)=>{
             var responseArray = response.data;
+            console.log(responseArray);
             try{
                 responseArray.forEach((p)=>{
                     if(p.bid_status === "Open")
@@ -221,8 +223,8 @@ return(<View style={styles.card}>
    
 
     return(<View>
- <AppBar  funct={() => {
-       navigation.toggleDrawer();
+ <AppBar back  funct={() => {
+       navigation.pop();
         }} />
 
         <View style={{...Styles.parentContainer,backgroundColor: Colors.whiteBackground}}>
@@ -236,7 +238,7 @@ return(<View style={styles.card}>
             data = {tab == 1 ? dataOpen.reverse() : dataCloseOrCancel.reverse()}
             extraData= {remount}
             renderItem = {({item}) => {
-                var awardedVendor;
+                var awardedVendor = null;
                 item.applied_vendors.forEach((i)=>{
                     if(i.awarded_status == 1)
                         awardedVendor = i;
@@ -249,7 +251,7 @@ return(<View style={styles.card}>
         bidItemsWeight: item.bid_quantity_id,
         bidders: item.applied_vendors.length,
         status: item.bid_status,
-        awardedTo: tab == 1 ?"not awarderd": awardedVendor.company_name,
+        awardedTo: tab == 1 ?"not awarderd": awardedVendor != null?  awardedVendor.company_name:"Not awarded yet",
         pickUpTimeSlot: item.bid_timeslot,
         manpower : item.manpower_need==="1"? "Yes": "No",
         insurance : item.insurance_need === "1" ? "Yes": "No",
@@ -259,7 +261,9 @@ return(<View style={styles.card}>
                 return(<TouchableOpacity onPress={() => {
             navigation.navigate('TitleBidDetails', {
                 ...cardDetails,
-                tag : tab == 1 ? 'Open' : 'Closed'
+                tag : tab == 1 ? 'Open' : 'Closed',
+                item: {...item},
+                actualUser: actualUser
                 })
         }}>
                 {renderCard(cardDetails)}

@@ -1,23 +1,39 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity,TextInput} from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import AppBar from '../components/AppBar';
+import Axios from 'axios';
+import qs from 'qs';
 
 export default function CancellationScreen({navigation,route}){
     const [notes,setNotes]=useState('');
     const { bidTitle } = route.params;
+    const {item,actualUser} = route.params;
 
     const onButton=(type)=>{
         if(type != 'cancel' && notes.trim() === ''){
             alert('Please enter a reason/some information');
             return;
         }
+        else if(type != 'cancel'){
+            Axios.post(Config.api_url+'php?'+qs.stringify({
+                action: 'cancelBid',
+                user_id: actualUser.user_id,
+                bid_id: item.bid_id,
+                bid_notes: notes
+            })).then((response)=>{
+                console.log(response.data);
+                alert('Request completed sucessfully');
+                navigation.goBack();
+            }
+            );
+        }
         else if(type === 'cancel')
+            navigation.goBack();
            return //dosomething
-        else
-           return //dosomething
+    
 
     }
 

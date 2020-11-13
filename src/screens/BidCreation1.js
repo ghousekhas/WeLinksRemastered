@@ -37,9 +37,10 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
 
 
-export default function BidCreation1({ navigation, route }) {
-    const [title, setTitle] = useState('');
-    const [address, setAddress] = useState(null);
+export default function BidCreation1({ navigation,route }) {
+    const {actualUser} = route.params;
+    const [title,setTitle] = useState('');
+    const [address,setAddress] = useState(null);
     const thisDay = moment()
         .utcOffset('+05:30')
         .format('YYYY-MM-DD');
@@ -268,7 +269,7 @@ export default function BidCreation1({ navigation, route }) {
                                         console.log("sd"+startDate)
                                         navigation.navigate('ChooseAddress', {
                                             next: 'BidCreation1',
-                                            actualUser: { user_id: 101 },
+                                            actualUser: actualUser,
                                             address: address,
                                             cat: cat,
                                             weight: weight,
@@ -350,7 +351,7 @@ export default function BidCreation1({ navigation, route }) {
                                 <View style={{ marginTop: '5%' }}>
                                     <SubmitButton text='Next' styles={{ marginTop: '5%' }} onTouch={() => navigation.navigate('BidCreation2', {
                                         next: 'BidCreation1',
-                                        actualUser: { user_id: 101 },
+                                        actualUser: actualUser,
                                         address: address,
                                         cat: cat,
                                         weight: weight,
