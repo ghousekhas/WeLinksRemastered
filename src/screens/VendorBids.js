@@ -1,11 +1,35 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity} from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
+import Axios from 'axios';
 
 export default function VendorBids(){
+    console.log("Console me")
     const [tab,setTab]=useState(0);
+
+    const getBids = async () => {
+        Axios.get(Config.api_url + 'php?action=getOpenBids&' + qs.stringify({
+            vendor_id: 1,
+            user_id : 2
+        })).then((response) => {
+            try {
+               console.log("Response "+response.data)
+
+            }
+            catch (error) {
+                console.log('Error getting bids', error);
+            }
+        }, (error) => {
+            console.log('Bids error', error);
+        })
+        
+    }
+
+    useEffect(() => {
+        getBids();
+    }, []);
 
 
     const renderCard=()=>{
