@@ -178,6 +178,7 @@ return(<View style={styles.card}>
         <View style={{flex:1,paddingBottom: dimen.height/17}}>
         <FlatList 
             style={{marginBottom:'5%'}}
+            keyExtractor={(item,index)=> index.toString()}
           
             data = {tab == 1 ? dataOpen.reverse() : dataCloseOrCancel.reverse()}
             extraData= {remount}
