@@ -16,7 +16,7 @@ import Axios from 'axios';
 var dataOpen = [
     {
         "bid_id": "1",
-        "bid_title": "Bid Title",
+        "bid_title": "Dummy Bid",
         "bid_startdate": "2020-11-10",
         "bid_enddate": "2020-11-10",
         "bid_status": "Pickup Completed",
@@ -106,7 +106,7 @@ export default function Bids({navigation,route}){
                 })
             }
             catch(error){
-                console.log('erris to human',error);
+                console.log('To err is human',error);
             }
 
         },(error)=>{
@@ -233,7 +233,7 @@ return(<View style={styles.card}>
         <FlatList 
             style={{marginBottom:'5%'}}
           
-            data = {tab == 1 ? dataOpen : dataCloseOrCancel}
+            data = {tab == 1 ? dataOpen.reverse() : dataCloseOrCancel.reverse()}
             extraData= {remount}
             renderItem = {({item}) => {
                 var awardedVendor;
