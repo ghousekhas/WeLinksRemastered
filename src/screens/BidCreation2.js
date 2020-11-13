@@ -74,6 +74,7 @@ export default function BidCreation2({navigation,route}){
                         bid_notes: notes,
                         bid_cancelled_notes: "asa "
                        }),).then((value)=>{
+                           console.log('req',value.request);
                            console.log(value.data);
                            alert('Bid created successfully');
                            navigation.popToTop();

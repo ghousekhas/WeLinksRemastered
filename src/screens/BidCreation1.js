@@ -239,44 +239,72 @@ export default function BidCreation1({ navigation,route }) {
     //  return(<MyComponent />)
 
     return (
-    <View>
-        <BottomSheet
-            enabledContentTapInteraction={true}
-            ref={bs}
-            snapPoints={[630, 600, 0]}
-            renderContent={renderContent}
-            renderHeader={renderHeader}
-            initialSnap={2}
-            callbackNode={fall}
-            enabledGestureInteraction={false}
-        />
-        <AppBar back funct={() => navigation.pop()} />
-        <View style={{ ...Styles.parentContainer, color: Colors.whiteBackground }}>
-        <Animated.View style={{margin: '0.5%',
-        opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
-    }}>
-    <View>
-            <Text style={styles.heading}>{strings.bidTitle}</Text>
-            <ScrollView style={{ marginBottom: '10%' }}>
-                <View style={{ flex: 1, marginBottom: '30%', marginTop: '5%' }}>
-                    <Textbox title={'BID TITLE'} hint={'Title'} changeText={setTitle} />
-              
-                        <View style={styles.addressContainer}>
-                            <Text style={Styles.heading}>Address</Text>
-                          
-                                <TouchableOpacity onPress={()=>{
-                                    navigation.navigate('ChooseAddress',{
-                                        next: 'BidCreation1',
-                                        actualUser: actualUser.user_id,
-                                        address: address,
-                                        cat: cat,
-                                        weight: weight,
-                                        time: time,
-                                        pick: selected.charAt(8) + selected.charAt(9) + " " + month.substring(0,3) + " " + year,
-                                        end: endDate.charAt(8) + endDate.charAt(9) + " " + emonth.substring(0,3) + " " + eyear,
-                                        start: startDate.charAt(8) + startDate.charAt(9) + " " + smonth.substring(0,3) + " " + syear
+        <View>
+            <BottomSheet
+                enabledContentTapInteraction={true}
+                ref={bs}
+                snapPoints={[630, 600, 0]}
+                renderContent={renderContent}
+                renderHeader={renderHeader}
+                initialSnap={2}
+                callbackNode={fall}
+                enabledGestureInteraction={false}
+            />
+            <AppBar back funct={() => navigation.pop()} />
+            <View style={{ ...Styles.parentContainer, color: Colors.whiteBackground }}>
+                <Animated.View style={{
+                    margin: '0.5%',
+                    opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+                }}>
+                    <View>
+                        <Text style={styles.heading}>{strings.bidTitle}</Text>
+                        <ScrollView style={{ marginBottom: '10%' }}>
+                            <View style={{ flex: 1, marginBottom: '30%', marginTop: '5%' }}>
+                                <Textbox title={'BID TITLE'} hint={'Title'} changeText={setTitle} />
 
-                                    })
+                                <View style={styles.addressContainer}>
+                                    <Text style={Styles.heading}>Address</Text>
+
+                                    <TouchableOpacity onPress={() => {
+                                        console.log("sd"+startDate)
+                                        navigation.navigate('ChooseAddress', {
+                                            next: 'BidCreation1',
+                                            actualUser: actualUser,
+                                            address: address,
+                                            cat: cat,
+                                            weight: weight,
+                                            time: time,
+                                            pick: selected,
+                                            end: endDate,
+                                            start: startDate
+
+                                        })
+                                    }}>
+                                        <View style={styles.addressButton}>
+                                            {address == null ?
+                                                <Text>Select an address</Text>
+                                                :
+                                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                    <Image source={require('../../assets/pin.png')} style={styless.imageIcon} />
+                                                    <View style={{ flexDirection: 'column', width: '100%', justifyContent: 'flex-start', flex: 1 }}>
+                                                        <Text style={styless.label}>{address.addr_name}</Text>
+                                                        <Text style={styless.address}>{address.addr_details + '.\n' + 'Landmark: ' + address.addr_landmark + '.'}</Text>
+                                                    </View>
+
+                                                </View>
+                                            }
+                                        </View>
+                                    </TouchableOpacity>
+
+
+
+
+                                </View>
+
+
+                                <Textbox enable={false} title={'BID START DATE'} hint={'DDMMYYYY'} value={startDate.charAt(8) + startDate.charAt(9) + " " + smonth.substring(0, 3) + " " + syear} />
+                                <View style={{
+                                    alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.03
                                 }}>
                                     <Button text="Choose" onTouch={() => {
                                         setDateType(1);
@@ -298,28 +326,45 @@ export default function BidCreation1({ navigation,route }) {
 
                                 </View>
 
-                    <SpinnerBox title="PICKUP TIME SLOT"
-                        data={a}
-                        changeOption={setDropdown} />
-                    <SpinnerBox title="SCRAP CATEGORY"
-                        data={b}
-                        changeOption={setDropdown} />
-                    <SpinnerBox title="APPROXIMATE WEIGHT"
-                        data={c}
-                        changeOption={setDropdown} />
-                    <View style={{ marginTop: '5%' }}>
-                        <SubmitButton text='Next' styles={{ marginTop: '5%' }} onTouch={() => navigation.navigate('BidCreation2',{
-                              next: 'BidCreation1',
-                              actualUser: actualUser,
-                              address: address,
-                              cat: cat,
-                              weight: weight,
-                              time: time,
-                              title: title,
-                              pick: selected.toString() ,
-                              end: endDate.toString(),
-                              start: startDate.toString()
-                        })} />
+                                <Textbox enable={false} title={'PICKUP DATE'} hint={'DDMMYYYY'} value={selected.charAt(8) + selected.charAt(9) + " " + month.substring(0, 3) + " " + year} />
+                                <View style={{
+                                    alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.03
+                                }}>
+                                    <Button text="Choose" onTouch={() => {
+                                        setDateType(3);
+                                        bs.current.snapTo(0);
+
+                                    }} />
+
+                                </View>
+
+
+                                <SpinnerBox title="PICKUP TIME SLOT"
+                                    data={a}
+                                    changeOption={setDropdown} />
+                                <SpinnerBox title="SCRAP CATEGORY"
+                                    data={b}
+                                    changeOption={setDropdown} />
+                                <SpinnerBox title="APPROXIMATE WEIGHT"
+                                    data={c}
+                                    changeOption={setDropdown} />
+                                <View style={{ marginTop: '5%' }}>
+                                    <SubmitButton text='Next' styles={{ marginTop: '5%' }} onTouch={() => navigation.navigate('BidCreation2', {
+                                        next: 'BidCreation1',
+                                        actualUser: actualUser,
+                                        address: address,
+                                        cat: cat,
+                                        weight: weight,
+                                        time: time,
+                                        title: title,
+                                        pick: selected.charAt(8) + selected.charAt(9) + " " + month.substring(0, 3) + " " + year,
+                                        end: endDate.charAt(8) + endDate.charAt(9) + " " + emonth.substring(0, 3) + " " + eyear,
+                                        start: startDate.charAt(8) + startDate.charAt(9) + " " + smonth.substring(0, 3) + " " + syear
+                                    })} />
+                                </View>
+
+                            </View>
+                        </ScrollView>
                     </View>
                 </Animated.View>
             </View>
