@@ -1,19 +1,39 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity,Image} from 'react-native';
 
-import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import AppBar from '../components/AppBar';
 import SubmitButton from '../components/SubmitButton';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import Axios from 'axios';
+import qs from 'qs';
 
 
 export default function AwardBid({navigation,route}){
  const  thisVendor  = route.params;
- const { tag } = route.params;
- const {item,actualUser} = route.params;
+ const { tag,bid_id,vendor_id,bid_apply_id } = route.params;
+ const {item,actualUser,user_id} = route.params;
  const appliedVendorsList = route.params.appliedVendorsList;
+
+ const awardTheBid = ()=>{
+     Axios.post(Config.api_url+'php?'+qs.stringify({
+        action: 'awardBid',
+        user_id: 2,
+        bid_id: bid_id,
+        vendor_id: vendor_id,
+        bid_apply_id: bid_apply_id
+     })).then((response)=>{
+         console.log(response.data);
+         navigation.pop();
+         navigation.pop();
+     }
+
+     )
+ }
+
+
  return(<View>
     <AppBar 
     back
@@ -57,7 +77,9 @@ export default function AwardBid({navigation,route}){
 
         </View>
         <View style={{marginTop: '10%'}}>
-        <SubmitButton text={'Award Bid'} />
+        <SubmitButton text={'Award Bid'} 
+            onTouch={awardTheBid}
+        />
 
 
         </View>

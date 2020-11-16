@@ -34,19 +34,24 @@ export default function Bids({navigation,route}){
  
 
    useEffect(()=>{
+       const unsub = navigation.addListener('focus',()=>{
+           populateData();
+       });
        console.log(actualUser);
        populateData();
    },[]);
 
    const populateData= async ()=>{
     //const quanData = await Axios.get(Config.api_url+'php?action=getCorporateScrapQuantities');
-
+    dataOpen = [];
+    dataCloseOrCancel=[];
     Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
     .then((response)=>{
         var responseArray = response.data;
         console.log(responseArray);
         try{
             responseArray.forEach((p)=>{
+                console.log('ppp',p);
                 if(p.bid_status === "Open")
                     dataOpen.push(p);
                 else
@@ -186,12 +191,14 @@ return(<View style={styles.card}>
             data = {tab == 1 ? dataOpen.reverse() : dataCloseOrCancel.reverse()}
             extraData= {remount}
             renderItem = {({item}) => {
+                console.log('itemmmmmm',item);
+                console.log('klsdfankldnsf',item.bid_title);
                 var awardedVendor = null;
                 item.applied_vendors.forEach((i)=>{
                     if(i.awarded_status == 1)
                         awardedVendor = i;
                 });
-                var item = dataOpen[0];
+                //var item = dataOpen[0];
                 let cardDetails = {
         bidTitle: item.bid_title,
         bidDuration: item.bid_startdate+' to '+item.bid_enddate,

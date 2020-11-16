@@ -260,7 +260,7 @@ export default class ScrapVendor extends React.Component {
         //const {cs} = this.state;
         //    console.log('toggling',this.state.translateCart)
         const { translateCart } = this.state;
-        if (retract)
+        if (retract){
             Animated.spring(this.state.translateCart, {
                 toValue: 0,
                 duration: 2500,
@@ -268,7 +268,9 @@ export default class ScrapVendor extends React.Component {
                 speed: 5,
                 bounciness: 3
             }).start();
-        else
+            this.setState({cartState: true});
+        }
+        else{
             Animated.spring(this.state.translateCart, {
                 toValue: dimen.height,
                 duration: 2500,
@@ -276,6 +278,8 @@ export default class ScrapVendor extends React.Component {
                 speed: 5,
                 bounciness: 3
             }).start();
+            this.setState({cartState: false});
+        }
 
     }
 
@@ -412,7 +416,7 @@ export default class ScrapVendor extends React.Component {
             </Snackbar>
          
      
-            <AppBar back funct={() =>  this.state.translateCart == 0  ?this.props.navigation.pop():  this.toggleCart(true) } />
+            <AppBar back funct={() =>  this.state.cartState ? this.toggleCart(false) : this.props.navigation.pop()}/>
             <View style={Styles.parentContainer}>
                 
             

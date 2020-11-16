@@ -159,7 +159,11 @@ export default function TitleBidDetails({navigation,route}){
                     email : item.company_email_id,
                     amount : item.appln_amount,
                     image : item.vendor_img_url,
-                    time : item.appln_timestamp
+                    time : item.appln_timestamp,
+                    vendor_id: item.vendor_id,
+                    bid_apply_id: item.bid_apply_id,
+                    bid_id: item.bid_id
+
 
                 };
                 
@@ -177,7 +181,8 @@ export default function TitleBidDetails({navigation,route}){
             <View style={{alignSelf:'center'}}>
             <Button text='View' onTouch={() => {
                 navigation.navigate('AwardBid',{
-                    ...thisVendor
+                    ...thisVendor,
+                    actualUser: actualUser
                 })
 
 }} />

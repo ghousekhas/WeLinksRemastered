@@ -20,7 +20,7 @@ let openBidArray = [];
 let bidsSubmitted = [];
 let bidsWon = [];
 
-export default function VendorViewBids({ navigation }) {
+export default function VendorViewBids({ navigation,route }) {
     const words = {
         openBids: 'Open Bids',
         bidsSubmitted: 'Bids Submitted',
