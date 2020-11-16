@@ -41,7 +41,7 @@ export default function Bids({navigation,route}){
    const populateData= async ()=>{
     //const quanData = await Axios.get(Config.api_url+'php?action=getCorporateScrapQuantities');
 
-    Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
+    Axios.get(Config.api_url+'php?action=getBids&user_id='+2)
     .then((response)=>{
         var responseArray = response.data;
         console.log(responseArray);
