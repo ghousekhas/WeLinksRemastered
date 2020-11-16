@@ -38,7 +38,9 @@ export default function Bids({navigation,route}){
        populateData();
    },[]);
 
-   const populateData=()=>{
+   const populateData= async ()=>{
+    //const quanData = await Axios.get(Config.api_url+'php?action=getCorporateScrapQuantities');
+
     Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
     .then((response)=>{
         var responseArray = response.data;
@@ -193,8 +195,8 @@ return(<View style={styles.card}>
                 let cardDetails = {
         bidTitle: item.bid_title,
         bidDuration: item.bid_startdate+' to '+item.bid_enddate,
-        bidItems: item.bid_category_id,
-        bidItemsWeight: item.bid_quantity_id,
+        bidItems: item.officescrap_category_name,
+        bidItemsWeight: item.officescrap_quant_name,
         bidders: item.applied_vendors.length,
         status: item.bid_status,
         awardedTo: tab == 1 ?"not awarderd": awardedVendor != null?  awardedVendor.company_name:"Not awarded yet",

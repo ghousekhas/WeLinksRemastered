@@ -24,8 +24,8 @@ const height = Dimensions.get('window').height;
 
 var a = [{
     label: '9 AM - 12 PM',
-    value: 1
-}, { label: '12 PM - 3 PM', value: 2 }, { label: '3PM - 6PM', value: 3 }];
+    value: '9-12'
+}, { label: '12 PM - 3 PM', value: '12-3' }, { label: '3PM - 6PM', value: '3-6' }];
 var b = [{
     label: 'Metal',
     value: "1"
