@@ -197,7 +197,6 @@ export default function VendorViewBids({ navigation,route }) {
       
             <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart: cardWidth/4.5}}/>
             <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${cardDetails.contact}`}</Text>
-
             </View> */}
 
 

@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native';
 
-<<<<<<< HEAD
-import { Colors, TextSpinnerBoxStyles, dimen, Styles } from '../Constants';
-=======
 import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
->>>>>>> cbcabc7de80c090a9b08538e21c869b995ec3811
 import GenericSeperator from '../components/GenericSeperator';
 import AppBar from '../components/AppBar';
 import SubmitButton from '../components/SubmitButton';
@@ -15,19 +11,6 @@ import Axios from 'axios';
 import qs from 'qs';
 
 
-<<<<<<< HEAD
-export default function AwardBid({ navigation, route }) {
-    const thisVendor = route.params;
-    const { tag } = route.params;
-    const { item, actualUser } = route.params;
-    const appliedVendorsList = route.params.appliedVendorsList;
-    return (<View>
-        <AppBar
-            back
-            funct={() => {
-                navigation.pop();
-            }} />
-=======
 export default function AwardBid({navigation,route}){
  const  thisVendor  = route.params;
  const { tag,bid_id,vendor_id,bid_apply_id } = route.params;
@@ -57,7 +40,6 @@ export default function AwardBid({navigation,route}){
      funct={() => {
        navigation.pop();
         }} />
->>>>>>> cbcabc7de80c090a9b08538e21c869b995ec3811
 
         <View style={{ ...Styles.parentContainer, backgroundColor: Colors.whiteBackground }}>
 
@@ -91,14 +73,11 @@ export default function AwardBid({navigation,route}){
 
 
 
-<<<<<<< HEAD
-=======
         </View>
         <View style={{marginTop: '10%'}}>
         <SubmitButton text={'Award Bid'} 
             onTouch={awardTheBid}
         />
->>>>>>> cbcabc7de80c090a9b08538e21c869b995ec3811
 
 
             </View>
