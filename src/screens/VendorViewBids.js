@@ -119,8 +119,9 @@ export default function VendorViewBids({ navigation }) {
     }
 
     useEffect(() => {
+        console.log('refresh');
         getBids();
-    }, []);
+    }, [tab]);
 
     const renderTabs = () => {
 
