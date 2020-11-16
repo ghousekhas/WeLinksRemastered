@@ -81,12 +81,7 @@ export default function AwardBid({navigation,route}){
 
 
             </View>
-            <View style={{ marginTop: '10%' }}>
-                <SubmitButton text={'Award Bid'} />
-
-
-            </View>
-
+          
 
         </View>
 

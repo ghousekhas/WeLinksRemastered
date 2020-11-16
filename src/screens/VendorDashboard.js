@@ -19,7 +19,7 @@ class VendorDashboard extends React.Component {
          actualVendor: 'Loading',
          imageHeight: 0,
          validVendor : true,
-         vendorID : null
+         vendorID : this.props.route.params.vendorID
         
          
 
@@ -152,7 +152,10 @@ class VendorDashboard extends React.Component {
                     <TouchableOpacity style={styles.menuitem} 
                     onPress = {() => {
                         console.log('Vendor')
-                        navigation.navigate('VendorViewBids');
+                        navigation.navigate('VendorViewBids',{
+                            vendorID : this.state.vendorID,
+                            actualUser : this.state.actualUser
+                        });
                         
                     }}
                   >

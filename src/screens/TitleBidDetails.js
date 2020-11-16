@@ -22,7 +22,7 @@ export default function TitleBidDetails({ navigation, route }) {
     const appliedVendorsList = route.params.appliedVendorsList;
     console.log("VENDOR " + JSON.stringify(appliedVendorsList))
 
-    //console.log("Apply "+cardDetails.appliedVendors[0].company_name)
+    console.log("Apply "+cardDetails.appliedVendors[0].company_name)
     // console.log(tag)
     const [title, stitle] = useState("Bid Title");
     const [address, sAddress] = useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.')
@@ -148,11 +148,12 @@ export default function TitleBidDetails({ navigation, route }) {
                 navigation.pop();
             }} />
 
-        <View style={{ ...Styles.parentContainer, backgroundColor: Colors.whiteBackground }}>
+        <View style={{ ...Styles.parentContainer, backgroundColor: Colors.whiteBackground,marginBottom:'1%' }}>
 
             <FlatList
                 ListHeaderComponent={renderHeader}
                 data={appliedVendorsList}
+              //  style={{marginBottom:'1%'}}
                 renderItem={({ item }) => {
                     let thisVendor = {
                         name: item.company_name,
@@ -192,7 +193,7 @@ export default function TitleBidDetails({ navigation, route }) {
                     </View>)
                 }}
 
-                ItemSeparatorComponent={() => <GenericSeperator />} />
+               />
         </View>
     </View>
 
@@ -282,9 +283,9 @@ const styles = StyleSheet.create({
     },
     container: {
         margin: '1%',
-        marginBottom: '10%',
+      //  marginBottom: '5%',
         flexDirection: 'row',
-        marginTop: '10%',
+        marginTop: '2%',
         justifyContent: 'space-between',
         elevation: 1,
 

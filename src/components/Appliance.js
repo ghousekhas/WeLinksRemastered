@@ -1,7 +1,6 @@
 import React, { useState ,useEffect} from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Button from './Button';
 
 import { dimen,Colors, Styles } from '../Constants';
 
@@ -125,7 +124,7 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
         )
     }
 
-    return(<View style={{flexDirection: 'row',backgroundColor: Colors.secondary}}>
+    return(<View style={{flexDirection: 'row',backgroundColor: Colors.whiteBackground}}>
     <View style={style.container}>
      
     
@@ -157,7 +156,7 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
 };
 const style = StyleSheet.create({
     container: {
-        backgroundColor: Colors.secondary,
+        backgroundColor: Colors.whiteBackground,
        height:Dimensions.get('window').height/6,
        width: Dimensions.get('window').width,
        flexDirection: 'row',

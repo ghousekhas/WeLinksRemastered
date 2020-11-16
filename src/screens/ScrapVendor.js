@@ -456,7 +456,7 @@ export default class ScrapVendor extends React.Component {
                                 orderId: this.orderId
 
                             })}
-                            style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8 }}>
+                            style={{ color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8 }}>
                             <Text numberOfLines={1} style={{ color: 'white', fontWeight: 'bold' }}>Schedule Pickup</Text>
                         </TouchableOpacity>
 
