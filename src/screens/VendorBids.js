@@ -28,8 +28,9 @@ export default function VendorBids(){
     }
 
     useEffect(() => {
-        getBids();
-    }, []);
+        console.log('refreshesdfdd');
+        //getBids();
+    }, [tab]);
 
 
     const renderCard=()=>{
@@ -66,6 +67,7 @@ export default function VendorBids(){
                 </TouchableOpacity>
             </View>
             <FlatList 
+                keyExtractor={(item,index)=>index.toString()}
                 data={tab==0? [1,2,3,4]: tab==1? [1,2,3,4,5,6]: [1,2,3,4,5,6,7,8,9,10]}
                 renderItem={renderCard}
                 style={styles.individualTab}

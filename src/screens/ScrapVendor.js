@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Dimensions, Image, BackHandler, Animated } from
 import { TouchableOpacity, FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import Vendor from '../components/Vendor';
-import { Avatar, Button, Snackbar } from 'react-native-paper';
+import { Avatar, Button, Snackbar,Provider,DefaultTheme } from 'react-native-paper';
 import { Styles, dimen } from '../Constants';
 import Accordion from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
@@ -41,7 +41,8 @@ export default class ScrapVendor extends React.Component {
             cart: [],
             cartAmount: 0,
             buttons: 0,
-            snackBarVisible: false
+            snackBarVisible: false,
+            snackBarText: 'Added to cart'
 
 
         };
@@ -129,10 +130,13 @@ export default class ScrapVendor extends React.Component {
         });
     }
 
-    // showSnackBar = () => {
-    //     console.log('Show snackbar')
-    //     this.setState({ snackBarVisible: !snackBarVisible })
-    // }
+    showSnackBar = () => {
+        console.log('called');
+        this.setState({ snackBarVisible: true })
+        setTimeout(()=>{
+            this.setState({snackBarVisible: false});
+        },2000);
+    }
 
     addItemToCart = (item, num) => {
         // console.log(item);
@@ -153,8 +157,8 @@ export default class ScrapVendor extends React.Component {
                 address_id: this.state.address.addr_id,
                 vendor_id: this.props.route.params.vendorId
             })).then((response) => {
-                //  showSnackBar();
-                //   this.setState({snackBarVisible : true})
+                this.showSnackBar();
+                 
                 AsyncStorage.setItem("ScrapOrderId", response.data.order.scrap_order_id)
                     .then(() => {
                         this.orderId = response.data.order.scrap_order_id;
@@ -191,6 +195,7 @@ export default class ScrapVendor extends React.Component {
             })).then((response) => {
                 //   console.log(response);
                 //  console.log('frisbee',response.data)
+                this.showSnackBar();
                 cart = response.data.order.cart;
                 this.setState({ extraData: Math.random(0.5) })
                 AsyncStorage.setItem("PrevScrapVendor", vendorId);
@@ -236,11 +241,13 @@ export default class ScrapVendor extends React.Component {
             else
                 cart = []
             this.setState({ extraData: Math.random(0.5) })
-            AsyncStorage.setItem("PrevScrapVendor", vendorId);
+            //AsyncStorage.setItem("PrevScrapVendor", vendorId);
 
             //        console.log(response.data.order.cart);
             this.setState({ cart: cart })
-            this.calculateCartAmount();
+            setTimeout(()=>{
+                this.calculateCartAmount();
+            },1000);
 
         })
 
@@ -380,24 +387,35 @@ export default class ScrapVendor extends React.Component {
     render() {
         const { name, stars, reviews, address, vendorAddress, imageUrl } = this.props.route.params;
 
-        return (<View>
-            <AppBar back funct={() => this.props.navigation.pop()} />
-
+        return (
+            <Provider theme={{
+                ...DefaultTheme,
+                colors:{
+                
+                    onSurface: "rgba(0, 204, 204, 1)",
+                    surface: "black",
+                
+                }
+            }}>
+        <View style={{flex: 1}}>
+            
             <Snackbar
                 visible={this.state.snackBarVisible}
                 onDismiss={this.dismissSnackbar}
                 action={{
                     label: 'Dismiss',
                     onPress: () => {
-                        //   this.dismissSnackbar();
+                       this.dismissSnackbar();
                     },
                 }}>
-                Hey there! I'm a Snackbar.
-      </Snackbar>
-
-
-
+               {this.state.snackBarText}
+            </Snackbar>
+         
+     
+            <AppBar back funct={() =>  this.state.translateCart == 0  ?this.props.navigation.pop():  this.toggleCart(true) } />
             <View style={Styles.parentContainer}>
+                
+            
                 <View onLayout={({ nativeEvent }) => {
                     this.setState({ buttons: nativeEvent.layout.height / 3 })
 
@@ -408,6 +426,7 @@ export default class ScrapVendor extends React.Component {
 
 
                     <View style={{ flexDirection: 'row', width: dimen.width, alignSelf: 'flex-end', justifyContent: 'space-around', height: dimen.height / 17 }}>
+                        
                         {/* Go To Cart Button */}
                         <TouchableOpacity onPress={() => {
                             // console.log("?")
@@ -415,10 +434,13 @@ export default class ScrapVendor extends React.Component {
                             //this.props.navigation.navigate('ScrapCart',cart)
                         }
                         } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8, width: this.state.width }}>
+                            <View style={{position: 'absolute',top: 2,right: 7}}>
+                                <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text>
+                            </View>
                             <Text style={{ color: 'white', fontWeight: 'bold' }}>Go to Cart</Text>
                         </TouchableOpacity>
                         {/* Schedule Pickup Button */}
-                        <TouchableOpacity onLayout={({ nativeEvent }) => {
+                        <TouchableOpacity disabled={this.state.cart.length == 0 ? true: false} onLayout={({ nativeEvent }) => {
                             this.setState({ width: nativeEvent.layout.width })
 
                         }}
@@ -508,6 +530,7 @@ export default class ScrapVendor extends React.Component {
                                     }}
                                     onRemove={(whatever) => {
                                         this.removeItemFromCart(item);
+                                       
                                         /*console.log('Remove')
                                         cart.splice(index,1);
                                         console.log(cart);*/
@@ -567,7 +590,8 @@ export default class ScrapVendor extends React.Component {
                             <Text style={style.billText}>{"Total Cost"}</Text>
                             <Text style={style.billCost}>₹{this.state.cartAmount + 50}</Text>
                         </View>
-                        <TouchableOpacity style={{ backgroundColor: Colors.primary, width: dimen.width * 0.9, alignSelf: 'center', borderRadius: 10, marginTop: 5 }} onPress={() => this.props.navigation.navigate('ScrapCart', {
+                        <TouchableOpacity disabled={this.state.cart.length == 0 ? true: false} style={{ backgroundColor: this.state.cart.length == 0 ? Colors.seperatorGray : Colors.primary, width: dimen.width * 0.9, alignSelf: 'center', borderRadius: 10, marginTop: 5 }} 
+                        onPress={() => this.props.navigation.navigate('ScrapCart', {
                             cart,
                             actualUser: this.state.actualUser,
                             address: this.state.address,
@@ -586,10 +610,10 @@ export default class ScrapVendor extends React.Component {
 
 
                 </View>
-                <View style={{ height: 20 }} />
 
             </Animated.View>
         </View>
+        </Provider>
         )
     }
 }
