@@ -433,19 +433,26 @@ export default function BidCreation1({ navigation,route }) {
                                     start: startDate
 
                                     });
+
+                                    if(address != null && title != ''){
+                                        navigation.navigate('BidCreation2', {
+                                            next: 'BidCreation1',
+                                            actualUser: actualUser,
+                                            address: address,
+                                            cat: cat,
+                                            weight: weight,
+                                            time: time.toString(),
+                                            title: title,
+                                            pick: selected,
+                                            end: endDate,
+                                            start: startDate
+                                        })
+                                    }
+                                    else{
+                                        alert('Please fill all the values')
+                                    }
                                     
-                                    navigation.navigate('BidCreation2', {
-                                        next: 'BidCreation1',
-                                        actualUser: actualUser,
-                                        address: address,
-                                        cat: cat,
-                                        weight: weight,
-                                        time: time.toString(),
-                                        title: title,
-                                        pick: selected,
-                                        end: endDate,
-                                        start: startDate
-                                    })}} />
+                                    }} />
                                 </View>
 
                             </View>

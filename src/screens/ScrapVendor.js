@@ -241,11 +241,13 @@ export default class ScrapVendor extends React.Component {
             else
                 cart = []
             this.setState({ extraData: Math.random(0.5) })
-            AsyncStorage.setItem("PrevScrapVendor", vendorId);
+            //AsyncStorage.setItem("PrevScrapVendor", vendorId);
 
             //        console.log(response.data.order.cart);
             this.setState({ cart: cart })
-            this.calculateCartAmount();
+            setTimeout(()=>{
+                this.calculateCartAmount();
+            },1000);
 
         })
 
@@ -410,7 +412,7 @@ export default class ScrapVendor extends React.Component {
             </Snackbar>
          
      
-            <AppBar back funct={() =>   this.props.navigation.pop()} />
+            <AppBar back funct={() =>  this.state.translateCart == 0  ?this.props.navigation.pop():  this.toggleCart(true) } />
             <View style={Styles.parentContainer}>
                 
             
@@ -438,7 +440,7 @@ export default class ScrapVendor extends React.Component {
                             <Text style={{ color: 'white', fontWeight: 'bold' }}>Go to Cart</Text>
                         </TouchableOpacity>
                         {/* Schedule Pickup Button */}
-                        <TouchableOpacity onLayout={({ nativeEvent }) => {
+                        <TouchableOpacity disabled={this.state.cart.length == 0 ? true: false} onLayout={({ nativeEvent }) => {
                             this.setState({ width: nativeEvent.layout.width })
 
                         }}
@@ -528,6 +530,7 @@ export default class ScrapVendor extends React.Component {
                                     }}
                                     onRemove={(whatever) => {
                                         this.removeItemFromCart(item);
+                                       
                                         /*console.log('Remove')
                                         cart.splice(index,1);
                                         console.log(cart);*/
@@ -587,7 +590,8 @@ export default class ScrapVendor extends React.Component {
                             <Text style={style.billText}>{"Total Cost"}</Text>
                             <Text style={style.billCost}>₹{this.state.cartAmount + 50}</Text>
                         </View>
-                        <TouchableOpacity style={{ backgroundColor: Colors.primary, width: dimen.width * 0.9, alignSelf: 'center', borderRadius: 10, marginTop: 5 }} onPress={() => this.props.navigation.navigate('ScrapCart', {
+                        <TouchableOpacity disabled={this.state.cart.length == 0 ? true: false} style={{ backgroundColor: this.state.cart.length == 0 ? Colors.seperatorGray : Colors.primary, width: dimen.width * 0.9, alignSelf: 'center', borderRadius: 10, marginTop: 5 }} 
+                        onPress={() => this.props.navigation.navigate('ScrapCart', {
                             cart,
                             actualUser: this.state.actualUser,
                             address: this.state.address,
@@ -606,7 +610,6 @@ export default class ScrapVendor extends React.Component {
 
 
                 </View>
-                <View style={{ height: 20 }} />
 
             </Animated.View>
         </View>

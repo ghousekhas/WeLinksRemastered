@@ -56,6 +56,7 @@ export default function BidCreation2({navigation,route}){
          <ExpandableTextBox title="Additional notes" hint="Any additional information for vendors." changeText={setNotes}/>
          <View style={styles.button}>
                    <SubmitButton text='Next' onTouch={()=>{
+                       if(insurance!= null && manpower != null && vehicle != null && notes!= '')
                        Axios.post(Config.api_url+'php?'+qs.stringify({
                         action: 'createCorporateBid',
                         bid_title: title,
@@ -82,6 +83,9 @@ export default function BidCreation2({navigation,route}){
 
                         
                        })
+                       else
+                        alert('Please enter all the fields');
+
                    }} />
 
             </View>
