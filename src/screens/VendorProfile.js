@@ -290,7 +290,7 @@ const VendorProfile = ({ navigation, route }) => {
                     (error) => console.log('Error logged in profile', error))
             const onBackPress = () => {
                 //  console.log('Can\'t go back from here');
-                navigation.toggleDrawer();
+                route.params.goBackToHome();
 
 
                 return true;

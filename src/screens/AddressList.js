@@ -84,7 +84,7 @@ export default class AddressList extends React.Component{
     }
 
    onBackPress=()=>{
-      this.state.myAddresses ? this.props.navigation.toggleDrawer() : this.props.navigation.navigate('Homescreen');
+      this.state.myAddresses ? (!this.state.profileEdit ? this.props.route.params.goBackToHome(): this.props.navigation.goBack() ): this.props.navigation.goBack();
       return true;
     }
 

@@ -66,7 +66,7 @@ export default function BidCreation2({navigation,route}){
                         bid_addr_id: address.addr_id,
                         bid_pickupdate: pick,
                         bid_timeslot:  time,
-                        bid_category_id: parseInt( cat),
+                        bid_category_id: parseInt(cat),
                         bid_quantity_id:  parseInt(weight),
                         vehicle_need: parseInt(vehicle),
                         manpower_need: parseInt( manpower),
@@ -77,7 +77,8 @@ export default function BidCreation2({navigation,route}){
                            console.log('req',value.request);
                            console.log(value.data);
                            alert('Bid created successfully');
-                           navigation.popToTop();
+                           navigation.pop();
+                           navigation.pop();
 
                         
                        })

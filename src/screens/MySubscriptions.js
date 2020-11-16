@@ -30,7 +30,9 @@ export default function MySubscriptions({navigation,route}){
         React.useCallback(() => {
           const onBackPress = () => {
          console.log('Can\'t go back from here');
-         navigation.toggleDrawer();
+         navigation.navigate('HomeStack',{
+             ...route.params
+         })
        
         // navigation.goBack();
          //   navigation.reset();
@@ -118,13 +120,13 @@ export default function MySubscriptions({navigation,route}){
 
    
 
-    return(<View style={{width: '100%',height: dimen.height,justifyContent: 'flex-start'}}>
-    <View style={{height: dimen.height/13}}>
-        <AppBar back={false} funct={() => {
-            
+    return(<View style={{width: '100%',height: dimen.height}}>
+        <View style={{height: dimen.height/14}}>
+        <AppBar back={false} funct={() => {   
             navigation.toggleDrawer();
             }} />
         </View>
+    
 
         <View style={{flex: 1,backgroundColor: 'white'}}>
         <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>My subscriptions</Text>
@@ -147,16 +149,6 @@ export default function MySubscriptions({navigation,route}){
                  
             }}
         />
-       
-    
-
-        
-
-      
-       
-        </View>
-
-       
         {!apiLoaded && data[0] === undefined ?
         (
          
@@ -169,6 +161,17 @@ export default function MySubscriptions({navigation,route}){
                data[0] === undefined || data[0] === null? <Text style={{...Styles.subbold,alignSelf: 'center',flex:1}}>No subscriptions to show </Text> : null
                
             }
+       
+    
+
+        
+
+      
+       
+        </View>
+
+       
+        
         
       
 
