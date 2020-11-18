@@ -437,17 +437,16 @@ export default class ScrapVendor extends React.Component {
                             this.toggleCart(true);
                             //this.props.navigation.navigate('ScrapCart',cart)
                         }
-                        } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8, width: this.state.width }}>
-                            <View style={{position: 'absolute',top: 2,right: 7}}>
-                                <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text>
-                            </View>
-                            <Text style={{ color: 'white', fontWeight: 'bold' }}>Go to Cart</Text>
+                        } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8 }}>
+                           
+                    <Text style={{ color: 'white', fontWeight: 'bold' }}>Go to Cart ({(cart.length)})</Text>
                         </TouchableOpacity>
                         {/* Schedule Pickup Button */}
-                        <TouchableOpacity disabled={this.state.cart.length == 0 ? true: false} onLayout={({ nativeEvent }) => {
-                            this.setState({ width: nativeEvent.layout.width })
-
+                        <TouchableOpacity  disabled={(this.state.cart!=-1 && cart.length==0)} onLayout={({ nativeEvent }) => {
+                    
                         }}
+
+                        style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8 }}
                             onPress={() => this.props.navigation.navigate('ScrapCart', {
                                 cart,
                                 actualUser: this.state.actualUser,
@@ -456,7 +455,7 @@ export default class ScrapVendor extends React.Component {
                                 orderId: this.orderId
 
                             })}
-                            style={{ color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8 }}>
+                            >
                             <Text numberOfLines={1} style={{ color: 'white', fontWeight: 'bold' }}>Schedule Pickup</Text>
                         </TouchableOpacity>
 
@@ -594,7 +593,7 @@ export default class ScrapVendor extends React.Component {
                             <Text style={style.billText}>{"Total Cost"}</Text>
                             <Text style={style.billCost}>₹{this.state.cartAmount + 50}</Text>
                         </View>
-                        <TouchableOpacity disabled={this.state.cart.length == 0 ? true: false} style={{ backgroundColor: this.state.cart.length == 0 ? Colors.seperatorGray : Colors.primary, width: dimen.width * 0.9, alignSelf: 'center', borderRadius: 10, marginTop: 5 }} 
+                        <TouchableOpacity disabled={(this.state.cart!=-1 && cart.length==0)} style={{ backgroundColor: this.state.cart.length == 0 ? Colors.seperatorGray : Colors.primary, width: dimen.width * 0.9, alignSelf: 'center', borderRadius: 10, marginTop: 5 }} 
                         onPress={() => this.props.navigation.navigate('ScrapCart', {
                             cart,
                             actualUser: this.state.actualUser,
@@ -643,7 +642,7 @@ const ScrapFlatList = ({ route, navigation, data, addItemToCart, removeItemFromC
         React.useCallback(() => {
             const onBackPress = () => {
                 //     console.log('Go to milk');
-                navigation.navigate('ScrapVendors');
+                this.state.cartState ? this.toggleCart(false) : this.props.navigation.pop();
                 return true;
 
             };
