@@ -23,7 +23,7 @@ export default function TitleBidDetails({navigation,route}){
  const appliedVendorsList = route.params.appliedVendorsList;
  console.log("VENDOR " + JSON.stringify(appliedVendorsList))
 
-    console.log("Apply "+cardDetails.appliedVendors[0].company_name)
+   // console.log("Apply "+cardDetails.appliedVendors[0].company_name)
     // console.log(tag)
     const [title, stitle] = useState("Bid Title");
     const [address, sAddress] = useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.')
@@ -160,7 +160,7 @@ export default function TitleBidDetails({navigation,route}){
                     name : item.company_name,
                     email : item.company_email_id,
                     amount : item.appln_amount,
-                    image : item.vendor_img_url,
+                    image : "https://dev.we-link.in/dist/img/users/"+item.vendor_img_url,
                     time : item.appln_timestamp,
                     vendor_id: item.vendor_id,
                     bid_apply_id: item.bid_apply_id,
@@ -168,9 +168,9 @@ export default function TitleBidDetails({navigation,route}){
 
 
                 };
-                
+                console.log("IMAGE "+"https://dev.we-link.in/dist/img/users/"+item.vendor_img_url)
                 return( <View style={styles.container}>
-            <Image style={{ ...styles.image, aspectRatio: 1 / 1.7, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={{ uri: item.vendor_img_url }} />
+            <Image style={{ ...styles.image, aspectRatio: 1 / 1.7, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={{uri :"https://dev.we-link.in/dist/img/users/"+item.vendor_img_url}} />
             <View style={{ marginStart: '4%', flex: 4,alignSelf:'center' }}>
             <Text style={styles.name}> {item.company_name}</Text>
             <View style={{flexDirection: 'row',marginTop:'2%'}}>

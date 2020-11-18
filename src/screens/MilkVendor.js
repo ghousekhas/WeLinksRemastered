@@ -112,7 +112,7 @@ export default class MilkVendor extends React.Component{
                 <View style={{...Styles.horizontal}} >
                     <Image style={Styles.vendorImage} />
                     <View style={{...Styles.vendorInfo}}>
-                        <Vendor />
+                        {/* <Vendor /> */}
                     </View>
                 </View>
                 <FlatList

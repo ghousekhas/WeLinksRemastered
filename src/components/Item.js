@@ -32,7 +32,7 @@ const style = StyleSheet.create({
     container: {
         ...Styles.parentContainer,
         marginTop: '0%',
-        backgroundColor: Colors.lightBlue,
+       backgroundColor: Colors.lightBlue,
        height:Dimensions.get('window').height/6.5,
        width:Dimensions.get('window').width,
       

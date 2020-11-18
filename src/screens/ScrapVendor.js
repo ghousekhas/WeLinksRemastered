@@ -439,9 +439,9 @@ export default class ScrapVendor extends React.Component {
                         }
                         } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8, width: this.state.width }}>
                             <View style={{position: 'absolute',top: 2,right: 7}}>
-                                <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text>
+                                {/* <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text> */}
                             </View>
-                            <Text style={{ color: 'white', fontWeight: 'bold' }}>Go to Cart</Text>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>{`Go to Cart (${cart.length})`}</Text>
                         </TouchableOpacity>
                         {/* Schedule Pickup Button */}
                         <TouchableOpacity disabled={this.state.cart.length == 0 ? true: false} onLayout={({ nativeEvent }) => {
