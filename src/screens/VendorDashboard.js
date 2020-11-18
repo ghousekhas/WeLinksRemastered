@@ -32,6 +32,9 @@ class VendorDashboard extends React.Component {
             banner: require('./../../assets/homebanner.png'),
         }
     }
+
+    
+
     retrieveVendorData= async () => {
         console.log(this.state.actualUser.user_id + "userid")
         Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ this.state.actualUser.user_id)
@@ -176,9 +179,9 @@ const ProfileSmallView = ({navigation,userID})=>{
     const [vendor,setVendor] = useState({})
     const [vendorID,setVendorID] = useState(0);
     const [displayName,setDisplayName]= useState("");
-    const [vendorImage,setVendorImage] = useState(require('../../assets/notmaleavatar.png'))
-    useEffect(()=>{
-        
+    const [vendorImage,setVendorImage] = useState(require('../../assets/notmaleavatar.png'));
+
+    const retrieveData = ()=>{
         Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ userID).
         then((response)=>{
             try{
@@ -225,29 +228,21 @@ const ProfileSmallView = ({navigation,userID})=>{
 
               }
         },
-        (error)=>console.log('Error logged in profile',error))
-        //  if(actualUser.name!=null && actualUser.name != '')
-        //      setDisplayName(actualUser.name.split(' ')[0]);
+        (error)=>console.log('Error logged in profile',error));
+  
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    useEffect(()=>{
+        retrieveData();
+        navigation.addListener('focus',()=>{retrieveData();});
+        
+       
 
         
      
      },[]);
     return (
-        <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{navigation.navigate('VendorProfileStack',this.state.vendorDetails)}}>
+        <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{navigation.navigate('VendorProfileStack',vendor)}}>
         <Image style={styles.userimage} source={vendorImage}/>
         <Text adjustsFontSizeToFit style={styles.username}>{displayName}</Text>
     </TouchableOpacity>

@@ -37,7 +37,7 @@ export default function VendorViewBids({ navigation,route }) {
     const getBids = async () => {
         console.log("Console me")
         Axios.get(Config.api_url + 'php?action=getOpenBids&' + qs.stringify({
-            vendor_id: 1,
+            vendor_id: 2,
             user_id: 2
         })).then((response) => {
             try {

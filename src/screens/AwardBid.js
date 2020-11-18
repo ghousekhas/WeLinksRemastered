@@ -69,11 +69,6 @@ export default function AwardBid({navigation,route}){
         <Text style={{...Styles.heading,fontWeight:'bold',fontSize: 14,color: 'gray'}}>{" ₹ "+thisVendor.amount}</Text>
 
         </View>
-    
-
-
-
-
 
         </View>
         <View style={{marginTop: '10%'}}>

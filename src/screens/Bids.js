@@ -56,8 +56,9 @@ export default function Bids({navigation,route}){
                     dataOpen.push(p);
                 else
                     dataCloseOrCancel.push(p);
-                setRemount(Math.random(0.5));
-            })
+                
+            });
+            setRemount(Math.random(0.5));
         }
         catch(error){
             console.log('To err is human',error);
@@ -67,6 +68,78 @@ export default function Bids({navigation,route}){
         console.log('error');
     })
    };
+
+   const renderCardItem = ({item}) => {
+    console.log('itemmmmmm',item);
+    console.log('klsdfankldnsf',item.bid_title);
+    var awardedVendor = null;
+    item.applied_vendors.forEach((i)=>{
+        if(i.awarded_status == 1)
+            awardedVendor = i;
+    });
+    //var item = dataOpen[0];
+    let cardDetails = {
+    bidTitle: item.bid_title,
+    bidDuration: item.bid_startdate+' to '+item.bid_enddate,
+    bidItems: item.officescrap_category_name,
+    bidItemsWeight: item.officescrap_quant_name,
+    bidders: item.applied_vendors.length,
+    status: item.bid_status,
+    awardedTo: tab == 1 ?"not awarderd": awardedVendor != null?  awardedVendor.company_name:"Not awarded yet",
+    pickUpTimeSlot: item.bid_timeslot,
+    manpower : item.manpower_need,
+    insurance : item.insurance_need,
+    vehicle : item.vehicle_need,
+    address : item.addr_details,
+    notes : item.bid_notes,
+    appliedVendors : item.applied_vendors
+
+    }
+    var itema = null;
+    let thisVendor = null;
+    if(item.bid_status === 'Closed'){
+        itema  = item.applied_vendors[0];
+        thisVendor = {
+            name : itema.company_name,
+            email : itema.company_email_id,
+            amount : itema.appln_amount,
+            image : itema.vendor_img_url,
+            time : itema.appln_timestamp,
+            vendor_id: itema.vendor_id,
+            bid_apply_id: itema.bid_apply_id,
+            bid_id: itema.bid_id
+    
+    
+        };
+    }
+    appliedVendorsList = item.applied_vendors
+    return(<TouchableOpacity onPress={() => {
+        console.log("APPLIED "+ JSON.stringify(appliedVendorsList))
+            if(tab != 1 && cardDetails.status != 'Cancelled'){
+                navigation.navigate('CorporateMarkPickupScreen',
+                {
+                    ...item,
+                    actualUser: actualUser,
+                    ...cardDetails,
+                    ...thisVendor
+                    }
+                    );
+            }
+            else{
+            navigation.navigate('TitleBidDetails', {
+                ...cardDetails,
+                appliedVendorsList,
+                tag : tab == 1 ? 'Open' : 'Closed',
+                item: {...item},
+                actualUser: actualUser
+                });
+            }
+}}
+>
+    {renderCard(cardDetails)}
+    </TouchableOpacity>)
+     
+}
 
     const renderTabs = () => {
 
@@ -116,7 +189,6 @@ export default function Bids({navigation,route}){
                     <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%'}}>          
                         <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
                         <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItemsWeight}</Text>
-
                     </View>
                     <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
                         <AntDesign name="clockcircleo" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
@@ -190,48 +262,7 @@ return(<View style={styles.card}>
           
             data = {tab == 1 ? dataOpen.reverse() : dataCloseOrCancel.reverse()}
             extraData= {remount}
-            renderItem = {({item}) => {
-                console.log('itemmmmmm',item);
-                console.log('klsdfankldnsf',item.bid_title);
-                var awardedVendor = null;
-                item.applied_vendors.forEach((i)=>{
-                    if(i.awarded_status == 1)
-                        awardedVendor = i;
-                });
-                //var item = dataOpen[0];
-                let cardDetails = {
-        bidTitle: item.bid_title,
-        bidDuration: item.bid_startdate+' to '+item.bid_enddate,
-        bidItems: item.officescrap_category_name,
-        bidItemsWeight: item.officescrap_quant_name,
-        bidders: item.applied_vendors.length,
-        status: item.bid_status,
-        awardedTo: tab == 1 ?"not awarderd": awardedVendor != null?  awardedVendor.company_name:"Not awarded yet",
-        pickUpTimeSlot: item.bid_timeslot,
-        manpower : item.manpower_need,
-        insurance : item.insurance_need,
-        vehicle : item.vehicle_need,
-        address : item.addr_details,
-        notes : item.bid_notes,
-        appliedVendors : item.applied_vendors
-      
-                }
-                appliedVendorsList = item.applied_vendors
-                return(<TouchableOpacity onPress={() => {
-                    console.log("APPLIED "+ JSON.stringify(appliedVendorsList))
-            navigation.navigate('TitleBidDetails', {
-                ...cardDetails,
-                appliedVendorsList,
-                tag : tab == 1 ? 'Open' : 'Closed',
-                item: {...item},
-                actualUser: actualUser
-                })
-        }}
-        >
-                {renderCard(cardDetails)}
-                </TouchableOpacity>)
-                 
-            }}
+            renderItem = {renderCardItem}
         />
       <View style={{alignItems: 'center'}}>
       <SubmitButton 

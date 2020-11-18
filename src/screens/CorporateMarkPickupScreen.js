@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity,Image} from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import AppBar from '../components/AppBar';
 import Vendor from '../components/Vendor';
@@ -12,21 +12,52 @@ import { AntDesign } from '@expo/vector-icons';
 import SubmitButton from '../components/SubmitButton';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import AwardBid from './AwardBid';
+import { Entypo } from '@expo/vector-icons';
+import Axios from 'axios';
+import qs from 'qs';
 
 
 
-export default function TitleBidDetails({navigation,route}){
+export default function CorporateMarkPickupScreen({navigation,route}){
+    const thisVendor = route.params;
  const  cardDetails  = route.params;
  const { tag } = route.params;
  const {item,actualUser} = route.params;
- const extraData = Math.random(0.5);
  const appliedVendorsList = route.params.appliedVendorsList;
  console.log("VENDOR " + JSON.stringify(appliedVendorsList))
 
  //console.log("Apply "+cardDetails.appliedVendors[0].company_name)
  // console.log(tag)
-    const [title,stitle]=useState("Bid Title");
-    const [address,sAddress]=useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.')
+    const [title,stitle]=useState("Mark Pickup Complete");
+    const [address,sAddress]=useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.');
+
+    const date = moment();
+
+    const markPickUpComplete = ()=>{
+        console.log({
+            action: 'markBidPickup',
+            owner_id: actualUser.user_id,
+            bid_id: item.bid_id,
+            vendor_id: thisVendor.vendor_id,
+            bid_task_id: thisVendor.bid_apply_id,
+            total_amount:  thisVendor.amount,
+            task_date: date.format('YYYY-MM-DD'),
+            task_time: date.format('HH-mm')
+        })
+        Axios.post(Config.api_url+'php?'+qs.stringify({
+            action: 'markBidPickup',
+            owner_id: actualUser.user_id,
+            bid_id: thisVendor.bid_id,
+            vendor_id: thisVendor.vendor_id,
+            bid_task_id: thisVendor.bid_apply_id,
+            total_amount:  thisVendor.amount,
+            task_date: date.format('YYYY-MM-DD'),
+            task_time: date.format('HH-mm')
+        })).then((response)=>{
+            console.log(response.data);
+        })
+    }
     
 
   
@@ -34,7 +65,7 @@ export default function TitleBidDetails({navigation,route}){
     const renderHeader=()=>{
      //   console.log(cardDetails)
         return (<View style={{flex: 0}}>
-            <Text style={{...Styles.heading,alignSelf: 'center'}}>Bid Details</Text>
+            <Text style={{...Styles.heading,alignSelf: 'center'}}>Mark Pickup Complete</Text>
             <View style={styles.bidcard}>
                 <Text style={styles.title}>{cardDetails.bidTitle}</Text>
                 <Text style={styles.info}> {cardDetails.address}</Text>
@@ -83,20 +114,37 @@ export default function TitleBidDetails({navigation,route}){
                 </View>
             </View>
             {/* <SubmitButton text='Cancel Bid' /> */}
-            {tag == 'Open'  ?
-            <TouchableOpacity style={styles.cancelButton} onPress={()=>{
-                // alert('Are you sure you want to cancel this bid?');
-                navigation.navigate('CancellationScreen',{
-                    bidTitle : cardDetails.bidTitle,
-                    item: item,
-                    actualUser: actualUser
+            <Text style={{...Styles.heading,alignSelf:'center', marginTop : dimen.height/20}}>Bid Awarded</Text>
 
-                    });
-            }}>
-                <Text style={styles.cancelText}>Cancel Bid</Text>
-            </TouchableOpacity>
-            : <View style={{marginTop : dimen.height/50}} /> }
-            <Text style={{...Styles.heading,alignSelf:'center', marginTop : dimen.height/20}}>{appliedVendorsList.length == 0 ? 'No ': ''  }Bids Received</Text>
+            <View style={styles.card}>
+        <Text style={{...Styles.heading,width:dimen.width}}>{thisVendor.name}</Text>
+        <View style={{flexDirection: 'row'}}>
+
+        {/* Size is not right */}
+        <Image style ={{flex:1.5}} source={{uri: thisVendor.image}}/>
+        <Text style={{...styles.address,flex : 4}}>{"Address : " + "#123 some road, some layout, some city, near something - 122344"}</Text>
+
+
+        </View>
+
+        <View style={{flexDirection :'row',marginTop:'20%'}}>
+        <Entypo name="calendar" size={23} color={Colors.blue} style={{margin : '1%'}} />
+        <Text style={{...Styles.heading,fontSize: 14,color:Colors.blue}}>Offer made :  </Text>
+        <Text style={{...Styles.heading,fontWeight:'bold',fontSize: 14,color: 'gray'}}>{thisVendor.time}</Text>
+
+        </View>
+    
+        <View style={{flexDirection :'row',marginTop:'10%'}}>
+        <FontAwesome5 name="money-bill-wave-alt" size={20} color= {Colors.blue} style={{ alignSelf: 'center',margin:'1%' }} />
+        <Text style={{...Styles.heading,fontSize: 14,color:Colors.blue}}>Offer amount : </Text>
+        <Text style={{...Styles.heading,fontWeight:'bold',fontSize: 14,color: 'gray'}}>{" ₹ "+thisVendor.amount}</Text>
+
+        </View>
+
+        </View>
+        <View style={{marginVertical:50}}>
+            <SubmitButton onTouch={markPickUpComplete} text="Mark Pickup Complete" />
+        </View>
 
         </View>
         )
@@ -154,53 +202,38 @@ export default function TitleBidDetails({navigation,route}){
         <FlatList
             ListHeaderComponent={renderHeader}
             data= {appliedVendorsList}
-            extraData={extraData}
-            renderItem = {({item}) => {
-                let thisVendor = {
-                    name : item.company_name,
-                    email : item.company_email_id,
-                    amount : item.appln_amount,
-                    image : item.vendor_img_url,
-                    time : item.appln_timestamp,
-                    vendor_id: item.vendor_id,
-                    bid_apply_id: item.bid_apply_id,
-                    bid_id: item.bid_id
-
-
-                };
-                
-                return( <View style={styles.container}>
-            <Image style={{ ...styles.image, aspectRatio: 1 / 1.7, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={{ uri: item.vendor_img_url }} />
-            <View style={{ marginStart: '4%', flex: 4,alignSelf:'center' }}>
-            <Text style={styles.name}> {item.company_name}</Text>
-            <View style={{flexDirection: 'row',marginTop:'2%'}}>
-            <FontAwesome5 name="money-bill-wave-alt" size={17} color= {Colors.blue} style={{ alignSelf: 'center' }} />
-            <Text style={{...styles.name,fontSize: 14}}> {'Offer : '}</Text>
-            <Text style={{...styles.name,fontSize: 14,color: Colors.blue}}> {"₹ "+item.appln_amount}</Text>
-            </View>
-          
-            </View>
-            <View style={{alignSelf:'center'}}>
-            <Button text='View' onTouch={() => {
-                navigation.navigate('AwardBid',{
-                    ...thisVendor,
-                    actualUser: actualUser
-                })
-
-}} />
-            </View>
-          
-            
-            </View>)}}
+           
           
             ItemSeparatorComponent={()=><GenericSeperator/>}/>
             </View>
+            
             </View>
             
     )
 }
 
 const styles=StyleSheet.create({
+    card:{
+        width: dimen.width-dimen.width/10,
+        // height: dimen.height/3.8,
+        borderRadius: 15,
+        borderColor: Colors.seperatorGray,
+        borderWidth: 0.5,
+       padding:'2%',
+        marginTop: '5%',
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        elevation: 1,
+        height: dimen.height/2.5
+    },
+    address:{
+        padding: '1%',
+        fontSize: 14,
+        marginTop:'3%',
+        flex: 1,
+       
+
+    },
     name: {
         fontWeight: 'bold',
 

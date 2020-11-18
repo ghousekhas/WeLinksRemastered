@@ -34,7 +34,6 @@ import BidCreation2 from './src/screens/BidCreation2';
 import Bids from './src/screens/Bids';
 import VendorBids from './src/screens/VendorBids';
 import TitleBidDetails from './src/screens/TitleBidDetails';
-
 import PrivacyPolicy from './src/screens/PrivacyPolicy';
 import CancellationScreen from './src/screens/CancellationScreen';
 import EditVendorDetails from './src/screens/EditVendorDetails';
@@ -52,32 +51,26 @@ import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import VendorServices from './src/screens/VendorServices';
 import VendorDashboard from './src/screens/VendorDashboard';
 import AddressesServedList from './src/screens/AddressesServedList';
-
 import {Config} from  './src/Constants';
 import VendorViewBids from './src/screens/VendorViewBids';
 import VendorBidDetails from './src/screens/VendorBidDetails';
 import ChooseAddress from './src/screens/ChooseAddress';
 import AwardBid from './src/screens/AwardBid';
-
+import CorporateMarkPickupScreen from './src/screens/CorporateMarkPickupScreen';
 
 navigator.geolocation = require('@react-native-community/geolocation');
-
-
-// function School(){
-//   return <Homescreen/>
-// };
 
 
 const Drawer = createDrawerNavigator();
 
 const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails }) => {
   const [vendor, setVendor] = useState(false);
-//  const [updateVendorState,setUpdateVendorState] = useState(actualVendor != null ? actualVendor : {})
   const [updateState, setUpdateState] = useState(actualUser != null ? actualUser : { name: 'loading', user_id: -1, email: 'f' });
   const [privacyData, setPrivacyData] = useState(null);
   const [termsData, setTermsData] = useState(null);
   const [contactUsData, setContactUsData] = useState(null);
   const [dashboard,goTodashboard] = useState(true);
+  const [theActualUser,setTheActualUser] = useState(actualUser);
   var ref;
 
   const updateChildScreens = async () => {
@@ -113,16 +106,13 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
 
 
-  if (vendor){
+  if(vendor){
 
   //  checkVendorStatus();
    console.log('Switching to vendor')
    console.log(dashboard)
-    var initialParams= {user: user, actualUser: updateState}
+    var initialParams= {user: user, actualUser: theActualUser}
    // return(<VendorViewBids />)
-
-    if(!dashboard)
-    return(<VendorRegistration />)
 
     
     return (
@@ -135,18 +125,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
             privacyData: privacyData
           }} />}>
            <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/>
-           {/* <Drawer.Screen name="VendorBids" component={VendorBids} initialParams={initialParams}/> */}
-          
-
-         {/* <Drawer.Screen name="VendorDashboard" component={VendorDashboard} initialParams={{ user: user, actualUser: updateState }} />*/}
-          {/* <Drawer.Screen name="VendorRegistration" component={VendorRegistration} initialParams={{ user: user, actualUser: updateState }} /> */}
           <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
-          {/*
-          <Drawer.Screen name="AddAddress" component={AddAddress} />
-          <Drawer.Screen name="myAddresses" component={myAddressStack} />
-          <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
-          <Drawer.Screen name="MyScrapSales" component={MyScrapSales} />
-          */}
           <Drawer.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
             user: user, actualUser: updateState, cachedData: {
               termsData: termsData,
@@ -189,21 +168,6 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
 const Stack = createStackNavigator();
 
-// const vendorStack = ({ navigation, route }) => {
-//   const { actualUser } = route.params;
-//   return (
-//     <View style={{ flex: 1 }}>
-//       <NavigationContainer independent={true}>
-//         <Stack.Navigator initialRouteName="Dashboard">
-//         {/* <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{  actualUser: actualUser }} options={{ headerShown: false }}  />   */}
-//          <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-//           <Stack.Screen name="Dashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-//           <Stack.Screen name="Profile" component={VendorRegistration} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-//           <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
-//         </Stack.Navigator>
-//       </NavigationContainer>
-//     </View>)
-// }
 
 const myAddressStack = ({ navigation, route }) => {
   const [user, setUser] = useState(route.params.user);
@@ -281,6 +245,8 @@ const VendorHomeStack=({navigation,route})=>{
   const {getUserDetails} = route.params;
   const [remountKey, setRemountKey] = useState(0);
   const [verification,setVerification] = useState(Constants.veFirstTime);
+  const [loading,setLoading]= useState(true);
+  const [errorState,setError] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -305,9 +271,12 @@ const VendorHomeStack=({navigation,route})=>{
                 else
                     setVerification(Constants.veInProgress);
                 //setVerification(Constants.veFirstTime);
+                setLoading(false);
             }
             catch(error){
                 setVerification(Constants.veFirstTime);
+                setLoading(false);
+                
             }
         });
   }
@@ -318,6 +287,25 @@ const VendorHomeStack=({navigation,route})=>{
     setRemountKey(Math.random(0.5));
     retreieveVendorData();
   }, [route.params]);
+  
+  if(loading)
+  return (
+    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
+      <LottieView
+        enableMergePathsAndroidForKitKatAndAbove
+        style={{ flex: 1, padding: 50, margin: 50 }} source={require('./assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true} />
+    </View>
+  );
+  else if(errorState)
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+      <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center' }}>Network connection failed, Try again later</Text>
+    </View>
+
+  );
+
+  var theInitialParams = {actualUser: actualUser,user: user};
+
 
   if(verification != Constants.verified)
     return  (<View style={{ flex: 1 }}>
@@ -325,7 +313,7 @@ const VendorHomeStack=({navigation,route})=>{
         <Stack.Navigator initialRouteName="VendorRegistration">
           <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
           <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
-          <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
+          <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={theInitialParams} />
           <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown : false}} />
           <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
            
@@ -341,13 +329,13 @@ const VendorHomeStack=({navigation,route})=>{
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="VendorRegistration">
 
-        <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} />
+        <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={theInitialParams} />
         <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />
         <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
 
 
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
-        <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: actualUser }} /> 
+        <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} options={{headerShown: false}} initialParams={{ user: user, actualUser: actualUser }} /> 
           {/*
           <Drawer.Screen name="AddAddress" component={AddAddress} />
           <Drawer.Screen name="myAddresses" component={myAddressStack} />
@@ -704,11 +692,10 @@ const PostLoginHome = ({ route, navigation }) => {
 
   React.useEffect(() => {
     setUpdateState(route.params.actualUser);
-    console.log(route.params.actualUser, "I will not go through no dum")
   }, [route])
 
   if (updateState != false) {
-    console.log('got my  on the dash ', updateState)
+    //console.log('got my  on the dash ', updateState)
     return (
       <View style={{ flex: 1 }}>
         <NavigationContainer independent={true}>
@@ -744,6 +731,7 @@ const PostLoginHome = ({ route, navigation }) => {
             <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{ headerShown: false }} />
             <Stack.Screen name="AwardBid" component={AwardBid} options={{ headerShown: false }} />
             <Stack.Screen name="CancellationScreen" component={CancellationScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="CorporateMarkPickupScreen" component={CorporateMarkPickupScreen} options={{headerShown: false}}/>
             <Stack.Screen name="ScrapCart" component={ScrapCart} options={{ headerShown: false }} />
             {/* <Stack.Screen name='ProfileStack' component={MyProfile} options={{headerShown: false}}/> */}
 
