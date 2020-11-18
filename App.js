@@ -242,6 +242,7 @@ const myProfileStack = ({ navigation, route }) => {
 const VendorHomeStack=({navigation,route})=>{
   const[user,setUser] = useState(route.params.user);
   const[actualUser,setActualUser]= useState(route.params.actualUser);
+  const [vendorID,setVendorID] = useState(null);
   const {getUserDetails} = route.params;
   const [remountKey, setRemountKey] = useState(0);
   const [verification,setVerification] = useState(Constants.veFirstTime);
@@ -260,12 +261,15 @@ const VendorHomeStack=({navigation,route})=>{
   const retreieveVendorData = ()=>{
     Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{
-                console.log("HERE"+response.data)
+                console.log("HEREs"+response.data.vendor[0].vendor_id)
                 setVerification(Constants.veFirstTime) // uncomment this
             try{
                 var status= response.data.vendor[0].vendor_status;
-                if(status=== 'active')
-                    setVerification(Constants.verified);
+                if(status=== 'active'){
+                  setVerification(Constants.verified);
+                  setVendorID(response.data.vendor[0].vendor_id);
+
+                }
                 else if(status=== 'inactive')
                     setVerification(Constants.veFirstTime)
                 else
@@ -344,7 +348,7 @@ const VendorHomeStack=({navigation,route})=>{
             
           {MyScrapSales} />
           */}
-          <Stack.Screen name="VendorBids" component={VendorBids} options={{ headerShown: false }} />
+          <Stack.Screen name="VendorBids" component={VendorBids} options={{ headerShown: false }} initialParam={{vendorID : vendorID}} />
 
           <Stack.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
             user: user, actualUser: actualUser, cachedData: {

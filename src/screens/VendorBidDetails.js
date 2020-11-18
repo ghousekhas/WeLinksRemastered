@@ -34,6 +34,10 @@ export default function VendorBidDetails({ navigation, route }) {
         const [editNow, setEditNow] = useState(false);
         const [submitChanges,setSubmitChanges] = useState(false);
 
+        const {actualVendor,vendorID} = route.params
+
+        console.log("Vendor " + vendorID)
+
 
        
         const placeBid = () => {
@@ -41,7 +45,7 @@ export default function VendorBidDetails({ navigation, route }) {
                 action: 'applyBid',
                 owner_id: cardDetails.ownerID,
                 bid_id: cardDetails.bidID,
-                vendor_id: 1,
+                vendor_id: vendorID,
                 appln_amount: bidAmount
 
 
@@ -62,7 +66,7 @@ export default function VendorBidDetails({ navigation, route }) {
                 bid_apply_id : cardDetails.applyID,
               
                 bid_id: cardDetails.bidID,
-                vendor_id: 2,       // Be careful with bid apply id and vendor
+                vendor_id: vendorID,       // Be careful with bid apply id and vendor
                 appln_amount: editAmount
 
 

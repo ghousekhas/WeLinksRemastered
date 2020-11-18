@@ -97,7 +97,7 @@ export const Styles=StyleSheet.create({
         width: '100%',
         minHeight: '40%',
      
-        backgroundColor: Colors.secondary,
+        backgroundColor: Colors.lightBlue,
         flex:0
          
         

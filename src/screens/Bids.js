@@ -37,7 +37,7 @@ export default function Bids({navigation,route}){
        const unsub = navigation.addListener('focus',()=>{
            populateData();
        });
-       console.log(actualUser);
+       console.log("USER "+actualUser.user_id);
        populateData();
    },[]);
 
@@ -48,10 +48,10 @@ export default function Bids({navigation,route}){
     Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
     .then((response)=>{
         var responseArray = response.data;
-        console.log(responseArray);
+      //  console.log(responseArray);
         try{
             responseArray.forEach((p)=>{
-                console.log('ppp',p);
+           //     console.log('ppp',p);
                 if(p.bid_status === "Open")
                     dataOpen.push(p);
                 else
@@ -199,7 +199,7 @@ export default function Bids({navigation,route}){
                 <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,marginVertical:'5%',fontSize:16}}>Active</Text>
       
             <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart: cardWidth/4.5}}/>
-            <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${cardDetails.bidders}`}</Text>
+            <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${appliedVendorsList.length}`}</Text>
 
             </View>
 

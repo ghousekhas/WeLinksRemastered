@@ -32,32 +32,52 @@ export default function VendorViewBids({ navigation,route }) {
     const [extraData1, setAppliedBids] = useState(1);
     const [extraData2, setWonBids] = useState(1);
     const [cardWidth, setCardWidth] = useState(0);
+
+    const [openEmtpy,isOE] = useState(false);
+    const [submittedEmtpy,isSE] = useState(false);
+    const [wonEmtpy,isWE] = useState(false);
+
+    const {vendorID,actualUser} = route.params
+    
+
+    console.log("Are you here vendor? "  + vendorID)
+    console.log("Are you here user? "  + actualUser.user_id)
    
 
     const getBids = async () => {
         console.log("Console me")
         Axios.get(Config.api_url + 'php?action=getOpenBids&' + qs.stringify({
-            vendor_id: 2,
-            user_id: 2
+            vendor_id: vendorID,
+            user_id: actualUser.user_id
         })).then((response) => {
             try {
                 console.log("Response " + response.data)
                 openBidArray = response.data;
+                if(openBidArray.length == 0){
+                    isOE(true)
+                    
+                }
                 //  console.log("Array "+ openBidArray[0].bid_title)
                 setOpenBids(Math.random(0.5));
                 Axios.get(Config.api_url + 'php?action=getAppliedBids&' + qs.stringify({
-                    vendor_id: 1
+                    vendor_id: vendorID
                 })).then((response) => {
                     try {
                         console.log('Applied bids  ', response.data);
                         bidsSubmitted = response.data;
+                        if(bidsSubmitted.length == 0){
+                            isSE(true);
+                        }
                         setAppliedBids(Math.random(0.5));
                         Axios.get(Config.api_url + 'php?action=getAwardedBids&' + qs.stringify({
-                           vendor_id: 1
+                           vendor_id: vendorID
                         })).then((res) => {
                             try {
                                 console.log('Awarded Bids  ', res.data);
                                 bidsWon = res.data;
+                                if(bidsWon.length == 0){
+                                    isWE(true);
+                                }
                                 setWonBids(Math.random(0.5));
                 
                             }
@@ -151,6 +171,8 @@ export default function VendorViewBids({ navigation,route }) {
 
     const renderCard = (cardDetails) => {
         if (tab == 1) {
+        
+            
             return (<View onLayout={(event) => {
                 setCardWidth(event.nativeEvent.layout.width);
             }} style={styles.card}>
@@ -197,7 +219,6 @@ export default function VendorViewBids({ navigation,route }) {
       
             <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart: cardWidth/4.5}}/>
             <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${cardDetails.contact}`}</Text>
-
             </View> */}
 
 
@@ -276,6 +297,10 @@ export default function VendorViewBids({ navigation,route }) {
         return extraData2;
     }
 
+    const renderList = () => {
+        
+    }
+
 
 
     return (<View>
@@ -288,6 +313,7 @@ export default function VendorViewBids({ navigation,route }) {
             {renderTabs()}
 
             <View style={{ flex: 1, paddingBottom: dimen.height / 17 }}>
+          
                 <FlatList
 
 
@@ -326,7 +352,9 @@ export default function VendorViewBids({ navigation,route }) {
                         return (<TouchableOpacity onPress={() => {
                             navigation.navigate('VendorBidDetails', {
                                 ...cardDetails,
-                                tag: selectTab()
+                                tag: selectTab(),
+                                actualUser : actualUser,
+                                vendorID : vendorID
                             })
                         }}>
                             {renderCard(cardDetails)}
