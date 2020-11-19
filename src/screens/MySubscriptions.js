@@ -25,14 +25,16 @@ export default function MySubscriptions({navigation,route}){
     const [extraData,setExtraData]=useState(0);
     const {user}=route.params;
     const [apiLoaded,setApiLoaded]=useState(false);
+    const {actualUser} = route.params;
+    const {navigator} = route.params;
+    console.log("UID"+actualUser.user_id);
+    
 
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
          console.log('Can\'t go back from here');
-         navigation.navigate('HomeStack',{
-             ...route.params
-         })
+         route.params.goBackToHome();
        
         // navigation.goBack();
          //   navigation.reset();
@@ -79,7 +81,7 @@ export default function MySubscriptions({navigation,route}){
 
     const retrieveData=()=>{
         
-        Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+"102")
+        Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+actualUser.user_id)
         .then((response)=>{
             console.log("resp" +response.data);
             //data=response.data;
@@ -121,7 +123,7 @@ export default function MySubscriptions({navigation,route}){
    
 
     return(<View style={{width: '100%',height: dimen.height}}>
-        <View style={{height: dimen.height/14}}>
+        <View style={{height: dimen.height/13}}>
         <AppBar back={false} funct={() => {   
             navigation.toggleDrawer();
             }} />
@@ -129,7 +131,7 @@ export default function MySubscriptions({navigation,route}){
     
 
         <View style={{flex: 1,backgroundColor: 'white'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>My subscriptions</Text>
+        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>My Subscriptions</Text>
         <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/300,fontSize:14,color:'gray'}}>{`Total subscriptions : ${data.length}`}</Text>
 
         <FlatList 

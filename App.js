@@ -57,6 +57,7 @@ import VendorBidDetails from './src/screens/VendorBidDetails';
 import ChooseAddress from './src/screens/ChooseAddress';
 import AwardBid from './src/screens/AwardBid';
 import CorporateMarkPickupScreen from './src/screens/CorporateMarkPickupScreen';
+import {useNavigation} from '@react-navigation/native';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -151,7 +152,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
         <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{ user: user, actualUser: updateState, sm: 1, getUserDetails: getUserDetails }} />
         <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser,user: user }} options={{ headerShown: false }} />
         <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{actualUser: updateState}} />
-        <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{user: actualUser}} />
+        <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{actualUser: actualUser}} />
         <Drawer.Screen name="MyScrapSales" component={MyScrapSales} initialParams={{user: actualUser}}/>
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{
           user: user, actualUser: updateState, cachedData: {
@@ -230,7 +231,7 @@ const myProfileStack = ({ navigation, route }) => {
           <Stack.Screen name="Profile" component={MyProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{...route.params ,user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
           <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} initialParams={{navigator : navigation}}/>
           <Stack.Screen name="AddAddress" component={AddAddress} />
-          <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{navigator : navigation}} />
+          <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{navigator : navigation,actualUser:actualUser}} />
           <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{ headerShown: false }} />
           <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
         </Stack.Navigator>
@@ -442,7 +443,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState({phoneNumber: '+917777777777'}) //auth().currentUser);
+  const [user, setUser] = useState(auth().currentUser);                    // {phoneNumber: '+917777777777'}) //
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -594,7 +595,7 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    checkNetworkState()
+     checkNetworkState()
     getUserDetails(0,user);
 
     console.group('firebaseuser', auth().currentUser);
@@ -609,11 +610,12 @@ export default function App() {
       getUserDetails(0, user);
     const suser = auth().onAuthStateChanged(onAuthStateChanged);
     getVendorDetails();
-
     
 
     //To debug with custom phone number comment above and uncomment below
-   
+    // if (userDetails === null)
+    //   getUserDetails(0, user);
+
 
 
 
