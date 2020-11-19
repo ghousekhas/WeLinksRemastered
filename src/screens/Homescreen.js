@@ -165,7 +165,8 @@ export default class Homescreen extends React.Component{
         edit: true,
         tag : 'home',
         refreshUser: this.retrieveUserData,
-        user_id: this.state.actualUser.user_id
+        user_id: this.state.actualUser.user_id,
+        actualUser: this.state.actualUser
     })}}>
         <Image style={styles.locim} source={require('../../assets/pin.png')}/>
         <Text adjustsFontSizeToFit style={styles.username}>{this.state.actualUser.city}</Text>

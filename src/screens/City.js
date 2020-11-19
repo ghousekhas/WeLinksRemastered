@@ -21,7 +21,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
     const [cities,setCities] = useState([])
     const [value,setValue] = useState([])
     const [done,setDone]=useState(false);
-    const {edit,user_id,tag} = route.params;
+    const {edit,user_id,tag,actualUser} = route.params;
     
 
     
@@ -39,6 +39,8 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
         for(i in citys)
             cityList.push({cityname: citys[i].city_name,city_id: citys[i].city_id});
         setCities(cityList);
+        if(edit)
+          setValue(actualUser.city_id);
     
            
         }).catch((error) => {
@@ -53,6 +55,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
 
     useEffect(() => {
         getCitiesData();
+
         console.log('user',user);
       },[]);
    // console.log(cities)

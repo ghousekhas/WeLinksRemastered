@@ -97,7 +97,7 @@ export default function MySubscriptions({navigation,route}){
         retrieveData();
         const unsub = navigation.addListener('focus',()=>{
             retrieveData();
-          })
+          });
        
     },[]);
    
