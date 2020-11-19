@@ -79,7 +79,7 @@ export default function MySubscriptions({navigation,route}){
 
     const retrieveData=()=>{
         
-        Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+"102")
+        Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
             console.log("resp" +response.data);
             //data=response.data;
@@ -122,9 +122,9 @@ export default function MySubscriptions({navigation,route}){
 
     return(<View style={{width: '100%',height: dimen.height}}>
         <View style={{height: dimen.height/14}}>
-        <AppBar back={false} funct={() => {   
-            navigation.toggleDrawer();
-            }} />
+            <AppBar back={false} funct={() => {   
+                navigation.toggleDrawer();
+                }} />
         </View>
     
 
