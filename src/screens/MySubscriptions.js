@@ -81,7 +81,7 @@ export default function MySubscriptions({navigation,route}){
 
     const retrieveData=()=>{
         
-        Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+actualUser.user_id)
+        Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
             console.log("resp" +response.data);
             //data=response.data;
@@ -99,7 +99,7 @@ export default function MySubscriptions({navigation,route}){
         retrieveData();
         const unsub = navigation.addListener('focus',()=>{
             retrieveData();
-          })
+          });
        
     },[]);
    
@@ -123,10 +123,10 @@ export default function MySubscriptions({navigation,route}){
    
 
     return(<View style={{width: '100%',height: dimen.height}}>
-        <View style={{height: dimen.height/13}}>
-        <AppBar back={false} funct={() => {   
-            navigation.toggleDrawer();
-            }} />
+        <View style={{height: dimen.height/14}}>
+            <AppBar back={false} funct={() => {   
+                navigation.toggleDrawer();
+                }} />
         </View>
     
 
