@@ -11,7 +11,7 @@ import About from './src/screens/About';
 import AddAddress from './src/screens/AddAddress';
 import Homescreen from './src/screens/Homescreen';
 import AddressSearch from './src/screens/AddressSearch';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-community/async-storage'
 import VendorsList from './src/screens/VendorsList';
 import Cart from './src/screens/Cart';
@@ -57,6 +57,9 @@ import VendorBidDetails from './src/screens/VendorBidDetails';
 import ChooseAddress from './src/screens/ChooseAddress';
 import AwardBid from './src/screens/AwardBid';
 import CorporateMarkPickupScreen from './src/screens/CorporateMarkPickupScreen';
+import functions from '@react-native-firebase/functions';
+import ScrapPickedConfirmation from './src/screens/ScrapPickedConfirmation';
+import VendorScrapOrders from './src/screens/VendorScrapOrders';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -103,6 +106,14 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
   }
 
 
+  //DEBUG
+  // return( <VendorScrapOrders route={{params: {
+  //   bidTitle: "Was your order picked up for xxxx amount"
+  // }}} />)
+ 
+  return <ScrapPickedConfirmation route={{params: {
+    bidTitle: "Was your order picked up for xxxx amount"
+  }}} />
 
 
 
@@ -442,7 +453,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState( auth().currentUser);
+  const [user, setUser] = useState({phoneNumber: '+917777777777'} );//DEBUG auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -593,28 +604,51 @@ export default function App() {
       });
   }
 
-  React.useEffect(() => {
-    checkNetworkState()
-    //getUserDetails(0,user);
+  const sendNotif = async ()=>{
+   // await firebase.initializeApp(); 
+   setTimeout(()=>{
+    functions().httpsCallable('sendNotification')({
+      'title': 'Notification',
+      'message': 'Message',
+      'body': "Body",
+      'topic': "all"
+    }).then(
+      (response) =>{
+        console.log(response);
+      },(reason)=>{
+        console.log(reason);
+      }
+    );
+   },5000);
 
-    console.group('firebaseuser', auth().currentUser);
-    setSplash(false);
-    setInterval(() => {
-      setSplash(false);
-    }, 2500);
-    //setUser(auth().currentUser);
-    checkIfFirstLogin();
-    console.log("USER" + JSON.stringify(user));
-    if (userDetails === null && user != null)
-      getUserDetails(0, user);
-    const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    getVendorDetails();
+  }
+
+  React.useEffect(() => {
+    // checkNetworkState()
+    // //getUserDetails(0,user);
+
+    // console.group('firebaseuser', auth().currentUser);
+    // setSplash(false);
+    // setTimeout(()=>{
+    //   setSplash(false);
+    // },1500
+    // )
+    // //setUser(auth().currentUser);
+    // checkIfFirstLogin();
+    // console.log("USER" + JSON.stringify(user));
+    // if (userDetails === null && user != null)
+    //   getUserDetails(0, user);
+    // const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    // getVendorDetails();
+    // sendNotif();
+    
+    
 
     
 
-    //To debug with custom phone number comment above and uncomment below
-    // if (userDetails === null)
-    //   getUserDetails(0, user);
+    // To debug with custom phone number comment above and uncomment below
+    if (userDetails === null)
+      getUserDetails(0, user);
 
 
 
