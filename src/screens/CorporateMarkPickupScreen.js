@@ -35,10 +35,11 @@ export default function CorporateMarkPickupScreen({navigation,route}){
     const date = moment();
 
     const markPickUpComplete = ()=>{
-        console.log({
+        console.log("Vendor deets "+{
+            
             action: 'markBidPickup',
             owner_id: actualUser.user_id,
-            bid_id: item.bid_id,
+            bid_id: thisVendor.bid_id,
             vendor_id: thisVendor.vendor_id,
             bid_task_id: thisVendor.bid_apply_id,
             total_amount:  thisVendor.amount,
@@ -55,6 +56,7 @@ export default function CorporateMarkPickupScreen({navigation,route}){
             task_date: date.format('YYYY-MM-DD'),
             task_time: date.format('HH-mm')
         })).then((response)=>{
+            alert("Marked pick-up complete successfully!")
             console.log(response.data);
         })
     }
@@ -122,7 +124,7 @@ export default function CorporateMarkPickupScreen({navigation,route}){
 
         {/* Size is not right */}
         <Image style ={{flex:1.5}} source={{uri: thisVendor.image}}/>
-        <Text style={{...styles.address,flex : 4}}>{"Address : " + "#123 some road, some layout, some city, near something - 122344"}</Text>
+        {/* <Text style={{...styles.address,flex : 4}}>{"Address : " + "#123 some road, some layout, some city, near something - 122344"}</Text> */}
 
 
         </View>

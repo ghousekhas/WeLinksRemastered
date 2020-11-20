@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, Dimensions, Image } from 'react-native';
+import { dimen } from '../Constants';
 import Button from './Button';
 import Stars from './Stars';
 
@@ -34,7 +35,7 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
 
 
         return (
-            <View style={{ flexDirection: 'row', width: '60%', alignSelf: 'center' }}>
+            <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
                 <Text style={style.brands}>{address != undefined && address != null  && address != 0 ? address : null}</Text>
             </View>
         );
@@ -76,7 +77,7 @@ const style = StyleSheet.create({
         margin: '0.5%',
         marginBottom: '10%',
         flexDirection: 'row',
-        backgroundColor: 'transparent',
+      //  backgroundColor: 'transparent',
         padding: '1%',
         borderWidth: 5,
         borderColor: 'transparent'
@@ -118,9 +119,12 @@ const style = StyleSheet.create({
 
     brands: {
         color: 'gray',
-        flex: 1,
+       flex: 1,
+        // width: dimen.width,
+     //   backgroundColor:'blue',
 
         marginTop: '2%',
+       
 
 
 

@@ -437,12 +437,15 @@ export default class ScrapVendor extends React.Component {
                             this.toggleCart(true);
                             //this.props.navigation.navigate('ScrapCart',cart)
                         }
-                        } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8 }}>
-                           
-                    <Text style={{ color: 'white', fontWeight: 'bold' }}>Go to Cart ({(cart.length)})</Text>
+                        } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,width: this.state.width }}>
+                            <View style={{position: 'absolute',top: 2,right: 7}}>
+                                {/* <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text> */}
+                            </View>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>{`Go to Cart (${cart.length})`}</Text>
                         </TouchableOpacity>
                         {/* Schedule Pickup Button */}
                         <TouchableOpacity  disabled={(this.state.cart!=-1 && cart.length==0)} onLayout={({ nativeEvent }) => {
+                        this.setState({width : nativeEvent.layout.width})
                     
                         }}
 

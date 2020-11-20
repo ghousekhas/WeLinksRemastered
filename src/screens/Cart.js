@@ -350,7 +350,7 @@ const Cart = ({route,navigation,Tag}) => {
                     cartamount: calculateCartAmount(),
                     discount: 0,
                     order_total: calculateCartAmount()+50,
-                    address_id: route.params.address.addr_id
+             //       address_id: route.params.address.addr_id
 
                 }),).then((response)=>{
                     console.log(response);
