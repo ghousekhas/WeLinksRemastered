@@ -104,6 +104,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
     setVendor(flag);
 
   }
+  // return(<VendorScrapOrders route={{params : null}}/>)
 
 
   //DEBUG
@@ -111,9 +112,9 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
   //   bidTitle: "Was your order picked up for xxxx amount"
   // }}} />)
  
-  return <ScrapPickedConfirmation route={{params: {
-    bidTitle: "Was your order picked up for xxxx amount"
-  }}} />
+  // return <ScrapPickedConfirmation route={{params: {
+  //   bidTitle: "Was your order picked up for xxxx amount"
+  // }}} />
 
 
 
@@ -331,7 +332,9 @@ const VendorHomeStack=({navigation,route})=>{
           <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={theInitialParams} />
           <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown : false}} />
           <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
-           
+          <Stack.Screen name = "VendorScrapOrders" component={VendorScrapOrders} options={{headerShown : false}} />
+          <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}} />
+
     
   
         </Stack.Navigator>
@@ -347,6 +350,9 @@ const VendorHomeStack=({navigation,route})=>{
         <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={theInitialParams} />
         <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />
         <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
+
+        <Stack.Screen name = "VendorScrapOrders" component={VendorScrapOrders} options={{headerShown : false}} />
+        <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}} />
 
 
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
@@ -644,11 +650,14 @@ export default function App() {
     
     
 
-    
-
+     
+  
     // To debug with custom phone number comment above and uncomment below
-    if (userDetails === null)
+    if (userDetails === null){
       getUserDetails(0, user);
+      sendNotif();
+
+    }
 
 
 

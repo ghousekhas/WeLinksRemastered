@@ -145,8 +145,13 @@ class VendorDashboard extends React.Component {
                    
 
                     <View style={styles.view1}>
-                    {this.state.vendorDetails.homescrap_service == "yes" ?
-                    <TouchableOpacity style={styles.menuitem} 
+                    {this.state.vendorDetails.homescrap_service == "yes" || this.state.vendorDetails.homescrap_service == "no" ?
+                    <TouchableOpacity style={styles.menuitem} onPress={() => {
+                        navigation.navigate('VendorScrapOrders',{
+                            vendorID : this.state.vendorID
+                            
+                        })
+                    }}
                    >
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.scrap} />
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>Home Scrap Collection</Text>

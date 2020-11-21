@@ -116,6 +116,7 @@ export default function Bids({navigation,route}){
     return(<TouchableOpacity onPress={() => {
         console.log("APPLIED "+ JSON.stringify(appliedVendorsList))
             if(tab != 1 && cardDetails.status != 'Cancelled'){
+                console.log('Go')
                 navigation.navigate('CorporateMarkPickupScreen',
                 {
                     ...item,
@@ -126,6 +127,7 @@ export default function Bids({navigation,route}){
                     );
             }
             else{
+                console.log('go')
             navigation.navigate('TitleBidDetails', {
                 ...cardDetails,
                 appliedVendorsList,
