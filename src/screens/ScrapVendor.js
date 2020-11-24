@@ -51,7 +51,7 @@ export default class ScrapVendor extends React.Component {
 
     async fetchOrderId() {
         var orderId, prevVendor;
-        const { vendorId } = this.props.route.params;
+        const { vendorId } =  90                 //this.props.route.params;
         const { actualUser } = this.state;
         try {
             orderId = await AsyncStorage.getItem("ScrapOrderId");
@@ -162,7 +162,7 @@ export default class ScrapVendor extends React.Component {
                 AsyncStorage.setItem("ScrapOrderId", response.data.order.scrap_order_id)
                     .then(() => {
                         this.orderId = response.data.order.scrap_order_id;
-                        //      console.log(response.data.order.cart);
+                           console.log("ORDER ID "+this.orderId);
                         cart = response.data.order.cart != undefined ? response.data.order.cart : [];
                         AsyncStorage.setItem("PrevScrapVendor", vendorId);
                         this.setState({ extraData: Math.random(0.3) })
