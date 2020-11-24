@@ -60,6 +60,7 @@ import CorporateMarkPickupScreen from './src/screens/CorporateMarkPickupScreen';
 import functions from '@react-native-firebase/functions';
 import ScrapPickedConfirmation from './src/screens/ScrapPickedConfirmation';
 import VendorScrapOrders from './src/screens/VendorScrapOrders';
+import VendorScrapOrder from './src/screens/VendorScrapOrder';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -107,6 +108,10 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
 
   //DEBUG
+  // return(
+  //   <VendorScrapOrder />
+  // )
+
   // return( <VendorScrapOrders route={{params: {
   //   bidTitle: "Was your order picked up for xxxx amount"
   // }}} />)
@@ -640,7 +645,7 @@ export default function App() {
     //   getUserDetails(0, user);
     // const suser = auth().onAuthStateChanged(onAuthStateChanged);
     // getVendorDetails();
-    // sendNotif();
+    sendNotif();
     
     
 

@@ -90,7 +90,7 @@ export default function VendorScrapOrders({navigation,route}){
     const retrieveData=()=>{
        
         
-        Axios.get(Config.api_url+'php?action=getHomeScrapOrders&user_id='+user.user_id)
+        Axios.get(Config.api_url+'php?action=getHomeScrapOrders&user_id='+"102")
         .then((response)=>{
       //      console.log("res" +response.data.order);
             //data=response.data;
@@ -105,7 +105,7 @@ export default function VendorScrapOrders({navigation,route}){
     }
 
     useEffect(()=>{
-        //retrieveData();
+        retrieveData();
         //const unsub = navigation.addListener('focus',()=>{
             //retrieveData();
          // })
@@ -241,13 +241,13 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
 
         <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
+        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>Ghouse {/*name*/}</Text>
 <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
 {renderCartItems(cart)}
 </ScrollView>
 
         
-        
+        <Text style={{...Styles.subheading,fontWeight: 'normal',marginStart: 30,paddingTop: 10}}>#17, 7th Cross 18th A main road G block Sahakarnagar Bangalore 92</Text>
         <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
      
              <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
