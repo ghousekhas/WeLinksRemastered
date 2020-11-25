@@ -11,15 +11,16 @@ import {Notifications} from 'react-native-notifications';
 messaging().subscribeToTopic("all");
 
 messaging().onMessage((message)=>{
+    console.log(message);
     Notifications.registerRemoteNotifications();
     Notifications.postLocalNotification({
-        body: 'hey your order is waiting !',
-        title: 'Go collect scrap buddy',
+        body: message.data.body,
+        title: message.data.title,
         sound: 'chime.aiff',
         category: 'SOME_CATEGORY',
         link: 'localNotificationLink',
         fireDate: new Date()
-      }, 2);
+      }, Math.random(0.3));
 });
 
 messaging().setBackgroundMessageHandler((message)=>{

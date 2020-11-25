@@ -59,7 +59,7 @@ export default class ScrapCart extends React.Component{
             Axios.post(Config.api_url+'php?action=schedulePickup&'+qs.stringify({
                 user_id: this.props.route.params.actualUser.user_id,
                 address_id: this.props.route.params.address.addr_id,
-                vendor_id:90,               //this.props.route.params.vendorId,
+                vendor_id: this.props.route.params.vendorId,
                 order_id: this.props.route.params.orderId,
                 pickup_date: this.state.selectedDate,
                 time_slot: this.state.selectedTIme,

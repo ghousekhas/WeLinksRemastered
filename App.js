@@ -61,6 +61,8 @@ import functions from '@react-native-firebase/functions';
 import ScrapPickedConfirmation from './src/screens/ScrapPickedConfirmation';
 import VendorScrapOrders from './src/screens/VendorScrapOrders';
 import VendorScrapOrder from './src/screens/VendorScrapOrder';
+import MyScrapSaleOrder from './src/screens/MyScrapSaleOrder';
+import messaging from '@react-native-firebase/messaging';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -169,7 +171,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
         <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser,user: user }} options={{ headerShown: false }} />
         <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{actualUser: updateState}} />
         <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{actualUser: actualUser}} />
-        <Drawer.Screen name="MyScrapSales" component={MyScrapSales} initialParams={{user: actualUser}}/>
+        <Drawer.Screen name="MyScrapSales" component={MyScrapStack} initialParams={{user: actualUser}}/>
         <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{
           user: user, actualUser: updateState, cachedData: {
             termsData: termsData,
@@ -181,6 +183,27 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
       </Drawer.Navigator>
     </NavigationContainer>
   );
+}
+
+const MyScrapStack =({navigation,route})=>{
+  const [user, setUser] = useState(route.params.user);
+  const [actualUser, setActualUser] = useState(route.params.actualUser);
+  const { getUserDetails } = route.params;
+  const [remountKey, setRemountKey] = useState(0);
+
+
+
+  return (
+    <View style={{ flex: 1 }}>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator initialRouteName="Profile">
+          <Stack.Screen name="MyScrapSales" component={MyScrapSales} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{...route.params,user: user}} />
+          <Stack.Screen name="MyScrapSaleOrder" component={MyScrapSaleOrder} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>)
+
+
 }
 
 const Stack = createStackNavigator();
@@ -285,6 +308,8 @@ const VendorHomeStack=({navigation,route})=>{
                 if(status=== 'active'){
                   setVerification(Constants.verified);
                   setVendorID(response.data.vendor[0].vendor_id);
+                  //messss
+                  messaging().subscribeToTopic("vendor"+response.data.vendor[0].vendor_id);
 
                 }
                 else if(status=== 'inactive')
@@ -464,7 +489,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState({phoneNumber: '+917777777777'} );//DEBUG auth().currentUser);
+  const [user, setUser] = useState(auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -472,6 +497,7 @@ export default function App() {
   const [status,setStatus] = useState('no status')
 
   const getUserDetails = async (networkTries, user, nextRoute = 0) => {
+    
     const checkVendorStatus = (user_id) => {
       Axios.get("http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id="+ user_id,)
       .then((response)=>{
@@ -507,6 +533,7 @@ export default function App() {
       return;
     }
     else {
+    
 
 
       Axios.get(Config.api_url+'php?action=getUser&phone=' + user.phoneNumber.substring(3))
@@ -524,6 +551,7 @@ export default function App() {
             //setNetworkState('working');
 
               console.log("UID"+response.data.user[0].user_id)
+              messaging().subscribeToTopic("user"+response.data.user[0].user_id);
 
               
              checkVendorStatus(response.data.user[0].user_id);
@@ -635,22 +663,22 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    // checkNetworkState()
-    // //getUserDetails(0,user);
+    checkNetworkState()
+    getUserDetails(0,user);
 
-    // console.group('firebaseuser', auth().currentUser);
-    // setSplash(false);
-    // setTimeout(()=>{
-    //   setSplash(false);
-    // },1500
-    // )
-    // //setUser(auth().currentUser);
-    // checkIfFirstLogin();
-    // console.log("USER" + JSON.stringify(user));
-    // if (userDetails === null && user != null)
-    //   getUserDetails(0, user);
-    // const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    // getVendorDetails();
+    console.group('firebaseuser', auth().currentUser);
+    setSplash(false);
+    setTimeout(()=>{
+      setSplash(false);
+    },1500
+    )
+    setUser(auth().currentUser);
+    checkIfFirstLogin();
+    console.log("USER" + JSON.stringify(user));
+    if (userDetails === null && user != null)
+      getUserDetails(0, user);
+    const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    getVendorDetails();
     sendNotif();
     
     
@@ -658,11 +686,11 @@ export default function App() {
      
   
     // To debug with custom phone number comment above and uncomment below
-    if (userDetails === null){
-      getUserDetails(0, user);
-      sendNotif();
+    // if (userDetails === null){
+    //   getUserDetails(0, user);
+    //   sendNotif();
 
-    }
+    // }
 
 
 

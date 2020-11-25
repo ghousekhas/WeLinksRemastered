@@ -75,12 +75,12 @@ export default function MyScrapSales({navigation,route}){
                orderAmount : item.order_amount,
                orderStatus: item.order_status,
                cart : item.cart,
-               image : item.vendor_img_url
+               image : item.vendor_img_url,
+               cart: item.cart,
+               all: item
          })
         });
     
-
-     //   console.log('prepaered ' + data)
         setExtraData(Math.random(0.3));
     }
     catch(e){}
@@ -95,7 +95,7 @@ export default function MyScrapSales({navigation,route}){
       //      console.log("res" +response.data.order);
             //data=response.data;
             prepareResponse(response.data.order);
-            setExtraData(Math.random(0.5));
+            //setExtraData(Math.random(0.5));
             setApiLoaded(true);
         },(error)=>{
             console.log(error);
@@ -108,7 +108,7 @@ export default function MyScrapSales({navigation,route}){
         retrieveData();
         const unsub = navigation.addListener('focus',()=>{
             retrieveData();
-          })
+          });
      //     console.log('retrieving')
        
     },[]);
@@ -122,7 +122,7 @@ export default function MyScrapSales({navigation,route}){
        
         return(
         
-                <MySubscriptionOrder  {...item} name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.orderStatus} />
+                <MySubscriptionOrder navigation={navigation} item = {item}  {...item} actualUser= {user} name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.orderStatus} />
             )   
     }
 
@@ -187,7 +187,7 @@ export default function MyScrapSales({navigation,route}){
    
 }
 
-const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart}) => {
+const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart,navigation,actualUser,item}) => {
     const renderCartItems = (cart) => {
         console.log("order date"+ orderDate)
         let i,res = [];
@@ -207,67 +207,88 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
     }
 
+    const goToOrder =()=>{
+        navigation.navigate('MyScrapSaleOrder',{
+            actualUser: actualUser,
+            item: item,
+            card: card
+
+        })
+    }
+
     
 
     const [alignment,setAlign] = useState(0);
-    // var dayString = "";
-   
-        //console.log(days[i])
-        //  days[0].m ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-        //  days[1].t ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-        //  days[2].w ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-        //  days[3].th ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-        //  days[4].f ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-        //  days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-        //  days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-       
-  
-    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/50,padding:'1%',paddingEnd: '3%'}}>
+
+    const card = (
+        <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/150,padding:'1%',paddingEnd: '3%'}}>
        
     
 
-    <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
-        <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
-        <View style={{flexDirection:'row'}}>
-        <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
-
-        <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue,fontSize:12}}>{status}</Text>
+        <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
+            <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
+            <View style={{flexDirection:'row'}}>
+            <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
+    
+            <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue,fontSize:12}}>{status}</Text>
+            </View>
+    
         </View>
-
-    </View>
-    <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
-        <Image onLayout={({nativeEvent}) => {
-        setAlign(nativeEvent.layout.width)
-    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
-
-        <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
-<ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
-{renderCartItems(cart)}
-</ScrollView>
-
-        
-        
-        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
-     
-             <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
-
-            {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
-           
-            <View style={{flexDirection:'row',justifyContent: 'flex-end'}}>
-        
-        </View>
-
+        <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
+            <Image onLayout={({nativeEvent}) => {
+            setAlign(nativeEvent.layout.width)
+        }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+    
+            <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
+            <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
+    <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+    {renderCartItems(cart)}
+    </ScrollView>
+    
             
+            
+            <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
+         
+                 <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
+    
+                {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
+               
+                <View style={{flexDirection:'row',justifyContent: 'flex-end'}}>
+            
+            </View>
+    
+                
+            </View>
         </View>
+        <View style={styles.bottomArrowRow}>
+            <AntDesign name="right" size={22} color={Colors.primary} style={{alignSelf: 'flex-end'}} />
+            <View style={{height: 5}}/>
+        </View>
+        </View>
+    
+    )
 
-    </View>
-    </View>)
-
+       
+  
+    return(
+    
+    <TouchableOpacity onPress={goToOrder}>
+        {card}
+       
+    </TouchableOpacity>
+    )
 };
 
 
 const styles = StyleSheet.create({
+    bottomRightArrow:{
+        alignContent: 'flex-end',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        width: '100%',
+        paddingRight: 10,
+        paddingBottom: 30
+    },
     tabs: {
         width: dimen.width-dimen.width/10,
         aspectRatio:10/1.5,

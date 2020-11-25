@@ -17,6 +17,7 @@ import { DrawerActions } from 'react-navigation-drawer';
 import { NavigationActions } from 'react-navigation';
 import auth from '@react-native-firebase/auth';
 import {Config} from  '../Constants';
+import sendNotif from '../Utility/sendNotificationTo';
 
 
 
@@ -197,6 +198,7 @@ export default class Homescreen extends React.Component{
                                 this.setState({imageHeight : event.nativeEvent.layout.height/2})
                     }} style={styles.menuitem} onPress={()=>{
                         console.log('actualuser',this.state.actualUser);
+                        sendNotif('titleeee','boddy','user87');
                         this.props.navigation.navigate('AddressList',{
                             next: 'MilkVendors',
                             user: user,
