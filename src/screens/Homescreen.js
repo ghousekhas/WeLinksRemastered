@@ -19,6 +19,9 @@ import auth from '@react-native-firebase/auth';
 import {Config} from  '../Constants';
 import sendNotif from '../Utility/sendNotificationTo';
 
+//sendNotif('titleeee','boddy','user87');
+//sendNotif('titleeee','boddy','vendor90');
+
 
 
 var promoImageData = ['https://phlearn.com/wp-content/uploads/2019/03/fixed-ratio.png','https://phlearn.com/wp-content/uploads/2019/03/fixed-ratio.png',
