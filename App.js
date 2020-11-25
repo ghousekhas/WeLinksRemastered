@@ -288,6 +288,9 @@ const VendorHomeStack=({navigation,route})=>{
   const [verification,setVerification] = useState(Constants.veFirstTime);
   const [loading,setLoading]= useState(true);
   const [errorState,setError] = useState(false);
+  const [pendingActions,setPendingActions] = useState(0);
+  const [pendingActionItem,setPendingActionItem] = useState(null);
+
 
   useFocusEffect(
     React.useCallback(() => {
@@ -310,6 +313,10 @@ const VendorHomeStack=({navigation,route})=>{
                   setVendorID(response.data.vendor[0].vendor_id);
                   //messss
                   messaging().subscribeToTopic("vendor"+response.data.vendor[0].vendor_id);
+                  setPendingActions(response.data.vendor[0].pending_actions.homescrap.length);
+                  if(response.data.vendor[0].pending_actions.homescrap.length)
+                    setPendingActionItem(response.data.vendor[0].pending_actions.homescrap[0]);
+                
 
                 }
                 else if(status=== 'inactive')
@@ -489,12 +496,14 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState(auth().currentUser);
+  const [user, setUser] = useState({phoneNumber: '+917777777777'} ) //auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
   const [splash, setSplash] = useState(true);
   const [status,setStatus] = useState('no status')
+  const [pendingAction,setPendingAction] = useState(0);
+  const [pendingActionItem,setPendingActionItem] = useState(null);
 
   const getUserDetails = async (networkTries, user, nextRoute = 0) => {
     
@@ -553,8 +562,10 @@ export default function App() {
               console.log("UID"+response.data.user[0].user_id)
               messaging().subscribeToTopic("user"+response.data.user[0].user_id);
 
-              
              checkVendorStatus(response.data.user[0].user_id);
+             setPendingAction(response.data.user[0].pending_action.homescrap.length);
+             if(response.data.user[0].pending_action.homescrap.length>0)
+              setPendingActionItem(response.data.user[0].pending_action.homescrap[0]);
 
           }
           catch (error) {
@@ -749,6 +760,14 @@ export default function App() {
     )
   }
   else if (userDetails != 100 && userDetails != null) {
+
+    //Applock
+   
+    if(pendingAction > 0){
+      return <ScrapPickedConfirmation  route={{params:{item: pendingActionItem,refreshCallback: getUserDetails,actualUser: userDetails, cardDetails: pendingActionItem }}}  />
+    }
+
+
     return (
       <View style={{ flex: 1 }}>
         <NavigationDrawer user={user} actualUser={userDetails} getUserDetails={getUserDetails} setUser={setUser} />
