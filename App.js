@@ -370,7 +370,7 @@ const VendorHomeStack=({navigation,route})=>{
           <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown : false}} />
           <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
           <Stack.Screen name = "VendorScrapOrders" component={VendorScrapOrders} options={{headerShown : false}} />
-          <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}} />
+          <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}} initialParams={user} />
 
     
   
@@ -389,7 +389,7 @@ const VendorHomeStack=({navigation,route})=>{
         <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
 
         <Stack.Screen name = "VendorScrapOrders" component={VendorScrapOrders} options={{headerShown : false}} />
-        <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}} />
+        <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}}  initialParams={theInitialParams} />
 
 
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
@@ -496,7 +496,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState({phoneNumber: '+917777777777'} ) //auth().currentUser);
+  const [user, setUser] = useState(auth().currentUser);                     //{phoneNumber: '+917777777777'} ) 
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -674,34 +674,34 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    checkNetworkState()
-    getUserDetails(0,user);
+    // checkNetworkState()
+    // getUserDetails(0,user);
 
-    console.group('firebaseuser', auth().currentUser);
-    setSplash(false);
-    setTimeout(()=>{
-      setSplash(false);
-    },1500
-    )
-    setUser(auth().currentUser);
-    checkIfFirstLogin();
-    console.log("USER" + JSON.stringify(user));
-    if (userDetails === null && user != null)
-      getUserDetails(0, user);
-    const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    getVendorDetails();
-    sendNotif();
+    // console.group('firebaseuser', auth().currentUser);
+    // setSplash(false);
+    // setTimeout(()=>{
+    //   setSplash(false);
+    // },1500
+    // )
+    // setUser(auth().currentUser);
+    // checkIfFirstLogin();
+    // console.log("USER" + JSON.stringify(user));
+    // if (userDetails === null && user != null)
+    //   getUserDetails(0, user);
+    // const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    // getVendorDetails();
+    // sendNotif();
     
     
 
      
   
     // To debug with custom phone number comment above and uncomment below
-    // if (userDetails === null){
-    //   getUserDetails(0, user);
-    //   sendNotif();
+    if (userDetails === null){
+      getUserDetails(0, user);
+      sendNotif();
 
-    // }
+    }
 
 
 
@@ -763,9 +763,10 @@ export default function App() {
 
     //Applock
    
-    if(pendingAction > 0){
-      return <ScrapPickedConfirmation  route={{params:{item: pendingActionItem,refreshCallback: getUserDetails,actualUser: userDetails, cardDetails: pendingActionItem }}}  />
-    }
+     if(pendingAction > 0 && pendingActionItem != null){
+       console.log("I exist "+pendingActionItem)
+      return <ScrapPickedConfirmation  route={{params:{item: pendingActionItem,refreshCallback: getUserDetails,actualUser: userDetails, cardDetail: pendingActionItem,tag: 'User' }}}  />
+     }
 
 
     return (

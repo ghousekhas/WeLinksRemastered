@@ -72,7 +72,7 @@ const PaperVendors = (props) => {
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
 
-            <AppBar back funct={() => {
+            <AppBar title={'Newspaper Vendors'} back funct={() => {
                 props.navigation.pop();
             }} />
 

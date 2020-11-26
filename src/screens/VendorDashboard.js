@@ -168,7 +168,7 @@ class VendorDashboard extends React.Component {
                     }}
                   >
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.scrap} />
-                        <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>Corporate Scrap Collection</Text>
+                        <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/22}}>Corporate Scrap Collection</Text>
                     </TouchableOpacity> : null}
                     </View> 
               
@@ -466,7 +466,7 @@ const styles = StyleSheet.create({
     },
     menutext:{
         fontWeight: 'bold',
-        fontSize: 11,
+        fontSize: 10,
         flex: 1,
         textAlign: 'center',
         color: 'black',

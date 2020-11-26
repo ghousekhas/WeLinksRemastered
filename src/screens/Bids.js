@@ -249,7 +249,7 @@ return(<View style={styles.card}>
    
 
     return(<View>
- <AppBar back  funct={() => {
+ <AppBar title={'My Bids'} back  funct={() => {
        navigation.pop();
         }} />
 

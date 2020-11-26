@@ -52,7 +52,8 @@ export default class AddressList extends React.Component{
               apiLoaded: false,
               profileEdit: props.route.params.profileEdit === true ? true : false,
               vendorEdit: props.route.params.vendorEdit === true ? true : false,
-              locationLoading: false
+              locationLoading: false,
+              title: 'Addresses'
               
               
             };
@@ -112,6 +113,7 @@ export default class AddressList extends React.Component{
        this.data= this.data.reverse();
        this.setState({apiLoaded: true});
        this.setState({somekey: Math.random(0.5)});
+       this.setState({title : 'My Addresses'})
 
       },(error)=>{
         console.log('error',error);
@@ -334,7 +336,7 @@ export default class AddressList extends React.Component{
         if(this.data[0] == undefined)
           return(
             <View style={styles.container}>
-            <AppBar back ={this.props.route.params.profile} funct={() => {
+            <AppBar title={'My Addresses'} back ={this.props.route.params.profile} funct={() => {
           
             if(this.props.route.params.profile)
               this.props.navigation.pop();
@@ -392,7 +394,7 @@ export default class AddressList extends React.Component{
         
             
           <View style={styles.container}>
-            <AppBar back ={this.props.route.params.profile || this.props.route.params.vendorEdit} funct={() => {
+            <AppBar title={'My Addresses'} back ={this.props.route.params.profile || this.props.route.params.vendorEdit} funct={() => {
           
           if(this.props.route.params.profile|| this.props.route.params.vendorEdit)
             this.props.navigation.pop();

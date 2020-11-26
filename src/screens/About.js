@@ -39,8 +39,8 @@ const About = ({ navigation, route, getUserDetails, user }) => {
 
 
     const aboutSubmit = async () => {
-        console.log(email);
-        console.log(name);
+    //    console.log(email);
+    //    console.log(name);
         console.log(validateEmail());
         if (validateEmail() && name.trim() != '') {
             try {
@@ -91,7 +91,7 @@ const About = ({ navigation, route, getUserDetails, user }) => {
 
     return (<View style={style.mainContainer}>
         {edit ? (
-            <AppBar back={true} funct={() => {
+            <AppBar title='My Profile' subtitle='Edit profile details' back={true} funct={() => {
                 navigation.goBack();
             }} />
         ) : null}

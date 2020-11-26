@@ -267,7 +267,7 @@ const Cart = ({route,navigation,Tag}) => {
 
     return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
         <View>
-      <AppBar back={true} funct={() => {
+      <AppBar title={'Order Confirmation'} back={true} funct={() => {
          
            navigation.pop();
         }} />

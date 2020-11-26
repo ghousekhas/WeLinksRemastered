@@ -81,7 +81,7 @@ const MilkVendors = (props) => {
 
 
     return (<View style={{ flex: 1, backgroundColor: 'white' }}>
-        <AppBar back={true} funct={() => {
+        <AppBar title={'Milk Vendors'} back={true} funct={() => {
             props.navigation.pop();
         }} />
         <View onLayout={({nativeEvent}) => {

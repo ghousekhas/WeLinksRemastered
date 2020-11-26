@@ -80,7 +80,9 @@ export default function VendorScrapOrders({navigation,route}){
         
         Axios.get(Config.api_url+'php?action=getVendorOrders&vendor_id='+vendorID)
         .then((response)=>{
-             console.log("Response" +response.data.order);
+         //    console.log("Response" +response.data.order);
+
+             console.log("R E S "+response.data.order.company_name)
             //data=response.data;
             prepareResponse(response.data.order);
           //  setExtraData(Math.random(0.5));
@@ -110,7 +112,7 @@ export default function VendorScrapOrders({navigation,route}){
        
         return(
         
-                <MySubscriptionOrder  {...item} name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.status} cart={item.cart}/>
+                <MySubscriptionOrder  {...item} name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.status} cart={item.cart} address={item.address}/>
             )   
     }
 
@@ -144,7 +146,9 @@ export default function VendorScrapOrders({navigation,route}){
                     status : item.order_status,
                     image : item.vendor_img_url,
                     cart : item.cart,
-                    orderID : item.scrap_order_id
+                    orderID : item.scrap_order_id,
+                    address : item.addr_details,
+                    userID : item.user_id
 
 
                     
@@ -191,7 +195,7 @@ export default function VendorScrapOrders({navigation,route}){
    
 }
 
-const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart}) => {
+const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart,address}) => {
     const renderCartItems = (cart) => {
   //      console.log("order date"+ orderDate)
         let i,res = [];
@@ -222,30 +226,31 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     
 
     <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
-        <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
-        <View style={{flexDirection:'row'}}>
+        <Text style={{...styles.greyText1,alignSelf: 'center'}}>{getDate(orderDate)}</Text>
+        <View style={{flexDirection:'row',alignSelf: 'center'}}>
         <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
 
         <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue,fontSize:12}}>{status}</Text>
         </View>
 
     </View>
-    <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
+    <View style={{flexDirection: 'row',flex: 1,width: '100%',marginHorizontal: '3%'}}>
         <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
     }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
 
-        <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>Ghouse {/*name*/}</Text>
-<ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+        <View style={{flex: 1,margin: '5%',marginStart: '10%'}}>
+        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',backgroundColor: 'transparent',marginBottom: '3%',fontSize:14}}>
+        {name}</Text>
+<ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
 {renderCartItems(cart)}
 </ScrollView>
 
         
-        <Text style={{...Styles.subheading,fontWeight: 'normal',marginStart: 30,paddingTop: 10}}>#17, 7th Cross 18th A main road G block Sahakarnagar Bangalore 92</Text>
-        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
+        <Text style={{...Styles.subheading,fontWeight: 'normal',paddingTop: 10}}>{address}</Text>
+        <Text numberOfLines={1} style={{...styles.quantity,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
      
-             <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
+             <Text style={{...styles.quantity,color:'black',alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
 
             {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
            
@@ -338,8 +343,8 @@ const styles = StyleSheet.create({
         
     },
     quantity: {
-        marginStart: '35%',
-        marginTop: '3%',
+       
+       marginTop: '2%',
         fontWeight: 'bold',
         
         
