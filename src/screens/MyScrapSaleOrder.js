@@ -25,6 +25,7 @@ import {Config} from  '../Constants';
 import Button from '../components/Button';
 import SpinnerBox from '../components/Spinner';
 import LottieView from 'lottie-react-native';
+import sendNotif from '../Utility/sendNotificationTo';
 
 
 var cancellationReasons = [{
@@ -65,6 +66,7 @@ export default function MyScrapSaleOrder({navigation,route}){
                         alert("Your order has been cancelled successfully");
                         navigation.goBack();
                         setLoading(false);
+                        sendNotif('Order Cancelled',item.all.user_name+" has cancelled the scrap order",'vendor'+item.all.vendor_id);
                     },(error)=>{
                         console.log(error);
                         alert('A network error occured, please try again later');
@@ -82,6 +84,8 @@ export default function MyScrapSaleOrder({navigation,route}){
                     console.log(response.data);
                     alert("Your order has been cancelled successfully");
                     navigation.goBack();
+                    sendNotif('Order Cancelled',item.all.user_name+" has cancelled the scrap order",'vendor'+item.all.vendor_id);
+                    //sendNotif('Order Cancelled',item.all.user_name+" has cancelled the scrap order",'user'+item.all.user_id);
                     setLoading(false);
                 },(error)=>{
                     console.log(error);
