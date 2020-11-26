@@ -524,6 +524,7 @@ export default function App() {
              console.log("Inac")
           else
              console.log("prog")
+            setSplash(false);
           //setVerification(Constants.veFirstTime);
       }
       catch(error){
@@ -557,6 +558,7 @@ export default function App() {
                 setUserDetails(response.data.user[0]);
             else
               setUserDetails(null);
+              
             //setNetworkState('working');
 
               console.log("UID"+response.data.user[0].user_id)
@@ -564,8 +566,10 @@ export default function App() {
 
              checkVendorStatus(response.data.user[0].user_id);
              setPendingAction(response.data.user[0].pending_action.homescrap.length);
+             console.log(response.data.user[0].pending_action.homescrap.length);
              if(response.data.user[0].pending_action.homescrap.length>0)
               setPendingActionItem(response.data.user[0].pending_action.homescrap[0]);
+             setSplash(false);
 
           }
           catch (error) {
