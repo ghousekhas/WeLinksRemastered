@@ -496,7 +496,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState({phoneNumber: '+917777777777'} ) //auth().currentUser);
+  const [user, setUser] = useState(auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -524,6 +524,7 @@ export default function App() {
              console.log("Inac")
           else
              console.log("prog")
+            setSplash(false);
           //setVerification(Constants.veFirstTime);
       }
       catch(error){
@@ -557,6 +558,7 @@ export default function App() {
                 setUserDetails(response.data.user[0]);
             else
               setUserDetails(null);
+              
             //setNetworkState('working');
 
               console.log("UID"+response.data.user[0].user_id)
@@ -564,8 +566,10 @@ export default function App() {
 
              checkVendorStatus(response.data.user[0].user_id);
              setPendingAction(response.data.user[0].pending_action.homescrap.length);
+             console.log(response.data.user[0].pending_action.homescrap.length);
              if(response.data.user[0].pending_action.homescrap.length>0)
               setPendingActionItem(response.data.user[0].pending_action.homescrap[0]);
+             setSplash(false);
 
           }
           catch (error) {
@@ -679,10 +683,10 @@ export default function App() {
 
     console.group('firebaseuser', auth().currentUser);
     setSplash(false);
-    setTimeout(()=>{
-      setSplash(false);
-    },1500
-    )
+    // setTimeout(()=>{
+    //   setSplash(false);
+    // },1500
+    // )
     setUser(auth().currentUser);
     checkIfFirstLogin();
     console.log("USER" + JSON.stringify(user));
@@ -690,7 +694,7 @@ export default function App() {
       getUserDetails(0, user);
     const suser = auth().onAuthStateChanged(onAuthStateChanged);
     getVendorDetails();
-    sendNotif();
+    //sendNotif();
     
     
 

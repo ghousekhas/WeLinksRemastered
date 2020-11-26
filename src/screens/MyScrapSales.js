@@ -36,7 +36,7 @@ export default function MyScrapSales({navigation,route}){
     useFocusEffect(
         React.useCallback(() => {
           const onBackPress = () => {
-         console.log('Guess what? We can! go back from here');
+         //console.log('Guess what? We can! go back from here');
          route.params.goBackToHome();
        
         // navigation.goBack();
@@ -59,12 +59,12 @@ export default function MyScrapSales({navigation,route}){
 
 
       // here
-    const prepareResponse =(dataa)=>{
+    const prepareResponse = async (dataa)=>{
        // console.log(dataa);
         data=[];
         let i;
         try{
-        dataa.forEach(item => {
+        await dataa.forEach(item => {
        console.log("dataa " + item.company_name);
         
            
@@ -82,26 +82,34 @@ export default function MyScrapSales({navigation,route}){
         });
     
         setExtraData(Math.random(0.3));
+        setApiLoaded(true);
     }
     catch(e){}
 
     }
 
     const retrieveData=()=>{
+        setApiLoaded(false);
        
         
         Axios.get(Config.api_url+'php?action=getHomeScrapOrders&user_id='+user.user_id)
         .then((response)=>{
       //      console.log("res" +response.data.order);
             //data=response.data;
-            prepareResponse(response.data.order);
+            try{
+                prepareResponse(response.data.order.reverse());
+            }
+            catch(error){
+                setApiLoaded(false);
+                data = [];
+            }
             //setExtraData(Math.random(0.5));
-            setApiLoaded(true);
+            //setApiLoaded(true);
         },(error)=>{
             console.log(error);
             setApiLoaded(true);
         })
-        setApiLoaded(false);
+
     }
 
     useEffect(()=>{
@@ -189,7 +197,7 @@ export default function MyScrapSales({navigation,route}){
 
 const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart,navigation,actualUser,item}) => {
     const renderCartItems = (cart) => {
-        console.log("order date"+ orderDate)
+        //console.log("order date"+ orderDate)
         let i,res = [];
         for(i in cart){
                 res.push(<Text style={{fontWeight: 'bold',fontSize:13}}>{`${cart[i].homescrap_name}${i==cart.length-1? "" : ", "}`}</Text>)
@@ -197,10 +205,10 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         return(res)
     }
     const getDate = (date) => {
-       console.log("dayte"+date)
+       //console.log("dayte"+date)
    let dayte = date.substring(0,11)
     let arr = dayte.split("-");
-    console.log(arr)
+    //console.log(arr)
     let months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
         return (arr[2].trim() + "-" + months[arr[1].replace(/^0+/, "")] + "-" + arr[0])
@@ -211,7 +219,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         navigation.navigate('MyScrapSaleOrder',{
             actualUser: actualUser,
             item: item,
-            card: card
+            card: sendingCard
 
         })
     }
@@ -219,6 +227,55 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     
 
     const [alignment,setAlign] = useState(0);
+
+    const sendingCard = (
+        <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/150,padding:'1%',paddingEnd: '3%',paddingVertical: '3%'}}>
+       
+    
+
+        <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
+            <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
+            <View style={{flexDirection:'row'}}>
+            <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
+    
+            <Text style={{...styles.quantity,marginStart: 10,
+                color: status === "CANCELLED"? Colors.red : status === "COMPLETED"? Colors.primary: Colors.blue,fontSize:12}}>{status}</Text>
+            </View>
+    
+        </View>
+        <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
+            <Image onLayout={({nativeEvent}) => {
+            setAlign(nativeEvent.layout.width)
+        }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+    
+            <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
+            <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
+    <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+    {renderCartItems(cart)}
+    </ScrollView>
+    
+            
+            
+            <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
+         
+                 <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
+    
+                {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
+               
+                <View style={{flexDirection:'row',justifyContent: 'flex-end'}}>
+            
+            </View>
+    
+                
+            </View>
+        </View>
+        {/* <View style={styles.bottomArrowRow}>
+            <AntDesign name="right" size={22} color={Colors.primary} style={{alignSelf: 'flex-end'}} />
+            <View style={{height: 5}}/>
+        </View> */}
+        </View>
+    
+    )
 
     const card = (
         <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/150,padding:'1%',paddingEnd: '3%'}}>
@@ -230,7 +287,8 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
             <View style={{flexDirection:'row'}}>
             <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
     
-            <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue,fontSize:12}}>{status}</Text>
+            <Text style={{...styles.quantity,marginStart: 10,
+                color: status === "CANCELLED"? Colors.red : status === "COMPLETED"? Colors.primary: Colors.blue,fontSize:12}}>{status}</Text>
             </View>
     
         </View>
