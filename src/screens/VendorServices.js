@@ -610,7 +610,7 @@ export default function VendorServices({ submit, route, actualUser, navigation }
 
 
     return (<View style={{ ...StyleSheet.absoluteFill }}>
-        <AppBar back={back} funct={back ? () => navigation.goBack() : () => navigation.toggleDrawer()} />
+        <AppBar title='My Services' back={back} funct={back ? () => navigation.goBack() : () => navigation.toggleDrawer()} />
         <View style={{ height: dimen.height / 12 }} />
         <Text style={style.text}>What services do you offer?</Text>
         <View style={{ paddingHorizontal: 10 }}>

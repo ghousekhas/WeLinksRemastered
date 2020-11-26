@@ -158,7 +158,7 @@ export default class VendorScreen1 extends React.Component{
         const {name,stars,reviews,address,vendorAddress,imageUrl}=this.props.route.params;
     return (<View style={{...StyleSheet.absoluteFill}}>
         <View>
-     <AppBar back={true} funct={() => {
+     <AppBar title={name} back={true} funct={() => {
            // props.navigation.toggleDrawer();
            this.props.navigation.pop();
         }} />

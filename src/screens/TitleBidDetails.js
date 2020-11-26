@@ -34,7 +34,7 @@ export default function TitleBidDetails({navigation,route}){
     const renderHeader = () => {
         //   console.log(cardDetails)
         return (<View style={{ flex: 0 }}>
-            <Text style={{ ...Styles.heading, alignSelf: 'center' }}>Bid Details</Text>
+            {/* <Text style={{ ...Styles.heading, alignSelf: 'center' }}>Bid Details</Text> */}
             <View style={styles.bidcard}>
                 <Text style={styles.title}>{cardDetails.bidTitle}</Text>
                 <Text style={styles.info}> {cardDetails.address}</Text>
@@ -79,7 +79,7 @@ export default function TitleBidDetails({navigation,route}){
                     <Text style={{ ...styles.info }}>{cardDetails.notes}</Text>
                 </View>
                 <View>
-                    <Text style={{ ...styles.title, marginVertical: '3%', color: Colors.blue }}>{cardDetails.status}</Text>
+                    <Text style={{ ...styles.title, marginVertical: '3%', color: cardDetails.status == 'Cancelled' ? Colors.red : Colors.blue }}>{cardDetails.status}</Text>
                 </View>
             </View>
             {/* <SubmitButton text='Cancel Bid' /> */}
@@ -143,7 +143,7 @@ export default function TitleBidDetails({navigation,route}){
 
   //  const [vendorsList,setVendorsList] = useState(appliedVendorsList);
     return(<View>
-     <AppBar 
+     <AppBar title={'Bid Details'}
      back
       funct={() => {
         navigation.pop();
@@ -183,6 +183,7 @@ export default function TitleBidDetails({navigation,route}){
             <View style={{alignSelf:'center'}}>
             <Button text='View' onTouch={() => {
                 navigation.navigate('AwardBid',{
+                      tag: cardDetails.status,
                     ...thisVendor,
                     actualUser: actualUser
                 })

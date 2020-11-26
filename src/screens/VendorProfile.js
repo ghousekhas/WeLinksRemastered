@@ -323,7 +323,8 @@ const VendorProfile = ({ navigation, route }) => {
 
     return (<View style={{ ...StyleSheet.absoluteFill }}>
         <View style={{ elevation: 100, zIndex: 100 }}>
-            <AppBar funct={() => {
+            <AppBar title='Vendor Profile'
+            funct={() => {
                 navigation.toggleDrawer();
             }} />
         </View>

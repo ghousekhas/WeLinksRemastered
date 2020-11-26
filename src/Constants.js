@@ -17,7 +17,7 @@ export const Colors = {
     disabledButton: '#BBC0C4',
     white : '#FFFFFF',
     blue: '#6775DD', // Bids
-    red: '#C40013', // Cancel
+    red: '#F61F1F', // Cancel
     whiteBackground: '#F9F9F9',
     buttonEnabledGreen: '#64E4cE',
     lightBlue : '#EDF9F9'

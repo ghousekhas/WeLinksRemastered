@@ -122,18 +122,15 @@ export default function MySubscriptions({navigation,route}){
 
    
 
-    return(<View style={{width: '100%',height: dimen.height}}>
-        <View style={{height: dimen.height/14}}>
-            <AppBar back={false} funct={() => {   
-                navigation.toggleDrawer();
-                }} />
+    return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
+    <View style={{height: dimen.height/13}}>
+        <AppBar title={'My Subscriptions'} back={false} funct={() => {
+            
+            navigation.toggleDrawer();
+            }} />
         </View>
-    
 
         <View style={{flex: 1,backgroundColor: 'white'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>My Subscriptions</Text>
-        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/300,fontSize:14,color:'gray'}}>{`Total subscriptions : ${data.length}`}</Text>
-
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
             extraData={extraData}

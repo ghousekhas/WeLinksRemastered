@@ -81,15 +81,15 @@ return accordions;
 
   return(
   <View style={{flex:1}}>
-   <AppBar back ={true} funct={() => {
+   <AppBar title='FAQs' back ={true} funct={() => {
         navigation.pop();
         }} />
   
         <ScrollView>
   <View style={{...Styles.parentContainer,flex: 1,height:Dimensions.get('window').height}}>
   
-  <Text style={styles.heading}>Frequently Asked Questions</Text>
-  <View style={Styles.grayfullline}/>
+  {/* <Text style={styles.heading}>Frequently Asked Questions</Text> */}
+  {/* <View style={Styles.grayfullline}/> */}
 
   {renderAccordion()}
   </View>

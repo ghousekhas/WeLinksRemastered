@@ -199,7 +199,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
   var fall = new Animated.Value(1);
 
   return (<View>
-      <AppBar back={true} funct={() => {
+      <AppBar title={'Make a subscription'} back={true} funct={() => {
           
            navigation.pop();
         }} />

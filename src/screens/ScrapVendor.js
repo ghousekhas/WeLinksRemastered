@@ -32,7 +32,7 @@ export default class ScrapVendor extends React.Component {
             sections: [],
             activesections: [],
             width: 0,
-            translateCart: new Animated.Value(dimen.height - dimen.height / 16),
+            translateCart: new Animated.Value(dimen.height+30),
             cartState: false,
             extraData: 0,
             orderId: -1,
@@ -177,14 +177,14 @@ export default class ScrapVendor extends React.Component {
             })
         }
         else {
-            console.log('rigsbee', {
-                user_id: this.state.actualUser.user_id,
-                product_id: itemid,
-                quantity: num,
-                address_id: this.state.address.addr_id,
-                vendor_id: this.props.route.params.vendorId,
-                order_id: this.orderId
-            })
+            // console.log('rigsbee', {
+            //     user_id: this.state.actualUser.user_id,
+            //     product_id: itemid,
+            //     quantity: num,
+            //     address_id: this.state.address.addr_id,
+            //     vendor_id: this.props.route.params.vendorId,
+            //     order_id: this.orderId
+            // })
             Axios.post(Config.api_url + 'php?action=addToCart&' + qs.stringify({
                 user_id: this.state.actualUser.user_id,
                 product_id: parseInt(itemid),
@@ -219,14 +219,14 @@ export default class ScrapVendor extends React.Component {
         else
             itemid = item.cart_product_id;
 
-        console.log({
-            user_id: this.state.actualUser.user_id,
-            product_id: item.id,
-            quantity: 0,
-            address_id: this.state.address.addr_id,
-            vendor_id: this.props.route.params.vendorId,
-            order_id: this.orderId
-        });
+        // console.log({
+        //     user_id: this.state.actualUser.user_id,
+        //     product_id: item.id,
+        //     quantity: 0,
+        //     address_id: this.state.address.addr_id,
+        //     vendor_id: this.props.route.params.vendorId,
+        //     order_id: this.orderId
+        // });
         Axios.post(Config.api_url + 'php?action=addToCart&' + qs.stringify({
             user_id: this.state.actualUser.user_id,
             product_id: itemid,
@@ -396,15 +396,17 @@ export default class ScrapVendor extends React.Component {
                 ...DefaultTheme,
                 colors:{
                 
-                    onSurface: "rgba(0, 204, 204, 1)",
-                    surface: "black",
+                    onSurface: Colors.primary,
+                    surface: "white",
                 
                 }
+                
             }}>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1,marginBottom: '5%',backgroundColor: 'yellow'}}>
             
             <Snackbar
                 visible={this.state.snackBarVisible}
+                style={{color: 'white',marginBottom: '1%'}}
                 onDismiss={this.dismissSnackbar}
                 action={{
                     label: 'Dismiss',
@@ -416,8 +418,8 @@ export default class ScrapVendor extends React.Component {
             </Snackbar>
          
      
-            <AppBar back funct={() =>  this.state.cartState ? this.toggleCart(false) : this.props.navigation.pop()}/>
-            <View style={Styles.parentContainer}>
+            <AppBar title={name} back funct={() =>  this.state.cartState ? this.toggleCart(false) : this.props.navigation.pop()}/>
+            <View style={{...Styles.parentContainer}}>
                 
             
                 <View onLayout={({ nativeEvent }) => {

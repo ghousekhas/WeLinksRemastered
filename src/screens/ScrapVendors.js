@@ -77,7 +77,7 @@ const ScrapVendors = ({navigation,route}) => {
     
     return(<View style={{flex: 1,backgroundColor: 'white'}}>
  
-    <AppBar back  funct={() => {
+    <AppBar title={'Scrap Vendors'} back  funct={() => {
       navigation.pop();
         }} />
             <View onLayout={({nativeEvent}) => {

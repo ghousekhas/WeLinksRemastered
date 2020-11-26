@@ -15,16 +15,21 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 //Does this work now
 // I wanna commit lol 
 // heyyyyyy
-const AppBar = ({funct,back}) => { 
+const AppBar = ({funct,back,title,subtitle}) => { 
+  const pageTitle = title;
+ // console.log("title "+title)
   if(!back){
     return(
-    <View style={{zIndex: 150,elevation: 100}}><Appbar style={styles.bottom}>
+    <View style={{zIndex: 150,elevation: 100}}
+    ><Appbar style={styles.bottom}>
         <Appbar.Header style={styles.header}>
+       
+       
         <TouchableOpacity onPress={funct} underlayColor='rgba(0,0,0,0)' rippleColor= 'transparent' style={styles.ripple} > 
               <EvilIcons name="navicon" size={26} color="white" style={styles.hamburger} />
         </TouchableOpacity>
           </Appbar.Header>
-          {/* <Appbar.Content color='white' title="My Bids" subtitle={'All bids placed by me'} /> */}
+          <Appbar.Content color='white' title={pageTitle} subtitle={subtitle} />
 
          </Appbar>
        
@@ -38,6 +43,7 @@ const AppBar = ({funct,back}) => {
     
        
       </Appbar.Header>
+      <Appbar.Content color='white' title={pageTitle} subtitle={subtitle} />
 
     
      

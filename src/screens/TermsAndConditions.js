@@ -32,13 +32,12 @@ export default function TermsAndConditions ({navigation,route}) {
     });
   });
 return(<View>
- <AppBar back ={true} funct={() => {
+ <AppBar title='Terms & Conditions' back ={true} funct={() => {
         navigation.pop();
         }} />
 
 <View style={Styles.parentContainer}>
-<Text style={styles.heading}>Terms and Conditions</Text>
-<View style={Styles.grayfullline}/>
+{/* <Text style={styles.heading}>Terms and Conditions</Text> */}
 <ScrollView>
 <View>
 <Text style={{margin: '5%'}}>{policy}</Text>

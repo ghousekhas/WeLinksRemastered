@@ -161,7 +161,7 @@ export default function VendorRegistration({navigation,route}){
     if(verification === Constants.veFirstTime)
         return(
             <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
-                <AppBar  funct={() => {
+                <AppBar  title='Vendor Registration' funct={() => {
         navigation.toggleDrawer();
         }} />
                 <Text style={{...Styles.heading,alignSelf: 'center'}}>Tell us about your business</Text>    
