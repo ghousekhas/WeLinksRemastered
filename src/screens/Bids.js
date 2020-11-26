@@ -92,27 +92,26 @@ export default function Bids({navigation,route}){
     vehicle : item.vehicle_need,
     address : item.addr_details,
     notes : item.bid_notes,
-    appliedVendors : item.applied_vendors,
-    address : item.addr_details
+    appliedVendors : item.applied_vendors
 
     }
-    var itema = null;
-    let thisVendor = null;
-    if(item.bid_status === 'Closed'){
-        itema  = item.applied_vendors[0];
-        thisVendor = {
-            name : itema.company_name,
-            email : itema.company_email_id,
-            amount : itema.appln_amount,
-            image : itema.vendor_img_url,
-            time : itema.appln_timestamp,
-            vendor_id: itema.vendor_id,
-            bid_apply_id: itema.bid_apply_id,
-            bid_id: itema.bid_id,
+    // var itema = null;
+    // let thisVendor = null;
+    // if(item.bid_status === 'Closed'){
+    //     itema  = item.applied_vendors[0];
+    //     thisVendor = {
+    //         name : itema.company_name,
+    //         email : itema.company_email_id,
+    //         amount : itema.appln_amount,
+    //         image : itema.vendor_img_url,
+    //         time : itema.appln_timestamp,
+    //         vendor_id: itema.vendor_id,
+    //         bid_apply_id: itema.bid_apply_id,
+    //         bid_id: itema.bid_id
     
     
-        };
-    }
+    //     };
+    // }
     appliedVendorsList = item.applied_vendors
     return(<TouchableOpacity onPress={() => {
         console.log("APPLIED "+ JSON.stringify(appliedVendorsList))
@@ -205,6 +204,7 @@ export default function Bids({navigation,route}){
             <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${appliedVendorsList.length}`}</Text>
 
             </View>
+            <AntDesign style={{alignSelf:'flex-end',marginHorizontal:'3%',marginBottom: '1%'}} name="right" size={18} color={Colors.primary} />
 
 
 
@@ -237,8 +237,12 @@ return(<View style={styles.card}>
                 </View>
             </View>
 
-
+            <View style={{flexDirection: 'row'}}>
             <Text style={{...styles.cardTitle,alignItems: 'flex-end',color: cardDetails.status == "Cancelled" ? Colors.red : Colors.blue,marginVertical:'5%',fontSize:16}}>{cardDetails.status == "Cancelled" ? cardDetails.status: cardDetails.status +" · Awarded to " + cardDetails.awardedTo}</Text>
+
+            </View>
+            <AntDesign style={{alignSelf:'flex-end',marginHorizontal:'3%',marginBottom: '1%'}} name="right" size={18} color={Colors.primary} />
+
 
 
     </View>)

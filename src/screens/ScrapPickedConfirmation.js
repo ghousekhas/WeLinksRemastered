@@ -6,7 +6,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import SubmitButton from '../components/SubmitButton';
 import sendNotif from '../Utility/sendNotificationTo';
-import auth, { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 
 
@@ -41,10 +41,6 @@ export default function ScrapPickedConfirmation({navigation,route}){
              cart : cardDetail.item.cart,
              vendorAmount: cardDetail.item.pickup_amount_by_vendor,
              userID : cardDetail.item.user_id
-
-
-
-
 
          }
          console.log("log "+JSON.stringify(cardDetails.userID))

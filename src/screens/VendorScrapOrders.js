@@ -237,7 +237,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     <View style={{flexDirection: 'row',flex: 1,width: '100%',marginHorizontal: '3%'}}>
         <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
-    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={imageUrl == null || imageUrl==undefined ||imageUrl!='' ? require('../../assets/notmaleavatar.png') : {uri: imageUrl}}/>
 
         <View style={{flex: 1,margin: '5%',marginStart: '10%'}}>
         <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',backgroundColor: 'transparent',marginBottom: '3%',fontSize:14}}>
@@ -262,6 +262,8 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         </View>
 
     </View>
+    <AntDesign style={{alignSelf:'flex-end',marginHorizontal:'3%',marginBottom: '1%'}} name="right" size={18} color={Colors.primary} />
+
     </View>)
 
 };
