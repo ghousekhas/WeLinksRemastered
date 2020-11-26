@@ -16,6 +16,7 @@ import SubscriptionOrder from '../components/SubscriptionOrder';
 import LottieView from 'lottie-react-native';
 import { setStatusBarHidden } from 'expo-status-bar';
 import {Config} from  '../Constants';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 let data=[];
 
@@ -140,14 +141,14 @@ export default function MyScrapSales({navigation,route}){
 
     return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
     <View style={{height: dimen.height/13}}>
-        <AppBar back={false} funct={() => {
+        <AppBar title={'My Scrap Sales'} back={false} funct={() => {
             
             navigation.toggleDrawer();
             }} />
         </View>
 
         <View style={{flex: 1,backgroundColor: 'white'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>{words.title}</Text>
+        {/* <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>{words.title}</Text> */}
 
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
@@ -319,7 +320,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
             </View>
         </View>
         <View style={styles.bottomArrowRow}>
-            <AntDesign name="right" size={22} color={Colors.primary} style={{alignSelf: 'flex-end'}} />
+            <AntDesign name="right" size={18} color={Colors.primary} style={{alignSelf: 'flex-end'}} />
             <View style={{height: 5}}/>
         </View>
         </View>

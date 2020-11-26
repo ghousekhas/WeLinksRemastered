@@ -163,7 +163,7 @@ export default class ScrapCart extends React.Component{
 
         return(
             <View style={{flex: 1}}>
-            <AppBar back funct={() => {this.props.navigation.pop()}} />
+            <AppBar title='Cart' back funct={() => {this.props.navigation.pop()}} />
             
             <ScrollView style={{flex: 1}}>
             <View style={{marginTop: dimen.height/16,flex: 1}}>
@@ -252,7 +252,7 @@ export default class ScrapCart extends React.Component{
                 </View>
                 <View style={Styles.scrapBottom}>
                     <Text style={ScrapStyles.heading}>Pickup Date and Time</Text>
-                    <View style={Styles.horizontalCalendarRow}>
+                    <View style={{...Styles.horizontalCalendarRow}}>
                         {//SevenViewshere
                         }
                     </View>                    

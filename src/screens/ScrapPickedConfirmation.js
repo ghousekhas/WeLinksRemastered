@@ -20,7 +20,7 @@ export default function ScrapPickedConfirmation({navigation,route}){
     const [submitted, isSubmitted] = useState(false);
     const [incorrect,setIncorrect] = useState(false);
     const [show,setShow] = useState(false);
-    const {theInitialParams} = route.params;
+    const {user} = route.params;
 
 
   //   console.log("cd "+ JSON.stringify(cardDetail.item))
@@ -104,7 +104,7 @@ export default function ScrapPickedConfirmation({navigation,route}){
                // isSubmitted(false)
                sendNotif("Update","Order pick-up confirmed by user!","vendor"+cardDetails.vendorID)
 
-                route.params.refreshCallback(0,auth(theInitialParams.user))
+                route.params.refreshCallback(0,auth().currentUser);
 
             })
 

@@ -17,7 +17,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 // heyyyyyy
 const AppBar = ({funct,back,title,subtitle}) => { 
   const pageTitle = title;
-  console.log("title "+title)
+ // console.log("title "+title)
   if(!back){
     return(
     <View style={{zIndex: 150,elevation: 100}}

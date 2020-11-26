@@ -122,14 +122,14 @@ export default function VendorScrapOrders({navigation,route}){
 
     return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
     <View style={{height: dimen.height/13}}>
-        <AppBar back funct={() => {
+        <AppBar title='My Scrap Orders'back funct={() => {
             
             navigation.goBack()
             }} />
         </View>
 
         <View style={{flex: 1,backgroundColor: 'white'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>{words.title}</Text>
+        {/* <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>{words.title}</Text> */}
 
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
@@ -139,7 +139,7 @@ export default function VendorScrapOrders({navigation,route}){
             renderItem = {({item}) => {
                 console.log("Statts "+item.order_status)
                 let cardDetails = {
-                    name : item.company_name,
+                    name : item.user_name,
                     orderAmount : item.order_amount,
                     pickUpDate : item.pickup_date,
                     orderDate : item.order_date,
@@ -230,7 +230,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         <View style={{flexDirection:'row',alignSelf: 'center'}}>
         <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
 
-        <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue,fontSize:12}}>{status}</Text>
+        <Text style={{...styles.quantity,marginStart: 10,color: status == 'Cancelled' || status == 'CANCELLED' ? Colors.red : Colors.blue,fontSize:12}}>{status}</Text>
         </View>
 
     </View>

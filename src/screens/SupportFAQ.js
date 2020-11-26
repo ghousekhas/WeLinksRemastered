@@ -61,7 +61,7 @@ const SupportFAQ = ({navigation,route}) => {
       const [content,setContent] = useState('');
     return(
     <View>
-     <AppBar funct={() => {
+     <AppBar  title='Support & FAQs'funct={() => {
         navigation.toggleDrawer();
         }} />
 

@@ -677,6 +677,8 @@ export default function App() {
 
   }
 
+  console.log("cuu "+JSON.stringify(user))
+
   React.useEffect(() => {
     // checkNetworkState()
     // getUserDetails(0,user);
@@ -769,7 +771,7 @@ export default function App() {
    
      if(pendingAction > 0 && pendingActionItem != null){
        console.log("I exist "+pendingActionItem)
-      return <ScrapPickedConfirmation  route={{params:{item: pendingActionItem,refreshCallback: getUserDetails,actualUser: userDetails, cardDetail: pendingActionItem,tag: 'User' }}}  />
+      return <ScrapPickedConfirmation  route={{params:{item: pendingActionItem,refreshCallback: getUserDetails,actualUser: userDetails, cardDetail: pendingActionItem,tag: 'User',user: user }}}  />
      }
 
 

@@ -17,8 +17,10 @@ export default function AwardBid({navigation,route}){
  const {item,actualUser,user_id} = route.params;
  const appliedVendorsList = route.params.appliedVendorsList;
  console.log(thisVendor.image)
+ const [submitted,isSubmitted] = useState(false);
 
  const awardTheBid = ()=>{
+     isSubmitted(true);
      Axios.post(Config.api_url+'php?'+qs.stringify({
         action: 'awardBid',
         user_id: actualUser.user_id,
@@ -27,6 +29,7 @@ export default function AwardBid({navigation,route}){
         bid_apply_id: bid_apply_id
      })).then((response)=>{
          console.log(response.data);
+         alert('Awarded Successfully!')
          navigation.pop();
          navigation.pop();
      }
@@ -37,6 +40,7 @@ export default function AwardBid({navigation,route}){
 
  return(<View>
     <AppBar 
+    title={thisVendor.name}
     back
      funct={() => {
        navigation.pop();
@@ -44,15 +48,15 @@ export default function AwardBid({navigation,route}){
 
         <View style={{ ...Styles.parentContainer, backgroundColor: Colors.whiteBackground }}>
 
-            <Text style={{ ...Styles.heading, width: dimen.width, textAlign: 'center', fontSize: 20 }}>{`Vendor Details`}</Text>
+            {/* <Text style={{ ...Styles.heading, width: dimen.width, textAlign: 'center', fontSize: 20 }}>{`Vendor Details`}</Text> */}
 
             <View style={styles.card}>
                 <Text style={{ ...Styles.heading, width: dimen.width }}>{thisVendor.name}</Text>
-                <View style={{flex:1}}>
+                <View style={{flexDirection: 'row'}}>
 
                     {/* Size is not right */}
                     <Image style={{ ...styles.image, aspectRatio: 1 / 1.7, alignSelf: 'flex-start', borderWidth: 1, flex: 1,marginTop: '3%' }} source={{ uri: thisVendor.image }} />
-                    {/* <Text style={{ ...styles.address, flex: 4 }}>{"Address : " + "#123 some road, some layout, some city, near something - 122344"}</Text> */}
+                    <Text style={{ ...styles.address, flex: 4,margin:'3%' }}>{"#123 some road, some layout, some city, near something - 122344"}</Text>
 
 
                 </View>
@@ -75,13 +79,14 @@ export default function AwardBid({navigation,route}){
 
 
         </View>
+        {tag != 'Cancelled' ? 
         <View style={{marginTop: '10%'}}>
-        <SubmitButton text={'Award Bid'} 
+        <SubmitButton styling={submitted} text={'Award Bid'} 
             onTouch={awardTheBid}
         />
 
 
-            </View>
+            </View> : null}
           
 
         </View>

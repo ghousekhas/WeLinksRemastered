@@ -16,6 +16,7 @@ import AwardBid from './AwardBid';
 import { Entypo } from '@expo/vector-icons';
 import Axios from 'axios';
 import qs from 'qs';
+import { useTheme } from '@react-navigation/native';
 
 
 
@@ -31,21 +32,22 @@ export default function CorporateMarkPickupScreen({navigation,route}){
  // console.log(tag)
     const [title,stitle]=useState("Mark Pickup Complete");
     const [address,sAddress]=useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.');
-
+const [submitted,isSubmitted] = useState(false);
     const date = moment();
 
     const markPickUpComplete = ()=>{
-        console.log("Vendor deets "+{
+        isSubmitted(true);
+        // console.log("Vendor deets "+{
             
-            action: 'markBidPickup',
-            owner_id: actualUser.user_id,
-            bid_id: thisVendor.bid_id,
-            vendor_id: thisVendor.vendor_id,
-            bid_task_id: thisVendor.bid_apply_id,
-            total_amount:  thisVendor.amount,
-            task_date: date.format('YYYY-MM-DD'),
-            task_time: date.format('HH-mm')
-        })
+        //     action: 'markBidPickup',
+        //     owner_id: actualUser.user_id,
+        //     bid_id: thisVendor.bid_id,
+        //     vendor_id: thisVendor.vendor_id,
+        //     bid_task_id: thisVendor.bid_apply_id,
+        //     total_amount:  thisVendor.amount,
+        //     task_date: date.format('YYYY-MM-DD'),
+        //     task_time: date.format('HH-mm')
+        // })
         Axios.post(Config.api_url+'php?'+qs.stringify({
             action: 'markBidPickup',
             owner_id: actualUser.user_id,
@@ -57,6 +59,7 @@ export default function CorporateMarkPickupScreen({navigation,route}){
             task_time: date.format('HH-mm')
         })).then((response)=>{
             alert("Marked pick-up complete successfully!")
+            navigation.navigate('Bids');
             console.log(response.data);
         })
     }
@@ -67,7 +70,7 @@ export default function CorporateMarkPickupScreen({navigation,route}){
     const renderHeader=()=>{
      //   console.log(cardDetails)
         return (<View style={{flex: 0}}>
-            <Text style={{...Styles.heading,alignSelf: 'center'}}>Mark Pickup Complete</Text>
+            {/* <Text style={{...Styles.heading,alignSelf: 'center'}}>Mark Pickup Complete</Text> */}
             <View style={styles.bidcard}>
                 <Text style={styles.title}>{cardDetails.bidTitle}</Text>
                 <Text style={styles.info}> {cardDetails.address}</Text>
@@ -145,7 +148,7 @@ export default function CorporateMarkPickupScreen({navigation,route}){
 
         </View>
         <View style={{marginVertical:50}}>
-            <SubmitButton onTouch={markPickUpComplete} text="Mark Pickup Complete" />
+            <SubmitButton styling={submitted} onTouch={markPickUpComplete} text="Mark Pickup Complete" />
         </View>
 
         </View>
@@ -194,6 +197,7 @@ export default function CorporateMarkPickupScreen({navigation,route}){
   //  const [vendorsList,setVendorsList] = useState(appliedVendorsList);
     return(<View>
      <AppBar 
+     title='Mark Pick-Up Complete'
      back
       funct={() => {
         navigation.pop();

@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { dimen,Colors, Styles } from '../Constants';
 
-const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule}) => {
+const Appliance = ({name,small, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule}) => {
     const [number,setNumber] = useState( parseInt(initquan));
     const [gap,setGap] = useState(0);
     const [added,setAdded] = useState(false)
@@ -15,7 +15,7 @@ const Appliance = ({name, quantity, price,image,onAdd,selectedQuantity,onRemove,
 
     const renderAddSubtract =()=>{
         if(schedule)
-            return <Text style={{...Styles.subbold,alignSelf: 'center',margin: '10%'}}>{'Quantity: '+initquan} </Text>;
+            return <Text style={{...Styles.subbold,alignSelf: 'center',margin: small ? '5%':'10%',marginHorizontal: small?'1%' : null}}>{'Quantity: '+initquan} </Text>;
 
         return (
             remove ? (<View style={{flex: 1,margin: '2%'}}>
@@ -125,16 +125,16 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
     }
 
     return(<View style={{flexDirection: 'row',backgroundColor: Colors.whiteBackground}}>
-    <View style={style.container}>
+    <View style={small ? null : {...style.container,flex:2}}>
      
     
     <View>
 
-        <Text style={style.name}>{name}</Text>
+        <Text numberOfLines={1} style={!small ? style.name : {...style.name,fontSize:14}}>{name}</Text>
         <View style={{flexDirection: 'row'}}>
        
-        <Text style={style.price}>₹{price}</Text>
-        <Text style={style.quantity}>{quantity}</Text>
+        <Text style={!small ? style.price : {...style.price,fontSize:12}}>₹{price}</Text>
+        <Text style={!small ? style.quantity : {...style.quantity,fontSize:10}}>{quantity}</Text>
         </View>
        
         
@@ -158,16 +158,16 @@ const style = StyleSheet.create({
     container: {
         backgroundColor: Colors.whiteBackground,
        height:Dimensions.get('window').height/6,
-       width: Dimensions.get('window').width,
+    //    width: Dimensions.get('window').width,
        flexDirection: 'row',
-      flex:3,
+      flex:4,
        
         padding: 5
     },
     name: {
         marginStart: 100,
         fontWeight: '400',
-        fontSize: 18,
+        fontSize: 16,
         padding: 5
         
     },

@@ -79,7 +79,7 @@ export default function TitleBidDetails({navigation,route}){
                     <Text style={{ ...styles.info }}>{cardDetails.notes}</Text>
                 </View>
                 <View>
-                    <Text style={{ ...styles.title, marginVertical: '3%', color: Colors.blue }}>{cardDetails.status}</Text>
+                    <Text style={{ ...styles.title, marginVertical: '3%', color: cardDetails.status == 'Cancelled' ? Colors.red : Colors.blue }}>{cardDetails.status}</Text>
                 </View>
             </View>
             {/* <SubmitButton text='Cancel Bid' /> */}
@@ -183,6 +183,7 @@ export default function TitleBidDetails({navigation,route}){
             <View style={{alignSelf:'center'}}>
             <Button text='View' onTouch={() => {
                 navigation.navigate('AwardBid',{
+                      tag: cardDetails.status,
                     ...thisVendor,
                     actualUser: actualUser
                 })

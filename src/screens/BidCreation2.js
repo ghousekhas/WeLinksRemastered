@@ -45,9 +45,9 @@ export default function BidCreation2({navigation,route}){
 
     return(
        <View>
-        <AppBar back funct={() => navigation.pop()} />
+        <AppBar title='Create Bid' subtitle='Enter bid details' back funct={() => navigation.pop()} />
         <View style={Styles.parentContainer}>
-           <Text style={styles.heading}>Please enter your bid details</Text>
+           {/* <Text style={styles.heading}>Please enter your bid details</Text> */}
            <ScrollView style={styles.scroll}>
            {radioView('Do you require a vehicle?',vehicle,setVehicle)}
            {radioView('Do you require man power?',manpower,setManPower)}

@@ -314,7 +314,7 @@ export default function BidCreation1({ navigation,route }) {
                 callbackNode={fall}
                 enabledGestureInteraction={false}
             />
-            <AppBar back funct={() => navigation.pop()} />
+            <AppBar title='Create Bid' back funct={() => navigation.pop()} />
             <View style={{ ...Styles.parentContainer, color: Colors.whiteBackground }}>
                 <Animated.View style={{
                     margin: '0.5%',

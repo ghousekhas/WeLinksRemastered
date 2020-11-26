@@ -92,7 +92,8 @@ export default function Bids({navigation,route}){
     vehicle : item.vehicle_need,
     address : item.addr_details,
     notes : item.bid_notes,
-    appliedVendors : item.applied_vendors
+    appliedVendors : item.applied_vendors,
+    address : item.addr_details
 
     }
     var itema = null;
@@ -107,7 +108,7 @@ export default function Bids({navigation,route}){
             time : itema.appln_timestamp,
             vendor_id: itema.vendor_id,
             bid_apply_id: itema.bid_apply_id,
-            bid_id: itema.bid_id
+            bid_id: itema.bid_id,
     
     
         };
