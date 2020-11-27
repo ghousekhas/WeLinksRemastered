@@ -304,9 +304,11 @@ const VendorHomeStack=({navigation,route})=>{
   const retreieveVendorData = ()=>{
     Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{
+               setLoading(false);
                 console.log("HEREs"+response.data.vendor[0].vendor_id)
                 setVerification(Constants.veFirstTime) // uncomment this
             try{
+                
                 var status= response.data.vendor[0].vendor_status;
                 if(status=== 'active'){
                   setVerification(Constants.verified);
@@ -324,7 +326,7 @@ const VendorHomeStack=({navigation,route})=>{
                 else
                     setVerification(Constants.veInProgress);
                 //setVerification(Constants.veFirstTime);
-                setLoading(false);
+                
             }
             catch(error){
                 setVerification(Constants.veFirstTime);
@@ -528,8 +530,9 @@ export default function App() {
           //setVerification(Constants.veFirstTime);
       }
       catch(error){
-        console.log('Error Encountered')
-        //  setVerification(Constants.veFirstTime);
+        console.log('Error Encountered');
+        setSplash(false);
+       setVerification(Constants.veFirstTime);
       }
     });
     
