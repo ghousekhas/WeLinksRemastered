@@ -95,23 +95,23 @@ export default function Bids({navigation,route}){
     appliedVendors : item.applied_vendors
 
     }
-    // var itema = null;
-    // let thisVendor = null;
-    // if(item.bid_status === 'Closed'){
-    //     itema  = item.applied_vendors[0];
-    //     thisVendor = {
-    //         name : itema.company_name,
-    //         email : itema.company_email_id,
-    //         amount : itema.appln_amount,
-    //         image : itema.vendor_img_url,
-    //         time : itema.appln_timestamp,
-    //         vendor_id: itema.vendor_id,
-    //         bid_apply_id: itema.bid_apply_id,
-    //         bid_id: itema.bid_id
+    var itema = null;
+    let thisVendor = null;
+    if(item.bid_status === 'Closed'){
+        itema  = item.applied_vendors[0];
+        thisVendor = {
+            name : itema.company_name,
+            email : itema.company_email_id,
+            amount : itema.appln_amount,
+            image : itema.vendor_img_url,
+            time : itema.appln_timestamp,
+            vendor_id: itema.vendor_id,
+            bid_apply_id: itema.bid_apply_id,
+            bid_id: itema.bid_id
     
     
-    //     };
-    // }
+        };
+    }
     appliedVendorsList = item.applied_vendors
     return(<TouchableOpacity onPress={() => {
         console.log("APPLIED "+ JSON.stringify(appliedVendorsList))

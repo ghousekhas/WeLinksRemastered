@@ -416,7 +416,7 @@ const DrawerContent = (props) => {
      label="Sign Out"
      
      onPress={()=>{
-       alert('signing out');
+       alert('Signing out');
        auth().signOut().
         then((value)=>{
           setUser(null);
