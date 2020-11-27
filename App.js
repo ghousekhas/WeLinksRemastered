@@ -680,22 +680,22 @@ export default function App() {
   console.log("cuu "+JSON.stringify(user))
 
   React.useEffect(() => {
-    // checkNetworkState()
-    // getUserDetails(0,user);
+    checkNetworkState()
+    getUserDetails(0,user);
 
-    // console.group('firebaseuser', auth().currentUser);
-    // setSplash(false);
-    // setTimeout(()=>{
-    //   setSplash(false);
-    // },1500
-    // )
-    // setUser(auth().currentUser);
-    // checkIfFirstLogin();
-    // console.log("USER" + JSON.stringify(user));
-    // if (userDetails === null && user != null)
-    //   getUserDetails(0, user);
-    // const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    // getVendorDetails();
+    console.group('firebaseuser', auth().currentUser);
+    setSplash(false);
+    setTimeout(()=>{
+      setSplash(false);
+    },1500
+    )
+    setUser(auth().currentUser);
+    checkIfFirstLogin();
+    console.log("USER" + JSON.stringify(user));
+    if (userDetails === null && user != null)
+      getUserDetails(0, user);
+    const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    getVendorDetails();
     // sendNotif();
     
     
@@ -703,11 +703,11 @@ export default function App() {
      
   
     // To debug with custom phone number comment above and uncomment below
-    if (userDetails === null){
-      getUserDetails(0, user);
-      sendNotif();
+    // if (userDetails === null){
+    //   getUserDetails(0, user);
+    //   sendNotif();
 
-    }
+    // }
 
 
 
