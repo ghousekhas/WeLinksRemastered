@@ -22,12 +22,13 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
     const renderDesc = () => {
         if (scrap != null)
             return (
-                <View style={{ flexDirection: 'row', width: '60%', alignSelf: 'center' }}>
-                    <Text style={style.brandsTitle}>{scrap}</Text>
+                <View style={{ flexDirection: 'row',paddingRight: 10 }}>
+                    <Text style={style.brandsTitle}>Categories </Text>
+                    <Text style={style.brands}>{scrap}</Text>
                 </View>);
         if (buttonVisible != false)
             return (
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row' ,paddingRight: 10}}>
                     <Text style={style.brandsTitle}>Brands: </Text>
                     <Text style={style.brands}>{brands}</Text>
                 </View>
@@ -53,8 +54,8 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
                     setImageHeight(nativeEvent.layout.height);
 
                 }} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={{ flexDirection: 'column', flex: 2, paddingLeft: 15, marginTop: 20 }}>
-                        <Text style={style.name}> {name}</Text>
+                    <View style={{ flexDirection: 'column', flex: 2, paddingLeft: 10, marginTop: 20 }}>
+                        <Text style={style.name}> {name.trim()}</Text>
                         {renderDesc()}
                         <View style={{ flexDirection: 'row' }}>
                             <Stars number={stars} />
@@ -78,7 +79,6 @@ const style = StyleSheet.create({
         marginBottom: '10%',
         flexDirection: 'row',
       //  backgroundColor: 'transparent',
-        padding: '1%',
         borderWidth: 5,
         borderColor: 'transparent'
         //  paddingVertical: 10
@@ -86,8 +86,6 @@ const style = StyleSheet.create({
     },
     top: {
         flexDirection: 'column',
-        //   width: Dimensions.get('window').width-15,
-        marginStart: '1%',
         alignItems: 'flex-end',
 
 
@@ -104,10 +102,12 @@ const style = StyleSheet.create({
 
     name: {
         fontWeight: 'bold',
+        marginLeft: -3,
 
         fontSize: 17,
-        //  alignSelf: 'flex-start',
-        color: 'black'
+        alignSelf: 'flex-start',
+        color: 'black',
+        textAlign: 'left'
     },
     brandsTitle: {
         color: 'gray',
