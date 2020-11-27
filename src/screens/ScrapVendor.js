@@ -42,7 +42,8 @@ export default class ScrapVendor extends React.Component {
             cartAmount: 0,
             buttons: 0,
             snackBarVisible: false,
-            snackBarText: 'Added to cart'
+            snackBarText: 'Added to cart',
+
 
 
         };
@@ -106,6 +107,11 @@ export default class ScrapVendor extends React.Component {
 
     componentDidMount() {
         //   console.log('MilkVendorEntered')
+
+        BackHandler.addEventListener("hardwareBackPress",()=>{
+            this.state.cartState ? this.toggleCart(false) : this.props.navigation.pop();
+            return true;
+        });
 
         this.fetchOrderId();
 
@@ -641,21 +647,22 @@ const ScrapFlatList = ({ route, navigation, data, addItemToCart, removeItemFromC
     const { tag } = route.params;
     const { reviews, actualUser } = route.params;
 
-    useFocusEffect(
-        React.useCallback(() => {
-            const onBackPress = () => {
-                //     console.log('Go to milk');
-                this.state.cartState ? this.toggleCart(false) : this.props.navigation.pop();
-                return true;
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         const {cartState} = this.state;
+    //         const onBackPress = () => {
+    //             //     console.log('Go to milk');
+    //             this.state.cartState ? this.toggleCart(false) : this.props.navigation.pop();
+    //             return true;
 
-            };
+    //         };
 
-            BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    //         BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
-            return () =>
-                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        })
-    );
+    //         return () =>
+    //             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    //     })
+    // );
     const vendorId = route.params.vendorId;
 
     // const order = navigation.getParams('order');

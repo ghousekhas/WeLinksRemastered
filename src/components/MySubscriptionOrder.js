@@ -25,7 +25,7 @@ export default function MySubscriptionOrder({name,quantity,rate,num,days,startDa
         <Text style={styles.greyText1}>Period : {startDate+" - "+endDate}</Text>
         <View style={styles.line}/>
         <View style={styles.productContainer}  onLayout={({nativeEvent})=>setImageWidth(nativeEvent.layout.height)}>
-        <Image style={ {...styles.leftChild,width: imageWidth*0.85,height: imageWidth*0.85}}  width={60}  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+        <Image style={ {...styles.leftChild,width: imageWidth*0.85,height: imageWidth*0.85}}  width={60}  resizeMethod={'auto'} resizeMode='contain' source={imageUrl.trim() != '' ? {uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
         <View style={styles.rightChild}>
     
       

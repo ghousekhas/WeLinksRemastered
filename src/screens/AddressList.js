@@ -85,7 +85,7 @@ export default class AddressList extends React.Component{
     }
 
    onBackPress=()=>{
-      this.state.myAddresses ? (!this.state.profileEdit ? this.props.route.params.goBackToHome(): this.props.navigation.goBack() ): this.props.navigation.goBack();
+    this.state.vendorEdit? this.props.navigation.goBack() :this.state.myAddresses ? (!this.state.profileEdit ? this.props.route.params.goBackToHome(): this.props.navigation.goBack() ): this.props.navigation.goBack();
       return true;
     }
 

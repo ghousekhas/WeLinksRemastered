@@ -446,9 +446,9 @@ const VendorProfile = ({ navigation, route }) => {
                                 actualUser: actualUser,
                                 actualVendor: {vendor_id: VendorProfileDetails.vendor_id},
                                 vendorEdit: true,
-                                myAddresses: true
+                                myAddresses: true,
                              //   profileEdit: true,,
-                             //   profile: true
+                                profile: true
                             })
                         }}>
                             <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>

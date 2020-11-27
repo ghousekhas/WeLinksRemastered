@@ -45,7 +45,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,qu
     <View style={{flexDirection: 'row'}}>
     <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.height)
-    }} style={{...style.image,height: alignment*0.7,width: alignment*0.7,zIndex: 100,alignSelf:'flex-start'}} width={60}  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+    }} style={{...style.image,height: alignment*0.7,width: alignment*0.7,zIndex: 100,alignSelf:'flex-start'}} width={60}  resizeMethod={'auto'} resizeMode='contain' source={imageUrl.trim() != '' ? {uri: imageUrl}: require('../../assets/notmaleavatar.png')}/>
  <Text style={{...style.name,marginStart: alignment+alignment/4-9}}>{name}</Text>
  <Feather onPress={() => {
   Alert.alert(

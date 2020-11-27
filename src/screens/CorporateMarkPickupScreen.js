@@ -126,7 +126,7 @@ const [submitted,isSubmitted] = useState(false);
         <View style={{flexDirection: 'row'}}>
 
         {/* Size is not right */}
-        <Image style ={{flex:1.5}} source={{uri: thisVendor.image}}/>
+        <Image style ={{flex:1.5}} source={thisVendor.image.trim() != '' ? {uri: thisVendor.image}: require('../../assets/notmaleavatar.png')}/>
         {/* <Text style={{...styles.address,flex : 4}}>{"Address : " + "#123 some road, some layout, some city, near something - 122344"}</Text> */}
 
 

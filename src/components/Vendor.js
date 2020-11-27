@@ -43,7 +43,7 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
 
     return (
         <View style={style.container}>
-            <Image style={{ ...style.image, height: imageHeight, aspectRatio: 1 / 1.7, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={{ uri: imageUrl }} />
+            <Image style={{ ...style.image, height: imageHeight, aspectRatio: 1 / 1.7, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={imageUrl.trim() !=''?{ uri: imageUrl } :require('../../assets/notmaleavatar.png')} />
 
             <View style={{ marginStart: '4%', flex: 4 }}>
 

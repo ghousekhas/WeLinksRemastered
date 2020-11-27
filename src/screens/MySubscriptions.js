@@ -215,7 +215,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
     <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
         <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
-    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center',marginHorizontal:'3%'} }  resizeMethod={'auto'} resizeMode='contain' source={{uri: imageUrl}}/>
+    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center',marginHorizontal:'3%'} }  resizeMethod={'auto'} resizeMode='contain' source={ imageUrl.trim()!=''?{uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
 
         <View style={{flex: 1,backgroundColor: 'transparent'}}>
         <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',fontSize: 14}}>{name}</Text>

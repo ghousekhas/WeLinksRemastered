@@ -164,7 +164,8 @@ export default function TitleBidDetails({navigation,route}){
                     time : item.appln_timestamp,
                     vendor_id: item.vendor_id,
                     bid_apply_id: item.bid_apply_id,
-                    bid_id: item.bid_id
+                    bid_id: item.bid_id,
+                    address: item.addr_details
 
 
                 };

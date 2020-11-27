@@ -307,18 +307,18 @@ export default function VendorServices({ submit, route, actualUser, navigation }
 
     }
     useEffect(() => {
-        /*if(vendorEdit){
-            if(route.params.actualVendor.milk_product_ids != [])
+        if(vendorEdit){
+            if(route.params.actualVendor.mlik_service != "no")
                 setCheck1(true);
-            if(route.params.actualVendor.news_product_ids != [])
+            if(route.params.actualVendor.newspaper_service != "no")
                 setCheck2(true);
-            if(route.params.actualVendor.homescrap_product_ids !=[])
+            if(route.params.actualVendor.homescrap_service != "no")
                 setCheck3(true);
-            if(route.params.actualVendor.officescrap_cat_ids !=[])
+            if(route.params.actualVendor.officescrap_service !="no")
                 setCheck4(true);
             
 
-        }*/
+        }
 
         getMilkProducts();
         getPaperProducts();

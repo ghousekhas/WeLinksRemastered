@@ -71,7 +71,7 @@ const Vendor = ({name,brands,stars,reviews,onSelected,buttonVisible,address,scra
 
        
         </View>
-        <Image style={{...style.image,height: imageHeight*0.3,width: imageHeight*0.3,alignSelf: 'center'}} source={{uri: imageUrl}}/>
+        <Image style={{...style.image,height: imageHeight*0.3,width: imageHeight*0.3,alignSelf: 'center'}} source={imageUrl.trim() != '' ? {uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
     </View>)
 };
 

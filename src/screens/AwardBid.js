@@ -56,7 +56,7 @@ export default function AwardBid({navigation,route}){
 
                     {/* Size is not right */}
                     <Image style={{ ...styles.image, aspectRatio: 1 / 1.7, alignSelf: 'flex-start', borderWidth: 1, flex: 1,marginTop: '3%' }} source={{ uri: thisVendor.image }} />
-                    <Text style={{ ...styles.address, flex: 4,margin:'3%' }}>{"#123 some road, some layout, some city, near something - 122344"}</Text>
+                    <Text style={{ ...styles.address, flex: 4,margin:'3%' }}>thisVendor.address</Text>
 
 
                 </View>
