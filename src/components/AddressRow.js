@@ -100,12 +100,24 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
       <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginVertical: dimen.height/70,marginHorizontal: dimen.width/50}}>
         <Image source={image} style={styles.imageIcon}  />
               <View style={{flexDirection: 'column',width: '100%',justifyContent: 'flex-start',flex: 1,marginBottom: '5%'}}>
+                <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
                 <Text style={styles.label}>{label}</Text>
+
+                { deletae === true ? 
+                  <View style={{marginTop: '2%'}}>
+                  <Button text='Delete' red={true} onTouch={()=>{delSelectedAddress(item)}} />
+                  </View>
+               
+                : <View>
+                 <Button text='Select' onTouch={()=>{setSelectedAddress(item)}} />
+                 </View>}
+              
+                </View>
+                
                 <Text style={styles.address}>{currentAddress}</Text>
               </View>
       
-            { deletae === true ? 
-               <Button text='Delete' red={true} onTouch={()=>{delSelectedAddress(item)}} /> :  <Button text='Select' onTouch={()=>{setSelectedAddress(item)}} />}
+           
            
           </View>
     );
@@ -126,7 +138,7 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
             fontWeight: 'bold',
             paddingLeft: 10,
             color: 'black',
-            width: '100%',
+           //  width: '100%',
             alignSelf: 'flex-start',
     },
       container: {

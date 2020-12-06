@@ -88,14 +88,15 @@ const ScrapVendors = ({navigation,route}) => {
   
     <View style={{...style.header,flex:5}}>
         <Text style ={{...style.username}}>{actualUser.name}</Text>
+
         <View style ={{...style.address}}>
         <View style = {{flexDirection: 'row',alignItems: 'center'}}>
         <Feather name="map-pin" size={12} color="black" />
         <Text style={{fontSize: 13}}>{ " " +address.addr_name}</Text>
         </View>
-       
         <Text style={{fontSize: 13}}>{address.addr_details+".\nLandmark: " + address.addr_landmark }</Text>
         </View>
+
     </View>
     
     </View>
@@ -162,7 +163,8 @@ const ScrapVendors = ({navigation,route}) => {
 const style = StyleSheet.create({
     header: {
         margin: '5%',
-        padding: '3%',
+      //  padding: '3%',
+      //  backgroundColor: 'blue',
      //   marginStart: '20%',
    //  width: 0.8* dimen.width,
    flex:1
@@ -193,13 +195,14 @@ const style = StyleSheet.create({
 
     },
     heading: {
-        marginBottom: '5%'
+     //   marginBottom: '5%'
     },
     avatar: {
        
-        margin: '3%',
+        marginHorizontal: '3%',
         padding: '3%',
-        alignSelf: 'center'
+        alignSelf: 'flex-start',
+        marginTop: '6%'
        
 
 

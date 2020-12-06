@@ -168,10 +168,13 @@ export default function Bids({navigation,route}){
         return(<View onLayout={(event) => {
             setCardWidth(event.nativeEvent.layout.width);
         }}  style={styles.card}>
-     
+            <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
             <Text style={{...styles.cardTitle,fontSize:16}}>{cardDetails.bidTitle}</Text>
            
-         
+            <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,fontSize:16}}>Open</Text>
+
+            </View>
+
             
             {/* <View style={{flexDirection: 'row',flex:1}}>
             <AntDesign name="tago"size={20} color= {Colors.primary} />
@@ -198,14 +201,13 @@ export default function Bids({navigation,route}){
                     </View>
                 </View>
                 <View style={{flexDirection:'row',marginTop: '6%'}}>
-                <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,marginVertical:'5%',fontSize:16}}>Active</Text>
       
-            <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart: cardWidth/4.5}}/>
-            <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${appliedVendorsList.length}`}</Text>
+            <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center'}}/>
+            <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'2%'}}>{`Number of bids: ${appliedVendorsList.length}`}</Text>
+            <AntDesign style={{alignSelf:'flex-end',margin:'2%'}} name="right" size={18} color={Colors.primary} />
 
             </View>
-            <AntDesign style={{alignSelf:'flex-end',marginHorizontal:'3%',marginBottom: '1%'}} name="right" size={18} color={Colors.primary} />
-
+ 
 
 
         </View>)}

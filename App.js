@@ -835,7 +835,7 @@ const PostLoginHome = ({ route, navigation }) => {
             <Stack.Screen name='ScrapVendor' component={ScrapVendor} options={{ headerShown: false }} />
             <Stack.Screen name="Bids" component={Bids} options={{ headerShown: false }} />
             <Stack.Screen name="BidCreation1" component={BidCreation1} options={{ headerShown: false }} />
-            <Stack.Screen name = "ChooseAddress" component={ChooseAddress} options={{headerShown: false}}/>
+            <Stack.Screen name="ChooseAddress" component={ChooseAddress} options={{headerShown: false}}/>
             <Stack.Screen name="BidCreation2" component={BidCreation2} options={{ headerShown: false }} />
             <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{ headerShown: false }} />
             <Stack.Screen name="AwardBid" component={AwardBid} options={{ headerShown: false }} />

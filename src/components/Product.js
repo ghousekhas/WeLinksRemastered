@@ -21,7 +21,7 @@ const Product = ({name,quantity,price,price_,subscribe,imageUrl}) => {
    
    
 
-        <TouchableOpacity style={style.button} onPress={subscribe}>
+        <TouchableOpacity style={{...style.button,marginTop: '0%'}} onPress={subscribe}>
         <Text style={style.text}>Subscribe</Text>
        
         </TouchableOpacity>
@@ -39,7 +39,7 @@ const Product = ({name,quantity,price,price_,subscribe,imageUrl}) => {
     
     </View>
 
-    <View style={{marginTop: '3%'}}>
+    <View>
    
 
         <TouchableOpacity style={style.button} onPress={subscribe}>
@@ -59,27 +59,30 @@ const style = StyleSheet.create({
     container: {
         margin: 10,
         padding: 10,
-        flexDirection: 'row'
+        flexDirection: 'row',
         
         
     },
     name: {
         fontWeight:'bold',
-        marginStart: 70,
+        marginStart: 78,
         flex: 1,
+        marginVertical: '2%',
         
         width: Dimensions.get('window').width/3
     },
     quantity: {
-        marginStart: 70,
-        marginTop: '3%',
+        marginStart: 78,
+        marginVertical: '2%',
         
 
     },
     price: {
         fontWeight:'bold',
-        marginStart: 70,
-        fontSize: 15
+        marginStart: 78,
+        fontSize: 14,
+        marginVertical: '2%',
+
 
     },
     button: {
@@ -89,12 +92,12 @@ const style = StyleSheet.create({
         padding: 1,
         // paddingHorizontal: 20,
         // paddingVertical: 2,
-        width: Dimensions.get('window').width/4,
+        width: Dimensions.get('window').width/4.5,
         aspectRatio: 5/1.3,
         alignItems: 'center',
         justifyContent: 'center',
        
-        marginStart: '28%',
+        marginStart: '22%',
         marginVertical: '3%'
        
        

@@ -166,7 +166,7 @@ const style = StyleSheet.create({
     },
     name: {
         marginStart: 100,
-        fontWeight: '400',
+        fontWeight: 'bold',
         fontSize: 16,
         padding: 5
         
@@ -174,9 +174,10 @@ const style = StyleSheet.create({
     quantity: {
         marginStart: '3%',
         color: 'gray',
-        fontSize: 10,
+        fontSize: 11,
         marginTop: '4%',
-        padding: 5
+        padding: 5,
+        alignSelf: 'center'
        
     },
     price: {
@@ -207,7 +208,8 @@ const style = StyleSheet.create({
         borderColor: Colors.primary,
         borderWidth: 1.5,
         borderRadius: 20,
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
+        marginStart: '10%',
        
         alignItems: 'center',
         justifyContent: 'space-evenly'
@@ -220,11 +222,18 @@ const style = StyleSheet.create({
         alignSelf: 'center'
     },
     button:{
+        borderRadius: 5,
+        borderWidth: 1,
+
         borderColor: Colors.primary,
-        borderWidth:1.5,borderRadius:4,
-        padding:'5%',
+   
+    //    maxHeight: Dimensions.get('window').height / 33,
+         width: Dimensions.get('window').width / 4,
+        
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+
+
     }
            
 });

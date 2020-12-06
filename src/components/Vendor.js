@@ -12,9 +12,7 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
     const renderButton = () => {
         if (buttonVisible != false) {
             return (
-                <View style={style.button}>
-                    <Button text='Select' onTouch={onSelected} />
-                </View>
+                <Button text='Select' onTouch={onSelected} />
             );
         }
     };
@@ -22,13 +20,13 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
     const renderDesc = () => {
         if (scrap != null)
             return (
-                <View style={{ flexDirection: 'row',paddingRight: 10 }}>
-                    <Text style={style.brandsTitle}>Categories </Text>
+                <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                    <Text style={style.brandsTitle}>Categories: </Text>
                     <Text style={style.brands}>{scrap}</Text>
                 </View>);
         if (buttonVisible != false)
             return (
-                <View style={{ flexDirection: 'row' ,paddingRight: 10}}>
+                <View style={{ flexDirection: 'row', paddingRight: 10 }}>
                     <Text style={style.brandsTitle}>Brands: </Text>
                     <Text style={style.brands}>{brands}</Text>
                 </View>
@@ -37,14 +35,14 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
 
         return (
             <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
-                <Text style={style.brands}>{address != undefined && address != null  && address != 0 ? address : null}</Text>
+                <Text style={style.brands}>{address != undefined && address != null && address != 0 ? address : null}</Text>
             </View>
         );
     };
 
     return (
         <View style={style.container}>
-            <Image style={{ ...style.image, height: imageHeight, aspectRatio: 1 / 1.7, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={imageUrl.trim() !=''?{ uri: imageUrl } :require('../../assets/notmaleavatar.png')} />
+            <Image style={{ ...style.image, height: imageHeight, aspectRatio: 1 / 1.5, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={imageUrl.trim() != '' ? { uri: imageUrl } : require('../../assets/notmaleavatar.png')} />
 
             <View style={{ marginStart: '4%', flex: 4 }}>
 
@@ -53,34 +51,42 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
                     //   if(nativeEvent.layout.height!=null)
                     setImageHeight(nativeEvent.layout.height);
 
-                }} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={{ flexDirection: 'column', flex: 2, paddingLeft: 10, marginTop: 20 }}>
-                        <Text style={style.name}> {name.trim()}</Text>
+                }} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'column', flex: 2, paddingLeft: 10 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={style.name}> {name.trim()}</Text>
+                            
+                        </View>
+
                         {renderDesc()}
                         <View style={{ flexDirection: 'row' }}>
                             <Stars number={stars} />
                             <Text style={style.review}>({reviews} reviews)</Text>
                         </View>
                     </View>
-                    {renderButton()}
                 </View>
-
+              
 
 
 
 
             </View>
+            <View style={{ marginTop: '3%' }}>
+                                {renderButton()}
+
+                            </View>
+
         </View>)
 };
 
 const style = StyleSheet.create({
     container: {
         margin: '0.5%',
-        marginBottom: '10%',
+        // marginBottom: '10%',
         flexDirection: 'row',
-      //  backgroundColor: 'transparent',
-        borderWidth: 5,
-        borderColor: 'transparent'
+        padding: '4%',
+        //  backgroundColor: 'transparent',
+        // borderWidth: 5,
         //  paddingVertical: 10
 
     },
@@ -94,37 +100,43 @@ const style = StyleSheet.create({
     button: {
         flexDirection: 'column',
         width: Dimensions.get('window').width - 20,
-        alignSelf: 'center', flex: 1,
-        alignSelf: 'center',
-        justifyContent: 'center'
+        // alignSelf: 'center', 
+        flex: 1,
+        // alignSelf: 'center',
+        //  justifyContent: 'center'
     }
     ,
 
     name: {
         fontWeight: 'bold',
-        marginLeft: -3,
+        marginLeft: -3.5,
 
-        fontSize: 17,
+        fontSize: 16,
         alignSelf: 'flex-start',
         color: 'black',
-        textAlign: 'left'
+        textAlign: 'left',
+        marginVertical: '1.5%',
+        flex: 1
     },
     brandsTitle: {
         color: 'gray',
 
-        marginTop: '2%',
+        marginVertical: '1.5%',
         fontWeight: 'bold',
+        fontSize: 14
 
     },
 
     brands: {
         color: 'gray',
-       flex: 1,
-        // width: dimen.width,
-     //   backgroundColor:'blue',
+        flex: 1,
+        fontSize: 14,
 
-        marginTop: '2%',
-       
+        // width: dimen.width,
+        //   backgroundColor:'blue',
+
+        marginVertical: '1.5%'
+
 
 
 
@@ -132,7 +144,7 @@ const style = StyleSheet.create({
     review: {
         color: 'gray',
         marginStart: '4%',
-        marginTop: '2%',
+        marginVertical: '1.5%',
         fontWeight: 'bold'
     },
     image: {
