@@ -20,6 +20,7 @@ import { Config } from '../Constants';
 
 
 var cart = [];
+var buttonwidth= dimen.width/5*1.7;
 
 //a
 export default class ScrapVendor extends React.Component {
@@ -447,7 +448,7 @@ export default class ScrapVendor extends React.Component {
                             <View style={{position: 'absolute',top: 2,right: 7}}>
                                 {/* <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text> */}
                             </View>
-                            <View style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 20}}>
+                            <View style={{ backgroundColor: Colors.primary, color: 'white',width: buttonwidth, flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 20}}>
                             <Text style={{ color: 'white', fontWeight: 'bold' }}>{`Go to Cart (${cart.length})`}</Text>
                             </View>
                         </TouchableOpacity>
@@ -467,7 +468,7 @@ export default class ScrapVendor extends React.Component {
 
                             })}
                             >
-                                <View style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 20 }}>
+                                <View style={{ backgroundColor: Colors.primary, color: 'white',width: buttonwidth ,flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 20 }}>
                             <Text numberOfLines={1} style={{ color: 'white', fontWeight: 'bold' }}>Schedule Pickup</Text>
                             </View>
                         </TouchableOpacity>
@@ -759,19 +760,19 @@ const ScrapFlatList = ({ route, navigation, data, addItemToCart, removeItemFromC
 
 const style = StyleSheet.create({
     upperContainer:{
-        flex: 3,
-        marginBottom: 10
+        flex: 0,
+        marginBottom: 0
     },
     upperUpperContainer:{
         flex: 5
     },
     upperLowerContainer:{
-        flex: 1,
+        flex: 0,
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
     lowerContainer:{
-        flex: 5
+        flex: 2
 
     },
     container: {
