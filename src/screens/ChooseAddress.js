@@ -84,7 +84,7 @@ export default class ChooseAddress extends React.Component{
     }
 
    onBackPress=()=>{
-      this.state.myAddresses ? this.props.navigation.toggleDrawer() : this.props.navigation.navigate('Homescreen');
+      this.props.navigation.goBack();
       return true;
     }
 
@@ -335,12 +335,9 @@ export default class ChooseAddress extends React.Component{
         if(this.data[0] == undefined)
           return(
             <View style={styles.container}>
-            <AppBar back ={this.props.route.params.profile} funct={() => {
+            <AppBar back ={true} funct={() => {
           
-            if(this.props.route.params.profile)
-              this.props.navigation.pop();
-            else
-              this.props.navigation.toggleDrawer();
+              this.props.navigation.goBack();
           }} />
           <View style={Styles.parentContainer}>
           <GooglePlacesAutocomplete
@@ -393,13 +390,10 @@ export default class ChooseAddress extends React.Component{
         
             
           <View style={styles.container}>
-            <AppBar back ={this.props.route.params.profile || this.props.route.params.vendorEdit} funct={() => {
+           <AppBar back ={true} funct={() => {
           
-          if(this.props.route.params.profile|| this.props.route.params.vendorEdit)
-            this.props.navigation.pop();
-          else
-            this.props.navigation.toggleDrawer();
-        }} />
+          this.props.navigation.goBack();
+      }} />
 
         <View style={Styles.parentContainer}>
           <GooglePlacesAutocomplete

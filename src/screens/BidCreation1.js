@@ -344,7 +344,8 @@ export default function BidCreation1({ navigation,route }) {
                                             time: time,
                                             pick: selected,
                                             end: endDate,
-                                            start: startDate
+                                            start: startDate,
+                                            profileEdit: true
 
                                         })
                                     }}>
