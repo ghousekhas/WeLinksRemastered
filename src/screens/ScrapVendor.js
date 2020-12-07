@@ -505,6 +505,7 @@ export default class ScrapVendor extends React.Component {
 
 
             <Animated.View style={{ width: dimen.width, height: dimen.height-dimen.appbarHeight, zIndex: 100, elevation: 10, position: 'absolute', bottom: 0, transform: [{ translateY: this.state.translateCart }] }} >
+                <ScrollView style={{backgroundColor: 'white'}}>
                 {/* background blur */}
                 <View style={{ flex: 0, width: '100%', backgroundColor: 'rgba(255,255,255,0.7)', zIndex: 1000 }} onTouchEnd={() => this.toggleCart(false)} />
                 {/* Bottom sheet */}
@@ -513,7 +514,7 @@ export default class ScrapVendor extends React.Component {
                     {
                         this.state.extraData != null && cart[0] != undefined ? null : <Text style={{ ...Styles.subbold, margin: 100, alignSelf: 'center' }}>Cart is empty</Text>
                     }
-                
+                    <View>
                     <FlatList
 
                         data={cart}
@@ -583,6 +584,7 @@ export default class ScrapVendor extends React.Component {
 
                         }}
                     />
+                    </View>
 
 
                     <View style={style.gray}>
@@ -627,6 +629,7 @@ export default class ScrapVendor extends React.Component {
 
 
                 </View>
+                </ScrollView>
 
             </Animated.View>
         </View>
