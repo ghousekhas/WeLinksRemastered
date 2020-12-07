@@ -80,21 +80,23 @@ const ScrapVendors = ({navigation,route}) => {
     <AppBar title={'Scrap Vendors'} back  funct={() => {
       navigation.pop();
         }} />
-            <View onLayout={({nativeEvent}) => {
-                setImageHeight(0.75 * nativeEvent.layout.height)
-            }} style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14}}>
+            <View style={{flexDirection: 'row',marginTop: Dimensions.get('window').height/14,flex: 3}}>
 
-<Image style={{ ...style.avatar, height: imageHeight, aspectRatio: 1 / 1.8, flex: 1 }} source={actualUser.img_url.trim() != '' ? { uri: actualUser.img_url } : require('../../assets/notmaleavatar.png')} />
+<Image style={{ ...style.avatar,height: dimen.height/6, aspectRatio: 1,padding: dimen.width/30,flex: 2 }} source={actualUser.img_url.trim() != '' ? { uri: actualUser.img_url } : require('../../assets/notmaleavatar.png')} />
   
-    <View style={{...style.header,flex:5}}>
+    <View style={{...style.header,height: dimen.height/6,flex: 5,justifyContent: 'space-between'}}  onLayout={({nativeEvent}) => {
+                setImageHeight(nativeEvent.layout.height)
+            }} >
         <Text style ={{...style.username}}>{actualUser.name}</Text>
 
         <View style ={{...style.address}}>
         <View style = {{flexDirection: 'row',alignItems: 'center'}}>
         <Feather name="map-pin" size={12} color="black" />
-        <Text style={{fontSize: 13}}>{ " " +address.addr_name}</Text>
+        <Text  style={{fontSize: 13}}>{ " " +address.addr_name}</Text>
         </View>
-        <Text style={{fontSize: 13}}>{address.addr_details+".\nLandmark: " + address.addr_landmark }</Text>
+        <Text numberOfLines={3} style={{fontSize: 11}}>{address.addr_details+".\nLandmark: "}</Text>
+        <View style={{height: 0.5}}/>
+        <Text numberOfLines={1} style={{fontSize: 11}}>Landmark: { address.addr_landmark }</Text>
         </View>
 
     </View>
@@ -102,9 +104,10 @@ const ScrapVendors = ({navigation,route}) => {
     </View>
 
    
-    <View style={{...Styles.grayfullline,marginTop: '5%'}} />
+    
    
-  
+  <View style={{flex: 7,flexDirection: 'column' }}>
+  <View style={{...Styles.grayfullline}} />
 
     <View style={style.heading}>
             <Text style={{ ...Styles.title, fontSize: 17 }}>{words.milk}</Text>
@@ -154,6 +157,7 @@ const ScrapVendors = ({navigation,route}) => {
 
         }}
     />
+    </View>
 
    
 
@@ -162,7 +166,8 @@ const ScrapVendors = ({navigation,route}) => {
 
 const style = StyleSheet.create({
     header: {
-        margin: '5%',
+        marginVertical: '5%',
+        marginHorizontal: '2%',
       //  padding: '3%',
       //  backgroundColor: 'blue',
      //   marginStart: '20%',
@@ -182,7 +187,7 @@ const style = StyleSheet.create({
       
         paddingHorizontal: 10,
         paddingVertical: 5,
-        fontSize: 13,
+        fontSize: 12,
         elevation: 1
 
 

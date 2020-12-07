@@ -42,19 +42,19 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
 
     return (
         <View style={style.container}>
-            <Image style={{ ...style.image, height: imageHeight, aspectRatio: 1 / 1.5, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={imageUrl.trim() != '' ? { uri: imageUrl } : require('../../assets/notmaleavatar.png')} />
+            <Image style={{ ...style.image,height: dimen.width/6,width: dimen.width/6, alignSelf: 'flex-start', borderWidth: 1 }} source={imageUrl.trim() != '' ? { uri: imageUrl } : require('../../assets/notmaleavatar.png')}  resizeMethod="resize" resizeMode="contain"/>
 
-            <View style={{ marginStart: '4%', flex: 4 }}>
+            <View style={{ marginStart: '4%',width: dimen.width/2}}>
 
                 <View onLayout={({ nativeEvent }) => {
                     //  console.log('nativeevent',nativeEvent)
                     //   if(nativeEvent.layout.height!=null)
-                    setImageHeight(nativeEvent.layout.height);
+                   setImageHeight(nativeEvent.layout.height);
 
-                }} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flexDirection: 'column', flex: 2, paddingLeft: 10 }}>
+                }} style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                    <View style={{ flexDirection: 'column', flex: 2}}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text adjustsFontSizeToFit numberOfLines={1} style={style.name}> {name.trim()}</Text>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={{...style.name}}> {name.trim()}</Text>
                             
                         </View>
 
@@ -71,7 +71,7 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
 
 
             </View>
-            <View style={{ marginTop: '3%' }}>
+            <View style={{alignSelf: 'center',flex: 0}}>
                                 {renderButton()}
 
                             </View>
@@ -110,13 +110,14 @@ const style = StyleSheet.create({
     name: {
         fontWeight: 'bold',
         marginLeft: -3.5,
+       // padding: -30,
 
         fontSize: 16,
-        alignSelf: 'flex-start',
         color: 'black',
         textAlign: 'left',
-        marginVertical: '1.5%',
-        flex: 1
+        //marginBottom: '1.5%',
+        flex: 1,
+        marginTop: -5,
     },
     brandsTitle: {
         color: 'gray',
@@ -148,10 +149,8 @@ const style = StyleSheet.create({
         fontWeight: 'bold'
     },
     image: {
-        width: 70,
-        height: 90,
-        //  position: 'absolute',
-        //  margin :'1%'
+
+    
 
 
     }
