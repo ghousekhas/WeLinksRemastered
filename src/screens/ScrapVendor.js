@@ -443,11 +443,13 @@ export default class ScrapVendor extends React.Component {
                             this.toggleCart(true);
                             //this.props.navigation.navigate('ScrapCart',cart)
                         }
-                        } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8}}>
+                        } >
                             <View style={{position: 'absolute',top: 2,right: 7}}>
                                 {/* <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text> */}
                             </View>
+                            <View style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 20}}>
                             <Text style={{ color: 'white', fontWeight: 'bold' }}>{`Go to Cart (${cart.length})`}</Text>
+                            </View>
                         </TouchableOpacity>
                         {/* Schedule Pickup Button */}
                         <TouchableOpacity  disabled={(this.state.cart!=-1 && cart.length==0)} onLayout={({ nativeEvent }) => {
@@ -455,7 +457,7 @@ export default class ScrapVendor extends React.Component {
                     
                         }}
 
-                        style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8 }}
+                        
                             onPress={() => this.props.navigation.navigate('ScrapCart', {
                                 cart,
                                 actualUser: this.state.actualUser,
@@ -465,7 +467,9 @@ export default class ScrapVendor extends React.Component {
 
                             })}
                             >
+                                <View style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 20 }}>
                             <Text numberOfLines={1} style={{ color: 'white', fontWeight: 'bold' }}>Schedule Pickup</Text>
+                            </View>
                         </TouchableOpacity>
 
                     </View>
