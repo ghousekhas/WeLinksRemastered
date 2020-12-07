@@ -77,7 +77,7 @@ export default function BidCreation2({navigation,route}){
                        }),).then((value)=>{
                            console.log('req',value.request);
                            console.log(value.data);
-                           alert('Bid created successfully');
+                           alert('Tender made successfully');
                            navigation.pop();
                            navigation.pop();
 

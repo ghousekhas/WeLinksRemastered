@@ -121,7 +121,7 @@ const [submitted,isSubmitted] = useState(false);
             {/* <SubmitButton text='Cancel Bid' /> */}
             <Text style={{...Styles.heading,alignSelf:'center', marginTop : dimen.height/20}}>Bid Awarded</Text>
 
-            <View style={styles.card}>
+            <View style={{...styles.card,padding: '4%'}}>
         <Text style={{...Styles.heading,width:dimen.width}}>{thisVendor.name}</Text>
         <View style={{flexDirection: 'row'}}>
 
@@ -132,7 +132,7 @@ const [submitted,isSubmitted] = useState(false);
 
         </View>
 
-        <View style={{flexDirection :'row',marginTop:'20%'}}>
+        <View style={{flexDirection :'row',marginTop:'10%'}}>
         <Entypo name="calendar" size={23} color={Colors.blue} style={{margin : '1%'}} />
         <Text style={{...Styles.heading,fontSize: 14,color:Colors.blue}}>Offer made :  </Text>
         <Text style={{...Styles.heading,fontWeight:'bold',fontSize: 14,color: 'gray'}}>{thisVendor.time}</Text>
@@ -147,7 +147,7 @@ const [submitted,isSubmitted] = useState(false);
         </View>
 
         </View>
-        <View style={{marginVertical:50}}>
+        <View style={{marginVertical:60}}>
             <SubmitButton styling={submitted} onTouch={markPickUpComplete} text="Mark Pickup Complete" />
         </View>
 

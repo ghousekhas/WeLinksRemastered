@@ -14,17 +14,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Axios from 'axios';
 
 let appliedVendorsList = [];
-var dataOpen = [
-    
-];
+let dataOpen = [];
 
-var dataCloseOrCancel = [];
+let dataCloseOrCancel = [];
 
 
 export default function Bids({navigation,route}){
     const words = {
-        openBids: 'Open Bids',
-        closedBids: 'Closed Bids'
+        openBids: 'Open Tenders',
+        closedBids: 'Closed Tenders'
     }
     const [tab,setTab]=useState(1);
     const [cardWidth,setCardWidth] = useState(0);
@@ -62,7 +60,7 @@ export default function Bids({navigation,route}){
         try{
             responseArray.forEach((p)=>{
            //     console.log('ppp',p);
-                if(p.bid_status === "Open")
+                if(p.bid_status == "Open")
                     dataOpen.push(p);
                 else
                     dataCloseOrCancel.push(p);
@@ -107,8 +105,9 @@ export default function Bids({navigation,route}){
     }
     var itema = null;
     let thisVendor = null;
-    if(item.bid_status === 'Closed'){
+    if(item.bid_status != 'Open'){
         itema  = item.applied_vendors[0];
+        if(itema != null && itema != undefined)
         thisVendor = {
             name : itema.company_name,
             email : itema.company_email_id,
@@ -223,7 +222,12 @@ export default function Bids({navigation,route}){
         </View>)}
 return(<View style={styles.card}>
     <View style={{flexDirection: 'row',width: dimen.width-dimen.width/10}}>
-        <Text style={{...styles.cardTitle,fontSize:16}}>{cardDetails.bidTitle}</Text>
+
+    <View style={{flexDirection: 'row',justifyContent: 'space-between',width:'100%'}}>
+    <Text style={{...styles.cardTitle,fontSize:16}}>{cardDetails.bidTitle}</Text>
+        <Text style={{...styles.cardTitle,marginEnd: '6%',alignItems: 'flex-end',color: cardDetails.status == "Cancelled" ? Colors.red : Colors.blue,fontSize:16}}>{cardDetails.status == "Cancelled" ? cardDetails.status: cardDetails.status}</Text>
+    </View>
+      
 
         <View style={{flexDirection: 'row',flex:1,marginStart:'20%'}}>
         </View>
@@ -250,7 +254,6 @@ return(<View style={styles.card}>
             </View>
 
             <View style={{flexDirection: 'row'}}>
-            <Text style={{...styles.cardTitle,alignItems: 'flex-end',color: cardDetails.status == "Cancelled" ? Colors.red : Colors.blue,marginVertical:'5%',fontSize:16}}>{cardDetails.status == "Cancelled" ? cardDetails.status: cardDetails.status +" · Awarded to " + cardDetails.awardedTo}</Text>
 
             </View>
             <AntDesign style={{alignSelf:'flex-end',marginHorizontal:'3%',marginBottom: '1%'}} name="right" size={18} color={Colors.primary} />
@@ -266,7 +269,7 @@ return(<View style={styles.card}>
    
 
     return(<View>
- <AppBar title={'My Bids'} back  funct={() => {
+ <AppBar title={'My Tenders'} back  funct={() => {
        navigation.pop();
         }} />
 
@@ -285,7 +288,7 @@ return(<View style={styles.card}>
         />
       <View style={{alignItems: 'center'}}>
       <SubmitButton 
-      text='+ Make a new bid' 
+      text='+ New Tender' 
       onTouch = {() => {navigation.navigate('BidCreation1',{
           ...route.params
       })

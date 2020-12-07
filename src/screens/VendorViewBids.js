@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import { Picker } from '@react-native-community/picker';
-import { Colors, TextSpinnerBoxStyles, dimen, Styles, Config } from '../Constants';
+import { Colors, TextSpinnerBoxStyles, dimen, Styles, Config,monthNames } from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import { Ionicons } from '@expo/vector-icons';
 import AppBar from '../components/AppBar';
@@ -43,7 +43,15 @@ export default function VendorViewBids({ navigation,route }) {
     console.log("Are you here vendor? "  + vendorID)
     console.log("Are you here user? "  + actualUser.user_id)
    
-
+    const sortDate = (date) => {
+        console.log("Wrong date " +date)
+        let d = date.split('-');
+        let m = monthNames[d[1]]
+        console.log(`${d[2]}-${m}-${d[0]}}`)
+        return `${d[2]}-${m}-${d[0]}`
+       
+        
+    }
     const getBids = async () => {
         console.log("Console me")
         Axios.get(Config.api_url + 'php?action=getOpenBids&' + qs.stringify({
@@ -185,7 +193,7 @@ export default function VendorViewBids({ navigation,route }) {
 
 
 
-                <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{cardDetails.bidDuration}</Text>
+                <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{sortDate(cardDetails.bidDuration)}</Text>
                 <View style={{ flexDirection: 'row' }}>
                     <Entypo name="map" size={18} color="gray" />
                     <Text style={{ ...styles.cardTitle, color: 'gray' }}>{cardDetails.address}</Text>
@@ -235,7 +243,7 @@ export default function VendorViewBids({ navigation,route }) {
 
 
             </View>
-            <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{cardDetails.bidDuration}</Text>
+            <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{sortDate(cardDetails.bidDuration)}</Text>
             <View style={{ flexDirection: 'row' }}>
                 <Entypo name="map" size={18} color="gray" />
                 <Text style={{ ...styles.cardTitle, color: 'gray' }}>{cardDetails.address}</Text>
@@ -313,14 +321,17 @@ export default function VendorViewBids({ navigation,route }) {
             {renderTabs()}
 
             <View style={{ flex: 1, paddingBottom: dimen.height / 17 }}>
-          
+          {(tab == 1 && openBidArray.length == 0) || (tab == 2 && bidsSubmitted.length == 0) 
+          || (tab == 3 && openBidArray.length == 0) ? (<View style ={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
+              <Text style={{fontWeight: 'bold',color: 'black',fontSize: 16}}>No bids to show</Text>
+          </View>) : 
                 <FlatList
 
 
                     data={setData()}
                     extraData={setExtraData()}
                     renderItem={({ item, index }) => {
-                   //     console.log("item" + item)
+                        console.log("FlatList")
                         let cardDetails = {
                             companyName: item.bid_title,
                             bidDuration: item.bid_startdate + " to " + item.bid_enddate,
@@ -361,7 +372,7 @@ export default function VendorViewBids({ navigation,route }) {
                         </TouchableOpacity>)
 
                     }}
-                />
+                />}
                 {/* <View style={{alignItems: 'center'}}>
       <SubmitButton 
       text='+ Make a new bid' 

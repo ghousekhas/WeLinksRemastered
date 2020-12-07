@@ -145,9 +145,12 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     const renderCartItems = (cart) => {
   //      console.log("order date"+ orderDate)
         let i,res = [];
+        res.push(<Text>  </Text>)
         for(i in cart){
             res.push(<Text style={{fontWeight: 'bold',fontSize:11}}>{`${cart[i].homescrap_name}${i==cart.length-1? "" : ", "}`}</Text>)
         }
+        res.push(<Text>   </Text>)
+
         return(res)
     }
     const getDate = (date) => {
@@ -176,7 +179,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
         <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
         <View style={{flexDirection:'row'}}>
-        <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
+        <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{``}</Text>
 
         <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue,fontSize:12}}>{status}</Text>
         </View>
@@ -195,7 +198,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 <Text style={{...Styles.subheading,fontWeight: 'normal',marginStart: 30,paddingTop: 10}}>{address}</Text>
 
         
-        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
+        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
      
              <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
 
@@ -215,11 +218,10 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
 
     return(<View>
-    {tag == 'Vendor' ? <AppBar back funct={()=>{navigation.goBack()}}/> : null}
+    {tag == 'Vendor' ? <AppBar title={words.vendorHeading} back funct={()=>{navigation.goBack()}}/> : null}
     <ScrollView style={{backgroundColor: 'white'}}>
         <View style={{...Styles.parentContainer,marginBottom: '20%'}}>
-            <Text style={{...Styles.heading,fontSize: 18,textAlign: 'center',alignSelf: 'center',flex: 0,padding: 20}}>{words.vendorHeading}</Text>
-    <View>
+            <View style={{margin : '5%'}}>
             <MySubscriptionOrder name={cardDetails.name} pickUpDate={cardDetails.pickUpDate} orderAmount={cardDetails.orderAmount} orderDate={cardDetails.orderDate} imageUrl={cardDetails.image} status={cardDetails.status} cart={cardDetails.cart} address={cardDetails.address}/>
 
            

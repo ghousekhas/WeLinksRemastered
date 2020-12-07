@@ -200,9 +200,11 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     const renderCartItems = (cart) => {
         //console.log("order date"+ orderDate)
         let i,res = [];
+        res.push(<Text>  </Text>)
         for(i in cart){
                 res.push(<Text style={{fontWeight: 'bold',fontSize:13}}>{`${cart[i].homescrap_name}${i==cart.length-1? "" : ", "}`}</Text>)
         }
+        res.push(<Text>   </Text>)
         return(res)
     }
     const getDate = (date) => {
@@ -246,20 +248,20 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
             </View>
     
         </View>
-        <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
+        <View style={{flexDirection: 'row',margin: 5,flex: 1,width: '100%'}}>
             <Image onLayout={({nativeEvent}) => {
             setAlign(nativeEvent.layout.width)
         }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={ imageUrl.trim()!=''?{uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
     
             <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
             <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
-    <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+    <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',marginBottom: '2%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5,marginEnd: '3%'}}>
     {renderCartItems(cart)}
     </ScrollView>
     
             
             
-            <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
+            <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
          
                  <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
     
@@ -295,12 +297,12 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
             </View>
     
         </View>
-        <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
+        <View style={{flexDirection: 'row',margin: 5,flex: 1,width: '100%'}}>
             <Image onLayout={({nativeEvent}) => {
             setAlign(nativeEvent.layout.width)
-        }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={ imageUrl.trim()!=''?{uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
+        }} style={{height: dimen.width*0.23,width: dimen.width*0.23,flex: 0,alignSelf: 'flex-start'}}  resizeMethod={'auto'} resizeMode='contain' source={ imageUrl.trim()!=''?{uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
     
-            <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
+            <View style={{flex: 1,marginStart:10}}>
             <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
     <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
     {renderCartItems(cart)}
@@ -308,7 +310,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     
             
             
-            <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${pickUpDate.substring(0,10)}`}</Text>
+            <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
          
                  <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
     

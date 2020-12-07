@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native';
 
-import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config,monthNames} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import AppBar from '../components/AppBar';
 import SubmitButton from '../components/SubmitButton';
@@ -18,6 +18,16 @@ export default function AwardBid({navigation,route}){
  const appliedVendorsList = route.params.appliedVendorsList;
  console.log(thisVendor.image)
  const [submitted,isSubmitted] = useState(false);
+
+ const sortDate = (date) => {
+    console.log("Wrong date " +date)
+    let d = date.split('-');
+    let m = monthNames[d[1]]
+    console.log(`${d[2]}-${m}-${d[0]}}`)
+    return `${d[2]}-${m}-${d[0]}`
+   
+    
+}
 
  const awardTheBid = ()=>{
      isSubmitted(true);
@@ -64,7 +74,7 @@ export default function AwardBid({navigation,route}){
                 <View style={{ flexDirection: 'row', marginTop: '20%' }}>
                     <Entypo name="calendar" size={23} color={Colors.blue} style={{ margin: '1%' }} />
                     <Text style={{ ...Styles.heading, fontSize: 14, color: Colors.blue }}>Offer made :  </Text>
-                    <Text style={{ ...Styles.heading, fontWeight: 'bold', fontSize: 14, color: 'gray' }}>{thisVendor.time}</Text>
+                    <Text style={{ ...Styles.heading, fontWeight: 'bold', fontSize: 14, color: 'gray' }}>{sortDate(thisVendor.time.substring(0,10))}</Text>
 
                 </View>
 
