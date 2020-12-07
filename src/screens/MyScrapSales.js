@@ -220,6 +220,8 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         navigation.navigate('MyScrapSaleOrder',{
             actualUser: actualUser,
             item: item,
+
+            
             card: sendingCard
 
         })
@@ -237,7 +239,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
             <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
             <View style={{flexDirection:'row'}}>
-            <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
+            <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}></Text>
     
             <Text style={{...styles.quantity,marginStart: 10,
                 color: status === "CANCELLED"? Colors.red : status === "COMPLETED"? Colors.primary: Colors.blue,fontSize:12}}>{status}</Text>
@@ -286,7 +288,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
             <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
             <View style={{flexDirection:'row'}}>
-            <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{`Status : `}</Text>
+            <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}></Text>
     
             <Text style={{...styles.quantity,marginStart: 10,
                 color: status === "CANCELLED"? Colors.red : status === "COMPLETED"? Colors.primary: Colors.blue,fontSize:12}}>{status}</Text>

@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions} from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config, monthNames} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import {Ionicons} from '@expo/vector-icons';
 import AppBar from '../components/AppBar';
@@ -40,6 +40,16 @@ export default function Bids({navigation,route}){
        console.log("USER "+actualUser.user_id);
        populateData();
    },[]);
+
+   const sortDate = (date) => {
+       console.log("Wrong date " +date)
+       let d = date.split('-');
+       let m = monthNames[d[1]]
+       console.log(`${d[2]}-${m}-${d[0]}}`)
+       return `${d[2]}-${m}-${d[0]}`
+      
+       
+   }
 
    const populateData= async ()=>{
     //const quanData = await Axios.get(Config.api_url+'php?action=getCorporateScrapQuantities');
@@ -80,7 +90,7 @@ export default function Bids({navigation,route}){
     //var item = dataOpen[0];
     let cardDetails = {
     bidTitle: item.bid_title,
-    bidDuration: item.bid_startdate+' to '+item.bid_enddate,
+    bidDuration: sortDate(item.bid_startdate)+' to '+sortDate(item.bid_enddate),
     bidItems: item.officescrap_category_name,
     bidItemsWeight: item.officescrap_quant_name,
     bidders: item.applied_vendors.length,

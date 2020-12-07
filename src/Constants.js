@@ -4,6 +4,8 @@ export const Config={
     api_url: 'https://api.dev.we-link.in/user_app.'
 }
 
+export const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
 export const dimen={
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
@@ -152,18 +154,19 @@ export const Styles=StyleSheet.create({
           
     },
     collapsedView:{
-        height: Dimensions.get('window').height/9-20,
+        height: Dimensions.get('window').height/9-30,
         width: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
          
           
         flexDirection: 'row',
-        padding: 30,
+        padding: 20,
         alignItems: 'center'
     },
     collapsibleView:{
-        width: '100%'
+        width: '100%',
+  //      backgroundColor: 'pink'
     }
     ,
     productList:{

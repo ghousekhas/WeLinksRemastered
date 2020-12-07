@@ -168,9 +168,9 @@ export default class VendorScreen1 extends React.Component{
             <View style={{flex: 0,backgroundColor: Colors.secondary,padding: 10}}>
                
                 <Vendor style={{height:'40%',width: '80%',alignSelf: 'center'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl}/>
-                 <Text style={{paddingLeft: 10,fontSize: 15, fontWeight: 'bold',marginBottom: 5}}>Brands:</Text>
+                 <Text style={{paddingLeft: 15,fontSize: 15, fontWeight: 'bold',marginBottom: 5}}>Brands:</Text>
                 <FlatList
-                    style={Styles.halfFlatlist}
+                    style={{...Styles.halfFlatlist,paddingLeft:5}}
                     renderItem={this.renderItem}
                     data={this.state.brandImagesData}
                     horizontal={true}
@@ -242,7 +242,7 @@ const ScrapFlatList = ({route,navigation,data}) => {
             const imageUrl= item.product_image_url;
             
             return(
-                <Product name={item.name} quantity={item.quantity} price={item.weekday_price} price_={item.weekend_price} url={item.product_image_url} imageUrl={imageUrl}
+                <Product place="list" name={item.name} quantity={item.quantity} price={item.weekday_price} price_={item.weekend_price} url={item.product_image_url} imageUrl={imageUrl}
                 subscribe={() => {
                    
                     const prodName = item.name;
