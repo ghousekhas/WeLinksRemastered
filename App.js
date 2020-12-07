@@ -127,7 +127,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
   if(vendor){
 
-    checkVendorStatus();
+    //checkVendorStatus();
    console.log('Switching to vendor')
    console.log(dashboard)
     var initialParams= {user: user, actualUser: theActualUser}
