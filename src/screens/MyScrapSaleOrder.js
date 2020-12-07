@@ -31,7 +31,7 @@ import sendNotif from '../Utility/sendNotificationTo';
 var cancellationReasons = [{
     label: 'Don\'t want pick up for now',
     value: 'Don\'t want pick up for now'
-}, { label: 'Vendor did not show up', value: 'Don\'t want pick up for now' }, { label: 'Not happy with the price vendor is offering', value: 'Don\'t want pick up for now' },
+}, { label: 'Vendor did not show up', value: 'Vendor did not show up' }, { label: 'Not happy with the price vendor is offering', value: 'Not happy with the price vendor is offering' },
 {
     label: 'Not happy with vendor interaction',
     value: 'Not happy with vendor interaction',

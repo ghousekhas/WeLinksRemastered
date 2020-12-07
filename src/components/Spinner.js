@@ -12,7 +12,7 @@ export default function SpinnerBox({title,changeOption,data}){
         <Text style={TextSpinnerBoxStyles.text}>{title}</Text>
        <View style={TextSpinnerBoxStyles.answer}>
         <Picker
-            mode={"dialog"}
+            mode="dropdown"
             style={styles.picker}
             selectedValue={dropdown}
             onValueChange={(val,index)=>{
