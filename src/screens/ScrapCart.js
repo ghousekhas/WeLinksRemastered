@@ -166,65 +166,67 @@ export default class ScrapCart extends React.Component{
             <AppBar title='Cart' back funct={() => {this.props.navigation.pop()}} />
             
             <ScrollView style={{flex: 1}}>
-            <View style={{marginTop: dimen.height/16,flex: 1}}>
-                <View style={Styles.scrapTopCart}>
-                <FlatList
-                    data={cart}
-                    extraData={this.state.extraData}
-                    keyExtractor={(item,index)=>index.toString()}
-                    renderItem={({item,index})=>{
-                        return(
-                            <Appliance 
-                            schedule={true}
-                            remove={true}
-                            item = {item}
-                            index= {index}
-                            onAdd={(num) => {
-                 
+            <View style={{marginTop: dimen.height/16+20,flex: 1}}>
+                <View style={{flex: 0}}>
+                    <View style={{maxHeight: dimen.height/2}}>
+                        <FlatList
+                            data={cart}
+                            extraData={this.state.extraData}
+                            keyExtractor={(item,index)=>index.toString()}
+                            renderItem={({item,index})=>{
+                                return(
+                                    <Appliance 
+                                    schedule={true}
+                                    remove={true}
+                                    item = {item}
+                                    index= {index}
+                                    onAdd={(num) => {
                         
-                                cart.push({
-                                    ...item,
-                                    itemQuantity : num
-                                });
-           
-           
-           
-                                   console.log(cart)
-                               
-                               
-                               
-                           }} 
-                           onRemove = {this.onRemove
-                               // let temp = cart,i,ind = index;
-                   
-                               // for(i in temp){
-                               //         if(i != ind)
-                               //         cart.push(temp[i])
-                               // }
-                               // console.log(cart)
-           
-                           }
-                           initquan={item.cart_quantity}
-                           name={item.homescrap_name} quantity={item.quantity} price={item.homescrap_price}  price_={item.price_} image={item.homescrap_image_url}
-                           subscribe={() => {
-                              
-                               const prodName = item.name;
-                               const prodQuan = item.quantity;
-                               const prodRate = item.price;
-                               const prodRate_ = item.price_;
-           
-                               navigation.navigate('SubscribeScreen',{
-                                   tag : 'paper',
-                                   pname : prodName,
-                                   pquan : prodQuan,
-                                   prate: prodRate
-                               }) } 
-                           }/>
-           
-                        )
+                                
+                                        cart.push({
+                                            ...item,
+                                            itemQuantity : num
+                                        });
+                
+                
+                
+                                        console.log(cart)
+                                    
+                                    
+                                    
+                                }} 
+                                onRemove = {this.onRemove
+                                    // let temp = cart,i,ind = index;
+                        
+                                    // for(i in temp){
+                                    //         if(i != ind)
+                                    //         cart.push(temp[i])
+                                    // }
+                                    // console.log(cart)
+                
+                                }
+                                initquan={item.cart_quantity}
+                                name={item.homescrap_name} quantity={item.quantity} price={item.homescrap_price}  price_={item.price_} image={item.homescrap_image_url}
+                                subscribe={() => {
+                                    
+                                    const prodName = item.name;
+                                    const prodQuan = item.quantity;
+                                    const prodRate = item.price;
+                                    const prodRate_ = item.price_;
+                
+                                    navigation.navigate('SubscribeScreen',{
+                                        tag : 'paper',
+                                        pname : prodName,
+                                        pquan : prodQuan,
+                                        prate: prodRate
+                                    }) } 
+                                }/>
+                
+                                )
 
-                    }}
-                    />
+                            }}
+                            />
+                    </View>
 
 <View style={styles.gray}>
              <Text style={{margin: '1%'}}>Disclaimer: Prices shown are only approximate value. They can differ for different vendors/products.</Text>
@@ -250,7 +252,7 @@ export default class ScrapCart extends React.Component{
         </View>
 
                 </View>
-                <View style={Styles.scrapBottom}>
+                <View style={{padding: 10,backgroundColor: Colors.secondary}}>
                     <Text style={ScrapStyles.heading}>Pickup Date and Time</Text>
                     <View style={{...Styles.horizontalCalendarRow}}>
                         {//SevenViewshere
@@ -304,15 +306,17 @@ export default class ScrapCart extends React.Component{
                     
                 </View>
                 
+                
             </View>
+            <TouchableOpacity onPress={()=>{
+                      
+                      this.placeOrder();
+                  }} style={this.state.confirm ? {flex: 0,backgroundColor: Colors.buttonEnabledGreen,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}:{flex: 0,backgroundColor: Colors.primary,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}}>
+                     <Text style={this.state.confirm ? {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15,fontStyle: 'italic'} : {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15}}>Confirm Pickup</Text>
+                  </TouchableOpacity>
             </ScrollView>
         
-                    <TouchableOpacity onPress={()=>{
-                      
-                        this.placeOrder();
-                    }} style={this.state.confirm ? {flex: 0,backgroundColor: Colors.buttonEnabledGreen,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}:{flex: 0,backgroundColor: Colors.primary,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}}>
-                       <Text style={this.state.confirm ? {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15,fontStyle: 'italic'} : {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15}}>Confirm Pickup</Text>
-                    </TouchableOpacity>
+                   
              
             </View>
         );

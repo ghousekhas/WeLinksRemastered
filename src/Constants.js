@@ -6,7 +6,8 @@ export const Config={
 
 export const dimen={
     height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width
+    width: Dimensions.get('window').width,
+    appbarHeight: Dimensions.get('window').height/16
 }
 
 export const Colors = {
@@ -31,10 +32,10 @@ export const Constants={
     selectedAddress: 'selectedAddress',
     shareMessage: 'Hey! Check out WeLinks, the one stop destination for your daily needs! https://www.google.com\nUse my referral code!',
     veFirstTime: 'firstTime',
-    veInProgress: 'inProgress',
+    veInProgress: 'inprogress',
     veRejected: 'rejected',
     veTryAgain: 'tryAgain',
-    verified: 'verified'
+    verified: 'active'
 
     
 }

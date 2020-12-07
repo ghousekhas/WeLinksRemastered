@@ -384,7 +384,7 @@ const VendorHomeStack=({navigation,route})=>{
 
   return (<View style={{ flex: 1 }}>
     <NavigationContainer independent={true}>
-      <Stack.Navigator initialRouteName="VendorRegistration">
+      <Stack.Navigator>
 
         <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={theInitialParams} />
         <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />

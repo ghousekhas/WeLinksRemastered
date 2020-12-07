@@ -26,7 +26,7 @@ export default function VendorRegistration({navigation,route}){
     const [gst,companyGstNumber]=useState('');
     const [address,setAddress]=useState(null);
 
-    //USERAPK change userid
+    
     const checkVendorStatus=()=>{
         Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{

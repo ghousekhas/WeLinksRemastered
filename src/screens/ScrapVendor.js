@@ -32,7 +32,7 @@ export default class ScrapVendor extends React.Component {
             sections: [],
             activesections: [],
             width: 0,
-            translateCart: new Animated.Value(dimen.height+30),
+            translateCart: new Animated.Value(dimen.height-dimen.appbarHeight),
             cartState: false,
             extraData: 0,
             orderId: -1,
@@ -144,7 +144,7 @@ export default class ScrapVendor extends React.Component {
         },2000);
     }
 
-    addItemToCart = (item, num) => {
+    addItemToCart = async (item, num) => {
         // console.log(item);
         // console.log(num);
         var itemid, quantity;
@@ -268,7 +268,7 @@ export default class ScrapVendor extends React.Component {
         const { translateCart } = this.state;
         if (retract){
             Animated.spring(this.state.translateCart, {
-                toValue: 0,
+                toValue: dimen.appbarHeight,
                 duration: 2500,
                 useNativeDriver: true,
                 speed: 5,
@@ -278,7 +278,7 @@ export default class ScrapVendor extends React.Component {
         }
         else{
             Animated.spring(this.state.translateCart, {
-                toValue: dimen.height,
+                toValue: dimen.height-dimen.appbarHeight,
                 duration: 2500,
                 useNativeDriver: true,
                 speed: 5,
@@ -293,7 +293,7 @@ export default class ScrapVendor extends React.Component {
     toggleExpanded = () => {
         this.setState({ collapsed: !collapsed });
     }
-    setSectionsFunction = sections => {
+    setSectionsFunction = async sections => {
         this.setState({
             activesections: sections.includes(undefined) ? [] : sections,
         });
@@ -408,7 +408,7 @@ export default class ScrapVendor extends React.Component {
                 }
                 
             }}>
-        <View style={{flex: 1,marginBottom: '5%',backgroundColor: 'yellow'}}>
+        <View style={{flex: 1,marginBottom: '5%',backgroundColor: 'white'}}>
             
             <Snackbar
                 visible={this.state.snackBarVisible}
@@ -425,19 +425,17 @@ export default class ScrapVendor extends React.Component {
          
      
             <AppBar title={name} back funct={() =>  this.state.cartState ? this.toggleCart(false) : this.props.navigation.pop()}/>
-            <View style={{...Styles.parentContainer}}>
+            <View style={{height: dimen.appbarHeight}} />
+            <View style={{flex: 1}}>
                 
             
-                <View onLayout={({ nativeEvent }) => {
-                    this.setState({ buttons: nativeEvent.layout.height / 3 })
-
-                }} style={{ ...Styles.fortyUpperPanel, flex: 0 }}>
+                <View style={style.upperContainer}>
 
 
-                    <Vendor style={{ height: '50%', width: '100%', alignSelf: 'center' }} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl} />
+                    <Vendor style={{width: '100%'}} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl} />
 
 
-                    <View style={{ flexDirection: 'row', width: dimen.width, alignSelf: 'flex-end', justifyContent: 'space-around', height: dimen.height / 17 }}>
+                    <View style={style.upperLowerContainer}>
                         
                         {/* Go To Cart Button */}
                         <TouchableOpacity onPress={() => {
@@ -445,7 +443,7 @@ export default class ScrapVendor extends React.Component {
                             this.toggleCart(true);
                             //this.props.navigation.navigate('ScrapCart',cart)
                         }
-                        } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,width: this.state.width }}>
+                        } style={{ backgroundColor: Colors.primary, color: 'white', flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8}}>
                             <View style={{position: 'absolute',top: 2,right: 7}}>
                                 {/* <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text> */}
                             </View>
@@ -479,7 +477,7 @@ export default class ScrapVendor extends React.Component {
                 </View>
 
 
-                <View style={Styles.sixtyLowerPanel}>
+                <View style={style.lowerContainer}>
                     <ScrollView ref={(ref) => this.scrollView = ref}>
                         <View style={{ marginTop: dimen.height / 25 }}>
                             <Accordion
@@ -501,16 +499,16 @@ export default class ScrapVendor extends React.Component {
 
 
 
-            <Animated.View style={{ width: dimen.width, height: dimen.height, zIndex: 100, elevation: 10, position: 'absolute', bottom: 0, transform: [{ translateY: this.state.translateCart }] }} >
+            <Animated.View style={{ width: dimen.width, height: dimen.height-dimen.appbarHeight, zIndex: 100, elevation: 10, position: 'absolute', bottom: 0, transform: [{ translateY: this.state.translateCart }] }} >
                 {/* background blur */}
-                <View style={{ flex: 1, width: '100%', backgroundColor: 'rgba(255,255,255,0.7)', zIndex: 1000 }} onTouchEnd={() => this.toggleCart(false)} />
+                <View style={{ flex: 0, width: '100%', backgroundColor: 'rgba(255,255,255,0.7)', zIndex: 1000 }} onTouchEnd={() => this.toggleCart(false)} />
                 {/* Bottom sheet */}
-                <View style={{ flex: 7, backgroundColor: 'white' }}>
+                <View style={{ flex: 1, backgroundColor: 'white',paddingBottom: 30 }}>
                     <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center', padding: 10 }}>Cart</Text>
                     {
                         this.state.extraData != null && cart[0] != undefined ? null : <Text style={{ ...Styles.subbold, margin: 100, alignSelf: 'center' }}>Cart is empty</Text>
                     }
-
+                
                     <FlatList
 
                         data={cart}
@@ -756,6 +754,22 @@ const ScrapFlatList = ({ route, navigation, data, addItemToCart, removeItemFromC
 
 
 const style = StyleSheet.create({
+    upperContainer:{
+        flex: 3,
+        marginBottom: 10
+    },
+    upperUpperContainer:{
+        flex: 5
+    },
+    upperLowerContainer:{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    lowerContainer:{
+        flex: 5
+
+    },
     container: {
 
         padding: 1,
