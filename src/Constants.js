@@ -134,7 +134,7 @@ export const Styles=StyleSheet.create({
            
     },
     horizontalImage:{
-        marginTop: 5,
+    //    marginTop: 5,
         height: Dimensions.get('window').height*0.13-30,
         width: Dimensions.get('window').height*0.13-30,
         marginHorizontal: 10
@@ -257,9 +257,9 @@ export const Styles=StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     scrapTopCart:{
-        height: dimen.height/1.2,
+      //  height: dimen.height/1.2,
         width: '100%',
-        paddingVertical: '5%'
+     //   paddingVertical: '5%'
     },
     scrapBottom:{
         height: '60%',

@@ -127,7 +127,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
   if(vendor){
 
-  //  checkVendorStatus();
+    checkVendorStatus();
    console.log('Switching to vendor')
    console.log(dashboard)
     var initialParams= {user: user, actualUser: theActualUser}
@@ -661,24 +661,24 @@ export default function App() {
       });
   }
 
-  const sendNotif = async ()=>{
-   // await firebase.initializeApp(); 
-   setTimeout(()=>{
-    functions().httpsCallable('sendNotification')({
-      'title': 'Notification',
-      'message': 'Message',
-      'body': "Body",
-      'topic': "all"
-    }).then(
-      (response) =>{
-        console.log(response);
-      },(reason)=>{
-        console.log(reason);
-      }
-    );
-   },5000);
+  // const sendNotif = async ()=>{
+  //  // await firebase.initializeApp(); 
+  //  setTimeout(()=>{
+  //   functions().httpsCallable('sendNotification')({
+  //     'title': 'Notification',
+  //     'message': 'Message',
+  //     'body': "Body",
+  //     'topic': "all"
+  //   }).then(
+  //     (response) =>{
+  //       console.log(response);
+  //     },(reason)=>{
+  //       console.log(reason);
+  //     }
+  //   );
+  //  },5000);
 
-  }
+  // }
 
   console.log("cuu "+JSON.stringify(user))
 
@@ -699,7 +699,7 @@ export default function App() {
       getUserDetails(0, user);
     const suser = auth().onAuthStateChanged(onAuthStateChanged);
     getVendorDetails();
-    // sendNotif();
+   // sendNotif();
     
     
 
@@ -835,7 +835,7 @@ const PostLoginHome = ({ route, navigation }) => {
             <Stack.Screen name='ScrapVendor' component={ScrapVendor} options={{ headerShown: false }} />
             <Stack.Screen name="Bids" component={Bids} options={{ headerShown: false }} />
             <Stack.Screen name="BidCreation1" component={BidCreation1} options={{ headerShown: false }} />
-            <Stack.Screen name = "ChooseAddress" component={ChooseAddress} options={{headerShown: false}}/>
+            <Stack.Screen name="ChooseAddress" component={ChooseAddress} options={{headerShown: false}}/>
             <Stack.Screen name="BidCreation2" component={BidCreation2} options={{ headerShown: false }} />
             <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{ headerShown: false }} />
             <Stack.Screen name="AwardBid" component={AwardBid} options={{ headerShown: false }} />

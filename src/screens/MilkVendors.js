@@ -12,6 +12,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import { Feather } from '@expo/vector-icons';
 import { Config,dimen } from '../Constants';
+import GenericSeperator from '../components/GenericSeperator';
 var vendors;
 
 const MilkVendors = (props) => {
@@ -112,6 +113,8 @@ const MilkVendors = (props) => {
             data={vendors}
             extraData={vendorExtraData}
             keyExtractor={(item) => item.name}
+            ItemSeparatorComponent={() => <GenericSeperator />}
+            // separator= {<GenericSeperator />}
             renderItem={({ item }) => {
                 const vendorName = item.name;
                 const vendorStars = item.avg_ratings;
@@ -161,13 +164,12 @@ const MilkVendors = (props) => {
 const style = StyleSheet.create({
     header: {
         margin: '5%',
-        padding: '3%',
+      //  padding: '3%',
+      //  backgroundColor: 'blue',
      //   marginStart: '20%',
    //  width: 0.8* dimen.width,
    flex:1
      
-        
-
     },
 
     address: {
@@ -179,7 +181,7 @@ const style = StyleSheet.create({
       
         paddingHorizontal: 10,
         paddingVertical: 5,
-        fontSize: 13,
+        fontSize: 12,
         elevation: 1
 
 
@@ -196,9 +198,11 @@ const style = StyleSheet.create({
     },
     avatar: {
        
-        margin: '3%',
+        marginHorizontal: '3%',
         padding: '3%',
-        alignSelf: 'center'
+        alignSelf: 'flex-start',
+        marginTop: '6%'
+       
        
 
 

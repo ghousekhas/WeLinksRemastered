@@ -18,7 +18,7 @@ const Cart = ({route,navigation,Tag}) => {
     let selectedDays = [],i;
     const [orderMade,setOrderMade] = useState(false);
     const words = {
-        title : 'Subscription Orders',
+        title : 'Order Summary',
         disclaimer: 'Total number of deliveries may be adjusted as per market rates.',
         couponText :'Got a coupon code? Apply',
         cartAmount : 'Cart Amount',
@@ -279,7 +279,7 @@ const Cart = ({route,navigation,Tag}) => {
       <ScrollView style={{flex: 1,padding: 5}}>
       <View style={{flex: 1,alignSelf: 'center',justifyContent: 'center'}}>
       
-    <Text style={{...Styles.title,marginBottom : '2%'}}>{words.title}</Text>
+    <Text style={{...Styles.title,marginBottom: '0%',marginTop: '2%'}}>{words.title}</Text>
 
     <View style={{alignItems: 'center',width: dimen.width}}>
         <SubscriptionOrder name={pname}
@@ -293,7 +293,7 @@ const Cart = ({route,navigation,Tag}) => {
           imageUrl={route.params.imageUrl}
          />
          </View>
-<View style={{marginTop: dimen.height/60}}>
+<View>
          <View style={style.gray}>
              <Text style={style.text}>{words.disclaimer}</Text>
          </View>

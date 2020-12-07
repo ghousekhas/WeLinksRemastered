@@ -61,7 +61,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,qu
           },
          
         },
-        { text: "Cancel", onPress: () => console.log("OK Pressed"), style: "cancel" }
+        { text: "Close", onPress: () => console.log("OK Pressed"), style: "cancel" }
       ],
       { cancelable: false }
     );
@@ -90,7 +90,10 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,qu
        <Text style={{...style.rate,marginStart: alignment+alignment/4}}>Weekdays : ₹{rate}</Text>
        <Text style={{...style.rate,marginStart: alignment+alignment/4}}>Weekends : ₹{rate_}</Text>
        </View>}
-       <Text style = {{...style.rate,color: 'gray',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop: tag == 'Paper' ? 0 : '3%'}}>{num+" deliveries"}</Text>
+       <View style={{flex:1,justifyContent: 'flex-end'}}>
+       <Text style = {{...style.rate,color: 'gray',textAlign: 'left',fontSize: 12,alignSelf:'flex-end'}}>{num+" deliveries"}</Text>
+
+       </View>
        </View>
        
        
@@ -114,7 +117,7 @@ const style = StyleSheet.create({
         width: Dimensions.get('window').width-30,
         
         elevation: 1,
-        padding: '0.5%',
+        padding: '1%',
        
         borderRadius: 15,
         borderColor: Colors.seperatorGray,
@@ -164,7 +167,7 @@ const style = StyleSheet.create({
         
         fontWeight: 'bold',
         fontSize: 13,
-        marginTop: '3%',
+        marginHorizontal: '8%',
        
         color:'black'
       

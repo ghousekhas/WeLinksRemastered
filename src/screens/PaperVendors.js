@@ -152,9 +152,8 @@ const PaperVendors = (props) => {
 const style = StyleSheet.create({
     header: {
         margin: '5%',
-        padding: '3%',
-
-
+   flex:1
+     
     },
     username: {
         fontWeight: 'bold',
@@ -189,9 +188,12 @@ const style = StyleSheet.create({
 
     },
     avatar: {
-        margin: '3%',
+        marginHorizontal: '3%',
         padding: '3%',
-        alignSelf: 'center'
+        alignSelf: 'flex-start',
+        marginTop: '6%'
+       
+       
 
 
 

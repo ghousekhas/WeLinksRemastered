@@ -237,14 +237,14 @@ export default class AddressList extends React.Component{
     renderSeperator=()=>{
       return(
         <View style={{padding:0,
-        paddingHorizontal: '20%',
+     //   paddingHorizontal: '20%',
         backgroundColor: 'gray',
         width:'80%',
         height: 0,
         alignSelf: 'center',
-        borderStyle: 'dashed',
-        borderColor: 'black',
-        borderWidth: 0.04,
+     //   borderStyle: 'dashed',
+        borderColor: Colors.seperatorGray ,
+        borderWidth: 0.3,
         borderRadius: 5
         }}
         />

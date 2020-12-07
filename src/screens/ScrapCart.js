@@ -22,6 +22,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Config} from  '../Constants';
+import sendNotif from '../Utility/sendNotificationTo';
 
 
 
@@ -69,6 +70,7 @@ export default class ScrapCart extends React.Component{
                 console.log("order is " + JSON.stringify(response))
                 console.log(this.state.selectedDate)
                 alert("Order placed successfully");
+                sendNotif("Order Received!","You have a new scrap order","vendor"+this.props.route.params.vendorId)
                 AsyncStorage.removeItem('ScrapOrderId').then(()=>{
                     AsyncStorage.removeItem('PrevScrapVendor').then(()=>{
                         navigation.navigate('Homescreen');
