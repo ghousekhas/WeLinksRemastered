@@ -9,10 +9,6 @@ import SupportFAQ from '../screens/SupportFAQ';
 import { Constants,Colors, dimen } from '../Constants';
 import auth from '@react-native-firebase/auth';
 
-
-
-
-
 const DrawerContent = (props) => {
   const [vendor,setVendor] = useState(false);
   const {switchVendor} = props;
@@ -58,7 +54,7 @@ const DrawerContent = (props) => {
       <View style={{height: Dimensions.get('window').height}}>
        <DrawerContentScrollView {...props} scrollEnabled={true}>
          <View style={{height: Dimensions.get('window').height-StatusBar.currentHeight}}>
-         <Drawer.Section style={{margin: dimen.height/60}}>
+         <Drawer.Section style={{margin: 0}}>
         
            <View style={styles.header}>
              {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
