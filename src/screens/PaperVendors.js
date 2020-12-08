@@ -6,7 +6,7 @@ import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import AppBar from '../components/AppBar';
 import { Feather } from '@expo/vector-icons';
-import { Colors, Styles } from '../Constants';
+import { Colors, Styles,dimen } from '../Constants';
 import Axios from 'axios';
 import qs from 'qs';
 import { Config } from '../Constants';
@@ -76,28 +76,30 @@ const PaperVendors = (props) => {
                 props.navigation.pop();
             }} />
 
-            <View onLayout={({ nativeEvent }) => {
-                setImageHeight(0.75 * nativeEvent.layout.height)
-            }} style={{ flexDirection: 'row', marginTop: Dimensions.get('window').height / 14 }}>
-                <Image style={{ ...style.avatar, height: imageHeight, aspectRatio: 1 / 1.8, flex: 1 }} source={actualUser.img_url.trim() != '' ? { uri: actualUser.img_url } : require('../../assets/notmaleavatar.png')} />
+            <View style={{ flexDirection: 'row', marginTop: Dimensions.get('window').height / 14,marginStart: 9}}>
+            <Image style={{ ...style.avatar, height: dimen.height / 6,  aspectRatio: 1, padding: dimen.width / 30, flex: 2 }} source={actualUser.img_url.trim() != '' ? { uri: actualUser.img_url } : require('../../assets/notmaleavatar.png')} />
 
 
-                <View style={{ ...style.header, flex: 5 }}>
-                    <Text style={{ ...style.username }}>{actualUser.name}</Text>
+            <View style={{ ...style.header, height: dimen.height / 6, flex: 5, justifyContent: 'space-between' }} onLayout={({ nativeEvent }) => {
+                setImageHeight(nativeEvent.layout.height)
+            }} >                    
+            <Text style={{ ...style.username }}>{actualUser.name}</Text>
                     <View style={{ ...style.address }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Feather name="map-pin" size={12} color="black" />
                             <Text style={{ fontSize: 13 }}>{" " + address.addr_name}</Text>
                         </View>
+                        <Text numberOfLines={3} style={{ fontSize: 11 }}>{address.addr_details + ".\nLandmark: "}</Text>
+                        <View style={{ height: 0.5 }} />
 
-                        <Text style={{ fontSize: 13 }}>{address.addr_details + ".\nLandmark: " + address.addr_landmark}</Text>
+                        <Text numberOfLines={1} style={{ fontSize: 11 }}>Landmark: {address.addr_landmark}</Text>
                     </View>
                 </View>
             </View>
             <View style={Styles.grayfullline} />
 
             <View style={style.heading}>
-                <Text style={{ ...Styles.title, fontSize: 17 }}>{words.paper}</Text>
+                <Text style={{ ...Styles.title, fontSize: 17,marginStart: 15 }}>{words.paper}</Text>
             </View>
 
             <FlatList
@@ -151,8 +153,14 @@ const PaperVendors = (props) => {
 
 const style = StyleSheet.create({
     header: {
-        margin: '5%',
-   flex:1
+        marginVertical: '5%',
+        marginHorizontal: '2%',
+        //  padding: '3%',
+        //  backgroundColor: 'blue',
+        //   marginStart: '20%',
+        //  width: 0.8* dimen.width,
+        flex: 1
+
      
     },
     username: {
@@ -184,7 +192,7 @@ const style = StyleSheet.create({
     },
     heading: {
 
-        marginBottom: '5%',
+      //  marginBottom: '5%',
 
     },
     avatar: {

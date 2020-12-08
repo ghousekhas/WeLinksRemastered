@@ -35,7 +35,7 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
 
         return (
             <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
-                <Text style={style.brands}>{address != undefined && address != null && address != 0 ? address : null}</Text>
+                <Text numberOfLines={3} style={style.brands}>{address != undefined && address != null && address != 0 ? address : null}</Text>
             </View>
         );
     };

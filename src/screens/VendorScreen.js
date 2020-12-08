@@ -137,7 +137,7 @@ export default class VendorScreen extends React.Component {
 
     rendCont = (section, _, isactive) => {
         return (
-            <View style={{ height: 300, width: 300 }}>
+            <View style={{ height: 300, width: 300,backgroundColor: 'purple' }}>
 
             </View>
         )
@@ -155,21 +155,24 @@ export default class VendorScreen extends React.Component {
             <View style={{ height: dimen.height / 16 }} />
 
             <View style={{ flex: 0, backgroundColor: Colors.secondary, padding: 10 }}>
+<View style={{margin: '0%',padding: '0%'}}>
+<Vendor style={{ height: '40%', width: '80%', alignSelf: 'center' }} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl} />
 
-                <Vendor style={{ height: '40%', width: '80%', alignSelf: 'center' }} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl} />
-                <Text style={{ paddingLeft: 10, fontSize: 15, fontWeight: 'bold', marginBottom: 5 }}>Brands:</Text>
+</View>
+                <View>
+                <Text style={{ paddingLeft: 14,fontSize: 15, fontWeight: 'bold', marginBottom: 5 }}>Brands:</Text>
                 <FlatList
-                    style={Styles.halfFlatlist}
+                    style={{...Styles.halfFlatlist,paddingLeft:5}}
                     renderItem={this.renderItem}
                     data={this.state.brandImagesData}
                     horizontal={true}
                     keyExtractor={(item, index) => index.toString()} />
-
+                    </View>
             </View>
             <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <ScrollView ref={(ref) => this.scrollView = ref}>
                     <Accordion
-                        style={Styles.accordion}
+                        style={{...Styles.accordion}}
                         sections={this.state.sections}
                         renderContent={this.renderContent}
                         touchableComponent={TouchableOpacity}
@@ -226,14 +229,14 @@ const ScrapFlatList = ({ route, navigation, data }) => {
         <FlatList
             data={data}
             keyExtractor={(item) => item.name}
-            style={{ maxHeight: dimen.height * 0.5 }}
+            style={{ maxHeight: dimen.height * 0.5}}
             renderItem={({ item }) => {
                 console.log(item.product_img_url);
 
 
 
                 return (
-                    <Product name={item.name} quantity={item.quantity} price={item.price} url={item.product_img_url} imageUrl={item.product_img_url}
+                    <Product place="list" name={item.name} quantity={item.quantity} price={item.price} url={item.product_img_url} imageUrl={item.product_img_url}
                         subscribe={() => {
 
                             const prodName = item.name;
@@ -271,7 +274,6 @@ const style = StyleSheet.create({
     container: {
 
         padding: 1,
-        backgroundColor: 'white'
 
     },
     header: {
@@ -317,6 +319,6 @@ const style = StyleSheet.create({
         height: 100,
         width: 100,
         position: 'absolute',
-        //     marginTop: '3%'
+         marginStart: 10
     }
 });

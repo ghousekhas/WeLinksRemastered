@@ -23,6 +23,7 @@ const Item = ({name, quantity, price, imageUrl,tag}) => {
         
         </View>
         <Image style={style.image} source={{uri: imageUrl!=''? imageUrl: defaultimg}}/>
+
         
         </View>)
         
@@ -32,9 +33,11 @@ const style = StyleSheet.create({
     container: {
         ...Styles.parentContainer,
         marginTop: '0%',
+      //  marginHorizontal: '1%',
        backgroundColor: Colors.lightBlue,
        height:Dimensions.get('window').height/6.5,
        width:Dimensions.get('window').width,
+       
       
       
        
@@ -67,10 +70,12 @@ const style = StyleSheet.create({
 
     },
     image: {
-        width: 79,
+        width: 80,
         height: 80,
         position: 'absolute',
-        marginStart: '2%',
+        padding: 0,
+  //      margin :0,
+      //  marginStart: '2%',
         
         
         marginTop : '3%'

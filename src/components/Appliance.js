@@ -15,7 +15,7 @@ const Appliance = ({name,small, quantity, price,image,onAdd,selectedQuantity,onR
 
     const renderAddSubtract =()=>{
         if(schedule)
-            return <Text style={{...Styles.subbold,alignSelf: 'center',margin: small ? '5%':'10%',marginHorizontal: small?'1%' : null}}>{'Quantity: '+initquan} </Text>;
+            return <Text style={{...Styles.subbold,alignSelf: 'center',margin: small ? '5%':'10%',marginHorizontal: small?'3%' : null,fontSize: 10,flex:1,textAlign:'right'}}>{'Quantity: '+initquan} </Text>;
 
         return (
             remove ? (<View style={{flex: 1,margin: '2%'}}>
@@ -165,7 +165,7 @@ const style = StyleSheet.create({
         padding: 5
     },
     name: {
-        marginStart: 100,
+        marginStart: 105,
         fontWeight: 'bold',
         fontSize: 16,
         padding: 5
@@ -181,7 +181,7 @@ const style = StyleSheet.create({
        
     },
     price: {
-        marginStart: 100,
+        marginStart: 105,
         
         fontWeight: 'bold',
         fontSize: 15,
@@ -191,10 +191,10 @@ const style = StyleSheet.create({
 
     },
     image: {
-        width: 79,
-        height: 80,
+        width: 70,
+        height: 70,
         position: 'absolute',
-        marginStart: '2%',
+        marginStart: '8%',
         
         
         marginTop : '3%'
@@ -232,6 +232,7 @@ const style = StyleSheet.create({
         
         alignItems: 'center',
         justifyContent: 'center',
+        marginVertical: '3%'
 
 
     }

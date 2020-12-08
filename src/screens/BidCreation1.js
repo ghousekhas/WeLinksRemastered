@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { View, FlatList, StyleSheet, Text, ScrollView, TouchableOpacity, Dimensions, Image } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Colors, Config, Constants, dimen, Styles } from '../Constants';
+import { Colors, Config, Constants, dimen, Styles,monthNames as mn } from '../Constants';
 import Textbox from '../components/TextBox';
 import Button from '../components/Button';
 import SubmitButton from '../components/SubmitButton';
@@ -62,28 +62,36 @@ export default function BidCreation1({ navigation,route }) {
         month: moment().utcOffset('+05:30').month(),
         year: moment().utcOffset('+05:30').year()
     });
-    const [startDate, setStartDate] = useState(tomorrow);
-    const [endDate, setEndDate] = useState(startDate);
-    const [smonth, setSMonth] = useState(monthNames[parseInt(thisDay.charAt(5) + thisDay.charAt(6) - 1)])
-    const [syear, setSYear] = useState(thisDay.charAt(0) + thisDay.charAt(1) + thisDay.charAt(2) + thisDay.charAt(3))
-    const [emonth, setEMonth] = useState(monthNames[parseInt(thisDay.charAt(5) + thisDay.charAt(6) - 1)])
-    const [eyear, setEYear] = useState(thisDay.charAt(0) + thisDay.charAt(1) + thisDay.charAt(2) + thisDay.charAt(3))
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [smonth, setSMonth] = useState('')
+    const [syear, setSYear] = useState('')
+    const [emonth, setEMonth] = useState('')
+    const [eyear, setEYear] = useState('')
 
     const [time, setDropdown] = useState(a[0].value);
     const [cat, setCat] = useState(b[0].value);
     const [weight, setWeight] = useState(c[0].value);
-    const [screenState, setScreenState] = useState('');
-
+    const [startSet,isStartSet] = useState(false)
     const [dateType, setDateType] = useState(1);
 
     const setUsableDate = (date) => {
         console.log(date)
 
     }
-
+    const sortDate = (date) => {
+        console.log("Wrong date " +date)
+        let d = date.split('-');
+        let m = mn[d[1]]
+        console.log(`${d[2]}-${m}-${d[0]}}`)
+        return `${d[2]}-${m}-${d[0]}`
+       
+        
+    }
+ 
 
     const strings = {
-        bidTitle: 'Please enter your bid details'
+        bidTitle: 'Please enter your tender details'
     }
     const renderHeader = () => (
         <View style={styles.header}>
@@ -93,8 +101,8 @@ export default function BidCreation1({ navigation,route }) {
         </View>
     );
     const onDayPress = (day) => {
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"];
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
         if (dateType == 1) {
             setStartDate(day.dateString);
@@ -118,9 +126,9 @@ export default function BidCreation1({ navigation,route }) {
 
     const choose = () => {
         if (dateType == 1)
-            return startDate;
+            return startDate == '' ? tomorrow : startDate
         if (dateType == 2)
-            return endDate;
+            return endDate
         return selected;
     }
     const chooseM = () => {
@@ -218,7 +226,7 @@ export default function BidCreation1({ navigation,route }) {
                     disableAllTouchEventsForDisabledDays
                     displayLoadingIndicator
                     onDayPress={onDayPress}
-                    minDate={tomorrow}
+                    minDate={dateType == 1 ? tomorrow : startDate}
                     hideExtraDays
                     style={{
                         borderWidth: 0.3,
@@ -272,6 +280,11 @@ export default function BidCreation1({ navigation,route }) {
                     //   console.log(okay);
                     // setUsableDate({...date});
                     //  setDate(okay);
+                    if(dateType == 1){
+                        isStartSet(true)
+                    setEndDate('')
+                    }
+                    
                     bs.current.snapTo(2)
 
 
@@ -281,7 +294,7 @@ export default function BidCreation1({ navigation,route }) {
                 }}>
 
 
-                <Text style={styles.buttonText}>{'Set Date'} ({choose().charAt(8) + choose().charAt(9) + " " + chooseM() + " " + chooseY()})</Text>
+                <Text style={styles.buttonText}>{'Set Date'} ({choose() == tomorrow ? sortDate(tomorrow) : choose().charAt(8) + choose().charAt(9) + "-" + chooseM() + "-" + chooseY()})</Text>
 
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}
@@ -322,9 +335,9 @@ export default function BidCreation1({ navigation,route }) {
                 }}>
                     <View>
                         <Text style={styles.heading}>{strings.bidTitle}</Text>
-                        <ScrollView style={{ marginBottom: '10%' }}>
-                            <View style={{ flex: 1, marginBottom: '30%', marginTop: '5%' }}>
-                                <Textbox title={'BID TITLE'} hint={'Title'} changeText={setTitle} />
+                        <ScrollView style={{ marginBottom: '5%' }}>
+                            <View style={{ flex: 1, marginBottom: '40%', marginTop: '5%' }}>
+                                <Textbox title={'TENDER TITLE'} hint={'Title'} changeText={setTitle} />
 
                                 <View style={styles.addressContainer}>
                                     <Text style={Styles.heading}>Address</Text>
@@ -371,7 +384,7 @@ export default function BidCreation1({ navigation,route }) {
                                 </View>
 
 
-                                <Textbox enable={false} title={'BID START DATE'} hint={'DDMMYYYY'} value={startDate.charAt(8) + startDate.charAt(9) + " " + smonth.substring(0, 3) + " " + syear} />
+                                <Textbox enable={false} title={'TENDER START DATE'} hint={'DDMMYYYY'} value={startDate== '' ? 'Select start date' : startDate.charAt(8) + startDate.charAt(9) + " " + smonth.substring(0, 3) + " " + syear} />
                                 <View style={{
                                     alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.03
                                 }}>
@@ -383,11 +396,11 @@ export default function BidCreation1({ navigation,route }) {
                                     }} />
 
                                 </View>
-                                <Textbox enable={false} title={'BID END DATE'} hint={'DDMMYYYY'} value={endDate.charAt(8) + endDate.charAt(9) + " " + emonth.substring(0, 3) + " " + eyear} />
+                                <Textbox enable={false} title={'TENDER END DATE'} hint={'DDMMYYYY'} value={endDate== '' ? 'Select end date' : endDate.charAt(8) + endDate.charAt(9) + " " + emonth.substring(0, 3) + " " + eyear} />
                                 <View style={{
                                     alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.03
                                 }}>
-                                    <Button text="Choose" onTouch={() => {
+                                    <Button disable={startDate==''? true : false} gray={startDate == '' ? true : false} text="Choose" onTouch={() => {
                                         setDateType(2);
                                         bs.current.snapTo(0);
 

@@ -3,11 +3,11 @@ import { Text, View, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Colors } from '../Constants'
 
-const Button = ({ text, onTouch, red }) => {
+const Button = ({ text, onTouch, red,disable,gray }) => {
     return (<View>
-        <TouchableOpacity style={{ ...style.button, borderColor: red ? 'red' : Colors.primary }}
+        <TouchableOpacity disabled={disable} style={{ ...style.button, borderColor: red ? 'red' : gray ? 'gray' : Colors.primary }}
             onPress={onTouch}>
-            <Text numberOfLines={1} style={{ ...style.text, color: red ? 'red' : Colors.primary }}>{text}</Text>
+            <Text numberOfLines={1} style={{ ...style.text, color: red ? 'red' : gray ? 'gray' : Colors.primary }}>{text}</Text>
 
         </TouchableOpacity>
     </View>)

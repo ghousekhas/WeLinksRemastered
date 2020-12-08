@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions} from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config, monthNames} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import {Ionicons} from '@expo/vector-icons';
 import AppBar from '../components/AppBar';
@@ -14,17 +14,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Axios from 'axios';
 
 let appliedVendorsList = [];
-var dataOpen = [
-    
-];
+let dataOpen = [];
 
-var dataCloseOrCancel = [];
+let dataCloseOrCancel = [];
 
 
 export default function Bids({navigation,route}){
     const words = {
-        openBids: 'Open Bids',
-        closedBids: 'Closed Bids'
+        openBids: 'Open Tenders',
+        closedBids: 'Closed Tenders'
     }
     const [tab,setTab]=useState(1);
     const [cardWidth,setCardWidth] = useState(0);
@@ -41,6 +39,16 @@ export default function Bids({navigation,route}){
        populateData();
    },[]);
 
+   const sortDate = (date) => {
+       console.log("Wrong date " +date)
+       let d = date.split('-');
+       let m = monthNames[d[1]]
+       console.log(`${d[2]}-${m}-${d[0]}}`)
+       return `${d[2]}-${m}-${d[0]}`
+      
+       
+   }
+
    const populateData= async ()=>{
     //const quanData = await Axios.get(Config.api_url+'php?action=getCorporateScrapQuantities');
     dataOpen = [];
@@ -52,7 +60,7 @@ export default function Bids({navigation,route}){
         try{
             responseArray.forEach((p)=>{
            //     console.log('ppp',p);
-                if(p.bid_status === "Open")
+                if(p.bid_status == "Open")
                     dataOpen.push(p);
                 else
                     dataCloseOrCancel.push(p);
@@ -80,7 +88,7 @@ export default function Bids({navigation,route}){
     //var item = dataOpen[0];
     let cardDetails = {
     bidTitle: item.bid_title,
-    bidDuration: item.bid_startdate+' to '+item.bid_enddate,
+    bidDuration: sortDate(item.bid_startdate)+' to '+sortDate(item.bid_enddate),
     bidItems: item.officescrap_category_name,
     bidItemsWeight: item.officescrap_quant_name,
     bidders: item.applied_vendors.length,
@@ -97,8 +105,9 @@ export default function Bids({navigation,route}){
     }
     var itema = null;
     let thisVendor = null;
-    if(item.bid_status === 'Closed'){
+    if(item.bid_status != 'Open'){
         itema  = item.applied_vendors[0];
+        if(itema != null && itema != undefined)
         thisVendor = {
             name : itema.company_name,
             email : itema.company_email_id,
@@ -213,7 +222,12 @@ export default function Bids({navigation,route}){
         </View>)}
 return(<View style={styles.card}>
     <View style={{flexDirection: 'row',width: dimen.width-dimen.width/10}}>
-        <Text style={{...styles.cardTitle,fontSize:16}}>{cardDetails.bidTitle}</Text>
+
+    <View style={{flexDirection: 'row',justifyContent: 'space-between',width:'100%'}}>
+    <Text style={{...styles.cardTitle,fontSize:16}}>{cardDetails.bidTitle}</Text>
+        <Text style={{...styles.cardTitle,marginEnd: '6%',alignItems: 'flex-end',color: cardDetails.status == "Cancelled" ? Colors.red : Colors.blue,fontSize:16}}>{cardDetails.status == "Cancelled" ? cardDetails.status: cardDetails.status}</Text>
+    </View>
+      
 
         <View style={{flexDirection: 'row',flex:1,marginStart:'20%'}}>
         </View>
@@ -240,7 +254,6 @@ return(<View style={styles.card}>
             </View>
 
             <View style={{flexDirection: 'row'}}>
-            <Text style={{...styles.cardTitle,alignItems: 'flex-end',color: cardDetails.status == "Cancelled" ? Colors.red : Colors.blue,marginVertical:'5%',fontSize:16}}>{cardDetails.status == "Cancelled" ? cardDetails.status: cardDetails.status +" · Awarded to " + cardDetails.awardedTo}</Text>
 
             </View>
             <AntDesign style={{alignSelf:'flex-end',marginHorizontal:'3%',marginBottom: '1%'}} name="right" size={18} color={Colors.primary} />
@@ -256,7 +269,7 @@ return(<View style={styles.card}>
    
 
     return(<View>
- <AppBar title={'My Bids'} back  funct={() => {
+ <AppBar title={'My Tenders'} back  funct={() => {
        navigation.pop();
         }} />
 
@@ -275,7 +288,7 @@ return(<View style={styles.card}>
         />
       <View style={{alignItems: 'center'}}>
       <SubmitButton 
-      text='+ Make a new bid' 
+      text='+ New Tender' 
       onTouch = {() => {navigation.navigate('BidCreation1',{
           ...route.params
       })

@@ -159,7 +159,7 @@ const DrawerContent = (props) => {
 
 
  </Drawer.Section>
-   <Drawer.Section>
+   <Drawer.Section style={{margin: '5%'}}>
  
  <Drawer.Item
     

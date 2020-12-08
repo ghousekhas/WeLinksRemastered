@@ -37,10 +37,9 @@ export default function TitleBidDetails({navigation,route}){
             {/* <Text style={{ ...Styles.heading, alignSelf: 'center' }}>Bid Details</Text> */}
             <View style={styles.bidcard}>
                 <Text style={styles.title}>{cardDetails.bidTitle}</Text>
-                <Text style={styles.info}> {cardDetails.address}</Text>
+                <Text style={styles.info}>{cardDetails.address}</Text>
                 <View style={styles.duration}>
-                    <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%' }}> {moment().toString()} </Text>
-                    <Text style={{ ...Styles.subbold, fontWeight: '700' }}></Text>
+                    <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%',margin:0 }}>{'Duration: ' +cardDetails.bidDuration} </Text>
                 </View>
                 <View style={{ ...styles.duration, paddingVertical: 0, justifyContent: 'space-between' }}>
                     <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center' }}>
@@ -57,8 +56,8 @@ export default function TitleBidDetails({navigation,route}){
                     </View>
                 </View>
                 <View style={styles.duration}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2 }}>Require: </Text>
+                   {cardDetails.manpower == 1 || cardDetails.insurance == 1|| cardDetails.vehicle == 1 ? <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Text style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2,marginHorizontal: '3%' }}>Require: </Text>
                         {cardDetails.manpower == 1 ?
                             <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary, marginTop: '2%' }}>
 
@@ -72,11 +71,11 @@ export default function TitleBidDetails({navigation,route}){
                         {cardDetails.vehicle == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
                             <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' }}>Vehicle</Text>
                         </View> : null}
-                    </View>
+                    </View> : null}
                 </View>
                 <View style={{ flex: 0 }}>
                     <Text style={{ ...styles.title }}>Additional Notes</Text>
-                    <Text style={{ ...styles.info }}>{cardDetails.notes}</Text>
+                    <Text style={{ ...styles.title,color: 'gray',fontWeight: '100' }}>{cardDetails.notes}</Text>
                 </View>
                 <View>
                     <Text style={{ ...styles.title, marginVertical: '3%', color: cardDetails.status == 'Cancelled' ? Colors.red : Colors.blue }}>{cardDetails.status}</Text>
@@ -203,20 +202,7 @@ export default function TitleBidDetails({navigation,route}){
 }
 
 const styles = StyleSheet.create({
-    name: {
-        fontWeight: 'bold',
-
-        fontSize: 17,
-        //  alignSelf: 'flex-start',
-        color: 'black'
-    }, image: {
-        width: 70,
-        height: 90,
-        //  position: 'absolute',
-        //  margin :'1%'
-
-
-    },
+   
     button: {
         flexDirection: 'column',
         width: dimen.width - 20,
@@ -237,9 +223,9 @@ const styles = StyleSheet.create({
         elevation: 1
     },
     duration: {
-        paddingVertical: 5,
-        paddingHorizontal: 3,
-        margin: 3,
+        paddingVertical: '2%',
+      //  paddingHorizontal: 3,
+      //  margin: 3,
 
         borderColor: Colors.primary,
         flexDirection: 'row'
@@ -272,32 +258,37 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: 'bold',
         color: Colors.primary,
-        padding: '1%',
+        paddingHorizontal: '1%',
+       // padding: '1%',
         fontSize: 16,
     },
     info: {
-        padding: '1%',
+      //  padding: '1%',
         fontSize: 14,
         marginTop: '3%',
-        flex: 1,
+       // flex: 1,
 
 
     },
     container: {
-        margin: '1%',
+      //  margin: '1%',
       //  marginBottom: '5%',
         flexDirection: 'row',
         marginTop: '2%',
         justifyContent: 'space-between',
         elevation: 1,
 
-        padding: '1%',
+       padding: '1%',
         borderWidth: 5,
         borderColor: 'transparent',
         borderRadius: 10,
         borderWidth: 0.5,
-        backgroundColor: 'white'
+     //   backgroundColor: 'black'
         //  paddingVertical: 10
 
     },
+    name: {
+        fontWeight: 'bold',
+        color: 'black'
+    }
 })

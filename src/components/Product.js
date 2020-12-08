@@ -4,20 +4,24 @@ import Button from './Button';
 import {Colors} from '../Constants'
 
 
-const Product = ({name,quantity,price,price_,subscribe,imageUrl}) => {
+const Product = ({place,name,quantity,price,price_,subscribe,imageUrl}) => {
+    console.log('Place at '+place)
     const [imageHeight,setImageHeight]=useState(0);
     if(!price_ == ''){
     
     return(<View style={style.container}>
-    <Image style={style.image} source={{uri: imageUrl}}/>
     <View>
+    <Image style={style.image} source={{uri: imageUrl}}/>
+
+    </View>
+    <View style={{marginStart: '3%'}}>
     <Text style={style.name}>{name}</Text>
     <Text style={style.quantity}>{quantity}</Text>
     <Text style={style.price}> Weekdays- ₹{price}</Text>
     <Text style={style.price}> Weekends- ₹{price_}</Text>
     </View>
 
-    <View style={{marginTop: '3%'}}>
+    <View style={{justifyContent: 'center',flex:1}}>
    
    
 
@@ -31,15 +35,18 @@ const Product = ({name,quantity,price,price_,subscribe,imageUrl}) => {
     </View>)
     }else return(
         <View onLayout={({nativeEvent})=>setImageHeight(nativeEvent.layout.height)} style={style.container}>
-         <Image style={{...style.image,height: imageHeight*0.85,width: imageHeight*0.85}} source={{uri: imageUrl}}/>
-    <View style={{marginStart: '2%'}}>
+        <View style={{marginStart : 10}}>
+        <Image style={{...style.image}} source={{uri: imageUrl}}/>
+
+        </View>
+    <View style={{marginStart: '3%'}}>
     <Text style={style.name}>{name}</Text>
     <Text style={style.quantity}>{quantity}</Text>
     <Text style={style.price}> ₹{price}</Text>
     
     </View>
 
-    <View>
+    <View style={{flex:1,justifyContent: 'center'}}>
    
 
         <TouchableOpacity style={style.button} onPress={subscribe}>
@@ -60,26 +67,27 @@ const style = StyleSheet.create({
         margin: 10,
         padding: 10,
         flexDirection: 'row',
+   //     backgroundColor: 'yellow'
         
         
     },
     name: {
         fontWeight:'bold',
-        marginStart: 78,
+        marginStart: 80,
         flex: 1,
-        marginVertical: '2%',
+    //    marginVertical: '2%',
         
         width: Dimensions.get('window').width/3
     },
     quantity: {
-        marginStart: 78,
+        marginStart: 80,
         marginVertical: '2%',
         
 
     },
     price: {
         fontWeight:'bold',
-        marginStart: 78,
+        marginStart: 79,
         fontSize: 14,
         marginVertical: '2%',
 
@@ -98,7 +106,7 @@ const style = StyleSheet.create({
         justifyContent: 'center',
        
         marginStart: '22%',
-        marginVertical: '3%'
+      //  marginVertical: '3%'
        
        
 
@@ -109,7 +117,7 @@ const style = StyleSheet.create({
     fontWeight: 'bold'
     },
     image: {
-        width: 79,
+        width: 80,
         height: 80,
         position: 'absolute',
         marginStart: '-1%',
