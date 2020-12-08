@@ -728,31 +728,53 @@ export default function VendorServices({ submit, route, actualUser, navigation }
         </Animated.View>
         <View style={{ padding: 10, position: 'absolute', bottom: 0, alignSelf: 'center' }}>
             <SubmitButton text='Submit' onTouch={() => {
+
+    
                 let finalProducts = [];
                 var temparr = [];
                 if (check1) {
                     temparr.push('milk');
                     let ar = Array.from(selectedMilk);
                     finalProducts = finalProducts.concat(ar)
+                    // if(ar.length == 0){
+                    //     alert('At least one product needs to be selected from each category');
+                    //     return;
+                    // }
                 }
                 if (check2) {
                     let ar = Array.from(selectedPaper);
                     finalProducts = finalProducts.concat(ar)
                     temparr.push('newspaper')
+                    // if(ar.length == 0){
+                    //     alert('At least one product needs to be selected from each category');
+                    //     return;
+                    // }
                 }
                 if (check3) {
                     let ar = Array.from(selectedHome);
                     finalProducts = finalProducts.concat(ar)
                     temparr.push('homescrap')
+                    // if(ar.length == 0){
+                    //     alert('At least one product needs to be selected from each category');
+                    //     return;
+                    // }
                 }
                 if (check4) {
                     let ar = Array.from(selectedOffice);
                     finalProducts = finalProducts.concat(ar)
                     temparr.push('officescrap')
+                    // if(ar.length == 0){
+                    //     alert('At least one product needs to be selected from each category');
+                    //     return;
+                    // }
                 }
 
-                if (temparr === [])
+
+
+                if (temparr.length === 0){
                     alert('Please select at least one service');
+                    return;
+                }
                 else {
                     let set = [];
                     finalProducts = finalProducts.sort()
@@ -769,6 +791,7 @@ export default function VendorServices({ submit, route, actualUser, navigation }
                     var paperIndices = [];
                     var officeIndices = [];
                     var homeIndices = [];
+
 
 
                     milkProducts.forEach((item) => {
@@ -788,13 +811,13 @@ export default function VendorServices({ submit, route, actualUser, navigation }
                         if (p.sel)
                             homeIndices.push(p.id);
                     });
-                    if ((milkIndices === [] && check1))
+                    if ((milkIndices.length === 0 && check1))
                         alert('Please select at least one product from milk');
-                    else if (paperIndices === [] && check2)
+                    else if (paperIndices.length === 0 && check2)
                         alert('Please select at least one product from Newspapers');
-                    else if (officeIndices === [] && check4)
+                    else if (officeIndices.length === 0 && check4)
                         alert('Please select at least one category from office scrap');
-                    else if (homeIndices === [] && check3)
+                    else if (homeIndices.length === 0 && check3)
                         alert('Please select at least one home scrap product');
                     else
                         if(vendorEdit){

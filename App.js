@@ -406,13 +406,7 @@ const VendorHomeStack=({navigation,route})=>{
           */}
           <Stack.Screen name="VendorBids" component={VendorBids} options={{ headerShown: false }} initialParam={{vendorID : vendorID}} />
 
-          <Stack.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
-            user: user, actualUser: actualUser, cachedData: {
-              termsData: null,
-              contactUsData: null,
-              privacyData: null
-            }
-          }} />
+  
 
         
   
@@ -464,10 +458,10 @@ const userSupportStack = ({ navigation, route }) => {
   console.log('Starting Support Stack')
   const [cachedData, setCachedData] = useState(route.params.cachedData);
   React.useEffect(() => {
-    const { privacyData, termsData, contactUsData } = route.params.cachedData;
-    setCachedData(route.params.cachedData);
-    console.log('dome', route.params.cachedData);
-  }, [route]);
+    //const { privacyData, termsData, contactUsData } = route.params.cachedData;
+    //setCachedData(route.params.cachedData);
+    //console.log('dome', route.params.cachedData);
+  }, []);
 
   //return(<BidCreation1 />)
   return (
@@ -498,7 +492,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState({phoneNumber: '+918548080255'});//(auth().currentUser);                     //{phoneNumber: '+917777777777'} ) 
+  const [user, setUser] = useState({phoneNumber: '+919535311386'});//(auth().currentUser);                     //{phoneNumber: '+917777777777'} ) 
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);

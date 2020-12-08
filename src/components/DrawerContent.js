@@ -8,6 +8,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SupportFAQ from '../screens/SupportFAQ';
 import { Constants,Colors, dimen } from '../Constants';
 import auth from '@react-native-firebase/auth';
+import Axios from 'axios';
+import qs from 'qs';
+import {Config} from '../Constants';
 
 const DrawerContent = (props) => {
   const [vendor,setVendor] = useState(false);
@@ -15,12 +18,18 @@ const DrawerContent = (props) => {
   var {setUser}= props;
   const [actualUser,setActualUser]=useState(props.actualUser);
   var cachedData,initialSubs;
+  const [verification,setVerification] = useState('');
+  const [loading,setLoading] = useState('');
+  const [pendingAction,setPendingActions] = useState('');
+  const [actualVendor,setActualVendor] = useState(null);
 
   useEffect(()=>{
     switchVendor(vendor);
     cachedData = props.cachedData;
     initialSubs= props.initialSubs;
     setActualUser(props.actualUser);
+    if(vendor)
+      retreieveVendorData();
 
   },[vendor,props.cachedData,props.initialSubs,props.actualUser])
 
@@ -37,6 +46,41 @@ const DrawerContent = (props) => {
       setActualUser: setActualUser
     })
   };
+
+  const retreieveVendorData = ()=>{
+    Axios.get(Config.api_url+'php?action=getVendor&user_id='+ actualUser.user_id,)
+            .then((response)=>{
+               setLoading(false);
+                console.log("HEREs"+response.data.vendor.vendor_id)
+                setVerification(Constants.veFirstTime) // uncomment this
+            try{
+                
+                var status= response.data.vendor.vendor_status;
+                if(status=== 'active'){
+                  setVerification(Constants.verified);
+                  setActualVendor(response.data.vendor);
+                  //messss
+                  messaging().subscribeToTopic("vendor"+response.data.vendor.vendor_id);
+                  setPendingActions(response.data.vendor.pending_actions.homescrap.length);
+                  if(response.data.vendor[0].pending_actions.homescrap.length)
+                    setPendingActionItem(response.data.vendor.pending_actions.homescrap[0]);
+                
+
+                }
+                else if(status=== 'inactive')
+                    setVerification(Constants.veFirstTime)
+                else
+                    setVerification(Constants.veInProgress);
+                //setVerification(Constants.veFirstTime);
+                
+            }
+            catch(error){
+                setVerification(Constants.veFirstTime);
+                setLoading(false);
+                
+            }
+        });
+  }
 
   
 
@@ -59,14 +103,14 @@ const DrawerContent = (props) => {
            <View style={styles.header}>
              {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
           <View style={{marginTop: '5%', margin: '5%'}}>
-          <Image source={ actualUser.img_url.trim()  != ''? {uri: actualUser.img_url}: require('../../assets/notmaleavatar.png')  }
+          <Image source={ actualVendor != null ? (actualVendor.vendor_img_url.trim()  != ''? {uri: actualVendor.vendor_img_url}: require('../../assets/notmaleavatar.png')): require('../../assets/notmaleavatar.png')  }
           
             style={{height: 50,width: 50,marginTop: 10}}
           />
           </View>
 
           <Text style={styles.username}>
-          {actualUser.name}
+          {actualVendor != null ? actualVendor.company_name :actualUser.name }
           </Text>
 
           <View style={{flexDirection: 'row',marginStart: '5%',marginTop: '1%'}}>
@@ -89,9 +133,11 @@ const DrawerContent = (props) => {
            </View>
            </Drawer.Section>
 
-    <Drawer.Section style={{margin:dimen.height/60}} >
-
-    <Drawer.Item
+    
+    {actualVendor != null ? (actualVendor.vendor_status === 'active' ?
+      (
+      <Drawer.Section style={{margin:dimen.height/60}} >
+        <Drawer.Item
      style={{}}
      icon="desktop-mac-dashboard"
      label="Vendor Zone"
@@ -110,7 +156,8 @@ const DrawerContent = (props) => {
       
        getUserDetails: props.getUserDetails,
        setActualUser: setActualUser,
-       goBackToHome: goToVendorStack
+       goBackToHome: goToVendorStack,
+       drawerRefresh: retreieveVendorData
        
      })}}
      
@@ -151,14 +198,19 @@ const DrawerContent = (props) => {
     onPress={()=> {props.navigation.navigate('VendorSupportStack',{
       cachedData: cachedData,
       actualUser: actualUser,
-      goBackToHome: goToVendorStack
+      goBackToHome: goToVendorStack,
     })}}
     
   />
+ </Drawer.Section>
+      )
+    
+    : null) : null}
+    
  
 
 
- </Drawer.Section>
+
    <Drawer.Section style={{margin: '5%'}}>
  
  <Drawer.Item

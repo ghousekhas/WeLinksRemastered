@@ -78,7 +78,7 @@ export default class Homescreen extends React.Component{
 
     
      retrieveUserData= async ()=>{
-        const user= auth().currentUser;//this.props.route.params.user;
+        const user= this.props.route.params.user; //auth().currentUser;//this.props.route.params.user;
         
         Axios.get(Config.api_url+'php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
@@ -201,7 +201,7 @@ export default class Homescreen extends React.Component{
                                 this.setState({imageHeight : event.nativeEvent.layout.height/2})
                     }} style={styles.menuitem} onPress={()=>{
                         console.log('actualuser',this.state.actualUser);
-                        sendNotif('titleeee','boddy','user87');
+                        //sendNotif('titleeee','boddy','user87');
                         this.props.navigation.navigate('AddressList',{
                             next: 'MilkVendors',
                             user: user,

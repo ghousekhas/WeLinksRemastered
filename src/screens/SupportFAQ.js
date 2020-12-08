@@ -12,11 +12,11 @@ import Axios from 'axios';
 import {Config} from  '../Constants';
 
 const SupportFAQ = ({navigation,route}) => {
-    const {privacyData,termsData,contactUsData}=route.params.cachedData;
-    console.log(route.params.cachedData,'CachedData')
+    //const {privacyData,termsData,contactUsData}=route.params.cachedData;
+   // console.log(route.params.cachedData,'CachedData')
     const {navigator} = route.params;
-    const [phone,setPhone]=useState(contactUsData === undefined ? null: contactUsData.phone);
-    const [email,setEmail]=useState(contactUsData === undefined? null: contactUsData.email);
+    const [phone,setPhone]=useState(null);//contactUsData === undefined ? null: contactUsData.phone);
+    const [email,setEmail]=useState(null);//contactUsData === undefined? null: contactUsData.email);
     const words = {
         allTopics: 'All Topics',
         faq: 'Frequently Asked Questions',

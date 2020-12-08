@@ -63,6 +63,7 @@ const VendorProfile = ({ navigation, route }) => {
                   //  route.params.getUserDetails(0, auth().currentUser);
                     alert('Profile Picture uploaded succesfully');
                     retrieveData();
+                    route.params.drawerRefresh()
 
                     // setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
                     //     actualUser: actualUser,

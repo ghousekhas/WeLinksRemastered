@@ -242,7 +242,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         </View>
 
     </View>
-    <View style={{flexDirection: 'row',flex: 1,width: '100%',marginHorizontal: '3%'}}>
+    <View style={{flexDirection: 'row',flex: 1,width: '100%',marginHorizontal: '3%',marginTop: 5}}>
         <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
     }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'flex-start',backgroundColor: 'transparent'} }  resizeMethod='resize' resizeMode='cover' source={imageUrl === null || imageUrl === undefined || imageUrl==='' ? require('../../assets/notmaleavatar.png') : {uri: imageUrl}}/>
