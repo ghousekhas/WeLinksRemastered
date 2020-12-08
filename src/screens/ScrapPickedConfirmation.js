@@ -173,6 +173,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
   
     return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,
     borderWidth: 1,borderRadius: 8,alignSelf: 'center',height: dimen.height/3.8,padding:'2%',backgroundColor:'white'}}>
+    
        
     
 
@@ -223,7 +224,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         <View style={{...Styles.parentContainer,marginBottom: '20%'}}>
             <View style={{margin : '5%'}}>
             <MySubscriptionOrder name={cardDetails.name} pickUpDate={cardDetails.pickUpDate} orderAmount={cardDetails.orderAmount} orderDate={cardDetails.orderDate} imageUrl={cardDetails.image} status={cardDetails.status} cart={cardDetails.cart} address={cardDetails.address}/>
-
+            
            
 
             </View> 

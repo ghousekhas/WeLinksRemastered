@@ -112,7 +112,7 @@ export default function VendorScrapOrders({navigation,route}){
        
         return(
         
-                <MySubscriptionOrder  {...item} name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.status} cart={item.cart} address={item.address}/>
+                <MySubscriptionOrder cardDetails={item} {...item} name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.status} cart={item.cart} address={item.address}/>
             )   
     }
 
@@ -144,7 +144,7 @@ export default function VendorScrapOrders({navigation,route}){
                     pickUpDate : item.pickup_date,
                     orderDate : item.order_date,
                     status : item.order_status,
-                    image : item.vendor_img_url,
+                    image : item.user_image_url,
                     cart : item.cart,
                     orderID : item.scrap_order_id,
                     address : item.addr_details,
@@ -153,12 +153,13 @@ export default function VendorScrapOrders({navigation,route}){
 
                     
                 }
-                return(<TouchableOpacity onPress={() => {
+                return(<TouchableOpacity disabled={true} onPress={() => {
                     let ordered = 'ORDERED'
                     if(cardDetails.status === ordered)
                      navigation.navigate('ScrapPickedConfirmation',{
                          ...cardDetails,
-                         tag : 'Vendor'
+                         tag : 'Vendor',
+                         theCard: 'som'
                      })
                     }}>
                 {renderCard(cardDetails)}
@@ -195,7 +196,9 @@ export default function VendorScrapOrders({navigation,route}){
    
 }
 
-const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart,address}) => {
+const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart,address,cardDetails}) => {
+
+    const navigation = useNavigation();
     const renderCartItems = (cart) => {
   //      console.log("order date"+ orderDate)
         let i,res = [];
@@ -223,14 +226,14 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     
 
     const [alignment,setAlign] = useState(0);
-  
-       
-  
-    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/50,padding:'1%',paddingEnd: '3%'}}>
+
+
+    const theCard = (
+        <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/50,padding:'1%',paddingEnd: '3%'}}>
        
     
 
-    <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
+    <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems: 'flex-start'}}>
         <Text style={{...styles.greyText1,alignSelf: 'center'}}>{getDate(orderDate)}</Text>
         <View style={{flexDirection:'row',alignSelf: 'center'}}>
         <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{``}</Text>
@@ -242,14 +245,14 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     <View style={{flexDirection: 'row',flex: 1,width: '100%',marginHorizontal: '3%'}}>
         <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
-    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={imageUrl == null || imageUrl==undefined ||imageUrl!='' ? require('../../assets/notmaleavatar.png') : {uri: imageUrl}}/>
-
-        <View style={{flex: 1,margin: '5%',marginStart: '10%'}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',backgroundColor: 'transparent',marginBottom: '3%',fontSize:14}}>
+    }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'flex-start',backgroundColor: 'transparent'} }  resizeMethod='resize' resizeMode='cover' source={imageUrl === null || imageUrl === undefined || imageUrl==='' ? require('../../assets/notmaleavatar.png') : {uri: imageUrl}}/>
+        <View style={{flexDirection: 'column',marginLeft: '3%'}}>
+        
+        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',padding: 0,marginBottom: '3%',fontSize:14,marginTop: 0}}>
         {name}</Text>
-<ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
-{renderCartItems(cart)}
-</ScrollView>
+        <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex: 0,flexDirection: 'row',marginRight: 20,padding:'3%',alignSelf:'flex-start',backgroundColor: Colors.whiteBackground,borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+        {renderCartItems(cart)}
+        </ScrollView>
 
         
         <Text style={{...Styles.subheading,fontWeight: 'normal',paddingTop: 10}}>{address}</Text>
@@ -261,17 +264,34 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
            
             <View style={{flexDirection:'row',justifyContent: 'flex-end'}}>
         
-        </View>
+    
 
             
         </View>
 
     </View>
+    </View>
     <AntDesign style={{alignSelf:'flex-end',marginHorizontal:'3%',marginBottom: '1%'}} name="right" size={18} color={Colors.primary} />
 
-    </View>)
+    </View>
 
-};
+
+    );
+  
+       
+  
+    return(<TouchableOpacity onPress={() => {
+        let ordered = 'ORDERED'
+        if(status === ordered)
+         navigation.navigate('ScrapPickedConfirmation',{
+             ...cardDetails,
+             tag : 'Vendor',
+             theCard: theCard
+         })
+        }}>
+        {theCard}
+    </TouchableOpacity>)
+        };
 
 
 const styles = StyleSheet.create({

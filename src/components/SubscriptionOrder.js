@@ -42,12 +42,11 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,qu
     </View>
     
     <View style={style.line}/>
-    <View style={{flexDirection: 'row'}}>
-    <Image onLayout={({nativeEvent}) => {
-        setAlign(nativeEvent.layout.height)
-    }} style={{...style.image,height: alignment*0.7,width: alignment*0.7,zIndex: 100,alignSelf:'flex-start'}} width={60}  resizeMethod={'auto'} resizeMode='contain' source={imageUrl.trim() != '' ? {uri: imageUrl}: require('../../assets/notmaleavatar.png')}/>
- <Text style={{...style.name,marginStart: alignment+alignment/4-9}}>{name}</Text>
- <Feather onPress={() => {
+    <View style={{flexDirection: 'row',justifyContent: 'flex-start'}}>
+    <Image style={{flex: 0,aspectRatio: 1,flex: 1,marginLeft: dimen.width/30}}   resizeMethod={'auto'} resizeMode='contain' source={imageUrl.trim() != '' ? {uri: imageUrl}: require('../../assets/notmaleavatar.png')}/>
+ <View style={{flexDirection: 'column',justifyContent: 'space-around',marginStart: dimen.width/20,flex: 2}}  >
+ <Text style={{...style.name}}>{name}</Text>
+ {/* <Feather onPress={() => {
   Alert.alert(
       "Are you sure you want to remove this item?",
       "",
@@ -65,45 +64,44 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,qu
       ],
       { cancelable: false }
     );
- }} name="trash-2" size={22} color={Colors.seperatorGray} style={style.icon}/>
- </View>
+ }} name="trash-2" size={22} color={Colors.seperatorGray} style={style.icon}/> */}
  
-        <View>
-    
+ 
+      
       
      
         
        
-        <View style={{flexDirection: 'row',margin: '2%'}}>
-        <Text style={{...style.quantity,marginStart: alignment+alignment/4-9,fontSize: 13}}>{quantity.includes('unit') ? num + " units · " : quantity +" · "}</Text>
-        <Text style={dayString[0]=='Y'? style.yes : {...style.yes,color: 'gray'}}>  M </Text>
-        <Text style={dayString[1]=='Y'? style.yes : {...style.yes,color: 'gray'}}>T </Text>
-        <Text style={dayString[2]=='Y'? style.yes : {...style.yes,color: 'gray'}}>W </Text>
-        <Text style={dayString[3]=='Y'? style.yes : {...style.yes,color: 'gray'}}>T </Text>
-        <Text style={dayString[4]=='Y'? style.yes : {...style.yes,color: 'gray'}}>F </Text>
-        <Text style={dayString[5]=='Y'? style.yes : {...style.yes,color: 'gray'}}>S </Text>
-        <Text style={dayString[6]=='Y'? style.yes : {...style.yes,color: 'gray'}}>S </Text>
+        <View style={{flexDirection: 'row',marginTop: '2.5%'}}>
+            <Text style={{...style.quantity,fontSize: 13}}>{quantity.includes('unit') ? num + " units · " : quantity +" · "}</Text>
+            <Text style={dayString[0]=='Y'? style.yes : {...style.yes,color: 'gray'}}>  M </Text>
+            <Text style={dayString[1]=='Y'? style.yes : {...style.yes,color: 'gray'}}>T </Text>
+            <Text style={dayString[2]=='Y'? style.yes : {...style.yes,color: 'gray'}}>W </Text>
+            <Text style={dayString[3]=='Y'? style.yes : {...style.yes,color: 'gray'}}>T </Text>
+            <Text style={dayString[4]=='Y'? style.yes : {...style.yes,color: 'gray'}}>F </Text>
+            <Text style={dayString[5]=='Y'? style.yes : {...style.yes,color: 'gray'}}>S </Text>
+            <Text style={dayString[6]=='Y'? style.yes : {...style.yes,color: 'gray'}}>S </Text>
         </View>
+
+        <Text style = {{...style.rate,color: 'gray',textAlign: 'left',fontSize: 12,alignSelf:'flex-start'}}>{num+" deliveries"}</Text>
 
        <View style={{flexDirection:'row',paddingBottom: '5%'}}>
-       {tag == 'Milk' ? <Text style={{...style.rate,marginStart: alignment+alignment/4}}>₹{rate}</Text> : <View>
-       <Text style={{...style.rate,marginStart: alignment+alignment/4}}>Weekdays : ₹{rate}</Text>
-       <Text style={{...style.rate,marginStart: alignment+alignment/4}}>Weekends : ₹{rate_}</Text>
+       {tag == 'Milk' ? <Text style={{...style.rate}}>₹{rate}</Text> : <View>
+       <Text style={{...style.rate}}>Weekdays : ₹{rate}</Text>
+       <Text style={{...style.rate}}>Weekends : ₹{rate_}</Text>
        </View>}
        <View style={{flex:1,justifyContent: 'flex-end'}}>
-       <Text style = {{...style.rate,color: 'gray',textAlign: 'left',fontSize: 12,alignSelf:'flex-end'}}>{num+" deliveries"}</Text>
+       
 
-       </View>
        </View>
        
        
         </View>
+        </View>
+        </View>
        
 
 
-        <View>
-
-        </View>
         </View>
     </View>)
 
@@ -145,15 +143,15 @@ const style = StyleSheet.create({
      //   marginStart: '34%',
         fontWeight: '400',
         fontSize: 16,
-        padding: 5,
-        marginTop: '2%',
+        //padding: 5,
+        //marginTop: '2%',
         fontWeight: 'bold',
         color:'black'
         
     },
     quantity: {
       //  marginStart: '35%',
-        marginTop: '3%',
+        //marginTop: '3%',
         fontWeight: 'bold',
         
         
@@ -167,8 +165,8 @@ const style = StyleSheet.create({
         
         fontWeight: 'bold',
         fontSize: 13,
-        marginHorizontal: '8%',
-       
+        //marginHorizontal: '8%',
+       marginTop: '2%',
         color:'black'
       
 
@@ -225,7 +223,7 @@ const style = StyleSheet.create({
     },
     yes: {
         color: Colors.primary,
-        marginTop: '3.5%',
+        //marginTop: '3.5%',
         fontWeight: 'bold',
         fontSize: 13,
         

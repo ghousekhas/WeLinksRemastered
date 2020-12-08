@@ -123,7 +123,7 @@ const styles=StyleSheet.create({
     scroll:{
         position: 'absolute',
         bottom: dimen.height/15+30,
-        top: dimen.height/15+15
+        top: 15
     },
     heading:{
         color: 'black',
