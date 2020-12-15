@@ -269,7 +269,7 @@ const myProfileStack = ({ navigation, route }) => {
         <Stack.Navigator initialRouteName="Profile">
           <Stack.Screen name="Profile" component={MyProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{...route.params ,user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
           <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} initialParams={{navigator : navigation}}/>
-          <Stack.Screen name="AddAddress" component={AddAddress} />
+          <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
           <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{navigator : navigation,actualUser:actualUser}} />
           <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{ headerShown: false }} />
           <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
