@@ -252,12 +252,11 @@ const style = StyleSheet.create({
     },
     container: {
         backgroundColor: Colors.whiteBackground,
-       height:Dimensions.get('window').height/10,
-       margin: '1%',
+       height:Dimensions.get('window').height/6,
     //    width: Dimensions.get('window').width,
        flexDirection: 'row',
       flex:4,
-   //    borderWidth: 1,
+       
         padding: 5
     },
     name: {
@@ -272,7 +271,7 @@ const style = StyleSheet.create({
         marginStart: '3%',
         color: 'gray',
         fontSize: 11,
-        marginTop: '6%',
+        marginTop: '4%',
         padding: 5,
         alignSelf: 'center',
         color: 'black'
@@ -283,7 +282,7 @@ const style = StyleSheet.create({
         color: 'black',
         fontWeight: 'bold',
         fontSize: 15,
-        marginTop: '6%',
+        marginTop: '3%',
         padding: 5
       
 
@@ -308,8 +307,7 @@ const style = StyleSheet.create({
         borderRadius: 20,
         alignSelf: 'flex-end',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
-        marginTop: '%'
+        justifyContent: 'space-evenly'
         
         
        
@@ -322,6 +320,7 @@ const style = StyleSheet.create({
     button:{
         borderRadius: 5,
         borderWidth: 1,
+
         borderColor: Colors.primary,
    
     //    maxHeight: Dimensions.get('window').height / 33,
@@ -329,7 +328,7 @@ const style = StyleSheet.create({
         
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '4%'
+        marginVertical: '3%'
 
 
     }
