@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import City from './City';
 import About from './About';
-import {Colors} from '../Constants'
+import {Colors, dimen} from '../Constants'
 
 const LoginScreen = ({navigation,route}) => {
     const [phoneno,setPhoneno] = useState(' ');
@@ -83,7 +83,7 @@ const LoginScreen = ({navigation,route}) => {
     if(!confirm){
     return(
     <View style={LoginScreenStyle.mainContainer}>
-        <View style= {{height: '87%',width: '100%'}}>
+        <View style= {{flex: 1,width: '100%'}}>
         <Text style = {LoginScreenStyle.titleStyle}>Mobile Verification</Text>
         <Text style = {LoginScreenStyle.descStyle1}>Please enter your mobile number.</Text>
         <View style = {LoginScreenStyle.phoneViewStyle}>
@@ -119,7 +119,7 @@ const LoginScreen = ({navigation,route}) => {
             }}
         />
         <TouchableOpacity onPress={()=> authenticate('re')} disabled={timeout==0 ? true : false}  >
-            <ResendButton/>
+            <ResendButton authenticate={authenticate}/>
         </TouchableOpacity>
        <SubmitButton text='Submit'
            onTouch={()=>{
@@ -136,13 +136,22 @@ const LoginScreen = ({navigation,route}) => {
 
 };
 
-const ResendButton=({vaar})=>{
+const ResendButton=({vaar,authenticate})=>{
     const [timeout,stmots]=useState(60);
     useEffect(()=>{
        timeout>0 && setTimeout(()=>stmots(timeout-1),1000);
     },[timeout])
+
+    const resendOtp = async ()=>{
+        authenticate();
+    }
    
-    return <Text style={{...style.resend,color: timeout>0? 'gray': Colors.primary}}>{ timeout>0 ? 'Resend OTP in '+timeout+' seconds': 'Resend OTP' }</Text>
+    return (
+        <TouchableOpacity disabled={timeout>0} onPress={resendOtp}>
+                <Text style={{...style.resend,color: timeout>0? 'gray': Colors.primary}}>{ timeout>0 ? 'Resend OTP in '+timeout+' seconds': 'Resend OTP' }</Text>
+    </TouchableOpacity>
+    );
+
 }
 
 const LoginScreenStyle = StyleSheet.create({
@@ -234,8 +243,8 @@ const LoginScreenStyle = StyleSheet.create({
         backgroundColor: 'gray'
     },
     bottom:{
-        height: '13%',
         width: '100%',
+        marginBottom: dimen.bottomMargin
   
     },
     borderStyleBase: {

@@ -15,7 +15,7 @@ import {Config} from '../Constants';
 const DrawerContent = (props) => {
   const [vendor,setVendor] = useState(false);
   const {switchVendor} = props;
-  var {setUser}= props;
+  const {setUser}= props;
   const [actualUser,setActualUser]=useState(props.actualUser);
   var cachedData,initialSubs;
   const [verification,setVerification] = useState('');
@@ -245,7 +245,13 @@ const DrawerContent = (props) => {
      label="Sign Out"
      
      onPress={()=>{
-       auth().signOut();
+       auth().signOut().then((value)=>{
+         setUser(null);
+       },(reason)=>{
+         setUser(null);
+       }).catch((reason)=>{
+         setUser(null);
+       });
      }}
      
    />
@@ -467,6 +473,10 @@ const DrawerContent = (props) => {
        alert('Signing out');
        auth().signOut().
         then((value)=>{
+          setUser(null);
+        },(reason)=>{
+          setUser(null);
+        }).catch((reason)=>{
           setUser(null);
         })
 

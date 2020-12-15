@@ -9,7 +9,12 @@ export const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','S
 export const dimen={
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
-    appbarHeight: Dimensions.get('window').height/16
+    appbarHeight: Dimensions.get('window').height/16,
+    bottomMargin: Dimensions.get('window').height/60,
+    sVm: Dimensions.get('window').height/100,
+    mVm: Dimensions.get('window').height/60,
+    bVm: Dimensions.get('window').height/30,
+    sHm: Dimensions.get('window').width/30
 }
 
 export const Colors = {
@@ -227,7 +232,6 @@ export const Styles=StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'space-evenly',
-        marginVertical: '5%',
         alignItems: 'center'
     },
     horizontalRow:{

@@ -21,13 +21,19 @@ const VendorProfile = ({ navigation, route }) => {
     const [address, setAddress] = useState([]);
     const [servedAddresses, setServedAddresses] = useState([])
     const [vendorID, setVendorID] = useState(null);
+    const {actualUser} = route.params;
     const [VendorProfileDetails, setVPD] = useState({
         company_name: "",
         vendor_img_url: "",
         addresses: [{addr_details: "",addr_landmark:""}],
+        newspaper_service: "yes",
+        homescrap_service: "yes",
+        officescrap_service: "yes",
+        milk_service: "yes"
+
         
     })
-    const [actualUser, setActualUser] = useState(route.params.actualUser);
+   // const [actualUser, setActualUser] = useState(route.params.actualUser);
     const [vendorImage, setVendorImage] = useState(' ')
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
@@ -141,24 +147,11 @@ const VendorProfile = ({ navigation, route }) => {
     }
 
     const retrieveData = ()=>{
-        Axios.get(Config.api_url + 'php?action=getUser&phone=' + actualUser.phone).
-            then(({ data }) => {
-                if (data.user[0] != undefined) {
-                    //  console.log(data.user[0])
-                    setProfileDetails(data.user[0]);
-                }
+      
+             
 
 
-                else
-                    console.log('User does not exist' + data);
-
-                Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + data.user[0].user_id).
-                    then((response) => {
-                        console.log("Got vendorID" + response.data.vendor[0].vendor_id)
-                        setVendorID(response.data.vendor[0].vendor_id)
-
-
-                        Axios.get(Config.api_url + "php?action=getVendor&vendor_id=" + vendorID)
+                        Axios.get(Config.api_url + "php?action=getVendor&user_id=" + actualUser.user_id)
                             .then((response) => {
                                 try {
                                     setVPD(response.data.vendor)
@@ -186,29 +179,10 @@ const VendorProfile = ({ navigation, route }) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    }, (error) => console.log("VendorID error" + error))
-
-            }, (error) => console.log("Error " + error))
-
-
         console.log('mounted');
         console.log(route.params.actualUser);
-        setActualUser(route.params.actualUser);
-        setProfileDetails(route.params.actualUser);
+        //setActualUser(route.params.actualUser);
+        //setProfileDetails(route.params.actualUser);
     }
 
     useEffect(() => {
@@ -235,60 +209,7 @@ const VendorProfile = ({ navigation, route }) => {
 
     useFocusEffect(
         React.useCallback(() => {
-            Axios.get(Config.api_url + 'php?action=getUser&phone=' + actualUser.phone,).
-                then(({ data }) => {
-                    if (data.user[0] != undefined) {
-                        setProfileDetails(data.user[0]);
-
-                        //  route.params.setActualUser(data.user[0]);
-                    }
-                    else
-                        console.log('User does not exitst', data);
-                    Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + data.user[0].user_id).
-                        then((response) => {
-                            console.log("vendorID" + response.data.vendor[0].vendor_id)
-                            setVendorID(response.data.vendor[0].vendor_id)
-
-                            Axios.get(Config.api_url + "php?action=getVendor&vendor_id=" + response.data.vendor[0].vendor_id)
-                                .then((resp) => {
-                                    try {
-                                        setVPD(resp.data.vendor)
-                                        console.log("id" + VendorProfileDetails.vendor_id);
-                                        console.log("vpd " +JSON.stringify(VendorProfileDetails))
-
-                                        setVendorImage(resp.data.vendor.vendor_img_url);
-                                        //   setServedAddresses(response.data.vendor.addresses);
-                                        // console.log("add" + response.data.vendor.addresses[0].addr_name)
-                                        // console.log("image" +vendorImage)
-
-                                        //    this.setState({actualVendor : this.state.vendorDetails.company_name})
-                                        //  console.log('Vd' + this.state.actualVendor)
-                                    }
-                                    catch (error) {
-                                        //  this.setState({validVendor: false})
-
-                                        console.log('the errorrr ' + error);
-
-                                    }
-                                }, (error) => {
-                                    console.log('error' + error);
-
-                                });
-
-
-
-
-
-                        }), (error) => console.log(error);
-
-
-
-
-
-
-
-                },
-                    (error) => console.log('Error logged in profile', error))
+            
             const onBackPress = () => {
                 //  console.log('Can\'t go back from here');
                 route.params.goBackToHome();
@@ -300,7 +221,7 @@ const VendorProfile = ({ navigation, route }) => {
 
 
             BackHandler.addEventListener('hardwareBackPress', onBackPress);
-            setActualUser(route.params.actualUser);
+            //setActualUser(route.params.actualUser);
 
             return () =>
                 BackHandler.removeEventListener('hardwareBackPress', onBackPress);
@@ -336,7 +257,7 @@ const VendorProfile = ({ navigation, route }) => {
 
 
             <ScrollView>
-                <View style={{ flex: 0, marginBottom: 50 }}>
+                <View style={{ flex: 0, marginBottom: dimen.sHm }}>
 
                     <View style={style.header}>
 
@@ -440,7 +361,7 @@ const VendorProfile = ({ navigation, route }) => {
 
 
                     {/* Addresses Served */}
-                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
+                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: dimen.sHm/4, justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('AddressList', {
                              //   myAddresses: true,
@@ -492,7 +413,7 @@ const VendorProfile = ({ navigation, route }) => {
 
                     </View>
                     {/* Products */}
-                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: '5%', justifyContent: 'flex-start' }}>
+                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: dimen.sHm/4, justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('VendorServices', {
                                 back: true,
@@ -517,7 +438,26 @@ const VendorProfile = ({ navigation, route }) => {
 
 
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
-                                    <Text style={{ ...style.blackText, marginBottom: dimen.height / 70 }}>My Services & Products</Text>
+                                    <Text style={{ ...style.blackText, marginBottom: dimen.sHm/5 }}>My Services & Products</Text>
+                                    <Text style={{...style.blackText,fontSize: 12,margin: 0}}>{(
+                                        VendorProfileDetails.newspaper_service === "yes" ? "Newspaper ": ''
+                                        )
+                                    }</Text>
+                                    <Text style={{...style.blackText,fontSize: 12}}>{(
+                        
+                                        VendorProfileDetails.milk_service === "yes" ? "Milk ": ''
+                                       
+                                        
+                                        )
+                                    }</Text>
+                                    <Text style={{...style.blackText,fontSize: 12,margin: 0}}>{(
+                                         VendorProfileDetails.homescrap_service === "yes" ? "Home Scrap ": ''
+                                        )
+                                    }</Text>
+                                    <Text style={{...style.blackText,fontSize: 12,margin: 0}}>{(
+                                        VendorProfileDetails.officescrap_service === "yes" ? "Office Scrap ": ''
+                                        )
+                                    }</Text>
 
 
 
@@ -567,7 +507,7 @@ const style = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
 
-        height: Dimensions.get('window').height / 2
+        height: Dimensions.get('window').height / 3
 
     },
     avatar: {
@@ -605,11 +545,11 @@ const style = StyleSheet.create({
 
     },
     blackText: {
-        margin: '1%',
+
         fontWeight: 'bold',
         fontSize: 14,
         marginStart: '15%',
-        marginTop: '1%'
+ 
     },
     name: {
         color: 'white',
