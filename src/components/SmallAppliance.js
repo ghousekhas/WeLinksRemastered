@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { dimen,Colors, Styles } from '../Constants';
 
-const Appliance = ({name,small, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule}) => {
+const SmallAppliance = ({name,small, quantity, price,image,onAdd,selectedQuantity,onRemove,remove,item,index,initquan,schedule}) => {
     const [number,setNumber] = useState( parseInt(initquan));
     const [gap,setGap] = useState(0);
     const [added,setAdded] = useState(false)
@@ -15,7 +15,7 @@ const Appliance = ({name,small, quantity, price,image,onAdd,selectedQuantity,onR
 
     const renderAddSubtract =()=>{
         if(schedule)
-            return <Text style={{...Styles.subbold,alignSelf: 'center',margin: small ? '5%':'10%',marginHorizontal: small?'3%' : null,fontSize: 10,flex:1,textAlign:'right'}}>{'Quantity: '+initquan} </Text>;
+            return <Text style={{...Styles.subbold,fontSize: 10,textAlign:'right'}}>{'Quantity: '+initquan} </Text>;
 
         return (
             remove ? (<View style={{flex: 1,margin: '2%'}}>
@@ -124,17 +124,17 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
         )
     }
 
-    return(<View style={{flexDirection: 'row',backgroundColor: Colors.whiteBackground}}>
-    <View style={small ? null : {...style.container,flex:2}}>
+    return(<View style={{flexDirection: 'row',padding:'1%'}}>
+    <View style={{...style.container,flex:1}}>
      
     
-    <View>
+    <View style={{flex:1}}>
 
         <Text numberOfLines={1} style={style.name}>{name}</Text>
         <View style={{flexDirection: 'row'}}>
        
-        <Text style={!small ? style.price : {...style.price,fontSize:12}}>₹{price}</Text>
-        <Text style={!small ? style.quantity : {...style.quantity,fontSize:10}}>{quantity}</Text>
+        <Text style={{...style.price,fontSize:12}}>₹{price}</Text>
+        <Text style={{...style.quantity,fontSize:10}}>{quantity}</Text>
         </View>
        
         
@@ -142,6 +142,7 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
         <Image style={style.image} source={{uri: image}}/>
        
         </View>
+        <View style={{alignItems: 'flex-end',justifyContent: 'flex-end',marginBottom: '4%'}}>
         {
             renderAddSubtract()
 
@@ -150,26 +151,29 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
         }
         
         
+        </View>
+      
         </View>)
         
         
 };
 const style = StyleSheet.create({
     container: {
-        backgroundColor: Colors.whiteBackground,
        height:Dimensions.get('window').height/10,
        margin: '1%',
+       flex:1,
     //    width: Dimensions.get('window').width,
        flexDirection: 'row',
-      flex:4,
+  //    flex:4,
    //    borderWidth: 1,
         padding: 5
     },
     name: {
-        marginStart: 105,
+        marginStart: 85,
         fontWeight: 'bold',
-        fontSize: 15,
-        padding: 5
+        fontSize: 14,
+        padding: 5,
+    //    backgroundColor: 'white'
         
     },
     quantity: {
@@ -182,7 +186,7 @@ const style = StyleSheet.create({
        
     },
     price: {
-        marginStart: 105,
+        marginStart: 85,
         
         fontWeight: 'bold',
         fontSize: 15,
@@ -192,13 +196,13 @@ const style = StyleSheet.create({
 
     },
     image: {
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         position: 'absolute',
         marginStart: '8%',
         
         
-        marginTop : '3%'
+        marginTop : '5%'
         
        
     },
@@ -242,4 +246,4 @@ const style = StyleSheet.create({
 
 
 
-export default Appliance;
+export default SmallAppliance;

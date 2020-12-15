@@ -15,7 +15,7 @@ import GenericSeperator from '../components/GenericSeperator';
 import SubmitButton from '../components/SubmitButton';
 import { EvilIcons } from '@expo/vector-icons';
 import firestore from '@react-native-firebase/firestore';
-import Appliance from '../components/Appliance';
+import  SmallAppliance from '../components/SmallAppliance';
 import ExpandableTextBox from '../components/ExpandableTextBox';
 import moment from 'moment';
 import Axios from 'axios';
@@ -178,7 +178,7 @@ export default function MyScrapSaleOrder({ navigation, route }) {
                             contentContainerStyle={{ backgroundColor: 'white' }}
                             renderItem={({ item, index }) => {
                                 return (
-                                    <Appliance
+                                    <SmallAppliance
                                         small={true}
                                         schedule={true}
                                         remove={true}
