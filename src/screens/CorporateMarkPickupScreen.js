@@ -231,7 +231,7 @@ const styles=StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: 'white',
         elevation: 1,
-        height: dimen.height/2.5
+        height: dimen.height/2.9
     },
     address:{
         padding: '1%',
