@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, Dimensions,Image} from 'react-native';
-import { Styles, Colors } from '../Constants';
+import { Styles, Colors,dimen } from '../Constants';
 
 const Item = ({name, quantity, price, imageUrl,tag}) => {
     const dimg= require('../../assets/ic_launcher.png');
+    const [height,setHeight] = useState(0);
     console.log(tag)
     const defaultimg=dimg.uri;
     return(
-    <View style={{flexDirection: 'row'}}>
+    <View style={{flexDirection: 'row',backfaceVisibility: Colors.secondary,paddingVertical: dimen.mVm}}>
+        <Image style={style.image} source={{uri: imageUrl!=''? imageUrl: defaultimg}}/>
      
     
     <View style={style.container}>
@@ -22,7 +24,7 @@ const Item = ({name, quantity, price, imageUrl,tag}) => {
        
         
         </View>
-        <Image style={style.image} source={{uri: imageUrl!=''? imageUrl: defaultimg}}/>
+        
 
         
         </View>)
@@ -31,20 +33,17 @@ const Item = ({name, quantity, price, imageUrl,tag}) => {
 };
 const style = StyleSheet.create({
     container: {
-        ...Styles.parentContainer,
         marginTop: '0%',
       //  marginHorizontal: '1%',
        backgroundColor: Colors.lightBlue,
-       height:Dimensions.get('window').height/6.5,
-       width:Dimensions.get('window').width,
+       flex: 2.5,
        
       
       
        
-        padding: 5
+        paddingHorizontal: dimen.sHm
     },
     name: {
-        marginStart: 100,
         fontWeight: 'bold',
         fontSize: 16,
         padding: 5
@@ -60,7 +59,6 @@ const style = StyleSheet.create({
        
     },
     price: {
-        marginStart: 100,
         
         fontWeight: 'bold',
         fontSize: 15,
@@ -70,15 +68,10 @@ const style = StyleSheet.create({
 
     },
     image: {
-        width: 80,
-        height: 80,
-        position: 'absolute',
-        padding: 0,
-  //      margin :0,
-      //  marginStart: '2%',
+        flex: 1,
+        aspectRatio: 1
+
         
-        
-        marginTop : '3%'
         
        
     }

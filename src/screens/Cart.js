@@ -277,7 +277,7 @@ const Cart = ({route,navigation,Tag}) => {
       {/*ScrollView parent */}
       <View style={{height:  dimen.height-dimen.height/8,position: 'absolute',top: dimen.height/14}}>
       <ScrollView style={{flex: 1,padding: 5}}>
-      <View style={{flex: 1,alignSelf: 'center',justifyContent: 'center'}}>
+      <View style={{flex: 1,alignSelf: 'center',justifyContent: 'flex-start'}}>
       
     <Text style={{...Styles.title,marginBottom: '0%',marginTop: '2%'}}>{words.title}</Text>
 
@@ -292,7 +292,7 @@ const Cart = ({route,navigation,Tag}) => {
           num = {tag == 'Milk' ? calculateDeliveries(porder.s.start,porder.e.end) : calculatePaperDeliveries(porder.s.start,porder.e.end)}
           imageUrl={route.params.imageUrl}
          />
-         </View>
+        </View>
 <View>
          <View style={style.gray}>
              <Text style={style.text}>{words.disclaimer}</Text>
@@ -323,10 +323,7 @@ const Cart = ({route,navigation,Tag}) => {
 
          
          </View>
-         </View>
-</ScrollView>
-
-        <View style={{flex: 0,marginHorizontal: 10,marginVertical: 3,justifyContent: 'center'}}>
+         <View style={{flex: 0,marginHorizontal: 10,marginVertical: dimen.sHm,justifyContent: 'center'}}>
          <SubmitButton styling={orderMade} text='Confirm Order' onTouch={() => {
                 setOrderMade(true);
                 const {year,month,day}=route.params.startDate;
@@ -365,6 +362,10 @@ const Cart = ({route,navigation,Tag}) => {
             }}/>
          
             </View>
+         </View>
+</ScrollView>
+
+        
 
 
          </View>
@@ -391,7 +392,6 @@ const style = StyleSheet.create({
     title:{
         fontSize: 20,
         marginHorizontal: '5%',
-        marginVertical: '3%',
         fontWeight: 'bold',
         color: 'black'
     },
@@ -400,12 +400,11 @@ const style = StyleSheet.create({
         padding: '1%',
        backgroundColor: Colors.seperatorGray,
         borderRadius: 10,
-        height: Dimensions.get('window').height/11,
-        margin: '3%',
-       
+        marginHorizontal: '3%',
         alignItems: 'center',
         justifyContent:'center',
-        elevation:1
+        elevation:1,
+        marginBottom: dimen.sHm
         
     },
     gray1: {
@@ -415,8 +414,7 @@ const style = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0.6,
         elevation: -5,
-        margin: '3%',
-        height: Dimensions.get('window').height/12,
+        marginHorizontal: '3%',
     },
     text: {
         padding: 10,

@@ -304,20 +304,10 @@ return(
     <Text style={{...style.dates,position: 'absolute',bottom: -7,end:30}}>{end}</Text>
     </View>
  {/* Button */}
- <View style={{marginTop: '8%',marginBottom: '5%'}}>
-       
-    {/* button end */}
-</View>
+
 
 
 </View>
-
-   
-</View>  
-   
-
-  
-</ScrollView>
 <TouchableOpacity style={(dateref == 'Not selected' || dateref1 == 'Not selected' ||
     (m == false && t == false && w == false && th == false && f == false && s == false && su == false)) ? 
     {...style.subscribe, backgroundColor: Colors.disabledButton} :style.subscribe }
@@ -333,6 +323,15 @@ return(
     }}>
         <Text style={style.subscribeText}>Subscribe</Text>
     </TouchableOpacity>
+
+   
+</View>  
+
+   
+
+  
+</ScrollView>
+
 </View>
 )
 
@@ -534,6 +533,7 @@ subscribe: {
     height: 45,
     borderRadius: 5,
     alignSelf: 'center',
+    marginTop: dimen.mVm*1.5
     
 },
 subscribeText: {

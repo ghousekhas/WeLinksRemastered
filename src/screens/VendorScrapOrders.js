@@ -69,7 +69,7 @@ export default function VendorScrapOrders({navigation,route}){
         let i;
         try{
        data = responseArray
-      //  setExtraData(Math.random(0.3));
+        setExtraData(Math.random(0.3));
     }
     catch(e){}
 
@@ -84,9 +84,17 @@ export default function VendorScrapOrders({navigation,route}){
 
           //   console.log("R E S "+response.data.order.company_name)
             //data=response.data;
-            prepareResponse(response.data.order);
-          //  setExtraData(Math.random(0.5));
-            setApiLoaded(true);
+            try{
+                prepareResponse(response.data.order);
+            }
+            catch(error){
+                data=[];
+            }
+            finally{
+                setApiLoaded(true);
+            }   
+            setExtraData(Math.random(0.5));
+            
         },(error)=>{
             console.log(error);
             setApiLoaded(true);
@@ -227,7 +235,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
 
     const theCard = (
-        <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/50,padding:'1%',paddingEnd: '3%'}}>
+        <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.sHm/4,padding:'1%',paddingEnd: '3%'}}>
        
     
 

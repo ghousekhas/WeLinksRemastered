@@ -40,7 +40,7 @@ export default function CancellationScreen({navigation,route}){
 
 
     return(<View>
-    <AppBar title={'Cancel Bid'} back funct={() => {navigation.pop()}}/>
+    <AppBar title={'Cancel Tender'} back funct={() => {navigation.pop()}}/>
         <View style={{...Styles.parentContainer}}>
             <Text style={{...Styles.heading,alignSelf: 'center',flex: 0}}>{bidTitle}</Text>
             <Text style={{marginTop: dimen.height/30,alignSelf: 'center',marginHorizontal: dimen.width*0.05,flex: 0,fontWeight: 'bold',color: 'black',alignItems:'center'}}>Are you sure you want to cancel/close?</Text>

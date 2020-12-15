@@ -85,13 +85,11 @@ const MilkVendors = (props) => {
         <AppBar title={'Milk Vendors'} back={true} funct={() => {
             props.navigation.pop();
         }} />
-        <View style={{ flexDirection: 'row', marginTop: Dimensions.get('window').height / 14,marginStart: 9}}>
-            <Image style={{ ...style.avatar, height: dimen.height / 6,  aspectRatio: 1, padding: dimen.width / 30, flex: 2 }} source={actualUser.img_url.trim() != '' ? { uri: actualUser.img_url } : require('../../assets/notmaleavatar.png')} />
+        <View style={{ flexDirection: 'row',marginBottom: dimen.mVm, marginTop: Dimensions.get('window').height / 16+ dimen.mVm,marginHorizontal: dimen.sHm,justifyContent: 'flex-start',alignContent: 'flex-start'}}>
+            <Image style={{  aspectRatio: 1, paddingHorizontal: dimen.width/30, flex: 2 }} source={actualUser.img_url.trim() != '' ? { uri: actualUser.img_url } : require('../../assets/notmaleavatar.png')} />
 
 
-            <View style={{ ...style.header, height: dimen.height / 6, flex: 5, justifyContent: 'space-between' }} onLayout={({ nativeEvent }) => {
-                setImageHeight(nativeEvent.layout.height)
-            }} >
+            <View style={{ flex: 5, justifyContent: 'space-between',marginLeft: dimen.sHm }} >
                 <Text style={{ ...style.username }}>{actualUser.name}</Text>
                 <View style={{ ...style.address }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -109,7 +107,7 @@ const MilkVendors = (props) => {
         </View>
         <View style={Styles.grayfullline} />
         <View style={style.heading}>
-            <Text style={{ ...Styles.title, fontSize: 17}}>{words.milk}</Text>
+            <Text style={{ ...Styles.title, fontSize: 17,marginVertical: dimen.sVm}}>{words.milk}</Text>
         </View>
 
 

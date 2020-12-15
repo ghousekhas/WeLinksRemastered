@@ -508,7 +508,7 @@ const DrawerContent = (props) => {
  
   header: {
     
-    height:Dimensions.get('window').height/5.1,
+   marginBottom: dimen.mVm ,
    
    
   

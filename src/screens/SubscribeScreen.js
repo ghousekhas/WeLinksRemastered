@@ -10,7 +10,7 @@ import moment from 'moment';
 import Date,{okay} from './Date';
 import WeekPicker from '../components/WeekPicker';
 import SubscriptionScreen from './SubscriptionScreen';
-import {Colors, Styles} from '../Constants'
+import {Colors, dimen, Styles} from '../Constants'
 import AppBar from '../components/AppBar';
 
 bs = React.createRef();
@@ -210,7 +210,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
       <BottomSheet
         enabledContentTapInteraction={true}
         ref={bs}
-        snapPoints={[670,600,0]}
+        snapPoints={[dimen.height-dimen.appbarHeight*3,600,0]}
         renderContent= {!isPressed ? renderContent1 : renderContent2}
         renderHeader={renderHeader}
         initialSnap={2}

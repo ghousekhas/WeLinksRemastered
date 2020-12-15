@@ -92,10 +92,10 @@ export default function TitleBidDetails({navigation,route}){
 
                     });
             }}>
-                <Text style={styles.cancelText}>Cancel Bid</Text>
+                <Text style={styles.cancelText}>Cancel Tender</Text>
             </TouchableOpacity>
             : <View style={{marginTop : dimen.height/50}} /> }
-            <Text style={{...Styles.heading,alignSelf:'center', marginTop : dimen.height/20}}>{appliedVendorsList.length == 0 ? 'No ': ''  }Bids Received</Text>
+            <Text style={{...Styles.heading,alignSelf:'center', marginTop : dimen.mVm}}>{appliedVendorsList.length == 0 ? 'No ': ''  }Bids Received</Text>
 
         </View>
         )
@@ -142,7 +142,7 @@ export default function TitleBidDetails({navigation,route}){
 
   //  const [vendorsList,setVendorsList] = useState(appliedVendorsList);
     return(<View>
-     <AppBar title={'Bid Details'}
+     <AppBar title={'Tender Details'}
      back
       funct={() => {
         navigation.pop();
@@ -242,17 +242,17 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         alignSelf: 'center',
-        fontWeight: '700',
-        padding: 15
+        fontWeight: '700'
     },
     cancelButton: {
         backgroundColor: Colors.red,
         // height: '100%',
-        width: '97%',
         aspectRatio: 10 / 1.4,
         borderRadius: 5,
         alignSelf: 'center',
-        marginVertical: '5%'
+        marginVertical: dimen.sVm,
+        width: dimen.width - dimen.width / 10,
+        justifyContent: 'center'
 
     },
     title: {

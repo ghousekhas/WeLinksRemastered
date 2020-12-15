@@ -30,7 +30,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,qu
        //  getDate(startDate)
        
   
-    return(<View style={{flexDirection: 'row',height: dimen.height/3.5 }}>
+    return(<View style={{flexDirection: 'row',marginVertical: dimen.sHm }}>
        
     
     <View style = {style.container}>

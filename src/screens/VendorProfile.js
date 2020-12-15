@@ -187,6 +187,10 @@ const VendorProfile = ({ navigation, route }) => {
 
     useEffect(() => {
         retrieveData();
+        navigation.addListener('focus',()=>{
+            console.log('fires')
+            retrieveData();
+        });
 
 
 
@@ -369,7 +373,6 @@ const VendorProfile = ({ navigation, route }) => {
                                 actualVendor: {vendor_id: VendorProfileDetails.vendor_id},
                                 vendorEdit: true,
                                 myAddresses: true,
-                             //   profileEdit: true,,
                                 profile: true
                             })
                         }}>
@@ -437,7 +440,7 @@ const VendorProfile = ({ navigation, route }) => {
                                 </View>
 
 
-                                <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <View style={{ flexDirection: 'column', flex: 1,backgroundColor: 'white' }}>
                                     <Text style={{ ...style.blackText, marginBottom: dimen.sHm/5 }}>My Services & Products</Text>
                                     <Text style={{...style.blackText,fontSize: 12,margin: 0}}>{(
                                         VendorProfileDetails.newspaper_service === "yes" ? "Newspaper ": ''
