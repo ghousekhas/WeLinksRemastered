@@ -119,14 +119,15 @@ const [submitted,isSubmitted] = useState(false);
                 </View>
             </View>
             {/* <SubmitButton text='Cancel Bid' /> */}
+            {cardDetails.status != 'Pickup Completed' ? <View style={{marginTop: '3%'}}>
             <Text style={{...Styles.heading,alignSelf:'center', marginTop : dimen.height/20}}>Bid Awarded</Text>
 
             <View style={{...styles.card,padding: '4%'}}>
         <Text style={{...Styles.heading,width:dimen.width}}>{thisVendor.name}</Text>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{marginTop: '5%'}}>
 
         {/* Size is not right */}
-        <Image style ={{flex:1.5}} source={thisVendor.image.trim() != '' ? {uri: thisVendor.image}: require('../../assets/notmaleavatar.png')}/>
+        <Image  style ={{height:90,width:70, borderWidth: 1 }} source={thisVendor.image.trim() != '' ? {uri: thisVendor.image}: require('../../assets/notmaleavatar.png')}/>
         {/* <Text style={{...styles.address,flex : 4}}>{"Address : " + "#123 some road, some layout, some city, near something - 122344"}</Text> */}
 
 
@@ -139,7 +140,7 @@ const [submitted,isSubmitted] = useState(false);
 
         </View>
     
-        <View style={{flexDirection :'row',marginTop:'10%'}}>
+        <View style={{flexDirection :'row',marginTop:'1%'}}>
         <FontAwesome5 name="money-bill-wave-alt" size={20} color= {Colors.blue} style={{ alignSelf: 'center',margin:'1%' }} />
         <Text style={{...Styles.heading,fontSize: 14,color:Colors.blue}}>Offer amount : </Text>
         <Text style={{...Styles.heading,fontWeight:'bold',fontSize: 14,color: 'gray'}}>{" ₹ "+thisVendor.amount}</Text>
@@ -148,9 +149,9 @@ const [submitted,isSubmitted] = useState(false);
 
         </View>
         <View style={{marginVertical:60}}>
-            <SubmitButton styling={submitted} onTouch={markPickUpComplete} text="Mark Pickup Complete" />
+            <SubmitButton styling={submitted} onTouch={markPickUpComplete} text= {cardDetails.status != 'Pickup Completed' ? "Mark Pickup Complete" : 'Bid Details'} />
         </View>
-
+</View> : null}
         </View>
         )
     }
