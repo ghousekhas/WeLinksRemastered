@@ -269,7 +269,7 @@ return(<View style={styles.card}>
    
 
     return(<View>
- <AppBar title={'My Tenders'} subtitle={"Touch any tender to view details"} back  funct={() => {
+ <AppBar title={'My Tenders'} subtitle={"Click on any tender to view details"} back  funct={() => {
        navigation.pop();
         }} />
 

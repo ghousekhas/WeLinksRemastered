@@ -71,14 +71,14 @@ export default function AwardBid({navigation,route}){
 
                 </View>
 
-                <View style={{ flexDirection: 'row', marginTop: '20%' }}>
+                <View style={{ flexDirection: 'row', marginTop: '5%' }}>
                     <Entypo name="calendar" size={23} color={Colors.blue} style={{ margin: '1%' }} />
                     <Text style={{ ...Styles.heading, fontSize: 14, color: Colors.blue }}>Offer made :  </Text>
                     <Text style={{ ...Styles.heading, fontWeight: 'bold', fontSize: 14, color: 'gray' }}>{sortDate(thisVendor.time.substring(0,10))}</Text>
 
                 </View>
 
-                <View style={{ flexDirection: 'row', marginTop: '10%' }}>
+                <View style={{ flexDirection: 'row', marginTop: '1%' }}>
                     <FontAwesome5 name="money-bill-wave-alt" size={20} color={Colors.blue} style={{ alignSelf: 'center', margin: '1%' }} />
                     <Text style={{ ...Styles.heading, fontSize: 14, color: Colors.blue }}>Offer amount : </Text>
                     <Text style={{ ...Styles.heading, fontWeight: 'bold', fontSize: 14, color: 'gray' }}>{" ₹ " + thisVendor.amount}</Text>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: 'white',
         elevation: 1,
-        height: dimen.height / 2.5
+        height: dimen.height / 3
     },
     address: {
         padding: '1%',

@@ -57,7 +57,7 @@ export default function TitleBidDetails({navigation,route}){
                 </View>
                 <View style={styles.duration}>
                    {cardDetails.manpower == 1 || cardDetails.insurance == 1|| cardDetails.vehicle == 1 ? <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2,marginHorizontal: '3%' }}>Require: </Text>
+                        <Text style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2,marginHorizontal: '1%' }}>Require:</Text>
                         {cardDetails.manpower == 1 ?
                             <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary, marginTop: '2%' }}>
 
@@ -231,8 +231,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     requirementsButton: {
-        paddingVertical: '0.5%',
-        paddingHorizontal: 10,
+        paddingVertical: '0.3%',
+        paddingHorizontal: 8,
         alignSelf: 'baseline',
         borderRadius: 10,
         marginHorizontal: '1%'
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
       //  margin: '1%',
       //  marginBottom: '5%',
         flexDirection: 'row',
-        marginTop: '2%',
+        marginTop: '1.5%',
         justifyContent: 'space-between',
         elevation: 1,
 
@@ -283,7 +283,8 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         borderRadius: 10,
         borderWidth: 0.5,
-     //   backgroundColor: 'black'
+      //  backgroundColor: 'black',
+        marginBottom: '0.5%'
         //  paddingVertical: 10
 
     },
