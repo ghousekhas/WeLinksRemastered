@@ -224,7 +224,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
             item: item,
 
             
-            card: sendingCard
+            card: card
 
         })
     }
@@ -240,12 +240,10 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
         <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
             <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
-            <View style={{flexDirection:'row'}}>
-            <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}></Text>
+           
     
             <Text style={{...styles.quantity,marginStart: 10,
                 color: status === "CANCELLED"? Colors.red : status === "COMPLETED"? Colors.primary: Colors.blue,fontSize:12}}>{status}</Text>
-            </View>
     
         </View>
         <View style={{flexDirection: 'row',margin: 5,flex: 1,width: '100%'}}>
@@ -289,12 +287,9 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
         <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
             <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
-            <View style={{flexDirection:'row'}}>
-            <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}></Text>
-    
             <Text style={{...styles.quantity,marginStart: 10,
                 color: status === "CANCELLED"? Colors.red : status === "COMPLETED"? Colors.primary: Colors.blue,fontSize:12}}>{status}</Text>
-            </View>
+          
     
         </View>
         <View style={{flexDirection: 'row',margin: 5,flex: 1,width: '100%'}}>

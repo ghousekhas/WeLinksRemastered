@@ -168,7 +168,7 @@ export default function MyScrapSaleOrder({ navigation, route }) {
                         <TouchableOpacity activeOpacity={0.8} onPress={() => setExpanded(!expanded)}  >
                             <View style={expanded ? { ...styles.expandableRow, paddingBottom: 20 } : styles.expandableRow}>
                                 <Text style={{ ...Styles.subbold, fontWeight: 'bold',marginLeft: dimen.sHm  }}>Items</Text>
-                                <AntDesign color='black' size={18} style={{color: 'black',fontStyle: 'bold'}} name={expanded ? "up" : "down"} />
+                                <AntDesign color='black' size={17} style={{color: 'black',fontStyle: 'bold',marginHorizontal:'2%'}} name={expanded ? "up" : "down"} />
                             </View>
                         </TouchableOpacity>
                         {expanded ? <FlatList
