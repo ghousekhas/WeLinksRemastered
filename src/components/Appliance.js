@@ -15,7 +15,22 @@ const Appliance = ({name,small, quantity, price,image,onAdd,selectedQuantity,onR
 
     const renderAddSubtract =()=>{
         if(schedule)
-            return <Text style={{...Styles.subbold,alignSelf: 'center',margin: small ? '5%':'10%',marginHorizontal: small?'3%' : null,fontSize: 10,flex:1,textAlign:'right'}}>{'Quantity: '+initquan} </Text>;
+            return <></>;// aa
+        // return (
+        //     <View style={{...style.mainColumn,backgroundColor: 'black'}}>
+        //                          <TouchableOpacity onLayout={({nativeEvent}) => {
+        //             setGap(nativeEvent.layout.height)
+        //     }}
+        //     onPress = {() => {
+        //         onRemove(index)
+
+                
+        //     }}
+        //     style={style.button}>
+        //     <Text style={{color: Colors.primary,fontWeight: 'bold',color: Colors.primary} }>{'Remove'}</Text>
+        //     </TouchableOpacity>
+        //     </View>
+        // )
 
         return (
             remove ? (<View style={{flex: 1,margin: '2%'}}>
@@ -30,7 +45,7 @@ const Appliance = ({name,small, quantity, price,image,onAdd,selectedQuantity,onR
             style={style.button}>
             <Text style={{color: Colors.primary,fontWeight: 'bold',color: Colors.primary} }>{'Remove'}</Text>
             </TouchableOpacity>
-            <View style = {added ? {...style.quantityPick,marginTop: '20%',backgroundColor: Colors.buttonEnabledGreen} :{...style.quantityPick,marginTop: '20%'} }>
+            <View style = {added ? {...style.quantityPick,marginTop: '4%',backgroundColor: Colors.buttonEnabledGreen} :{...style.quantityPick,marginTop: '4%'} }>
    
    <TouchableOpacity style={style.minus} onPress={() => {
        setNumber(number!=1 ? number-1 : number)
@@ -124,30 +139,65 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
         )
     }
 
+    if(schedule)
+        return(
+            <View style={style.marinRow}>
+                <Image style={style.mainImage} source={{uri: image}}/>
+                <View style={style.mainColumn}>
+                    <Text numberOfLines={1} style={!small ? style.rname : {...style.rname,fontSize:14}}>{name}</Text>
+                    <Text style={{...Styles.subbold,fontWeight: 'bold'}}>{'Quantity: '+initquan} </Text>
+                    <Text style={!small ? style.rprice : {...style.rprice,fontSize:12}}>{"Rate: "+price}</Text>
+                    <View style={{flexDirection: 'row',alignSelf: 'flex-start'}}>
+                        <Text style={!small ? style.rprice : {...style.rprice,fontSize:12}}>₹{price*initquan}</Text>
+                        <Text style={!small ? style.rquantity : {...style.rquantity,fontSize:10}}>{quantity}</Text>
+                    </View>
+                </View>
+            </View>
+        )
+
+    return (
+        <View style={style.marinRow}>
+            <Image style={{...style.mainImage,flex: 1}} source={{uri: image}}/>
+                <View style={{...style.mainColumn,flex: 2}}>
+                    <Text numberOfLines={1} style={!small ? style.rname : {...style.rname,fontSize:14}}>{name}</Text>
+                    <Text style={{...Styles.subbold,fontWeight: 'bold'}}>{'Quantity: '+initquan} </Text>
+                    <View style={{flexDirection: 'row',alignSelf: 'flex-start'}}>
+                        <Text style={!small ? style.rprice : {...style.rprice,fontSize:12}}>₹{price}</Text>
+                        <Text style={!small ? style.rquantity : {...style.rquantity,fontSize:10}}>{quantity}</Text>
+                    </View>
+                </View>
+            <View style={style.addRemoveContainer}>
+                {renderAddSubtract()}
+            </View>
+        </View>
+    )
+
     return(<View style={{flexDirection: 'row',backgroundColor: Colors.whiteBackground}}>
     <View style={small ? null : {...style.container,flex:2}}>
      
     
     <View>
+    <Text numberOfLines={1} style={!small ? style.name : {...style.name,fontSize:14}}>{name}</Text>
+                   
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={!small ? style.price : {...style.price,fontSize:12}}>₹{price}</Text>
+                        <Text style={!small ? style.quantity : {...style.quantity,fontSize:10}}>{quantity}</Text>
+                    </View>
 
-        <Text numberOfLines={1} style={!small ? style.name : {...style.name,fontSize:14}}>{name}</Text>
-        <View style={{flexDirection: 'row'}}>
-       
-        <Text style={!small ? style.price : {...style.price,fontSize:12}}>₹{price}</Text>
-        <Text style={!small ? style.quantity : {...style.quantity,fontSize:10}}>{quantity}</Text>
-        </View>
+        
+        
+
        
         
         </View>
         <Image style={style.image} source={{uri: image}}/>
        
         </View>
+        
         {
             renderAddSubtract()
-
-
-
         }
+        
         
         
         </View>)
@@ -155,6 +205,51 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
         
 };
 const style = StyleSheet.create({
+    addRemoveContainer:{
+        flex: 1,
+        marginRight: dimen.sHm
+    },
+    marinRow:{
+        flexDirection: 'row',
+        marginHorizontal: dimen.width/30,
+        justifyContent: 'flex-start',
+        marginBottom: dimen.sVm
+    },
+    mainImage:{
+        alignSelf: 'flex-start',
+        flex: 1,
+        aspectRatio: 1
+
+    },
+    mainColumn:{
+        flexDirection: 'column',
+        flex: 2.5,
+        justifyContent: 'flex-start',
+        marginStart: dimen.width/30
+
+
+    },
+    rprice:{
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: 'black'
+        //padding: 5
+
+    },
+    rquantity:{
+        color: 'gray',
+        fontSize: 11,
+        marginStart: '2%',
+        alignSelf: 'center'
+        //padding: 5,
+
+    },
+    rname:{
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: 'black'
+        //padding: 5
+    },
     container: {
         backgroundColor: Colors.whiteBackground,
        height:Dimensions.get('window').height/6,
@@ -168,7 +263,8 @@ const style = StyleSheet.create({
         marginStart: 105,
         fontWeight: 'bold',
         fontSize: 16,
-        padding: 5
+        padding: 5,
+        color: 'black'
         
     },
     quantity: {
@@ -177,12 +273,13 @@ const style = StyleSheet.create({
         fontSize: 11,
         marginTop: '4%',
         padding: 5,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        color: 'black'
        
     },
     price: {
         marginStart: 105,
-        
+        color: 'black',
         fontWeight: 'bold',
         fontSize: 15,
         marginTop: '3%',
@@ -208,11 +305,10 @@ const style = StyleSheet.create({
         borderColor: Colors.primary,
         borderWidth: 1.5,
         borderRadius: 20,
-        alignSelf: 'flex-start',
-        marginStart: '10%',
-       
+        alignSelf: 'flex-end',
         alignItems: 'center',
         justifyContent: 'space-evenly'
+        
         
        
         

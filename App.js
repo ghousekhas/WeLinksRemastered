@@ -69,7 +69,7 @@ navigator.geolocation = require('@react-native-community/geolocation');
 
 const Drawer = createDrawerNavigator();
 
-const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails }) => {
+const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,setUser }) => {
   const [vendor, setVendor] = useState(false);
   const [updateState, setUpdateState] = useState(actualUser != null ? actualUser : { name: 'loading', user_id: -1, email: 'f' });
   const [privacyData, setPrivacyData] = useState(null);
@@ -138,7 +138,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
     
       <NavigationContainer independent={true}>
         <Drawer.Navigator initialRouteName="VendorHomeStack"
-          drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} getVendorDetails={getVendorDetails} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
+          drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} getVendorDetails={getVendorDetails} setUser={setUser} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
             termsData: termsData,
             contactUsData: contactUsData,
             privacyData: privacyData
@@ -161,7 +161,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails })
 
     <NavigationContainer independent={true}  >
       <Drawer.Navigator initialRouteName='HomeStack' backBehavior='none'
-        drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
+        drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} setUser={setUser} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
           termsData: termsData,
           contactUsData: contactUsData,
           privacyData: privacyData
@@ -305,7 +305,7 @@ const VendorHomeStack=({navigation,route})=>{
     Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{
                setLoading(false);
-                console.log("HEREs"+response.data.vendor[0].vendor_id)
+               // console.log("HEREs"+response.data.vendor[0].vendor_id)
                 setVerification(Constants.veFirstTime) // uncomment this
             try{
                 
@@ -492,7 +492,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState({phoneNumber: '+919535311386'});//(auth().currentUser);                     //{phoneNumber: '+917777777777'} ) 
+  const [user, setUser] = useState(auth().currentUser); 
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -542,7 +542,7 @@ export default function App() {
     else {
     
 
-
+      if(user !=null)
       Axios.get(Config.api_url+'php?action=getUser&phone=' + user.phoneNumber.substring(3))
         .then((response) => {
           setSplash(false);
@@ -677,34 +677,33 @@ export default function App() {
   console.log("cuu "+JSON.stringify(user))
 
   React.useEffect(() => {
-    // checkNetworkState()
-    // getUserDetails(0,user);
+    checkNetworkState()
+    getUserDetails(0,user);
 
-    // console.group('firebaseuser', auth().currentUser);
-    // setSplash(false);
-    // setTimeout(()=>{
-    //   setSplash(false);
-    // },1500
-    // )
-    // setUser(auth().currentUser);
-    // checkIfFirstLogin();
-    // console.log("USER" + JSON.stringify(user));
-    // if (userDetails === null && user != null)
-    //   getUserDetails(0, user);
-    // const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    // getVendorDetails();
-   // sendNotif();
+    console.group('firebaseuser', auth().currentUser);
+    setSplash(false);
+    setTimeout(()=>{
+      setSplash(false);
+    },1500
+    )
+    setUser(auth().currentUser);
+    checkIfFirstLogin();
+    console.log("USER" + JSON.stringify(user));
+    if (userDetails === null && user != null)
+      getUserDetails(0, user);
+    const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    getVendorDetails();
     
     
 
      
   
-    // To debug with custom phone number comment above and uncomment below
-    if (userDetails === null){
-      getUserDetails(0, user);
-      //sendNotif();
+    //To debug with custom phone number comment above and uncomment below
+    // if (userDetails === null){
+    //   getUserDetails(0, user);
+    //   //sendNotif();
 
-    }
+    // }
 
 
 

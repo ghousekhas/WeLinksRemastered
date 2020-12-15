@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import FastImage from 'react-native-fast-image';
 import SubmitButton from '../components/SubmitButton';
+import {dimen} from '../Constants';
 
 
 var showRealApp=false;
@@ -96,8 +97,8 @@ const styles= StyleSheet.create({
       width: '100%'
     }, 
     bottom:{
-      height: '13%',
       width: '100%',
+      marginBottom: dimen.bottomMargin
 
     },
 

@@ -208,7 +208,8 @@ export default class ScrapCart extends React.Component{
                 
                                 }
                                 initquan={item.cart_quantity}
-                                name={item.homescrap_name} quantity={item.quantity} price={item.homescrap_price}  price_={item.price_} image={item.homescrap_image_url}
+                                name={item.homescrap_name} 
+                                quantity={item.quantity} price={item.homescrap_price}  price_={item.price_} image={item.homescrap_image_url}
                                 subscribe={() => {
                                     
                                     const prodName = item.name;
@@ -231,10 +232,10 @@ export default class ScrapCart extends React.Component{
                     </View>
 
 <View style={styles.gray}>
-             <Text style={{margin: '1%'}}>Disclaimer: Prices shown are only approximate value. They can differ for different vendors/products.</Text>
+             <Text style={{marginHorizontal: '1%'}}>Disclaimer: Prices shown are only approximate value. They can differ for different vendors/products.</Text>
          
          </View>
-         <View  style={{padding: 10,backgroundColor: 'white',marginTop:dimen.width/60}}>
+         <View  style={{paddingHorizontal: 10,backgroundColor: 'white',marginTop:dimen.sVm}}>
         
         <View style={{flexDirection:'row'}}>
             <Text style={styles.billText}>{"Cart Amount"}</Text>
@@ -244,7 +245,7 @@ export default class ScrapCart extends React.Component{
             <Text style={styles.billText}>{"Pick-Up Fee"}</Text>
             <Text style={styles.billCost}>₹50</Text>
         </View>
-        <View style={{...Styles.grayfullline, marginVertical: '3%'}}/>
+        <View style={{...Styles.grayfullline, marginVertical: dimen.sVm}}/>
         <View style={{flexDirection:'row'}}>
             <Text style={styles.billText}>{"Total Cost"}</Text>
             <Text style={styles.billCost}>₹{this.state.amount + 50}</Text>
@@ -262,7 +263,7 @@ export default class ScrapCart extends React.Component{
                     </View>                    
                     <WeekView extraData={this.state.extraData} start={{day: this.state.startDay,date: this.state.startDate,
                     month: this.state.startMonth,year: this.state.startYear}} selectedChangeInParent={this.dateSelectedCallback}/>
-                    <Text style={ScrapStyles.heading}>Schedule Time</Text>
+                    <Text style={{...ScrapStyles.heading,marginBottom: dimen.mVm}}>Schedule Time</Text>
                     <View style={Styles.horizontalCalendarButtonsRow}>
                         <TouchableOpacity style={this.state.timeSelected[0] ? {...ScrapStyles.timebutton,
                             borderColor: Colors.primary,paddingVertical: 10}:{...ScrapStyles.timebutton,borderColor: Colors.seperatorGray}}
@@ -302,7 +303,6 @@ export default class ScrapCart extends React.Component{
                             <Text style={Styles.subbold}> 5:00 PM</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{height: 20,width: 100}}/>
                     <ExpandableTextBox changeText={(text)=>this.setState({notes: text})} title="Additional notes" hint="Any additional information for the scrap pickup."/>
                     <View style={{height: 10,width: 100}}/>
                     
@@ -444,11 +444,11 @@ DayButton =({dateInfo,onSelected,selected,index})=>{
 
 const styles = StyleSheet.create({
     gray: {
-        padding: '1%',
+        
        backgroundColor: Colors.seperatorGray,
         borderRadius: 10,
         height: Dimensions.get('window').height/11,
-        margin: '3%',
+        marginHorizontal: '3%',
        
         alignItems: 'flex-start',
         justifyContent:'center',

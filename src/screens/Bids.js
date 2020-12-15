@@ -269,7 +269,7 @@ return(<View style={styles.card}>
    
 
     return(<View>
- <AppBar title={'My Tenders'} back  funct={() => {
+ <AppBar title={'My Tenders'} subtitle={"Touch any tender to view details"} back  funct={() => {
        navigation.pop();
         }} />
 
@@ -339,14 +339,14 @@ const styles = StyleSheet.create({
         color: Colors.white,
 
     },
-    card: {
+    card:{
         width: dimen.width-dimen.width/10,
         
         borderRadius: 15,
         borderColor: Colors.seperatorGray,
         borderWidth: 0.5,
         padding:'2%',
-        marginTop: '5%',
+        marginTop: dimen.sVm,
         alignSelf: 'center',
         backgroundColor: 'white',
         elevation: 1,

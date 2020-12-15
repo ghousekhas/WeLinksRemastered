@@ -197,8 +197,9 @@ const MyProfile = ({navigation,route}) => {
             <View style={style.chips}>
 
             <TouchableOpacity onPress={()=>{
-                route.params.navDrawer.navigate('MySubscriptions',{
-                    user: profileDetails
+                navigation.navigate('MySubscriptions',{
+                    user: profileDetails,
+                    inStack: true
                 })
             }
 
@@ -217,7 +218,7 @@ const MyProfile = ({navigation,route}) => {
          
     </View>
 
-    <View style={{borderWidth: 0.5,borderRadius: 7,margin: '1%',borderColor: Colors.seperatorGray}}>
+    <View style={{borderWidth: 0.5,borderRadius: 7,marginHorizontal: '1%',borderColor: Colors.seperatorGray,marginVertical: dimen.sHm/2}}>
         <TouchableOpacity onPress={()=>{
             navigation.navigate('About',{
                 edit: true,
@@ -262,7 +263,7 @@ const MyProfile = ({navigation,route}) => {
     </View>
 
 
-    <View style={{borderWidth: 0.3,borderRadius: 10,marginHorizontal: '1%',elevation: 0.3,borderColor: Colors.seperatorGray,flex: 0,marginVertical: '5%',justifyContent: 'flex-start'}}>
+    <View style={{borderWidth: 0.3,borderRadius: 10,marginHorizontal: '1%',elevation: 0.3,borderColor: Colors.seperatorGray,flex: 0,justifyContent: 'flex-start'}}>
         <TouchableOpacity onPress={()=>{
             navigation.navigate('AddressList',{
                 myAddresses: true,
@@ -329,7 +330,7 @@ const style = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       
-        height: Dimensions.get('window').height/2
+        height: Dimensions.get('window').height/2.5
 
     },
     avatar :{
@@ -351,7 +352,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         width: Dimensions.get('window').width,
-        marginTop: '5%'
+        marginTop: '2%'
 
     },
     chip: {

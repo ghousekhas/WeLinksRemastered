@@ -97,7 +97,7 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
       
     },[]);
     return(
-      <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginVertical: dimen.height/70,marginHorizontal: dimen.width/50}}>
+      <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginVertical: dimen.sHm/2,marginHorizontal: dimen.width/50}}>
         <Image source={image} style={styles.imageIcon}  />
               <View style={{flexDirection: 'column',width: '100%',justifyContent: 'center',flex: 1,marginBottom: '5%'}}>
                 <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>

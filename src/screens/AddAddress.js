@@ -349,7 +349,7 @@ export default class AddAddress extends React.Component {
               this.setState({ fineAddressInfo: text })
               this.checkFieldsValidity()
             }} />
-            <View style={{...styles.characterLimit,opacity: this.state.additionalInfoChars >= this.constants.additionalInfoChars ? 1 : 0}}>
+            <View style={{...styles.characterLimit,opacity: this.state.additionalInfoChars >= this.constants.additionalInfoChars ? 1 : 0,height: this.state.additionalInfoChars >= this.constants.additionalInfoChars ? 14 : 0  }}>
             <Ionicons style={{margin: '1%',alignSelf:'center'}} name="ios-information-circle-outline" size={18} color= {Colors.red}/>
             <Text style={{color:Colors.red,alignSelf:'center',fontSize:14,fontWeight:'bold',marginVertical: '2%'}}>{`Additional Info must be less than ${this.constants.additionalInfoChars} characters`}</Text>
 
@@ -362,7 +362,7 @@ export default class AddAddress extends React.Component {
               this.checkFieldsValidity()
             }} />
           
-              <View style={{...styles.characterLimit,opacity: this.state.landmarkChars >= this.constants.landmarkChars ? 1 : 0}}>
+              <View style={{...styles.characterLimit,opacity: this.state.landmarkChars >= this.constants.landmarkChars ? 1 : 0,height:this.state.landmarkChars >= this.constants.landmarkChars ? 14 : 0 }}>
             <Ionicons style={{margin: '1%',alignSelf:'center'}} name="ios-information-circle-outline" size={18} color= {Colors.red}/>
             <Text style={{color:Colors.red,alignSelf:'center',fontSize:14,fontWeight:'bold',marginVertical: '2%'}}>{`Landmark must be less than ${this.constants.landmarkChars} characters.`}</Text>
 
@@ -375,7 +375,7 @@ export default class AddAddress extends React.Component {
               this.checkFieldsValidity()
             }} />
             
-            <View style={{...styles.characterLimit,opacity: this.state.labelChars >= this.constants.labelChars ? 1 : 0}}>
+            <View style={{...styles.characterLimit,opacity: this.state.labelChars >= this.constants.labelChars ? 1 : 0,height: this.state.labelChars >= this.constants.labelChars ? 14 : 0 }}>
             <Ionicons style={{margin: '1%',alignSelf:'center'}} name="ios-information-circle-outline" size={18} color= {Colors.red}/>
             <Text style={{color:Colors.red,alignSelf:'center',fontSize:14,fontWeight:'bold',marginVertical: '2%'}}>{`Label must be less than ${this.constants.labelChars} characters.`}</Text>
 

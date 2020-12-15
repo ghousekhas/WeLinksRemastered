@@ -21,7 +21,7 @@ export default function BidCreation2({navigation,route}){
     const radioView=(title,factor,setter)=>{
         return( <ScrollView>
         <View style={styles.vertical}>
-                <Text style={{...Styles.subbold,fontWeight:'bold'}}>{title} </Text>
+                <Text style={{...Styles.subbold,fontWeight:'bold',margin: 0}}>{title} </Text>
                 <View style={styles.horizontal}>
                     <RadioButton 
                         value="1"
@@ -44,16 +44,19 @@ export default function BidCreation2({navigation,route}){
     }
 
     return(
-       <View>
-        <AppBar title='Create Bid' subtitle='Enter bid details' back funct={() => navigation.pop()} />
-        <View style={Styles.parentContainer}>
+       <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
+        <AppBar title='Create Tender' subtitle='Enter tender details' back funct={() => navigation.pop()} />
+        <View style={{height: dimen.appbarHeight}}/>
+        <View style={{height: dimen.height-dimen.appbarHeight}}>
            {/* <Text style={styles.heading}>Please enter your bid details</Text> */}
            <ScrollView style={styles.scroll}>
            {radioView('Do you require a vehicle?',vehicle,setVehicle)}
            {radioView('Do you require man power?',manpower,setManPower)}
            {radioView('Do you require insurance',insurance,setInsurance)}
-           
-         <ExpandableTextBox title="Additional notes" hint="Any additional information for vendors." changeText={setNotes}/>
+         <View style={{marginHorizontal: dimen.width* 0.05}}>
+            <ExpandableTextBox title="Additional notes" hint="Any additional information for vendors." changeText={setNotes}/>
+        </View>  
+         
          <View style={styles.button}>
                    <SubmitButton text='Next' onTouch={()=>{
                        if(insurance!= null && manpower != null && vehicle != null && notes!= '')
@@ -109,9 +112,9 @@ const styles=StyleSheet.create({
     },
     vertical:{
         flexDirection: 'column',
-        marginHorizontal: dimen.width*0.05,
+        marginStart: (dimen.width-dimen.width*0.95)/2,
         marginVertical: dimen.width*0.02,
-        flex: 1
+        flex: 1,
     },
     button:{alignSelf: 'center',marginVertical: 10,justifyContent: 'center',
        
@@ -127,7 +130,6 @@ const styles=StyleSheet.create({
     },
     heading:{
         color: 'black',
-        margin: '5%',
         fontSize: 20,
         marginVertical: '5%',
         fontWeight: 'bold'

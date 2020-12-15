@@ -26,6 +26,7 @@ export default function MySubscriptions({navigation,route}){
     const {user}=route.params;
     const [apiLoaded,setApiLoaded]=useState(false);
     const {actualUser} = route.params;
+    const inStack = route.params.inStack === undefined ? false: true;
     const {navigator} = route.params;
     console.log("UID"+actualUser.user_id);
     
@@ -34,7 +35,7 @@ export default function MySubscriptions({navigation,route}){
         React.useCallback(() => {
           const onBackPress = () => {
          console.log('Can\'t go back from here');
-         route.params.goBackToHome();
+         inStack ? navigation.goBack()  :route.params.goBackToHome();
        
         // navigation.goBack();
          //   navigation.reset();
@@ -124,9 +125,8 @@ export default function MySubscriptions({navigation,route}){
 
     return(<View style={{width: '100%',height: dimen.height,backgroundColor: 'white',justifyContent: 'flex-start'}}>
     <View style={{height: dimen.height/13}}>
-        <AppBar title={'My Subscriptions'} back={false} funct={() => {
-            
-            navigation.toggleDrawer();
+        <AppBar title={'My Subscriptions'} back={inStack} funct={() => {
+            inStack ? navigation.goBack() :navigation.toggleDrawer();
             }} />
         </View>
 
@@ -205,7 +205,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
          }
        
   
-    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/50,elevation:0,}}>
+    return(<View style={{flexDirection: 'column',width: dimen.width*0.95,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.sHm/4,elevation:0,}}>
        
     
 

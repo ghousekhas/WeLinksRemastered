@@ -73,6 +73,8 @@ export default function BidCreation1({ navigation,route }) {
     const [cat, setCat] = useState(b[0].value);
     const [weight, setWeight] = useState(c[0].value);
     const [startSet,isStartSet] = useState(false)
+    const [endSet,isEndSet] = useState(false);
+    const [pickupSet,isPickupSet] = useState(false);
     const [dateType, setDateType] = useState(1);
 
     const setUsableDate = (date) => {
@@ -105,18 +107,27 @@ export default function BidCreation1({ navigation,route }) {
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
         if (dateType == 1) {
+            setEndDate('');
+            setEMonth('');
+            setEYear('');
             setStartDate(day.dateString);
             setSMonth(monthNames[day.month - 1]);
             setSYear(day.year);
+            isStartSet(true);
         } else if (dateType == 2) {
+            setSelected('');
+            setMonth('');
+            setYear('');
             setEndDate(day.dateString);
             setEMonth(monthNames[day.month - 1]);
             setEYear(day.year);
+            isEndSet(true);
         }
         else {
             setSelected(day.dateString);
             setMonth(monthNames[day.month - 1]);
             setYear(day.year);
+            isPickupSet(true);
         }
         //   setThedate(day);
 
@@ -215,7 +226,7 @@ export default function BidCreation1({ navigation,route }) {
 
 
         //    console.log(starting)
-        return (<View style={{ backgroundColor: 'white' }}>
+        return (<View style={{ backgroundColor: 'white',height: dimen.height-dimen.appbarHeight }}>
 
 
 
@@ -327,16 +338,18 @@ export default function BidCreation1({ navigation,route }) {
                 callbackNode={fall}
                 enabledGestureInteraction={false}
             />
-            <AppBar title='Create Bid' back funct={() => navigation.pop()} />
-            <View style={{ ...Styles.parentContainer, color: Colors.whiteBackground }}>
+            <AppBar title='Create Tender' subtitle={strings.bidTitle} back funct={() => navigation.pop()} />
+            <View style={{ ...Styles.parentContainer, color: Colors.whiteBackground,height: dimen.height-dimen.height/15 }}>
                 <Animated.View style={{
                     margin: '0.5%',
                     opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
                 }}>
                     <View>
-                        <Text style={styles.heading}>{strings.bidTitle}</Text>
-                        <ScrollView style={{ marginBottom: '5%' }}>
-                            <View style={{ flex: 1, marginBottom: '40%', marginTop: '5%' }}>
+                        {
+                        /* <Text style={styles.heading}>{strings.bidTitle}</Text> */
+                        }
+                        <ScrollView style={{ }}>
+                            <View style={{ flex: 1 }}>
                                 <Textbox title={'TENDER TITLE'} hint={'Title'} changeText={setTitle} />
 
                                 <View style={styles.addressContainer}>
@@ -448,7 +461,7 @@ export default function BidCreation1({ navigation,route }) {
 
                                     });
 
-                                    if(address != null && title != ''){
+                                    if(address != null && title != '' && isStartSet && isEndSet && isPickupSet){
                                         navigation.navigate('BidCreation2', {
                                             next: 'BidCreation1',
                                             actualUser: actualUser,
@@ -468,6 +481,7 @@ export default function BidCreation1({ navigation,route }) {
                                     
                                     }} />
                                 </View>
+                                <View style={{height: dimen.appbarHeight}}/>
 
                             </View>
                         </ScrollView>
@@ -481,9 +495,8 @@ export default function BidCreation1({ navigation,route }) {
 const styles = StyleSheet.create({
     heading: {
         color: 'black',
-        margin: '5%',
+        marginHorizontal: '5%',
         fontSize: 20,
-        marginVertical: '5%',
         fontWeight: 'bold'
     }, panel: {
         padding: 20,
