@@ -85,7 +85,7 @@ const [isPressed,setIsPressed] = useState(false)
       <BottomSheet
         enabledContentTapInteraction={true}
         ref={this.bs}
-        snapPoints={[600,400,0]}
+        snapPoints={[dimen.height-dimen.appbarHeight*3,400,0]}
         renderContent= {!isPressed ? this.renderContent1 : this.renderContent2}
         renderHeader={this.renderHeader}
         initialSnap={2}

@@ -276,7 +276,7 @@ export default function BidCreation1({ navigation, route }) {
             <BottomSheet
                 enabledContentTapInteraction={true}
                 ref={bs}
-                snapPoints={[630, 600, 0]}
+                snapPoints={[dimen.height-dimen.appbarHeight*3, 600, 0]}
                 renderContent={renderContent}
                 renderHeader={renderHeader}
                 initialSnap={2}
