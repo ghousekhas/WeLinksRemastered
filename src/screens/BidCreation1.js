@@ -1,19 +1,15 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import { View, FlatList, StyleSheet, Text, ScrollView, TouchableOpacity, Dimensions, Image } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, TouchableOpacity, Dimensions, Image } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Colors, Config, Constants, dimen, Styles,monthNames as mn } from '../Constants';
+import { Colors, Config, Constants, dimen, Styles, monthNames as mn } from '../Constants';
 import Textbox from '../components/TextBox';
 import Button from '../components/Button';
 import SubmitButton from '../components/SubmitButton';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { Picker } from '@react-native-community/picker';
 import SpinnerBox from '../components/Spinner';
 import AppBar from '../components/AppBar';
-import Date from './Date';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
-import MyComponent from './test';
 import Axios from 'axios';
 import qs from 'qs';
 
@@ -35,62 +31,46 @@ var c = [{
     value: "1"
 }, { label: '200-400 Kg', value: 2 }, { label: '> 400 Kg', value: 3 }];
 
-const ranKey = ()=> Math.random(0.3).toString();
+const ranKey = () => Math.random(0.3).toString();
 
 let bs = React.createRef();
-const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
 
 
-export default function BidCreation1({ navigation,route }) {
-    const {actualUser} = route.params;
-    const [title,setTitle] = useState('');
-    const [address,setAddress] = useState(null);
-    const [remountTime,setRemountTime] = useState(ranKey());
-    const [remountScrap,setRemountScrap] = useState(ranKey);
-    const [remountWeight,setRemountWeight] = useState(ranKey);
-    const thisDay = moment()
-        .utcOffset('+05:30')
-        .format('YYYY-MM-DD');
+
+export default function BidCreation1({ navigation, route }) {
+    const { actualUser } = route.params;
+    const [title, setTitle] = useState('');
+    const [address, setAddress] = useState(null);
+    const [remountTime, setRemountTime] = useState(ranKey());
+    const [remountScrap, setRemountScrap] = useState(ranKey);
+    const [remountWeight, setRemountWeight] = useState(ranKey);
+
     const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
-
-    const [selected, setSelected] = useState(tomorrow);
-    const [month, setMonth] = useState(monthNames[parseInt(thisDay.charAt(5) + thisDay.charAt(6) - 1)])
-    const [year, setYear] = useState(thisDay.charAt(0) + thisDay.charAt(1) + thisDay.charAt(2) + thisDay.charAt(3))
-    const [date, setThedate] = useState({
-        day: moment().utcOffset('+05:30').day(),
-        month: moment().utcOffset('+05:30').month(),
-        year: moment().utcOffset('+05:30').year()
-    });
     const [startDate, setStartDate] = useState('');
+    const [selected, setSelected] = useState('');
+
     const [endDate, setEndDate] = useState('');
-    const [smonth, setSMonth] = useState('')
-    const [syear, setSYear] = useState('')
-    const [emonth, setEMonth] = useState('')
-    const [eyear, setEYear] = useState('')
+    const [startSet, isStartSet] = useState(false);
+    const [endSet, isEndSet] = useState(false);
+    const [pickSet, isPickSet] = useState(false);
+
 
     const [time, setDropdown] = useState(a[0].value);
     const [cat, setCat] = useState(b[0].value);
     const [weight, setWeight] = useState(c[0].value);
-    const [startSet,isStartSet] = useState(false)
-    const [endSet,isEndSet] = useState(false);
-    const [pickupSet,isPickupSet] = useState(false);
     const [dateType, setDateType] = useState(1);
 
-    const setUsableDate = (date) => {
-        console.log(date)
-
-    }
+    const [temp, setTemp] = useState(tomorrow);
     const sortDate = (date) => {
-        console.log("Wrong date " +date)
+        console.log("Wrong date " + date)
         let d = date.split('-');
-        let m = mn[d[1]]
+        let m = mn[Number(d[1])]
         console.log(`${d[2]}-${m}-${d[0]}}`)
         return `${d[2]}-${m}-${d[0]}`
-       
-        
+
+
     }
- 
+
 
     const strings = {
         bidTitle: 'Please enter your tender details'
@@ -103,71 +83,42 @@ export default function BidCreation1({ navigation,route }) {
         </View>
     );
     const onDayPress = (day) => {
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
         if (dateType == 1) {
             setEndDate('');
-            setEMonth('');
-            setEYear('');
-            setStartDate(day.dateString);
-            setSMonth(monthNames[day.month - 1]);
-            setSYear(day.year);
+
+            setStartDate(day);
             isStartSet(true);
+
+
         } else if (dateType == 2) {
             setSelected('');
-            setMonth('');
-            setYear('');
-            setEndDate(day.dateString);
-            setEMonth(monthNames[day.month - 1]);
-            setEYear(day.year);
-            isEndSet(true);
+
+            setEndDate(day);
+            isEndSet(true)
+
         }
         else {
-            setSelected(day.dateString);
-            setMonth(monthNames[day.month - 1]);
-            setYear(day.year);
-            isPickupSet(true);
+            setSelected(day);
+            isPickSet(true);
+
         }
-        //   setThedate(day);
 
 
 
     };
 
-    const choose = () => {
-        if (dateType == 1)
-            return startDate == '' ? tomorrow : startDate
-        if (dateType == 2)
-            return endDate
-        return selected;
-    }
-    const chooseM = () => {
-        if (dateType == 1)
-            return smonth;
-        if (dateType == 2)
-            return emonth;
-        return month;
 
-    }
-    const chooseY = () => {
-        if (dateType == 1)
-            return syear;
-        if (dateType == 2)
-            return eyear;
-        return year;
 
-    }
-
-    const loadSpinners = ()=>{
-        Axios.get(Config.api_url+'php?'+qs.stringify({
+    const loadSpinners = () => {
+        Axios.get(Config.api_url + 'php?' + qs.stringify({
             action: 'getAllCorporateScrapCategories',
             city_id: actualUser.city_id
-        })).then((r)=>{
+        })).then((r) => {
             var tem = [];
-            try{
+            try {
                 console.log('execute me');
-                r.data.categories.forEach((i)=>{
+                r.data.categories.forEach((i) => {
                     tem.push({
                         label: i.officescrap_category_name,
                         value: i.officescrap_cat_id
@@ -177,15 +128,15 @@ export default function BidCreation1({ navigation,route }) {
                 setCat(b[0].value);
                 setRemountScrap(Math.random(0.3).toString());
             }
-            catch(error){console.log(error);}
+            catch (error) { console.log(error); }
         });
-        Axios.get(Config.api_url+'php?'+qs.stringify({
+        Axios.get(Config.api_url + 'php?' + qs.stringify({
             action: 'getCorporateScrapQuantities'
-        })).then((r)=>{
+        })).then((r) => {
             var tem = [];
-            try{
+            try {
                 console.log('execute me');
-                r.data.quantities.forEach((i)=>{
+                r.data.quantities.forEach((i) => {
                     tem.push({
                         label: i.officescrap_quant_name,
                         value: i.officescrap_quant_id
@@ -195,7 +146,7 @@ export default function BidCreation1({ navigation,route }) {
                 setWeight(c[0].value);
                 setRemountWeight(Math.random(0.3).toString());
             }
-            catch(error){console.log(error);}
+            catch (error) { console.log(error); }
         })
     }
 
@@ -213,20 +164,20 @@ export default function BidCreation1({ navigation,route }) {
     useEffect(() => {
         const unsub = navigation.addListener('focus', () => {
             console.log('soimethioodf');
-            try{
+            try {
                 setAddress(route.params.address);
             }
-            catch(err){}
+            catch (err) { }
         });
         loadSpinners();
         return unsub;
-    },[navigation,route]);
+    }, [navigation, route]);
 
     const renderContent = () => {
 
 
         //    console.log(starting)
-        return (<View style={{ backgroundColor: 'white',height: dimen.height-dimen.appbarHeight }}>
+        return (<View style={{ backgroundColor: 'white', height: dimen.height - dimen.appbarHeight }}>
 
 
 
@@ -236,8 +187,8 @@ export default function BidCreation1({ navigation,route }) {
 
                     disableAllTouchEventsForDisabledDays
                     displayLoadingIndicator
-                    onDayPress={onDayPress}
-                    minDate={dateType == 1 ? tomorrow : startDate}
+                    onDayPress={(day) => setTemp(day.dateString)}
+                    minDate={dateType == 1 ? tomorrow : dateType == 2 ? startDate : endDate}
                     hideExtraDays
                     style={{
                         borderWidth: 0.3,
@@ -259,7 +210,7 @@ export default function BidCreation1({ navigation,route }) {
 
                     markedDates={{
 
-                        [choose()]: {
+                        [temp]: {
 
                             color: Colors.primary,
                             selected: true,
@@ -286,16 +237,10 @@ export default function BidCreation1({ navigation,route }) {
             </Fragment>
             <TouchableOpacity style={styles.button}
                 onPress={() => {
-                    // okay =  selected.charAt(0)+selected.charAt(1)+selected.charAt(2)+selected.charAt(3)
-                    //   okay = selected.charAt(8)+selected.charAt(9)+" "+month+ " "+year;
-                    //   console.log(okay);
-                    // setUsableDate({...date});
-                    //  setDate(okay);
-                    if(dateType == 1){
-                        isStartSet(true)
-                    setEndDate('')
-                    }
-                    
+                    console.log("Temp " + temp);
+                    onDayPress(temp);
+
+
                     bs.current.snapTo(2)
 
 
@@ -305,7 +250,7 @@ export default function BidCreation1({ navigation,route }) {
                 }}>
 
 
-                <Text style={styles.buttonText}>{'Set Date'} ({choose() == tomorrow ? sortDate(tomorrow) : choose().charAt(8) + choose().charAt(9) + "-" + chooseM() + "-" + chooseY()})</Text>
+                <Text style={styles.buttonText}>{'Set Date'} ({sortDate(temp)})</Text>
 
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}
@@ -323,8 +268,8 @@ export default function BidCreation1({ navigation,route }) {
 
         )
     };
-    var fall = new Animated.Value(1);
     //  return(<MyComponent />)
+    const [fall, setFall] = useState(new Animated.Value(1));
 
     return (
         <View>
@@ -339,16 +284,16 @@ export default function BidCreation1({ navigation,route }) {
                 enabledGestureInteraction={false}
             />
             <AppBar title='Create Tender' subtitle={strings.bidTitle} back funct={() => navigation.pop()} />
-            <View style={{ ...Styles.parentContainer, color: Colors.whiteBackground,height: dimen.height-dimen.height/15 }}>
+            <View style={{ ...Styles.parentContainer, color: Colors.whiteBackground, height: dimen.height - dimen.height / 15 }}>
                 <Animated.View style={{
                     margin: '0.5%',
                     opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
                 }}>
                     <View>
                         {
-                        /* <Text style={styles.heading}>{strings.bidTitle}</Text> */
+                            /* <Text style={styles.heading}>{strings.bidTitle}</Text> */
                         }
-                        <ScrollView style={{ }}>
+                        <ScrollView style={{}}>
                             <View style={{ flex: 1 }}>
                                 <Textbox title={'TENDER TITLE'} hint={'Title'} changeText={setTitle} />
 
@@ -356,11 +301,12 @@ export default function BidCreation1({ navigation,route }) {
                                     <Text style={Styles.heading}>Address</Text>
 
                                     <TouchableOpacity onPress={() => {
-                                        console.log({pick: selected,
-                                        end: endDate,
-                                        start: startDate
+                                        console.log({
+                                            pick: selected,
+                                            end: endDate,
+                                            start: startDate
 
-                                    });
+                                        });
                                         navigation.navigate('ChooseAddress', {
                                             next: 'BidCreation1',
                                             actualUser: actualUser,
@@ -397,9 +343,9 @@ export default function BidCreation1({ navigation,route }) {
                                 </View>
 
 
-                                <Textbox enable={false} title={'TENDER START DATE'} hint={'DDMMYYYY'} value={startDate== '' ? 'Select start date' : startDate.charAt(8) + startDate.charAt(9) + " " + smonth.substring(0, 3) + " " + syear} />
+                                <Textbox enable={false} title={'TENDER START DATE'} hint={'DDMMYYYY'} value={startDate == '' ? 'Select start date' : sortDate(startDate)} />
                                 <View style={{
-                                    alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.03
+                                    alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.04
                                 }}>
                                     <Button text="Choose" onTouch={() => {
                                         setDateType(1);
@@ -409,11 +355,11 @@ export default function BidCreation1({ navigation,route }) {
                                     }} />
 
                                 </View>
-                                <Textbox enable={false} title={'TENDER END DATE'} hint={'DDMMYYYY'} value={endDate== '' ? 'Select end date' : endDate.charAt(8) + endDate.charAt(9) + " " + emonth.substring(0, 3) + " " + eyear} />
+                                <Textbox enable={false} title={'TENDER END DATE'} hint={'DDMMYYYY'} value={endDate == '' ? 'Select end date' : sortDate(endDate)} />
                                 <View style={{
-                                    alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.03
+                                    alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.04
                                 }}>
-                                    <Button disable={startDate==''? true : false} gray={startDate == '' ? true : false} text="Choose" onTouch={() => {
+                                    <Button disable={startDate == '' ? true : false} gray={startDate == '' ? true : false} text="Choose" onTouch={() => {
                                         setDateType(2);
                                         bs.current.snapTo(0);
 
@@ -421,11 +367,11 @@ export default function BidCreation1({ navigation,route }) {
 
                                 </View>
 
-                                <Textbox enable={false} title={'PICKUP DATE'} hint={'DDMMYYYY'} value={selected.charAt(8) + selected.charAt(9) + " " + month.substring(0, 3) + " " + year} />
+                                <Textbox enable={false} title={'PICKUP DATE'} hint={'DDMMYYYY'} value={selected == '' ? 'Select pick-up date' : sortDate(selected)} />
                                 <View style={{
-                                    alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.03
+                                    alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.04
                                 }}>
-                                    <Button text="Choose" onTouch={() => {
+                                    <Button disable={endDate == '' ? true : false} gray={endDate == '' ? true : false} text="Choose" onTouch={() => {
                                         setDateType(3);
                                         bs.current.snapTo(0);
 
@@ -447,41 +393,42 @@ export default function BidCreation1({ navigation,route }) {
                                     data={c}
                                     changeOption={setWeight} />
                                 <View style={{ marginTop: '5%' }}>
-                                    <SubmitButton text='Next' styles={{ marginTop: '5%' }} onTouch={() =>{ 
-                                    console.log({next: 'BidCreation1',
-                                    actualUser: actualUser,
-                                    address: address,
-                                    cat: cat,
-                                    weight: weight,
-                                    time: time,
-                                    title: title,
-                                    pick: selected,
-                                    end: endDate,
-                                    start: startDate
-
-                                    });
-
-                                    if(address != null && title != '' && isStartSet && isEndSet && isPickupSet){
-                                        navigation.navigate('BidCreation2', {
+                                    <SubmitButton text='Next' styles={{ marginTop: '5%' }} onTouch={() => {
+                                        console.log({
                                             next: 'BidCreation1',
                                             actualUser: actualUser,
                                             address: address,
                                             cat: cat,
                                             weight: weight,
-                                            time: time.toString(),
+                                            time: time,
                                             title: title,
                                             pick: selected,
                                             end: endDate,
                                             start: startDate
-                                        })
-                                    }
-                                    else{
-                                        alert('Please fill all the values')
-                                    }
-                                    
+
+                                        });
+
+                                        if (address != null && title != '' && startSet && endSet && pickSet) {
+                                            navigation.navigate('BidCreation2', {
+                                                next: 'BidCreation1',
+                                                actualUser: actualUser,
+                                                address: address,
+                                                cat: cat,
+                                                weight: weight,
+                                                time: time.toString(),
+                                                title: title,
+                                                pick: selected,
+                                                end: endDate,
+                                                start: startDate
+                                            })
+                                        }
+                                        else {
+                                            alert('Please fill all the values')
+                                        }
+
                                     }} />
                                 </View>
-                                <View style={{height: dimen.appbarHeight}}/>
+                                <View style={{ height: dimen.appbarHeight }} />
 
                             </View>
                         </ScrollView>

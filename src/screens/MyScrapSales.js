@@ -224,7 +224,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
             item: item,
 
             
-            card: card
+            card: sendingCard
 
         })
     }
@@ -234,26 +234,25 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     const [alignment,setAlign] = useState(0);
 
     const sendingCard = (
-        <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/150,padding:'1%',paddingEnd: '3%',paddingVertical: '3%'}}>
+        <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.height/150,padding:'1%',paddingEnd: '3%'}}>
        
     
 
         <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
             <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
-           
-    
             <Text style={{...styles.quantity,marginStart: 10,
                 color: status === "CANCELLED"? Colors.red : status === "COMPLETED"? Colors.primary: Colors.blue,fontSize:12}}>{status}</Text>
+          
     
         </View>
         <View style={{flexDirection: 'row',margin: 5,flex: 1,width: '100%'}}>
             <Image onLayout={({nativeEvent}) => {
             setAlign(nativeEvent.layout.width)
-        }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={ imageUrl.trim()!=''?{uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
+        }} style={{height: dimen.width*0.23,width: dimen.width*0.23,flex: 0,alignSelf: 'flex-start'}}  resizeMethod={'auto'} resizeMode='contain' source={ imageUrl.trim()!=''?{uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
     
-            <View style={{flex: 1,backgroundColor: 'transparent',marginStart:10}}>
+            <View style={{flex: 1,marginStart:10}}>
             <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
-    <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',marginBottom: '2%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5,marginEnd: '3%'}}>
+    <ScrollView persistentScrollbar indicatorStyle='white' horizontal style={{flex:1,flexDirection: 'row',margin: '5%',padding:'3%',alignSelf:'flex-start',marginStart: 30,backgroundColor: Colors.whiteBackground,margin:'1%',borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
     {renderCartItems(cart)}
     </ScrollView>
     
@@ -272,11 +271,10 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
                 
             </View>
         </View>
-        {/* <View style={styles.bottomArrowRow}>
-            <AntDesign name="right" size={22} color={Colors.primary} style={{alignSelf: 'flex-end'}} />
-            <View style={{height: 5}}/>
-        </View> */}
+     
         </View>
+    
+  
     
     )
 
