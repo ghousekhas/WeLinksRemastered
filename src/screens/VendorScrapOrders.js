@@ -68,7 +68,9 @@ export default function VendorScrapOrders({navigation,route}){
         data=[];
         let i;
         try{
-       data = responseArray
+       data = responseArray;
+       if(data == undefined)
+            data = [];
         setExtraData(Math.random(0.3));
     }
     catch(e){}
@@ -78,7 +80,7 @@ export default function VendorScrapOrders({navigation,route}){
     const retrieveData=()=>{
        
         
-        Axios.get(Config.api_url+'php?action=getVendorOrders&vendor_id='+90)
+        Axios.get(Config.api_url+'php?action=getVendorOrders&vendor_id='+vendorID)
         .then((response)=>{
          //    console.log("Response" +response.data.order);
 
