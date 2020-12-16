@@ -78,11 +78,11 @@ export default function VendorScrapOrders({navigation,route}){
     const retrieveData=()=>{
        
         
-        Axios.get(Config.api_url+'php?action=getVendorOrders&vendor_id='+vendorID)
+        Axios.get(Config.api_url+'php?action=getVendorOrders&vendor_id='+90)
         .then((response)=>{
          //    console.log("Response" +response.data.order);
 
-             console.log("R E S "+response.data.order.company_name)
+          //   console.log("R E S "+response.data.order.company_name)
             //data=response.data;
             prepareResponse(response.data.order);
           //  setExtraData(Math.random(0.5));
@@ -131,7 +131,7 @@ export default function VendorScrapOrders({navigation,route}){
         <View style={{flex: 1,backgroundColor: 'white'}}>
         {/* <Text style={{...Styles.heading,alignSelf: 'center',paddingVertical: dimen.height/100}}>{words.title}</Text> */}
 
-        <FlatList 
+       <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
             extraData={extraData}
             data = {data.reverse()}
@@ -167,9 +167,7 @@ export default function VendorScrapOrders({navigation,route}){
                  
             }}
         />
-       
     
-
         
 
       
@@ -236,7 +234,6 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems: 'flex-start'}}>
         <Text style={{...styles.greyText1,alignSelf: 'center'}}>{getDate(orderDate)}</Text>
         <View style={{flexDirection:'row',alignSelf: 'center'}}>
-        <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{``}</Text>
 
         <Text style={{...styles.quantity,marginStart: 10,color: status == 'Cancelled' || status == 'CANCELLED' ? Colors.red : Colors.blue,fontSize:12}}>{status}</Text>
         </View>
@@ -246,7 +243,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         <Image onLayout={({nativeEvent}) => {
         setAlign(nativeEvent.layout.width)
     }} style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'flex-start',backgroundColor: 'transparent'} }  resizeMethod='resize' resizeMode='cover' source={imageUrl === null || imageUrl === undefined || imageUrl==='' ? require('../../assets/notmaleavatar.png') : {uri: imageUrl}}/>
-        <View style={{flexDirection: 'column',marginLeft: '3%'}}>
+        <View style={{flexDirection: 'column',marginLeft: '3%',flex:1}}>
         
         <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',padding: 0,marginBottom: '3%',fontSize:14,marginTop: 0}}>
         {name}</Text>
@@ -254,8 +251,10 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         {renderCartItems(cart)}
         </ScrollView>
 
-        
-        <Text style={{...Styles.subheading,fontWeight: 'normal',paddingTop: 10}}>{address}</Text>
+        <View style={{flexDirection:'row',width: '100%'}}>
+        <Text numberOfLines={3} style={{...Styles.subheading,fontWeight: 'normal',paddingTop: 10,flex:1}}>{address}</Text>
+
+        </View>
         <Text numberOfLines={1} style={{...styles.quantity,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
      
              <Text style={{...styles.quantity,color:'black',alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
