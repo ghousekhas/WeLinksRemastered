@@ -9,7 +9,7 @@ import { Feather } from '@expo/vector-icons';
 import {Colors, dimen, Styles} from '../Constants'
 
 
-const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,dateref,dateref1,result,imageUrl,actualUser,tag}) => {
+const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,prate_,dateref,dateref1,result,imageUrl,tag}) => {
 
     const words = {
         quantityPerDay:'Quantity per day',
@@ -70,7 +70,7 @@ return(
 <View style={{height: dimen.height-dimen.height/8,width: '100%',backgroundColor: Colors.lightBlue}}>
 
      <View style={{flex: 0,marginHorizontal: 30}}>
-        <Item name={pname} quantity={pquan} price={prate} imageUrl={imageUrl} tag={tag}/>
+        <Item name={pname} quantity={pquan} price={prate} imageUrl={imageUrl} tag={tag} price_={prate_}/>
     </View>
 
     <ScrollView style={{flex: 1,backgroundColor: 'white',margin: 3}}>

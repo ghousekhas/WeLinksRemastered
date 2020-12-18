@@ -145,10 +145,10 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
                 <Image style={style.mainImage} source={{uri: image}}/>
                 <View style={style.mainColumn}>
                     <Text numberOfLines={1} style={!small ? style.rname : {...style.rname,fontSize:14}}>{name}</Text>
-                    <Text style={{...Styles.subbold,fontWeight: 'bold'}}>{'Quantity: '+initquan} </Text>
-                    <Text style={!small ? style.rprice : {...style.rprice,fontSize:12}}>{"Rate: "+price}</Text>
+                    <Text style={{...Styles.subbold,marginBottom:4,color:'gray'}}>{'Quantity: '+initquan} </Text>
+                    <Text style={!small ? style.rprice : {...style.rprice,fontSize:12}}>{"Rate: ₹"+price}</Text>
                     <View style={{flexDirection: 'row',alignSelf: 'flex-start'}}>
-                        <Text style={!small ? style.rprice : {...style.rprice,fontSize:12}}>₹{price*initquan}</Text>
+                        <Text style={!small ? style.rprice : {...style.rprice,fontSize:12,marginBottom:4}}>Amount: ₹{price*initquan}</Text>
                         <Text style={!small ? style.rquantity : {...style.rquantity,fontSize:10}}>{quantity}</Text>
                     </View>
                 </View>
@@ -160,9 +160,9 @@ alignSelf: 'center',fontWeight:'bold',borderLeftColor: Colors.seperatorGray,bord
             <Image style={{...style.mainImage,flex: 1}} source={{uri: image}}/>
                 <View style={{...style.mainColumn,flex: 2}}>
                     <Text numberOfLines={1} style={!small ? style.rname : {...style.rname,fontSize:14}}>{name}</Text>
-                    <Text style={{...Styles.subbold,fontWeight: 'bold'}}>{'Quantity: '+initquan} </Text>
+                    <Text style={{...Styles.subbold,color:'gray',fontSize:13}}>{'Quantity: '+initquan} </Text>
                     <View style={{flexDirection: 'row',alignSelf: 'flex-start'}}>
-                        <Text style={!small ? style.rprice : {...style.rprice,fontSize:12}}>₹{price}</Text>
+                        <Text style={!small ? style.rprice : {...style.rprice,fontSize:10}}>₹{price}</Text>
                         <Text style={!small ? style.rquantity : {...style.rquantity,fontSize:10}}>{quantity}</Text>
                     </View>
                 </View>
@@ -231,8 +231,9 @@ const style = StyleSheet.create({
     },
     rprice:{
         fontWeight: 'bold',
-        fontSize: 15,
-        color: 'black'
+        fontSize: 13,
+        color: 'gray',
+        marginTop:6
         //padding: 5
 
     },
@@ -240,14 +241,16 @@ const style = StyleSheet.create({
         color: 'gray',
         fontSize: 11,
         marginStart: '2%',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginTop:6
         //padding: 5,
 
     },
     rname:{
         fontWeight: 'bold',
         fontSize: 16,
-        color: 'black'
+        color: 'gray',
+        marginBottom: 4
         //padding: 5
     },
     container: {
@@ -264,7 +267,7 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
         padding: 5,
-        color: 'black'
+        // color: 'black'
         
     },
     quantity: {
@@ -274,12 +277,12 @@ const style = StyleSheet.create({
         marginTop: '4%',
         padding: 5,
         alignSelf: 'center',
-        color: 'black'
+        // color: 'black'
        
     },
     price: {
         marginStart: 105,
-        color: 'black',
+        // color: 'black',
         fontWeight: 'bold',
         fontSize: 15,
         marginTop: '3%',

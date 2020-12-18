@@ -53,7 +53,7 @@ export default function ScrapPickedConfirmation({navigation,route}){
 
     const words = {
         vendorHeading : 'Update Pick-up status',
-        userHeading : `Was your scrap picked up for ${cardDetails.vendorAmount}?`,
+        userHeading : `Your order was completed by vendor, please update your status and comments to continue to use the app. Was your scrap picked up for ${cardDetails.vendorAmount}?`,
         submit : 'Submit',
         amountCorrect : 'Amount Correct',
         amountIncorrect : 'Amount Incorrect',
@@ -199,7 +199,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 <Text style={{...Styles.subheading,fontWeight: 'normal',marginStart: 30,paddingTop: 10}}>{address}</Text>
 
         
-        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up Date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
+        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
      
              <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
 
@@ -221,8 +221,11 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     return(<View>
     {tag == 'Vendor' ? <AppBar title={words.vendorHeading} back funct={()=>{navigation.goBack()}}/> : null}
     <ScrollView style={{backgroundColor: 'white'}}>
-        <View style={{...Styles.parentContainer,marginBottom: '20%'}}>
-            <View style={{margin : '5%'}}>
+        <View style={{...Styles.parentContainer,marginBottom: '20%',padding: tag == 'User'?'3%':0}}>
+            <View style={{margin : tag == 'Vendor'? '6%' : 0}}>
+            {tag == 'User' ? <Text style={{fontWeight: 'bold',marginBottom:'6%',color: 'black'}}>
+            Your order was completed by vendor, please update your status and comments to continue to use the app.
+            </Text>:null}
             <MySubscriptionOrder name={cardDetails.name} pickUpDate={cardDetails.pickUpDate} orderAmount={cardDetails.orderAmount} orderDate={cardDetails.orderDate} imageUrl={cardDetails.image} status={cardDetails.status} cart={cardDetails.cart} address={cardDetails.address}/>
             
            

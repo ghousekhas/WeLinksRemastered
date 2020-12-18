@@ -337,8 +337,8 @@ const Cart = ({route,navigation,Tag}) => {
                     vendor_id: route.params.vendorId,
                     quantity: pquan,
                     subscription_days: selectedDays,
-                    subscription_start_date: year.toString()+'-'+month.toString()+'-'+day.toString(),
-                    subscription_end_date:  endDate.year.toString()+'-'+endDate.month.toString()+'-'+endDate.day.toString(),
+                    subscription_end_date: year.toString()+'-'+month.toString()+'-'+day.toString(),
+                    subscription_start_date:  endDate.year.toString()+'-'+endDate.month.toString()+'-'+endDate.day.toString(),
                     no_of_deliveries: tag == 'Paper' ? numberOfPaperWeekdays+numberOfPaperWeekends : numberOfDeliveries,
                     delivery_fee: 50,
                     product_type: route.params.vendorType,
@@ -351,12 +351,20 @@ const Cart = ({route,navigation,Tag}) => {
 
                 }),).then((response)=>{
                     console.log(response);
-                    console.log(response.data);
-                    alert('Your order has been placed');
+                    console.log("sd "+JSON.stringify(response.data));
+                    Alert.alert("",tag=='Milk'?
+      "Your milk order has been placed." : "Your newspaper order has been placed.",
+      [
+        
+        { text: "OK", onPress: () => {} }
+      ],
+      { cancelable: false }
+    );
                     
-                    navigation.popToTop();
+                   navigation.popToTop();
+                 //  console.log()
                 },(error)=>{
-                    console.log(error);
+                    console.log("Error "+error);
                 })
                 
             }}/>

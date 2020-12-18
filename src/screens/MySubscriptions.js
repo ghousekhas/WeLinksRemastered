@@ -116,7 +116,7 @@ export default function MySubscriptions({navigation,route}){
        
         return(
         
-                <MySubscriptionOrder  {...item} tag={item.tag} quantity={item.quantity} days={[{m: item.daynotprop.includes('monday')},{t: item.daynotprop.includes('tuesday')},{w: item.daynotprop.includes('wednesday')},{th: item.daynotprop.includes('thursday')},{fr: item.daynotprop.includes('friday')},{s: item.daynotprop.includes('saturday')},{su: item.daynotprop.includes('sunday')}]} />
+                <MySubscriptionOrder  {...item} tag={item.tag} quantity={item.quantity} days={[{m: item.daynotprop.includes('monday')},{t: item.daynotprop.includes('tuesday')},{w: item.daynotprop.includes('wednesday')},{th: item.daynotprop.includes('thursday')},{f: item.daynotprop.includes('friday')},{s: item.daynotprop.includes('saturday')},{su: item.daynotprop.includes('sunday')}]} />
             )   
     }
 

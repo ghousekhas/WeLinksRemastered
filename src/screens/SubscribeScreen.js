@@ -22,8 +22,8 @@ const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
 
 const figureDate = (dateref) => {
  // console.log("dateref" + dateref)
-  const monthNames = ["","January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"];
+  const monthNames = ["","Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 
 for(i=1;i<=12;i++){
