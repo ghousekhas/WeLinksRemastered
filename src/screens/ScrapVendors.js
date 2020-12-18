@@ -115,7 +115,7 @@ const ScrapVendors = ({navigation,route}) => {
         data={vendors}
         keyExtractor={(item) => item.name}
         renderItem={({item}) => {
-            const vendorName = item.name;
+            const vendorName = item.company_name;
             const vendorStars = item.avg_ratings;
             const vendorReviews = item.reviews_number;
             const vendor_id= item.vendor_id;
@@ -132,7 +132,7 @@ const ScrapVendors = ({navigation,route}) => {
             console.log(brandsString);
 
             return(
-                <Vendor name={item.name} scrap={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
+                <Vendor name={vendorName} scrap={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
                 onSelected={() => {
              
                 navigation.navigate('ScrapVendor',{
