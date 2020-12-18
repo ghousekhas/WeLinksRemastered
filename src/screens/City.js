@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import {Text,View,StyleSheet,TextInput, Dimensions,TouchableOpacity} from 'react-native';
+import {Text,View,StyleSheet,TextInput, Dimensions,TouchableOpacity, BackHandler} from 'react-native';
 import SubmitButton from '../components/SubmitButton';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Colors, dimen, Styles} from '../Constants'
@@ -17,11 +17,20 @@ import AppBar from '../components/AppBar';
 
 
 
-const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
+const City = ({navigation,route,user,userDetails,getUserDetails,setAboutDone}) =>{
     const [cities,setCities] = useState([])
     const [value,setValue] = useState([])
     const [done,setDone]=useState(false);
     const {edit,user_id,tag,actualUser} = route.params;
+
+
+    const backFunction = ()=>{
+      if(!edit){
+        setAboutDone(false);
+        return;
+      }
+      navigation.pop();
+    }
     
 
     
@@ -57,6 +66,15 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
         getCitiesData();
 
         console.log('user',user);
+        const backhand = BackHandler.addEventListener(
+          'hardwareBackPress',()=>{
+            backFunction();
+          }
+        )
+
+        return ()=>{
+          backhand.remove();
+        }
       },[]);
    // console.log(cities)
 
@@ -123,7 +141,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails}) =>{
    
     return(<View>
     <AppBar back funct={() => {
-        navigation.pop();
+        backFunction();
         }} />
         <View style={Styles.parentContainer}>
         <Text style = {style.text}>{tag == 'home' ? 'Cities where our services are available' : 'Select your City'}</Text>

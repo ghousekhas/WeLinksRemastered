@@ -107,7 +107,7 @@ const PaperVendors = (props) => {
                 keyExtractor={(item) => item.name}
                 renderItem={({ item }) => {
                     const actualUser = props.route.params.actualUser;
-                    const vendorName = item.name;
+                    const vendorName = item.company_name;
                     const vendorStars = item.avg_ratings;
                     const vendorReviews = item.reviews_number;
                     var brandsString = '';
@@ -122,7 +122,7 @@ const PaperVendors = (props) => {
                         brandsString = brandsString + brands[brands.length - 1].brand.toString();
 
                     return (
-                        <Vendor name={item.name} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
+                        <Vendor name={vendorName} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
                             onSelected={() => {
 
                                 props.navigation.navigate('VendorScreen1', {

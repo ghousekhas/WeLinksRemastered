@@ -12,14 +12,16 @@ import AppBar from '../components/AppBar';
 import { Config } from '../Constants';
 
 const About = ({ navigation, route, getUserDetails, user }) => {
-    const [name, setName] = useState(' ');
-    const [email, setEmail] = useState(' ');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [referral, setReferral] = useState(' ');
     const [aboutDone, setAboutDone] = useState(false);
     const [edit, setEdit] = useState(route === undefined ? false : true);
     const [actualUser, setActualUser] = useState(route != undefined ? route.params.actualUser : null);
     const [loading, setLoading] = useState(false);
     const [pressed, setPressed] = useState(false);
+    var staticName = '';
+    var staticEmail = '';
 
 
     function validateEmail() {
@@ -76,7 +78,7 @@ const About = ({ navigation, route, getUserDetails, user }) => {
     }
 
     if (aboutDone)
-        return (<City user={user} userDetails={{ email: email, name: name }} getUserDetails={getUserDetails} route={{ params: { edit: false } }} />);
+        return (<City user={user} prevScreen="About" setAboutDone={setAboutDone} userDetails={{ email: email, name: name }} getUserDetails={getUserDetails} route={{ params: { edit: false } }} />);
 
     if (loading)
         return (
@@ -107,8 +109,14 @@ const About = ({ navigation, route, getUserDetails, user }) => {
 
                     (
                         <View>
-                            <TextBox title='Name' hint='Enter your name' changeText={setName} />
-                            <TextBox title='Email Address' hint='Enter your email address' changeText={setEmail}
+                            <TextBox title='Name' defaultValue={name} hint='Enter your name' changeText={(text)=>{
+                                setName(text);
+                                staticName = text;
+                            }} />
+                            <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={(text)=>{
+                                setEmail(text);
+                                staticEmail = text;
+                            }}
                             />
                         </View>
                     )
@@ -119,7 +127,14 @@ const About = ({ navigation, route, getUserDetails, user }) => {
             </View>
         </ScrollView>
         <View style={{ marginVertical: 3, backgroundColor: Colors.primary, borderRadius: 7, alignSelf: 'center' }} >
-            <SubmitButton styling={pressed} text={edit ? 'Update' : 'Continue'} onTouch={() => aboutSubmit()} />
+            <SubmitButton styling={pressed} text={edit ? 'Update' : 'Continue'} onTouch={() => {
+                // Alert.alert(
+                //     "Hi",
+                //     "Your milk order has been placed successfully, you can check the details in My Subscriptions page "
+                // );
+                
+                aboutSubmit()
+            }} />
         </View>
     </View>);
 

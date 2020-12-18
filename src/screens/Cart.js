@@ -12,6 +12,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import {Config} from  '../Constants';
+import sendNotif from '../Utility/sendNotificationTo';
 
 
 const Cart = ({route,navigation,Tag}) => {
@@ -352,7 +353,11 @@ const Cart = ({route,navigation,Tag}) => {
                 }),).then((response)=>{
                     console.log(response);
                     console.log(response.data);
-                    alert('Your order has been placed');
+                    sendNotif('New Order','You have a new '+tag === 'Milk'? 'Milk order': 'Newspaper order','vendor'+route.params.vendorId);
+                    Alert.alert(
+                        'Hi',
+                        'Your order has been placed, you can see your order details in \"My Subscriptions\"'
+                        );
                     
                     navigation.popToTop();
                 },(error)=>{
