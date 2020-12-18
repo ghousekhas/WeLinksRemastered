@@ -35,8 +35,8 @@ const ScrapVendors = ({navigation,route}) => {
         console.log('retrieving milk vendors');
         Axios.get(Config.api_url+'php?action=getVendors&'+qs.stringify({
             vendor_type: 'homescrap',
-            lat: 18.5672,//address.lat,
-            lng: 73.7583,//address.lng
+            lat: address.lat,
+            lng: address.lng
         }),).then((response)=>{
             try{
                 console.log('vend ',response.data.vendor);
