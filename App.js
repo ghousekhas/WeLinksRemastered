@@ -304,7 +304,8 @@ const VendorHomeStack=({navigation,route})=>{
   const retreieveVendorData = ()=>{
     Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
             .then((response)=>{
-               setLoading(false);
+              console.log('refreshvendordata');
+               //setLoading(false);
                // console.log("HEREs"+response.data.vendor[0].vendor_id)
                 setVerification(Constants.veFirstTime) // uncomment this
             try{
@@ -326,6 +327,7 @@ const VendorHomeStack=({navigation,route})=>{
                 else
                     setVerification(Constants.veInProgress);
                 //setVerification(Constants.veFirstTime);
+                setLoading(false);
                 
             }
             catch(error){
@@ -366,7 +368,8 @@ const VendorHomeStack=({navigation,route})=>{
     return  (<View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="VendorRegistration">
-          <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+          <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser,vendorRefresh: retreieveVendorData, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+          <Stack.Screen name="VendorServices" component={VendorServices} options={{headerShown: false}}/>
           <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
           <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={theInitialParams} />
           <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown : false}} />
@@ -677,6 +680,8 @@ export default function App() {
   console.log("cuu "+JSON.stringify(user))
 
   React.useEffect(() => {
+
+
     checkNetworkState()
     getUserDetails(0,user);
 

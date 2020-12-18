@@ -31,6 +31,17 @@ export default function EditVendorDetails({ route, navigation }) {
     });
 
 
+    function validateEmail() {
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+            return (true)
+        }
+        return (false)
+    }
+
+
+    
+
+
  //   console.log("prp" + presentDetails.address)
 
     const updateDetails = () => {
@@ -132,19 +143,20 @@ export default function EditVendorDetails({ route, navigation }) {
             </View>
             <SubmitButton onTouch={() => {
 
-                if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                if(name.toString().trim()==='' || email.toString().trim() === '' || gst.toString().trim() === '')
+                alert('Please fill all the fields and try again');
+                else if(aadharFile === null || gstFile === null)
+                alert('Please upload appropriate documents and try again');
+                else if(address === null)
+                alert('Please choose your address and try again');
+                else if(!validateEmail())
+                alert("You have entered an invalid Email Address!")
+                else if(gst.length!=15|| /[^a-zA-Z0-9]/.test(gst))
+                alert("Please enter a valid 15 digit gst number")
+                else{
+                    updateDetails();
 
-                   updateDetails();
-
-
-                    // console.log("add " + address.address);
-                    // console.log("pincode " + address.pincode);
-                    // console.log("land " + address.landmark);
-                    // console.log("lat " + address.lat);
-                    // console.log("lan " + address.lng)
                 }
-
-                else alert("You have entered an invalid email address!")
 
 
 

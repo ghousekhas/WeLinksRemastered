@@ -118,7 +118,7 @@ const MilkVendors = (props) => {
             ItemSeparatorComponent={() => <GenericSeperator />}
             // separator= {<GenericSeperator />}
             renderItem={({ item }) => {
-                const vendorName = item.name;
+                const vendorName = item.company_name;
                 const vendorStars = item.avg_ratings;
                 const vendorReviews = item.reviews_number;
                 const vendor_id = item.vendor_id;
@@ -134,7 +134,7 @@ const MilkVendors = (props) => {
                 console.log(brandsString);
 
                 return (
-                    <Vendor name={item.name} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
+                    <Vendor name={vendorName} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
                         onSelected={() => {
 
                             props.navigation.navigate('VendorScreen', {

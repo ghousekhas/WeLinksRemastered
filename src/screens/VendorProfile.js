@@ -26,10 +26,10 @@ const VendorProfile = ({ navigation, route }) => {
         company_name: "",
         vendor_img_url: "",
         addresses: [{addr_details: "",addr_landmark:""}],
-        newspaper_service: "yes",
-        homescrap_service: "yes",
-        officescrap_service: "yes",
-        milk_service: "yes"
+        newspaper_service: "no",
+        homescrap_service: "no",
+        officescrap_service: "no",
+        milk_service: "no"
 
         
     })
@@ -137,6 +137,7 @@ const VendorProfile = ({ navigation, route }) => {
         Axios.post(Config.api_url+'php?action=updateVendor&'+dataFormatted).then((response)=>{
             console.log(response);
             console.log(response.data);
+            retrieveData();
            // checkVendorStatus();
 
         },(error)=>{
@@ -442,25 +443,39 @@ const VendorProfile = ({ navigation, route }) => {
 
                                 <View style={{ flexDirection: 'column', flex: 1,backgroundColor: 'white' }}>
                                     <Text style={{ ...style.blackText, marginBottom: dimen.sHm/5 }}>My Services & Products</Text>
-                                    <Text style={{...style.blackText,fontSize: 12,margin: 0}}>{(
-                                        VendorProfileDetails.newspaper_service === "yes" ? "Newspaper ": ''
-                                        )
-                                    }</Text>
-                                    <Text style={{...style.blackText,fontSize: 12}}>{(
-                        
-                                        VendorProfileDetails.milk_service === "yes" ? "Milk ": ''
-                                       
-                                        
-                                        )
-                                    }</Text>
-                                    <Text style={{...style.blackText,fontSize: 12,margin: 0}}>{(
-                                         VendorProfileDetails.homescrap_service === "yes" ? "Home Scrap ": ''
-                                        )
-                                    }</Text>
-                                    <Text style={{...style.blackText,fontSize: 12,margin: 0}}>{(
-                                        VendorProfileDetails.officescrap_service === "yes" ? "Office Scrap ": ''
-                                        )
-                                    }</Text>
+                                    {
+                                        VendorProfileDetails.newspaper_service === "yes" ?(
+                                            <Text style={{...style.blackText,fontSize: 12,margin: 0}}>
+                                                Newspaper Delivery
+                                               
+                                           </Text>
+                                        ): null
+                                    }
+                                    {
+                                        VendorProfileDetails.milk_service === "yes" ?(
+                                            <Text style={{...style.blackText,fontSize: 12,margin: 0}}>
+                                                Milk Delivery
+                                               
+                                           </Text>
+                                        ): null
+                                    }
+                                    {
+                                        VendorProfileDetails.homescrap_service === "yes" ?(
+                                            <Text style={{...style.blackText,fontSize: 12,margin: 0}}>
+                                                Home Scrap
+                                               
+                                           </Text>
+                                        ): null
+                                    }
+                                    {
+                                        VendorProfileDetails.officescrap_service === "yes" ?(
+                                            <Text style={{...style.blackText,fontSize: 12,margin: 0}}>
+                                                Office Scrap
+                                               
+                                           </Text>
+                                        ): null
+                                    }
+                                    
 
 
 

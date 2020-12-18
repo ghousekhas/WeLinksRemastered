@@ -96,11 +96,12 @@ let selectedMilk = new Set();
 let selectedPaper = new Set();
 let selectedHome = new Set();
 let selectedOffice = new Set();
-export default function VendorServices({ submit, route, actualUser, navigation }) {
+export default function VendorServices({  route, navigation }) {
     var back = false;
     const [milkRemount, setMilkRemount] = useState(0);
     const [newsRemount, setNewsRemount] = useState(0);
     const [HomeRemount, setHomeRemount] = useState(0);
+    const {submit,actualUser} = route.params;
     const [officeRemount, setOfficeRemount] = useState(0);
     const vendorEdit = route.params.vendorEdit === true ? true : false;
     console.log(vendorEdit);
@@ -132,7 +133,7 @@ export default function VendorServices({ submit, route, actualUser, navigation }
 
     const [service, setService] = useState(''); // Selected service
 
-    const [translateCart, setTranslateCart] = useState(new Animated.Value((dimen.height - dimen.height / 16)));
+    const [translateCart, setTranslateCart] = useState(new Animated.Value((dimen.height)));
 
     const [check1, setCheck1] = useState(false);
     const [check2, setCheck2] = useState(false);
@@ -300,13 +301,33 @@ export default function VendorServices({ submit, route, actualUser, navigation }
             }, (error) => {
                 console.log(error);
 
-            })
+            });
 
 
 
 
     }
     useEffect(() => {
+
+        navigation.addListener('focus',()=>{
+            if(vendorEdit){
+                if(route.params.actualVendor.mlik_service != "no")
+                    setCheck1(true);
+                if(route.params.actualVendor.newspaper_service != "no")
+                    setCheck2(true);
+                if(route.params.actualVendor.homescrap_service != "no")
+                    setCheck3(true);
+                if(route.params.actualVendor.officescrap_service !="no")
+                    setCheck4(true);
+            
+            }
+            getMilkProducts();
+            getPaperProducts();
+            getHomeProducts();
+            getOfficeProducts();
+        });
+
+
         if(vendorEdit){
             if(route.params.actualVendor.mlik_service != "no")
                 setCheck1(true);
@@ -610,7 +631,7 @@ export default function VendorServices({ submit, route, actualUser, navigation }
 
 
     return (<View style={{ ...StyleSheet.absoluteFill }}>
-        <AppBar title='My Services' back={back} funct={back ? () => navigation.goBack() : () => navigation.toggleDrawer()} />
+        <AppBar title='My Services' back={true} funct={ () => navigation.goBack()} />
         <View style={{ height: dimen.height / 12 }} />
         <Text style={style.text}>What services do you offer?</Text>
         <View style={{ paddingHorizontal: 10 }}>
@@ -825,8 +846,11 @@ export default function VendorServices({ submit, route, actualUser, navigation }
                             alert('Your details have been updated successfully');
                             navigation.pop();
                         }
-                        else
+                        else{
                             submit(temparr, milkIndices, paperIndices, officeIndices, homeIndices);
+                            //navigation.goBack();
+                            navigation.goBack();
+                        }
 
 
 

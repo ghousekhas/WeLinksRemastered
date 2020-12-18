@@ -12,6 +12,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import {Config} from  '../Constants';
+import sendNotif from '../Utility/sendNotificationTo';
 
 
 const Cart = ({route,navigation,Tag}) => {
