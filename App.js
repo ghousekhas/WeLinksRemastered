@@ -495,7 +495,7 @@ export default function App() {
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState(auth().currentUser); 
+  const [user, setUser] = useState({phoneNumber: '+919535311386'});//auth().currentUser); 
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -682,33 +682,33 @@ export default function App() {
   React.useEffect(() => {
 
 
-    checkNetworkState()
-    getUserDetails(0,user);
+    // checkNetworkState()
+    // getUserDetails(0,user);
 
-    console.group('firebaseuser', auth().currentUser);
-    setSplash(false);
-    setTimeout(()=>{
-      setSplash(false);
-    },1500
-    )
-    setUser(auth().currentUser);
-    checkIfFirstLogin();
-    console.log("USER" + JSON.stringify(user));
-    if (userDetails === null && user != null)
-      getUserDetails(0, user);
-    const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    getVendorDetails();
+    // console.group('firebaseuser', auth().currentUser);
+    // setSplash(false);
+    // setTimeout(()=>{
+    //   setSplash(false);
+    // },1500
+    // )
+    // setUser(auth().currentUser);
+    // checkIfFirstLogin();
+    // console.log("USER" + JSON.stringify(user));
+    // if (userDetails === null && user != null)
+    //   getUserDetails(0, user);
+    // const suser = auth().onAuthStateChanged(onAuthStateChanged);
+    // getVendorDetails();
     
     
 
      
   
-    //To debug with custom phone number comment above and uncomment below
-    // if (userDetails === null){
-    //   getUserDetails(0, user);
-    //   //sendNotif();
+    // To debug with custom phone number comment above and uncomment below
+    if (userDetails === null){
+      getUserDetails(0, user);
+      //sendNotif();
 
-    // }
+    }
 
 
 

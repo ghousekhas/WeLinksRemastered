@@ -249,7 +249,7 @@ const style = StyleSheet.create({
     rname:{
         fontWeight: 'bold',
         fontSize: 16,
-        color: 'gray',
+        color: 'black',
         marginBottom: 4
         //padding: 5
     },
@@ -267,7 +267,7 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
         padding: 5,
-        // color: 'black'
+        color: 'black'
         
     },
     quantity: {

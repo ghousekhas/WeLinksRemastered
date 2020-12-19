@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { BackHandler, View, StyleSheet, Dimensions, Image } from 'react-native';
+import { BackHandler, View, StyleSheet, Dimensions, Image, Alert } from 'react-native';
 import { dimen, Styles } from '../Constants';
 import { Colors } from '../Constants';
 import { Text } from 'react-native-paper';
@@ -67,7 +67,10 @@ const VendorProfile = ({ navigation, route }) => {
                     //setActualUser({...actualUser,})
                    // setProfileDetails({ ...profileDetails, img_url: res.uri })
                   //  route.params.getUserDetails(0, auth().currentUser);
-                    alert('Profile Picture uploaded succesfully');
+                    Alert.alert(
+                        'Profile updated',
+                        'Your company profile picture has been updated successfully'
+                    )
                     retrieveData();
                     route.params.drawerRefresh()
 
@@ -104,7 +107,7 @@ const VendorProfile = ({ navigation, route }) => {
             vendor_type: services,
             milk_product_ids : milk,
             news_product_ids: paper,
-            office_cat_ids: office,
+            officescrap_cat_ids: office,
             homescrap_product_ids: home
 
 
@@ -112,10 +115,11 @@ const VendorProfile = ({ navigation, route }) => {
         var dataUnFormatted = qs.stringify({
             user_id: actualUser.user_id,
             vendor_id: VendorProfileDetails.vendor_id,
+            update_data: 'services',
             vendor_type: services,
             milk_product_ids: milk,
             news_product_ids: paper,
-            office_cat_ids: office,
+            officescrap_cat_ids: office,
             homescrap_product_ids: home,
             address_id: VendorProfileDetails.addresses[0].addr_id
 
@@ -317,7 +321,7 @@ const VendorProfile = ({ navigation, route }) => {
                     {/* Basic Details */}
 
 
-                    <View style={{ borderWidth: 0.5, borderRadius: 7, margin: '1%', borderColor: Colors.seperatorGray }}>
+                    <View style={{  borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: dimen.sHm/4, justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('EditVendorDetails', {
 
@@ -327,7 +331,7 @@ const VendorProfile = ({ navigation, route }) => {
 
                             })
                         }}>
-                            <View style={{ flexDirection: 'row', margin: '5%', marginTop: '7%' }}>
+                            <View style={{ flexDirection: 'row', margin: '5%', flex: 0  }}>
 
                                 <View style={{ marginTop: '1%' }}>
                                     <Icon
@@ -339,13 +343,13 @@ const VendorProfile = ({ navigation, route }) => {
                                 </View>
 
 
-                                <View style={{ flexDirection: 'column' }}>
+                                <View style={{ flexDirection: 'column',flex: 1 }}>
                                     <Text style={style.blackText}>Vendor details</Text>
                                     <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.company_name}</Text>
                                     <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.email}</Text>
                                     {/* <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.addresses[0].addr_details + " \nNear "+ VendorProfileDetails.addresses[0].addr_landmark}</Text> */}
                                 </View>
-                                <View style={{ position: 'absolute', right: 8 }}>
+                                <View style={{ flex: 0}}>
 
                                     <Icon
                                         name="chevron-right"
@@ -366,7 +370,7 @@ const VendorProfile = ({ navigation, route }) => {
 
 
                     {/* Addresses Served */}
-                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: dimen.sHm/4, justifyContent: 'flex-start' }}>
+                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: dimen.sHm/4, justifyContent: 'flex-start'   }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('AddressList', {
                              //   myAddresses: true,
@@ -398,7 +402,7 @@ const VendorProfile = ({ navigation, route }) => {
 
 
                                 </View>
-                                <View style={{ position: 'absolute', right: 8 }}>
+                                <View style={{flex: 0 }}>
 
                                     <Icon
                                         name="chevron-right"
@@ -417,7 +421,7 @@ const VendorProfile = ({ navigation, route }) => {
 
                     </View>
                     {/* Products */}
-                    <View style={{ borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: dimen.sHm/4, justifyContent: 'flex-start' }}>
+                    <View style={{  borderWidth: 0.3, borderRadius: 10, marginHorizontal: '1%', elevation: 0.3, borderColor: Colors.seperatorGray, flex: 0, marginVertical: dimen.sHm/4, justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('VendorServices', {
                                 back: true,
@@ -445,7 +449,7 @@ const VendorProfile = ({ navigation, route }) => {
                                     <Text style={{ ...style.blackText, marginBottom: dimen.sHm/5 }}>My Services & Products</Text>
                                     {
                                         VendorProfileDetails.newspaper_service === "yes" ?(
-                                            <Text style={{...style.blackText,fontSize: 12,margin: 0}}>
+                                            <Text style={{...style.grayText,fontSize: 12,margin: 0}}>
                                                 Newspaper Delivery
                                                
                                            </Text>
@@ -453,7 +457,7 @@ const VendorProfile = ({ navigation, route }) => {
                                     }
                                     {
                                         VendorProfileDetails.milk_service === "yes" ?(
-                                            <Text style={{...style.blackText,fontSize: 12,margin: 0}}>
+                                            <Text style={{...style.grayText,fontSize: 12,margin: 0}}>
                                                 Milk Delivery
                                                
                                            </Text>
@@ -461,7 +465,7 @@ const VendorProfile = ({ navigation, route }) => {
                                     }
                                     {
                                         VendorProfileDetails.homescrap_service === "yes" ?(
-                                            <Text style={{...style.blackText,fontSize: 12,margin: 0}}>
+                                            <Text style={{...style.grayText,fontSize: 12,margin: 0}}>
                                                 Home Scrap
                                                
                                            </Text>
@@ -469,7 +473,7 @@ const VendorProfile = ({ navigation, route }) => {
                                     }
                                     {
                                         VendorProfileDetails.officescrap_service === "yes" ?(
-                                            <Text style={{...style.blackText,fontSize: 12,margin: 0}}>
+                                            <Text style={{...style.grayText,fontSize: 12,margin: 0}}>
                                                 Office Scrap
                                                
                                            </Text>
@@ -481,7 +485,7 @@ const VendorProfile = ({ navigation, route }) => {
 
 
                                 </View>
-                                <View style={{ position: 'absolute', right: 8 }}>
+                                <View style={{flex: 0}}>
 
                                     <Icon
                                         name="chevron-right"
@@ -566,13 +570,20 @@ const style = StyleSheet.create({
 
         fontWeight: 'bold',
         fontSize: 14,
-        marginStart: '15%',
+        marginStart: dimen.sHm*2,
  
     },
     name: {
         color: 'white',
         fontSize: 15,
         marginVertical: '3%'
+    },
+    grayText:{
+        fontWeight: 'bold',
+        fontSize: 14,
+        marginStart: dimen.sHm*2,
+        color: 'gray'
+
     }
 
 })

@@ -145,7 +145,7 @@ class VendorDashboard extends React.Component {
                    
 
                     <View style={styles.view1}>
-                    {this.state.vendorDetails.homescrap_service == "yes" || this.state.vendorDetails.homescrap_service == "no" ?
+                    {this.state.vendorDetails.homescrap_service == "yes"?
                     <TouchableOpacity style={styles.menuitem} onPress={() => {
                         navigation.navigate('VendorScrapOrders',{
                             vendorID : this.state.vendorID
