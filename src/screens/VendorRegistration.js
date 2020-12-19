@@ -104,7 +104,7 @@ export default function VendorRegistration({navigation,route}){
             vendor_type: services,
             milk_product_ids : milk,
             news_product_ids: paper,
-            office_cat_ids: office,
+            officescrap_cat_ids: office,
             homescrap_product_ids: home
 
 

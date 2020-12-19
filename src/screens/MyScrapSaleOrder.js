@@ -26,6 +26,7 @@ import Button from '../components/Button';
 import SpinnerBox from '../components/Spinner';
 import LottieView from 'lottie-react-native';
 import sendNotif from '../Utility/sendNotificationTo';
+import Appliance from '../components/Appliance';
 
 
 var cancellationReasons = [{
@@ -178,7 +179,7 @@ export default function MyScrapSaleOrder({ navigation, route }) {
                             contentContainerStyle={{ backgroundColor: 'white' }}
                             renderItem={({ item, index }) => {
                                 return (
-                                    <SmallAppliance
+                                    <Appliance
                                         small={true}
                                         schedule={true}
                                         remove={true}

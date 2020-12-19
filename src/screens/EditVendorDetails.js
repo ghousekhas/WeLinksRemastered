@@ -81,12 +81,13 @@ export default function EditVendorDetails({ route, navigation }) {
 
         Axios.post(Config.api_url+'php?' + qs.stringify({
             action: 'updateVendor',
+            update_data: 'profile',
             user_id: actualUser.user_id,
             vendor_id: presentDetails.vendor_id,
             company_name: name,
             vendor_gstin: gst,
             company_email_id: email,
-            milk_product_ids: presentDetails.milk_product_ids,
+            //milk_product_ids: presentDetails.milk_product_ids,
             //  lat: 1,
             //  lng: 1,
             address_id: presentDetails.addresses[0].addr_id ,

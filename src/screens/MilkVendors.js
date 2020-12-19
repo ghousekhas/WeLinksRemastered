@@ -35,6 +35,11 @@ const MilkVendors = (props) => {
         if (t < 0)
             return;
         console.log('retrieving milk vendors');
+        console.log(qs.stringify({
+            vendor_type: 'milk',
+            lat: address.addr_latitude,
+            lng: address.addr_longitude
+        }));
         Axios.get(Config.api_url + 'php?action=getVendors&' + qs.stringify({
             vendor_type: 'milk',
             lat:  address.addr_latitude, // 18.5672,

@@ -85,7 +85,9 @@ export default function MyScrapSales({navigation,route}){
         setExtraData(Math.random(0.3));
         setApiLoaded(true);
     }
-    catch(e){}
+    catch(e){
+        setApiLoaded(true);
+    }
 
     }
 
@@ -98,14 +100,15 @@ export default function MyScrapSales({navigation,route}){
       //      console.log("res" +response.data.order);
             //data=response.data;
             try{
-                prepareResponse(response.data.order.reverse());
+                var thedata = response.data.order.reverse();
+                prepareResponse(thedata);
             }
             catch(error){
                 setApiLoaded(false);
                 data = [];
             }
             //setExtraData(Math.random(0.5));
-            //setApiLoaded(true);
+            setApiLoaded(true);
         },(error)=>{
             console.log(error);
             setApiLoaded(true);

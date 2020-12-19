@@ -110,6 +110,7 @@ export default class AddAddress extends React.Component {
             lat: this.location.latitude,
             lng: this.location.longitude
           });
+          console.log(data);
         Axios.post(Config.api_url + 'php?action=addAddress&' + data,).then((response) => {
           console.log(response.data);
           this.setState({ adding: false });
