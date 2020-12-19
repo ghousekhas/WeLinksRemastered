@@ -192,16 +192,15 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         <View style={{flex: 0,backgroundColor: 'transparent',marginStart:10}}>
         <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
         <ScrollView persistentScrollbar indicatorStyle='white' horizontal
-         style={{alignSelf:'flex-start',flexDirection: 'row',margin: '1%',padding: '2%',marginStart: 30,backgroundColor: Colors.whiteBackground,borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+         style={{alignSelf:'flex-start',flexDirection: 'row',margin: '1%',padding: '1%',marginStart: 30,backgroundColor: Colors.whiteBackground,borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
 {renderCartItems(cart)}
 </ScrollView>
 
-<Text style={{...Styles.subheading,fontWeight: 'normal',marginStart: 30,paddingTop: 10}}>{address}</Text>
+<Text style={{...Styles.subheading,fontWeight: 'normal',marginStart: 30,paddingTop: 5}}>{address}</Text>
 
         
-        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13}}>{`Pick-up date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
+        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13,marginTop:5}}>{`Pick-up date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
      
-             <Text style={{...styles.quantity,color:'black',marginStart: 30,alignSelf:'flex-start',fontSize:13}}>Order Total : ₹{orderAmount}</Text>
 
             {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
            
@@ -223,9 +222,12 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     <ScrollView style={{backgroundColor: 'white'}}>
         <View style={{...Styles.parentContainer,marginBottom: '20%',padding: tag == 'User'?'3%':0}}>
             <View style={{margin : tag == 'Vendor'? '6%' : 0}}>
-            {tag == 'User' ? <Text style={{fontWeight: 'bold',marginBottom:'6%',color: 'black'}}>
+            {tag == 'User' ? <View>
+            <Text style={{fontWeight: 'bold',color: 'black',fontSize:18,alignSelf: 'center'}}>Home Scrap : Action required</Text>
+            <Text style={{marginBottom:'6%',color: 'gray',marginTop: '1%',padding: '3%',textAlign:'center'}}>
             Your order was completed by vendor, please update your status and comments to continue to use the app.
-            </Text>:null}
+            </Text>
+            </View>:null}
             <MySubscriptionOrder name={cardDetails.name} pickUpDate={cardDetails.pickUpDate} orderAmount={cardDetails.orderAmount} orderDate={cardDetails.orderDate} imageUrl={cardDetails.image} status={cardDetails.status} cart={cardDetails.cart} address={cardDetails.address}/>
             
            

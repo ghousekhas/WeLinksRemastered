@@ -353,8 +353,8 @@ const Cart = ({route,navigation,Tag}) => {
                 }),).then((response)=>{
                     console.log(response);
                     console.log("sd "+JSON.stringify(response.data));
-                    Alert.alert("",tag=='Milk'?
-      "Your milk order has been placed." : "Your newspaper order has been placed.",
+                    Alert.alert("Order placed.",tag=='Milk'?
+      "Your milk subscription order has been placed successfully. You can see the details in  My Subscriptions." : "Your newspaper subscription order has been placed successfully. You can see the details in  My Subscriptions.",
       [
         
         { text: "OK", onPress: () => {} }

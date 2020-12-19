@@ -34,8 +34,8 @@ const PaperVendors = (props) => {
             return;
         Axios.get(Config.api_url + 'php?action=getVendors&' + qs.stringify({
             vendor_type: 'newspaper',
-            lat: address.lat,
-            lng: address.lng
+            lat:  address.addr_latitude, // 18.5672,
+            lng:  address.addr_longitude // 73.7583          // address.lng
         })).then((response) => {
             try {
                 console.log('LOGGGGSSSS', address.lat);

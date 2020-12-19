@@ -23,7 +23,7 @@ const MilkVendors = (props) => {
     const [nameY, setNameY] = useState(0);
     const [imageHeight, setImageHeight] = useState(0);
 
-    console.log(address);
+    console.log("Address "+JSON.stringify(address));
     console.log('milky', actualUser)
 
     const words = {
@@ -37,11 +37,11 @@ const MilkVendors = (props) => {
         console.log('retrieving milk vendors');
         Axios.get(Config.api_url + 'php?action=getVendors&' + qs.stringify({
             vendor_type: 'milk',
-            lat: address.lat,
-            lng: address.lng
+            lat:  address.addr_latitude, // 18.5672,
+            lng:  address.addr_longitude // 73.7583  
         })).then((response) => {
             try {
-                console.log('vend ', response.data.vendor);
+                console.log("lat "+response.data.vendor.length);
                 vendors = response.data.vendor;
                 updateVendor(Math.random(0.5));
 
@@ -111,7 +111,7 @@ const MilkVendors = (props) => {
         </View>
 
 
-        <FlatList
+         <FlatList
             data={vendors}
             extraData={vendorExtraData}
             keyExtractor={(item) => item.name}
