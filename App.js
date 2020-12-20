@@ -50,6 +50,8 @@ import MySubscriptionOrder from './src/components/MySubscriptionOrder';
 import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import VendorServices from './src/screens/VendorServices';
 import VendorDashboard from './src/screens/VendorDashboard';
+import VendorSubscriptions from './src/screens/VendorSubscriptions';
+import VendorSubscriptionDetails from './src/screens/VendorSubscriptionDetails';
 import AddressesServedList from './src/screens/AddressesServedList';
 import {Config} from  './src/Constants';
 import VendorViewBids from './src/screens/VendorViewBids';
@@ -145,6 +147,8 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
           }} />}>
            <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/>
           <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
+          <Drawer.Screen name="VendorSubscriptions" component={VendorSubscriptions} options={{headerShown : false}} /> 
+          <Drawer.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{headerShown : false}} /> 
           <Drawer.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
             user: user, actualUser: updateState, cachedData: {
               termsData: termsData,
@@ -376,6 +380,8 @@ const VendorHomeStack=({navigation,route})=>{
           <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} />
           <Stack.Screen name = "VendorScrapOrders" component={VendorScrapOrders} options={{headerShown : false}} />
           <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}} initialParams={user} />
+          <Stack.Screen name="VendorSubscriptions" component={VendorSubscriptions} options={{headerShown : false}} /> 
+          <Stack.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{headerShown : false}} /> 
 
     
   
@@ -399,6 +405,10 @@ const VendorHomeStack=({navigation,route})=>{
 
         <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
         <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} options={{headerShown: false}} initialParams={{ user: user, actualUser: actualUser }} /> 
+       
+        <Stack.Screen name="VendorSubscriptions" component={VendorSubscriptions} options={{headerShown : false}}  /> 
+        <Stack.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{headerShown : false}} /> 
+
           {/*
           <Drawer.Screen name="AddAddress" component={AddAddress} />
           <Drawer.Screen name="myAddresses" component={myAddressStack} />

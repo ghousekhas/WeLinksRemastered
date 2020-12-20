@@ -126,7 +126,13 @@ class VendorDashboard extends React.Component {
 
                
                 {this.state.vendorDetails.milk_service == "yes" ?
-                    <TouchableOpacity onLayout={(event) => {
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('VendorSubscriptions',{
+                            vendorID : this.state.vendorID,
+                            tag : 'Milk'
+                        }
+            );
+                    }} onLayout={(event) => {
                                 this.setState({imageHeight : event.nativeEvent.layout.height/2})
                     }} style={styles.menuitem} 
                     
@@ -136,7 +142,12 @@ class VendorDashboard extends React.Component {
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>Milk Delivery</Text>
                     </TouchableOpacity> : null}
                     {this.state.vendorDetails.newspaper_service == "yes" ?
-                    <TouchableOpacity style={styles.menuitem} 
+                    <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('VendorSubscriptions',{
+                            vendorID : this.state.vendorID,
+                            tag : 'Paper'
+                        })}}  style={styles.menuitem} 
                    >
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.news}/>
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>Newspaper Delivery</Text>
