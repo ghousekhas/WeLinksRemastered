@@ -55,6 +55,7 @@ export default function MySubscriptions({navigation,route}){
       );
 
     const prepareResponse =(dataa)=>{
+        setApiLoaded(true);
         console.log(dataa);
         data=[];
         dataa.forEach(item => {
