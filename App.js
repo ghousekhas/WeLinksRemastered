@@ -730,9 +730,10 @@ export default function App() {
 
   }, []);
 
-  /*return (<View style={{...StyleSheet.absoluteFill,backgroundColor: 'blue'}}>
+  /*
+  return (<View style={{...StyleSheet.absoluteFill,backgroundColor: 'blue'}}>
     <RatingComponent/>
-  </View>) /*
+  </View>)*/
 
   if (networkState == false)
     return (
