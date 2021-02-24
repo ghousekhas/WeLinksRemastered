@@ -762,7 +762,7 @@ export default function App() {
 
   }, []);
 
-  return (<RatingComponentScreen order_details ={ {something: "something1",somethings: "somethings2"}} />);
+  //return (<RatingComponentScreen order_details ={ {something: "something1",somethings: "somethings2"}} />);
 
   /*
   return (<View style={{...StyleSheet.absoluteFill,backgroundColor: 'blue'}}>

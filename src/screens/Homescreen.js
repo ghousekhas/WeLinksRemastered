@@ -206,7 +206,7 @@ export default class Homescreen extends React.Component{
                     }} style={styles.menuitem} onPress={()=>{
                         console.log('actualuser',this.state.actualUser);
                         //sendNotif('titleeee','boddy','user87');
-                        if(true){
+                        if(false){
                             this.props.navigation.navigate('RatingsPage',{
                                 pendingList: [1,2,3,4],
                                 next: 'MilkVendors',
