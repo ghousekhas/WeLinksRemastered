@@ -84,6 +84,7 @@ export default function MySubscriptions({navigation,route}){
         
         Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
+            console.log(user.user_id);
             console.log("resp" +response.data);
             //data=response.data;
             prepareResponse(response.data);

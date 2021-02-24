@@ -46,7 +46,7 @@ const MilkVendors = (props) => {
             lng:  address.addr_longitude // 73.7583  
         })).then((response) => {
             try {
-                console.log("lat "+response.data.vendor.length);
+                console.log("Vendor: "+ JSON.stringify(response.data.vendor));
                 vendors = response.data.vendor;
                 updateVendor(Math.random(0.5));
 
@@ -131,12 +131,12 @@ const MilkVendors = (props) => {
                 const brands = item.brands != undefined ? item.brands : [];
                 const imageUrl = item.vendor_img_url;
                 const vendorAddress = item.addresses[0] != undefined ? item.addresses[0].addr_details + ' ' + item.addresses[0].addr_landmark + ' ' + item.addresses[0].addr_pincode : ' ';
-                console.log('itembrands', brands);
+        //        console.log('itembrands', brands);
                 for (let i = 0; i < brands.length - 1; i++)
                     brandsString = brandsString + brands[i].brand.toString() + ',' + ' ';
                 if (brands.length > 0)
                     brandsString = brandsString + brands[brands.length - 1].brand.toString();
-                console.log(brandsString);
+        //        console.log(brandsString);
 
                 return (
                     <Vendor name={vendorName} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}

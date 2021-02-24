@@ -146,10 +146,14 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
   //      console.log("order date"+ orderDate)
         let i,res = [];
         res.push(<Text>  </Text>)
+        let items=[];
         for(i in cart){
-            res.push(<Text style={{fontWeight: 'bold',fontSize:11}}>{`${cart[i].homescrap_name}${i==cart.length-1? "" : ", "}`}</Text>)
+            items.push(cart[i].homescrap_name+(i==cart.length-1? "" : ", "));
+            console.log("len "+String(cart[i]).length)
+        res.push(<Text style={{fontWeight: 'bold',fontSize:11.5,width:String(cart[i]).length*dimen.width/80}}>{`${cart[i].homescrap_name}${i==cart.length-1? "" : ", "}`}</Text>)
         }
-        res.push(<Text>   </Text>)
+  //      res.push(<Text style={{fontWeight: 'bold',fontSize:11}}>{items}</Text>)
+        res.push(<Text>  </Text>)
 
         return(res)
     }
@@ -171,42 +175,45 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
   
        
   
-    return(<View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,
-    borderWidth: 1,borderRadius: 8,alignSelf: 'center',height: dimen.height/3.8,padding:'2%',backgroundColor:'white'}}>
+    return(
+    <View style={{flexDirection: 'column',width: dimen.width*0.9,borderColor: Colors.seperatorGray,
+    borderWidth: 1,borderRadius: 8,alignSelf: 'center',minHeight: dimen.height/3.6,padding:'2%',backgroundColor:'white',flex:1}}>
     
        
-    
-
     <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
         <Text style={styles.greyText1}>{getDate(orderDate)}</Text>
         <View style={{flexDirection:'row'}}>
-        <Text style={{...styles.quantity,marginStart: 30,fontSize:13}}>{``}</Text>
 
         <Text style={{...styles.quantity,marginStart: 10,color: Colors.blue,fontSize:12}}>{status}</Text>
         </View>
 
     </View>
-    <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
-        <Image style={{height: dimen.width*0.2,width: dimen.width*0.2,flex: 0,alignSelf: 'center'} }  resizeMethod={'auto'} resizeMode='contain' source={ imageUrl.trim()!=''?{uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
 
-        <View style={{flex: 0,backgroundColor: 'transparent',marginStart:10}}>
-        <Text style={{...Styles.heading,alignSelf: 'center',width: '100%',marginStart:55,backgroundColor: 'transparent',marginBottom: '5%',fontSize:14}}>{name}</Text>
+    <View style={{flexDirection: 'row',margin: 5,flex: 1}}>
+        <Image style={{height: dimen.width*0.3,width: dimen.width*0.3,alignSelf: 'flex-start'} }  resizeMethod={'auto'} resizeMode='contain' source={ imageUrl.trim()!=''?{uri: imageUrl}:require('../../assets/notmaleavatar.png')}/>
+
+        <View style={{flex: 3,marginStart:10}}>
+        <Text style={{backgroundColor: 'transparent',marginBottom: '5%',fontSize:14,fontWeight:'bold',color:'black'}}>{name}</Text>
+        <View>
         <ScrollView persistentScrollbar indicatorStyle='white' horizontal
-         style={{alignSelf:'flex-start',flexDirection: 'row',margin: '1%',padding: '1%',marginStart: 30,backgroundColor: Colors.whiteBackground,borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5}}>
+         style={{backgroundColor: Colors.whiteBackground,borderRadius: 5,borderColor: Colors.seperatorGray,borderWidth: 0.5,alignSelf:'flex-start'}}>
 {renderCartItems(cart)}
 </ScrollView>
+        </View>
+       
+<View>
+<Text numberOfLines={5} style={{fontWeight: 'normal',fontSize:13,paddingVertical:'4%'}}>{address}</Text>
 
-<Text style={{...Styles.subheading,fontWeight: 'normal',marginStart: 30,paddingTop: 5}}>{address}</Text>
+</View>
 
+        <View style={{paddingBottom:'5%'}}>
+        <Text style={{fontSize:12,fontWeight:'bold',paddingBottom:'4%'}}>{`Pick-up date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
         
-        <Text style={{...styles.quantity,marginStart: 30,alignSelf:'flex-start',fontSize:13,marginTop:5}}>{`Pick-up date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
+        </View>
      
 
             {/* <Text style = {{...styles.rate,color: 'black',marginStart: alignment/8,fontSize: 12,alignSelf:'center',marginTop:'3%'}}>{num+" deliveries"}</Text> */}
-           
-            <View style={{flexDirection:'row',justifyContent: 'flex-end'}}>
         
-        </View>
 
             
         </View>
@@ -219,36 +226,18 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
     return(<View>
     {tag == 'Vendor' ? <AppBar title={words.vendorHeading} back funct={()=>{navigation.goBack()}}/> : null}
-    <ScrollView style={{backgroundColor: 'white'}}>
-        <View style={{...Styles.parentContainer,marginBottom: '20%',padding: tag == 'User'?'3%':0}}>
-            <View style={{margin : tag == 'Vendor'? '6%' : 0}}>
-            {tag == 'User' ? <View>
+    <ScrollView>
+    <View style={{flex:1,padding:'5%'}}>
+    {tag == 'User' ? <View style={{flex:1}}>
             <Text style={{fontWeight: 'bold',color: 'black',fontSize:18,alignSelf: 'center'}}>Home Scrap : Action required</Text>
-            <Text style={{marginBottom:'6%',color: 'gray',marginTop: '1%',padding: '3%',textAlign:'center'}}>
+            <Text style={{marginBottom:'6%',marginTop: '1%',padding: '3%',textAlign:'center'}}>
             Your order was completed by vendor, please update your status and comments to continue to use the app.
             </Text>
             </View>:null}
+
+            <View style={{marginTop:'25%',flex:1}}>
             <MySubscriptionOrder name={cardDetails.name} pickUpDate={cardDetails.pickUpDate} orderAmount={cardDetails.orderAmount} orderDate={cardDetails.orderDate} imageUrl={cardDetails.image} status={cardDetails.status} cart={cardDetails.cart} address={cardDetails.address}/>
-            
-           
-
-            </View> 
-            {/* <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
-                <TouchableOpacity disabled={incorrect ? true : false} onPress={()=>{
-                    setIncorrect(!incorrect);
-                //    onButton('cancel')
-                    }} style={{backgroundColor: 'red',flex: 1,padding: 10,marginLeft: 30,marginRight: 10,alignItems: 'center',justifyContent: 'center',borderRadius: 7,alignSelf: 'center'}}>
-                    <Text style={{color: 'white'}}>Amount Incorrect</Text>
-                </TouchableOpacity>
-               {!incorrect ?<TouchableOpacity onPress={()=>{
-
-                  markUserConfirmed(true)
-                   }} style={{backgroundColor: Colors.primary,flex: 1,padding: 10,marginLeft: 10,marginRight: 30,alignItems: 'center',justifyContent: 'center',borderRadius: 7,alignSelf:'center'}}>
-                    <Text style={{color: 'white'}}>Amount Correct</Text>
-                </TouchableOpacity> : null}
-            </View>} */}
-
-            <View style={{flexDirection :'row',justifyContent: 'space-around',marginTop: '5%'}}>
+            <View style={{flexDirection :'row',justifyContent: 'space-around',marginTop:'10%'}}>
                 <TouchableOpacity  onPress={() => setShow(true)} style ={{backgroundColor:Colors.primary,padding:'3%',borderRadius: 8}}>
                     <Text style={{color: 'white'}}>Mark complete</Text>
                 </TouchableOpacity>
@@ -257,7 +246,9 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
                     <Text style={{color :'white'}}>Mark incomplete</Text>
                 </TouchableOpacity>
             </View>
+            </View>
 
+            
 
             {show ? <View>
             <Text style={{marginTop: dimen.height/30,alignSelf: 'center',fontSize : 12,marginHorizontal: dimen.width*0.05,flex: 0,fontWeight: 'bold',color: 'black',alignItems:'center'}}>{(tag == 'Vendor' ? words.amountPaid : words.amountPaidByVendor)} </Text>
@@ -295,7 +286,9 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
                 } } text={words.submit} />
                 </View>
                 </View> : null}
-        </View>
+    </View>
+   
+ 
         </ScrollView>
         </View>
     )

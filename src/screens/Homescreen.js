@@ -119,10 +119,14 @@ export default class Homescreen extends React.Component{
     try{
         //this.props.navigation.popToTop();
        BackHandler.exitApp();
+       sendNotif('Hey','Closing','user165')
+
        console.log('Exiting');
 
     }
     catch(e){
+        sendNotif('Hey','Check','user165')
+
     console.log('caught');
     };
        
@@ -216,7 +220,10 @@ export default class Homescreen extends React.Component{
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.milk}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.menuitem} 
-                    onPress={()=>{this.props.navigation.navigate('AddressList',{
+                    onPress={()=>{
+                        sendNotif('Hey','Paper','user165')
+
+                        this.props.navigation.navigate('AddressList',{
                         next: 'PaperVendors',
                         user: user,
                         actualUser: this.state.actualUser,

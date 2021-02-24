@@ -7,7 +7,7 @@ export default function sendNotif(title,message,to){
         'topic': to
       }).then(
         (response) =>{
-          console.log(response);
+          console.log("Notif response "+JSON.stringify(response));
         },(reason)=>{
           console.log(reason);
         }
