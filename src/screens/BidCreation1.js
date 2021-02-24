@@ -62,9 +62,11 @@ export default function BidCreation1({ navigation, route }) {
 
     const [temp, setTemp] = useState(tomorrow);
     const sortDate = (date) => {
+      
         console.log("Wrong date " + date)
         let d = date.split('-');
-        let m = mn[Number(d[1])]
+        
+        let m = mn[Number(d[1] >= 10 ? d[1] : d[1]%10)];
         console.log(`${d[2]}-${m}-${d[0]}}`)
         return `${d[2]}-${m}-${d[0]}`
 
@@ -86,6 +88,7 @@ export default function BidCreation1({ navigation, route }) {
 
         if (dateType == 1) {
             setEndDate('');
+           // console.log(day.year + "-" + (day.month + 1) + "-" + day.date);
 
             setStartDate(day);
             isStartSet(true);

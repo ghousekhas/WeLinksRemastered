@@ -42,7 +42,7 @@ export default function Bids({navigation,route}){
    const sortDate = (date) => {
        console.log("Wrong date " +date)
        let d = date.split('-');
-       let m = monthNames[d[1]]
+       let m = monthNames[Number(d[1] >= 10 ? d[1] : d[1]%10)];
        console.log(`${d[2]}-${m}-${d[0]}}`)
        return `${d[2]}-${m}-${d[0]}`
       
