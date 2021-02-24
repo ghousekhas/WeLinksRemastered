@@ -6,6 +6,16 @@ export const Config={
 
 export const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
+
+export const strings_screen ={
+    ratings:{
+        heading: "Please review your previous order before proceeding with next subscription",
+        hint: "Review Comments (Optional)",
+        textbox_title: " as"
+
+    }
+}
+
 export const dimen={
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,

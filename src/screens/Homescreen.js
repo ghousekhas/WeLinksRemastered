@@ -202,13 +202,24 @@ export default class Homescreen extends React.Component{
                     }} style={styles.menuitem} onPress={()=>{
                         console.log('actualuser',this.state.actualUser);
                         //sendNotif('titleeee','boddy','user87');
-                        this.props.navigation.navigate('AddressList',{
-                            next: 'MilkVendors',
-                            user: user,
-                            actualUser: this.state.actualUser,
-                            tag: 'Milk',
-                            profile: true
-                        });
+                        if(true){
+                            this.props.navigation.navigate('RatingsPage',{
+                                pendingList: [1,2,3,4],
+                                next: 'MilkVendors',
+                                user: user,
+                                actualUser: this.state.actualUser,
+                                tag: 'Milk',
+                                profile: true
+                            })
+                        }
+                        else
+                            this.props.navigation.navigate('AddressList',{
+                                next: 'MilkVendors',
+                                user: user,
+                                actualUser: this.state.actualUser,
+                                tag: 'Milk',
+                                profile: true
+                            });
                     }
                         //this.props.navigation.navigate('MilkVendors')}
                 }>

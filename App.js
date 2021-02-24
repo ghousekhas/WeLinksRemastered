@@ -66,6 +66,7 @@ import VendorScrapOrder from './src/screens/VendorScrapOrder';
 import MyScrapSaleOrder from './src/screens/MyScrapSaleOrder';
 import messaging from '@react-native-firebase/messaging';
 import RatingComponent from './src/components/RatingsComponent';
+import RatingComponentScreen from './src/components/RatingComponentScreen';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -729,6 +730,8 @@ export default function App() {
 
 
   }, []);
+
+  return (<RatingComponentScreen order_details ={ {something: "something1",somethings: "somethings2"}} />);
 
   /*
   return (<View style={{...StyleSheet.absoluteFill,backgroundColor: 'blue'}}>
