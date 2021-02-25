@@ -15,8 +15,7 @@ export default function RatingComponentScreen({order_details = {}}){
 
 
     return (
-        <View style={{...Styles.parentContainer,backgroundColor: Colors.lightBlue}}>
-            <ScrollView>
+        <View style={{backgroundColor: Colors.lightBlue,flex:0}}>
             <Text style={[Styles.subheading,styles.mainheading]}>{ strings.heading }</Text>
             <View style={styles.order_card}>
                 <Text style={{...Styles.heading,marginTop: 0}}>Order Details</Text> 
@@ -39,7 +38,6 @@ export default function RatingComponentScreen({order_details = {}}){
             }} />
             <TextInput title={strings.textbox_title} numberOfLines={10} textAlignVertical="top" style={styles.input}  placeholder={strings.hint} />
             <SubmitButton text="Submit" />
-            </ScrollView>
         </View>
     )
 }

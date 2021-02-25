@@ -1,23 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet,Text,View,TextInput, Dimensions,Image,Animated,FlatList,ScrollView} from 'react-native';
+import {StyleSheet,Text,View,TextInput, Dimensions,Image,FlatList,ScrollView} from 'react-native';
 
 import { TouchableOpacity  } from 'react-native-gesture-handler';
 import {CommonActions,useNavigation} from '@react-navigation/native';
 
-import {Constants,dimen,Styles} from '../Constants';
+import {Constants,dimen,Styles,Colors} from '../Constants';
 import Axios from 'axios';
 import { BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
-import About from './About';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+
 import { EvilIcons } from '@expo/vector-icons';
-import { DEFAULT_APPBAR_HEIGHT } from 'react-native-paper';
-import { DrawerActions } from 'react-navigation-drawer';
-import { NavigationActions } from 'react-navigation';
-import auth from '@react-native-firebase/auth';
 import {Config} from  '../Constants';
 import sendNotif from '../Utility/sendNotificationTo';
+import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
+import RatingComponent from '../components/RatingsComponent'
+import RatingComponentScreen from '../components/RatingComponentScreen';
+import { MaterialIcons } from '@expo/vector-icons';
+
+
 
 //sendNotif('titleeee','boddy','user87');
 //sendNotif('titleeee','boddy','vendor90');
@@ -46,7 +47,9 @@ export default class Homescreen extends React.Component{
             actualUser: this.props.route.params.actualUser,
             pressedMenu: false,
             drawer: this.props.route.params.drawer,
-            imageHeight : 0
+            imageHeight : 0,
+            fall: new Animated.Value(1),
+            sheetOpen : false
         };
         this.images={
             milk: require('./../../assets/milk.png'),
@@ -54,6 +57,7 @@ export default class Homescreen extends React.Component{
             scrap: require('./../../assets/scrap.png'),
             banner: require('./../../assets/homebanner.png'),
         }
+        this.bs=React.createRef();
 
     }
 
@@ -146,20 +150,62 @@ export default class Homescreen extends React.Component{
      
         );
     }
+
+    renderContent = () => {
+        return(<View>
+ <View
+           style={{...Styles.parentContainer,backgroundColor: Colors.lightBlue}}
+          >
+
+        <View style={{backgroundColor:'white', alignItems:'flex-end',padding:'1%'}}>
+        <MaterialIcons name="keyboard-arrow-down" size={25} color="black" 
+        onPress={() => {
+            this.bs.current.snapTo(2);
+
+        }}
+         />
+
+        </View>
+ 
+           <RatingComponentScreen />
+       
+
+
+
+
+
+          </View>
+        </View>
+       )
+
+    }
+
+    renderHeader = () => (
+        <View style={styles.header}>
+                        <View style={styles.panelHandle} />
+
+            <View style={styles.panelHeader}>
+            </View>
+        </View>
+    );
+   
+
     
-    
+
     render(){
         const {navigation} =this.props;
         const {user} = this.props.route.params;
 
         let displayName = this.state.actualUser.name.split(' ');
-       
 
     
         
         return(
             <View style={styles.fullscreen}>
                <View style={styles.topbar}>
+
+             
+
               
                <TouchableOpacity onPress={() => {
                    this.setState({pressedMenu: true});
@@ -182,8 +228,31 @@ export default class Homescreen extends React.Component{
     </View>
               
                </View>
-               <View style={styles.banner}> 
-                   <FlatList 
+               <BottomSheet 
+               enabledContentTapInteraction={true}
+                ref={this.bs}
+                onCloseStart={() => {
+                    this.setState({sheetOpen: false});
+                }}
+                snapPoints={[520, 0, 0]}
+                renderContent={this.renderContent}
+             //   renderHeader={this.renderHeader}
+                initialSnap={2}
+                callbackNode={this.state.fall}
+                enabledGestureInteraction={false}
+              //  enabledContentGestureInteraction={true}
+            //  enabledHeaderGestureInteraction={true}
+               />
+               <Animated.View 
+               onPress={() => {
+                   console.log('Tapped')
+                   this.bs.current.snapTo(2);
+               }}
+               style={{...styles.banner,opacity: !this.state.sheetOpen ? 1.0 : Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
+}}>     
+
+              
+                <FlatList 
                         data = {promoImageData}
                         keyExtractor = {(item,index) => index.toString()}
                         renderItem = {this.promoImagesRender}
@@ -191,11 +260,13 @@ export default class Homescreen extends React.Component{
                         snapToAlignment = {'start'}
                         snapToInterval ={styles.imageBanner.width}
                         />
-                </View>
+                 
+                </Animated.View>
                 <Text style={styles.title}>{this.state.title}</Text>
                 <Text style={styles.desc}>{this.state.desc}</Text>
               
                 <View style={styles.horizontalview}>
+              
                 <ScrollView style={{flex: 1}}>
                 <View style={styles.view1}>
 
@@ -232,15 +303,22 @@ export default class Homescreen extends React.Component{
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
-                        sendNotif('Hey','Paper','user165')
+                     //   sendNotif('Hey','Paper','user165')
+                     console.log('Touvh')
+                        this.setState({sheetOpen:true})
+                        this.bs.current?.snapTo(0);
 
-                        this.props.navigation.navigate('AddressList',{
-                        next: 'PaperVendors',
-                        user: user,
-                        actualUser: this.state.actualUser,
-                        tag: 'Paper',
-                        profile: true
-                    });}}>
+                        console.log('Touvh1')
+
+
+                    //     this.props.navigation.navigate('AddressList',{
+                    //     next: 'PaperVendors',
+                    //     user: user,
+                    //     actualUser: this.state.actualUser,
+                    //     tag: 'Paper',
+                    //     profile: true
+                    // });
+                    }}>
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.news}/>
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.news}</Text>
                     </TouchableOpacity>
@@ -460,7 +538,8 @@ const styles= StyleSheet.create({
         width: Dimensions.get('window').width-5,
         height: Dimensions.get('window').height/3.5,
         alignSelf: 'center',
-        borderRadius: 12
+        borderRadius: 12,
+       // backgroundColor:'orange'
     },
     title:{
         fontSize: 17,
@@ -482,6 +561,7 @@ const styles= StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-evenly',
         flex: 1,
+      //  backgroundColor:'yellow'
     }, 
     view1 : {
         
@@ -530,5 +610,26 @@ const styles= StyleSheet.create({
         height: '100%',
         marginRight: 15,
         alignSelf: 'flex-start'
-    }
+    },
+    header: {
+        backgroundColor: '#FFFFFF',
+        shadowColor: '#333333',
+        shadowOffset: { width: -1, height: -3 },
+        shadowRadius: 2,
+        shadowOpacity: 0.4,
+        elevation: 0.2,
+        paddingTop: 20,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+    },
+    panelHeader: {
+        alignItems: 'center',
+    },
+    panelHandle: {
+        width: '10%',
+        aspectRatio: 5 / 0.5,
+        borderRadius: 4,
+        backgroundColor: 'gray',
+        marginBottom: '3%',
+    },
 });
