@@ -353,6 +353,12 @@ const Cart = ({route,navigation,Tag}) => {
                 }),).then((response)=>{
                     console.log(response);
                     console.log("sd "+JSON.stringify(response.data));
+                    console.log('Sending')
+                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+
                     Alert.alert("Order placed.",tag=='Milk'?
       "Your milk subscription order has been placed successfully. You can see the details in  My Subscriptions." : "Your newspaper subscription order has been placed successfully. You can see the details in  My Subscriptions.",
       [
@@ -362,7 +368,7 @@ const Cart = ({route,navigation,Tag}) => {
       { cancelable: false }
     );
                     
-                   navigation.popToTop();
+             //   navigation.popToTop();
                  //  console.log()
                 },(error)=>{
                     console.log("Error "+error);

@@ -108,7 +108,7 @@ export default class AddressList extends React.Component{
       const data = this.state.vendorEdit ? qs.stringify({vendor_id: vendor_id}) : qs.stringify({user_id: user_id});
       Axios.get(Config.api_url+'php?action=getUserAddresses&'+data)
         .then((response)=>{
-        console.log('response',response.data);
+        console.log('Addresses: ',response.data);
        this.data= response.data.addresses;
        this.data= this.data.reverse();
        this.setState({apiLoaded: true});

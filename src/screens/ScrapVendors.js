@@ -12,7 +12,7 @@ import Axios from 'axios';
 import qs from 'qs';
 import {Config} from  '../Constants';
 
-var vendors;
+let vendors=[];
 const ScrapVendors = ({navigation,route}) => {
     const address= route.params.address;
     const {actualUser}=route.params;
@@ -111,6 +111,10 @@ const ScrapVendors = ({navigation,route}) => {
             <Text style={{ ...Styles.title, fontSize: 17,marginVertical: dimen.mVm }}>{words.milk}</Text>
 </View>
 
+{vendors.length==0? <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+        <Text style={{color:'black',fontWeight:'bold',fontSize:14}}>There are no registered vendors in your locality</Text>
+
+        </View>:
     <FlatList 
         data={vendors}
         keyExtractor={(item) => item.name}
@@ -154,7 +158,7 @@ const ScrapVendors = ({navigation,route}) => {
             )
 
         }}
-    />
+    />}
     </View>
 
    

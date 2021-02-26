@@ -13,7 +13,7 @@ import qs from 'qs';
 import { Feather } from '@expo/vector-icons';
 import { Config, dimen } from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
-var vendors;
+var vendors=[];
 
 const MilkVendors = (props) => {
     const address = props.route.params.address;
@@ -46,7 +46,8 @@ const MilkVendors = (props) => {
             lng:  address.addr_longitude // 73.7583  
         })).then((response) => {
             try {
-                console.log("lat "+response.data.vendor.length);
+                console.log('I sent '+address.addr_latitude+" "+address.addr_longitude)
+                console.log("Vendor: "+ JSON.stringify(response.data.vendor));
                 vendors = response.data.vendor;
                 updateVendor(Math.random(0.5));
 
@@ -115,7 +116,10 @@ const MilkVendors = (props) => {
             <Text style={{ ...Styles.title, fontSize: 17,marginVertical: dimen.sVm}}>{words.milk}</Text>
         </View>
 
+        {vendors.length==0? <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+        <Text style={{color:'black',fontWeight:'bold',fontSize:14}}>There are no registered vendors in your locality</Text>
 
+        </View>:
          <FlatList
             data={vendors}
             extraData={vendorExtraData}
@@ -131,12 +135,12 @@ const MilkVendors = (props) => {
                 const brands = item.brands != undefined ? item.brands : [];
                 const imageUrl = item.vendor_img_url;
                 const vendorAddress = item.addresses[0] != undefined ? item.addresses[0].addr_details + ' ' + item.addresses[0].addr_landmark + ' ' + item.addresses[0].addr_pincode : ' ';
-                console.log('itembrands', brands);
+        //        console.log('itembrands', brands);
                 for (let i = 0; i < brands.length - 1; i++)
                     brandsString = brandsString + brands[i].brand.toString() + ',' + ' ';
                 if (brands.length > 0)
                     brandsString = brandsString + brands[brands.length - 1].brand.toString();
-                console.log(brandsString);
+        //        console.log(brandsString);
 
                 return (
                     <Vendor name={vendorName} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
@@ -161,7 +165,7 @@ const MilkVendors = (props) => {
                 )
 
             }}
-        />
+        />}
 
 
 

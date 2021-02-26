@@ -101,7 +101,10 @@ const PaperVendors = (props) => {
             <View style={style.heading}>
                 <Text style={{ ...Styles.title, fontSize: 17,marginStart: 15,marginVertical: dimen.sVm }}>{words.paper}</Text>
             </View>
+            {vendors.length==0? <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+        <Text style={{color:'black',fontWeight:'bold',fontSize:14}}>There are no registered vendors in your locality</Text>
 
+        </View>:
             <FlatList
                 data={vendors}
                 keyExtractor={(item) => item.name}
@@ -144,7 +147,7 @@ const PaperVendors = (props) => {
                     )
 
                 }}
-            />
+            />}
 
 
 
