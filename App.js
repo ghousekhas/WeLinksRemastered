@@ -67,14 +67,15 @@ import MyScrapSaleOrder from './src/screens/MyScrapSaleOrder';
 import messaging from '@react-native-firebase/messaging';
 import RatingComponent from './src/components/RatingsComponent';
 import RatingComponentScreen from './src/components/RatingComponentScreen';
+import {Notifications} from 'react-native-notifications';
 
 navigator.geolocation = require('@react-native-community/geolocation');
 
 
 const Drawer = createDrawerNavigator();
 
-const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,setUser }) => {
-  const [vendor, setVendor] = useState(false);
+const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,setUser,initRoute = '',initVendor = false }) => {
+  const [vendor, setVendor] = useState(initVendor);
   const [updateState, setUpdateState] = useState(actualUser != null ? actualUser : { name: 'loading', user_id: -1, email: 'f' });
   const [privacyData, setPrivacyData] = useState(null);
   const [termsData, setTermsData] = useState(null);
@@ -126,7 +127,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
   // return <ScrapPickedConfirmation route={{params: {
   //   bidTitle: "Was your order picked up for xxxx amount"
   // }}} />
-
+  
 
 
   if(vendor){
@@ -141,7 +142,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
     return (
     
       <NavigationContainer independent={true}>
-        <Drawer.Navigator initialRouteName="VendorHomeStack"
+        <Drawer.Navigator initialRouteName={ initRoute == '' ? "VendorHomeStack": initRoute}
           drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} getVendorDetails={getVendorDetails} setUser={setUser} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
             termsData: termsData,
             contactUsData: contactUsData,
@@ -166,7 +167,7 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
   return (
 
     <NavigationContainer independent={true}  >
-      <Drawer.Navigator initialRouteName='HomeStack' backBehavior='none'
+      <Drawer.Navigator initialRouteName={initRoute == '' ? 'HomeStack' : initRoute} backBehavior='none'
         drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} setUser={setUser} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
           termsData: termsData,
           contactUsData: contactUsData,
@@ -516,6 +517,8 @@ export default function App() {
   const [pendingAction,setPendingAction] = useState(0);
   const [pendingActionItem,setPendingActionItem] = useState(null);
 
+  
+
   const getUserDetails = async (networkTries, user, nextRoute = 0) => {
     
     const checkVendorStatus = (user_id) => {
@@ -670,28 +673,49 @@ export default function App() {
       });
   }
 
-  // const sendNotif = async ()=>{
-  //  // await firebase.initializeApp(); 
-  //  setTimeout(()=>{
-  //   functions().httpsCallable('sendNotification')({
-  //     'title': 'Notification',
-  //     'message': 'Message',
-  //     'body': "Body",
-  //     'topic': "all"
-  //   }).then(
-  //     (response) =>{
-  //       console.log(response);
-  //     },(reason)=>{
-  //       console.log(reason);
-  //     }
-  //   );
-  //  },5000);
+  const sendNotif = async ()=>{
+   // await firebase.initializeApp(); 
+   setTimeout(()=>{
+    functions().httpsCallable('sendNotification')({
+      'title': 'Notification',
+      'message': 'Message',
+      'body': "Body",
+      'topic': "all"
+    }).then(
+      (response) =>{
+        console.log(response);
+      },(reason)=>{
+        console.log(reason);
+      }
+    );
+   },5000);
 
-  // }
+  }
 
-  console.log("cuu "+JSON.stringify(user))
+  console.log("cuu "+JSON.stringify(user));
+
+  const vendorMilkRouting = () => {
+
+
+  }
+
 
   React.useEffect(() => {
+    Notifications.getInitialNotification().then((notification)=>{
+      const id = notification.payload.identifier;
+      switch(id){
+        case '1': vendorMilkRouting(); break;
+        case '2': vendorNewsPaperRouting(); break;
+        case '3': 
+        case '4': userSubscriptionRouting(); break;
+        case '5': vendorScrapRouting(); break;
+        case '6': userScrapRouting(); break;
+
+      }
+      console.log('This is the message id');
+      console.log(notification);
+    });
+
 
 
     checkNetworkState()
@@ -718,7 +742,7 @@ export default function App() {
     // To debug with custom phone number comment above and uncomment below
     // if (userDetails === null){
     //   getUserDetails(0, user);
-    //   //sendNotif();
+      sendNotif();
 
     // }
 

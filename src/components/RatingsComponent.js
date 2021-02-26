@@ -41,10 +41,10 @@ export default function RatingComponent({starChanged = (rating)=>{}, initRatings
                         starTouched(index);
                         }}>
                         
-                        <Entypo name ={ star ? "star" : "star-outlined"} color = { star ? "#FFFF00" : "#000000" } size={50}/>
+                        <Entypo name ={ star ? "star" : "star-outlined"} color = { star ? "#FFFF00" : "#B3B3B3" } size={50}/>
                         {star ? 
                         (<View style={{position: 'absolute'}}>
-                        <Entypo name = "star-outlined" color = "#000000" size = {50}/>
+                        <Entypo name = "star-outlined" color = "#686970" size = {50}/>
                         </View>) : null }
                     </TouchableOpacity> 
                     );

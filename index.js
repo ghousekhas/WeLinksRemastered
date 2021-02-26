@@ -14,6 +14,7 @@ messaging().onMessage((message)=>{
     console.log(message);
     Notifications.registerRemoteNotifications();
     Notifications.postLocalNotification({
+        identifier: message.data.body,
         body: message.data.body,
         title: message.data.title,
         sound: 'chime.aiff',

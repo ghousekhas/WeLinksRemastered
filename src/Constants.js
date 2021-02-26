@@ -4,6 +4,18 @@ export const Config={
     api_url: 'https://api.dev.we-link.in/user_app.'
 }
 
+export const notification_identifiers = {
+    vendor_milk_subscriptions: "1",
+    vendor_newspaper_subscriptions: "2",
+    user_milk_subscriptions: "3",
+    user_newspaper_subscriptions: "4",
+    vendor_scrap_orders: "5",
+    user_scrap_orders: "6",
+    misc: "7",
+    user_corporate_orders: "8",
+    vendor_corporate_orders:"9"
+}
+
 export const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 
