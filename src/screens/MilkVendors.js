@@ -46,8 +46,8 @@ const MilkVendors = (props) => {
             lng:  address.addr_longitude // 73.7583  
         })).then((response) => {
             try {
-                console.log('I sent '+address.addr_latitude+" "+address.addr_longitude)
-                console.log("Vendor: "+ JSON.stringify(response.data.vendor));
+               // console.log('I sent '+address.addr_latitude+" "+address.addr_longitude)
+                console.log("Vendors: "+ JSON.stringify(response.data.vendor));
                 vendors = response.data.vendor;
                 updateVendor(Math.random(0.5));
 
