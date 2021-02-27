@@ -14,12 +14,10 @@ import {Config} from  '../Constants';
 import sendNotif from '../Utility/sendNotificationTo';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-import RatingComponent from '../components/RatingsComponent'
 import RatingComponentScreen from '../components/RatingComponentScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import qs from 'qs';
 import ymdToApp, {getDuration} from '../Utility/dateConvertor';
-import Notifications from 'react-native-notifications';
 
 
 
@@ -214,7 +212,8 @@ export default class Homescreen extends React.Component{
                    feedback: comments,
                    order_id: this.state.ratingOrderMeta.order_id
                }),{}).then((response)=>{
-                   console.log(response.data);
+                   console.log("Posted: "+response.data);
+
                    if(!this.state.milkRatingOpen){
                         const tempNews = this.state.newsPendingRatings;
                         tempNews.splice(0,1);
@@ -259,6 +258,7 @@ export default class Homescreen extends React.Component{
                             }});
                         }
                         else{
+                            this.bs.current.snapTo(2);
                             this.props.navigation.navigate('AddressList',{
                                 next: 'MilkVendors',
                                 user: this.props.route.params.user,
@@ -271,6 +271,8 @@ export default class Homescreen extends React.Component{
                         }
                         
                     }
+
+                  //  this.props.navigation.na
                    //this.setState({newsPendingRatings: []});
                    //this.retrievePendingRatings();
                })
@@ -383,7 +385,7 @@ export default class Homescreen extends React.Component{
                         const milk = this.state.milkPendingRatings;
                         if(milk.length > 0){
                             this.setState({remountRating: Math.random(0.4).toString()});
-                            console.log(milk);
+                            console.log("SOme milk thing "+milk);
                             this.setState({ratingOrderMeta: milk[0]});
                             this.setState({ratingOrderDetails : {
                                 Date: ymdToApp(milk[0].order_date),
@@ -440,7 +442,7 @@ export default class Homescreen extends React.Component{
                         const news = this.state.newsPendingRatings;
                         if(news.length > 0){
                             this.setState({remountRating: Math.random(0.4).toString()});
-                            console.log(news);
+                            console.log("Some news "+news);
                             this.setState({ratingOrderMeta: news[0]});
                             this.setState({ratingOrderDetails : {
                                 Date: ymdToApp(news[0].order_date),
