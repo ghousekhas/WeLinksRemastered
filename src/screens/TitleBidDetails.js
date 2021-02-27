@@ -21,6 +21,7 @@ export default function TitleBidDetails({navigation,route}){
  const {item,actualUser} = route.params;
  const extraData = Math.random(0.5);
  const appliedVendorsList = route.params.appliedVendorsList;
+ const [cardWidth,setCardWidth] = useState(0);
  console.log("VENDOR " + JSON.stringify(appliedVendorsList))
 
    // console.log("Apply "+cardDetails.appliedVendors[0].company_name)
@@ -35,41 +36,43 @@ export default function TitleBidDetails({navigation,route}){
         //   console.log(cardDetails)
         return (<View style={{ flex: 0 }}>
             {/* <Text style={{ ...Styles.heading, alignSelf: 'center' }}>Bid Details</Text> */}
-            <View style={styles.bidcard}>
+            <View onLayout={({nativeEvent}) => {
+                setCardWidth(nativeEvent.layout.width);
+            }} style={styles.bidcard}>
                 <Text style={styles.title}>{cardDetails.bidTitle}</Text>
                 <Text style={styles.info}>{cardDetails.address}</Text>
                 <View style={styles.duration}>
                     <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%',margin:0 }}>{'Duration: ' +cardDetails.bidDuration} </Text>
                 </View>
                 <View style={{ ...styles.duration, paddingVertical: 0, justifyContent: 'space-between' }}>
-                    <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center' }}>
-                        <Feather name="truck" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
+                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',height: cardWidth/7,alignItems:'center',margin:5}}>
+                        <Feather name="truck" size={22} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
                         <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.bidItems}</Text>
                     </View>
-                    <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.seperatorGray, justifyContent: 'flex-start', alignSelf: 'center' }}>
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',height: cardWidth/7,alignItems:'center',margin:5}}>
                         <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingLeft: 10 }}>{cardDetails.bidItemsWeight}</Text>
-                        <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2, alignSelf: 'center' }} />
+                        <MaterialCommunityIcons name="weight-kilogram" size={22} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2, alignSelf: 'center' }} />
                     </View>
-                    <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center' }}>
-                        <AntDesign name="clockcircleo" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',height: cardWidth/7,alignItems:'center',margin:5}}>
+                        <AntDesign name="clockcircleo" size={22} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
                         <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
                     </View>
                 </View>
                 <View style={styles.duration}>
-                   {cardDetails.manpower == 1 || cardDetails.insurance == 1|| cardDetails.vehicle == 1 ? <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2,marginHorizontal: '1%' }}>Require:</Text>
+                   {cardDetails.manpower == 1 || cardDetails.insurance == 1|| cardDetails.vehicle == 1 ? <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',flex:1 }}>
+                        <Text numberOfLines={1} style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2,marginHorizontal: '1%' }}>Require:</Text>
                         {cardDetails.manpower == 1 ?
-                            <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary, marginTop: '2%' }}>
+                            <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary, marginTop: '2%'}}>
 
-                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' }}>Manpower</Text>
+                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center' }}>Manpower</Text>
                             </View> : null}
                         {cardDetails.insurance == 1 ?
-                            <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
-                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' }}>Insurance</Text>
+                            <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary,flex:1 }}>
+                                <Text numberOfLines={1} style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center'}}>Insurance</Text>
                             </View> : null}
 
-                        {cardDetails.vehicle == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
-                            <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' }}>Vehicle</Text>
+                        {cardDetails.vehicle == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary,flex:1 }}>
+                            <Text numberOfLines={1} style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center' }}>Vehicle</Text>
                         </View> : null}
                     </View> : null}
                 </View>
@@ -83,7 +86,7 @@ export default function TitleBidDetails({navigation,route}){
             </View>
             {/* <SubmitButton text='Cancel Bid' /> */}
             {tag == 'Open' ?
-                <TouchableOpacity style={styles.cancelButton} onPress={() => {
+                <TouchableOpacity style={{...styles.cancelButton,width:cardWidth,alignSelf:'center'}} onPress={() => {
                     // alert('Are you sure you want to cancel this bid?');
                     navigation.navigate('CancellationScreen', {
                         bidTitle: cardDetails.bidTitle,
@@ -151,6 +154,7 @@ export default function TitleBidDetails({navigation,route}){
          <View style={{...Styles.parentContainer,backgroundColor: Colors.whiteBackground}}>
          
         <FlatList
+        style={{padding:'0.5%',paddingHorizontal:'1%',marginBottom:dimen.height/17}}
             ListHeaderComponent={renderHeader}
             data= {appliedVendorsList}
             extraData={extraData}
@@ -159,7 +163,7 @@ export default function TitleBidDetails({navigation,route}){
                     name : item.company_name,
                     email : item.company_email_id,
                     amount : item.appln_amount,
-                    image : "https://dev.we-link.in/dist/img/users/"+item.vendor_img_url,
+                    image : item.vendor_img_url,
                     time : item.appln_timestamp,
                     vendor_id: item.vendor_id,
                     bid_apply_id: item.bid_apply_id,
@@ -169,7 +173,7 @@ export default function TitleBidDetails({navigation,route}){
 
                 };
                 console.log("IMAGE "+"https://dev.we-link.in/dist/img/users/"+item.vendor_img_url)
-                return( <View style={styles.container}>
+                return( <View style={{...styles.container,width:cardWidth,alignSelf:'center'}}>
             <Image style={{ ...styles.image, aspectRatio: 1 / 1.7, alignSelf: 'flex-end', borderWidth: 1, flex: 1 }} source={{uri :"https://dev.we-link.in/dist/img/users/"+item.vendor_img_url}} />
             <View style={{ marginStart: '4%', flex: 4,alignSelf:'center' }}>
             <Text style={styles.name}> {item.company_name}</Text>
@@ -228,7 +232,9 @@ const styles = StyleSheet.create({
       //  margin: 3,
 
         borderColor: Colors.primary,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        flex:1,
+        justifyContent:'space-between'
     },
     requirementsButton: {
         paddingVertical: '0.3%',
@@ -284,7 +290,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0.5,
       //  backgroundColor: 'black',
-        marginBottom: '0.5%'
+        marginBottom: '1%'
         //  paddingVertical: 10
 
     },

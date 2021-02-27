@@ -16,7 +16,7 @@ export const notification_identifiers = {
     vendor_corporate_orders:"9"
 }
 
-export const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+export const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 
 export const strings_screen ={
@@ -50,7 +50,8 @@ export const Colors = {
     red: '#F61F1F', // Cancel
     whiteBackground: '#F9F9F9',
     buttonEnabledGreen: '#64E4cE',
-    lightBlue : '#EDF9F9'
+    lightBlue : '#EDF9F9',
+    ratingStars: '#F7B604'
 }
 
 export const Constants={

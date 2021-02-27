@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import { Entypo } from '@expo/vector-icons';
-import {dimen, strings_screen} from '../Constants';
+import { FontAwesome } from '@expo/vector-icons';
+import {dimen, strings_screen,Colors} from '../Constants';
 
 
 
@@ -32,8 +32,8 @@ export default function RatingComponent({starChanged = (rating)=>{}, initRatings
                 ratingStars.map((star, index)=>{
                     return (
                         <TouchableOpacity  onPress={()=> starTouched(index)}>
-                            <Entypo  name ={ star ? "star" : "star-outlined"} color = { star ? "#FFFF00" : "#B3B3B3" } size={50}/>
-                            {star ? <Entypo style={{position: 'absolute'}}  name = "star-outlined" color = "#686970" size = {50}/> : null }
+                            <FontAwesome  name ={ star ? "star" : "star-o"} color = { star ? Colors.ratingStars : "black" } size={50}/>
+                            {star ? <FontAwesome style={{position: 'absolute'}}  name = "star-o" color = {Colors.ratingStars} size = {50}/> : null }
                         </TouchableOpacity>
                     );
                 })

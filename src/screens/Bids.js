@@ -29,6 +29,14 @@ export default function Bids({navigation,route}){
     const [remount,setRemount] = useState(5);
      const [actualUser,setActualUser] = useState(route.params.actualUser);
 
+     const [size1,setSize1] = useState(0);
+     const [size2,setSize2] = useState(0);
+     const [size3,setSize3] = useState(0);
+
+     const [size4,setSize4] = useState(0);
+     const [size5,setSize5] = useState(0);
+     const [size6,setSize6] = useState(0);
+
  
 
    useEffect(()=>{
@@ -185,27 +193,22 @@ export default function Bids({navigation,route}){
             </View>
 
             
-            {/* <View style={{flexDirection: 'row',flex:1}}>
-            <AntDesign name="tago"size={20} color= {Colors.primary} />
-            <Text style={{...styles.cardTitle,flex:1,marginStart:'3%',fontSize:16}}>{`Number of bids: ${cardDetails.bidders}`}</Text>
-            </View> */}
-
-           
-           
-       
         <Text style={{...styles.cardTitle,color:'gray',marginVertical:'5%'}}>{cardDetails.bidDuration}</Text>
 
         <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
-                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
-                    <Feather name="truck" size={24} color="black" style={{paddingHorizontal:5,paddingVertical:2}} />                     
+                    
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',height: cardWidth/7,alignItems:'center'}}>
+                    <Feather name="truck" size={22} color="black" style={{paddingHorizontal:5,paddingVertical:2}} />                     
                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItems}</Text>
                     </View>
-                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%'}}>          
-                        <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
+
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%',height: cardWidth/7,alignItems:'center'}}>          
+                        <MaterialCommunityIcons name="weight-kilogram" size={22} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
                         <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItemsWeight}</Text>
                     </View>
-                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
-                        <AntDesign name="clockcircleo" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
+
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',flex:1,height: cardWidth/7,alignItems:'center'}}>
+                        <AntDesign name="clockcircleo" size={22} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
                         <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.pickUpTimeSlot}</Text>
                     </View>
                 </View>
@@ -220,7 +223,9 @@ export default function Bids({navigation,route}){
 
 
         </View>)}
-return(<View style={styles.card}>
+return(<View onLayout={(event) => {
+    setCardWidth(event.nativeEvent.layout.width);
+}} style={styles.card}>
     <View style={{flexDirection: 'row',width: dimen.width-dimen.width/10}}>
 
     <View style={{flexDirection: 'row',justifyContent: 'space-between',width:'100%'}}>
@@ -238,18 +243,19 @@ return(<View style={styles.card}>
     <Text style={{...styles.cardTitle,color:'gray',marginVertical:'5%'}}>{cardDetails.bidDuration}</Text>
 
     <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
-                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
-                <Feather name="truck" size={24} color="black" style={{paddingHorizontal:5,paddingVertical:2}} />                     
-                    <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>Metal</Text>
+               
+                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',height:cardWidth/7,alignItems:'center'}}>
+                <Feather name="truck" size={22} color="black" style={{paddingHorizontal:5,paddingVertical:2}} />                     
+                    <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItems}</Text>
                 </View>
-                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%'}}>          
-                    <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
-                    <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>9-12</Text>
+                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',padding:'1%',height:cardWidth/7,alignItems:'center'}}>          
+                    <MaterialCommunityIcons name="weight-kilogram" size={22} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
+                    <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItemsWeight}</Text>
 
                 </View>
-                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
-                    <AntDesign name="clockcircleo" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
-                    <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>9-12</Text>
+                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',height:cardWidth/7,alignItems:'center'}}>
+                    <AntDesign name="clockcircleo" size={22} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
+                    <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.pickUpTimeSlot}</Text>
                 </View>
             </View>
 
@@ -281,7 +287,10 @@ return(<View style={styles.card}>
         <FlatList 
             style={{marginBottom:'5%'}}
             keyExtractor={(item,index)=> index.toString()}
-          
+           ListHeaderComponent={tab == 1 && dataOpen.length == 0 || tab == 2 && dataCloseOrCancel == 0 ? <View style={{flex:1,alignItems:'center',justifyContent:'center',height:dimen.height/2}}>
+           <Text style={{fontWeight:'bold',color:'black'}}>No bids to show</Text>
+
+           </View> : null}
             data = {tab == 1 ? dataOpen.reverse() : dataCloseOrCancel.reverse()}
             extraData= {remount}
             renderItem = {renderCardItem}
@@ -364,6 +373,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 3,
         margin: 3,
+        flex:1,
       
         borderColor: Colors.primary,
         flexDirection: 'row'

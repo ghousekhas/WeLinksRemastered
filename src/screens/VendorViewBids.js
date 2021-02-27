@@ -21,6 +21,7 @@ let bidsSubmitted = [];
 let bidsWon = [];
 
 export default function VendorViewBids({ navigation,route }) {
+
     const words = {
         openBids: 'Open Bids',
         bidsSubmitted: 'Bids Submitted',
@@ -42,16 +43,20 @@ export default function VendorViewBids({ navigation,route }) {
 
     console.log("Are you here vendor? "  + vendorID)
     console.log("Are you here user? "  + actualUser.user_id)
+
+    const {reload} = route.params;
    
     const sortDate = (date) => {
         console.log("Wrong date " +date)
         let d = date.split('-');
-        let m = monthNames[d[1]]
+        let m = monthNames[Number(d[1] >= 10 ? d[1] : d[1]%10)];
         console.log(`${d[2]}-${m}-${d[0]}}`)
         return `${d[2]}-${m}-${d[0]}`
        
         
     }
+
+    
     const getBids = async () => {
         console.log("Console me")
         Axios.get(Config.api_url + 'php?action=getOpenBids&' + qs.stringify({
@@ -149,7 +154,14 @@ export default function VendorViewBids({ navigation,route }) {
     useEffect(() => {
         console.log('refresh');
         getBids();
+
     }, [tab]);
+
+    useFocusEffect(() => {
+        console.log('reloadin')
+       getBids();
+
+    },[reload])
 
     const renderTabs = () => {
 
@@ -193,10 +205,10 @@ export default function VendorViewBids({ navigation,route }) {
 
 
 
-                <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{sortDate(cardDetails.bidDuration)}</Text>
-                <View style={{ flexDirection: 'row' }}>
-                    <Entypo name="map" size={18} color="gray" />
-                    <Text style={{ ...styles.cardTitle, color: 'gray' }}>{cardDetails.address}</Text>
+                <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{sortDate(cardDetails.bid_startdate) + " to "+ sortDate(cardDetails.bid_enddate)}</Text>
+                <View style={{ flexDirection: 'row',padding:'0.5%',alignItems:'center',justifyContent:'center' }}>
+                    <Entypo name="map" size={20} color="gray" style={{flex:1}} />
+                    <Text style={{ ...styles.cardTitle, color: 'gray',flex:5 }}>{cardDetails.address}</Text>
 
 
                 </View>
@@ -233,20 +245,22 @@ export default function VendorViewBids({ navigation,route }) {
 
             </View>)
         }
-        return (<View style={styles.card}>
-            <View style={{ flexDirection: 'row', width: dimen.width - dimen.width / 10 }}>
-                <Text style={{ ...styles.cardTitle, fontSize: 16 }}>{cardDetails.companyName}</Text>
+        return (<View onLayout={(event) => {
+            setCardWidth(event.nativeEvent.layout.width);
+        }} style={styles.card}>
 
-                <View style={{ flexDirection: 'row', flex: 1, marginStart: '20%' }}>
-                </View>
-
+            <Text style={{ ...styles.cardTitle, fontSize: 16 }}>{cardDetails.companyName}</Text>
 
 
-            </View>
-            <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{sortDate(cardDetails.bidDuration)}</Text>
-            <View style={{ flexDirection: 'row' }}>
-                <Entypo name="map" size={18} color="gray" />
-                <Text style={{ ...styles.cardTitle, color: 'gray' }}>{cardDetails.address}</Text>
+
+
+
+
+
+            <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{sortDate(cardDetails.bid_startdate) + " to "+ sortDate(cardDetails.bid_enddate)}</Text>
+            <View style={{ flexDirection: 'row',padding:'0.5%',alignItems:'center',justifyContent:'center' }}>
+                <Entypo name="map" size={20} color="gray" style={{flex:1}} />
+                <Text style={{ ...styles.cardTitle, color: 'gray',flex:5 }}>{cardDetails.address}</Text>
 
 
             </View>
@@ -256,30 +270,28 @@ export default function VendorViewBids({ navigation,route }) {
 
 
             </View>
-            {tab == 3 ?
-                <View style={{ flexDirection: 'row' }}>
-                    <FontAwesome5 name="money-bill-wave-alt" size={17} color="#E0BA3F" style={{ alignSelf: 'center' }} />
-                    <Text style={{ ...styles.cardTitle, color: "#E0BA3F" }}>{" ₹" + cardDetails.cost}</Text>
-
-
-                </View> : null}
 
             <View style={{ ...styles.duration, paddingVertical: 0, justifyContent: 'space-between' }}>
                 <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center' }}>
                     <Feather name="truck" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
-                    <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>Metal</Text>
+                    <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.bidItems}</Text>
                 </View>
                 <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.seperatorGray, justifyContent: 'flex-start', alignSelf: 'center', padding: '1%' }}>
                     <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2, alignSelf: 'center' }} />
-                    <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>9-12</Text>
+                    <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.bidItemsWeight}</Text>
 
                 </View>
                 <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center' }}>
                     <AntDesign name="clockcircleo" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
-                    <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>9-12</Text>
+                    <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
                 </View>
             </View>
-
+            {/* <View style={{flexDirection:'row',marginTop: '6%'}}>
+            <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,marginVertical:'5%',fontSize:16}}>Active</Text>
+  
+        <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart: cardWidth/4.5}}/>
+        <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${cardDetails.contact}`}</Text>
+        </View> */}
 
             <Text style={{ ...styles.cardTitle, alignItems: 'flex-end', color: Colors.blue, marginVertical: '5%', fontSize: 16 }}>{cardDetails.status == "Closed" ? cardDetails.status : cardDetails.status}</Text>
 
@@ -312,7 +324,7 @@ export default function VendorViewBids({ navigation,route }) {
 
 
     return (<View>
-        <AppBar back={true} funct={() => {
+        <AppBar title={'View Bids'} subtitle={'Click on a bid to view details'} back={true} funct={() => {
             navigation.goBack();
         }} />
 
@@ -322,7 +334,7 @@ export default function VendorViewBids({ navigation,route }) {
 
             <View style={{ flex: 1, paddingBottom: dimen.height / 17 }}>
           {(tab == 1 && openBidArray.length == 0) || (tab == 2 && bidsSubmitted.length == 0) 
-          || (tab == 3 && openBidArray.length == 0) ? (<View style ={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
+          || (tab == 3 && bidsWon.length == 0) ? (<View style ={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
               <Text style={{fontWeight: 'bold',color: 'black',fontSize: 16}}>No bids to show</Text>
           </View>) : 
                 <FlatList
@@ -335,6 +347,8 @@ export default function VendorViewBids({ navigation,route }) {
                         let cardDetails = {
                             companyName: item.bid_title,
                             bidDuration: item.bid_startdate + " to " + item.bid_enddate,
+                            bid_startdate:  item.bid_startdate,
+                            bid_enddate: item.bid_enddate,
                             bidItems: item.officescrap_category_name,
                             bidItemsWeight: item.officescrap_quant_name,
                             contact: item.user_phone,
@@ -451,6 +465,9 @@ const styles = StyleSheet.create({
         margin: 3,
 
         borderColor: Colors.primary,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
     },
 })

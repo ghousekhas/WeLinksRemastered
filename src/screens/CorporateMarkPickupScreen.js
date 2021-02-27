@@ -22,11 +22,13 @@ import { useTheme } from '@react-navigation/native';
 
 export default function CorporateMarkPickupScreen({navigation,route}){
     const thisVendor = route.params;
+    console.log("this "+JSON.stringify(thisVendor))
  const  cardDetails  = route.params;
  const { tag } = route.params;
  const {item,actualUser} = route.params;
  const appliedVendorsList = route.params.appliedVendorsList;
  console.log("VENDOR " + JSON.stringify(appliedVendorsList))
+ const [cardWidth,setCardWidth] = useState(0);
 
  //console.log("Apply "+cardDetails.appliedVendors[0].company_name)
  // console.log(tag)
@@ -71,34 +73,37 @@ const [submitted,isSubmitted] = useState(false);
      //   console.log(cardDetails)
         return (<View style={{flex: 0}}>
             {/* <Text style={{...Styles.heading,alignSelf: 'center'}}>Mark Pickup Complete</Text> */}
-            <View style={styles.bidcard}>
+            <View onLayout={({nativeEvent}) => {
+                setCardWidth(nativeEvent.layout.width);
+            }} style={styles.bidcard}>
                 <Text style={styles.title}>{cardDetails.bidTitle}</Text>
                 <Text style={styles.info}> {cardDetails.address}</Text>
                 <View style={styles.duration}>
-                    <Text style={{...styles.title,color: 'gray',marginVertical: '3%'}}> {moment().toString()} </Text>
+                    <Text style={{...styles.title,color: 'gray',marginVertical: '3%'}}>{`Duration: ${cardDetails.bidDuration}`}</Text>
                     <Text style={{...Styles.subbold,fontWeight: '700'}}></Text>
                 </View>
+
                 <View style={{...styles.duration,paddingVertical: 0,justifyContent: 'space-between'}}>
-                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
-                    <Feather name="truck" size={24} color="black" style={{paddingHorizontal:5,paddingVertical:2}} />                     
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.bidItems}</Text>
+                <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',height: cardWidth/7,alignItems:'center',margin:5}}>
+                        <Feather name="truck" size={22} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
+                        <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.bidItems}</Text>
                     </View>
-                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center'}}>          
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingLeft: 10}}>{cardDetails.bidItemsWeight}</Text>
-                        <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{paddingHorizontal: 5,paddingVertical: 2,alignSelf: 'center'}} />
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.seperatorGray,justifyContent: 'flex-start',alignSelf: 'center',height: cardWidth/7,alignItems:'center',margin:5}}>
+                        <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingLeft: 10 }}>{cardDetails.bidItemsWeight}</Text>
+                        <MaterialCommunityIcons name="weight-kilogram" size={22} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2, alignSelf: 'center' }} />
                     </View>
-                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center'}}>
-                        <AntDesign name="clockcircleo" size={24} color="black" style={{paddingHorizontal: 5,paddingVertical: 2}}/>
-                        <Text style={{...Styles.subbold,fontWeight: 'bold',paddingLeft: 5,alignSelf: 'center',paddingVertical: 2,paddingRight: 10}}>{cardDetails.pickUpTimeSlot}</Text>
+                    <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',height: cardWidth/7,alignItems:'center',margin:5}}>
+                        <AntDesign name="clockcircleo" size={22} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
+                        <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
                     </View>
                 </View>
                 <View style={styles.duration}>
                 <View style={{flexDirection: 'row',alignItems:'center',justifyContent: 'space-between'}}>
-                    <Text style={{alignSelf: 'center',fontWeight: 'bold',marginTop: '4%',paddingVertical:2}}>Require: </Text>
+                    <Text numberOfLines={1} style={{alignSelf: 'center',fontWeight: 'bold',marginTop: '4%',paddingVertical:2,fontSize:13}}>Require: </Text>
                     {cardDetails.manpower == 1 ? 
                     <View style={{...styles.requirementsButton,backgroundColor: Colors.primary,marginTop:'2%'}}>
                   
-                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Manpower</Text>
+                        <Text numberOfLines={1} style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white',fontSize:13}}>Manpower</Text>
                     </View> : null}
                     {cardDetails.insurance == 1 ? 
                     <View style={{...styles.requirementsButton,backgroundColor: Colors.primary}}>
@@ -106,7 +111,7 @@ const [submitted,isSubmitted] = useState(false);
                     </View>  : null}
 
                    {cardDetails.vehicle == 1 ?  <View style={{...styles.requirementsButton,backgroundColor: Colors.primary}}>
-                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Vehicle</Text>
+                        <Text  numberOfLines={1} style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white',fontSize:13}}>Vehicle</Text>
                     </View> : null}
                     </View>
                 </View>
@@ -124,14 +129,9 @@ const [submitted,isSubmitted] = useState(false);
 
             <View style={{...styles.card,padding: '4%'}}>
         <Text style={{...Styles.heading,width:dimen.width}}>{thisVendor.name}</Text>
-        <View style={{marginTop: '5%'}}>
+        <Image style={{aspectRatio: 1 / 1.7, alignSelf: 'flex-start', borderWidth: 1, flex: 1,marginTop:'3%' }} source={{uri : "https://dev.we-link.in/dist/img/users/" + thisVendor.image}} />
 
-        {/* Size is not right */}
-        <Image  style ={{height:90,width:70, borderWidth: 1 }} source={thisVendor.image.trim() != '' ? {uri: thisVendor.image}: require('../../assets/notmaleavatar.png')}/>
-        {/* <Text style={{...styles.address,flex : 4}}>{"Address : " + "#123 some road, some layout, some city, near something - 122344"}</Text> */}
-
-
-        </View>
+       
 
         <View style={{flexDirection :'row',marginTop:'10%'}}>
         <Entypo name="calendar" size={23} color={Colors.blue} style={{margin : '1%'}} />
@@ -280,7 +280,8 @@ const styles=StyleSheet.create({
         margin: 3,
        
         borderColor: Colors.primary,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        flex:1
     },
     requirementsButton:{
         paddingVertical: '0.5%',

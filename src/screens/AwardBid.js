@@ -67,7 +67,7 @@ export default function AwardBid({navigation,route}){
                 <View style={{flexDirection: 'row'}}>
 
                     {/* Size is not right */}
-                    <Image style={{ ...styles.image, aspectRatio: 1 / 1.7, alignSelf: 'flex-start', borderWidth: 1, flex: 1,marginTop: '3%' }} source={{ uri: thisVendor.image }} />
+                    <Image style={{ ...styles.image, aspectRatio: 1 / 1.7, alignSelf: 'flex-start', borderWidth: 1, flex: 1,marginTop: '3%' }} source={{ uri: "https://dev.we-link.in/dist/img/users/"+thisVendor.image }} />
                     <Text style={{ ...styles.address, flex: 4,margin:'3%' }}>{thisVendor.address}</Text>
 
 

@@ -2,12 +2,13 @@ import React,{useState} from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
+import {Colors} from '../Constants';
 
 
 const renderStars = (number) => {
     const [gap,setGap] = useState(0);
     
-const filledStar=<FontAwesome name='star' color="#BF9000" size={16} />;
+const filledStar=<FontAwesome name='star' color={Colors.ratingStars} size={16} />;
 const outlinedStar=<View onLayout={({nativeEvent}) => {
     setGap(nativeEvent.layout.height);
     
@@ -16,7 +17,7 @@ const outlinedStar=<View onLayout={({nativeEvent}) => {
 </View>;
 const halfStar=() => (<View style={{height:gap}}>
 <FontAwesome name='star-o' color="black" size={16} />
-<FontAwesome name='star-half' color="#BF9000" size={16} style={{zIndex: 50,position:'absolute'}}/>
+<FontAwesome name='star-half' color={Colors.ratingStars} size={16} style={{zIndex: 50,position:'absolute'}}/>
 </View>);
 
     let full=0,half=0,outline=0;
@@ -54,7 +55,6 @@ const halfStar=() => (<View style={{height:gap}}>
 const Stars = ({number}) => {
 
    // number=3;
-    let stars = renderStars(number);
 
     return(<View style={style.container}>
     {renderStars(number)}

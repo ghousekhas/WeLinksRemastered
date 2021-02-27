@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-community/picker';
-import { Colors, TextSpinnerBoxStyles, dimen, Styles, Config } from '../Constants';
+import { Colors, TextSpinnerBoxStyles, dimen, Styles, Config, monthNames } from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import AppBar from '../components/AppBar';
 import moment from 'moment';
@@ -17,13 +17,70 @@ import qs from 'qs';
 
 
 export default function VendorBidDetails({ navigation, route }) {
-    const cardDetails = route.params;
+    const [cardDetails,setCardDetails] =useState(route.params);
+
     const { tag } = route.params;
+    const [cardWidth,setCardWidth] = useState(0);
 
     console.log(cardDetails)
     console.log(tag)
-    const [title, stitle] = useState("Bid Title");
-    const [address, sAddress] = useState('#221 B, Baker Street')
+    const {actualVendor,vendorID} = route.params
+
+    const sortDate = (date) => {
+        console.log("Wrong date " +date)
+        let d = date.split('-');
+        let m = monthNames[Number(d[1] >= 10 ? d[1] : d[1]%10)];
+        console.log(`${d[2]}-${m}-${d[0]}}`)
+        return `${d[2]}-${m}-${d[0]}`
+       
+        
+    }
+
+    const placeBid = () => {
+        console.log('Placing')
+        Axios.post(Config.api_url + 'php?' + qs.stringify({
+            action: 'applyBid',
+            owner_id: cardDetails.ownerID,
+            bid_id: cardDetails.bidID,
+            vendor_id: vendorID,
+            appln_amount: bidAmount
+
+
+
+        })).then((value) => {
+            console.log("Placed "+ JSON.stringify(value.data));
+            alert(`Bid placed successfully at ${bidAmount}!`)
+            setEditNow(true);
+            navigation.navigate('VendorViewBids',{
+                reload: true
+            });
+
+        })
+
+
+
+    }
+    const editBid = () => {
+        isSubmitted(true);
+        console.log('Edit')
+        Axios.post(Config.api_url + 'php?' + qs.stringify({
+            action: 'editAppliedBid',
+            bid_apply_id : cardDetails.applyID,
+          
+            bid_id: cardDetails.bidID,
+            vendor_id: vendorID,       // Be careful with bid apply id and vendor
+            appln_amount: editAmount
+
+
+
+        })).then((value) => {
+           alert(`Your bid amount has been changed to ${editAmount}!`)
+           setEditAmount(editAmount);
+           isSubmitted(false);
+           setEditNow(false);
+      
+        }),(error) => {console.log(error)}
+    }
 
 
     const renderHeader = () => {
@@ -32,191 +89,152 @@ export default function VendorBidDetails({ navigation, route }) {
         const [editAmount,setEditAmount] = useState(cardDetails.cost);
         const [submitted, isSubmitted] = useState(false);
         const [editNow, setEditNow] = useState(false);
-        const [submitChanges,setSubmitChanges] = useState(false);
 
-        const {actualVendor,vendorID} = route.params
 
         console.log("Vendor " + vendorID)
 
 
        
-        const placeBid = () => {
-            Axios.post(Config.api_url + 'php?' + qs.stringify({
-                action: 'applyBid',
-                owner_id: cardDetails.ownerID,
-                bid_id: cardDetails.bidID,
-                vendor_id: vendorID,
-                appln_amount: bidAmount
+       
+        const button = () => {
+            if(tag=='Open'){
+            return(<TouchableOpacity style={!submitted ? { ...styles.cancelButton, backgroundColor: Colors.primary,width:cardWidth } : { ...styles.cancelButton, backgroundColor: Colors.buttonEnabledGreen, opacity: 1,width:cardWidth }}
+                onPress={() => {
+                  
+                        if (bidAmount == "" || bidAmount == undefined || bidAmount <= 0 || bidAmount == null) {
+                            alert('Please enter a valid amount to bid!');
+                            isSubmitted(false);
+                        } else {
+                            isSubmitted(true);
 
-
-
-            })).then((value) => {
-                console.log(value.data);
-                alert(`Bid placed successfully at ${bidAmount}!`)
-
-            })
-
-
-
+                            console.log(bidAmount)
+                            placeBid();
+                        }
+                }}>
+                <Text style={!submitted ? styles.cancelText : { ...styles.cancelText, fontStyle: 'italic' }}>Bid Now</Text>
+            </TouchableOpacity>)}
+            else if(tag=='Submitted' && cardDetails.status != 'Cancelled')
+            return(<View>
+            <TouchableOpacity style={!submitted ? { ...styles.cancelButton, backgroundColor: Colors.primary,width:cardWidth } : { ...styles.cancelButton, backgroundColor: Colors.buttonEnabledGreen, opacity: 1,width:cardWidth }}
+            onPress = {() => {
+                !editNow ?
+                setEditNow(true) : editBid();
+               // editBid();
+            }} >
+                <Text style={!submitted ? styles.cancelText : { ...styles.cancelText, fontStyle: 'italic' }}>{!editNow ? 'Edit Now' : 'Submit Changes'}</Text>
+            </TouchableOpacity>
+            </View>)
+            else return null;
         }
-        const editBid = () => {
-            console.log('Edit')
-            Axios.post(Config.api_url + 'php?' + qs.stringify({
-                action: 'editAppliedBid',
-                bid_apply_id : cardDetails.applyID,
-              
-                bid_id: cardDetails.bidID,
-                vendor_id: vendorID,       // Be careful with bid apply id and vendor
-                appln_amount: editAmount
 
-
-
-            })).then((value) => {
-                console.log(value.data);
-               alert(`Your bid amount has been changed to ${editAmount}!`)
-
-            //    Axios.get(Config.api_url + 'php?action=getAppliedBid&' + qs.stringify({
-            //     vendor_id : 2
-            // })).then((response) => {
-            //     try {
-            //        console.log(response.data)
+            {/* {editNow ? <TouchableOpacity style={{ ...styles.cancelButton, backgroundColor: Colors.primary }}
+            onPress = {() => {
+                
+             //  editBid();
+            }} >
+                <Text style={styles.cancelText}>Submit Changes</Text>
+            </TouchableOpacity> : null } */}
+            return (<View style={{ flex: 0 }}>
+                <View onLayout={({nativeEvent}) => {
+                    setCardWidth(nativeEvent.layout.width);
+                }} style={styles.bidcard}>
+                    <Text style={styles.title}>{cardDetails.companyName}</Text>
+                    <View style={{ ...styles.duration, flexDirection: 'column' }}>
+                        <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%' }}> {sortDate(cardDetails.bid_startdate) + " to " + sortDate(cardDetails.bid_enddate)} </Text>
+                        <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%' }}>{cardDetails.address}</Text>
+                    </View>
+                    {tag == 'Won' ? <View style={{ flexDirection: 'row' }}>
+                        <FontAwesome5 name="money-bill-wave-alt" size={17} color="#E0BA3F" style={{ alignSelf: 'center' }} />
+                        <Text style={{ ...styles.cardTitle, color: "#E0BA3F", fontWeight: 'bold', margin: '2%' }}>{" Winning Amount : ₹" + cardDetails.cost}</Text>
     
-            //     }
-            //     catch (error) {
-            //         console.log('Refresh error', error);
-            //         //retrieveData(t-1);
-            //     }
-            // }, (error) => {
-            //     console.log('Refresh error', error);
-            //     // retrieveData(t-1);
-            // })
-
-
-
-
-            }),(error) => {console.log(error)}
-        }
-        return (<View style={{ flex: 0 }}>
-            <Text style={{ ...Styles.heading, alignSelf: 'center' }}>Bid Details</Text>
-            <View style={styles.bidcard}>
-                <Text style={styles.title}>{cardDetails.companyName}</Text>
-                <View style={{ ...styles.duration, flexDirection: 'column' }}>
-                    <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%' }}> {moment().toString()} </Text>
-                    <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%' }}>{"Pick Up : " + cardDetails.address}</Text>
-                </View>
-                {tag == 'Won' ? <View style={{ flexDirection: 'row' }}>
-                    <FontAwesome5 name="money-bill-wave-alt" size={17} color="#E0BA3F" style={{ alignSelf: 'center' }} />
-                    <Text style={{ ...styles.cardTitle, color: "#E0BA3F", fontWeight: 'bold', margin: '2%' }}>{" Winning Amount : ₹" + cardDetails.cost}</Text>
-
-
-                </View> : null}
-                <View style={{ flexDirection: 'row' }}>
-                    <Entypo name="phone" size={17} color={Colors.primary} style={{ alignSelf: 'center' }} />
-                    <Text style={{ ...styles.cardTitle, color: Colors.primary, fontWeight: 'bold' }}>{cardDetails.contact}</Text>
-                </View>
-                <View style={{ ...styles.duration, paddingVertical: 0, justifyContent: 'space-between' }}>
-                    <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center' }}>
-                        <Feather name="truck" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
-                        <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.bidItems}</Text>
+    
+                    </View> : null}
+                    <View style={{ flexDirection: 'row' }}>
+                        <Entypo name="phone" size={17} color={Colors.primary} style={{ alignSelf: 'center' }} />
+                        <Text style={{ ...styles.cardTitle, color: Colors.primary, fontWeight: 'bold' }}>{cardDetails.contact}</Text>
                     </View>
-                    <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.seperatorGray, justifyContent: 'flex-start', alignSelf: 'center' }}>
-                        <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingLeft: 10 }}>{cardDetails.bidItemsWeight}</Text>
-                        <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2, alignSelf: 'center' }} />
+                    <View style={{ ...styles.duration, paddingVertical: 0, justifyContent: 'space-between' }}>
+                        <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center',height:cardWidth/7,alignItems:'center' }}>
+                            <Feather name="truck" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
+                            <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.bidItems}</Text>
+                        </View>
+                        <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.seperatorGray, justifyContent: 'flex-start', alignSelf: 'center',height:cardWidth/7 ,alignItems:'center'}}>
+                            <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingLeft: 10 }}>{cardDetails.bidItemsWeight}</Text>
+                            <MaterialCommunityIcons name="weight-kilogram" size={25} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2, alignSelf: 'center' }} />
+                        </View>
+                        <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center',height:cardWidth/7,alignItems:'center' }}>
+                            <AntDesign name="clockcircleo" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
+                            <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
+                        </View>
                     </View>
-                    <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center' }}>
-                        <AntDesign name="clockcircleo" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
-                        <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
+                    <View style={styles.duration}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Text style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2 }}>Require: </Text>
+    
+                            {cardDetails.manpower == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary, marginTop: '2%' }}>
+    
+                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center' }}>Manpower</Text>
+                            </View> : null}
+    
+                            {cardDetails.insurance == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
+                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' ,fontSize:13,textAlign:'center'}}>Insurance</Text>
+                            </View> : null}
+    
+                            {cardDetails.vehicle == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
+                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center' }}>Vehicle</Text>
+                            </View> : null}
+                        </View>
                     </View>
-                </View>
-                <View style={styles.duration}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2 }}>Require: </Text>
-
-                        {cardDetails.manpower == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary, marginTop: '2%' }}>
-
-                            <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' }}>Manpower</Text>
-                        </View> : null}
-
-                        {cardDetails.insurance == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
-                            <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' }}>Insurance</Text>
-                        </View> : null}
-
-                        {cardDetails.vehicle == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
-                            <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' }}>Vehicle</Text>
-                        </View> : null}
+                    <View style={{ flex: 0 }}>
+                        <Text style={{ ...styles.title }}>Additional Notes</Text>
+                        <Text style={{ ...styles.info }}>{cardDetails.notes}</Text>
                     </View>
+                    {tag != 'Won' ? <View>
+                        <TextInput value={tag == 'Open' ? bidAmount : editAmount} editable={tag == 'Open' || editNow ? true : false} onChangeText={amount =>{
+                            tag == 'Open' ? setBidAmount(amount) : setEditAmount(amount) 
+                            }} keyboardType="number-pad" placeholder="Enter your bid amount"
+                            style={{ borderRadius: 10, marginTop: '2%', borderWidth: 0.5, borderColor: 'gray' }} />
+                    </View> : null}
+                   
+    
                 </View>
-                <View style={{ flex: 0 }}>
-                    <Text style={{ ...styles.title }}>Additional Notes</Text>
-                    <Text style={{ ...styles.info }}>{cardDetails.notes}</Text>
-                </View>
-                {tag != 'Won' ? <View>
-                    <TextInput value={tag == 'Open' ? bidAmount : editAmount} editable={tag == 'Open' || editNow ? true : false} onChangeText={amount =>{
-                        tag == 'Open' ? setBidAmount(amount) : setEditAmount(amount) 
-                        }} keyboardType="numbers-and-punctuation" placeholder="Enter your bid amount"
-                        style={{ borderRadius: 10, marginTop: '2%', borderWidth: 0.5, borderColor: 'gray' }} />
-                </View> : null}
-               
-
+                {button()}
+                {/* <SubmitButton text='Cancel Bid' /> */}
+              
+    
             </View>
-            {/* <SubmitButton text='Cancel Bid' /> */}
-            {tag == 'Open' ?
-                <TouchableOpacity style={!submitted ? { ...styles.cancelButton, backgroundColor: Colors.primary } : { ...styles.cancelButton, backgroundColor: Colors.secondary, opacity: 1 }}
-                    onPress={() => {
-                        isSubmitted(true);
-                      
-                            if (bidAmount == "" || bidAmount == undefined || bidAmount <= 0 || bidAmount == null) {
-                                alert('Please enter a valid amount to bid!');
-                                isSubmitted(false);
-                            } else {
-                                console.log(bidAmount)
-                                placeBid();
-                            }
-                    }}>
-                    <Text style={!submitted ? styles.cancelText : { ...styles.cancelText, fontStyle: 'italic' }}>Bid Now</Text>
-                </TouchableOpacity>
-                : <TouchableOpacity style={{ ...styles.cancelButton, backgroundColor: Colors.primary }}
-                onPress = {() => {
-                    !editNow ?
-                    setEditNow(true) : editBid();
-                   // editBid();
-                }} >
-                    <Text style={styles.cancelText}>{!editNow ? 'Edit Now' : 'Submit Changes'}</Text>
-                </TouchableOpacity>}
-
-                {/* {editNow ? <TouchableOpacity style={{ ...styles.cancelButton, backgroundColor: Colors.primary }}
-                onPress = {() => {
-                    
-                 //  editBid();
-                }} >
-                    <Text style={styles.cancelText}>Submit Changes</Text>
-                </TouchableOpacity> : null } */}
-
+            )
+        }
+        return (<View>
+            <AppBar
+            title={'Bid Details'}
+                back
+                funct={() => {
+           navigation.goBack();
+    
+                }} />
+    
+            <View style={{ ...Styles.parentContainer, backgroundColor: Colors.whiteBackground }}>
+    
+                <FlatList
+                    ListHeaderComponent={renderHeader}
+                    data={[1, 2, 3, 4, 5, 6, 7, 8]}
+                    // renderItem={renderItem}
+                    ItemSeparatorComponent={() => <View />} 
+                    />
+            </View>
         </View>
+    
         )
+      
     }
 
+   
 
 
-    return (<View>
-        <AppBar
-            back
-            funct={() => {
-                navigation.pop();
-            }} />
 
-        <View style={{ ...Styles.parentContainer, backgroundColor: Colors.whiteBackground }}>
+ 
 
-            <FlatList
-                ListHeaderComponent={renderHeader}
-                data={[1, 2, 3, 4, 5, 6, 7, 8]}
-                // renderItem={renderItem}
-                ItemSeparatorComponent={() => <GenericSeperator />} />
-        </View>
-    </View>
-
-    )
-}
 
 const styles = StyleSheet.create({
     bidcard: {
@@ -235,7 +253,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 3,
         margin: 3,
-
+        flex:1,
         borderColor: Colors.primary,
         flexDirection: 'row'
     },
