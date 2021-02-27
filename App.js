@@ -534,12 +534,13 @@ const userSupportStack = ({ navigation, route }) => {
 
 export default function App() {
   const Stack = createStackNavigator();
+  const debug = false; //DEBUG
 
  
   
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState(auth().currentUser); 
+  const [user, setUser] = useState(debug ? {phoneNumber: '+919535311386'} : auth().currentUser); 
   const [userDetails, setUserDetails] = useState(null);
   const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
@@ -732,7 +733,8 @@ export default function App() {
 
 
   React.useEffect(() => {
-    Notifications.getInitialNotification().then((notification)=>{
+   if(!debug){
+     Notifications.getInitialNotification().then((notification)=>{
       const id = notification.payload.identifier;
       switch(id){
         case '1': vendorMilkRouting(); break;
@@ -765,17 +767,21 @@ export default function App() {
       getUserDetails(0, user);
     const suser = auth().onAuthStateChanged(onAuthStateChanged);
     getVendorDetails();
+   } 
+   else{ 
+     if (userDetails === null){
+      getUserDetails(0, user);
+      sendNotif();
+
+    }
+  }
     
     
 
      
   
     // To debug with custom phone number comment above and uncomment below
-    // if (userDetails === null){
-    //   getUserDetails(0, user);
-      sendNotif();
-
-    // }
+    
 
 
 
