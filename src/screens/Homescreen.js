@@ -17,6 +17,9 @@ import Animated from 'react-native-reanimated';
 import RatingComponent from '../components/RatingsComponent'
 import RatingComponentScreen from '../components/RatingComponentScreen';
 import { MaterialIcons } from '@expo/vector-icons';
+import qs from 'qs';
+import ymdToApp, {getDuration} from '../Utility/dateConvertor';
+import Notifications from 'react-native-notifications';
 
 
 
@@ -49,7 +52,14 @@ export default class Homescreen extends React.Component{
             drawer: this.props.route.params.drawer,
             imageHeight : 0,
             fall: new Animated.Value(1),
-            sheetOpen : false
+            sheetOpen : false,
+            newsPendingRatings: [],
+            milkPendingRatings: [],
+            ratingOrderDetails: {},
+            ratingOrderMeta: {},
+            milkRatingOpen: false,
+            remountRating: Math.random(0.2).toString()
+
         };
         this.images={
             milk: require('./../../assets/milk.png'),
@@ -100,16 +110,42 @@ export default class Homescreen extends React.Component{
              
             });
       }
+    
+    retrievePendingRatings = async () => {
+       
+        try{
+            console.log('user_id', this.state.actualUser.user_id);
+            const milk_pending = await Axios.get(Config.api_url+'php?action=getPendingRating&'+qs.stringify({
+                user_id: this.state.actualUser.user_id,
+                product_type: 'milk'
+            }));
+            console.log('milkpending', milk_pending.data);
+            this.setState({milkPendingRatings: milk_pending.data});
+            const news_pending = await Axios.get(Config.api_url+'php?action=getPendingRating&'+qs.stringify({
+                user_id: this.state.actualUser.user_id,
+                product_type: 'newspaper'
+            }));
+            console.log('news_pending', news_pending.data);
+            this.setState({newsPendingRatings: news_pending.data});
+
+        }
+        catch(error){
+            console.log('pendingrating error', error);
+        }
+
+    }
 
 
     componentDidMount(){
         const {navigation}= this.props;
         //this.checkIfFirstLogin();
         this.retrieveUserData(10);
+        this.retrievePendingRatings();
         //this.setState({actualUser: this.props.actualUser});
         this.focusListener= navigation.addListener('focus',()=>{
             //this.checkIfFirstLogin();
             this.retrieveUserData(10);
+            //this.retrievePendingRatings();
        });
 
         BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
@@ -152,27 +188,93 @@ export default class Homescreen extends React.Component{
     }
 
     renderContent = () => {
-        return(<View>
- <View
-           style={{...Styles.parentContainer,backgroundColor: Colors.lightBlue}}
-          >
+        return(<View key={this.state.remountRating}>
+                <View
+                        style={{backgroundColor: Colors.lightBlue,paddingBottom: 100}}
+                        >
 
-        <View style={{backgroundColor:'white', alignItems:'flex-end',padding:'1%'}}>
-        <MaterialIcons name="keyboard-arrow-down" size={25} color="black" 
-        onPress={() => {
-            this.bs.current.snapTo(2);
+                        <View style={{backgroundColor:'white', alignItems:'flex-end',padding:'1%'}}>
+                        <MaterialIcons name="keyboard-arrow-down" size={25} color="black" 
+                        onPress={() => {
+                            this.bs.current.snapTo(2);
 
-        }}
-         />
+                        }}
+                        />
 
-        </View>
+              </View>
  
-           <RatingComponentScreen />
-       
+           <RatingComponentScreen buttonPress={(stars, comments)=>{
+               console.log('posting review');
+               Axios.post(Config.api_url+'php?'+qs.stringify({
+                   action: 'postRating',
+                   user_id: this.state.actualUser.user_id,
+                   vendor_id: this.state.ratingOrderMeta.vendor_id,
+                   product_type: this.state.ratingOrderMeta.product_type,
+                   rating: stars,
+                   feedback: comments,
+                   order_id: this.state.ratingOrderMeta.order_id
+               }),{}).then((response)=>{
+                   console.log(response.data);
+                   if(!this.state.milkRatingOpen){
+                        const tempNews = this.state.newsPendingRatings;
+                        tempNews.splice(0,1);
+                        this.setState({newsPendingRatings: tempNews});
+                        this.bs.current.snapTo(2);
 
+                        if(this.state.newsPendingRatings.length == 0){
+                            this.setState({sheetOpen: false});
+                            this.props.navigation.navigate('AddressList',{
+                                next: 'PaperVendors',
+                                user: this.props.route.params.user,
+                                actualUser: this.state.actualUser,
+                                tag: 'Paper',
+                                profile: true
+                            });
+                        }
+                        else{
+                            const milk = tempNews;
+                            this.setState({ratingOrderDetails : {
+                                Date: ymdToApp(milk[0].order_date),
+                                Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
+                                Product: milk[0].product_name,
+                                Quantitiy: milk[0].quantity,
+                                Vendor: milk[0].company_name
+                            }});
+                            this.setState({remountRating: Math.random(0.4).toString()});
+                        }
+                    }
+                    else{
+                        const tempMilk = this.state.milkPendingRatings;
+                        tempMilk.splice(0,1);
+                        this.setState({milkPendingRatings: tempMilk});
 
+                        if(this.state.milkPendingRatings.length >0 ){
+                            const milk = tempMilk;
+                            this.setState({ratingOrderDetails : {
+                                Date: ymdToApp(milk[0].order_date),
+                                Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
+                                Product: milk[0].product_name,
+                                Quantitiy: milk[0].quantity,
+                                Vendor: milk[0].company_name
+                            }});
+                        }
+                        else{
+                            this.props.navigation.navigate('AddressList',{
+                                next: 'MilkVendors',
+                                user: this.props.route.params.user,
+                                actualUser: this.state.actualUser,
+                                tag: 'Milk',
+                                profile: true
+                            });
+                            this.setState({remountRating: Math.random(0.4).toString()});
 
-
+                        }
+                        
+                    }
+                   //this.setState({newsPendingRatings: []});
+                   //this.retrievePendingRatings();
+               })
+           }} order_details={this.state.ratingOrderDetails} />
 
           </View>
         </View>
@@ -234,7 +336,7 @@ export default class Homescreen extends React.Component{
                 onCloseStart={() => {
                     this.setState({sheetOpen: false});
                 }}
-                snapPoints={[520, 0, 0]}
+                snapPoints={[dimen.height/1.3, 0, 0]}
                 renderContent={this.renderContent}
              //   renderHeader={this.renderHeader}
                 initialSnap={2}
@@ -277,17 +379,27 @@ export default class Homescreen extends React.Component{
                     }} style={styles.menuitem} onPress={()=>{
                         console.log('actualuser',this.state.actualUser);
                         //sendNotif('titleeee','boddy','user87');
-                        if(false){
-                            this.props.navigation.navigate('RatingsPage',{
-                                pendingList: [1,2,3,4],
-                                next: 'MilkVendors',
-                                user: user,
-                                actualUser: this.state.actualUser,
-                                tag: 'Milk',
-                                profile: true
-                            })
+
+                        const milk = this.state.milkPendingRatings;
+                        if(milk.length > 0){
+                            this.setState({remountRating: Math.random(0.4).toString()});
+                            console.log(milk);
+                            this.setState({ratingOrderMeta: milk[0]});
+                            this.setState({ratingOrderDetails : {
+                                Date: ymdToApp(milk[0].order_date),
+                                Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
+                                Product: milk[0].product_name,
+                                Quantitiy: milk[0].quantity,
+                                Vendor: milk[0].company_name
+                            }});
+                            this.setState({milkRatingOpen: true})
+
+                            this.setState({sheetOpen: true});
+                            this.bs.current.snapTo(0);
                         }
-                        else
+                        else{
+                            this.setState({sheetOpen: false});
+                            this.bs.current.snapTo(2);
                             this.props.navigation.navigate('AddressList',{
                                 next: 'MilkVendors',
                                 user: user,
@@ -295,6 +407,26 @@ export default class Homescreen extends React.Component{
                                 tag: 'Milk',
                                 profile: true
                             });
+
+                        }
+                        // if(false){
+                        //     this.props.navigation.navigate('RatingsPage',{
+                        //         pendingList: [1,2,3,4],
+                        //         next: 'MilkVendors',
+                        //         user: user,
+                        //         actualUser: this.state.actualUser,
+                        //         tag: 'Milk',
+                        //         profile: true
+                        //     })
+                        // }
+                        // else
+                        //     this.props.navigation.navigate('AddressList',{
+                        //         next: 'MilkVendors',
+                        //         user: user,
+                        //         actualUser: this.state.actualUser,
+                        //         tag: 'Milk',
+                        //         profile: true
+                        //     });
                     }
                         //this.props.navigation.navigate('MilkVendors')}
                 }>
@@ -304,20 +436,43 @@ export default class Homescreen extends React.Component{
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
                      //   sendNotif('Hey','Paper','user165')
-                     console.log('Touvh')
-                        this.setState({sheetOpen:true})
-                        this.bs.current?.snapTo(0);
 
-                        console.log('Touvh1')
+                        const news = this.state.newsPendingRatings;
+                        if(news.length > 0){
+                            this.setState({remountRating: Math.random(0.4).toString()});
+                            console.log(news);
+                            this.setState({ratingOrderMeta: news[0]});
+                            this.setState({ratingOrderDetails : {
+                                Date: ymdToApp(news[0].order_date),
+                                Duration: getDuration(news[0].subscription_start_date, news[0].subscription_end_date)+ ' Days',
+                                Product: news[0].product_name,
+                                Quantitiy: news[0].quantity,
+                                Vendor: news[0].company_name
+                            }});
+
+                            this.setState({sheetOpen: true});
+                            this.bs.current.snapTo(0);
+                        }
+                        else{
+                            this.props.navigation.navigate('AddressList',{
+                                next: 'PaperVendors',
+                                user: user,
+                                actualUser: this.state.actualUser,
+                                tag: 'Paper',
+                                profile: true
+                            });
+
+                        }
 
 
-                    //     this.props.navigation.navigate('AddressList',{
-                    //     next: 'PaperVendors',
-                    //     user: user,
-                    //     actualUser: this.state.actualUser,
-                    //     tag: 'Paper',
-                    //     profile: true
-                    // });
+                    //  console.log('Touvh')
+                    //     this.setState({sheetOpen:true})
+                    //     this.bs.current?.snapTo(0);
+
+                    //     console.log('Touvh1')
+
+
+                    
                     }}>
                         <Image style={{...styles.menuimage,height: this.state.imageHeight}} source={this.images.news}/>
                         <Text style={{...styles.menutext,marginTop: this.state.imageHeight*2/20}}>{this.state.news}</Text>

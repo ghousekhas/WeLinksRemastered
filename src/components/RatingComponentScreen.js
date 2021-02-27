@@ -9,13 +9,15 @@ import TextBox from './TextBox';
 const strings = strings_screen.ratings;
 
 
-export default function RatingComponentScreen({order_details = {}}){
+export default function RatingComponentScreen({buttonPress= ()=>{},order_details = {}}){
     var stars = 0;
+    var reviewText = '';
 
 
 
     return (
-        <View style={{backgroundColor: Colors.lightBlue,flex:0}}>
+        <View style={{backgroundColor: Colors.lightBlue }}>
+            <ScrollView>
             <Text style={[Styles.subheading,styles.mainheading]}>{ strings.heading }</Text>
             <View style={styles.order_card}>
                 <Text style={{...Styles.heading,marginTop: 0}}>Order Details</Text> 
@@ -33,11 +35,14 @@ export default function RatingComponentScreen({order_details = {}}){
                     })
                 }
             </View>
-            <RatingComponent starChanged={(new_stars)=>{
+            <RatingComponent key={JSON.stringify(order_details)} initRatings={0} starChanged={(new_stars)=>{
                 stars = new_stars;
             }} />
-            <TextInput title={strings.textbox_title} numberOfLines={10} textAlignVertical="top" style={styles.input}  placeholder={strings.hint} />
-            <SubmitButton text="Submit" />
+            <TextInput key={JSON.stringify(order_details).toLowerCase()} title={strings.textbox_title} onChangeText={(text)=>{reviewText = text}} numberOfLines={10} textAlignVertical="top" style={styles.input}  placeholder={strings.hint} />
+            <SubmitButton onTouch={()=>{
+                console.log(stars,reviewText);
+                buttonPress(stars,reviewText)}} text="Submit" />
+            </ScrollView>
         </View>
     )
 }

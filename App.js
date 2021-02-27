@@ -844,9 +844,12 @@ export default function App() {
 
     //Applock
    
-     if(pendingAction > 0 && pendingActionItem != null){
+     if(pendingAction > 0 && pendingActionItem != null && true /*add scrap condition*/){
        console.log("I exist "+pendingActionItem)
       return <ScrapPickedConfirmation  route={{params:{item: pendingActionItem,refreshCallback: getUserDetails,actualUser: userDetails, cardDetail: pendingActionItem,tag: 'User',user: user }}}  />
+     }
+     else if(pendingAction > 0 && pendingActionItem != null && true /*corporate scrap condition*/){
+      return null;
      }
 
 
