@@ -443,7 +443,7 @@ export default class Homescreen extends React.Component{
                             this.bs.current.snapTo(0);
                         }
                         else{
-                            this.setState({sheetOpen: false});
+                            // this.setState({sheetOpen: false});
                             this.bs.current.snapTo(2);
                             this.props.navigation.navigate('AddressList',{
                                 next: 'MilkVendors',
