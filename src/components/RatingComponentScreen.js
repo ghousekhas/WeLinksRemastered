@@ -23,15 +23,16 @@ export default function RatingComponentScreen({buttonPress= ()=>{},order_details
     return (
         <View style={{backgroundColor: Colors.lightBlue }}>
             <ScrollView>
+            <View style={{flex:1}}>
             <Text style={[Styles.subheading,styles.mainheading]}>{ strings.heading }</Text>
             <View style={styles.order_card}>
                 <Text style={{...Styles.heading,marginTop: 0}}>Order Details</Text> 
                 <View style={{marginTop: dimen.sVm}}/>
                 {
                     Object.keys(order_details).map((jKey, index)=>{
-                        console.log(jKey);
+                        console.log("jkey "+jKey);
                         return (
-                            <View style={{flexDirection: 'row'}}>
+                            <View key={index.toString()} style={{flexDirection: 'row'}}>
                                 <Text style={{fontSize: 14,color: 'gray',fontWeight: 'bold',flex: 1,marginLeft: dimen.sHm/4}}>{jKey +": "}</Text>
                                 <Text style={{fontSize: 14,color: 'black',fontWeight: 'bold',flex: 3,marginLeft: dimen.sHm/4}}>{order_details[jKey]}</Text>
                             </View>
@@ -40,13 +41,17 @@ export default function RatingComponentScreen({buttonPress= ()=>{},order_details
                     })
                 }
             </View>
-            <RatingComponent key={remountKey} initRatings={0} starChanged={(new_stars)=>{
+            
+            <RatingComponent key={Math.random().toString()} initRatings={0} starChanged={(new_stars)=>{
                 stars = new_stars;
             }} />
+
             <TextInput key={JSON.stringify(order_details).toLowerCase()} title={strings.textbox_title} onChangeText={(text)=>{reviewText = text}} numberOfLines={10} textAlignVertical="top" style={styles.input}  placeholder={strings.hint} />
+            
             <SubmitButton onTouch={()=>{
                 console.log(stars,reviewText);
                 buttonPress(stars,reviewText)}} text="Submit" />
+                </View>
             </ScrollView>
         </View>
     )
