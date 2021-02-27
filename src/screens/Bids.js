@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions} from 'react-native';
+import {View,Text,StyleSheet,ScrollView,FlatList, Dimensions} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config, monthNames} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
@@ -130,7 +130,7 @@ export default function Bids({navigation,route}){
         };
     }
     appliedVendorsList = item.applied_vendors
-    return(<TouchableOpacity onPress={() => {
+    return(<TouchableWithoutFeedback onPress={() => {
         console.log("APPLIED "+ JSON.stringify(appliedVendorsList))
             if(tab != 1 && cardDetails.status != 'Cancelled'){
                 console.log('Go')
@@ -156,7 +156,7 @@ export default function Bids({navigation,route}){
 }}
 >
     {renderCard(cardDetails)}
-    </TouchableOpacity>)
+    </TouchableWithoutFeedback>)
      
 }
 

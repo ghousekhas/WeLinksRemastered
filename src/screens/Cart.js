@@ -368,7 +368,7 @@ const Cart = ({route,navigation,Tag}) => {
       { cancelable: false }
     );
                     
-             //   navigation.popToTop();
+              navigation.popToTop();
                  //  console.log()
                 },(error)=>{
                     console.log("Error "+error);

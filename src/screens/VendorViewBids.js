@@ -11,6 +11,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import {useFocusEffect} from '@react-navigation/native';
 import Axios from 'axios';
 import qs from 'qs';
 
@@ -157,11 +158,11 @@ export default function VendorViewBids({ navigation,route }) {
 
     }, [tab]);
 
-    useFocusEffect(() => {
-        console.log('reloadin')
-       getBids();
+//     useFocusEffect(() => {
+//    //     console.log('reloadin')
+//    //    getBids();
 
-    },[reload])
+//     },[reload])
 
     const renderTabs = () => {
 
@@ -374,7 +375,7 @@ export default function VendorViewBids({ navigation,route }) {
                                 return 'Submitted'
                             return 'Won'
                         }
-                        return (<TouchableOpacity onPress={() => {
+                        return (<TouchableWithoutFeedback onPress={() => {
                             navigation.navigate('VendorBidDetails', {
                                 ...cardDetails,
                                 tag: selectTab(),
@@ -383,7 +384,7 @@ export default function VendorViewBids({ navigation,route }) {
                             })
                         }}>
                             {renderCard(cardDetails)}
-                        </TouchableOpacity>)
+                        </TouchableWithoutFeedback>)
 
                     }}
                 />}
@@ -436,6 +437,7 @@ const styles = StyleSheet.create({
     tabWord: {
         fontWeight: 'bold',
         color: Colors.white,
+        textAlign:'center'
 
     },
     card: {

@@ -385,7 +385,7 @@ export default class Homescreen extends React.Component{
                 onCloseStart={() => {
                     this.setState({sheetOpen: false});
                 }}
-                snapPoints={[dimen.height/1.3, 0, 0]}
+                snapPoints={[dimen.height/1.1, 0, 0]}
                 renderContent={this.renderContent}
              //   renderHeader={this.renderHeader}
                 initialSnap={2}

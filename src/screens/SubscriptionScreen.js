@@ -188,9 +188,11 @@ return(
         
      </View>
     {/* Daily/Weekdays/Weekends */}
-     <View style={{...style.weekPick,marginTop: '8%'}}>
+     <View style={{...style.weekPick,marginTop: '8%',justifyContent:'space-around'}}>
         
-     <TouchableOpacity onPress={() => {
+     <TouchableOpacity 
+     style={{color:'green'}}
+     onPress={() => {
           //  button1 ? tapButton1(false) : tapButton1(true)
             if(button1){
                 if(button2 || button3){
@@ -211,7 +213,7 @@ return(
                 }
             
         }}>
-        <View style={button1 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white'} : style.dbutton}> 
+        <View style={button1 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white',flex:1} : style.dbutton}> 
         <Text style={button1 ? {...style.btext,color: 'white'}: style.btext}>Daily</Text>
         </View>
 
@@ -234,7 +236,7 @@ return(
                 
                 }
         }}>
-       <View style={button2 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white'} : style.dbutton}> 
+       <View style={button2 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white',flex:1} : style.dbutton}> 
         <Text style={button2 ? {...style.btext,color: 'white'}: style.btext}>Weekdays</Text>
         </View>
 
@@ -256,8 +258,8 @@ return(
                 
                 }
         }}>
-       <View style={button3 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white'} : style.dbutton}> 
-        <Text style={button3 ? {...style.btext,color: 'white'}: style.btext}>Weekends</Text>
+       <View style={button3 ?  {...style.dbutton,backgroundColor: Colors.buttonEnabledGreen,borderColor:'white',flex:1} : style.dbutton}> 
+        <Text numberOfLines={1} style={button3 ? {...style.btext,color: 'white'}: style.btext}>Weekends</Text>
         </View>
 
         </TouchableOpacity>
@@ -465,13 +467,13 @@ dbutton: {
     borderRadius: 5,
     borderColor: Colors.primary,
     borderWidth: 1.5,
-    flex: 0,
     
   //  width: Dimensions.get('window').width/3,
-    height: Dimensions.get('window').height/29,
-    aspectRatio:3.4/1.2 ,
+    height: Dimensions.get('window').height/27,
+    aspectRatio:4/1.2 ,
     alignItems: 'center',
     justifyContent: 'center',
+   // padding:'0.5%',
      
   
   

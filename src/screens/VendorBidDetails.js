@@ -36,51 +36,7 @@ export default function VendorBidDetails({ navigation, route }) {
         
     }
 
-    const placeBid = () => {
-        console.log('Placing')
-        Axios.post(Config.api_url + 'php?' + qs.stringify({
-            action: 'applyBid',
-            owner_id: cardDetails.ownerID,
-            bid_id: cardDetails.bidID,
-            vendor_id: vendorID,
-            appln_amount: bidAmount
-
-
-
-        })).then((value) => {
-            console.log("Placed "+ JSON.stringify(value.data));
-            alert(`Bid placed successfully at ${bidAmount}!`)
-            setEditNow(true);
-            navigation.navigate('VendorViewBids',{
-                reload: true
-            });
-
-        })
-
-
-
-    }
-    const editBid = () => {
-        isSubmitted(true);
-        console.log('Edit')
-        Axios.post(Config.api_url + 'php?' + qs.stringify({
-            action: 'editAppliedBid',
-            bid_apply_id : cardDetails.applyID,
-          
-            bid_id: cardDetails.bidID,
-            vendor_id: vendorID,       // Be careful with bid apply id and vendor
-            appln_amount: editAmount
-
-
-
-        })).then((value) => {
-           alert(`Your bid amount has been changed to ${editAmount}!`)
-           setEditAmount(editAmount);
-           isSubmitted(false);
-           setEditNow(false);
-      
-        }),(error) => {console.log(error)}
-    }
+   
 
 
     const renderHeader = () => {
@@ -93,7 +49,51 @@ export default function VendorBidDetails({ navigation, route }) {
 
         console.log("Vendor " + vendorID)
 
-
+        const placeBid = () => {
+            console.log('Placing')
+            Axios.post(Config.api_url + 'php?' + qs.stringify({
+                action: 'applyBid',
+                owner_id: cardDetails.ownerID,
+                bid_id: cardDetails.bidID,
+                vendor_id: vendorID,
+                appln_amount: bidAmount
+    
+    
+    
+            })).then((value) => {
+                console.log("Placed "+ JSON.stringify(value.data));
+                alert(`Bid placed successfully at ${bidAmount}!`)
+                setEditNow(true);
+                navigation.navigate('VendorViewBids',{
+                    reload: true
+                });
+    
+            })
+    
+    
+    
+        }
+        const editBid = () => {
+            isSubmitted(true);
+            console.log('Edit')
+            Axios.post(Config.api_url + 'php?' + qs.stringify({
+                action: 'editAppliedBid',
+                bid_apply_id : cardDetails.applyID,
+              
+                bid_id: cardDetails.bidID,
+                vendor_id: vendorID,       // Be careful with bid apply id and vendor
+                appln_amount: editAmount
+    
+    
+    
+            })).then((value) => {
+               alert(`Your bid amount has been changed to ${editAmount}!`)
+               setEditAmount(editAmount);
+               isSubmitted(false);
+               setEditNow(false);
+          
+            }),(error) => {console.log(error)}
+        }
        
        
         const button = () => {
@@ -173,15 +173,15 @@ export default function VendorBidDetails({ navigation, route }) {
     
                             {cardDetails.manpower == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary, marginTop: '2%' }}>
     
-                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center' }}>Manpower</Text>
+                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:12,textAlign:'center' }}>Manpower</Text>
                             </View> : null}
     
                             {cardDetails.insurance == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
-                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' ,fontSize:13,textAlign:'center'}}>Insurance</Text>
+                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white' ,fontSize:12,textAlign:'center'}}>Insurance</Text>
                             </View> : null}
     
                             {cardDetails.vehicle == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary }}>
-                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center' }}>Vehicle</Text>
+                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:12,textAlign:'center' }}>Vehicle</Text>
                             </View> : null}
                         </View>
                     </View>

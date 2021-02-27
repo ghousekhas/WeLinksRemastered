@@ -99,19 +99,20 @@ const [submitted,isSubmitted] = useState(false);
                 </View>
                 <View style={styles.duration}>
                 <View style={{flexDirection: 'row',alignItems:'center',justifyContent: 'space-between'}}>
-                    <Text numberOfLines={1} style={{alignSelf: 'center',fontWeight: 'bold',marginTop: '4%',paddingVertical:2,fontSize:13}}>Require: </Text>
+                    <Text numberOfLines={1} style={{alignSelf: 'center',fontWeight: 'bold',marginTop: '4%',paddingVertical:2,fontSize:12}}>Require: </Text>
                     {cardDetails.manpower == 1 ? 
-                    <View style={{...styles.requirementsButton,backgroundColor: Colors.primary,marginTop:'2%'}}>
+                    <View style={{...styles.requirementsButton,backgroundColor: Colors.primary,marginTop:'2%',height: dimen.height/30,alignItems:'center',justifyContent:'center'}}>
                   
-                        <Text numberOfLines={1} style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white',fontSize:13}}>Manpower</Text>
+                        <Text numberOfLines={1} style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white',fontSize:12}}>Manpower</Text>
                     </View> : null}
                     {cardDetails.insurance == 1 ? 
-                    <View style={{...styles.requirementsButton,backgroundColor: Colors.primary}}>
-                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white'}}>Insurance</Text>
+                        <View style={{...styles.requirementsButton,backgroundColor: Colors.primary,marginTop:'2%',height: dimen.height/30,alignItems:'center',justifyContent:'center'}}>
+                        <Text style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white',fontSize:12}}>Insurance</Text>
                     </View>  : null}
 
-                   {cardDetails.vehicle == 1 ?  <View style={{...styles.requirementsButton,backgroundColor: Colors.primary}}>
-                        <Text  numberOfLines={1} style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white',fontSize:13}}>Vehicle</Text>
+                   {cardDetails.vehicle == 1 ? 
+                    <View style={{...styles.requirementsButton,backgroundColor: Colors.primary,marginTop:'2%',height: dimen.height/30,alignItems:'center',justifyContent:'center'}}>
+                        <Text  numberOfLines={1} style={{...Styles.subbold,paddingHorizontal: 0.2,paddingVertical: 2,color: 'white',fontSize:12}}>Vehicle</Text>
                     </View> : null}
                     </View>
                 </View>

@@ -42,7 +42,7 @@ export default function TitleBidDetails({navigation,route}){
                 <Text style={styles.title}>{cardDetails.bidTitle}</Text>
                 <Text style={styles.info}>{cardDetails.address}</Text>
                 <View style={styles.duration}>
-                    <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%',margin:0 }}>{'Duration: ' +cardDetails.bidDuration} </Text>
+                    <Text style={{ ...styles.title, color: 'gray', marginVertical: '3%',margin:0,fontSize:13 }}>{'Duration: ' +cardDetails.bidDuration} </Text>
                 </View>
                 <View style={{ ...styles.duration, paddingVertical: 0, justifyContent: 'space-between' }}>
                 <View style={{...styles.duration,borderRadius: 10,borderWidth: 1,borderColor: Colors.primary,justifyContent: 'flex-start',alignSelf: 'center',height: cardWidth/7,alignItems:'center',margin:5}}>
@@ -59,20 +59,20 @@ export default function TitleBidDetails({navigation,route}){
                     </View>
                 </View>
                 <View style={styles.duration}>
-                   {cardDetails.manpower == 1 || cardDetails.insurance == 1|| cardDetails.vehicle == 1 ? <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',flex:1 }}>
+                   {cardDetails.manpower == 1 || cardDetails.insurance == 1|| cardDetails.vehicle == 1 ? <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',flex:4 }}>
                         <Text numberOfLines={1} style={{ alignSelf: 'center', fontWeight: 'bold', marginTop: '4%', paddingVertical: 2,marginHorizontal: '1%' }}>Require:</Text>
                         {cardDetails.manpower == 1 ?
                             <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary, marginTop: '2%'}}>
 
-                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center' }}>Manpower</Text>
+                                <Text style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:12,textAlign:'center' }}>Manpower</Text>
                             </View> : null}
                         {cardDetails.insurance == 1 ?
                             <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary,flex:1 }}>
-                                <Text numberOfLines={1} style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center'}}>Insurance</Text>
+                                <Text numberOfLines={1} style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:12,textAlign:'center'}}>Insurance</Text>
                             </View> : null}
 
                         {cardDetails.vehicle == 1 ? <View style={{ ...styles.requirementsButton, backgroundColor: Colors.primary,flex:1 }}>
-                            <Text numberOfLines={1} style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:13,textAlign:'center' }}>Vehicle</Text>
+                            <Text numberOfLines={1} style={{ ...Styles.subbold, paddingHorizontal: 0.2, paddingVertical: 2, color: 'white',fontSize:12,textAlign:'center' }}>Vehicle</Text>
                         </View> : null}
                     </View> : null}
                 </View>
