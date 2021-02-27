@@ -53,9 +53,11 @@ export default class Homescreen extends React.Component{
             sheetOpen : false,
             newsPendingRatings: [],
             milkPendingRatings: [],
+            corpPendingRatings: [],
             ratingOrderDetails: {},
             ratingOrderMeta: {},
             milkRatingOpen: false,
+            ratingTypeOpen: 'news',
             remountRating: Math.random(0.2).toString()
 
         };
@@ -112,19 +114,19 @@ export default class Homescreen extends React.Component{
     retrievePendingRatings = async () => {
        
         try{
+            const defUrl = Config.api_url+'php?action=getPendingRating&'+qs.stringify({
+                user_id: this.state.actualUser.user_id})+'&product_type=';
+            
             console.log('user_id', this.state.actualUser.user_id);
-            const milk_pending = await Axios.get(Config.api_url+'php?action=getPendingRating&'+qs.stringify({
-                user_id: this.state.actualUser.user_id,
-                product_type: 'milk'
-            }));
+            const milk_pending = await Axios.get(defUrl+'milk');
             console.log('milkpending', milk_pending.data);
             this.setState({milkPendingRatings: milk_pending.data});
-            const news_pending = await Axios.get(Config.api_url+'php?action=getPendingRating&'+qs.stringify({
-                user_id: this.state.actualUser.user_id,
-                product_type: 'newspaper'
-            }));
+            const news_pending = await Axios.get(defUrl+'newspaper');
             console.log('news_pending', news_pending.data);
             this.setState({newsPendingRatings: news_pending.data});
+            const corp = await Axios.get(defUrl+'corporate_scrap');
+            console.log('corps',corp);
+            this.setState({corpPendingRatings: corp.data});
 
         }
         catch(error){
@@ -203,59 +205,35 @@ export default class Homescreen extends React.Component{
  
            <RatingComponentScreen buttonPress={(stars, comments)=>{
                console.log('posting review');
-               Axios.post(Config.api_url+'php?'+qs.stringify({
-                   action: 'postRating',
-                   user_id: this.state.actualUser.user_id,
-                   vendor_id: this.state.ratingOrderMeta.vendor_id,
-                   product_type: this.state.ratingOrderMeta.product_type,
-                   rating: stars,
-                   feedback: comments,
-                   order_id: this.state.ratingOrderMeta.order_id
-               }),{}).then((response)=>{
-                   console.log("Posted: "+response.data);
+               if(this.state.ratingTypeOpen === 'corp')
+                    Axios.post(Config.api_url+'php?'+qs.stringify({
+                        action: 'postRating',
+                        user_id: this.state.actualUser.user_id,
+                        vendor_id: this.state.ratingOrderMeta.awarded_vendor.length > 0 ? this.state.ratingOrderMeta.awarded_vendor[0].vendor_id : 0 ,
+                        product_type: 'corporate_scrap',
+                        rating: stars,
+                        feedback: comments,
+                        order_id: this.state.ratingOrderMeta.bid_id
+                    })).then((response)=>{
+                        const data = response.data;
+                        console.log(data);
+                        const tempCorp = this.state.corpPendingRatings;
+                        tempCorp.splice(0,1);
+                        if(tempCorp.length > 0){
+                            const news = tempCorp;
+                            this.setState({ratingTypeOpen: 'corp'});
 
-                   if(!this.state.milkRatingOpen){
-                        const tempNews = this.state.newsPendingRatings;
-                        tempNews.splice(0,1);
-                        this.setState({newsPendingRatings: tempNews});
-                        this.bs.current.snapTo(2);
-
-                        if(this.state.newsPendingRatings.length == 0){
-                            this.setState({sheetOpen: false});
-                            this.props.navigation.navigate('AddressList',{
-                                next: 'PaperVendors',
-                                user: this.props.route.params.user,
-                                actualUser: this.state.actualUser,
-                                tag: 'Paper',
-                                profile: true
-                            });
-                        }
-                        else{
-                            const milk = tempNews;
-                            this.setState({ratingOrderDetails : {
-                                Date: ymdToApp(milk[0].order_date),
-                                Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
-                                Product: milk[0].product_name,
-                                Quantitiy: milk[0].quantity,
-                                Vendor: milk[0].company_name
-                            }});
                             this.setState({remountRating: Math.random(0.4).toString()});
-                        }
-                    }
-                    else{
-                        const tempMilk = this.state.milkPendingRatings;
-                        tempMilk.splice(0,1);
-                        this.setState({milkPendingRatings: tempMilk});
-
-                        if(this.state.milkPendingRatings.length >0 ){
-                            const milk = tempMilk;
+                            console.log(news);
+                            this.setState({ratingOrderMeta: news[0]});
                             this.setState({ratingOrderDetails : {
-                                Date: ymdToApp(milk[0].order_date),
-                                Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
-                                Product: milk[0].product_name,
-                                Quantitiy: milk[0].quantity,
-                                Vendor: milk[0].company_name
+                                Date: ymdToApp(news[0].bid_pickupdate),
+                                Duration: getDuration(news[0].bid_startdate, news[0].bid_enddate)+ ' Days',
+                                Title: news[0].bid_title,
+                                Product: news[0].officescrap_category_name,
+                                Vendor: news[0].company_name
                             }});
+
                         }
                         else{
                             this.bs.current.snapTo(2);
@@ -266,16 +244,80 @@ export default class Homescreen extends React.Component{
                                 tag: 'Milk',
                                 profile: true
                             });
-                            this.setState({remountRating: Math.random(0.4).toString()});
-
                         }
-                        
-                    }
 
-                  //  this.props.navigation.na
-                   //this.setState({newsPendingRatings: []});
-                   //this.retrievePendingRatings();
-               })
+                    });
+               else 
+                Axios.post(Config.api_url+'php?'+qs.stringify({
+                    action: 'postRating',
+                    user_id: this.state.actualUser.user_id,
+                    vendor_id: this.state.ratingOrderMeta.vendor_id,
+                    product_type: this.state.ratingOrderMeta.product_type,
+                    rating: stars,
+                    feedback: comments,
+                    order_id: this.state.ratingOrderMeta.order_id
+                }),{}).then((response)=>{
+                    console.log(response.data);
+                    
+                    if(!this.state.milkRatingOpen){
+                            const tempNews = this.state.newsPendingRatings;
+                            tempNews.splice(0,1);
+                            this.setState({newsPendingRatings: tempNews});
+                            this.bs.current.snapTo(2);
+
+                            if(this.state.newsPendingRatings.length == 0){
+                                this.setState({sheetOpen: false});
+                                this.props.navigation.navigate('AddressList',{
+                                    next: 'PaperVendors',
+                                    user: this.props.route.params.user,
+                                    actualUser: this.state.actualUser,
+                                    tag: 'Paper',
+                                    profile: true
+                                });
+                            }
+                            else{
+                                const milk = tempNews;
+                                this.setState({ratingOrderDetails : {
+                                    Date: ymdToApp(milk[0].order_date),
+                                    Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
+                                    Product: milk[0].product_name,
+                                    Quantitiy: milk[0].quantity,
+                                    Vendor: milk[0].company_name
+                                }});
+                                this.setState({remountRating: Math.random(0.4).toString()});
+                            }
+                        }
+                        else{
+                            const tempMilk = this.state.milkPendingRatings;
+                            tempMilk.splice(0,1);
+                            this.setState({milkPendingRatings: tempMilk});
+
+                            if(this.state.milkPendingRatings.length >0 ){
+                                const milk = tempMilk;
+                                this.setState({ratingOrderDetails : {
+                                    Date: ymdToApp(milk[0].order_date),
+                                    Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
+                                    Product: milk[0].product_name,
+                                    Quantitiy: milk[0].quantity,
+                                    Vendor: milk[0].company_name
+                                }});
+                            }
+                            else{
+                                this.props.navigation.navigate('AddressList',{
+                                    next: 'MilkVendors',
+                                    user: this.props.route.params.user,
+                                    actualUser: this.state.actualUser,
+                                    tag: 'Milk',
+                                    profile: true
+                                });
+                                this.setState({remountRating: Math.random(0.4).toString()});
+
+                            }
+                            
+                        }
+                    //this.setState({newsPendingRatings: []});
+                    //this.retrievePendingRatings();
+                })
            }} order_details={this.state.ratingOrderDetails} />
 
           </View>
@@ -381,6 +423,7 @@ export default class Homescreen extends React.Component{
                     }} style={styles.menuitem} onPress={()=>{
                         console.log('actualuser',this.state.actualUser);
                         //sendNotif('titleeee','boddy','user87');
+                        this.setState({ratingTypeOpen: 'milk'});
 
                         const milk = this.state.milkPendingRatings;
                         if(milk.length > 0){
@@ -438,6 +481,7 @@ export default class Homescreen extends React.Component{
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
                      //   sendNotif('Hey','Paper','user165')
+                        this.setState({ratingTypeOpen: 'newspaper'});
 
                         const news = this.state.newsPendingRatings;
                         if(news.length > 0){
@@ -485,6 +529,7 @@ export default class Homescreen extends React.Component{
                     
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
+
                         this.props.navigation.navigate('AddressList',{
                             next: 'ScrapVendors',            
                             user: user,
@@ -501,10 +546,34 @@ export default class Homescreen extends React.Component{
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
-                        this.props.navigation.navigate('Bids',{
-                            department: 'corporateScrap',
-                            actualUser: this.state.actualUser
-                        })
+                        const news = this.state.corpPendingRatings;
+                        if(this.state.corpPendingRatings.length > 0){
+
+                            this.setState({ratingTypeOpen: 'corp'});
+
+                            this.setState({remountRating: Math.random(0.4).toString()});
+                            console.log(news);
+                            this.setState({ratingOrderMeta: news[0]});
+                            this.setState({ratingOrderDetails : {
+                                Date: ymdToApp(news[0].bid_pickupdate),
+                                Duration: getDuration(news[0].bid_startdate, news[0].bid_enddate)+ ' Days',
+                                Title: news[0].bid_title,
+                                Product: news[0].officescrap_category_name,
+                                Vendor: news[0].company_name
+                            }});
+
+                            this.setState({sheetOpen: true});
+                            this.bs.current.snapTo(0);
+
+                        }
+                        else{
+                            this.props.navigation.navigate('Bids',{
+                                department: 'corporateScrap',
+                                actualUser: this.state.actualUser
+                            })
+                        }
+
+                       
                         // this.props.navigation.navigate('VendorsList',{
                         //     department: 'scrap'
                         // })

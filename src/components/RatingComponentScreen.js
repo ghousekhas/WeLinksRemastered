@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text,TextInput} from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import {Styles,strings_screen,dimen,Colors} from '../Constants';
@@ -10,8 +10,13 @@ const strings = strings_screen.ratings;
 
 
 export default function RatingComponentScreen({buttonPress= ()=>{},order_details = {}}){
+    const [remountKey,setRemountKey] = useState(Math.random(0.3).toString());
     var stars = 0;
     var reviewText = '';
+
+    useEffect(()=>{
+        setRemountKey(Math.random(0.3).toString());
+    },[order_details])
 
 
 
