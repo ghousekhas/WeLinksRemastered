@@ -46,7 +46,7 @@ export default function RatingComponent({starChanged = (rating)=>{}, initRatings
 
 const style = StyleSheet.create({
     container:{
-        width: '90%',
+        width: '100%',
         alignSelf: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',

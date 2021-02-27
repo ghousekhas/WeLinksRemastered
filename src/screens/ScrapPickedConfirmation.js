@@ -7,6 +7,7 @@ import qs from 'qs';
 import SubmitButton from '../components/SubmitButton';
 import sendNotif from '../Utility/sendNotificationTo';
 import auth from '@react-native-firebase/auth';
+import RatingComponent from '../components/RatingsComponent';
 
 
 
@@ -21,6 +22,7 @@ export default function ScrapPickedConfirmation({navigation,route}){
     const [incorrect,setIncorrect] = useState(false);
     const [show,setShow] = useState(false);
     const {user} = route.params;
+    const [stars,setStars] = useState(0);
 
 
   //   console.log("cd "+ JSON.stringify(cardDetail.item))
@@ -91,7 +93,8 @@ export default function ScrapPickedConfirmation({navigation,route}){
                 order_id : cardDetails.orderID,
                 pickup_amount_by_user: amount,
                 pickup_status_by_user: toString(yesOrno) ,
-                pickup_notes_by_user: vnotes
+                pickup_notes_by_user: vnotes,
+                ratings: stars
     
             })).then((response) => {
                 console.log(yesOrno)
@@ -263,6 +266,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
                
                 numberOfLines={1}
             style={{fontSize: 15,color: 'black',padding: 15,margin: 15,flex: 0,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,maxHeight: dimen.height/3}} />
+            <RatingComponent starChanged={(stars)=> setStars(stars)} />
             <Text style={{marginTop: dimen.height/30,alignSelf: 'center',fontSize : 12,marginHorizontal: dimen.width*0.05,flex: 0,fontWeight: 'bold',color: 'black',alignItems:'center'}}>Please leave any additional notes or feedback here</Text>
             <TextInput 
             placeholder= {`Feedback or additional information`}

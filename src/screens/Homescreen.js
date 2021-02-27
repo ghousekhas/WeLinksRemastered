@@ -263,10 +263,11 @@ export default class Homescreen extends React.Component{
                             const tempNews = this.state.newsPendingRatings;
                             tempNews.splice(0,1);
                             this.setState({newsPendingRatings: tempNews});
-                            this.bs.current.snapTo(2);
+                            
 
                             if(this.state.newsPendingRatings.length == 0){
                                 this.setState({sheetOpen: false});
+                                this.bs.current.snapTo(2);
                                 this.props.navigation.navigate('AddressList',{
                                     next: 'PaperVendors',
                                     user: this.props.route.params.user,
@@ -277,6 +278,8 @@ export default class Homescreen extends React.Component{
                             }
                             else{
                                 const milk = tempNews;
+                                this.setState({sheetOpen: false});
+                                this.bs.current.snapTo(2);
                                 this.setState({ratingOrderDetails : {
                                     Date: ymdToApp(milk[0].order_date),
                                     Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
@@ -303,6 +306,8 @@ export default class Homescreen extends React.Component{
                                 }});
                             }
                             else{
+                                this.setState({sheetOpen: false});
+                                this.bs.current.snapTo(2);
                                 this.props.navigation.navigate('AddressList',{
                                     next: 'MilkVendors',
                                     user: this.props.route.params.user,
