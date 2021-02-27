@@ -10,8 +10,13 @@ const strings = strings_screen.ratings;
 
 
 export default function RatingComponentScreen({buttonPress= ()=>{},order_details = {}}){
+    const [remountKey,setRemountKey] = useState(Math.random(0.3).toString());
     var stars = 0;
     var reviewText = '';
+
+    useEffect(()=>{
+        setRemountKey(Math.random(0.3).toString());
+    },[order_details])
 
 
 
@@ -35,7 +40,7 @@ export default function RatingComponentScreen({buttonPress= ()=>{},order_details
                     })
                 }
             </View>
-            <RatingComponent key={JSON.stringify(order_details)} initRatings={0} starChanged={(new_stars)=>{
+            <RatingComponent key={remountKey} initRatings={0} starChanged={(new_stars)=>{
                 stars = new_stars;
             }} />
             <TextInput key={JSON.stringify(order_details).toLowerCase()} title={strings.textbox_title} onChangeText={(text)=>{reviewText = text}} numberOfLines={10} textAlignVertical="top" style={styles.input}  placeholder={strings.hint} />
