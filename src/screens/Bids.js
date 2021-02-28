@@ -64,7 +64,7 @@ export default function Bids({navigation,route}){
     Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
     .then((response)=>{
         var responseArray = response.data;
-      //  console.log(responseArray);
+        console.log("list "+responseArray);
         try{
             responseArray.forEach((p)=>{
            //     console.log('ppp',p);
@@ -130,6 +130,7 @@ export default function Bids({navigation,route}){
         };
     }
     appliedVendorsList = item.applied_vendors
+    console.log("Applied "+appliedVendorsList)
     return(<TouchableWithoutFeedback onPress={() => {
         console.log("APPLIED "+ JSON.stringify(appliedVendorsList))
             if(tab != 1 && cardDetails.status != 'Cancelled'){

@@ -534,7 +534,7 @@ const userSupportStack = ({ navigation, route }) => {
 
 export default function App() {
   const Stack = createStackNavigator();
-  const debug = true; //DEBUG
+  const debug = false; //DEBUG
 
  
   

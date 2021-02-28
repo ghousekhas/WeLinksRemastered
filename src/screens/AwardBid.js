@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: 'white',
         elevation: 1,
-        height: dimen.height / 3
+       // height: dimen.height / 3
     },
     address: {
         padding: '1%',

@@ -42,7 +42,8 @@ export default function ScrapPickedConfirmation({navigation,route}){
              status : cardDetail.item.order_status,
              cart : cardDetail.item.cart,
              vendorAmount: cardDetail.item.pickup_amount_by_vendor,
-             userID : cardDetail.item.user_id
+             userID : cardDetail.item.user_id,
+             address:cardDetail.item.addr_details
 
          }
          console.log("log "+JSON.stringify(cardDetails.userID))
@@ -153,7 +154,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         for(i in cart){
             items.push(cart[i].homescrap_name+(i==cart.length-1? "" : ", "));
             console.log("len "+String(cart[i]).length)
-        res.push(<Text style={{fontWeight: 'bold',fontSize:11.5,width:String(cart[i]).length*dimen.width/80}}>{`${cart[i].homescrap_name}${i==cart.length-1? "" : ", "}`}</Text>)
+        res.push(<Text numberOfLines={1} style={{fontWeight: 'bold',fontSize:11.5,width:String(cart[i]).length*dimen.width/80}}>{`${cart[i].homescrap_name}${i==cart.length-1? "" : ", "}`}</Text>)
         }
   //      res.push(<Text style={{fontWeight: 'bold',fontSize:11}}>{items}</Text>)
         res.push(<Text>  </Text>)
@@ -205,11 +206,12 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         </View>
        
 <View>
-<Text numberOfLines={5} style={{fontWeight: 'normal',fontSize:13,paddingVertical:'4%'}}>{address}</Text>
 
 </View>
 
         <View style={{paddingBottom:'5%'}}>
+        <Text numberOfLines={5} style={{fontWeight: 'normal',fontSize:13,paddingVertical:'4%'}}>{address}</Text>
+
         <Text style={{fontSize:12,fontWeight:'bold',paddingBottom:'4%'}}>{`Pick-up date : ${getDate(pickUpDate.substring(0,10))}`}</Text>
         
         </View>
@@ -233,12 +235,12 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
     <View style={{flex:1,padding:'5%'}}>
     {tag == 'User' ? <View style={{flex:1}}>
             <Text style={{fontWeight: 'bold',color: 'black',fontSize:18,alignSelf: 'center'}}>Home Scrap : Action required</Text>
-            <Text style={{marginBottom:'6%',marginTop: '1%',padding: '3%',textAlign:'center'}}>
+            <Text style={{marginTop: '1%',padding: '3%',textAlign:'center'}}>
             Your order was completed by vendor, please update your status and comments to continue to use the app.
             </Text>
             </View>:null}
 
-            <View style={{marginTop:'25%',flex:1}}>
+            <View style={{marginTop:dimen.height/20,flex:1}}>
             <MySubscriptionOrder name={cardDetails.name} pickUpDate={cardDetails.pickUpDate} orderAmount={cardDetails.orderAmount} orderDate={cardDetails.orderDate} imageUrl={cardDetails.image} status={cardDetails.status} cart={cardDetails.cart} address={cardDetails.address}/>
             <View style={{flexDirection :'row',justifyContent: 'space-around',marginTop:'10%'}}>
                 <TouchableOpacity  onPress={() => setShow(true)} style ={{backgroundColor:Colors.primary,padding:'3%',borderRadius: 8}}>
@@ -266,7 +268,6 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
                
                 numberOfLines={1}
             style={{fontSize: 15,color: 'black',padding: 15,margin: 15,flex: 0,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,maxHeight: dimen.height/3}} />
-            <RatingComponent starChanged={(stars)=> setStars(stars)} />
             <Text style={{marginTop: dimen.height/30,alignSelf: 'center',fontSize : 12,marginHorizontal: dimen.width*0.05,flex: 0,fontWeight: 'bold',color: 'black',alignItems:'center'}}>Please leave any additional notes or feedback here</Text>
             <TextInput 
             placeholder= {`Feedback or additional information`}

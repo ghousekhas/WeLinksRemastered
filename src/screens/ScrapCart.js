@@ -314,7 +314,7 @@ export default class ScrapCart extends React.Component{
                       
                       this.placeOrder();
                   }} style={this.state.confirm ? {flex: 0,backgroundColor: Colors.buttonEnabledGreen,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}:{flex: 0,backgroundColor: Colors.primary,width: dimen.width*0.9,alignSelf: 'center',borderRadius: 10,marginBottom: 5}}>
-                     <Text style={this.state.confirm ? {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15,fontStyle: 'italic'} : {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15}}>Confirm Pickup</Text>
+                     <Text style={this.state.confirm ? {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15,fontStyle: 'italic',textAlign:'center'} : {alignSelf: 'center',zIndex: 100,color: 'white',fontSize: 15,padding: 15,textAlign:'center'}}>Confirm Pickup</Text>
                   </TouchableOpacity>
             </ScrollView>
         

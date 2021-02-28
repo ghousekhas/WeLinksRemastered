@@ -58,7 +58,8 @@ export default class Homescreen extends React.Component{
             ratingOrderMeta: {},
             milkRatingOpen: false,
             ratingTypeOpen: 'news',
-            remountRating: Math.random(0.2).toString()
+            remountRating: Math.random(0.2).toString(),
+            heightS : dimen.height/1.1
 
         };
         this.images={
@@ -68,6 +69,8 @@ export default class Homescreen extends React.Component{
             banner: require('./../../assets/homebanner.png'),
         }
         this.bs=React.createRef();
+        this.temp=0;
+        this.sheetHeight=dimen.height;
 
     }
 
@@ -203,6 +206,7 @@ export default class Homescreen extends React.Component{
 
               </View>
  
+                        <View>
            <RatingComponentScreen buttonPress={(stars, comments)=>{
                console.log('posting review');
                if(this.state.ratingTypeOpen === 'corp')
@@ -324,7 +328,7 @@ export default class Homescreen extends React.Component{
                     //this.retrievePendingRatings();
                 })
            }} order_details={this.state.ratingOrderDetails} />
-
+           </View>
           </View>
         </View>
        )
@@ -385,7 +389,7 @@ export default class Homescreen extends React.Component{
                 onCloseStart={() => {
                     this.setState({sheetOpen: false});
                 }}
-                snapPoints={[dimen.height/1.1, 0, 0]}
+                snapPoints={[dimen.height*0.85, 0, 0]}
                 renderContent={this.renderContent}
              //   renderHeader={this.renderHeader}
                 initialSnap={2}

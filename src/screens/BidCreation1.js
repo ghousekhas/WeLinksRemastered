@@ -61,12 +61,13 @@ export default function BidCreation1({ navigation, route }) {
     const [dateType, setDateType] = useState(1);
 
     const [temp, setTemp] = useState(tomorrow);
+    console.log('Tomorrow '+tomorrow)
     const sortDate = (date) => {
       
         console.log("Wrong date " + date)
         let d = date.split('-');
         
-        let m = mn[Number(d[1] >= 10 ? d[1] : d[1]%10)];
+        let m = mn[Number(d[1] >= 10 ? d[1]-1 : (d[1]-1)%10)];
         console.log(`${d[2]}-${m}-${d[0]}}`)
         return `${d[2]}-${m}-${d[0]}`
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Picker } from '@react-native-community/picker';
-import { Colors, TextSpinnerBoxStyles, dimen, Styles } from '../Constants';
+import { Colors, TextSpinnerBoxStyles, dimen, Styles,Config } from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import AppBar from '../components/AppBar';
 import Vendor from '../components/Vendor';
@@ -12,7 +12,7 @@ import { AntDesign } from '@expo/vector-icons';
 import SubmitButton from '../components/SubmitButton';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-
+import Axios from 'axios';
 
 
 export default function TitleBidDetails({navigation,route}){
@@ -20,9 +20,9 @@ export default function TitleBidDetails({navigation,route}){
  const { tag } = route.params;
  const {item,actualUser} = route.params;
  const extraData = Math.random(0.5);
- const appliedVendorsList = route.params.appliedVendorsList;
+ const [appliedVendorsList,setAppliedVendorsList] = useState(route.params.appliedVendorsList);
  const [cardWidth,setCardWidth] = useState(0);
- console.log("VENDOR " + JSON.stringify(appliedVendorsList))
+// console.log("VENDOR " + JSON.stringify(appliedVendorsList))
 
    // console.log("Apply "+cardDetails.appliedVendors[0].company_name)
     // console.log(tag)
@@ -30,7 +30,22 @@ export default function TitleBidDetails({navigation,route}){
     const [address, sAddress] = useState('No.17, 23rd Cross 18th A main road, G Block, Sahakarnagar, Bangalore - 560092.')
 
 
+    const fetchVendorDetails = () => {
+        Axios.get(Config.api_url+'php?action=getBids&user_id='+actualUser.user_id)
+        .then((response)=>{
+            console.log(JSON.stringify(response.data));
+            for(let i=0;i<response.data.length;i++){
+                if(response.data[i].bid_id==item.bid_id)
+                setAppliedVendorsList(response.data[i].applied_vendors)
+            }
+        })
+    }
 
+
+    useEffect(() => {
+        fetchVendorDetails();
+
+    },[])
 
     const renderHeader = () => {
         //   console.log(cardDetails)
@@ -78,7 +93,7 @@ export default function TitleBidDetails({navigation,route}){
                 </View>
                 <View style={{ flex: 0 }}>
                     <Text style={{ ...styles.title }}>Additional Notes</Text>
-                    <Text style={{ ...styles.title,color: 'gray',fontWeight: '100' }}>{cardDetails.notes}</Text>
+                    <Text style={{ ...styles.title,color: 'gray',fontWeight: '100' }}>{cardDetails.notes != '' ? cardDetails.notes : 'No additional notes'}</Text>
                 </View>
                 <View>
                     <Text style={{ ...styles.title, marginVertical: '3%', color: cardDetails.status == 'Cancelled' ? Colors.red : Colors.blue }}>{cardDetails.status}</Text>
@@ -184,7 +199,7 @@ export default function TitleBidDetails({navigation,route}){
             </View>
           
             </View>
-            <View style={{alignSelf:'center'}}>
+            <View style={{alignSelf:'center',marginRight:dimen.width/50}}>
             <Button text='View' onTouch={() => {
                 navigation.navigate('AwardBid',{
                       tag: cardDetails.status,
@@ -285,12 +300,13 @@ const styles = StyleSheet.create({
         elevation: 1,
 
        padding: '1%',
-        borderWidth: 5,
-        borderColor: 'transparent',
+       // borderWidth: 5,
+      //  borderColor: 'transparent',
         borderRadius: 10,
-        borderWidth: 0.5,
+       // borderWidth: 0.5,
       //  backgroundColor: 'black',
-        marginBottom: '1%'
+        marginBottom: '1%',
+        backgroundColor:'white'
         //  paddingVertical: 10
 
     },
