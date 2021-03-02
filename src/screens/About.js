@@ -25,9 +25,8 @@ const About = ({ navigation, route, getUserDetails, user }) => {
 
 
     function validateEmail() {
-        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-            return (true)
-        }
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) 
+            return (true);
         alert("You have entered an invalid Email Address!")
         return (false)
     }

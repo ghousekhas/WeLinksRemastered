@@ -10,6 +10,7 @@ import {Notifications} from 'react-native-notifications';
 // the environment is set up appropriately
 messaging().subscribeToTopic("all");
 
+//Callback on message recieved from firebase function (WeLinks Google account) check function in firebaseFunctions in parent folder
 messaging().onMessage((message)=>{
     console.log('sdisodiji');
     console.log(message);

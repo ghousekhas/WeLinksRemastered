@@ -27,7 +27,6 @@ import DrawerContent from './src/components/DrawerContent';
 import MyProfile from './src/screens/MyProfile';
 import SupportFAQ from './src/screens/SupportFAQ';
 import FAQ from './src/screens/FAQ';
-import Test from './src/screens/test';
 import VendorRegistration from './src/screens/VendorRegistration';
 import BidCreation1 from './src/screens/BidCreation1';
 import BidCreation2 from './src/screens/BidCreation2';
@@ -42,57 +41,49 @@ import ScrapCart from './src/screens/ScrapCart';
 import Axios from 'axios';
 import { Constants, Styles } from './src/Constants';
 import LottieView from 'lottie-react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import TermsAndConditions from './src/screens/TermsAndConditions';
 import MySubscriptions from './src/screens/MySubscriptions';
 import MyScrapSales from './src/screens/MyScrapSales';
-import MySubscriptionOrder from './src/components/MySubscriptionOrder';
-import SubscriptionScreen from './src/screens/SubscriptionScreen';
 import VendorServices from './src/screens/VendorServices';
 import VendorDashboard from './src/screens/VendorDashboard';
 import VendorSubscriptions from './src/screens/VendorSubscriptions';
 import VendorSubscriptionDetails from './src/screens/VendorSubscriptionDetails';
-import AddressesServedList from './src/screens/AddressesServedList';
-import {Config, notification_identifiers as nos } from  './src/Constants';
+import { Config, notification_identifiers as nos } from './src/Constants';
 import VendorViewBids from './src/screens/VendorViewBids';
 import VendorBidDetails from './src/screens/VendorBidDetails';
 import ChooseAddress from './src/screens/ChooseAddress';
 import AwardBid from './src/screens/AwardBid';
 import CorporateMarkPickupScreen from './src/screens/CorporateMarkPickupScreen';
-import functions from '@react-native-firebase/functions';
 import ScrapPickedConfirmation from './src/screens/ScrapPickedConfirmation';
 import VendorScrapOrders from './src/screens/VendorScrapOrders';
-import VendorScrapOrder from './src/screens/VendorScrapOrder';
 import MyScrapSaleOrder from './src/screens/MyScrapSaleOrder';
 import messaging from '@react-native-firebase/messaging';
-import RatingComponent from './src/components/RatingsComponent';
-import RatingComponentScreen from './src/components/RatingComponentScreen';
-import {Notifications} from 'react-native-notifications';
+import { Notifications } from 'react-native-notifications';
 import sendNotif from './src/Utility/sendNotificationTo';
 
+//For Location services, enable legacy
 navigator.geolocation = require('@react-native-community/geolocation');
 
+//carries reference to the drawer navigation object, could've used Drawer below?
 var navv = undefined;
-
 
 const Drawer = createDrawerNavigator();
 
-const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,setUser,notificationStartup ,initSubRoute,initSubParams,initRoute,initVendor }) => {
+const NavigationDrawer = ({ user, actualUser, getUserDetails, getVendorDetails, setUser, notificationStartup, initSubRoute, initSubParams, initRoute, initVendor }) => {
   const [vendor, setVendor] = useState(initVendor);
   const [updateState, setUpdateState] = useState(actualUser != null ? actualUser : { name: 'loading', user_id: -1, email: 'f' });
   const [privacyData, setPrivacyData] = useState(null);
   const [termsData, setTermsData] = useState(null);
   const [contactUsData, setContactUsData] = useState(null);
-  const [dashboard,goTodashboard] = useState(true);
-  const [theActualUser,setTheActualUser] = useState(actualUser);
-  const [initialRoute, setInitialRoute] = useState(initRoute != '' ? initRoute: 'HomeStack' );
-  const [initialParams, setInitialParams] = useState({user: user, actualUser: theActualUser,initRoute: initSubRoute,initSubParams: initSubParams});
+  const [theActualUser, setTheActualUser] = useState(actualUser);
+  const [initialRoute, setInitialRoute] = useState(initRoute != '' ? initRoute : 'HomeStack');
+  const [initialParams, setInitialParams] = useState({ user: user, actualUser: theActualUser, initRoute: initSubRoute, initSubParams: initSubParams });
 
 
   const updateChildScreens = async () => {
-    const privacyUrl = Config.api_url+'php?action=getPrivacyPolicy';
-    const termsUrl = Config.api_url+'php?action=getTerms';
-    const contactUsUrl = Config.api_url+'php?action=getContactUs&city_id=';
+    const privacyUrl = Config.api_url + 'php?action=getPrivacyPolicy';
+    const termsUrl = Config.api_url + 'php?action=getTerms';
+    const contactUsUrl = Config.api_url + 'php?action=getContactUs&city_id=';
 
     Axios.get(privacyUrl)
       .then(({ data }) => setPrivacyData(data));
@@ -105,21 +96,21 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
 
   }
 
-  const setDefaultValues = ()=>{
+  const setDefaultValues = () => {
     setInitialRoute('');
-    setInitialParams({user: user, actualUser: theActualUser});
+    setInitialParams({ user: user, actualUser: theActualUser });
   }
 
-  const changeInitDisplay = (vend, init_route,init_sub_route,init_sub_params = '') =>{
+  const changeInitDisplay = (vend, init_route, init_sub_route, init_sub_params = '') => {
     setInitialRoute(init_route);
-    setInitialParams({...initialParams,initRoute: init_sub_route,initSubParams: init_sub_params});
+    setInitialParams({ ...initialParams, initRoute: init_sub_route, initSubParams: init_sub_params });
     setVendor(vend);
   }
 
 
- 
+
   React.useEffect(() => {
-    
+
     setUpdateState(actualUser != null ? actualUser : { name: 'loading' });
     updateChildScreens();
   }, [actualUser]);
@@ -127,101 +118,34 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
 
   // Notification test
   React.useEffect(() => {
-    // Assume a message-notification contains a "type" property in the data payload of the screen to open
-    //Previous notification handling code
-    // messaging().onNotificationOpenedApp(remoteMessage => {
-    //   console.log(
-    //     'Notification caused app to open from background state:'
-    //  //   remoteMessage.notification,
-    //   );
-    //   navigation.navigate(remoteMessage.data.type);
-    // });
 
-    // // Check whether an initial notification is available
-    // messaging()
-    //   .getInitialNotification()
-    //   .then(remoteMessage => {
-    //     if (remoteMessage) {
-    //       console.log(
-    //         'Notification caused app to open from quit state:'
-    //      //   remoteMessage.notification,
-    //       );
-    // //      setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
-    //     }else{
-    //       console.log('Cant catch')
-    //     }
-    //  ///   setLoading(false);
-    //   });
+    //DONE Removed notification handling code from here
   }, []);
 
 
 
-  const switchVendorApp = (flag) => {
-      
-      setVendor(flag);
-      
+  const switchVendorApp = (flag) => setVendor(flag);
 
-    
-    
+  //DONE Add any return statement to see a screen here 
 
-  }
-  // return(<VendorScrapOrders route={{params : null}}/>)
-
-
-  //DEBUG
-  // return(
-  //   <VendorScrapOrder />
-  // )
-
-  // return( <VendorScrapOrders route={{params: {
-  //   bidTitle: "Was your order picked up for xxxx amount"
-  // }}} />)
- 
-  // return <ScrapPickedConfirmation route={{params: {
-  //   bidTitle: "Was your order picked up for xxxx amount"
-  // }}} />
-
-  //Notifications Tryout
-  // var initialParams= {user: user, actualUser: theActualUser}
-  // return (
-  //   <NavigationContainer independent={true}>
-  //     <Drawer.Navigator initialRouteName ="VendorHomeStack" drawerContent={props => <DrawerContent {...props} getUserDetails={getUserDetails} getVendorDetails={getVendorDetails} setUser={setUser} actualUser={updateState} switchVendor={switchVendorApp} cachedData={{
-  //           termsData: termsData,
-  //           contactUsData: contactUsData,
-  //           privacyData: privacyData
-  //         }} />}>
-  //     <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/>
-  //     </Drawer.Navigator>
-  //   </NavigationContainer>
-  // )
-  
-
-
-
-
-  if(vendor){
-
-    //checkVendorStatus();
-   console.log('Switching to vendor')
-   console.log(dashboard);
-   // return(<VendorViewBids />)
-
-    
+  if (vendor) {
+    // console.log('Switched to vendor');
     return (
-    
+
       <NavigationContainer independent={true}>
-        <Drawer.Navigator initialRouteName={ initialRoute}
-          drawerContent={(props) =>{
+        <Drawer.Navigator initialRouteName={initialRoute}
+          drawerContent={(props) => {
             // setNavv({...props});
             return (<DrawerContent {...props} getUserDetails={getUserDetails} setDefault={setDefaultValues} getVendorDetails={getVendorDetails} setUser={setUser} actualUser={updateState} switchVendor={switchVendorApp} initVendor={vendor} cachedData={{
-            termsData: termsData,
-            contactUsData: contactUsData,
-            privacyData: privacyData
-          }} />)}}>
-           <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams}/>
-          <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} /> 
-          <Drawer.Screen name="VendorSubscriptions" component={VendorSubscriptions} options={{headerShown : false}} /> 
-          <Drawer.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{headerShown : false}} /> 
+              termsData: termsData,
+              contactUsData: contactUsData,
+              privacyData: privacyData
+            }} />)
+          }}>
+          <Drawer.Screen name="VendorHomeStack" component={VendorHomeStack} initialParams={initialParams} />
+          <Drawer.Screen name="VendorProfileStack" component={VendorProfileStack} initialParams={{ user: user, actualUser: updateState }} />
+          <Drawer.Screen name="VendorSubscriptions" component={VendorSubscriptions} options={{ headerShown: false }} />
+          <Drawer.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{ headerShown: false }} />
           <Drawer.Screen name="VendorSupportStack" component={userSupportStack} initialParams={{
             user: user, actualUser: updateState, cachedData: {
               termsData: termsData,
@@ -232,31 +156,38 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
         </Drawer.Navigator>
       </NavigationContainer>
     );
-    }
+  }
   else
 
     return (
 
-      <NavigationContainer  independent={true}   >
-       <Drawer.Navigator initialRouteName={ initialRoute}
-          drawerContent={(props) =>{
+      <NavigationContainer independent={true}   >
+        <Drawer.Navigator initialRouteName={initialRoute}
+          drawerContent={(props) => {
 
             navv = props.navigation;
             return (<DrawerContent {...props} getUserDetails={getUserDetails} setDefault={setDefaultValues} getVendorDetails={getVendorDetails} setUser={setUser} actualUser={updateState} switchVendor={switchVendorApp} initVendor={vendor} cachedData={{
-            termsData: termsData,
-            contactUsData: contactUsData,
-            privacyData: privacyData
-          }} />)}}>
+              termsData: termsData,
+              contactUsData: contactUsData,
+              privacyData: privacyData
+            }} />)
+          }}>
 
           <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{ user: user, actualUser: updateState, sm: 1, getUserDetails: getUserDetails, ...initialParams }} />
-          <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser,user: user }} options={{ headerShown: false }} />
-          <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{actualUser: updateState}} />
-          <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{actualUser: actualUser,user: actualUser,goBackToHome: ()=>{
-            console.log('honestak');
-            navv.navigate('HomeStack');}}} />
-          <Drawer.Screen name="MyScrapSales" component={MyScrapStack} initialParams={{user: actualUser,goBackToHome: ()=>{
-            console.log('honestak');
-            navv.navigate('HomeStack');}}}/>
+          <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{ actualUser: actualUser, user: user }} options={{ headerShown: false }} />
+          <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{ actualUser: updateState }} />
+          <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{
+            actualUser: actualUser, user: actualUser, goBackToHome: () => {
+              console.log('honestak');
+              navv.navigate('HomeStack');
+            }
+          }} />
+          <Drawer.Screen name="MyScrapSales" component={MyScrapStack} initialParams={{
+            user: actualUser, goBackToHome: () => {
+              console.log('honestak');
+              navv.navigate('HomeStack');
+            }
+          }} />
           <Drawer.Screen name="SupportStack" component={userSupportStack} initialParams={{
             user: user, actualUser: updateState, cachedData: {
               termsData: termsData,
@@ -270,18 +201,16 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
     );
 }
 
-const MyScrapStack =({navigation,route})=>{
+const MyScrapStack = ({ navigation, route }) => {
   const [user, setUser] = useState(route.params.user);
   const { getUserDetails } = route.params;
   const [remountKey, setRemountKey] = useState(0);
-
-
 
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Profile">
-          <Stack.Screen name="MyScrapSales" component={MyScrapSales} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{...route.params,user: user}} />
+          <Stack.Screen name="MyScrapSales" component={MyScrapSales} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ ...route.params, user: user }} />
           <Stack.Screen name="MyScrapSaleOrder" component={MyScrapSaleOrder} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -318,7 +247,7 @@ const myAddressStack = ({ navigation, route }) => {
     <View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Profile">
-          <Stack.Screen name="AddressList" component={AddressList} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{...route.params ,user: user, actualUser: actualUser, getUserDetails: getUserDetails, navigator: navigation, myAddresses: true, profile: route.params.profile }} />
+          <Stack.Screen name="AddressList" component={AddressList} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ ...route.params, user: user, actualUser: actualUser, getUserDetails: getUserDetails, navigator: navigation, myAddresses: true, profile: route.params.profile }} />
           <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -347,14 +276,15 @@ const myProfileStack = ({ navigation, route }) => {
     setRemountKey(Math.random(0.5));
   }, [route.params]);
   console.log('Starting Profile Stack');
+
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName="Profile">
-          <Stack.Screen name="Profile" component={MyProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{...route.params ,user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
-          <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} initialParams={{navigator : navigation}}/>
-          <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
-          <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{navigator : navigation,actualUser:actualUser}} />
+          <Stack.Screen name="Profile" component={MyProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ ...route.params, user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+          <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} initialParams={{ navigator: navigation }} />
+          <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
+          <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{ navigator: navigation, actualUser: actualUser }} />
           <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{ headerShown: false }} />
           <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
         </Stack.Navigator>
@@ -363,18 +293,18 @@ const myProfileStack = ({ navigation, route }) => {
 
 };
 
-const VendorHomeStack=({navigation,route})=>{
-  const[user,setUser] = useState(route.params.user);
-  const[actualUser,setActualUser]= useState(route.params.actualUser);
-  const [vendorID,setVendorID] = useState(null);
-  const {getUserDetails} = route.params;
+const VendorHomeStack = ({ navigation, route }) => {
+  const [user, setUser] = useState(route.params.user);
+  const [actualUser, setActualUser] = useState(route.params.actualUser);
+  const [vendorID, setVendorID] = useState(null);
+  const { getUserDetails } = route.params;
   const [remountKey, setRemountKey] = useState(0);
-  const [verification,setVerification] = useState(Constants.veFirstTime);
-  const [loading,setLoading]= useState(true);
-  const [errorState,setError] = useState(false);
-  const [pendingActions,setPendingActions] = useState(0);
-  const [pendingActionItem,setPendingActionItem] = useState(null);
-  const [initSubParams, setInitSubParams] = useState(route.params.initSubParams != undefined ? route.params.initSubParams : {nothing: ' '} );
+  const [verification, setVerification] = useState(Constants.veFirstTime);
+  const [loading, setLoading] = useState(true);
+  const [errorState, setError] = useState(false);
+  const [pendingActions, setPendingActions] = useState(0);
+  const [pendingActionItem, setPendingActionItem] = useState(null);
+  const [initSubParams, setInitSubParams] = useState(route.params.initSubParams != undefined ? route.params.initSubParams : { nothing: ' ' });
 
   const [initSubRoute, setInitSubRoute] = useState(route.params.initRoute != undefined ? route.params.initRoute : 'VendorDashboard');
 
@@ -388,115 +318,111 @@ const VendorHomeStack=({navigation,route})=>{
     }, [route])
   );
 
-  const retreieveVendorData = ()=>{
-    Axios.get(Config.api_url+'php?action=getVendorStatus&user_id='+ actualUser.user_id,)
-            .then((response)=>{
-              console.log('refreshvendordata');
-               //setLoading(false);
-               // console.log("HEREs"+response.data.vendor[0].vendor_id)
-                setVerification(Constants.veFirstTime) // uncomment this
-            try{
-                
-                var status= response.data.vendor[0].vendor_status;
-                if(status=== 'active'){
-                  setVerification(Constants.verified);
-                  setVendorID(response.data.vendor[0].vendor_id);
-                  //messss
-                  messaging().subscribeToTopic("vendor"+response.data.vendor[0].vendor_id);
-                  setPendingActions(response.data.vendor[0].pending_actions.homescrap.length);
-                  if(response.data.vendor[0].pending_actions.homescrap.length)
-                    setPendingActionItem(response.data.vendor[0].pending_actions.homescrap[0]);
-                
+  const retreieveVendorData = () => {
+    Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + actualUser.user_id,)
+      .then((response) => {
+        console.log('refreshvendordata');
+        //setLoading(false);
+        // console.log("HEREs"+response.data.vendor[0].vendor_id)
+        setVerification(Constants.veFirstTime) // uncomment this
+        try {
 
-                }
-                else if(status=== 'inactive')
-                    setVerification(Constants.veFirstTime)
-                else
-                    setVerification(Constants.veInProgress);
-                //setVerification(Constants.veFirstTime);
-                setLoading(false);
-                
-            }
-            catch(error){
-                setVerification(Constants.veFirstTime);
-                setLoading(false);
-                
-            }
-        });
+          var status = response.data.vendor[0].vendor_status;
+          if (status === 'active') {
+            setVerification(Constants.verified);
+            setVendorID(response.data.vendor[0].vendor_id);
+            //messss
+            messaging().subscribeToTopic("vendor" + response.data.vendor[0].vendor_id);
+            setPendingActions(response.data.vendor[0].pending_actions.homescrap.length);
+            if (response.data.vendor[0].pending_actions.homescrap.length)
+              setPendingActionItem(response.data.vendor[0].pending_actions.homescrap[0]);
+
+
+          }
+          else if (status === 'inactive')
+            setVerification(Constants.veFirstTime)
+          else
+            setVerification(Constants.veInProgress);
+          //setVerification(Constants.veFirstTime);
+          setLoading(false);
+
+        }
+        catch (error) {
+          setVerification(Constants.veFirstTime);
+          setLoading(false);
+
+        }
+      });
   }
 
   React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress',()=>{
-      //doNothing
-      console.log('hardwareback');
-  });
     console.log(route.params.actualUser);
     setActualUser(route.params.actualUser);
     setRemountKey(Math.random(0.5));
     retreieveVendorData();
   }, [route.params]);
-  
-  if(loading)
-  return (
-    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
-      <LottieView
-        enableMergePathsAndroidForKitKatAndAbove
-        style={{ flex: 1, padding: 50, margin: 50 }} source={require('./assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true} />
-    </View>
-  );
-  else if(errorState)
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-      <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center' }}>Network connection failed, Try again later</Text>
-    </View>
 
-  );
+  if (loading)
+    return (
+      <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
+        <LottieView
+          enableMergePathsAndroidForKitKatAndAbove
+          style={{ flex: 1, padding: 50, margin: 50 }} source={require('./assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true} />
+      </View>
+    );
+  else if (errorState)
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+        <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center' }}>Network connection failed, Try again later</Text>
+      </View>
 
-  var theInitialParams = {actualUser: actualUser,user: user};
+    );
+
+  var theInitialParams = { actualUser: actualUser, user: user };
 
 
-  if(verification != Constants.verified)
-    return  (<View style={{ flex: 1 }}>
+  if (verification != Constants.verified)
+    return (<View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
         <Stack.Navigator initialRouteName={initSubRoute}>
-          <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser,vendorRefresh: retreieveVendorData, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
-          <Stack.Screen name="VendorServices" component={VendorServices} options={{headerShown: false}}/>
-          <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
+          <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, vendorRefresh: retreieveVendorData, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+          <Stack.Screen name="VendorServices" component={VendorServices} options={{ headerShown: false }} />
+          <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
           <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={theInitialParams} />
-          <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown : false}} initialParams={{vendorID: vendorID,actualUser: actualUser}}/>
-          <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} initialParams={{vendorID: vendorID}} />
-          <Stack.Screen name = "VendorScrapOrders" component={VendorScrapOrders} options={{headerShown : false}} initialParams={{vendorID: vendorID}} />
-          <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}} initialParams={user} />
-          <Stack.Screen name="VendorSubscriptions" component={VendorSubscriptions} options={{headerShown : false}} initialParams={{vendorID : vendorID,...initSubParams}}/> 
-          <Stack.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{headerShown : false}} /> 
+          <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} initialParams={{ vendorID: vendorID, actualUser: actualUser }} />
+          <Stack.Screen name="VendorBidDetails" component={VendorBidDetails} options={{ headerShown: false }} initialParams={{ vendorID: vendorID }} />
+          <Stack.Screen name="VendorScrapOrders" component={VendorScrapOrders} options={{ headerShown: false }} initialParams={{ vendorID: vendorID }} />
+          <Stack.Screen name="ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{ headerShown: false }} initialParams={user} />
+          <Stack.Screen name="VendorSubscriptions" component={VendorSubscriptions} options={{ headerShown: false }} initialParams={{ vendorID: vendorID, ...initSubParams }} />
+          <Stack.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{ headerShown: false }} />
 
-    
-  
+
+
         </Stack.Navigator>
       </NavigationContainer>
     </View>)
-  
+
 
 
   return (<View style={{ flex: 1 }}>
     <NavigationContainer independent={true}>
-      <Stack.Navigator initialRouteName= {initSubRoute} >
+      <Stack.Navigator initialRouteName={initSubRoute} >
 
         <Stack.Screen name="VendorDashboard" component={VendorDashboard} options={{ headerShown: false }} initialParams={theInitialParams} />
         <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />
-        <Stack.Screen name = "VendorBidDetails" component={VendorBidDetails} options={{headerShown : false}} initialParams={{vendorID: vendorID,actualUser: actualUser}} />
+        <Stack.Screen name="VendorBidDetails" component={VendorBidDetails} options={{ headerShown: false }} initialParams={{ vendorID: vendorID, actualUser: actualUser }} />
 
-        <Stack.Screen name = "VendorScrapOrders" component={VendorScrapOrders} options={{headerShown : false}} initialParams={{vendorID: vendorID}} />
-        <Stack.Screen name = "ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{headerShown : false}}  initialParams={theInitialParams} />
+        <Stack.Screen name="VendorScrapOrders" component={VendorScrapOrders} options={{ headerShown: false }} initialParams={{ vendorID: vendorID }} />
+        <Stack.Screen name="ScrapPickedConfirmation" component={ScrapPickedConfirmation} options={{ headerShown: false }} initialParams={theInitialParams} />
 
 
-        <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}} />
-        <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} options={{headerShown: false}} initialParams={{ user: user, actualUser: actualUser }} /> 
-       
-        <Stack.Screen name="VendorSubscriptions" component={VendorSubscriptions} initialParams={{vendorID : vendorID,...initSubParams}} options={{headerShown : false}}  /> 
-        <Stack.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{headerShown : false}} /> 
+        <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
+        <Stack.Screen name="VendorProfileStack" component={VendorProfileStack} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser }} />
 
-          {/*
+        <Stack.Screen name="VendorSubscriptions" component={VendorSubscriptions} initialParams={{ vendorID: vendorID, ...initSubParams }} options={{ headerShown: false }} />
+        <Stack.Screen name="VendorSubscriptionDetails" component={VendorSubscriptionDetails} options={{ headerShown: false }} />
+
+        {/*
           <Drawer.Screen name="AddAddress" component={AddAddress} />
           <Drawer.Screen name="myAddresses" component={myAddressStack} />
           <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
@@ -504,12 +430,12 @@ const VendorHomeStack=({navigation,route})=>{
             
           {MyScrapSales} />
           */}
-          <Stack.Screen name="VendorBids" component={VendorBids} options={{ headerShown: false }} initialParam={{vendorID : vendorID}} />
+        <Stack.Screen name="VendorBids" component={VendorBids} options={{ headerShown: false }} initialParam={{ vendorID: vendorID }} />
 
-  
 
-        
-  
+
+
+
 
       </Stack.Navigator>
     </NavigationContainer>
@@ -542,13 +468,13 @@ const VendorProfileStack = ({ navigation, route }) => {
   return (<View style={{ flex: 1 }}>
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="VendorProfile">
-        <Stack.Screen name="VendorProfile" component={VendorProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ ...route.params,user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
-        <Stack.Screen name="AddAddress" component={AddAddress} options={{headerShown: false}}  />
-        <Stack.Screen name="VendorServices" component = {VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
-        <Stack.Screen name="AddressList" component={AddressList} options={{headerShown: false}} initialParams={{actualUser: actualUser,navigator : navigation}} />
-        <Stack.Screen name="EditVendorDetails" component={EditVendorDetails} options={{headerShown: false}} />
-        <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{headerShown: false}} />
-        
+        <Stack.Screen name="VendorProfile" component={VendorProfile} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ ...route.params, user: user, actualUser: actualUser, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
+        <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
+        <Stack.Screen name="VendorServices" component={VendorServices} options={{ headerShown: false }} initialParams={{ actualUser: actualUser }} />
+        <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} initialParams={{ actualUser: actualUser, navigator: navigation }} />
+        <Stack.Screen name="EditVendorDetails" component={EditVendorDetails} options={{ headerShown: false }} />
+        <Stack.Screen name="VendorViewBids" component={VendorViewBids} options={{ headerShown: false }} />
+
       </Stack.Navigator>
     </NavigationContainer>
   </View>)
@@ -587,59 +513,54 @@ const userSupportStack = ({ navigation, route }) => {
 
 export default function App() {
   const Stack = createStackNavigator();
-  const debug = true; //DEBUG
-
- 
-  
+  const debug = false; //DEBUG
 
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState(debug ? {phoneNumber: '+918548080255'} : auth().currentUser); 
+  const [user, setUser] = useState(debug ? { phoneNumber: '+918548080255' } : auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
-  const [vendorDetails, setVendorDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
   const [splash, setSplash] = useState(true);
-  const [status,setStatus] = useState('no status')
-  const [pendingAction,setPendingAction] = useState(0);
-  const [pendingActionItem,setPendingActionItem] = useState(null);
+  const [status, setStatus] = useState('no status')
+  const [pendingAction, setPendingAction] = useState(0);
+  const [pendingActionItem, setPendingActionItem] = useState(null);
   const [notificationStarup, setNotificationStatup] = useState(nos.misc);
-  const [initRoute,setInitRoute] = useState('');
+  const [initRoute, setInitRoute] = useState('');
   const [initSubRoute, setInitSubRoute] = useState('');
   const [initSubParams, setInitSubParams] = useState('');
   const [initVendor, setInitVendor] = useState(false);
 
-  
+
 
   const getUserDetails = async (networkTries, user, nextRoute = 0) => {
-    
+
     const checkVendorStatus = (user_id) => {
-      Axios.get("http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id="+ user_id,)
-      .then((response)=>{
-        try{
-          console.log("Vendor Status "+response.data.vendor[0].vendor_status)
-          setStatus(response.data.vendor[0].vendor_status)
-    
-          
-        //  setVerification(Constants.veFirstTime) // uncomment this
-     
-       //   var status= response.data.vendor[0].vendor_status;
-          if(status=== 'active')
-          goTodashboard(true);
-          else if(status=== 'inactive')
-             console.log("Inac")
-          else
-             console.log("prog")
+      Axios.get("http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id=" + user_id,)
+        .then((response) => {
+          try {
+            console.log("Vendor Status " + response.data.vendor[0].vendor_status)
+            setStatus(response.data.vendor[0].vendor_status)
+
+
+            //  setVerification(Constants.veFirstTime) // uncomment this
+            //   var status= response.data.vendor[0].vendor_status;
+            if (status === 'active')
+              goTodashboard(true);
+            else if (status === 'inactive')
+              console.log("Inac")
+            else
+              console.log("prog")
             setSplash(false);
-          //setVerification(Constants.veFirstTime);
-      }
-      catch(error){
-        console.log('Error Encountered');
-        setSplash(false);
-       setVerification(Constants.veFirstTime);
-      }
-    });
-    
-     }
-    
+            //setVerification(Constants.veFirstTime);
+          }
+          catch (error) {
+            console.log('Error Encountered');
+            setSplash(false);
+            setVerification(Constants.veFirstTime);
+          }
+        });
+
+    }
+
     setSplash(true);
     console.log('getUserDetails');
 
@@ -648,86 +569,48 @@ export default function App() {
       return;
     }
     else {
-    
 
-      if(user !=null)
-      Axios.get(Config.api_url+'php?action=getUser&phone=' + user.phoneNumber.substring(3))
-        .then((response) => {
-          setSplash(false);
-          try {
-            console.log(response.data.user[0]);
-            if (response.data.user != null && response.data.user != undefined)
-              if (response.data.user[0].status_code === 100)
-                setUserDetails(100)
+
+      if (user != null)
+        Axios.get(Config.api_url + 'php?action=getUser&phone=' + user.phoneNumber.substring(3))
+          .then((response) => {
+            setSplash(false);
+            try {
+              console.log(response.data.user[0]);
+              if (response.data.user != null && response.data.user != undefined)
+                if (response.data.user[0].status_code === 100)
+                  setUserDetails(100)
+                else
+                  setUserDetails(response.data.user[0]);
               else
-                setUserDetails(response.data.user[0]);
-            else
-              setUserDetails(null);
-              
-            //setNetworkState('working');
+                setUserDetails(null);
 
-              console.log("UID"+response.data.user[0].user_id)
-              messaging().subscribeToTopic("user"+response.data.user[0].user_id);
+              //setNetworkState('working');
 
-             checkVendorStatus(response.data.user[0].user_id);
-             setPendingAction(response.data.user[0].pending_action.homescrap.length);
-             console.log(response.data.user[0].pending_action.homescrap.length);
-             if(response.data.user[0].pending_action.homescrap.length>0)
-              setPendingActionItem(response.data.user[0].pending_action.homescrap[0]);
-             setSplash(false);
+              console.log("UID" + response.data.user[0].user_id)
+              messaging().subscribeToTopic("user" + response.data.user[0].user_id);
 
-          }
-          catch (error) {
-            console.log(error);
-            //getUserDetails(networkTries+1,user)
-          }
-        }, (error) => {
-          console.log('error');
-          //getUserDetails(networkTries+1,user);
-        });
+              checkVendorStatus(response.data.user[0].user_id);
+              setPendingAction(response.data.user[0].pending_action.homescrap.length);
+              console.log(response.data.user[0].pending_action.homescrap.length);
+              if (response.data.user[0].pending_action.homescrap.length > 0)
+                setPendingActionItem(response.data.user[0].pending_action.homescrap[0]);
+              setSplash(false);
+
+            }
+            catch (error) {
+              console.log(error);
+              //getUserDetails(networkTries+1,user)
+            }
+          }, (error) => {
+            console.log('error');
+            //getUserDetails(networkTries+1,user);
+          });
     }
   };
 
   const getVendorDetails = async (networkTries, user, nextRoute = 0) => {
-    setSplash(true);
-    console.log('getVendorDetails');
-
-    if (networkTries > 10) {
-      //setNetworkState('unavailable');
-      return;
-    }
-    else {
-
-      // try{
-      // Axios.get(Config.api_url+'php?action=getVendorStatus&user_id=' + userDetails.user_id)
-      //   .then((response) => {
-      //     console.log('VENDOR'+response.data.vendor[0])
-      //     setSplash(false);
-      //     try {
-      //       if(response.data.vendor[0] != null && response.data.vendor[0]!= undefined)
-      //      { console.log(response.data.vendor[0])
-      //       var status= response.data.vendor[0].vendor_status;
-      //           if(status=== 'active')
-      //              setVendorDetails(response.data.vendor[0])
-      //           else
-      //               setVendorDetails(null);
-      //           //setVerification(Constants.veFirstTime);
-      //      }
-      //       }
-          
-      //     catch (error) {
-      //       console.log(error);
-      //       //getUserDetails(networkTries+1,user)
-      //     }
-      //   }, (error) => {
-      //     console.log('error');
-      //     //getUserDetails(networkTries+1,user);
-      //   });
-      // }
-      // catch(error){
-
-      // }
-    }
+    return;
   };
 
 
@@ -753,8 +636,8 @@ export default function App() {
   }
 
   const checkNetworkState = async () => {
-    console.log('api_url',Config.api_url);
-    Axios.get(Config.api_url+'php?action=getTerms')
+    console.log('api_url', Config.api_url);
+    Axios.get(Config.api_url + 'php?action=getTerms')
       .then((response) => {
         setNetworkState(true);
       }, (error) => {
@@ -763,30 +646,12 @@ export default function App() {
       });
   }
 
-  // const sendNotif = async ()=>{
-  //  // await firebase.initializeApp(); 
-  //  setTimeout(()=>{
-  //   functions().httpsCallable('sendNotification')({
-  //     'title': 'Notification',
-  //     'message': 'Message',
-  //     'body': "Body",
-  //     'topic': "all"
-  //   }).then(
-  //     (response) =>{
-  //       console.log(response);
-  //     },(reason)=>{
-  //       console.log(reason);
-  //     }
-  //   );
-  //  },5000);
 
-  // }
+  console.log("cuu " + JSON.stringify(user));
 
-  console.log("cuu "+JSON.stringify(user));
 
- 
 
-  const setStartup = (initRoute, initSubRoute, initSubParams= {},vendor = false) =>{
+  const setStartup = (initRoute, initSubRoute, initSubParams = {}, vendor = false) => {
     setInitRoute(initRoute);
     setInitSubRoute(initSubRoute)
     setInitSubParams(initSubParams);
@@ -794,126 +659,90 @@ export default function App() {
 
   }
 
+  const handleNotification = (notification) => {
+    const id = notification.payload.identifier;
+    setNotificationStatup(id);
+
+    var subParams = {};
+    var ven = false, subRoute = '', route = '';
+    switch (id) {
+      case nos.vendor_milk_subscriptions:
+        subParams = { tag: 'Milk' };
+        setStartup('VendorHomeStack', 'VendorSubscriptions', subParams, true);
+        break;
+      case nos.vendor_newspaper_subscriptions:
+        subParams = { tag: 'Paper' };
+        setStartup('VendorHomeStack', 'VendorSubscriptions', subParams, true);
+        break;
+      case nos.vendor_scrap_orders:
+        setStartup('VendorHomeStack', 'VendorScrapOrders', {}, true);
+        break;
+      case nos.vendor_corporate_orders:
+        setStartup('VendorHomeStack', 'VendorViewBids', {}, true);
+        break;
+      case nos.user_newspaper_subscriptions:
+      case nos.user_milk_subscriptions:
+        setStartup('MySubscriptions', '');
+        break;
+      case nos.user_corporate_orders:
+        setStartup('HomeStack', 'Bids');
+
+        break;
+      case nos.user_scrap_orders:
+        setStartup('MyScrapSales', '');
+        break;
+    }
+  }
+
 
   React.useEffect(() => {
 
-    
+    sendNotif('any', 'anyy', 'all', nos.user_milk_subscriptions);
 
-    Notifications.getInitialNotification().then((notification)=>{
-      const id = notification.payload.identifier;
-      setNotificationStatup(id);
-      
-      var subParams = {};
-      var ven= false, subRoute = '', route ='';
-      switch(id){
-        case nos.vendor_milk_subscriptions:
-          subParams = {tag: 'Milk'};
-          setStartup('VendorHomeStack', 'VendorSubscriptions', subParams, true);
-          break;
-        case nos.vendor_newspaper_subscriptions: 
-          subParams = {tag: 'Paper'};
-          setStartup('VendorHomeStack', 'VendorSubscriptions', subParams, true);
-          break;
-        case nos.vendor_scrap_orders:
-          setStartup('VendorHomeStack', 'VendorScrapOrders', {}, true );
-          break;
-        case nos.vendor_corporate_orders:
-          setStartup('VendorHomeStack', 'VendorViewBids', {}, true);
-          break;
-        case nos.user_newspaper_subscriptions:
-        case nos.user_milk_subscriptions:
-          setStartup('MySubscriptions', '');
-          break;
-        case nos.user_corporate_orders:
-          setStartup('HomeStack', 'Bids');
-  
-          break;
-          case nos.user_scrap_orders: 
-                setStartup('MyScrapSales','');
-              break;
-      }
-      console.log('This is the message id');
-      console.log(notification);
-  });
-
-    // switch(notificationStarup){
-    //   case nos.vendor_milk_subscriptions:
-    //     subParams = {tag: 'Milk'};
-    //     setStartup('VendorHomeStack', 'VendorSubscriptions', subParams, true);
-    //     break;
-    //   case nos.vendor_newspaper_subscriptions: 
-    //     subParams = {tag: 'Paper'};
-    //     setStartup('VendorHomeStack', 'VendorSubscriptions', subParams, true);
-    //     break;
-    //   case nos.vendor_scrap_orders:
-    //     setStartup('VendorHomeStack', 'VendorScrapOrders', {}, true );
-    //     break;
-    //   case nos.vendor_corporate_orders:
-    //     setStartup('VendorHomeStack', 'VendorViewBids', {}, true);
-    //     break;
-    //   case nos.user_newspaper_subscriptions:
-    //   case nos.user_milk_subscriptions:
-    //     setStartup('MySubscriptions', '');
-    //     break;
-    //   case nos.user_corporate_orders:
-    //     setStartup('HomeStack', 'Bids');
-
-    //     break;
-    //     case nos.user_scrap_orders: 
-    //           setStartup('MyScrapSales','');
-    //         break;
-    // }
- 
-   if(!debug){
-     
-   
-        
-
-
-
-    checkNetworkState()
-    getUserDetails(0,user);
-
-    console.group('firebaseuser', auth().currentUser);
-    setSplash(false);
-    setTimeout(()=>{
+    Notifications.events().registerNotificationOpened((notification) => {
+      setSplash(true);
+      // console.log('background assas', notification);
+      handleNotification(notification);
       setSplash(false);
-    },1500
-    )
-    setUser(auth().currentUser);
-    checkIfFirstLogin();
-    console.log("USER" + JSON.stringify(user));
-    if (userDetails === null && user != null)
-      getUserDetails(0, user);
-    const suser = auth().onAuthStateChanged(onAuthStateChanged);
-    getVendorDetails();
-   } 
-   else{ 
+    })
 
-    sendNotif('any','anyy','all',nos.vendor_milk_subscriptions);
-    var subParams = {};
-    var ven= false, subRoute = '', route ='';
+    Notifications.getInitialNotification().then((notification) => {
+      handleNotification(notification);
+    });
 
-    //ActualDebugCode
-     if (userDetails === null){
+
+
+    if (!debug) {
+
+      checkNetworkState()
       getUserDetails(0, user);
 
+      console.group('firebaseuser', auth().currentUser);
+      setSplash(false);
+      setTimeout(() => {
+        setSplash(false);
+      }, 1500
+      )
+      setUser(auth().currentUser);
+      checkIfFirstLogin();
+      console.log("USER" + JSON.stringify(user));
+      if (userDetails === null && user != null)
+        getUserDetails(0, user);
+      const suser = auth().onAuthStateChanged(onAuthStateChanged);
+      getVendorDetails();
     }
-  }
-    
-    
+    else {
 
-     
-  
-    // To debug with custom phone number comment above and uncomment below
-    
+      sendNotif('any', 'anyy', 'all', nos.vendor_milk_subscriptions);
+      var subParams = {};
+      var ven = false, subRoute = '', route = '';
 
+      //ActualDebugCode
+      if (userDetails === null) {
+        getUserDetails(0, user);
 
-
-
-
-
-
+      }
+    }
 
   }, []);
 
@@ -974,14 +803,14 @@ export default function App() {
   else if (userDetails != 100 && userDetails != null) {
 
     //Applock
-   
-     if(pendingAction > 0 && pendingActionItem != null && true /*add scrap condition*/){
-       console.log("I exist "+pendingActionItem)
-      return <ScrapPickedConfirmation  route={{params:{item: pendingActionItem,refreshCallback: getUserDetails,actualUser: userDetails, cardDetail: pendingActionItem,tag: 'User',user: user }}}  />
-     }
-     else if(pendingAction > 0 && pendingActionItem != null && true /*corporate scrap condition*/){
+
+    if (pendingAction > 0 && pendingActionItem != null && true /*add scrap condition*/) {
+      console.log("I exist " + pendingActionItem)
+      return <ScrapPickedConfirmation route={{ params: { item: pendingActionItem, refreshCallback: getUserDetails, actualUser: userDetails, cardDetail: pendingActionItem, tag: 'User', user: user } }} />
+    }
+    else if (pendingAction > 0 && pendingActionItem != null && true /*corporate scrap condition*/) {
       return null;
-     }
+    }
 
 
     return (
@@ -1025,7 +854,7 @@ const PostLoginHome = ({ route, navigation }) => {
               headerShown: false
             }} />
             <Stack.Screen name="About" component={About} initialParams={{ user: user }} />
-            <Stack.Screen name="City" component={City} initialParams={{ user: user }} options={{headerShown: false}} />
+            <Stack.Screen name="City" component={City} initialParams={{ user: user }} options={{ headerShown: false }} />
             <Stack.Screen name='VendorsList' component={VendorsList} initialParams={{ user: user }} />
             <Stack.Screen name='MilkVendors' component={MilkVendors} options={{ headerShown: false }} initialParams={{ user: user }} />
             <Stack.Screen name='PaperVendors' component={PaperVendors} options={{ headerShown: false }} initialParams={{ user: user }} />
@@ -1040,14 +869,14 @@ const PostLoginHome = ({ route, navigation }) => {
             <Stack.Screen name='FirstAddress' component={AddressSearch} options={{ headerShown: false }} />
             <Stack.Screen name='ScrapVendors' component={ScrapVendors} options={{ headerShown: false }} />
             <Stack.Screen name='ScrapVendor' component={ScrapVendor} options={{ headerShown: false }} />
-            <Stack.Screen name="Bids" component={Bids} options={{ headerShown: false }} initialParams={{actualUser: user,department: 'corporateScrap'}} />
+            <Stack.Screen name="Bids" component={Bids} options={{ headerShown: false }} initialParams={{ actualUser: user, department: 'corporateScrap' }} />
             <Stack.Screen name="BidCreation1" component={BidCreation1} options={{ headerShown: false }} />
-            <Stack.Screen name="ChooseAddress" component={ChooseAddress} options={{headerShown: false}}/>
+            <Stack.Screen name="ChooseAddress" component={ChooseAddress} options={{ headerShown: false }} />
             <Stack.Screen name="BidCreation2" component={BidCreation2} options={{ headerShown: false }} />
             <Stack.Screen name="TitleBidDetails" component={TitleBidDetails} options={{ headerShown: false }} />
             <Stack.Screen name="AwardBid" component={AwardBid} options={{ headerShown: false }} />
             <Stack.Screen name="CancellationScreen" component={CancellationScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="CorporateMarkPickupScreen" component={CorporateMarkPickupScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="CorporateMarkPickupScreen" component={CorporateMarkPickupScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ScrapCart" component={ScrapCart} options={{ headerShown: false }} />
             {/* <Stack.Screen name='ProfileStack' component={MyProfile} options={{headerShown: false}}/> */}
 
