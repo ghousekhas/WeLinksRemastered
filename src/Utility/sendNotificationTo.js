@@ -1,5 +1,7 @@
 import functions from '@react-native-firebase/functions';
 import {notification_identifiers} from '../Constants';
+
+//A utility function to call the firebase cloud function, id is identifier
 export default function sendNotif(title,message,to,id = notification_identifiers.misc ){
     functions().httpsCallable('sendNotification')({
         'title': title,

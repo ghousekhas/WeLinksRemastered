@@ -18,12 +18,6 @@ var panelTranslateAfter = (0);
 var panelTranslate = (lowerPanelHeight - lowerAddressHeight);
 
 export default class AddAddress extends React.Component {
-
-
-
-
-
-
   constructor(props) {
     super(props);
     this.constants = {
@@ -44,7 +38,6 @@ export default class AddAddress extends React.Component {
       labelChars : 0,
       type: props.route.params.type === 'vendorRegistration' ? 0 : 1,
       vendorEdit: props.route.params.vendorEdit === true ? true : false,
-
       arrowOpacity: new Animated.Value(0),
       marker: {
         title: 'Home',

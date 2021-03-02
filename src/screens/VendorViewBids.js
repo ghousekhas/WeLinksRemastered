@@ -42,8 +42,8 @@ export default function VendorViewBids({ navigation,route }) {
     const {vendorID,actualUser} = route.params;
     
 
-    console.log("Are you here vendor? "  + vendorID)
-    console.log("Are you here user? "  + actualUser.user_id)
+    // console.log("Are you here vendor? "  + vendorID)
+    // console.log("Are you here user? "  + actualUser.user_id)
 
     //const {reload} = route.params;
    
@@ -105,18 +105,6 @@ export default function VendorViewBids({ navigation,route }) {
                         })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                     }
                     catch (error) {
                         console.log('Applied bids error', error);
@@ -126,21 +114,6 @@ export default function VendorViewBids({ navigation,route }) {
                     console.log('Applied bids error 1', error);
                     // retrieveData(t-1);
                 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             }
             catch (error) {
