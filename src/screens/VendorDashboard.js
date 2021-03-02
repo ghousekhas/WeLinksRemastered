@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,Image,ScrollView} from 'react-native';
+import {StyleSheet,Text,View,TouchableOpacity,Image,ScrollView, BackHandler} from 'react-native';
 import Axios from 'axios';
 import { EvilIcons } from '@expo/vector-icons';
 import {dimen,Colours,Styles, Config} from '../Constants';
@@ -253,7 +253,14 @@ const ProfileSmallView = ({navigation,userID})=>{
 
     useEffect(()=>{
         retrieveData();
-        navigation.addListener('focus',()=>{retrieveData();});
+        
+        navigation.addListener('focus',()=>{
+            BackHandler.addEventListener('hardwareBackPress',()=>{
+                //doNothing
+                console.log('hardwareback');
+                return true;
+            });
+            retrieveData();});
         
        
 

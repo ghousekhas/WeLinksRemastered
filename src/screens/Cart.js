@@ -355,6 +355,8 @@ const Cart = ({route,navigation,Tag}) => {
                     console.log("sd "+JSON.stringify(response.data));
                     console.log('Sending')
                     sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id, notification_identifiers.user_milk_subscriptions);
+                    sendNotif('Order Recieved','An order for '+route.params.vendorType+' has been received','vendor'+route.params.vendorId, tag == 'Milk'? notification_identifiers.vendor_milk_subscriptions : notification_identifiers.vendor_newspaper_subscriptions);
+                    // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
                     // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
                     // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
                     // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)

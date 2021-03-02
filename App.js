@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text, Image, BackHandler } from 'react-native';
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -251,7 +251,9 @@ const NavigationDrawer = ({ user, actualUser,getUserDetails, getVendorDetails,se
           <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{ user: user, actualUser: updateState, sm: 1, getUserDetails: getUserDetails, ...initialParams }} />
           <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{actualUser: actualUser,user: user }} options={{ headerShown: false }} />
           <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{actualUser: updateState}} />
-          <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{actualUser: actualUser,user: actualUser}} />
+          <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{actualUser: actualUser,user: actualUser,goBackToHome: ()=>{
+            console.log('honestak');
+            navv.navigate('HomeStack');}}} />
           <Drawer.Screen name="MyScrapSales" component={MyScrapStack} initialParams={{user: actualUser,goBackToHome: ()=>{
             console.log('honestak');
             navv.navigate('HomeStack');}}}/>
@@ -424,6 +426,10 @@ const VendorHomeStack=({navigation,route})=>{
   }
 
   React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress',()=>{
+      //doNothing
+      console.log('hardwareback');
+  });
     console.log(route.params.actualUser);
     setActualUser(route.params.actualUser);
     setRemountKey(Math.random(0.5));
