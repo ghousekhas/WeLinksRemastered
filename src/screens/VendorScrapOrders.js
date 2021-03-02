@@ -134,7 +134,7 @@ export default function VendorScrapOrders({navigation,route}){
     <View style={{height: dimen.height/13}}>
         <AppBar title='My Scrap Orders'back funct={() => {
             
-            navigation.goBack()
+            navigation.navigate('VendorDashboard');
             }} />
         </View>
 

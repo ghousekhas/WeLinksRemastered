@@ -13,7 +13,7 @@ import qs from 'qs';
 import {Config} from '../Constants';
 
 const DrawerContent = (props) => {
-  const [vendor,setVendor] = useState(false);
+  const [vendor,setVendor] = useState(props.initVendor);
   const {switchVendor} = props;
   const {setUser}= props;
   const [actualUser,setActualUser]=useState(props.actualUser);
@@ -34,8 +34,10 @@ const DrawerContent = (props) => {
   },[vendor,props.cachedData,props.initialSubs,props.actualUser])
 
   const switchToVendor = async ()=>{
+    props.setDefault();
     setVendor(!vendor);
     props.navigation.toggleDrawer();
+    
     
   }
 

@@ -17,6 +17,7 @@ import { Entypo } from '@expo/vector-icons';
 import Axios from 'axios';
 import qs from 'qs';
 import { useTheme } from '@react-navigation/native';
+import sendNotif from '../Utility/sendNotificationTo';
 
 
 
@@ -60,7 +61,7 @@ const [submitted,isSubmitted] = useState(false);
             task_date: date.format('YYYY-MM-DD'),
             task_time: date.format('HH-mm')
         })).then((response)=>{
-            alert("Marked pick-up complete successfully!")
+            alert("Marked pick-up complete successfully!");
             navigation.navigate('Bids');
             console.log(response.data);
         })

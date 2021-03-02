@@ -11,11 +11,12 @@ import {Notifications} from 'react-native-notifications';
 messaging().subscribeToTopic("all");
 
 messaging().onMessage((message)=>{
+    console.log('sdisodiji');
     console.log(message);
     Notifications.registerRemoteNotifications();
     Notifications.postLocalNotification({
         identifier: message.data.body,
-        body: message.data.body,
+        body: message.notification.body,
         title: message.data.title,
         sound: 'chime.aiff',
         category: 'SOME_CATEGORY',

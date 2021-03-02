@@ -6,7 +6,7 @@ import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment, { weekdays } from 'moment';
-import { Styles, Colors,dimen} from '../Constants'
+import { Styles, Colors,dimen, notification_identifiers} from '../Constants'
 import AppBar from '../components/AppBar'
 import Axios from 'axios';
 import qs from 'qs';
@@ -354,10 +354,10 @@ const Cart = ({route,navigation,Tag}) => {
                     console.log(response);
                     console.log("sd "+JSON.stringify(response.data));
                     console.log('Sending')
-                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
-                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
-                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
-                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                    sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id, notification_identifiers.user_milk_subscriptions);
+                    // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                    // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                    // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
 
                     Alert.alert("Order placed.",tag=='Milk'?
       "Your milk subscription order has been placed successfully. You can see the details in  My Subscriptions." : "Your newspaper subscription order has been placed successfully. You can see the details in  My Subscriptions.",

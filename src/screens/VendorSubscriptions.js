@@ -164,7 +164,7 @@ console.log(typeof(response.data))
     <View style={{height: dimen.height/13}}>
         <AppBar title={tag=='Milk' ? 'Milk Subscriptions':'Newspaper Subscriptions'} back funct={() => {
             
-            navigation.goBack()
+            navigation.navigate('VendorDashboard')
             }} />
         </View>
 

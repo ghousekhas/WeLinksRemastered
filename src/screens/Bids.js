@@ -277,7 +277,7 @@ return(<View onLayout={(event) => {
 
     return(<View>
  <AppBar title={'My Tenders'} subtitle={"Click on any tender to view details"} back  funct={() => {
-       navigation.pop();
+       navigation.navigate('Homescreen');
         }} />
 
         <View style={{...Styles.parentContainer,backgroundColor: Colors.whiteBackground}}>

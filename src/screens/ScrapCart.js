@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, Dimensions,Image,ScrollView} from 'react-native'
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { Avatar } from 'react-native-paper';
-import {Styles,ScrapStyles,dimen,Colors} from '../Constants';
+import {Styles,ScrapStyles,dimen,Colors, notification_identifiers} from '../Constants';
 import Accordion  from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
@@ -70,7 +70,7 @@ export default class ScrapCart extends React.Component{
                 console.log("order is " + JSON.stringify(response))
                 console.log(this.state.selectedDate)
                 alert("Order placed successfully");
-                sendNotif("Order Received!","You have a new scrap order","vendor"+this.props.route.params.vendorId)
+                sendNotif("Order Received!","You have a new scrap order","vendor"+this.props.route.params.vendorId, notification_identifiers.vendor_scrap_orders)
                 AsyncStorage.removeItem('ScrapOrderId').then(()=>{
                     AsyncStorage.removeItem('PrevScrapVendor').then(()=>{
                         navigation.navigate('Homescreen');

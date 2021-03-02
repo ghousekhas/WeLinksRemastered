@@ -24,7 +24,7 @@ export default function VendorBidDetails({ navigation, route }) {
 
     console.log(cardDetails)
     console.log(tag)
-    const {actualVendor,vendorID} = route.params
+    const {vendorID} = route.params
 
     const sortDate = (date) => {
         console.log("Wrong date " +date)

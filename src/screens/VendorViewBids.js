@@ -39,13 +39,13 @@ export default function VendorViewBids({ navigation,route }) {
     const [submittedEmtpy,isSE] = useState(false);
     const [wonEmtpy,isWE] = useState(false);
 
-    const {vendorID,actualUser} = route.params
+    const {vendorID,actualUser} = route.params;
     
 
     console.log("Are you here vendor? "  + vendorID)
     console.log("Are you here user? "  + actualUser.user_id)
 
-    const {reload} = route.params;
+    //const {reload} = route.params;
    
     const sortDate = (date) => {
         console.log("Wrong date " +date)
@@ -326,7 +326,7 @@ export default function VendorViewBids({ navigation,route }) {
 
     return (<View>
         <AppBar title={'View Bids'} subtitle={'Click on a bid to view details'} back={true} funct={() => {
-            navigation.goBack();
+            navigation.navigate('VendorDashboard');
         }} />
 
         <View style={{ ...Styles.parentContainer, backgroundColor: Colors.whiteBackground }}>

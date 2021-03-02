@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native';
 
-import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config,monthNames as mn} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config,monthNames as mn, notification_identifiers} from '../Constants';
 import GenericSeperator from '../components/GenericSeperator';
 import AppBar from '../components/AppBar';
 import SubmitButton from '../components/SubmitButton';
@@ -9,6 +9,7 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Axios from 'axios';
 import qs from 'qs';
+import sendNotif from '../Utility/sendNotificationTo';
 
 
 export default function AwardBid({navigation,route}){
@@ -41,7 +42,8 @@ export default function AwardBid({navigation,route}){
         bid_apply_id: bid_apply_id
      })).then((response)=>{
          console.log(response.data);
-         alert('Awarded Successfully!')
+         alert('Awarded Successfully!');
+         sendNotif('Bid Awarded', 'A bid in corporate Scrap has been awarded to you', 'vendor'+vendor_id, notification_identifiers.vendor_corporate_orders);
          navigation.pop();
          navigation.pop();
      }

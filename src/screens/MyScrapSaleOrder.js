@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Dimensions, Image, ScrollView, TextInput } from
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { Avatar } from 'react-native-paper';
-import { Styles, ScrapStyles, dimen, Colors } from '../Constants';
+import { Styles, ScrapStyles, dimen, Colors, notification_identifiers } from '../Constants';
 import Accordion from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
@@ -70,7 +70,7 @@ export default function MyScrapSaleOrder({ navigation, route }) {
                         alert("Your order has been cancelled successfully");
                         navigation.goBack();
                         setLoading(false);
-                        sendNotif('Order Cancelled', item.all.user_name + " has cancelled the scrap order", 'vendor' + item.all.vendor_id);
+                        sendNotif('Order Cancelled', item.all.user_name + " has cancelled the scrap order", 'vendor' + item.all.vendor_id, notification_identifiers.vendor_scrap_orders);
                     }, (error) => {
                         console.log(error);
                         alert('A network error occured, please try again later');
@@ -88,8 +88,8 @@ export default function MyScrapSaleOrder({ navigation, route }) {
                     console.log(response.data);
                     alert("Your order has been cancelled successfully");
                     navigation.goBack();
-                    sendNotif('Order Cancelled', item.all.user_name + " has cancelled the scrap order", 'vendor' + item.all.vendor_id);
-                    //sendNotif('Order Cancelled',item.all.user_name+" has cancelled the scrap order",'user'+item.all.user_id);
+                    sendNotif('Order Cancelled', item.all.user_name + " has cancelled the scrap order", 'vendor' + item.all.vendor_id, notification_identifiers.vendor_scrap_orders);
+                  
                     setLoading(false);
                 }, (error) => {
                     console.log(error);

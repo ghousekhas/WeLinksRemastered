@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity,TextInput,Image} from 'react-native';
-import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config, notification_identifiers} from '../Constants';
 import AppBar from '../components/AppBar';
 import Axios from 'axios';
 import qs from 'qs';
@@ -74,7 +74,7 @@ export default function ScrapPickedConfirmation({navigation,route}){
             console.log("OH NO"+response+" "+yesOrno)
            alert('Status Updated Successfully')
          //   isSubmitted(false)
-         sendNotif("Action Pending","Update your order details!","user"+cardDetails.userID)
+         sendNotif("Action Pending","Update your order details!","user"+cardDetails.userID, notification_identifiers.misc)
          navigation.navigate('VendorDashboard')
           //  route.params.refreshCallback()
         })
@@ -98,7 +98,7 @@ export default function ScrapPickedConfirmation({navigation,route}){
                 console.log("Confirm pick Up " + response.data.status)
               //  alert('Pickup marked successfully')
                // isSubmitted(false)
-               sendNotif("Update","Order pick-up confirmed by user!","vendor"+cardDetails.vendorID)
+               sendNotif("Update","Order pick-up confirmed by user!","vendor"+cardDetails.vendorID, notification_identifiers.vendor_scrap_orders);
 
                 route.params.refreshCallback(0,auth().currentUser);
 
