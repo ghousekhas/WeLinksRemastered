@@ -18,23 +18,23 @@ const wallet = ({navigation,route}) => {
         uri:`https://www.google.com/`
     }
     
-    useFocusEffect(
-        React.useCallback(() => {
-            const onBackPress = () => {
-                route.params.goBackToHome();
-                return true;
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         const onBackPress = () => {
+    //             route.params.goBackToHome();
+    //             return true;
 
-            };
+    //         };
 
-            BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-
+    //         BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
 
-            return () =>
-                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        })
-    );
+
+
+    //         return () =>
+    //             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    //     })
+    // );
 
 
     const [balance,setBalance] = useState(0);
