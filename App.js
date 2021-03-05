@@ -60,6 +60,7 @@ import MyScrapSaleOrder from './src/screens/MyScrapSaleOrder';
 import messaging from '@react-native-firebase/messaging';
 import { Notifications } from 'react-native-notifications';
 import sendNotif from './src/Utility/sendNotificationTo';
+import wallet from './src/screens/Wallet';
 
 //For Location services, enable legacy
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -153,6 +154,7 @@ const NavigationDrawer = ({ user, actualUser, getUserDetails, getVendorDetails, 
               privacyData: privacyData
             }
           }} />
+        
         </Drawer.Navigator>
       </NavigationContainer>
     );
@@ -195,6 +197,7 @@ const NavigationDrawer = ({ user, actualUser, getUserDetails, getVendorDetails, 
               privacyData: privacyData
             }
           }} />
+            <Drawer.Screen name="Wallet" component={wallet} />
 
         </Drawer.Navigator>
       </NavigationContainer>
@@ -287,6 +290,8 @@ const myProfileStack = ({ navigation, route }) => {
           <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{ navigator: navigation, actualUser: actualUser }} />
           <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{ headerShown: false }} />
           <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
+          <Stack.Screen name="Wallet" component={wallet} options={{ headerShown: false }}  />
+
         </Stack.Navigator>
       </NavigationContainer>
     </View>)

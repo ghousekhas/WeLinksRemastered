@@ -360,7 +360,11 @@ const DrawerContent = (props) => {
     
      icon="wallet-outline"
      label="WeLinks Wallet"
-     onPress={()=>{}}
+     onPress={()=>{
+       props.navigation.navigate('Wallet',{
+         actualUser: actualUser
+       })
+       }}
      
    />
 

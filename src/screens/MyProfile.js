@@ -209,7 +209,7 @@ const MyProfile = ({navigation,route}) => {
 
 
            <TouchableOpacity>
-                <Text style = {style.chip}>{words.balance + ' ('+ actualUser.wallet_balance + ')'}</Text>
+                <Text style = {style.chip}>{words.balance  + ' (' + words.rupee  + ')'}</Text>
             </TouchableOpacity>
 
             </View>

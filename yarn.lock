@@ -2373,10 +2373,10 @@
   "resolved" "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-10.0.0.tgz"
   "version" "10.0.0"
 
-"@react-native-firebase/firestore@^7.10.3":
-  "integrity" "sha512-+RBgYAFEaWnGdnmWXR9mC9tTgCrmPcFtqsP+W0hLH3VBYGpxZCPJozzFWJhQHo6Scc8NR3Qpxxc4V8gm9+bImg=="
-  "resolved" "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-7.10.3.tgz"
-  "version" "7.10.3"
+"@react-native-firebase/firestore@^10.0.0":
+  "integrity" "sha512-ea7XUPdl7Xcn8hvpBX2wBVL4ey/+P36eIKIosUcnhWFtOtQvgVt59mhD0/VNiWzMEe58FpJ6iylFqu3rCmdWTA=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-10.0.0.tgz"
+  "version" "10.0.0"
 
 "@react-native-firebase/functions@^10.0.0":
   "integrity" "sha512-+AFEY5NYYPeOiWNkM0Zqh6FVOKnB2odLuMfQ6bnUPr2kzNQKcgEC/vYtUuIWHuTV9Kk08BZ/LKl9FU/YI+F2UA=="
@@ -4077,6 +4077,11 @@
   "resolved" "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz"
   "version" "4.0.0"
 
+"escape-string-regexp@2.0.0":
+  "integrity" "sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w=="
+  "resolved" "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz"
+  "version" "2.0.0"
+
 "escodegen@^1.11.1":
   "integrity" "sha512-qFcX0XJkdg+PB3xjZZG/wKSuT1PnQWx57+TVSjIMmILd2yC/6ByYElPwJnslDsuWuSAp4AwJGumarAAmJch5Kw=="
   "resolved" "https://registry.npmjs.org/escodegen/-/escodegen-1.14.3.tgz"
@@ -4452,7 +4457,7 @@
   "resolved" "https://registry.npmjs.org/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz"
   "version" "2.0.6"
 
-"fb-watchman@^2.0.0":
+"fb-watchman@^2.0.0", "fb-watchman@^2.0.1":
   "integrity" "sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg=="
   "resolved" "https://registry.npmjs.org/fb-watchman/-/fb-watchman-2.0.1.tgz"
   "version" "2.0.1"
@@ -5050,7 +5055,7 @@
     "strip-ansi" "^4.0.0"
     "through" "^2.3.6"
 
-"invariant@^2.2.2", "invariant@^2.2.4":
+"invariant@^2.2.2", "invariant@^2.2.4", "invariant@2.2.4":
   "integrity" "sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA=="
   "resolved" "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz"
   "version" "2.2.4"
@@ -7902,7 +7907,15 @@
     "prop-types" "^15.6.0"
     "react-timer-mixin" "^0.13.4"
 
-"react-native@0.63.3":
+"react-native-webview@^11.2.3":
+  "integrity" "sha512-r/K+Lf/O5aij72gRndMX2qsyQ/WLtDPiO75SS57y6JjqSKxedGASVL9Jwl1TM7fCXqUq8dgiwik/LuBHbJXAEg=="
+  "resolved" "https://registry.npmjs.org/react-native-webview/-/react-native-webview-11.2.3.tgz"
+  "version" "11.2.3"
+  dependencies:
+    "escape-string-regexp" "2.0.0"
+    "invariant" "2.2.4"
+
+"react-native@>=0.60 <0.64", "react-native@0.63.3":
   "integrity" "sha512-71wq13uNo5W8QVQnFlnzZ3AD+XgUBYGhpsxysQFW/hJ8GAt/J5o+Bvhy81FXichp6IBDJDh/JgfHH2gNji8dFA=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.63.3.tgz"
   "version" "0.63.3"
