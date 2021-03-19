@@ -61,6 +61,7 @@ import messaging from '@react-native-firebase/messaging';
 import { Notifications } from 'react-native-notifications';
 import sendNotif from './src/Utility/sendNotificationTo';
 import wallet from './src/screens/Wallet';
+import Payment from './src/screens/Payment';
 
 //For Location services, enable legacy
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -160,6 +161,7 @@ const NavigationDrawer = ({ user, actualUser, getUserDetails, getVendorDetails, 
     );
   }
   else
+ // return(<Payment />)
 
     return (
 
@@ -869,6 +871,7 @@ const PostLoginHome = ({ route, navigation }) => {
 
             <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Cart' component={Cart} options={{ headerShown: false }} />
+            <Stack.Screen name='Payment' component={Payment} options={{ headerShown:false }} initialParams={{ user: user}} />
             <Stack.Screen name='FirstAbout' component={About} options={{ headerShown: false }} />
             <Stack.Screen name='FirstCity' component={City} options={{ headerShown: false }} />
             <Stack.Screen name='FirstAddress' component={AddressSearch} options={{ headerShown: false }} />
