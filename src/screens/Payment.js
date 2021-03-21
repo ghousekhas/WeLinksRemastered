@@ -6,10 +6,17 @@ import AppBar from '../components/AppBar';
 import { Styles } from '../Constants';
 import qs from 'qs';
 import Spinner from 'react-native-loading-spinner-overlay';
+import sendNotif from '../Utility/sendNotificationTo';
 
-const Payment = ({ navigation,route }) => {
+
+
+
+
+
+const Payment = ({ route,navigation }) => {
     const {actualUser} = route.params;
     const {order} = route.params;
+   //  const {navigation} = route.params;
 //   const  order={
 //         id:10,
 //         amount:800
@@ -50,7 +57,11 @@ const Payment = ({ navigation,route }) => {
    style={{height:'100%',width:'100%'}}
    onLoadEnd={() => showSpinner(false)}
    onMessage ={(msg) => {
-       console.log("msg! "+msg)
+       console.log("msg! "+JSON.stringify(msg));
+       navigation.popToTop()
+       sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+
+
    }}
    
     source={{ uri }}

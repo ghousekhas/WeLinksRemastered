@@ -338,7 +338,7 @@ const Cart = ({ route, navigation, Tag }) => {
                     </View>
                     <View style={{ flex: 0, marginHorizontal: 10, marginVertical: dimen.sHm, justifyContent: 'center' }}>
                         <SubmitButton styling={orderMade} text='Confirm Order' onTouch={() => {
-                         //   setOrderMade(true);
+                            setOrderMade(true);
                         
                             
                             
@@ -395,7 +395,7 @@ const Cart = ({ route, navigation, Tag }) => {
                                 navigation.navigate('Payment',{
                                 actualUser,
                                 order: {
-                                    id: 10,
+                                    id: response.data.suscriptionID,
                                     amount: cartTotal+50
                                 }
                             });

@@ -871,7 +871,7 @@ const PostLoginHome = ({ route, navigation }) => {
 
             <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Cart' component={Cart} options={{ headerShown: false }} />
-            <Stack.Screen name='Payment' component={Payment} options={{ headerShown:false }} initialParams={{ user: user}} />
+            <Stack.Screen name='Payment' component={Payment} options={{ headerShown:false }} initialParams={{ user: user,navigator:navigation}} />
             <Stack.Screen name='FirstAbout' component={About} options={{ headerShown: false }} />
             <Stack.Screen name='FirstCity' component={City} options={{ headerShown: false }} />
             <Stack.Screen name='FirstAddress' component={AddressSearch} options={{ headerShown: false }} />
