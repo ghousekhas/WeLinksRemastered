@@ -18,6 +18,7 @@ import RatingComponentScreen from '../components/RatingComponentScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import qs from 'qs';
 import ymdToApp, {getDuration} from '../Utility/dateConvertor';
+import { useAuth } from '../services/auth-service';
 
 
 
@@ -142,14 +143,14 @@ export default class Homescreen extends React.Component{
     componentDidMount(){
         const {navigation}= this.props;
         //this.checkIfFirstLogin();
-        this.retrieveUserData(10);
+        // this.retrieveUserData(10);
         this.retrievePendingRatings();
         //this.setState({actualUser: this.props.actualUser});
-        this.focusListener= navigation.addListener('focus',()=>{
-            //this.checkIfFirstLogin();
-            this.retrieveUserData(10);
-            //this.retrievePendingRatings();
-       });
+    //     this.focusListener= navigation.addListener('focus',()=>{
+    //         //this.checkIfFirstLogin();
+    //         this.retrieveUserData(10);
+    //         //this.retrievePendingRatings();
+    //    });
 
         BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
     }
@@ -611,20 +612,21 @@ export default class Homescreen extends React.Component{
 const ProfileSmallView = ({actualUser,drawer})=>{
     const navigation=useNavigation();
     const [displayName,setDisplayName]= useState('loading');
-    const [user,setUser]=useState(actualUser);
-    useEffect(()=>{
-       //s
-       Axios.get(Config.api_url+'php?action=getUser&phone='+user.phone,).
-       then(({data})=>{
-           if(data.user[0]!=undefined)
-               setUser(data.user[0]);
-           else
-               console.log('User does not exitst',data);
-       },
-       (error)=>console.log('Error logged in profile',error))
-        if(actualUser.name!=null && actualUser.name != '')
-            setDisplayName(actualUser.name.split(' ')[0]);
-    },[actualUser]);
+    const authContext = useAuth();
+    const user = authContext.user;
+    // useEffect(()=>{
+    //    //s
+    //    Axios.get(Config.api_url+'php?action=getUser&phone='+user.phone,).
+    //    then(({data})=>{
+    //        if(data.user[0]!=undefined)
+    //            setUser(data.user[0]);
+    //        else
+    //            console.log('User does not exitst',data);
+    //    },
+    //    (error)=>console.log('Error logged in profile',error))
+    //     if(actualUser.name!=null && actualUser.name != '')
+    //         setDisplayName(actualUser.name.split(' ')[0]);
+    // },[actualUser]);
     return (
         <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{drawer.navigate('ProfileStack')}}>
         <Image style={styles.userimage} source={ user.img_url.trim()  != ''? {uri: user.img_url}: require('../../assets/notmaleavatar.png')  }/>

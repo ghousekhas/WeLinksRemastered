@@ -11,12 +11,15 @@ import auth from '@react-native-firebase/auth';
 import Axios from 'axios';
 import qs from 'qs';
 import {Config} from '../Constants';
+import { useAuth } from '../services/auth-service';
 
 const DrawerContent = (props) => {
   const [vendor,setVendor] = useState(props.initVendor);
   const {switchVendor} = props;
   const {setUser}= props;
-  const [actualUser,setActualUser]=useState(props.actualUser);
+  const authContext = useAuth();
+  const actualUser = authContext.user;
+  const [actualUsersas,setActualUser]=useState(props.actualUser);
   var cachedData,initialSubs;
   const [verification,setVerification] = useState('');
   const [loading,setLoading] = useState('');

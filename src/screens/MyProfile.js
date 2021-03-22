@@ -11,6 +11,7 @@ import Axios from 'axios';
 import DocumentPicker from 'react-native-document-picker';
 import qs from 'qs';
 import {Config} from  '../Constants';
+import { useAuth } from '../services/auth-service';
 
 
 
@@ -19,7 +20,8 @@ const MyProfile = ({navigation,route}) => {
    const [addresses,setAddresses] = useState([]);
    const [user_id,setUserID] = useState(route.params.actualUser.user_id);
    const [actualUser,setActualUser] = useState(route.params.actualUser);
-   const [user,setUser] = useState(route.params.user);
+   const authContext = useAuth();
+   const user = authContext.user;
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
@@ -47,15 +49,15 @@ const MyProfile = ({navigation,route}) => {
                 }),formdata).then((response)=>{
                     console.log(response.data,"picutre uploaded");
                     //setActualUser({...actualUser,})
-                    setProfileDetails({...profileDetails,img_url: res.uri})
-                    route.params.getUserDetails(0,user);
+                    // setProfileDetails({...profileDetails,img_url: res.uri})
+                    // route.params.getUserDetails(0,user);
                     alert('Profile Picture uploaded succesfully');
-                    
-                    setTimout(()=> route.params.navdrawer.navigate('ProfileStack',{
-                        actualUser: actualUser,
-                        getUserDetails: route.params.getUserDetails
+                    authContext.sync();
+                    // setTimout(()=> route.params.navdrawer.navigate('ProfileStack',{
+                    //     actualUser: actualUser,
+                    //     getUserDetails: route.params.getUserDetails
                         
-                      }),1000);
+                    //   }),1000);
                     
 
                 },(error)=>{
