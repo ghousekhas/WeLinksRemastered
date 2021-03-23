@@ -337,7 +337,7 @@ const Cart = ({ route, navigation, Tag }) => {
 
                     </View>
                     <View style={{ flex: 0, marginHorizontal: 10, marginVertical: dimen.sHm, justifyContent: 'center' }}>
-                        <SubmitButton styling={orderMade} text='Confirm Order' onTouch={() => {
+                        <SubmitButton styling={orderMade} text='Pay Online' onTouch={() => {
                             setOrderMade(true);
                         
                             
@@ -408,9 +408,12 @@ const Cart = ({ route, navigation, Tag }) => {
 
                        
                         }} />
+
   
                         
                     </View>
+                    <SubmitButton text="Pay Using WeLinks Wallet" style={{marginTop:'2%'}} />
+
                     {/* <View style={{backgroundColor:'yellow',height:'100%'}}>
             <Payment />
               </View> */}

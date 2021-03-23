@@ -57,9 +57,20 @@ const Payment = ({ route,navigation }) => {
    style={{height:'100%',width:'100%'}}
    onLoadEnd={() => showSpinner(false)}
    onMessage ={(msg) => {
-       console.log("msg! "+JSON.stringify(msg));
-       navigation.popToTop()
-       sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+       console.log("msg! "+ JSON.stringify(msg.nativeEvent.data));
+      // alert('Hoi')
+    //   navigation.popToTop()
+    if(msg!= undefined){
+        if(msg.nativeEvent.data === "Success"){
+       sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id);
+       // navigate to My Subs
+
+    }else{
+        alert("Your payment has not been completed");
+       //  navigation.popToTop();
+    }
+    }
+   
 
 
    }}
