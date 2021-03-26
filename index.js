@@ -1,6 +1,7 @@
 import { registerRootComponent } from 'expo';
 
 import App from './App';
+import AuthApp from './AuthApp';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import { firebase } from '@react-native-firebase/auth';
@@ -42,4 +43,4 @@ PushNotification.configure({
 
 
 
-registerRootComponent(App);
+registerRootComponent(AuthApp);

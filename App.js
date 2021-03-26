@@ -62,6 +62,8 @@ import { Notifications } from 'react-native-notifications';
 import sendNotif from './src/Utility/sendNotificationTo';
 import wallet from './src/screens/Wallet';
 import Payment from './src/screens/Payment';
+import { useAuth, AuthConstants } from './src/services/auth-service';
+
 
 //For Location services, enable legacy
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -128,7 +130,7 @@ const NavigationDrawer = ({ user, actualUser, getUserDetails, getVendorDetails, 
 
   const switchVendorApp = (flag) => setVendor(flag);
 
-  //DONE Add any return statement to see a screen here 
+  //DONE Add any return statement to see a screen here
 
   if (vendor) {
     // console.log('Switched to vendor');
@@ -155,7 +157,7 @@ const NavigationDrawer = ({ user, actualUser, getUserDetails, getVendorDetails, 
               privacyData: privacyData
             }
           }} />
-        
+
         </Drawer.Navigator>
       </NavigationContainer>
     );
@@ -434,7 +436,7 @@ const VendorHomeStack = ({ navigation, route }) => {
           <Drawer.Screen name="myAddresses" component={myAddressStack} />
           <Drawer.Screen name="MySubscriptions" component={MySubscriptions} />
           <Drawer.Screen name="MyScrapSales" component=
-            
+
           {MyScrapSales} />
           */}
         <Stack.Screen name="VendorBids" component={VendorBids} options={{ headerShown: false }} initialParam={{ vendorID: vendorID }} />
@@ -522,8 +524,11 @@ export default function App() {
   const Stack = createStackNavigator();
   const debug = false; //DEBUG
 
+
   const [firstlogin, setFirstLog] = useState(0);
-  const [user, setUser] = useState(debug ? { phoneNumber: '+918548080255' } : auth().currentUser);
+  const [user, setUser] = useState(null);
+  const authContext = useAuth();
+  const use = authContext.user;  //useState(debug ? { phoneNumber: '+918548080255' } : auth().currentUser);
   const [userDetails, setUserDetails] = useState(null);
   const [networkState, setNetworkState] = useState(true);
   const [splash, setSplash] = useState(true);
@@ -535,6 +540,11 @@ export default function App() {
   const [initSubRoute, setInitSubRoute] = useState('');
   const [initSubParams, setInitSubParams] = useState('');
   const [initVendor, setInitVendor] = useState(false);
+
+  // return <Introduction/>
+  console.log('uishuidsu',use);
+
+
 
 
 
@@ -760,7 +770,13 @@ export default function App() {
     <RatingComponent/>
   </View>)*/
 
-  if (networkState == false)
+  // if(use == AuthConstants.phone_unverified){
+  //   return (
+  //     <Introduction />
+  //   )
+  // }
+
+  if (use == AuthConstants.errored)
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
         <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center' }}>Network connection failed, Try again later</Text>
@@ -769,20 +785,20 @@ export default function App() {
     )
 
 
-  if (splash) {
-    return (
-      <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
-        <LottieView
-          enableMergePathsAndroidForKitKatAndAbove
-          style={{ flex: 1, padding: 50, margin: 50 }} source={require('./assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true} />
-      </View>
-    )
-  }
+  // if (splash) {
+  //   return (
+  //     <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
+  //       <LottieView
+  //         enableMergePathsAndroidForKitKatAndAbove
+  //         style={{ flex: 1, padding: 50, margin: 50 }} source={require('./assets/animations/logistics.json')} resizeMode={'contain'} autoPlay={true} loop={true} />
+  //     </View>
+  //   )
+  // }
 
 
 
 
-  if (user == null) {
+  if (use == AuthConstants.phone_unverified) {
     return (
       <View style={{ flex: 1 }}>
         <NavigationContainer independent={true}>
@@ -799,7 +815,7 @@ export default function App() {
       </View>
     );
   }
-  else if (userDetails === 100) {
+  else if (use == AuthConstants.new_user) {
     //getUserDetails(5);
     return (
       <View style={{ flex: 1 }}>
@@ -807,7 +823,7 @@ export default function App() {
       </View>
     )
   }
-  else if (userDetails != 100 && userDetails != null) {
+  else if (use != AuthConstants.loading){
 
     //Applock
 
@@ -822,7 +838,7 @@ export default function App() {
 
     return (
       <View style={{ flex: 1 }}>
-        <NavigationDrawer notificationStartup={notificationStarup} initVendor={initVendor} initRoute={initRoute} initSubRoute={initSubRoute} initSubParams={initSubParams} user={user} actualUser={userDetails} getUserDetails={getUserDetails} setUser={setUser} />
+        <NavigationDrawer notificationStartup={notificationStarup} initVendor={initVendor} initRoute={initRoute} initSubRoute={initSubRoute} initSubParams={initSubParams} user={user} actualUser={use} getUserDetails={getUserDetails} setUser={setUser} />
       </View>
     );
 
