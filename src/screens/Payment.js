@@ -67,7 +67,7 @@ const Payment = ({ route,navigation }) => {
 
     }else{
         alert("Your payment has not been completed");
-       //  navigation.popToTop();
+         navigation.popToTop();
     }
     }
    
