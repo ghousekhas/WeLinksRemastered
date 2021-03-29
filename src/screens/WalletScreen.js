@@ -1,115 +1,97 @@
+import axios from 'axios';
 import React from 'react';
+import { useEffect } from 'react';
 import { useContext } from 'react';
 import { useState } from 'react';
-import {Text, View, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, View, FlatList, TouchableOpacity, StyleSheet, BackHandler} from 'react-native';
 import AppBar from '../components/AppBar';
-import {Colors, dimen, Styles} from '../Constants';
+import {Colors, Config, dimen, Styles} from '../Constants';
 import { useAuth } from '../services/auth-service';
 import ymdToApp from '../Utility/dateConvertor';
+import qs from 'qs';
 
-const transcations =[{
-    "wallet_trans_id": "11",
-    "user_id": "96",
-    "trans_id": "",
-    "wallet_trans_amount": "10",
-    "trans_type": "debit",
-    "timestamp": "2021-03-25 11:23:02"
-},
-{
-    "wallet_trans_id": "10",
-    "user_id": "96",
-    "trans_id": "",
-    "wallet_trans_amount": "10",
-    "trans_type": "debit",
-    "timestamp": "2021-03-25 11:22:53"
-},
-{
-    "wallet_trans_id": "9",
-    "user_id": "96",
-    "trans_id": "47",
-    "wallet_trans_amount": "100",
-    "trans_type": "credit",
-    "timestamp": "2021-03-25 10:52:01"
-},
-{
-    "wallet_trans_id": "8",
-    "user_id": "96",
-    "trans_id": "46",
-    "wallet_trans_amount": "100",
-    "trans_type": "credit",
-    "timestamp": "2021-03-25 10:50:57"
-},
-{
-    "wallet_trans_id": "7",
-    "user_id": "96",
-    "trans_id": "45",
-    "wallet_trans_amount": "100",
-    "trans_type": "credit",
-    "timestamp": "2021-03-25 10:42:38"
-},
-{
-    "wallet_trans_id": "6",
-    "user_id": "96",
-    "trans_id": "44",
-    "wallet_trans_amount": "100",
-    "trans_type": "credit",
-    "timestamp": "2021-03-25 10:31:55"
-},
-{
-    "wallet_trans_id": "5",
-    "user_id": "96",
-    "trans_id": "43",
-    "wallet_trans_amount": "10",
-    "trans_type": "credit",
-    "timestamp": "2021-03-25 10:18:20"
-},
-{
-    "wallet_trans_id": "4",
-    "user_id": "96",
-    "trans_id": "42",
-    "wallet_trans_amount": "100",
-    "trans_type": "credit",
-    "timestamp": "2021-03-25 10:12:13"
-}];
+var transcations =[];
 
-export default function WalletScreen({}){
+export default function WalletScreen({navigation,route}){
+
+    const user = useAuth();
+    console.log(user);
     
 
     const [flatListre, setFlatReference] = useState(null);
+    const [transcationsLength, setTransactionsLength] = useState(0);
     
     const [selectedTab, setSelectedTab] = useState(0);
+    const [remountKey, setRemountKey] = useState('0');
+
+    useEffect(()=>{
+        BackHandler.addEventListener('hardwareBackPress',()=>{
+            route.params.goToHomeStack();
+            return true;
+        });
+        navigation.addListener('focus',()=>{
+            
+            axios.get(Config.api_url+'php?'+qs.stringify({
+                action: 'getWalletTransactions',
+                user_id: user.user.user_id
+            }))
+            .then((response)=>{
+                    // console.log(response);
+                    try{
+                            transcations = response.data.wallet_transaction;
+                            console.log(transcations);
+                            console.log(transcations.length);
+                            setTransactionsLength(transcations.length);
+                        }
+                    catch(error){
+                        console.log('errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',error);
+                        setTransactionsLength(0);
+                    }
+                setRemountKey(Math.random(0.4).toString());
+            });
+            user.sync();
+        });
+
+    },[]);
     
     
     return (
         <View style={{...StyleSheet.absoluteFill, flexDirection: 'column'}}>
-            <View>
+            <View style={{height: dimen.appbarHeight}}>
                 <AppBar
-                    back
-                    funct={()=>{}} 
-                
-                    
+                    title="Wallet"
+                    back={false}
+                    funct={()=>{
+                        route.params.toggleDrawer()
+                    }} 
                 />
             </View>
-            <View style={{justifyContent: 'center', flex: 1.5, flexDirection: 'row'}}>
-                <View style={{justifyContent: 'center', flexDirection: 'column'}}> 
-                    <Text>
-                        Rs. 100
+            <View style={{justifyContent: 'center', flex: 1.5, flexDirection: 'row',width: '100%'}}>
+                <View style={{justifyContent: 'space-evenly',alignItems: 'center', flexDirection: 'column',width: '100%'}}> 
+                    <Text style={[Styles.heading, {width: '50%', padding: 10,textAlign: 'center',alignSelf: 'center'}]}>
+                        {'₹ '+ user.user.wallet_balance}
                     </Text>
-                    <TouchableOpacity>
-                        <View>
+                    <TouchableOpacity  onPress={()=>{
+                            navigation.navigate('AddMoney');
+                            console.log('nav')
+                        }}>
+                        <View style={{alignSelf: 'center'}}>
                             {/* <Image>
                             </Image> */}
-                            <Text>Add Money To Wallet</Text>
+                            <Text style={{padding: 10, borderWidth: 1, borderColor: Colors.seperatorGray,...Styles.subbold}}> + Add Money To Wallet</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={[{flex: 3}, {flexDirection: 'column'}]}>
-                <View style={{flexDirection: 'row', flex: 0, justifyContent: 'space-between', padding: 10}}>
-                    {["All","Debit","Credit"].map((it,ind)=>{
+            {
+                transcationsLength == 0? <Text style={{fontSize: 18, fontWeight: '800', textAlign: 'center', flex: 3}}> No transactions to show</Text>
+                : 
+               ( <View style={[{flex: 3}, {flexDirection: 'column'}]}>
+                <View style={{flexDirection: 'row', flex: 0, justifyContent: 'space-evenly', padding: 10}}>
+                    {["All","Debit","Credit"].map((value,ind)=>{
                         return (<TouchableOpacity onPress={()=> {setSelectedTab(ind); flatListre.scrollToIndex({index: ind})}}>
                                     <View>
-                                        <Text style={ind == selectedTab ? {}:{fontSize: 25, fontWeight: 'bold'}}>Something</Text>
+                                        <Text style={ind == selectedTab ? {fontSize: 18, fontWeight: 'bold'}:{fontSize: 14, fontWeight: '500'}}>{value+ ' '}</Text>
                                     </View>
                                 </TouchableOpacity>)
                     })}
@@ -118,6 +100,7 @@ export default function WalletScreen({}){
                     <FlatList
                         horizontal
                         showsHorizontalScrollIndicator={false}
+                        extraData={remountKey}
                         data={["All","debit","credit"]}
                         key={(index)=> index.toString()}
                         // contentContainerStyle={{backgroundColor: 'yellow'}}
@@ -137,7 +120,10 @@ export default function WalletScreen({}){
                                 renderItem={({item})=>{
                                     console.log(item);
                                     return (
-                                        <View style={{flex: 1, flexDirection: 'row', backgroundColor: item.trans_type == 'debit' ? 'red' : 'green', justifyContent: 'space-between', paddingHorizontal: 15, paddingVertical: 10 }}>
+                                        <View style={{borderRadius: 8,flex: 1, flexDirection: 'row', backgroundColor: item.trans_type == 'debit' ? Colors.secondary : Colors.primary, justifyContent: 'space-between', paddingHorizontal: 15, paddingVertical: 10 }}>
+                                            {
+                                                selectedTab == 0 ? <Text>{item.trans_type}</Text> : null
+                                            }
                                             <Text>{item.wallet_trans_amount}</Text>
                                             <Text>{ymdToApp( item.timestamp)}</Text>
                                         </View>
@@ -150,7 +136,13 @@ export default function WalletScreen({}){
                     />
                 </View>
 
-            </View>
-        </View>
+            </View>)
+        
+            }
+          </View>
     );
 }
+
+const styles = StyleSheet.create({
+
+})
