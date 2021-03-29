@@ -7,6 +7,7 @@ import { Styles } from '../Constants';
 import qs from 'qs';
 import Spinner from 'react-native-loading-spinner-overlay';
 import sendNotif from '../Utility/sendNotificationTo';
+import { NavigationActions } from 'react-navigation';
 
 
 
@@ -16,6 +17,7 @@ import sendNotif from '../Utility/sendNotificationTo';
 const Payment = ({ route,navigation }) => {
     const {actualUser} = route.params;
     const {order} = route.params;
+    const {wallet} = route.params;
    //  const {navigation} = route.params;
 //   const  order={
 //         id:10,
@@ -33,7 +35,9 @@ const Payment = ({ route,navigation }) => {
         setSpinnerVis(tf);
     }
     
-   const uri = `https://we-link.in/dev.we-link.in/api/ccavPayment_api.php?order_id=${order.id}&amount=${order.amount}&billing_name=${actualUser.name}&billing_country=India&billing_tel=${actualUser.phone}&billing_email=${actualUser.email}`;
+    console.log(actualUser.user_id);
+   const uri = wallet ? `https://we-link.in/dev.we-link.in/api/ccavPayment_api.php?amount=${order.amount}&merchant_param1=${actualUser.user_id}&merchant_param2=wallet&billing_name=${actualUser.name}&billing_country=India&billing_tel=${actualUser.phone}&billing_email=${actualUser.email}`
+    : `https://we-link.in/dev.we-link.in/api/ccavPayment_api.php?order_id=${order.id}&amount=${order.amount}&billing_name=${actualUser.name}&billing_country=India&billing_tel=${actualUser.phone}&billing_email=${actualUser.email}`;
    // let inject;
 
    
@@ -64,6 +68,7 @@ const Payment = ({ route,navigation }) => {
         if(msg.nativeEvent.data === "Success"){
        sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id);
        // navigate to My Subs
+       navigation.popToTop();
 
     }else{
         alert("Your payment has not been completed");

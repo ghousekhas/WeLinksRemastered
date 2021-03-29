@@ -7,6 +7,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 import City from './City';
 import About from './About';
 import {Colors, dimen} from '../Constants'
+import { useAuth } from '../services/auth-service';
 
 const LoginScreen = ({navigation,route}) => {
     const [phoneno,setPhoneno] = useState(' ');
@@ -14,14 +15,17 @@ const LoginScreen = ({navigation,route}) => {
     const [code,setCode] =useState(' ');
     const [user,setUser] =useState(null);
     const [timeout,stmots]=useState(60);
+    const authContext = useAuth();
 
     const [pressed,setPressed] = useState(false);
 
     onAuthStateChanged = (user)=>{
         setUser(user);
         try{
-            if(user!=null)
-                route.params.getUserDetails(0,user);
+            if(user!=null){
+                authContext.sync();
+                //route.params.getUserDetails(0,user);
+            }
         }
         catch(er){
             console.log('getparams not found in loginscreen');

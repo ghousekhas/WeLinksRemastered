@@ -324,6 +324,16 @@ const DrawerContent = (props) => {
        actualUser: actualUser,
        getUserDetails: props.getUserDetails,
        setActualUser: setActualUser,
+       goToMySubs: ()=>{
+          props.navigation.navigate('MySubscriptions',{
+            initialSubs: initialSubs,
+            user: actualUser,
+            getUserDetails: props.getUserDetails,
+            setActualUser: setActualUser,
+            actualUser: actualUser,
+            goBackToHome: goToHomeStack
+          })
+       }
        
      })}}
      
@@ -364,8 +374,10 @@ const DrawerContent = (props) => {
      icon="wallet-outline"
      label="WeLinks Wallet"
      onPress={()=>{
-       props.navigation.navigate('Wallet',{
-         actualUser: actualUser
+       props.navigation.navigate('WalletStack',{
+         actualUser: actualUser,
+         goToHomeStack: goToHomeStack,
+         toggleDrawer: props.navigation.toggleDrawer
        })
        }}
      

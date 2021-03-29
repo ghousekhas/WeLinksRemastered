@@ -140,7 +140,7 @@ export default class AddressList extends React.Component{
     renderSavedAddress=({item,index})=>{
       const {next,actualUser}=this.props.route.params;
 
-      return <HomeAddress item= {{...item,type: 'pin'}} style={styles.horiz} deletae={this.state.myAddresses} route={{params:{
+      return <HomeAddress routeparams={{...this.props.route.params}} item= {{...item,type: 'pin'}} style={styles.horiz} deletae={this.state.myAddresses} route={{params:{
         next: next,
         actualUser: actualUser
       }}} popItem={this.popItem} index={index} />

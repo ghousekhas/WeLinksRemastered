@@ -169,7 +169,8 @@ const [usableEndDate,setUsableEndDate]=useState(null);
         vendorId: vendorId,
         tag: tag,
         vendorType: route.params.vendorType,
-        address: address
+        address: address,
+        ...route.params
 
       
 

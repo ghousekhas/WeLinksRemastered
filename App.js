@@ -64,6 +64,9 @@ import wallet from './src/screens/Wallet';
 import Payment from './src/screens/Payment';
 import { useAuth, AuthConstants } from './src/services/auth-service';
 import WalletScreen from './src/screens/WalletScreen';
+import AddMoney from './src/screens/AddMoney';
+import Wallet from './src/screens/Wallet';
+
 
 
 //For Location services, enable legacy
@@ -181,6 +184,7 @@ const NavigationDrawer = ({ user, actualUser, getUserDetails, getVendorDetails, 
           }}>
 
           <Drawer.Screen name="HomeStack" component={PostLoginHome} initialParams={{ user: user, actualUser: updateState, sm: 1, getUserDetails: getUserDetails, ...initialParams }} />
+          <Drawer.Screen name="WalletStack" component={WalletStack}  />
           <Drawer.Screen name="ProfileStack" component={myProfileStack} initialParams={{ actualUser: actualUser, user: user }} options={{ headerShown: false }} />
           <Drawer.Screen name="MyAddresses" component={myAddressStack} initialParams={{ actualUser: updateState }} />
           <Drawer.Screen name="MySubscriptions" component={MySubscriptions} initialParams={{
@@ -520,6 +524,29 @@ const userSupportStack = ({ navigation, route }) => {
 
 };
 
+const WalletStack = ({navigation, route})=>{
+
+
+  return (
+    <View style={{ flex: 1 }}>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator>
+          <Stack.Screen name="Wallet" component={WalletScreen} options={{
+            headerShown: false
+          }} initialParams={route.params}/>
+          <Stack.Screen name="AddMoney" component={AddMoney}
+            options={{
+              headerShown: false
+            }}  />
+          <Stack.Screen name='Payment' component={Payment}  options={{
+              headerShown: false
+            }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
+    );
+}
+
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -764,7 +791,9 @@ export default function App() {
 
   }, []);
 
-  return <WalletScreen />
+
+  
+  
 
   //return (<RatingComponentScreen order_details ={ {something: "something1",somethings: "somethings2"}} />);
 
@@ -873,7 +902,12 @@ const PostLoginHome = ({ route, navigation }) => {
           <Stack.Navigator initialRouteName={initRoute} >
             <Stack.Screen name='Homescreen' component={Homescreen} options={{
               headerShown: false
-            }} initialParams={{ user: route.params.user, actualUser: updateState, drawer: navigation, getUserDetails: route.params.getUserDetails, setActualUser: route.params.setActualUser }} />
+            }} initialParams={{ user: route.params.user, actualUser: updateState, drawer: navigation, getUserDetails: route.params.getUserDetails, setActualUser: route.params.setActualUser,goToMySubs: ()=>{
+              navigation.navigate('MySubscriptions',{
+                user: actualUser,
+                goBackToHome: ()=>{navigation.navigate('HomeStack')}
+              });
+            } }} />
             {/* <Stack.Screen name='School' component={School} options={{headerShown: false}}/>  */}
             <Stack.Screen name='AddressSearch' component={AddressSearch} />
             <Stack.Screen name='AddAddress' component={AddAddress} options={{

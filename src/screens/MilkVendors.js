@@ -141,7 +141,7 @@ const MilkVendors = (props) => {
                 if (brands.length > 0)
                     brandsString = brandsString + brands[brands.length - 1].brand.toString();
         //        console.log(brandsString);
-
+               
                 return (
                     <Vendor name={vendorName} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
                         onSelected={() => {
@@ -155,7 +155,8 @@ const MilkVendors = (props) => {
                                 vendorAddress: vendorAddress,
                                 imageUrl: imageUrl,
                                 actualUser: actualUser,
-                                vendorId: vendor_id
+                                vendorId: vendor_id,
+                                ...props.route.params
                             })
 
 

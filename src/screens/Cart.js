@@ -16,12 +16,14 @@ import sendNotif from '../Utility/sendNotificationTo';
 import WebView from 'react-native-webview';
 import { set } from 'react-native-reanimated';
 import Payment from './Payment';
+import { useAuth } from '../services/auth-service';
 
 
 const Cart = ({ route, navigation, Tag }) => {
     let selectedDays = [], i;
     const [orderMade, setOrderMade] = useState(false);
     const [showWebview,setShowWebview] = useState(true);
+    const authContext = useAuth();
     const words = {
         title: 'Order Summary',
         disclaimer: 'Total number of deliveries may be adjusted as per market rates.',
@@ -395,8 +397,9 @@ const Cart = ({ route, navigation, Tag }) => {
                                 navigation.navigate('Payment',{
                                 actualUser,
                                 order: {
-                                    id: response.data.suscriptionID,
-                                    amount: cartTotal+50
+                                    id: response.data.subscriptionID,
+                                    amount: cartTotal+50,
+                                    wallet: false
                                 }
                             });
  
@@ -412,7 +415,93 @@ const Cart = ({ route, navigation, Tag }) => {
   
                         
                     </View>
-                    <SubmitButton text="Pay Using WeLinks Wallet" style={{marginTop:'2%'}} />
+                    <SubmitButton 
+                    otherColor={calculateCartAmount()+50 <= authContext.user.wallet_balance ? Colors.primary : 'gray'}
+                    onTouch={()=>{
+                        // route.params.goToMySubs();
+                        // return;
+                        if(calculateCartAmount()+50 <= authContext.user.wallet_balance){
+                            const { year, month, day } = route.params.startDate;
+                            const endDate = route.params.endDate;
+                            console.log('vendortype', route.params.vendorType);
+
+                            console.log('pop to top')
+                            Axios.post(Config.api_url + 'php?action=addSubscription&' + qs.stringify({
+                                user_id: actualUser.user_id,
+                                vendor_id: route.params.vendorId,
+                                quantity: pquan,
+                                subscription_days: selectedDays,
+                                subscription_end_date: year.toString() + '-' + month.toString() + '-' + day.toString(),
+                                subscription_start_date: endDate.year.toString() + '-' + endDate.month.toString() + '-' + endDate.day.toString(),
+                                no_of_deliveries: tag == 'Paper' ? numberOfPaperWeekdays + numberOfPaperWeekends : numberOfDeliveries,
+                                delivery_fee: 50,
+                                product_type: route.params.vendorType,
+                                order_gst: 0,
+                                product_id: route.params.productId,
+                                cartamount: calculateCartAmount(),
+                                discount: 0,
+                                order_total: calculateCartAmount() + 50,
+                                //       address_id: route.params.address.addr_id
+
+                            })).then((response) => {
+                                console.log(response);
+                                console.log("sd " + JSON.stringify(response.data));
+                                console.log('Sending')
+                               // sendNotif('Hey', 'Your order has been successfully placed', 'user' + actualUser.user_id, notification_identifiers.user_milk_subscriptions);
+                                // sendNotif('Order Recieved', 'An order for ' + route.params.vendorType + ' has been received', 'vendor' + route.params.vendorId, tag == 'Milk' ? notification_identifiers.vendor_milk_subscriptions : notification_identifiers.vendor_newspaper_subscriptions);
+                                // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                                // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                                // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+                                // sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id)
+
+                                // Alert.alert("Order placed.", tag == 'Milk' ?
+                                //     "Your milk subscription order has been placed successfully. You can see the details in  My Subscriptions." : "Your newspaper subscription order has been placed successfully. You can see the details in  My Subscriptions.",
+                                //     [
+
+                                //         { text: "OK", onPress: () => { } }
+                                //     ],
+                                //     { cancelable: false }
+                                // );
+
+                         //       navigation.popToTop();
+                                //  console.log()
+
+                                // navigation.navigate('Payment',{
+                                // actualUser,
+                                // order: {
+                                //     id: response.data.suscriptionID,
+                                //     amount: cartTotal+50,
+                                //     wallet: false
+                                // })
+                                Axios.post(`https://api.dev.we-link.in/user_app.php?action=orderByWallet&user_id=${actualUser.user_id}&order_id=${response.data.subscriptionID.toString()}&amount=${(calculateCartAmount()+50).toString()}`,)
+                                    .then((response)=>{
+                                            
+                                        try{
+                                            console.log(response.data);
+                                            if(response.data.status === "success"){
+                                                navigation.popToTop();
+                                                sendNotif('Hey', 'Your order has been successfully placed', 'user' + actualUser.user_id, notification_identifiers.user_milk_subscriptions);
+                                            }
+                                            else{
+                                                alert("Error occursd");
+                                                navigation.popToTop();
+                                            }
+                                        }
+                                        catch(exception){
+                                            alert("Error occursd");
+                                            navigation.popToTop();
+                                        }
+                                    });
+            
+ 
+                            }, (error) => {
+                                console.log("Error " + error);
+            
+                            });
+
+                            
+                        }
+                    }} text={"Pay Using WeLinks Wallet (Bal. "+authContext.user.wallet_balance+" )" } style={{marginTop:'2%'}} />
 
                     {/* <View style={{backgroundColor:'yellow',height:'100%'}}>
             <Payment />

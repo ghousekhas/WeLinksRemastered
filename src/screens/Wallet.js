@@ -6,7 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import SubmitButton from '../components/SubmitButton';
 import WebView from 'react-native-webview';
 
-const wallet = ({navigation,route}) => {
+const Wallet = ({navigation,route}) => {
     const constants={
         balance: `Wallet Balance`,
         rupee:`₹`,
@@ -110,7 +110,7 @@ const wallet = ({navigation,route}) => {
     </View>)
 };
 
-export default wallet;
+export default Wallet;
 
 const styles=StyleSheet.create({
     greenBack:{

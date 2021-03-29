@@ -241,13 +241,15 @@ export default class Homescreen extends React.Component{
 
                         }
                         else{
+                            // this.props.route.params.goToMySubs();
                             this.bs.current.snapTo(2);
                             this.props.navigation.navigate('AddressList',{
                                 next: 'MilkVendors',
                                 user: this.props.route.params.user,
                                 actualUser: this.state.actualUser,
                                 tag: 'Milk',
-                                profile: true
+                                profile: true,
+                                ...this.props.route.params
                             });
                         }
 
@@ -313,12 +315,14 @@ export default class Homescreen extends React.Component{
                             else{
                                 this.setState({sheetOpen: false});
                                 this.bs.current.snapTo(2);
+                                // this.props.route.params.goToMySubs();
                                 this.props.navigation.navigate('AddressList',{
                                     next: 'MilkVendors',
                                     user: this.props.route.params.user,
                                     actualUser: this.state.actualUser,
                                     tag: 'Milk',
-                                    profile: true
+                                    profile: true,
+                                    ...this.props.route.params
                                 });
                                 this.setState({remountRating: Math.random(0.4).toString()});
 
@@ -455,12 +459,14 @@ export default class Homescreen extends React.Component{
                         else{
                             // this.setState({sheetOpen: false});
                             this.bs.current.snapTo(2);
+                            // this.props.route.params.goToMySubs();
                             this.props.navigation.navigate('AddressList',{
                                 next: 'MilkVendors',
                                 user: user,
                                 actualUser: this.state.actualUser,
                                 tag: 'Milk',
-                                profile: true
+                                profile: true,
+                                ...this.props.route.params
                             });
 
                         }
@@ -515,7 +521,8 @@ export default class Homescreen extends React.Component{
                                 user: user,
                                 actualUser: this.state.actualUser,
                                 tag: 'Paper',
-                                profile: true
+                                profile: true,
+                                ...this.props.route.params
                             });
 
                         }
@@ -545,7 +552,8 @@ export default class Homescreen extends React.Component{
                             user: user,
                             actualUser: this.state.actualUser,
                             tag: 'Milk',
-                            profile: true
+                            profile: true,
+                            ...this.props.route.params
                         });
                         // this.props.navigation.navigate('VendorsList',{
                         //     department: 'scrap'
@@ -579,7 +587,8 @@ export default class Homescreen extends React.Component{
                         else{
                             this.props.navigation.navigate('Bids',{
                                 department: 'corporateScrap',
-                                actualUser: this.state.actualUser
+                                actualUser: this.state.actualUser,
+                                ...this.props.route.params
                             })
                         }
 

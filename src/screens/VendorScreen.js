@@ -130,7 +130,7 @@ export default class VendorScreen extends React.Component {
                 duration={400}
                 style={{ ...Styles.collapsibleView }}
                 transition="backgroundColor">
-                <ScrapFlatList navigation={this.props.navigation} route={{ params: { name: 'SampleVendor', stars: 4, reviews: 68, vendorId: this.props.route.params.vendorId, actualUser: this.props.route.params.actualUser, address: this.props.route.params.address } }} data={section[(Object.keys(section))[0]]} />
+                <ScrapFlatList navigation={this.props.navigation} route={{ params: { name: 'SampleVendor', stars: 4, reviews: 68, vendorId: this.props.route.params.vendorId, actualUser: this.props.route.params.actualUser, address: this.props.route.params.address,...this.props.route.params } }} data={section[(Object.keys(section))[0]]} />
             </Animatable.View>);
        
     };
@@ -223,7 +223,7 @@ const ScrapFlatList = ({ route, navigation, data }) => {
         })
     );
     const vendorId = route.params.vendorId;
-
+  
     // const order = navigation.getParams('order');
     return (<View style={{ ...style.container }}>
         <FlatList
@@ -233,9 +233,10 @@ const ScrapFlatList = ({ route, navigation, data }) => {
             renderItem={({ item }) => {
                 console.log(item.product_img_url);
 
-
+               
 
                 return (
+                    
                     <Product place="list" name={item.name} quantity={item.quantity} price={item.price} url={item.product_img_url} imageUrl={item.product_img_url}
                         subscribe={() => {
 
@@ -255,7 +256,8 @@ const ScrapFlatList = ({ route, navigation, data }) => {
                                 vendorId: vendorId,
                                 productId: productId,
                                 vendorType: 'milk',
-                                address: address
+                                address: address,
+                                ...route.params
                             })
                         }
                         } />

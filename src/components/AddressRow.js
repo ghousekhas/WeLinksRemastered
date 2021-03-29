@@ -15,7 +15,7 @@ import {Colors, dimen} from '../Constants'
 const height= Dimensions.get('window').height;
 
 
-export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
+export default HomeAddress=({item,style,route,deletae,index,popItem,routeparams})=>{
   
     const navigation= useNavigation();
     
@@ -40,9 +40,12 @@ export default HomeAddress=({item,style,route,deletae,index,popItem})=>{
     const setSelectedAddress= async (itemnow,index)=>{
       console.log('ardino',route.params.actualUser);
       console.log('You are at +' + itemnow)
+      console.log('parammssss')
+      // routeparams.goToMySubs();
       navigation.navigate(route.params.next,{
         address: itemnow,
-        actualUser: route.params.actualUser
+        actualUser: route.params.actualUser,
+        ...routeparams
 
       });
       
