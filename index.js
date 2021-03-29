@@ -1,4 +1,4 @@
-import { registerRootComponent } from 'expo';
+import {AppRegistry} from 'react-native';
 
 import App from './App';
 import AuthApp from './AuthApp';
@@ -43,4 +43,4 @@ PushNotification.configure({
 
 
 
-registerRootComponent(AuthApp);
+AppRegistry.registerComponent('main', ()=> AuthApp);

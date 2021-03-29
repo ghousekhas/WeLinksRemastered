@@ -98,7 +98,7 @@ const City = ({navigation,route,user,userDetails,getUserDetails,setAboutDone}) =
     setDone(true);
     //AsyncStorage.setItem('firstLogin','true');
     
-    
+    const user = auth().currentUser;
     Axios.post(Config.api_url+'php?'+qs.stringify(
     {
         action: 'registerUser',

@@ -63,6 +63,7 @@ import sendNotif from './src/Utility/sendNotificationTo';
 import wallet from './src/screens/Wallet';
 import Payment from './src/screens/Payment';
 import { useAuth, AuthConstants } from './src/services/auth-service';
+import WalletScreen from './src/screens/WalletScreen';
 
 
 //For Location services, enable legacy
@@ -762,6 +763,8 @@ export default function App() {
     }
 
   }, []);
+
+  return <WalletScreen />
 
   //return (<RatingComponentScreen order_details ={ {something: "something1",somethings: "somethings2"}} />);
 
