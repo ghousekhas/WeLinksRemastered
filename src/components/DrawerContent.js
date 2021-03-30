@@ -250,13 +250,14 @@ const DrawerContent = (props) => {
      label="Sign Out"
      
      onPress={()=>{
-       auth().signOut().then((value)=>{
-         setUser(null);
-       },(reason)=>{
-         setUser(null);
-       }).catch((reason)=>{
-         setUser(null);
-       });
+       authContext.logout();
+      //  auth().signOut().then((value)=>{
+      //    setUser(null);
+      //  },(reason)=>{
+      //    setUser(null);
+      //  }).catch((reason)=>{
+      //    setUser(null);
+      //  });
      }}
      
    />
@@ -491,15 +492,16 @@ const DrawerContent = (props) => {
      label="Sign Out"
      
      onPress={()=>{
-       alert('Signing out');
-       auth().signOut().
-        then((value)=>{
-          setUser(null);
-        },(reason)=>{
-          setUser(null);
-        }).catch((reason)=>{
-          setUser(null);
-        })
+      authContext.logout();
+      //  alert('Signing out');
+      //  auth().signOut().
+      //   then((value)=>{
+      //     setUser(null);
+      //   },(reason)=>{
+      //     setUser(null);
+      //   }).catch((reason)=>{
+      //     setUser(null);
+      //   })
 
      }}
      

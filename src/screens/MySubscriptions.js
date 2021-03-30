@@ -212,7 +212,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
     
 
     <View style={{flexDirection: 'row'}}>
-        <Text style={styles.greyText1}>{getDate(startDate)+" to "+getDate(endDate)}</Text>
+        <Text style={styles.greyText1}>{getDate(startDate)+" to "+getDate(endDate).toString()}</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
         <Image onLayout={({nativeEvent}) => {

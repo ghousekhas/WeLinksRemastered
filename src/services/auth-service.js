@@ -36,6 +36,17 @@ export default function AuthProvider({children}){
       })
     } 
 
+    const logout = ()=>{
+      AsyncStorage.removeItem(AuthConstants.saved_user);
+      AsyncStorage.removeItem(AuthConstants.saved_user,(error)=>{
+        console.log('aer');
+      });
+      auth().signOut();
+      setUser(AuthConstants.new_user);
+      checkUserAccounts();
+
+    }
+
 
 
     const syncAndCacheUser = async ()=>{
@@ -105,7 +116,7 @@ export default function AuthProvider({children}){
             }
         }
         catch(error){}
-        
+
         syncAndCacheUser();
     }
 
@@ -115,7 +126,9 @@ export default function AuthProvider({children}){
 
     return (
         <AuthContext.Provider value={{user: user,
-                                      sync: syncAndCacheUser}} >
+                                      sync: syncAndCacheUser,
+                                      logout: logout
+                                      }} >
           <App/>
         </AuthContext.Provider>
     );
