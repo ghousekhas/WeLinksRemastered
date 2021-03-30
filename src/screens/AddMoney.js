@@ -23,7 +23,7 @@ export default function AddMoney({navigation}){
             <View style={styles.appbar}>
                 <AppBar title="Add Money" back={true} funct={()=>{navigation.goBack();}} />
             </View>
-            <Text numberOfLines={2} style={[Styles.heading,styles.header]}> Please enter the amount to add in your wallet</Text>
+            <Text numberOfLines={2} style={[Styles.heading,styles.header]}> Please enter the amount to recharge your wallet</Text>
             <View style={{flex: 1, justifyContent: 'center'}}>
             <View style={styles.moneyborder}>
                 <TextInput 
@@ -39,7 +39,9 @@ export default function AddMoney({navigation}){
                     {moneyOptions.map((value,index,arr)=>{
                         return (
                             <TouchableOpacity  onPress={()=>moneySelected(index,value)}>
-                                <Text style={[styles.moneybox,{backgroundColor: selectedIndex == index ?  Colors.primary : 'white' }]}>
+                                <Text style={[styles.moneybox,{backgroundColor: selectedIndex == index ?  Colors.primary : 'white' ,
+                                fontWeight: selectedIndex == index? 'bold': '500',
+                                color: selectedIndex == index ? 'white': 'black'}]}>
                                     {"₹ " + value} 
                                 </Text>
                             </TouchableOpacity>

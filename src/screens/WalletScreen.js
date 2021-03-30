@@ -68,8 +68,8 @@ export default function WalletScreen({navigation,route}){
             </View>
             <View style={{justifyContent: 'center', flex: 1.5, flexDirection: 'row',width: '100%'}}>
                 <View style={{justifyContent: 'space-evenly',alignItems: 'center', flexDirection: 'column',width: '100%'}}> 
-                    <Text style={[Styles.heading, {width: '50%', padding: 10,textAlign: 'center',alignSelf: 'center'}]}>
-                        {'₹ '+ user.user.wallet_balance}
+                    <Text style={[Styles.heading, {width: '50%',textAlign: 'center',alignSelf: 'center', paddingHorizontal: 25, paddingVertical: 10, borderRadius: 15, borderWidth: 1, borderColor: Colors.seperatorGray}]}>
+                        {'Balance ₹ '+ user.user.wallet_balance}
                     </Text>
                     <TouchableOpacity  onPress={()=>{
                             navigation.navigate('AddMoney');
@@ -86,7 +86,7 @@ export default function WalletScreen({navigation,route}){
             {
                 transcationsLength == 0? <Text style={{fontSize: 18, fontWeight: '800', textAlign: 'center', flex: 3}}> No transactions to show</Text>
                 : 
-               ( <View style={[{flex: 3}, {flexDirection: 'column'}]}>
+               ( <View style={[{flex: 3}, {flexDirection: 'column',marginHorizontal: 10}]}>
                 <View style={{flexDirection: 'row', flex: 0, justifyContent: 'space-evenly', padding: 10}}>
                     {["All","Debit","Credit"].map((value,ind)=>{
                         return (<TouchableOpacity onPress={()=> {setSelectedTab(ind); flatListre.scrollToIndex({index: ind})}}>
@@ -108,24 +108,45 @@ export default function WalletScreen({navigation,route}){
                         // style={{backgroundColor: 'blue'}}
                         bounces={false}
                         pagingEnabled
+                        onScroll={({nativeEvent})=>{
+                            console.log(nativeEvent);
+                            const {x} = nativeEvent.contentOffset;
+                            console.log(x);
+                            if(x== 0)
+                                setSelectedTab(0);
+                            else if(x <= dimen.width*2 -50)
+                                setSelectedTab(1);
+                            else 
+                                setSelectedTab(2);
+                        }}
                         ref={(reference) => setFlatReference(reference)}
                         renderItem={({item})=>{
                             console.log(item);
-                            return (<View style={{width: dimen.width}}>
+                            return (<View style={{width: dimen.width-20}}>
                                 <FlatList
                                 data={item == "All" ?  transcations: transcations.filter(transaction => item == transaction.trans_type )}
                                 key= {( index)=> index.toString()}
                                 // style={{backgroundColor: 'pink'}}
-                                ItemSeparatorComponent={()=> <View style={{backgroundColor: Colors.seperatorGray, width: dimen.width*90, height: 1}}/>}
+                                ItemSeparatorComponent={()=> <View style={{backgroundColor: Colors.seperatorGray, height: 1}}/>}
                                 renderItem={({item})=>{
                                     console.log(item);
                                     return (
-                                        <View style={{borderRadius: 8,flex: 1, flexDirection: 'row', backgroundColor: item.trans_type == 'debit' ? Colors.secondary : Colors.primary, justifyContent: 'space-between', paddingHorizontal: 15, paddingVertical: 10 }}>
+                                        <View style={{ flexDirection: 'row', backgroundColor: item.trans_type == 'debit' ? Colors.secondary : Colors.primary, justifyContent: 'space-between', paddingHorizontal: 15, paddingVertical: 10 }}>
                                             {
-                                                selectedTab == 0 ? <Text>{item.trans_type}</Text> : null
+                                                selectedTab == 0 ? <Text style={{color: item.trans_type == 'debit'? 'black': 'white'
+                                                ,
+                                                marginHorizontal: 5
+                                            }}>{item.trans_type}</Text> : null
                                             }
-                                            <Text>{item.wallet_trans_amount}</Text>
-                                            <Text>{ymdToApp( item.timestamp)}</Text>
+                                            <Text style={{color: item.trans_type == 'debit'? 'black': 'white'
+                                            ,
+                                            marginHorizontal: 5
+                                        }}>{item.wallet_trans_amount}</Text>
+                            
+                                            <Text style={{color: item.trans_type == 'debit'? 'black': 'white'
+                                            ,
+                                            marginHorizontal: 5
+                                        }}>{ymdToApp( item.timestamp) +"   "}</Text>
                                         </View>
                                     )
                                 }}
