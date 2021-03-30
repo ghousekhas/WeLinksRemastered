@@ -8,7 +8,7 @@ import { AuthContext, useAuth } from '../services/auth-service';
 const moneyOptions = ['100','500','1000']
 
 export default function AddMoney({navigation}){
-    const user = useAuth().user;
+    const user = useAuth();
     const [value, setValue] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
@@ -54,9 +54,10 @@ export default function AddMoney({navigation}){
                     if(value.trim() != '')
                         navigation.navigate('Payment',{
                             order:{
-                                amount: value,
+                                amount: value
                             },
-                            actualUser: user
+                            actualUser: user.user,
+                            wallet: true
                         });
                     else
                         alert("Please enter a valid amount");

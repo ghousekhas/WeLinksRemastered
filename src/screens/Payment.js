@@ -36,7 +36,7 @@ const Payment = ({ route,navigation }) => {
     }
     
     console.log(actualUser.user_id);
-    console.log("id:"+order.id);
+    console.log(wallet);
    const uri = wallet ? `https://we-link.in/dev.we-link.in/api/ccavPayment_api.php?amount=${order.amount}&merchant_param1=${actualUser.user_id}&merchant_param2=wallet&billing_name=${actualUser.name}&billing_country=India&billing_tel=${actualUser.phone}&billing_email=${actualUser.email}`
     : `https://we-link.in/dev.we-link.in/api/ccavPayment_api.php?order_id=${order.id}&amount=${order.amount}&billing_name=${actualUser.name}&billing_country=India&billing_tel=${actualUser.phone}&billing_email=${actualUser.email}`;
    // let inject;

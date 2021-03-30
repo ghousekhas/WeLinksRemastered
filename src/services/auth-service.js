@@ -38,8 +38,7 @@ export default function AuthProvider({children}){
       try{
         const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
           action: "getUser",
-         // id: 96
-         phone: auth().currentUser.phoneNumber.substring(3)
+          phone: auth().currentUser.phoneNumber.substring(3)
         })))).data;
         if(result.user[0].status_code != 100){
           setUser(result.user[0]);
