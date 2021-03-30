@@ -200,7 +200,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
         let dayte = date.substring(0,11)
          let arr = dayte.split("-");
          console.log(arr)
-         let months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+         let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
      
              return (arr[2].trim() + "-" + months[arr[1].replace(/^0+/, "")] + "-" + arr[0])
      

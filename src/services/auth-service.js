@@ -13,7 +13,8 @@ export const AuthConstants = {
     phone_verified: 2,
     new_user: 3,
     loading: 4,
-    errored: 5
+    errored: 5,
+    saved_vendor: "saved_vendor"
 
 }
 
@@ -23,6 +24,7 @@ export const AuthContext = React.createContext({user: auth().currentUser,
 
 export default function AuthProvider({children}){
     const [user, setUser ] = useState(AuthConstants.loading);
+    const [vendor, setVendor] = useState(AuthConstants.loading);
 
 
     const checkUserAccounts = () =>{
@@ -33,6 +35,8 @@ export default function AuthProvider({children}){
           setUser(AuthConstants.errored);
       })
     } 
+
+
 
     const syncAndCacheUser = async ()=>{
       try{
@@ -50,6 +54,25 @@ export default function AuthProvider({children}){
       }
       catch(error){
         setUser(AuthConstants.errored);
+      }
+
+      //sync and cache vendor
+
+      try{
+        const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
+          action: "getVendor",
+          user_id: user.user_id
+        })))).data;
+        if(result.vendor.status_code != 100){
+          setVendor(result.vendor);
+          //Caching? 
+          AsyncStorage.setItem(AuthConstants.saved_vendor, JSON.stringify(result.vendor));
+        }
+        else
+          setVendor(AuthConstants.new_user);
+      }
+      catch(error){
+        setVendor(AuthConstants.errored);
       }
 
 
@@ -70,6 +93,19 @@ export default function AuthProvider({children}){
           }
           catch(err){//The next line fetches user from the database anyway
           }     
+
+        try{
+          const saved_vendor = await AsyncStorage.getItem(AuthConstants.saved_vendor);
+          if(saved_vendor != null && saved_vendor != undefined)
+            try{
+              setVendor(JSON.parse(saved_vendor))
+            }
+            catch(error){
+
+            }
+        }
+        catch(error){}
+        
         syncAndCacheUser();
     }
 

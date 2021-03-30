@@ -639,7 +639,7 @@ const ProfileSmallView = ({actualUser,drawer})=>{
     return (
         <TouchableOpacity style = {styles.usernamecontainer1} onPress={()=>{drawer.navigate('ProfileStack')}}>
         <Image style={styles.userimage} source={ user.img_url.trim()  != ''? {uri: user.img_url}: require('../../assets/notmaleavatar.png')  }/>
-        <Text adjustsFontSizeToFit style={styles.username}>{displayName}</Text>
+        <Text adjustsFontSizeToFit style={styles.username}>{user.name}</Text>
     </TouchableOpacity>
     )
 }
