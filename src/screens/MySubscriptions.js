@@ -1,20 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions, BackHandler,Image} from 'react-native';
-import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
-import GenericSeperator from '../components/GenericSeperator';
-import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
-import {Ionicons} from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import AppBar from '../components/AppBar';
-import SubmitButton from '../components/SubmitButton'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Axios from 'axios';
-import SubscriptionOrder from '../components/SubscriptionOrder';
 import LottieView from 'lottie-react-native';
-import { setStatusBarHidden } from 'expo-status-bar';
 import {Config} from  '../Constants';
 import ymdToApp from '../Utility/dateConvertor';
 

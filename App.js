@@ -742,7 +742,7 @@ export default function App() {
 
   React.useEffect(() => {
 
-    sendNotif('any', 'anyy', 'all', nos.user_milk_subscriptions);
+  //  sendNotif('any', 'anyy', 'all', nos.user_milk_subscriptions);
 
     Notifications.events().registerNotificationOpened((notification) => {
       setSplash(true);
@@ -778,7 +778,7 @@ export default function App() {
     }
     else {
 
-      sendNotif('any', 'anyy', 'all', nos.vendor_milk_subscriptions);
+   //   sendNotif('any', 'anyy', 'all', nos.vendor_milk_subscriptions);
       var subParams = {};
       var ven = false, subRoute = '', route = '';
 

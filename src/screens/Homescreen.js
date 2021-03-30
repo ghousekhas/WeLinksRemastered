@@ -163,13 +163,13 @@ export default class Homescreen extends React.Component{
     try{
         //this.props.navigation.popToTop();
        BackHandler.exitApp();
-       sendNotif('Hey','Closing','user165')
+      // sendNotif('Hey','Closing','user165')
 
        console.log('Exiting');
 
     }
     catch(e){
-        sendNotif('Hey','Check','user165')
+    //    sendNotif('Hey','Check','user165')
 
     console.log('caught');
     };
@@ -186,6 +186,7 @@ export default class Homescreen extends React.Component{
     promoImagesRender = ({item}) =>{
         return(
     
+
                 <Image source={{uri: item.toString()}} style = {styles.imageBanner}/>
      
         );
@@ -565,6 +566,7 @@ export default class Homescreen extends React.Component{
                     <TouchableOpacity style={styles.menuitem} 
                     onPress={()=>{
                         const news = this.state.corpPendingRatings;
+                        console.log('here')
                         if(this.state.corpPendingRatings.length > 0){
 
                             this.setState({ratingTypeOpen: 'corp'});
@@ -585,6 +587,7 @@ export default class Homescreen extends React.Component{
 
                         }
                         else{
+                            console.log('Going')
                             this.props.navigation.navigate('Bids',{
                                 department: 'corporateScrap',
                                 actualUser: this.state.actualUser,
@@ -604,14 +607,7 @@ export default class Homescreen extends React.Component{
               
                 </ScrollView>
                 </View>
-                <View style={styles.deliveringcontainer}>
-                <TouchableOpacity onPress={()=>{
-                    navigation.navigate('AddressSearch');
-                }} >
-                    <Text style={styles.deliveringTitle}>Delivering to:</Text>
-                    <Text style={styles.address}>{this.state.address}</Text>
-                </TouchableOpacity>
-                </View>
+                
             </View>
 
         );
