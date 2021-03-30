@@ -65,8 +65,8 @@ export default function MySubscriptions({navigation,route}){
             data.push({
                 name: item.product_name,
                 imageUrl: item.product_image,
-                startDate: item.subscription_start_date.substring(0,11),
-                endDate: item.subscription_end_date.substring(0,11),
+                startDate: item.subscription_start_date,
+                endDate: item.subscription_end_date,
                 bought: item.quantity,
                 rate: item.order_amount,
                 num: item.no_of_deliveries,

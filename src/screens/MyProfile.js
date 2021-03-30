@@ -211,7 +211,7 @@ const MyProfile = ({navigation,route}) => {
 
 
            <TouchableOpacity>
-                <Text style = {style.chip}>{words.balance  + ' (' + actualUser.wallet_balanced  + ')'}</Text>
+                <Text style = {style.chip}>{words.balance  + ' (' + actualUser.wallet_balance  + ')'}</Text>
             </TouchableOpacity>
 
             </View>
