@@ -55,6 +55,7 @@ export default function AddMoney({navigation}){
                 <SubmitButton text={"Add ₹" + value} onTouch={()=>{
                     if(value.trim() != '')
                         navigation.navigate('Payment',{
+                            online_pay:false,
                             order:{
                                 amount: value
                             },

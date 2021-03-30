@@ -18,6 +18,9 @@ const Payment = ({ route,navigation }) => {
     const {actualUser} = route.params;
     const {order} = route.params;
     const {wallet} = route.params;
+    const {online_pay} = route.params;
+
+  //  console.log(JSON.stringify(online_pay))
    //  const {navigation} = route.params;
 //   const  order={
 //         id:10,
@@ -69,10 +72,20 @@ const Payment = ({ route,navigation }) => {
         if(msg.nativeEvent.data === "Success"){
        sendNotif('Hey','Your order has been successfully placed','user'+actualUser.user_id);
        // navigate to My Subs
-       navigation.popToTop();
+       if(online_pay){
+        console.log("Order confirmed");
+        alert('Order confirmed! You can check the status of your order in My Subscriptions.')
+       }
+      
+      else{
+          console.log("added to wallet")
+        alert("Wallet Amount added!");
+      } 
+      navigation.popToTop();
 
     }else{
         alert("Your payment has not been completed");
+      
          navigation.popToTop();
     }
     }

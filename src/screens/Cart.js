@@ -394,10 +394,11 @@ const Cart = ({ route, navigation, Tag }) => {
 
                                 navigation.navigate('Payment',{
                                 actualUser,
+                                online_pay:true,
                                 order: {
                                     id: response.data.subscriptionID,
                                     amount: cartTotal+50,
-                                    wallet: false
+                                    online_pay: true
                                 }
                             });
  
@@ -477,7 +478,7 @@ const Cart = ({ route, navigation, Tag }) => {
                                         try{
                                             console.log(response.data);
                                             if(response.data.status === "success"){
-                                                alert('Payment completed')
+                                                alert('Order Confirmed! You can check the status of your order in My Subscriptions.')
                                                 navigation.popToTop();
                                                 sendNotif('Hey', 'Your order has been successfully placed', 'user' + actualUser.user_id, notification_identifiers.user_milk_subscriptions);
                                             }

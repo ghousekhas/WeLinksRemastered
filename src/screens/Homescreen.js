@@ -238,17 +238,19 @@ r
                                 Title: news[0].bid_title,
                                 Product: news[0].officescrap_category_name,
                                 Vendor: news[0].company_name
-                            }});
+                            }}).catch((e) => {
+                                console.log("Error: "+e)
+                            })
 
                         }
                         else{
                             // this.props.route.params.goToMySubs();
                             this.bs.current.snapTo(2);
                             this.props.navigation.navigate('Bids',{
-                                next: 'MilkVendors',
+                                next: 'Bids',
                                 user: this.props.route.params.user,
                                 actualUser: this.state.actualUser,
-                                tag: 'Milk',
+                              
                                 profile: true,
                                 ...this.props.route.params
                             });
