@@ -26,6 +26,7 @@ const style = StyleSheet.create({
         
         alignItems: 'center',
         justifyContent: 'center',
+       // backgroundColor:'green'
 
 
 
@@ -35,8 +36,8 @@ const style = StyleSheet.create({
         fontSize: 13,
         fontWeight: 'bold',
         alignSelf: 'center',
-   //     paddingHorizontal: 20,
-        paddingVertical: 20
+       paddingHorizontal: 20,
+      //  paddingVertical: 20
     }
 });
 

@@ -445,11 +445,9 @@ export default class ScrapVendor extends React.Component {
                             //this.props.navigation.navigate('ScrapCart',cart)
                         }
                         } >
-                            <View style={{position: 'absolute',top: 2,right: 7}}>
-                                {/* <Text style={{fontSize: 12,color: 'white'}}>({cart.length})</Text> */}
-                            </View>
-                            <View style={{ backgroundColor: Colors.primary, color: 'white',width: buttonwidth, flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 20}}>
-                            <Text style={{ color: 'white', fontWeight: 'bold' }}>{`Go to Cart (${cart.length})`}</Text>
+                           
+                           <View style={{ backgroundColor: Colors.primary, color: 'white',width: buttonwidth ,alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 10 }}>
+                            <Text numberOfLines={1} style={{ color: 'white', fontWeight: 'bold' }}>{`Go to Cart(${cart.length})`}</Text>
                             </View>
                         </TouchableOpacity>
                         {/* Schedule Pickup Button */}
@@ -468,7 +466,7 @@ export default class ScrapVendor extends React.Component {
 
                             })}
                             >
-                                <View style={{ backgroundColor: Colors.primary, color: 'white',width: buttonwidth ,flex: 1, alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 20 }}>
+                                <View style={{ backgroundColor: Colors.primary, color: 'white',width: buttonwidth ,alignItems: 'center', justifyContent: 'center', padding: '3%', borderRadius: 8,paddingVertical: 10 }}>
                             <Text numberOfLines={1} style={{ color: 'white', fontWeight: 'bold' }}>Schedule Pickup</Text>
                             </View>
                         </TouchableOpacity>

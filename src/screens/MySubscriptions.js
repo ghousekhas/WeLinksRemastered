@@ -16,6 +16,7 @@ import SubscriptionOrder from '../components/SubscriptionOrder';
 import LottieView from 'lottie-react-native';
 import { setStatusBarHidden } from 'expo-status-bar';
 import {Config} from  '../Constants';
+import ymdToApp from '../Utility/dateConvertor';
 
 
 var data=[];
@@ -56,7 +57,7 @@ export default function MySubscriptions({navigation,route}){
 
     const prepareResponse =(dataa)=>{
         setApiLoaded(true);
-        console.log(dataa);
+      //  console.log(dataa);
         data=[];
         dataa.forEach(item => {
             console.log("dataaa " + item.product_name);
@@ -86,7 +87,7 @@ export default function MySubscriptions({navigation,route}){
         Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
             console.log(user.user_id);
-            console.log("resp" +response.data);
+        //    console.log("resp" +response.data);
             //data=response.data;
             prepareResponse(response.data);
             setExtraData(Math.random(0.5));
@@ -113,7 +114,7 @@ export default function MySubscriptions({navigation,route}){
     
     const renderCard = (item) => {
         //const {name,quantity,rate,num,days,startDate,endDate,bought,imageUrl}=cardDetails;
-        console.log('myorder',item);
+      //  console.log('myorder',item);
         
        
         return(
@@ -182,7 +183,7 @@ export default function MySubscriptions({navigation,route}){
 }
 
 const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_}) => {
-    console.log('Tag :' + tag);
+   // console.log('Tag :' + tag);
 
     const [alignment,setAlign] = useState(0);
     var dayString = "";
@@ -195,16 +196,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
          days[4].f ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
          days[5].s ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
          days[6].su ? dayString = dayString.concat("Y") : dayString =  dayString.concat("N")
-         const getDate = (date) => {
-            console.log("dayte"+date)
-        let dayte = date.substring(0,11)
-         let arr = dayte.split("-");
-         console.log(arr)
-         let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-     
-             return (arr[2].trim() + "-" + months[arr[1].replace(/^0+/, "")] + "-" + arr[0])
-     
-         }
+    
        
   
     return(<View style={{flexDirection: 'column',width: dimen.width*0.95,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 8,alignSelf: 'center',marginVertical: dimen.sHm/4,elevation:0,}}>
@@ -212,7 +204,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
     
 
     <View style={{flexDirection: 'row'}}>
-        <Text style={styles.greyText1}>{getDate(startDate)+" to "+getDate(endDate)}</Text>
+        <Text style={styles.greyText1}>{ymdToApp(startDate)+" to "+ymdToApp(endDate)}</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
         <Image onLayout={({nativeEvent}) => {
@@ -364,7 +356,8 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: 'bold',
         margin: '2%',
-        marginTop:'4%'
+        marginTop:'4%',
+        alignSelf:'center'
         
      
         

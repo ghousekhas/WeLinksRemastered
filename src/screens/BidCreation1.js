@@ -12,6 +12,7 @@ import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import Axios from 'axios';
 import qs from 'qs';
+import ymdToApp from '../Utility/dateConvertor';
 
 
 const height = Dimensions.get('window').height;
@@ -62,17 +63,17 @@ export default function BidCreation1({ navigation, route }) {
 
     const [temp, setTemp] = useState(tomorrow);
     console.log('Tomorrow '+tomorrow)
-    const sortDate = (date) => {
+    // const ymdToApp = (date) => {
       
-        console.log("Wrong date " + date)
-        let d = date.split('-');
+    //     console.log("Wrong date " + date)
+    //     let d = date.split('-');
         
-        let m = mn[Number(d[1] >= 10 ? d[1]-1 : (d[1]-1)%10)];
-        console.log(`${d[2]}-${m}-${d[0]}}`)
-        return `${d[2]}-${m}-${d[0]}`
+    //     let m = mn[Number(d[1] >= 10 ? d[1] : d[1])%10];
+    //     console.log(`${d[2]}-${m}-${d[0]}}`)
+    //     return `${d[2]}-${m}-${d[0]}`
 
 
-    }
+    // }
 
 
     const strings = {
@@ -192,7 +193,7 @@ export default function BidCreation1({ navigation, route }) {
                     disableAllTouchEventsForDisabledDays
                     displayLoadingIndicator
                     onDayPress={(day) => setTemp(day.dateString)}
-                    minDate={dateType == 1 ? tomorrow : dateType == 2 ? startDate : endDate}
+                    minDate={dateType == 1 ? tomorrow : endDate}
                     hideExtraDays
                     style={{
                         borderWidth: 0.3,
@@ -254,7 +255,7 @@ export default function BidCreation1({ navigation, route }) {
                 }}>
 
 
-                <Text style={styles.buttonText}>{'Set Date'} ({sortDate(temp)})</Text>
+                <Text style={styles.buttonText}>{'Set Date'} ({ymdToApp(temp)})</Text>
 
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}
@@ -347,7 +348,7 @@ export default function BidCreation1({ navigation, route }) {
                                 </View>
 
 
-                                <Textbox enable={false} title={'TENDER START DATE'} hint={'DDMMYYYY'} value={startDate == '' ? 'Select start date' : sortDate(startDate)} />
+                                <Textbox enable={false} title={'TENDER START DATE'} hint={'DDMMYYYY'} value={startDate == '' ? 'Select start date' : ymdToApp(startDate)} />
                                 <View style={{
                                     alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.04
                                 }}>
@@ -359,7 +360,7 @@ export default function BidCreation1({ navigation, route }) {
                                     }} />
 
                                 </View>
-                                <Textbox enable={false} title={'TENDER END DATE'} hint={'DDMMYYYY'} value={endDate == '' ? 'Select end date' : sortDate(endDate)} />
+                                <Textbox enable={false} title={'TENDER END DATE'} hint={'DDMMYYYY'} value={endDate == '' ? 'Select end date' : ymdToApp(endDate)} />
                                 <View style={{
                                     alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.04
                                 }}>
@@ -371,7 +372,7 @@ export default function BidCreation1({ navigation, route }) {
 
                                 </View>
 
-                                <Textbox enable={false} title={'PICKUP DATE'} hint={'DDMMYYYY'} value={selected == '' ? 'Select pick-up date' : sortDate(selected)} />
+                                <Textbox enable={false} title={'PICKUP DATE'} hint={'DDMMYYYY'} value={selected == '' ? 'Select pick-up date' : ymdToApp(selected)} />
                                 <View style={{
                                     alignSelf: 'flex-end', paddingHorizontal: dimen.width * 0.04
                                 }}>

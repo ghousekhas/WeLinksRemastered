@@ -30,7 +30,7 @@ const SubscriptionScreen = ({onCalendarOpen,onCalendarOpen1,pname,pquan,prate,pr
     useEffect(()=>{
         setStart(dateref);
         setEnd(dateref1)
-     //   console.log('Datereff: ' + dateref)
+        console.log('Datereff: ' + dateref)
      //   console.log('Datereff1: ' + dateref1)
      
     },[dateref,dateref1]);

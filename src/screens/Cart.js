@@ -38,15 +38,13 @@ const Cart = ({ route, navigation, Tag }) => {
     const { prate } = route.params;
     const { prate_ } = route.params;
     const { pquan } = route.params;
-    const { pnumber } = route.params;
     const { porder, actualUser } = route.params;
     const { tag } = route.params;
-    // console.log("days " +porder.days);
+  // console.log("days " +JSON.stringify(porder));
 
 
     var numberOfDeliveries, numberOfPaperWeekdays, numberOfPaperWeekends;
     var dayString = "";
-    var day = porder.days;
 
 
 
@@ -479,6 +477,7 @@ const Cart = ({ route, navigation, Tag }) => {
                                         try{
                                             console.log(response.data);
                                             if(response.data.status === "success"){
+                                                alert('Payment completed')
                                                 navigation.popToTop();
                                                 sendNotif('Hey', 'Your order has been successfully placed', 'user' + actualUser.user_id, notification_identifiers.user_milk_subscriptions);
                                             }
@@ -501,7 +500,7 @@ const Cart = ({ route, navigation, Tag }) => {
 
                             
                         }
-                    }} text={"Pay Using WeLinks Wallet (Bal. "+authContext.user.wallet_balance+" )" } style={{marginTop:'2%'}} />
+                    }} text={"Pay Using WeLinks Wallet (Bal. ₹"+authContext.user.wallet_balance+")" } style={{marginTop:'2%'}} />
 
                     {/* <View style={{backgroundColor:'yellow',height:'100%'}}>
             <Payment />

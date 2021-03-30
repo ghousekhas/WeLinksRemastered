@@ -8,11 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,quan,imageUrl,rate_}) => {
     const navigation = useNavigation();
-    const getDate = (date) => {
-       let arr = date.split(' ');
-       console.log(arr[0] + "-" + arr[1].slice(0,3) +"-" + arr[2]);
-       return arr[0] + "-" + arr[1].slice(0,3) +"-" + arr[2];
-    }
+  
     console.log('Tag :' + tag);
 
     const [alignment,setAlign] = useState(0);
@@ -37,7 +33,7 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,qu
     
     <View style={{flexDirection: 'row'}}>
     
-    <Text style={style.greyText1}>{getDate(startDate)+" to "+getDate(endDate)}</Text>
+    <Text style={style.greyText1}>{startDate+" to "+endDate}</Text>
    
     </View>
     
@@ -118,8 +114,8 @@ const style = StyleSheet.create({
         padding: '1%',
        
         borderRadius: 15,
-        borderColor: Colors.seperatorGray,
-        borderWidth: 0.3,
+      //  borderColor: Colors.seperatorGray,
+       // borderWidth: 0.3,
       
        
       

@@ -16,7 +16,7 @@ export const notification_identifiers = {
     vendor_corporate_orders:"9"
 }
 
-export const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+export const monthNames = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 
 export const strings_screen ={
@@ -177,16 +177,17 @@ export const Styles=StyleSheet.create({
           
     },
     accordion:{
-        width: '100%'
+        width: '100%',
+
        // borderWidth: 5,
           
     },
     collapsedView:{
-        height: Dimensions.get('window').height/9-30,
+        height: Dimensions.get('window').height/9-18,
         width: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
-     //    backgroundColor: 'blue',
+      //  backgroundColor: 'blue',
           
         flexDirection: 'row',
         padding: 20,

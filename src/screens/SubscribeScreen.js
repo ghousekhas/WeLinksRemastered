@@ -21,7 +21,7 @@ thisDay = moment()
 const tomorrow = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD')
 
 const figureDate = (dateref) => {
- // console.log("dateref" + dateref)
+  console.log("dateref wth" + dateref)
   const monthNames = ["","Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -34,7 +34,7 @@ for(i=1;i<=12;i++){
   +dateref.charAt(dateref.length-3)+dateref.charAt(dateref.length-2)
     +dateref.charAt(dateref.length-1) + "-" + t + "-" +  dateref.charAt(0)+dateref.charAt(1)
 
-    
+    console.log("Fig "+starting)
     return starting;
      }
     
@@ -80,6 +80,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
   // This sets end
   const setDate1=(date1)=> {
     setDateRef1(date1);
+    console.log("d1 "+date1)
     bs.current.snapTo(2);
   };
 

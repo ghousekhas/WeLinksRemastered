@@ -129,7 +129,7 @@ export default class VendorScreen extends React.Component{
         return(
             <Animatable.View
             duration={400}
-            style={{...Styles.collapsibleView}}
+            style={{...Styles.collapsibleView,backgroundColor:'blue'}}
             transition="backgroundColor">
         <ScrapFlatList navigation={this.props.navigation} route={{params:{name: 'SampleVendor',stars: 4,reviews: 68,vendorId: this.props.route.params.vendorId,actualUser: this.props.route.params.actualUser,address: this.props.route.params.address}}} data={section[(Object.keys(section))[0]]}/>
         </Animatable.View>);
@@ -151,7 +151,7 @@ export default class VendorScreen extends React.Component{
 
     rendCont=(section,_,isactive)=>{
         return(
-            <View style={{height:300,width:300}}>
+            <View style={{height:300,width:300,backgroundColor:'blue'}}>
 
             </View>
         )

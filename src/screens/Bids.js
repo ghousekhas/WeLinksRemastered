@@ -27,7 +27,7 @@ export default function Bids({navigation,route}){
     const [tab,setTab]=useState(1);
     const [cardWidth,setCardWidth] = useState(0);
     const [remount,setRemount] = useState(5);
-     const [actualUser,setActualUser] = useState(route.params.actualUser);
+    const [actualUser,setActualUser] = useState(route.params.actualUser);
 
      const [size1,setSize1] = useState(0);
      const [size2,setSize2] = useState(0);
@@ -187,9 +187,9 @@ export default function Bids({navigation,route}){
             setCardWidth(event.nativeEvent.layout.width);
         }}  style={styles.card}>
             <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
-            <Text style={{...styles.cardTitle,fontSize:16}}>{cardDetails.bidTitle}</Text>
+            <Text  style={{...styles.cardTitle,fontSize:16,flex:5}}>{cardDetails.bidTitle}</Text>
            
-            <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,fontSize:16}}>Open</Text>
+            <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,fontSize:16,flex:1}}>Open</Text>
 
             </View>
 
