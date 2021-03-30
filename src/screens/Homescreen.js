@@ -76,7 +76,7 @@ export default class Homescreen extends React.Component{
     }
 
 
-
+r
     checkIfFirstLogin= async ()=>{
       //  console.log('someeeeeething');
         const jsondata=  await AsyncStorage.getItem('firstLogin');
@@ -128,9 +128,9 @@ export default class Homescreen extends React.Component{
             const news_pending = await Axios.get(defUrl+'newspaper');
             console.log('news_pending', news_pending.data);
             this.setState({newsPendingRatings: news_pending.data});
-            const corp = await Axios.get(defUrl+'corporate_scrap');
-            console.log('corps',corp);
-            this.setState({corpPendingRatings: corp.data});
+            const corp_pending = await Axios.get(defUrl+'corporate_scrap');
+            console.log('corps',corp_pending);
+            this.setState({corpPendingRatings: corp_pending.data});
 
         }
         catch(error){
@@ -222,7 +222,7 @@ export default class Homescreen extends React.Component{
                         order_id: this.state.ratingOrderMeta.bid_id
                     })).then((response)=>{
                         const data = response.data;
-                        console.log(data);
+                        console.log("Rated "+data);
                         const tempCorp = this.state.corpPendingRatings;
                         tempCorp.splice(0,1);
                         if(tempCorp.length > 0){
@@ -244,7 +244,7 @@ export default class Homescreen extends React.Component{
                         else{
                             // this.props.route.params.goToMySubs();
                             this.bs.current.snapTo(2);
-                            this.props.navigation.navigate('AddressList',{
+                            this.props.navigation.navigate('Bids',{
                                 next: 'MilkVendors',
                                 user: this.props.route.params.user,
                                 actualUser: this.state.actualUser,
