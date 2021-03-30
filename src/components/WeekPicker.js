@@ -223,6 +223,7 @@ const style = StyleSheet.create({
         width: 45, 
         borderRadius: 45/2,
         flexDirection: 'row',
+
         
 
 

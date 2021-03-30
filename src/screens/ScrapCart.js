@@ -242,7 +242,7 @@ export default class ScrapCart extends React.Component{
             <Text style={styles.billCost}>₹{this.state.amount}</Text>
         </View>
         <View style={{flexDirection:'row'}}>
-            <Text style={styles.billText}>{"Pick-Up Fee"}</Text>
+            <Text style={styles.billText}>{"Pick-Up Fee"+" "}</Text>
             <Text style={styles.billCost}>₹50</Text>
         </View>
         <View style={{...Styles.grayfullline, marginVertical: dimen.sVm}}/>
@@ -256,14 +256,15 @@ export default class ScrapCart extends React.Component{
 
                 </View>
                 <View style={{padding: 10,backgroundColor: Colors.secondary}}>
-                    <Text style={ScrapStyles.heading}>Pickup Date and Time</Text>
+                    <Text style={[ScrapStyles.heading]}>Pick-Up Date and Time </Text>
                     <View style={{...Styles.horizontalCalendarRow}}>
                         {//SevenViewshere
                         }
                     </View>                    
                     <WeekView extraData={this.state.extraData} start={{day: this.state.startDay,date: this.state.startDate,
                     month: this.state.startMonth,year: this.state.startYear}} selectedChangeInParent={this.dateSelectedCallback}/>
-                    <Text style={{...ScrapStyles.heading,marginBottom: dimen.mVm}}>Schedule Time</Text>
+                    {/* <Text style={{...ScrapStyles.heading,marginBottom: dimen.mVm}}>Select Time </Text> */}
+                    <View style={{margin: 10}}/>
                     <View style={Styles.horizontalCalendarButtonsRow}>
                         <TouchableOpacity style={this.state.timeSelected[0] ? {...ScrapStyles.timebutton,
                             borderColor: Colors.primary,paddingVertical: 10}:{...ScrapStyles.timebutton,borderColor: Colors.seperatorGray}}
@@ -433,8 +434,8 @@ DayButton =({dateInfo,onSelected,selected,index})=>{
         <View style={Styles.dayButton}>
             <TouchableOpacity onPress={theNeedful}>
                 <View style={{...Styles.dayButton,backgroundColor: selected ? Colors.primary: 'transparent' }}>
-                    <Text style={!selected ? Styles.subheading :{...Styles.subbold,paddingVertical: 5,fontSize: 15}}>{days[dateInfo.day]}</Text>
-                    <Text style={!selected ? {...Styles.subbold,paddingVertical: 5 }:{...Styles.subbold,fontSize: 15}}>{dateInfo.date}</Text>
+                    <Text style={!selected ? Styles.subheading :{...Styles.subbold,fontWeight: 'bold',fontSize: 15,color: 'white'}}>{days[dateInfo.day]}</Text>
+                    <Text style={!selected ? {...Styles.subbold,paddingVertical: 5 }:{...Styles.subbold,fontWeight: 'bold',fontSize: 15,color: 'white'}}>{dateInfo.date}</Text>
                 </View>
             </TouchableOpacity>
         </View>

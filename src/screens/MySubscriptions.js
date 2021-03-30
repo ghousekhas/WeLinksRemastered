@@ -347,11 +347,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         margin: '2%',
         marginTop:'4%',
-        alignSelf:'center'
-        
-     
-        
-        
+        alignSelf:'center',
+        flex: 1
     },
     image1: {
         width: 60,
