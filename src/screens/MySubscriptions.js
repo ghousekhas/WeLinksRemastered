@@ -136,7 +136,7 @@ export default function MySubscriptions({navigation,route}){
         <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
             extraData={extraData}
-            data = {data.reverse()}
+            data = {data}
             keyExtractor= {(item,index)=>index.toString()}
             renderItem = {({item}) => {
                 let cardDetails = {
