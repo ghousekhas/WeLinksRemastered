@@ -40,6 +40,8 @@ const Date = ({ setDate, text, starting, setUsableDate }) => {
 
   const onDayPress = (day) => {
 
+    console.log("day "+JSON.stringify(day))
+
     setSelected(day.dateString);
     setMonth(monthNames[day.month - 1]);
     setYear(day.year);
@@ -108,10 +110,11 @@ const Date = ({ setDate, text, starting, setUsableDate }) => {
         // okay =  selected.charAt(0)+selected.charAt(1)+selected.charAt(2)+selected.charAt(3)
         okay = selected.charAt(8) + selected.charAt(9) + "-" + month + "-" + year;
         //   console.log(okay);
-        setUsableDate({ ...date });
-      //  console.log("okay "+okay)
+       
+       console.log("okay "+selected)
         setDate(okay);
-
+        
+        setUsableDate(selected);
 
 
 

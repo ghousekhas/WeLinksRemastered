@@ -50,9 +50,9 @@ export default function MySubscriptions({navigation,route}){
       //  console.log(dataa);
         data=[];
         dataa.forEach(item => {
-            console.log("dataaa " + item.product_name);
+       //     console.log("dataaa " + item.product_name);
         
-            console.log(item.subscription_days);
+    //        console.log(item.subscription_days);
             data.push({
                 name: item.product_name,
                 imageUrl: item.product_image,
@@ -76,8 +76,8 @@ export default function MySubscriptions({navigation,route}){
         
         Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
-            console.log(user.user_id);
-        //    console.log("resp" +response.data);
+          //  console.log(user.user_id);
+         //  console.log("resp" +response.data.);
             //data=response.data;
             prepareResponse(response.data);
             setExtraData(Math.random(0.5));
@@ -174,6 +174,9 @@ export default function MySubscriptions({navigation,route}){
 
 const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_}) => {
    // console.log('Tag :' + tag);
+
+   console.log("Sta "+startDate);
+   console.log("End "+endDate);
 
     const [alignment,setAlign] = useState(0);
     var dayString = "";

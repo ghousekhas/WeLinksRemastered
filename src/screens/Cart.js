@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-
 import { View, StyleSheet, Text, Dimensions, BackHandler, Alert } from 'react-native';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
@@ -20,9 +19,11 @@ import { useAuth } from '../services/auth-service';
 
 
 const Cart = ({ route, navigation, Tag }) => {
+    
     let selectedDays = [], i;
     const [orderMade, setOrderMade] = useState(false);
     const [showWebview,setShowWebview] = useState(true);
+    const [done,setDone] = useState(false);
     const authContext = useAuth();
     const words = {
         title: 'Order Summary',
@@ -31,7 +32,6 @@ const Cart = ({ route, navigation, Tag }) => {
         cartAmount: 'Cart Amount',
         deliveryFee: 'Delivery fee',
         amountToPay: 'Amount to pay'
-
     };
 
     const { pname } = route.params;
@@ -236,15 +236,6 @@ const Cart = ({ route, navigation, Tag }) => {
 
     };
 
-    const makePaymentWebview = () => {
-        console.log('web');
-        return(<View>
-        {showWebview ? <WebView
-        style={{width: '100%', height: '100%'}}
-        source={{ uri: 'https://reactnative.dev/' }}
-         /> : <Text>No</Text>}
-         </View>)
-    }
     
     useFocusEffect(
         React.useCallback(() => {
@@ -346,8 +337,11 @@ const Cart = ({ route, navigation, Tag }) => {
                     
 
 
-                            const { year, month, day } = route.params.startDate;
+                            const startDate = route.params.startDate;
                             const endDate = route.params.endDate;
+                            console.log("Here "+ JSON.stringify(startDate))
+                            console.log("Here "+ JSON.stringify(endDate))
+
                             console.log('vendortype', route.params.vendorType);
 
                             console.log('pop to top')
@@ -357,8 +351,10 @@ const Cart = ({ route, navigation, Tag }) => {
                                 vendor_id: route.params.vendorId,
                                 quantity: pquan,
                                 subscription_days: selectedDays,
-                                subscription_end_date: year.toString() + '-' + month.toString() + '-' + day.toString(),
-                                subscription_start_date: endDate.year.toString() + '-' + endDate.month.toString() + '-' + endDate.day.toString(),
+                                subscription_end_date: startDate,
+                                subscription_start_date: endDate,
+                            //    subscription_end_date:startDate.year.toString() + '-' + (startDate.month.toString().length==1?("0"+startDate.month.toString()):startDate.month.toString())+ '-' + (startDate.day.toString().length==1?("0"+startDate.day.toString()):startDate.day.toString()),
+                              //  subscription_start_date: endDate.year.toString() + '-' + (endDate.month.toString().length==1?("0"+endDate.month.toString()):endDate.month.toString())+ '-' + (endDate.day.toString().length==1?("0"+endDate.day.toString()):endDate.day.toString()),
                                 no_of_deliveries: tag == 'Paper' ? numberOfPaperWeekdays + numberOfPaperWeekends : numberOfDeliveries,
                                 delivery_fee: 50,
                                 product_type: route.params.vendorType,
@@ -370,7 +366,10 @@ const Cart = ({ route, navigation, Tag }) => {
                                 //       address_id: route.params.address.addr_id
 
                             })).then((response) => {
-                                console.log(response);
+                              //  console.log("OH "+startDate.year.toString() + '-' + (startDate.month.toString().length==1?("0"+startDate.month.toString()):startDate.month.toString())+ '-' + (startDate.day.toString().length==1?("0"+startDate.day.toString()):startDate.day.toString()))
+                               // console.log("OH "+endDate.year.toString() + '-' + (endDate.month.toString().length==1?("0"+endDate.month.toString()):endDate.month.toString())+ '-' + (endDate.day.toString().length==1?("0"+endDate.day.toString()):endDate.day.toString()))
+                               // console.log("OHOHOHOHOOHOHOHO "+endDate.year.toString() + '-' + endDate.month.toString() + '-' + endDate.day.toString())
+                           //     console.log(response);
                                 console.log("sd " + JSON.stringify(response.data));
                                 console.log('Sending')
                                // sendNotif('Hey', 'Your order has been successfully placed', 'user' + actualUser.user_id, notification_identifiers.user_milk_subscriptions);
@@ -415,12 +414,14 @@ const Cart = ({ route, navigation, Tag }) => {
                         
                     </View>
                     <SubmitButton 
+                    styling={done}
                     otherColor={calculateCartAmount()+50 <= authContext.user.wallet_balance ? Colors.primary : 'gray'}
                     onTouch={()=>{
+                        setDone(true)
                         // route.params.goToMySubs();
                         // return;
                         if(calculateCartAmount()+50 <= authContext.user.wallet_balance){
-                            const { year, month, day } = route.params.startDate;
+                            const startDate = route.params.startDate;
                             const endDate = route.params.endDate;
                             console.log('vendortype', route.params.vendorType);
 
@@ -430,8 +431,10 @@ const Cart = ({ route, navigation, Tag }) => {
                                 vendor_id: route.params.vendorId,
                                 quantity: pquan,
                                 subscription_days: selectedDays,
-                                subscription_end_date: year.toString() + '-' + month.toString() + '-' + day.toString(),
-                                subscription_start_date: endDate.year.toString() + '-' + endDate.month.toString() + '-' + endDate.day.toString(),
+                                subscription_end_date: startDate,
+                                subscription_start_date: endDate,
+                          //      subscription_end_date: year.toString() + '-' + month.toString() + '-' + day.toString(),
+                            //    subscription_start_date: endDate.year.toString() + '-' + endDate.month.toString() + '-' + endDate.day.toString(),
                                 no_of_deliveries: tag == 'Paper' ? numberOfPaperWeekdays + numberOfPaperWeekends : numberOfDeliveries,
                                 delivery_fee: 50,
                                 product_type: route.params.vendorType,
@@ -481,6 +484,8 @@ const Cart = ({ route, navigation, Tag }) => {
                                                 alert('Order Confirmed! You can check the status of your order in My Subscriptions.')
                                                 navigation.popToTop();
                                                 sendNotif('Hey', 'Your order has been successfully placed', 'user' + actualUser.user_id, notification_identifiers.user_milk_subscriptions);
+                                                sendNotif('Hey', 'Your have a new order', 'vendor' + route.params.vendorId, notification_identifiers.vendor_milk_subscriptions);
+                                                
                                             }
                                             else{
                                                 alert("Error occursd");
