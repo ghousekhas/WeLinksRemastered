@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
 import Axios from 'axios';
-import {Config} from '../Constants';
+import {Config, Constants} from '../Constants';
 import qs from 'qs';
 import App from '../../App';
 
@@ -59,6 +59,32 @@ export default function AuthProvider({children}){
           setUser(result.user[0]);
           //Caching? 
           AsyncStorage.setItem(AuthConstants.saved_user, JSON.stringify(result.user[0]));
+
+          try{
+            const result = (await (Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + result.user[0].user_id))).data;
+            setVendor(result);
+            if(result.vendor_status == "active")
+              try{
+                const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
+                  action: "getVendor",
+                  user_id: user.user_id
+                })))).data;
+                if(result.vendor.status_code != 100){
+                  setVendor(result.vendor);
+                  //Caching? 
+                  AsyncStorage.setItem(AuthConstants.saved_vendor, JSON.stringify(result.vendor));
+                }
+                else
+                  setVendor(AuthConstants.new_user);
+              }
+              catch(error){
+                setVendor(AuthConstants.errored);
+              }
+          }
+          catch(r){
+            setVendor({vendor_status: Constants.veFirstTime})
+          }
+
         }
         else
           setUser(AuthConstants.new_user);
@@ -68,23 +94,9 @@ export default function AuthProvider({children}){
       }
 
       //sync and cache vendor
+     
 
-      try{
-        const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
-          action: "getVendor",
-          user_id: user.user_id
-        })))).data;
-        if(result.vendor.status_code != 100){
-          setVendor(result.vendor);
-          //Caching? 
-          AsyncStorage.setItem(AuthConstants.saved_vendor, JSON.stringify(result.vendor));
-        }
-        else
-          setVendor(AuthConstants.new_user);
-      }
-      catch(error){
-        setVendor(AuthConstants.errored);
-      }
+      
 
 
     }
@@ -126,6 +138,7 @@ export default function AuthProvider({children}){
 
     return (
         <AuthContext.Provider value={{user: user,
+                                      vendor: vendor,
                                       sync: syncAndCacheUser,
                                       logout: logout
                                       }} >

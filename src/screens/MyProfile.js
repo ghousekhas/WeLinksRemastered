@@ -16,7 +16,8 @@ import { useAuth } from '../services/auth-service';
 
 
 const MyProfile = ({navigation,route}) => {
-   const [profileDetails,setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
+   //const [profileDetails,setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
+   const profileDetails = useAuth().user;
    const [addresses,setAddresses] = useState([]);
    const [user_id,setUserID] = useState(route.params.actualUser.user_id);
    const [actualUser,setActualUser] = useState(route.params.actualUser);
@@ -74,19 +75,20 @@ const MyProfile = ({navigation,route}) => {
     }
 
    useEffect(() => {
-        Axios.get(Config.api_url+'php?action=getUser&phone='+actualUser.phone,).
-            then(({data})=>{
-                if(data.user[0]!=undefined)
-                    setProfileDetails(data.user[0]);
-                else
-                    console.log('User does not exist',data);
-            },
-            (error)=>console.log('Error logged in profile',error))
+        // Axios.get(Config.api_url+'php?action=getUser&phone='+actualUser.phone,).
+        //     then(({data})=>{
+        //         if(data.user[0]!=undefined)
+        //             setProfileDetails(data.user[0]);
+        //         else
+        //             console.log('User does not exist',data);
+        //     },
+        //     (error)=>console.log('Error logged in profile',error))
         //setProfileDetails(route)
+        authContext.sync();
         console.log('mounted');
         console.log(route.params.actualUser);
         setActualUser(route.params.actualUser);
-        setProfileDetails(route.params.actualUser);
+        //setProfileDetails(route.params.actualUser);
       
             Axios.get(Config.api_url+'php?action=getUserAddresses&user_id='+user_id,{
             'Accept-Encoding': 'gzip'
@@ -107,16 +109,17 @@ const MyProfile = ({navigation,route}) => {
    
     useFocusEffect(
         React.useCallback(() => {
-            Axios.get(Config.api_url+'php?action=getUser&phone='+actualUser.phone,).
-            then(({data})=>{
-                if(data.user[0]!=undefined){
-                    setProfileDetails(data.user[0]);
-                    route.params.setActualUser(data.user[0]);
-                }
-                else
-                    console.log('User does not exitst',data);
-            },
-            (error)=>console.log('Error logged in profile',error))
+            // Axios.get(Config.api_url+'php?action=getUser&phone='+actualUser.phone,).
+            // then(({data})=>{
+            //     if(data.user[0]!=undefined){
+            //         setProfileDetails(data.user[0]);
+            //         route.params.setActualUser(data.user[0]);
+            //     }
+            //     else
+            //         console.log('User does not exitst',data);
+            // },
+            // (error)=>console.log('Error logged in profile',error))
+            authContext.sync();
           const onBackPress = () => {
        //  console.log('Can\'t go back from here');
         route.params.navDrawer.navigate('HomeStack',
@@ -210,7 +213,11 @@ const MyProfile = ({navigation,route}) => {
             </TouchableOpacity>
 
 
-           <TouchableOpacity>
+           <TouchableOpacity onPress={()=>{
+               navigation.navigate('Wallet',{
+                   back: true
+               });
+           }}>
                 <Text style = {style.chip}>{words.balance  + ' (' + actualUser.wallet_balance  + ')'}</Text>
             </TouchableOpacity>
 

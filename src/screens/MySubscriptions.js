@@ -53,6 +53,7 @@ export default function MySubscriptions({navigation,route}){
        //     console.log("dataaa " + item.product_name);
         
     //        console.log(item.subscription_days);
+        if(item.order_status != "Canceled" )
             data.push({
                 name: item.product_name,
                 imageUrl: item.product_image,
@@ -63,10 +64,11 @@ export default function MySubscriptions({navigation,route}){
                 num: item.no_of_deliveries,
                 daynotprop: item.subscription_days,
                 tag : item.product_type,
-                quantity : item.quantity
+                quantity : item.quantity,
+                status: item.subscription_status === "Pending" ? "Ongoing" : "Completed"
 
 
-            })
+            });
         });
         setExtraData(Math.random(0.3));
 
@@ -172,7 +174,7 @@ export default function MySubscriptions({navigation,route}){
    
 }
 
-const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_}) => {
+const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,bought,imageUrl,rate_,status}) => {
    // console.log('Tag :' + tag);
 
    console.log("Sta "+startDate);
@@ -198,6 +200,7 @@ const MySubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,
 
     <View style={{flexDirection: 'row'}}>
         <Text style={styles.greyText1}>{ymdToApp(startDate)+" to "+ymdToApp(endDate)}</Text>
+        <Text style={{color: 'red'}}>{status}</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5,backgroundColor: 'transparent',flex: 1,width: '100%'}}>
         <Image onLayout={({nativeEvent}) => {

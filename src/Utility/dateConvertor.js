@@ -17,7 +17,7 @@ export function getDuration(startDate,endDate){
     console.log('dateee',date1);
     const date2 = new Date(dateParts2[0],dateParts2[1]-1,dateParts2[2]);
     console.log('dateee',date2);
-    return ((date2.getTime() - date1.getTime())/(1000*3600*24)).toString();
+    return Math.abs((date2.getTime() - date1.getTime())/(1000*3600*24)).toString();
 
 
 }

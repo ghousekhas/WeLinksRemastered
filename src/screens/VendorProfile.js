@@ -13,6 +13,7 @@ import DocumentPicker from 'react-native-document-picker';
 import qs from 'qs';
 import { AntDesign } from '@expo/vector-icons';
 import { Config } from '../Constants';
+import { useAuth } from '../services/auth-service';
 
 
 
@@ -22,17 +23,9 @@ const VendorProfile = ({ navigation, route }) => {
     const [servedAddresses, setServedAddresses] = useState([])
     const [vendorID, setVendorID] = useState(null);
     const {actualUser} = route.params;
-    const [VendorProfileDetails, setVPD] = useState({
-        company_name: "",
-        vendor_img_url: "",
-        addresses: [{addr_details: "",addr_landmark:""}],
-        newspaper_service: "no",
-        homescrap_service: "no",
-        officescrap_service: "no",
-        milk_service: "no"
+    const authContext = useAuth();
+    const VendorProfileDetails = authContext.vendor;
 
-        
-    })
    // const [actualUser, setActualUser] = useState(route.params.actualUser);
     const [vendorImage, setVendorImage] = useState(' ')
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
@@ -71,7 +64,7 @@ const VendorProfile = ({ navigation, route }) => {
                         'Profile updated',
                         'Your company profile picture has been updated successfully'
                     )
-                    retrieveData();
+                    authContext.sync();//retrieveData();
                     route.params.drawerRefresh()
 
                     // setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
@@ -141,7 +134,7 @@ const VendorProfile = ({ navigation, route }) => {
         Axios.post(Config.api_url+'php?action=updateVendor&'+dataFormatted).then((response)=>{
             console.log(response);
             console.log(response.data);
-            retrieveData();
+            authContext.sync();//retrieveData();
            // checkVendorStatus();
 
         },(error)=>{
@@ -191,10 +184,10 @@ const VendorProfile = ({ navigation, route }) => {
     }
 
     useEffect(() => {
-        retrieveData();
+        //retrieveData();
         navigation.addListener('focus',()=>{
             console.log('fires')
-            retrieveData();
+            authContext.sync();//retrieveData();
         });
 
 

@@ -299,7 +299,7 @@ const myProfileStack = ({ navigation, route }) => {
           <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{ navigator: navigation, actualUser: actualUser }} />
           <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{ headerShown: false }} />
           <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
-          <Stack.Screen name="Wallet" component={wallet} options={{ headerShown: false }}  />
+          <Stack.Screen name="Wallet" component={WalletStack} options={{ headerShown: false }}  />
 
         </Stack.Navigator>
       </NavigationContainer>
@@ -314,10 +314,11 @@ const VendorHomeStack = ({ navigation, route }) => {
   const { getUserDetails } = route.params;
   const [remountKey, setRemountKey] = useState(0);
   const [verification, setVerification] = useState(Constants.veFirstTime);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [errorState, setError] = useState(false);
   const [pendingActions, setPendingActions] = useState(0);
   const [pendingActionItem, setPendingActionItem] = useState(null);
+  const authContext = useAuth();
   const [initSubParams, setInitSubParams] = useState(route.params.initSubParams != undefined ? route.params.initSubParams : { nothing: ' ' });
 
   const [initSubRoute, setInitSubRoute] = useState(route.params.initRoute != undefined ? route.params.initRoute : 'VendorDashboard');
@@ -333,23 +334,21 @@ const VendorHomeStack = ({ navigation, route }) => {
   );
 
   const retreieveVendorData = () => {
-    Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + actualUser.user_id,)
-      .then((response) => {
-        console.log('refreshvendordata');
-        //setLoading(false);
-        // console.log("HEREs"+response.data.vendor[0].vendor_id)
-        setVerification(Constants.veFirstTime) // uncomment this
+        //authContext.sync();
+        const vendor = authContext.vendor;
+        
+        //setVerification(Constants.veFirstTime) // uncomment this
         try {
 
-          var status = response.data.vendor[0].vendor_status;
+          var status = vendor.vendor_status;
           if (status === 'active') {
             setVerification(Constants.verified);
-            setVendorID(response.data.vendor[0].vendor_id);
+            setVendorID(vendor.vendor_id);
             //messss
-            messaging().subscribeToTopic("vendor" + response.data.vendor[0].vendor_id);
-            setPendingActions(response.data.vendor[0].pending_actions.homescrap.length);
-            if (response.data.vendor[0].pending_actions.homescrap.length)
-              setPendingActionItem(response.data.vendor[0].pending_actions.homescrap[0]);
+            messaging().subscribeToTopic("vendor" + vendor.vendor_id);
+            setPendingActions(vendor.pending_actions.homescrap.length);
+            if (vendor.pending_actions.homescrap.length)
+              setPendingActionItem(vendor.pending_actions.homescrap[0]);
 
 
           }
@@ -366,14 +365,14 @@ const VendorHomeStack = ({ navigation, route }) => {
           setLoading(false);
 
         }
-      });
+        authContext.sync();
   }
 
   React.useEffect(() => {
     console.log(route.params.actualUser);
     setActualUser(route.params.actualUser);
     setRemountKey(Math.random(0.5));
-    retreieveVendorData();
+    //retreieveVendorData();
   }, [route.params]);
 
   if (loading)
@@ -582,12 +581,12 @@ export default function App() {
       Axios.get("http://api.dev.we-link.in/user_app.php?action=getVendorStatus&user_id=" + user_id,)
         .then((response) => {
           try {
-            console.log("Vendor Status " + response.data.vendor[0].vendor_status)
-            setStatus(response.data.vendor[0].vendor_status)
+            console.log("Vendor Status " + vendor.vendor_status)
+            setStatus(vendor.vendor_status)
 
 
             //  setVerification(Constants.veFirstTime) // uncomment this
-            //   var status= response.data.vendor[0].vendor_status;
+            //   var status= vendor.vendor_status;
             if (status === 'active')
               goTodashboard(true);
             else if (status === 'inactive')
@@ -760,7 +759,7 @@ export default function App() {
     if (!debug) {
 
       checkNetworkState()
-      getUserDetails(0, user);
+      //getUserDetails(0, user);
 
       console.group('firebaseuser', auth().currentUser);
       setSplash(false);
@@ -771,8 +770,8 @@ export default function App() {
       setUser(auth().currentUser);
       checkIfFirstLogin();
       console.log("USER" + JSON.stringify(user));
-      if (userDetails === null && user != null)
-        getUserDetails(0, user);
+      // if (userDetails === null && user != null)
+      //   getUserDetails(0, user);
       const suser = auth().onAuthStateChanged(onAuthStateChanged);
       getVendorDetails();
     }
@@ -783,10 +782,10 @@ export default function App() {
       var ven = false, subRoute = '', route = '';
 
       //ActualDebugCode
-      if (userDetails === null) {
-        getUserDetails(0, user);
+      // if (userDetails === null) {
+      //   getUserDetails(0, user);
 
-      }
+      // }
     }
 
   }, []);

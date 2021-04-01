@@ -69,7 +69,10 @@ export default function VendorSubscriptions({navigation,route}){
         data=[];
         let i;
         try{
-       data = responseArray;
+            responseArray.forEach((value)=>{
+                if(value.order_status != "Canceled")
+                    data.push(value);
+            });
        if(data == undefined)
             data = [];
         setExtraData(Math.random(0.3));
@@ -152,7 +155,7 @@ console.log(typeof(response.data))
        
         return(
         
-                <MySubscriptionOrder cardDetails={item} {...item} name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.status} cart={item.cart} address={item.address} startDate={item.startDate} endDate={item.endDate} />
+                <MySubscriptionOrder cardDetails={item} {...item}  name={item.name} pickUpDate={item.pickUpDate} orderDate={item.orderDate} orderAmount={item.orderAmount} imageUrl={item.image} status={item.status} cart={item.cart} address={item.address} startDate={item.startDate} endDate={item.endDate} />
             )   
     }
 
@@ -174,7 +177,7 @@ console.log(typeof(response.data))
        <FlatList 
             style={{marginBottom:'5%',backgroundColor: 'white',flex: 1}}
             extraData={extraData}
-            data = {data.reverse()}
+            data = {data}
             keyExtractor= {(item,index)=>index.toString()}
             renderItem = {({item}) => {
                 console.log("Statts "+item.quantity)
@@ -182,7 +185,7 @@ console.log(typeof(response.data))
                     name : item.user_name,
                     orderAmount : item.order_total,
                     orderDate : item.order_date,
-                    status : item.order_status,
+                    //status : item.order_status,
                     image : item.user_image_url,
                     productName : item.product_name,
                     productImage: item.product_image,
@@ -192,7 +195,8 @@ console.log(typeof(response.data))
                     endDate : item.subscription_end_date,
                     deliveries : item.no_of_deliveries,
                     days : item.subscription_days,
-                    quantity : item.quantity
+                    quantity : item.quantity,
+                    status: item.subscription_status === "Pending" ? "Ongoing" : "Completed"
 
 
                     

@@ -16,6 +16,7 @@ export default function WalletScreen({navigation,route}){
 
     const user = useAuth();
     console.log(user);
+    const {back} = route.params;
     
 
     const [flatListre, setFlatReference] = useState(null);
@@ -60,7 +61,7 @@ export default function WalletScreen({navigation,route}){
             <View style={{height: dimen.appbarHeight}}>
                 <AppBar
                     title="Wallet"
-                    back={false}
+                    back={back ? true : false}
                     funct={()=>{
                         route.params.toggleDrawer()
                     }} 
