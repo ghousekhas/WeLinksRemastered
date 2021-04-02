@@ -25,6 +25,8 @@ export const AuthContext = React.createContext({user: auth().currentUser,
 export default function AuthProvider({children}){
     const [user, setUser ] = useState(AuthConstants.loading);
     const [vendor, setVendor] = useState(AuthConstants.loading);
+    const debug = true;
+    const debugNumber = "1234567890";
 
 
     const checkUserAccounts = () =>{
@@ -53,7 +55,7 @@ export default function AuthProvider({children}){
       try{
         const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
           action: "getUser",
-          phone: auth().currentUser.phoneNumber.substring(3)
+          phone: debug ?  debugNumber : auth().currentUser.phoneNumber.substring(3)
         })))).data;
         if(result.user[0].status_code != 100){
           setUser(result.user[0]);
@@ -104,7 +106,10 @@ export default function AuthProvider({children}){
     const checkFirstTime = async  () =>{
         const saved_user = await AsyncStorage.getItem(AuthConstants.saved_user);
 
-        if(auth().currentUser == null){
+        if(debug)
+          syncAndCacheUser();
+
+        if(auth().currentUser == null && debug == false){
           setUser(AuthConstants.phone_unverified);
           if(saved_user != null)
             AsyncStorage.removeItem(AuthConstants.saved_user, (error)=>{});

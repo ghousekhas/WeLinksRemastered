@@ -268,29 +268,25 @@ r
                     feedback: comments,
                     order_id: this.state.ratingOrderMeta.order_id
                 }),{}).then((response)=>{
+                    console.log('asosja');
                     console.log(response.data);
+                    console.log({
+                        action: 'postRating',
+                    user_id: this.state.actualUser.user_id,
+                    vendor_id: this.state.ratingOrderMeta.vendor_id,
+                    product_type: this.state.ratingOrderMeta.product_type,
+                    rating: stars,
+                    feedback: comments,
+                    order_id: this.state.ratingOrderMeta.order_id
+                    })
                     
                     if(!this.state.milkRatingOpen){
                             const tempNews = this.state.newsPendingRatings;
                             tempNews.splice(0,1);
                             this.setState({newsPendingRatings: tempNews});
-                            
 
-                            if(this.state.newsPendingRatings.length == 0){
-                                this.setState({sheetOpen: false});
-                                this.bs.current.snapTo(2);
-                                this.props.navigation.navigate('AddressList',{
-                                    next: 'PaperVendors',
-                                    user: this.props.route.params.user,
-                                    actualUser: this.state.actualUser,
-                                    tag: 'Paper',
-                                    profile: true
-                                });
-                            }
-                            else{
+                            if(this.state.newsPendingRatings.length >0 ){
                                 const milk = tempNews;
-                                this.setState({sheetOpen: false});
-                                this.bs.current.snapTo(2);
                                 this.setState({ratingOrderDetails : {
                                     Date: ymdToApp(milk[0].order_date),
                                     Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
@@ -298,13 +294,54 @@ r
                                     Quantitiy: milk[0].quantity,
                                     Vendor: milk[0].company_name
                                 }});
+                                this.setState({ratingOrderMeta: milk[0]});
+                            }
+                            else{
+                                this.setState({sheetOpen: false});
+                                this.bs.current.snapTo(2);
+                                // this.props.route.params.goToMySubs();
+                                this.props.navigation.navigate('AddressList',{
+                                    next: 'PaperVendors',
+                                    user: this.props.route.params.user,
+                                    actualUser: this.state.actualUser,
+                                    tag: 'Paper',
+                                    profile: true
+                                });
                                 this.setState({remountRating: Math.random(0.4).toString()});
                             }
+                            
+
+                            // if(this.state.newsPendingRatings.length == 0){
+                            //     this.setState({sheetOpen: false});
+                            //     this.bs.current.snapTo(2);
+                            //     this.props.navigation.navigate('AddressList',{
+                            //         next: 'PaperVendors',
+                            //         user: this.props.route.params.user,
+                            //         actualUser: this.state.actualUser,
+                            //         tag: 'Paper',
+                            //         profile: true
+                            //     });
+                            // }
+                            // else{
+                            //     const milk = tempNews;
+                            //     this.setState({sheetOpen: false});
+                            //     this.bs.current.snapTo(2);
+                            //     this.setState({ratingOrderDetails : {
+                            //         Date: ymdToApp(milk[0].order_date),
+                            //         Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
+                            //         Product: milk[0].product_name,
+                            //         Quantitiy: milk[0].quantity,
+                            //         Vendor: milk[0].company_name
+                            //     }});
+                            //     this.setState({remountRating: Math.random(0.4).toString()});
+                            // }
                         }
                         else{
                             const tempMilk = this.state.milkPendingRatings;
+                            console.log('abccbauncsnocno');
                             tempMilk.splice(0,1);
                             this.setState({milkPendingRatings: tempMilk});
+                            console.log(tempMilk);
 
                             if(this.state.milkPendingRatings.length >0 ){
                                 const milk = tempMilk;
@@ -315,6 +352,7 @@ r
                                     Quantitiy: milk[0].quantity,
                                     Vendor: milk[0].company_name
                                 }});
+                                this.setState({ratingOrderMeta: milk[0]});
                             }
                             else{
                                 this.setState({sheetOpen: false});

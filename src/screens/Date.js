@@ -15,7 +15,7 @@ const Date = ({ setDate, text, starting, setUsableDate }) => {
     .format('YYYY-MM-DD');
   // console.log('today:' + thisDay)
 
-  const tomorrow = moment().add(24, 'hours').format('YYYY-MM-DD')
+  const tomorrow = moment().add(1, 'days').endOf('days').format('YYYY-MM-DD')
   // console.log("tom: " + tomorrow)
 
   //console.log(tomorrow)
@@ -28,7 +28,7 @@ const Date = ({ setDate, text, starting, setUsableDate }) => {
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(tomorrow);
   const [month, setMonth] = useState(monthNames[parseInt(thisDay.charAt(5) + thisDay.charAt(6) - 1)])
   const [year, setYear] = useState(thisDay.charAt(0) + thisDay.charAt(1) + thisDay.charAt(2) + thisDay.charAt(3))
   const [date, setThedate] = useState({

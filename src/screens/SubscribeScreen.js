@@ -18,7 +18,7 @@ bs = React.createRef();
 thisDay = moment()
 .utcOffset('+05:30')
 .format('YYYY-MM-DD');
-const tomorrow = moment().add(24, 'hours').format('YYYY-MM-DD')
+const tomorrow = moment().add(1, 'days').endOf('days').format('YYYY-MM-DD')
 
 const figureDate = (dateref) => {
   console.log("dateref wth" + dateref)
