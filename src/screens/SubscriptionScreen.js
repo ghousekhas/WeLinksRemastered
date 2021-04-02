@@ -518,7 +518,7 @@ disabled: {
 }, 
 btext:{
 color:Colors.primary,
-fontSize: 12,
+fontSize: 11,
 fontWeight: 'bold',
 flex: 1,
 alignItems: 'center',

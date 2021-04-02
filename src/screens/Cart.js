@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, StyleSheet, Text, Dimensions, BackHandler, Alert } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, BackHandler, Alert,TouchableOpacity } from 'react-native';
 import SubscriptionOrder from '../components/SubscriptionOrder';
 import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,7 +9,7 @@ import { Styles, Colors, dimen, notification_identifiers } from '../Constants'
 import AppBar from '../components/AppBar'
 import Axios from 'axios';
 import qs from 'qs';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Config } from '../Constants';
 import sendNotif from '../Utility/sendNotificationTo';
 import WebView from 'react-native-webview';
@@ -327,9 +327,12 @@ const Cart = ({ route, navigation, Tag }) => {
 
 
                     </View>
-                    <View style={{ flex: 0, marginHorizontal: 10, marginVertical: dimen.sHm, justifyContent: 'center' }}>
-                        <SubmitButton styling={orderMade} text='Pay Online' onTouch={() => {
-                            setOrderMade(true);
+                    <View style={{ flex: 0, marginHorizontal: 10, marginVertical: dimen.sHm, justifyContent: 'space-around',flexDirection:'row' }}>
+                      <TouchableOpacity style={{backgroundColor:done ? Colors.buttonEnabledGreen:Colors.primary,alignItems:'center',justifyContent:'center',aspectRatio: 10/3,width:dimen.width/2.5,
+        borderRadius: 5}}      
+                        onPress={() => {
+                            console.log("TT")
+                            setDone(true);
                         
                             
                             
@@ -408,15 +411,14 @@ const Cart = ({ route, navigation, Tag }) => {
 
 
                        
-                        }} />
+                        }}>
+                        <Text style={{color:'white',fontStyle: done? 'italic':'normal'}}>Pay Online</Text>
 
-  
-                        
-                    </View>
-                    <SubmitButton 
-                    styling={done}
-                    otherColor={calculateCartAmount()+50 <= authContext.user.wallet_balance ? Colors.primary : 'gray'}
-                    onTouch={()=>{
+                      </TouchableOpacity>
+             
+
+<TouchableOpacity  
+                    onPress={()=>{
                         setDone(true)
                         // route.params.goToMySubs();
                         // return;
@@ -506,7 +508,15 @@ const Cart = ({ route, navigation, Tag }) => {
 
                             
                         }
-                    }} text={"Pay Using WeLinks Wallet (Bal. ₹"+authContext.user.wallet_balance+")" } style={{marginTop:'2%'}} />
+                    }}
+style={{backgroundColor: calculateCartAmount()+50 <= authContext.user.wallet_balance ? Colors.primary : 'gray',alignItems:'center',justifyContent:'center',aspectRatio: 10/3,width:dimen.width/2.5,
+        borderRadius: 5}} >
+                              <Text style={{color:'white',fontSize:12}}>{"Pay Using WeLinks Wallet (Bal. ₹"+authContext.user.wallet_balance+")" }</Text>
+      
+        </TouchableOpacity>
+                        
+                    </View>
+
 
                     {/* <View style={{backgroundColor:'yellow',height:'100%'}}>
             <Payment />

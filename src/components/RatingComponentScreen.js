@@ -46,11 +46,12 @@ export default function RatingComponentScreen({buttonPress= ()=>{},order_details
                 stars = new_stars;
             }} />
 
-            <TextInput key={JSON.stringify(order_details).toLowerCase()} title={strings.textbox_title} onChangeText={(text)=>{reviewText = text}} numberOfLines={10} textAlignVertical="top" style={styles.input}  placeholder={strings.hint} />
-            
+            <TextInput key={JSON.stringify(order_details).toLowerCase()} title={strings.textbox_title} onChangeText={(text)=>{reviewText = text}} numberOfLines={8} textAlignVertical="top" style={styles.input}  placeholder={strings.hint} />
+            <View style={{marginBottom:5,alignSelf:'center'}}>
             <SubmitButton onTouch={()=>{
                 console.log(stars,reviewText);
                 buttonPress(stars,reviewText)}} text="Submit" />
+                </View>
                 </View>
             </ScrollView>
         </View>
