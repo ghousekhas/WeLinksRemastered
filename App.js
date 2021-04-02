@@ -884,7 +884,9 @@ export default function App() {
 }
 
 const PostLoginHome = ({ route, navigation }) => {
-  const { user, actualUser, sm } = route.params;
+  //const { user, actualUser, sm } = route.params;
+  const user = useAuth().user;
+  const actualUser = useAuth().user;
   const [updateState, setUpdateState] = useState(route.params.actualUser);
   const [initRoute, setInitRoute] = useState(route.params.initRoute != undefined ? route.params.initRoute : 'Homescreen');
 
