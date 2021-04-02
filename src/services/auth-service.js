@@ -26,6 +26,7 @@ export default function AuthProvider({children}){
     const [user, setUser ] = useState(AuthConstants.loading);
     const [vendor, setVendor] = useState(AuthConstants.loading);
     const debug = true;
+    const debugNumber = "1234567890";
 
 
     const checkUserAccounts = () =>{
@@ -54,7 +55,7 @@ export default function AuthProvider({children}){
       try{
         const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
           action: "getUser",
-          phone: debug ?  "1234567890" : auth().currentUser.phoneNumber.substring(3)
+          phone: debug ?  debugNumber : auth().currentUser.phoneNumber.substring(3)
         })))).data;
         if(result.user[0].status_code != 100){
           setUser(result.user[0]);

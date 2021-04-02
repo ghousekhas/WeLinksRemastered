@@ -329,19 +329,21 @@ export default class ScrapVendor extends React.Component {
 
 
         if (!isActive)
-            expanderButton = (<Entypo name='chevron-down' size={24} color={'black'} />)
-        else
-            expanderButton = (<Entypo name='chevron-up' size={24} color={'black'} />)
-        return (
-            <Animatable.View
-                duration={400}
-                style={Styles.collapsedView}
-                transition="backgroundColor"
-            >
-                <Text style={Styles.collapsedText}>{(Object.keys(section))[0]}</Text>
-                {expanderButton}
-            </Animatable.View>
-        );
+        expanderButton = (<Entypo name='chevron-down' size={21} color={'black'} />)
+    else
+        expanderButton = (<Entypo name='chevron-up' size={21} color={'black'} />)
+
+    return (
+        <Animatable.View
+            duration={400}
+            style={{flexDirection: 'row', justifyContent: 'space-between', margin: 5 }}
+            // style={Styles.collapsedView}
+            transition="backgroundColor"
+        >
+            <Text style={{fontWeight: 'bold', fontSize: 14,color: 'black',paddingHorizontal: 10, paddingVertical: 5}} >{(Object.keys(section))[0]}</Text>
+            {expanderButton}
+        </Animatable.View>
+    );
     };
 
 
