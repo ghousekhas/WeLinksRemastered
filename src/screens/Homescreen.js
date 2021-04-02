@@ -201,6 +201,7 @@ r
                         <View style={{backgroundColor:'white', alignItems:'flex-end',padding:'1%'}}>
                         <MaterialIcons name="keyboard-arrow-down" size={25} color="black" 
                         onPress={() => {
+                            this.setState({sheetOpen:false})
                             this.bs.current.snapTo(2);
 
                         }}
@@ -234,7 +235,7 @@ r
                             this.setState({ratingOrderMeta: news[0]});
                             this.setState({ratingOrderDetails : {
                                 Date: ymdToApp(news[0].bid_pickupdate),
-                                Duration: getDuration(news[0].bid_startdate, news[0].bid_enddate)+ ' Days',
+                                Duration: getDuration(news[0].bid_startdate, news[0].bid_enddate)+ ' Day/s',
                                 Title: news[0].bid_title,
                                 Product: news[0].officescrap_category_name,
                                 Vendor: news[0].company_name
@@ -292,7 +293,7 @@ r
                                 this.bs.current.snapTo(2);
                                 this.setState({ratingOrderDetails : {
                                     Date: ymdToApp(milk[0].order_date),
-                                    Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
+                                    Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
                                     Product: milk[0].product_name,
                                     Quantitiy: milk[0].quantity,
                                     Vendor: milk[0].company_name
@@ -309,7 +310,7 @@ r
                                 const milk = tempMilk;
                                 this.setState({ratingOrderDetails : {
                                     Date: ymdToApp(milk[0].order_date),
-                                    Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
+                                    Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
                                     Product: milk[0].product_name,
                                     Quantitiy: milk[0].quantity,
                                     Vendor: milk[0].company_name
@@ -449,7 +450,7 @@ r
                             this.setState({ratingOrderMeta: milk[0]});
                             this.setState({ratingOrderDetails : {
                                 Date: ymdToApp(milk[0].order_date),
-                                Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Days',
+                                Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
                                 Product: milk[0].product_name,
                                 Quantitiy: milk[0].quantity,
                                 Vendor: milk[0].company_name
@@ -509,7 +510,7 @@ r
                             this.setState({ratingOrderMeta: news[0]});
                             this.setState({ratingOrderDetails : {
                                 Date: ymdToApp(news[0].order_date),
-                                Duration: getDuration(news[0].subscription_start_date, news[0].subscription_end_date)+ ' Days',
+                                Duration: getDuration(news[0].subscription_start_date, news[0].subscription_end_date)+ ' Day/s',
                                 Product: news[0].product_name,
                                 Quantitiy: news[0].quantity,
                                 Vendor: news[0].company_name
@@ -578,7 +579,7 @@ r
                             this.setState({ratingOrderMeta: news[0]});
                             this.setState({ratingOrderDetails : {
                                 Date: ymdToApp(news[0].bid_pickupdate),
-                                Duration: getDuration(news[0].bid_startdate, news[0].bid_enddate)+ ' Days',
+                                Duration: getDuration(news[0].bid_startdate, news[0].bid_enddate)+ ' Day/s',
                                 Title: news[0].bid_title,
                                 Product: news[0].officescrap_category_name,
                                 Vendor: news[0].company_name
