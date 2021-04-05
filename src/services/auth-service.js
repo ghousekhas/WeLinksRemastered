@@ -139,6 +139,10 @@ export default function AuthProvider({children}){
 
     useEffect(()=>{
         checkUserAccounts();
+        auth().onAuthStateChanged((listener)=>{
+            setUser(auth().currentUser);
+            checkUserAccounts();
+        });
     },[])
 
     return (
