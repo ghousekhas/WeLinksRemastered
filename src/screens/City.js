@@ -11,6 +11,7 @@ import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import {Config} from  '../Constants';
 import AppBar from '../components/AppBar';
+import { useAuth } from '../services/auth-service';
 
 
 
@@ -22,6 +23,8 @@ const City = ({navigation,route,user,userDetails,getUserDetails,setAboutDone}) =
     const [value,setValue] = useState([])
     const [done,setDone]=useState(false);
     const {edit,user_id,tag,actualUser} = route.params;
+
+    const authContext = useAuth();
 
 
     const backFunction = ()=>{
@@ -98,18 +101,20 @@ const City = ({navigation,route,user,userDetails,getUserDetails,setAboutDone}) =
     setDone(true);
     //AsyncStorage.setItem('firstLogin','true');
     
-    const user = auth().currentUser;
+    
     Axios.post(Config.api_url+'php?'+qs.stringify(
     {
         action: 'registerUser',
         name: name,
-        phone: user.phoneNumber.substring(3),
+        phone: authContext.phone,
         email: email,
         city_id: value
     }),)
       .then(function (response) {
         console.log(response.data);
-        getUserDetails(5,auth().currentUser);
+        authContext.sync();
+        
+        //getUserDetails(5,auth().currentUser);
         
       })
       .catch(function (error) {

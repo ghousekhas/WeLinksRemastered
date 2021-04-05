@@ -846,7 +846,7 @@ export default function App() {
       </View>
     );
   }
-  else if (use == AuthConstants.new_user) {
+  else if (use == AuthConstants.phone_verified ) {
     //getUserDetails(5);
     return (
       <View style={{ flex: 1 }}>
