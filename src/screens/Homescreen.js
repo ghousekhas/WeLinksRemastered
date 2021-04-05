@@ -25,6 +25,200 @@ import { useAuth } from '../services/auth-service';
 //sendNotif('titleeee','boddy','user87');
 //sendNotif('titleeee','boddy','vendor90');
 
+// export function HomeScreen(props){
+
+//     const actualUser = useAuth().user;
+
+
+//     return(<View key={this.state.remountRating}>
+//         <View
+//                 style={{backgroundColor: Colors.lightBlue,paddingBottom: 100}}
+//                 >
+
+//                 <View style={{backgroundColor:'white', alignItems:'flex-end',padding:'1%'}}>
+//                 <MaterialIcons name="keyboard-arrow-down" size={25} color="black" 
+//                 onPress={() => {
+//                     this.setState({sheetOpen:false})
+//                     this.bs.current.snapTo(2);
+
+//                 }}
+//                 />
+
+//       </View>
+
+//                 <View>
+//    <RatingComponentScreen buttonPress={(stars, comments)=>{
+//        console.log('posting review');
+//        if(this.state.ratingTypeOpen === 'corp')
+//             Axios.post(Config.api_url+'php?'+qs.stringify({
+//                 action: 'postRating',
+//                 user_id: this.state.actualUser.user_id,
+//                 vendor_id: this.state.ratingOrderMeta.awarded_vendor.length > 0 ? this.state.ratingOrderMeta.awarded_vendor[0].vendor_id : 0 ,
+//                 product_type: 'corporate_scrap',
+//                 rating: stars,
+//                 feedback: comments,
+//                 order_id: this.state.ratingOrderMeta.bid_id
+//             })).then((response)=>{
+//                 const data = response.data;
+//                 console.log("Rated "+data);
+//                 const tempCorp = this.state.corpPendingRatings;
+//                 tempCorp.splice(0,1);
+//                 if(tempCorp.length > 0){
+//                     const news = tempCorp;
+//                     this.setState({ratingTypeOpen: 'corp'});
+
+//                     this.setState({remountRating: Math.random(0.4).toString()});
+//                     console.log(news);
+//                     this.setState({ratingOrderMeta: news[0]});
+//                     this.setState({ratingOrderDetails : {
+//                         Date: ymdToApp(news[0].bid_pickupdate),
+//                         Duration: getDuration(news[0].bid_startdate, news[0].bid_enddate)+ ' Day/s',
+//                         Title: news[0].bid_title,
+//                         Product: news[0].officescrap_category_name,
+//                         Vendor: news[0].company_name
+//                     }}).catch((e) => {
+//                         console.log("Error: "+e)
+//                     })
+
+//                 }
+//                 else{
+//                     // this.props.route.params.goToMySubs();
+//                     this.bs.current.snapTo(2);
+//                     this.props.navigation.navigate('Bids',{
+//                         next: 'Bids',
+//                         user: this.props.route.params.user,
+//                         actualUser: this.state.actualUser,
+                      
+//                         profile: true,
+//                         ...this.props.route.params
+//                     });
+//                 }
+
+//             });
+//        else 
+//         Axios.post(Config.api_url+'php?'+qs.stringify({
+//             action: 'postRating',
+//             user_id: this.state.actualUser.user_id,
+//             vendor_id: this.state.ratingOrderMeta.vendor_id,
+//             product_type: this.state.ratingOrderMeta.product_type,
+//             rating: stars,
+//             feedback: comments,
+//             order_id: this.state.ratingOrderMeta.order_id
+//         }),{}).then((response)=>{
+//             console.log('asosja');
+//             console.log(response.data);
+//             console.log({
+//                 action: 'postRating',
+//             user_id: this.state.actualUser.user_id,
+//             vendor_id: this.state.ratingOrderMeta.vendor_id,
+//             product_type: this.state.ratingOrderMeta.product_type,
+//             rating: stars,
+//             feedback: comments,
+//             order_id: this.state.ratingOrderMeta.order_id
+//             })
+            
+//             if(!this.state.milkRatingOpen){
+//                     const tempNews = this.state.newsPendingRatings;
+//                     tempNews.splice(0,1);
+//                     this.setState({newsPendingRatings: tempNews});
+
+//                     if(this.state.newsPendingRatings.length >0 ){
+//                         const milk = tempNews;
+//                         this.setState({ratingOrderDetails : {
+//                             Date: ymdToApp(milk[0].order_date),
+//                             Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
+//                             Product: milk[0].product_name,
+//                             Quantitiy: milk[0].quantity,
+//                             Vendor: milk[0].company_name
+//                         }});
+//                         this.setState({ratingOrderMeta: milk[0]});
+//                     }
+//                     else{
+//                         this.setState({sheetOpen: false});
+//                         this.bs.current.snapTo(2);
+//                         // this.props.route.params.goToMySubs();
+//                         this.props.navigation.navigate('AddressList',{
+//                             next: 'PaperVendors',
+//                             user: this.props.route.params.user,
+//                             actualUser: this.state.actualUser,
+//                             tag: 'Paper',
+//                             profile: true
+//                         });
+//                         this.setState({remountRating: Math.random(0.4).toString()});
+//                     }
+                    
+
+//                     // if(this.state.newsPendingRatings.length == 0){
+//                     //     this.setState({sheetOpen: false});
+//                     //     this.bs.current.snapTo(2);
+//                     //     this.props.navigation.navigate('AddressList',{
+//                     //         next: 'PaperVendors',
+//                     //         user: this.props.route.params.user,
+//                     //         actualUser: this.state.actualUser,
+//                     //         tag: 'Paper',
+//                     //         profile: true
+//                     //     });
+//                     // }
+//                     // else{
+//                     //     const milk = tempNews;
+//                     //     this.setState({sheetOpen: false});
+//                     //     this.bs.current.snapTo(2);
+//                     //     this.setState({ratingOrderDetails : {
+//                     //         Date: ymdToApp(milk[0].order_date),
+//                     //         Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
+//                     //         Product: milk[0].product_name,
+//                     //         Quantitiy: milk[0].quantity,
+//                     //         Vendor: milk[0].company_name
+//                     //     }});
+//                     //     this.setState({remountRating: Math.random(0.4).toString()});
+//                     // }
+//                 }
+//                 else{
+//                     const tempMilk = this.state.milkPendingRatings;
+//                     console.log('abccbauncsnocno');
+//                     tempMilk.splice(0,1);
+//                     this.setState({milkPendingRatings: tempMilk});
+//                     console.log(tempMilk);
+
+//                     if(this.state.milkPendingRatings.length >0 ){
+//                         const milk = tempMilk;
+//                         this.setState({ratingOrderDetails : {
+//                             Date: ymdToApp(milk[0].order_date),
+//                             Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
+//                             Product: milk[0].product_name,
+//                             Quantitiy: milk[0].quantity,
+//                             Vendor: milk[0].company_name
+//                         }});
+//                         this.setState({ratingOrderMeta: milk[0]});
+//                     }
+//                     else{
+//                         this.setState({sheetOpen: false});
+//                         this.bs.current.snapTo(2);
+//                         // this.props.route.params.goToMySubs();
+//                         this.props.navigation.navigate('AddressList',{
+//                             next: 'MilkVendors',
+//                             user: this.props.route.params.user,
+//                             actualUser: this.state.actualUser,
+//                             tag: 'Milk',
+//                             profile: true,
+//                             ...this.props.route.params
+//                         });
+//                         this.setState({remountRating: Math.random(0.4).toString()});
+
+//                     }
+                    
+//                 }
+//             //this.setState({newsPendingRatings: []});
+//             //this.retrievePendingRatings();
+//         })
+//    }} order_details={this.state.ratingOrderDetails} />
+//    </View>
+//   </View>
+// </View>
+// )
+
+// }
+
 
 
 var promoImageData = ['https://phlearn.com/wp-content/uploads/2019/03/fixed-ratio.png','https://phlearn.com/wp-content/uploads/2019/03/fixed-ratio.png',

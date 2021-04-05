@@ -25,8 +25,8 @@ export const AuthContext = React.createContext({user: auth().currentUser,
 export default function AuthProvider({children}){
     const [user, setUser ] = useState(AuthConstants.loading);
     const [vendor, setVendor] = useState(AuthConstants.loading);
-    const debug = true;
-    const debugNumber = "1234567890";
+    const debug = false;
+    const debugNumber = "8548080245";
 
 
     const checkUserAccounts = () =>{
@@ -39,12 +39,11 @@ export default function AuthProvider({children}){
     } 
 
     const logout = ()=>{
-      AsyncStorage.removeItem(AuthConstants.saved_user);
-      AsyncStorage.removeItem(AuthConstants.saved_user,(error)=>{
-        console.log('aer');
-      });
+     
       auth().signOut();
-      setUser(AuthConstants.new_user);
+      setUser(AuthConstants.phone_unverified);
+      AsyncStorage.removeItem(AuthConstants.saved_user);
+      AsyncStorage.removeItem(AuthConstants.saved_vendor,)
       checkUserAccounts();
 
     }
@@ -88,8 +87,11 @@ export default function AuthProvider({children}){
           }
 
         }
-        else
-          setUser(AuthConstants.new_user);
+        else{
+          setUser(AuthConstants.phone_verified);
+          AsyncStorage.removeItem(AuthConstants.saved_user);
+          AsyncStorage.removeItem(AuthConstants.saved_vendor);
+        }
       }
       catch(error){
         setUser(AuthConstants.errored);
@@ -106,8 +108,8 @@ export default function AuthProvider({children}){
     const checkFirstTime = async  () =>{
         const saved_user = await AsyncStorage.getItem(AuthConstants.saved_user);
 
-        if(debug)
-          syncAndCacheUser();
+        // if(debug)
+        //   syncAndCacheUser();
 
         if(auth().currentUser == null && debug == false){
           setUser(AuthConstants.phone_unverified);
@@ -120,7 +122,9 @@ export default function AuthProvider({children}){
             setUser(JSON.parse(saved_user));
           }
           catch(err){//The next line fetches user from the database anyway
-          }     
+          }
+        else
+          syncAndCacheUser();     
 
         try{
           const saved_vendor = await AsyncStorage.getItem(AuthConstants.saved_vendor);
@@ -139,11 +143,18 @@ export default function AuthProvider({children}){
 
     useEffect(()=>{
         checkUserAccounts();
+        auth().onAuthStateChanged((user)=>{
+            if(user != null){
+              setUser(AuthConstants.phone_verified);
+              checkUserAccounts();
+            }
+        });
     },[])
 
     return (
         <AuthContext.Provider value={{user: user,
                                       vendor: vendor,
+                                      phone: debug  ? debugNumber : auth().currentUser != null ?  auth().currentUser.substring(3) : null,
                                       sync: syncAndCacheUser,
                                       logout: logout
                                       }} >
