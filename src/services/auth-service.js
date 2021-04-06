@@ -61,25 +61,23 @@ export default function AuthProvider({children}){
         })))).data;
         if(result.user[0].status_code != 100){
           setUser(result.user[0]);
+          const user_result = result.user[0];
           //Caching? 
           AsyncStorage.setItem(AuthConstants.saved_user, JSON.stringify(result.user[0]));
           //Vendor
           try{
-            const result = (await (Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + result.user[0].user_id))).data;
+            const result = (await (Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + user_result.user_id))).data;
             setVendor(result);
+            console.log('oiasjoiajois',result);
               if(result.vendor[0].vendor_status === "active"){
                 try{
                   const result1 = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
                     action: "getVendor",
                     user_id: user.user_id
                   })))).data;
-                  if(result1.vendor.status_code != 100){
                     setVendor(result1.vendor);
-                    //Caching? 
                     AsyncStorage.setItem(AuthConstants.saved_vendor, JSON.stringify(result1.vendor));
-                  }
-                  else
-                    setVendor(AuthConstants.new_user);
+                  
                 }
                 catch(error){
                   setVendor(AuthConstants.errored);
@@ -95,7 +93,8 @@ export default function AuthProvider({children}){
         
           }
           catch(r){
-            setVendor({vendor_status: Constants.veFirstTime})
+            console.log("exceptiononvefirsttime");
+            setVendor({vendor_status: Constants.veFirstTime});
           }
           
          
