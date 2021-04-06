@@ -31,8 +31,9 @@ const DrawerContent = (props) => {
     cachedData = props.cachedData;
     initialSubs= props.initialSubs;
     setActualUser(props.actualUser);
-    if(vendor)
+    if(vendor){
       retreieveVendorData();
+    }
 
   },[vendor,props.cachedData,props.initialSubs,props.actualUser])
 
@@ -53,38 +54,47 @@ const DrawerContent = (props) => {
   };
 
   const retreieveVendorData = ()=>{
-    Axios.get(Config.api_url+'php?action=getVendor&user_id='+ actualUser.user_id,)
-            .then((response)=>{
-               setLoading(false);
-                console.log("HEREs"+response.data.vendor.vendor_id)
-                setVerification(Constants.veFirstTime) // uncomment this
-            try{
+    const vend = authContext.vendor;
+    if(vend == Constants.veFirstTime)
+      setVerification(Constants.veFirstTime);
+    else if(vend == Constants.veInProgress)
+      setVerification(Constants.veInProgress);
+    else{
+      if(vend.vendor_id != undefined)
+        setActualVendor(vend);
+    }
+    // Axios.get(Config.api_url+'php?action=getVendor&user_id='+ actualUser.user_id,)
+    //         .then((response)=>{
+    //            setLoading(false);
+    //             console.log("HEREs"+response.data.vendor.vendor_id)
+    //             setVerification(Constants.veFirstTime) // uncomment this
+    //         try{
                 
-                var status= response.data.vendor.vendor_status;
-                if(status=== 'active'){
-                  setVerification(Constants.verified);
-                  setActualVendor(response.data.vendor);
-                  //messss
-                  messaging().subscribeToTopic("vendor"+response.data.vendor.vendor_id);
-                  setPendingActions(response.data.vendor.pending_actions.homescrap.length);
-                  if(response.data.vendor[0].pending_actions.homescrap.length)
-                    setPendingActionItem(response.data.vendor.pending_actions.homescrap[0]);
+    //             var status= response.data.vendor.vendor_status;
+    //             if(status=== 'active'){
+    //               setVerification(Constants.verified);
+    //               setActualVendor(response.data.vendor);
+    //               //messss
+    //               messaging().subscribeToTopic("vendor"+response.data.vendor.vendor_id);
+    //               setPendingActions(response.data.vendor.pending_actions.homescrap.length);
+    //               if(response.data.vendor[0].pending_actions.homescrap.length)
+    //                 setPendingActionItem(response.data.vendor.pending_actions.homescrap[0]);
                 
 
-                }
-                else if(status=== 'inactive')
-                    setVerification(Constants.veFirstTime)
-                else
-                    setVerification(Constants.veInProgress);
-                //setVerification(Constants.veFirstTime);
+    //             }
+    //             else if(status=== 'inactive')
+    //                 setVerification(Constants.veFirstTime)
+    //             else
+    //                 setVerification(Constants.veInProgress);
+    //             //setVerification(Constants.veFirstTime);
                 
-            }
-            catch(error){
-                setVerification(Constants.veFirstTime);
-                setLoading(false);
+    //         }
+    //         catch(error){
+    //             setVerification(Constants.veFirstTime);
+    //             setLoading(false);
                 
-            }
-        });
+    //         }
+    //     });
   }
 
   

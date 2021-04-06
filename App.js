@@ -66,6 +66,7 @@ import { useAuth, AuthConstants } from './src/services/auth-service';
 import WalletScreen from './src/screens/WalletScreen';
 import AddMoney from './src/screens/AddMoney';
 import Wallet from './src/screens/Wallet';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -324,56 +325,59 @@ const VendorHomeStack = ({ navigation, route }) => {
   const [initSubRoute, setInitSubRoute] = useState(route.params.initRoute != undefined ? route.params.initRoute : 'VendorDashboard');
 
 
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log(route.params.actualUser);
-      setActualUser(route.params.actualUser);
-      setRemountKey(Math.random(0.5));
-      return () => null;
-    }, [route])
-  );
 
   const retreieveVendorData = () => {
-        //authContext.sync();
-        const vendor = authContext.vendor;
-        
-        //setVerification(Constants.veFirstTime) // uncomment this
-        try {
-
-          var status = vendor.vendor_status;
-          if (status === 'active') {
-            setVerification(Constants.verified);
-            setVendorID(vendor.vendor_id);
-            //messss
-            messaging().subscribeToTopic("vendor" + vendor.vendor_id);
-            setPendingActions(vendor.pending_actions.homescrap.length);
-            if (vendor.pending_actions.homescrap.length)
-              setPendingActionItem(vendor.pending_actions.homescrap[0]);
-
-
-          }
-          else if (status === 'inactive')
-            setVerification(Constants.veFirstTime)
-          else
-            setVerification(Constants.veInProgress);
-          //setVerification(Constants.veFirstTime);
-          setLoading(false);
-
-        }
-        catch (error) {
+        const vend = authContext.vendor;
+        console.log("vendorData",vend);
+        if(vend.vendor_status === Constants.veFirstTime)
           setVerification(Constants.veFirstTime);
-          setLoading(false);
-
+        else if(vend.vendor_status === Constants.veInProgress)
+          setVerification(Constants.veInProgress);
+        else{
+          if(vend.vendor_id != undefined){
+            setActualVendor(vend);
+            setVerification(Constants.verified);
+          }
         }
-        authContext.sync();
+        //authContext.sync();
+        // const vendor = authContext.vendor;
+        
+        // //setVerification(Constants.veFirstTime) // uncomment this
+        // try {
+
+        //   var status = vendor.vendor_status;
+        //   if (status === 'active') {
+        //     setVerification(Constants.verified);
+        //     setVendorID(vendor.vendor_id);
+        //     //messss
+        //     messaging().subscribeToTopic("vendor" + vendor.vendor_id);
+        //     setPendingActions(vendor.pending_actions.homescrap.length);
+        //     if (vendor.pending_actions.homescrap.length)
+        //       setPendingActionItem(vendor.pending_actions.homescrap[0]);
+
+
+        //   }
+        //   else if (status === 'inactive')
+        //     setVerification(Constants.veFirstTime)
+        //   else
+        //     setVerification(Constants.veInProgress);
+        //   //setVerification(Constants.veFirstTime);
+        //   setLoading(false);
+
+        // }
+        // catch (error) {
+        //   setVerification(Constants.veFirstTime);
+        //   setLoading(false);
+
+        // }
+        // authContext.sync();
   }
 
+
   React.useEffect(() => {
-    console.log(route.params.actualUser);
-    setActualUser(route.params.actualUser);
-    setRemountKey(Math.random(0.5));
-    //retreieveVendorData();
-  }, [route.params]);
+    setActualUser(authContext.user);
+    retreieveVendorData();
+  }, [authContext]);
 
   if (loading)
     return (
@@ -394,10 +398,10 @@ const VendorHomeStack = ({ navigation, route }) => {
   var theInitialParams = { actualUser: actualUser, user: user };
 
 
-  if (verification != Constants.verified)
+  if (verification === Constants.veFirstTime || verification === Constants.veInProgress)
     return (<View style={{ flex: 1 }}>
       <NavigationContainer independent={true}>
-        <Stack.Navigator initialRouteName={initSubRoute}>
+        <Stack.Navigator>
           <Stack.Screen name="VendorRegistration" component={VendorRegistration} key={remountKey.toString()} options={{ headerShown: false }} initialParams={{ user: user, actualUser: actualUser, vendorRefresh: retreieveVendorData, getUserDetails: getUserDetails, navDrawer: navigation, setActualUser: route.params.setActualUser }} />
           <Stack.Screen name="VendorServices" component={VendorServices} options={{ headerShown: false }} />
           <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
@@ -809,9 +813,11 @@ export default function App() {
 
   if (use == AuthConstants.errored)
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-        <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center' }}>Network connection failed, Try again later</Text>
-      </View>
+      <TouchableOpacity onPress={()=>{authContext.checkFirstTime()}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+          <Text style={{ ...Styles.heading, alignSelf: 'center', textAlign: 'center' }}>Network connection failed, Try again later (Touch to refresh)</Text>
+        </View>
+      </TouchableOpacity>
 
     )
 

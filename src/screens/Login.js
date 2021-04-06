@@ -4,8 +4,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import SubmitButton from '../components/SubmitButton';
 import auth from '@react-native-firebase/auth';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-import City from './City';
-import About from './About';
 import {Colors, dimen} from '../Constants'
 import { useAuth } from '../services/auth-service';
 
@@ -73,9 +71,6 @@ const LoginScreen = ({navigation,route}) => {
             Alert.alert('OTP incorrect ','Please try again');
         }
     }
-
-    if(user!=null)
-        return <About/>
 
 
 
