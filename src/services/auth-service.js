@@ -25,7 +25,7 @@ export const AuthContext = React.createContext({user: auth().currentUser,
 export default function AuthProvider({children}){
     const [user, setUser ] = useState(AuthConstants.loading);
     const [vendor, setVendor] = useState(AuthConstants.loading);
-    const debug = true;
+    const debug = false;
     const debugNumber = "8548080255";
 
 
@@ -38,13 +38,14 @@ export default function AuthProvider({children}){
       })
     } 
 
-    const logout = ()=>{
+    const logout = async ()=>{
      
-      auth().signOut();
+      await auth().signOut();
+    
       setUser(AuthConstants.phone_unverified);
       AsyncStorage.removeItem(AuthConstants.saved_user);
       AsyncStorage.removeItem(AuthConstants.saved_vendor,)
-      checkUserAccounts();
+      checkFirstTime();
 
     }
 
