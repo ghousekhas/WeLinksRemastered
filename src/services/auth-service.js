@@ -52,6 +52,8 @@ export default function AuthProvider({children}){
 
     const syncAndCacheUser = async ()=>{
       try{
+        if(user == AuthConstants.phone_verified)
+          setUser(AuthConstants.loading);
         const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
           action: "getUser",
           phone: debug ?  debugNumber : auth().currentUser.phoneNumber.substring(3)
@@ -60,36 +62,42 @@ export default function AuthProvider({children}){
           setUser(result.user[0]);
           //Caching? 
           AsyncStorage.setItem(AuthConstants.saved_user, JSON.stringify(result.user[0]));
-
+          //Vendor
           try{
             const result = (await (Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + result.user[0].user_id))).data;
             setVendor(result);
-            if(result.vendor_status === "active"){
-              try{
-                const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
-                  action: "getVendor",
-                  user_id: user.user_id
-                })))).data;
-                if(result.vendor.status_code != 100){
-                  setVendor(result.vendor);
-                  //Caching? 
-                  AsyncStorage.setItem(AuthConstants.saved_vendor, JSON.stringify(result.vendor));
+              if(result.vendor[0].vendor_status === "active"){
+                try{
+                  const result1 = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
+                    action: "getVendor",
+                    user_id: user.user_id
+                  })))).data;
+                  if(result1.vendor.status_code != 100){
+                    setVendor(result1.vendor);
+                    //Caching? 
+                    AsyncStorage.setItem(AuthConstants.saved_vendor, JSON.stringify(result1.vendor));
+                  }
+                  else
+                    setVendor(AuthConstants.new_user);
                 }
-                else
-                  setVendor(AuthConstants.new_user);
-              }
-              catch(error){
-                setVendor(AuthConstants.errored);
-              }
+                catch(error){
+                  setVendor(AuthConstants.errored);
+                }
             }
-            else if(result.vendor_status === "inactive")
-              setVendor({vendor_status: "inactive"});
-            else
-              setVendor({vendor_status: Constants.veInProgress});
+            else if(result.vendor[0].vendor_status === "inprogress"){
+              setVendor(Constants.veInProgress);
+            }
+            else{
+              setVendor(Constants.veTryAgain);
+            }
+          
+        
           }
           catch(r){
             setVendor({vendor_status: Constants.veFirstTime})
           }
+          
+         
 
         }
         else{
@@ -161,7 +169,8 @@ export default function AuthProvider({children}){
                                       vendor: vendor,
                                       phone: debug  ? debugNumber : auth().currentUser != null ?  auth().currentUser.phoneNumber.substring(3) : null,
                                       sync: syncAndCacheUser,
-                                      logout: logout
+                                      logout: logout,
+                                      checkFirstTime: checkFirstTime
                                       }} >
           <App/>
         </AuthContext.Provider>
