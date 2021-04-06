@@ -569,7 +569,7 @@ export default function App() {
   const [initVendor, setInitVendor] = useState(false);
 
   // return <Introduction/>
-  console.log('uishuidsu',use);
+ // console.log('uishuidsu',use);
 
 
 
@@ -691,7 +691,7 @@ export default function App() {
   }
 
 
-  console.log("cuu " + JSON.stringify(user));
+  // console.log("cuu " + JSON.stringify(user));
 
 
 

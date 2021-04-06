@@ -12,8 +12,7 @@ import DocumentPicker from 'react-native-document-picker';
 import qs from 'qs';
 import {Config} from  '../Constants';
 import { useAuth } from '../services/auth-service';
-
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const MyProfile = ({navigation,route}) => {
    //const [profileDetails,setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
@@ -22,21 +21,47 @@ const MyProfile = ({navigation,route}) => {
    const [user_id,setUserID] = useState(route.params.actualUser.user_id);
    const [actualUser,setActualUser] = useState(route.params.actualUser);
    const authContext = useAuth();
+   const [loadMessage,setLoadMessage]=useState('');
    const user = authContext.user;
+   const [loading,setLoading] = useState(false);
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     const words = {
         subscriptions : 'Subscriptions',
         rupee : '₹',
-        balance : 'Balance'
+        balance : 'Balance',
+       
     }
 
+    const timeOutSecs= 10000; // 10 secs
+
+    const isLoading = (msg='',state) => {
+        
+        if(msg!=='')
+        setLoadMessage(msg);
+
+        setLoading(state);
+
+
+    };
+
+
     const changeImage= async ()=>{
+        console.log("Openingg")
+       isLoading("Loading",true);
         try{
             const res = await DocumentPicker.pick({type: [DocumentPicker.types.images]});
             var formdata = new FormData();
-            if(res.size/1000>50)
+            if(res.size/1000>50){
                 alert('Selected picture must be below 50kb');
-            else{
+                isLoading(false);
+            }
+               
+            else{ 
+                console.log("salami")
+            
+               // startTimer();
+               
+              
                 formdata.append('user_image_url',{
                     uri: res.uri,
                     type:'image/jpeg',
@@ -52,6 +77,7 @@ const MyProfile = ({navigation,route}) => {
                     //setActualUser({...actualUser,})
                     // setProfileDetails({...profileDetails,img_url: res.uri})
                     // route.params.getUserDetails(0,user);
+                    isLoading(false);
                     alert('Profile Picture uploaded succesfully');
                     authContext.sync();
                     // setTimout(()=> route.params.navdrawer.navigate('ProfileStack',{
@@ -63,6 +89,7 @@ const MyProfile = ({navigation,route}) => {
 
                 },(error)=>{
                     console.log(error);
+                    isLoading(false);
                     alert('Error uploading your profile picture, please try again later');
                 })
             }
@@ -70,6 +97,7 @@ const MyProfile = ({navigation,route}) => {
         }
         catch(error){
             console.log(error);
+            isLoading(false);
             alert('Please pick a valid jpeg or png image');
         }
     }
@@ -84,6 +112,11 @@ const MyProfile = ({navigation,route}) => {
         //     },
         //     (error)=>console.log('Error logged in profile',error))
         //setProfileDetails(route)
+
+       
+
+        
+
         authContext.sync();
         console.log('mounted');
         console.log(route.params.actualUser);
@@ -102,10 +135,16 @@ const MyProfile = ({navigation,route}) => {
                     console.log('Error with addresses: '+e);
                 });
    
-
+                return(()=>{
+                    clearInterval(timer);
+                    console.log("Cleared");
+                })
+           
        
-       
+               
    },[route.params.actualUser])
+
+ 
    
     useFocusEffect(
         React.useCallback(() => {
@@ -119,7 +158,7 @@ const MyProfile = ({navigation,route}) => {
             //         console.log('User does not exitst',data);
             // },
             // (error)=>console.log('Error logged in profile',error))
-            authContext.sync();
+         //   authContext.sync();
           const onBackPress = () => {
        //  console.log('Can\'t go back from here');
         route.params.navDrawer.navigate('HomeStack',
@@ -138,7 +177,7 @@ const MyProfile = ({navigation,route}) => {
     
           return () =>
             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        },)
+        })
       );
 
       const renderAddresses = () => {
@@ -169,12 +208,14 @@ const MyProfile = ({navigation,route}) => {
    
     
     <ScrollView>
+   
         <View style={{flex: 0,marginBottom: 50}}>
 
     <View style={style.header}>
 
     
     <View style={style.avatarBG}>
+    
         {profileDetails!=null? (
             <Image   // Change to Image
             style={style.avatar}
@@ -183,7 +224,15 @@ const MyProfile = ({navigation,route}) => {
         />
         ) : null}
             <View style={{position: 'absolute',bottom: '5%'}}>
-        <TouchableOpacity onPress={()=> changeImage()} >
+        <TouchableOpacity onPress={()=>
+        {
+
+             // startTimer();
+            //     startTimer();
+            //     clearInterval(timer);
+            //     console.log("Cleared");
+            changeImage();
+        } } >
             <Icon 
                     name='pencil'
                     size={20}
@@ -192,6 +241,12 @@ const MyProfile = ({navigation,route}) => {
                 />
 
           </TouchableOpacity>
+          <Spinner
+                    can
+                    visible={loading}
+                    textContent={'Updating profile'}
+                    textStyle={{ color: '#FFF' }}
+                     />
                        </View>
     </View>
 
