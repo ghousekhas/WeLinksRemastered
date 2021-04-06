@@ -372,7 +372,7 @@ const VendorHomeStack = ({ navigation, route }) => {
     console.log(route.params.actualUser);
     setActualUser(route.params.actualUser);
     setRemountKey(Math.random(0.5));
-    //retreieveVendorData();
+    retreieveVendorData();
   }, [route.params]);
 
   if (loading)

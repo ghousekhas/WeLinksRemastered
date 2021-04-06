@@ -21,15 +21,15 @@ const LoginScreen = ({navigation,route}) => {
 
     onAuthStateChanged = (user)=>{
         setUser(user);
-        try{
-            if(user!=null){
-                authContext.sync();
-                //route.params.getUserDetails(0,user);
-            }
-        }
-        catch(er){
-            console.log('getparams not found in loginscreen');
-        }
+        // try{
+        //     // if(user!=null){
+        //     //     authContext.sync();
+        //     //     //route.params.getUserDetails(0,user);
+        //     // }
+        // }
+        // catch(er){
+        //     console.log('getparams not found in loginscreen');
+        // }
         
     }
     useEffect(()=>{

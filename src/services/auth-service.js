@@ -25,8 +25,8 @@ export const AuthContext = React.createContext({user: auth().currentUser,
 export default function AuthProvider({children}){
     const [user, setUser ] = useState(AuthConstants.loading);
     const [vendor, setVendor] = useState(AuthConstants.loading);
-    const debug = false;
-    const debugNumber = "8548080245";
+    const debug = true;
+    const debugNumber = "8548080255";
 
 
     const checkUserAccounts = () =>{
@@ -64,7 +64,7 @@ export default function AuthProvider({children}){
           try{
             const result = (await (Axios.get(Config.api_url + 'php?action=getVendorStatus&user_id=' + result.user[0].user_id))).data;
             setVendor(result);
-            if(result.vendor_status == "active")
+            if(result.vendor_status === "active"){
               try{
                 const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
                   action: "getVendor",
@@ -81,6 +81,11 @@ export default function AuthProvider({children}){
               catch(error){
                 setVendor(AuthConstants.errored);
               }
+            }
+            else if(result.vendor_status === "inactive")
+              setVendor({vendor_status: "inactive"});
+            else
+              setVendor({vendor_status: Constants.veInProgress});
           }
           catch(r){
             setVendor({vendor_status: Constants.veFirstTime})
@@ -88,7 +93,7 @@ export default function AuthProvider({children}){
 
         }
         else{
-          setUser(AuthConstants.phone_verified);
+          //setUser(AuthConstants.phone_verified);
           AsyncStorage.removeItem(AuthConstants.saved_user);
           AsyncStorage.removeItem(AuthConstants.saved_vendor);
         }
@@ -145,7 +150,7 @@ export default function AuthProvider({children}){
         checkUserAccounts();
         auth().onAuthStateChanged((user)=>{
             if(user != null){
-              setUser(AuthConstants.phone_verified);
+              //setUser(AuthConstants.phone_verified);
               checkUserAccounts();
             }
         });
@@ -154,7 +159,7 @@ export default function AuthProvider({children}){
     return (
         <AuthContext.Provider value={{user: user,
                                       vendor: vendor,
-                                      phone: debug  ? debugNumber : auth().currentUser != null ?  auth().currentUser.substring(3) : null,
+                                      phone: debug  ? debugNumber : auth().currentUser != null ?  auth().currentUser.phoneNumber.substring(3) : null,
                                       sync: syncAndCacheUser,
                                       logout: logout
                                       }} >
