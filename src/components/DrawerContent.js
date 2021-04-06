@@ -35,7 +35,7 @@ const DrawerContent = (props) => {
       retreieveVendorData();
     }
 
-  },[vendor,props.cachedData,props.initialSubs,props.actualUser])
+  },[vendor,props.cachedData,props.initialSubs,props.actualUser,authContext]);
 
   const switchToVendor = async ()=>{
     props.setDefault();
@@ -55,13 +55,16 @@ const DrawerContent = (props) => {
 
   const retreieveVendorData = ()=>{
     const vend = authContext.vendor;
+    console.log('enddddddddddddddddddd',vend);
     if(vend == Constants.veFirstTime)
       setVerification(Constants.veFirstTime);
     else if(vend == Constants.veInProgress)
       setVerification(Constants.veInProgress);
     else{
-      if(vend.vendor_id != undefined)
+      if(vend.vendor_id != undefined){
         setActualVendor(vend);
+        setVerification(Constants.verified);
+      }
     }
     // Axios.get(Config.api_url+'php?action=getVendor&user_id='+ actualUser.user_id,)
     //         .then((response)=>{

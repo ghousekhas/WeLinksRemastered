@@ -335,8 +335,9 @@ const VendorHomeStack = ({ navigation, route }) => {
           setVerification(Constants.veInProgress);
         else{
           if(vend.vendor_id != undefined){
-            setActualVendor(vend);
+            setVendorID(vend.vendor_id);
             setVerification(Constants.verified);
+            console.log("THIS IS HAPPENINGGGGG");
           }
         }
         //authContext.sync();

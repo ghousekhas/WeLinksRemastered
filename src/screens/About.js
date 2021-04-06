@@ -10,6 +10,7 @@ import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import AppBar from '../components/AppBar';
 import { Config } from '../Constants';
+import { useAuth } from '../services/auth-service';
 
 const About = ({ navigation, route, getUserDetails, user }) => {
     const [name, setName] = useState('');
@@ -22,6 +23,7 @@ const About = ({ navigation, route, getUserDetails, user }) => {
     const [pressed, setPressed] = useState(false);
     var staticName = '';
     var staticEmail = '';
+    const authContext = useAuth();
 
 
     function validateEmail() {
@@ -54,6 +56,7 @@ const About = ({ navigation, route, getUserDetails, user }) => {
                         setLoading(false);
                         alert('Your changes have been saved successfully');
                         navigation.goBack();
+                        authContext.sync();
 
                     }, (error) => {
                         console.log(error);
