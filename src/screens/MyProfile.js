@@ -118,7 +118,7 @@ const MyProfile = ({ navigation, route }) => {
 
         // This sync is slowing everything down; the app becomes extremely unresponsive.
         // Maybe there's a different way to do this. When I remove this it's lightening fast.
-       authContext.sync();
+       //authContext.sync();
         console.log('mounted');
         console.log(route.params.actualUser);
         setActualUser(route.params.actualUser);
