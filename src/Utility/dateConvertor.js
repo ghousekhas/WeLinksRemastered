@@ -14,7 +14,7 @@ export function getDuration(startDate,endDate){
     const days = moment(endDate).diff(moment(startDate), 'days');
     // console.log("Start "+startDate+" End "+endDate+" "+days)
    
-    return ((isNaN(days)||days<0)?0:days+1);
+    return ((isNaN(days)||days<0)?0:days);
 
     
 //     const dateParts1 = startDate.substring(0,11).split('-');
