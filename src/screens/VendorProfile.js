@@ -14,23 +14,21 @@ import qs from 'qs';
 import { AntDesign } from '@expo/vector-icons';
 import { Config } from '../Constants';
 import { useAuth } from '../services/auth-service';
-
 import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const VendorProfile = ({ navigation, route }) => {
     const [profileDetails, setProfileDetails] = useState(route.params.actualUser);//[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
-    const [address, setAddress] = useState([]);
-    const [servedAddresses, setServedAddresses] = useState([])
-    const [vendorID, setVendorID] = useState(null);
     const [loading,setLoading] = useState(false);
     const {actualUser} = route.params;
     const authContext = useAuth();
     const VendorProfileDetails = authContext.vendor;
+    const [loadMessage, setLoadMessage] = useState('');
 
    // const [actualUser, setActualUser] = useState(route.params.actualUser);
     const [vendorImage, setVendorImage] = useState(' ')
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
+    console.log("KHEY "+JSON.stringify(VendorProfileDetails))
     const words = {
 
         rupee: '₹',
@@ -45,6 +43,8 @@ const VendorProfile = ({ navigation, route }) => {
 
 
     };
+
+    console.log("vi "+vendorImage)
 
     const changeImage = async () => {
         try {
@@ -75,7 +75,8 @@ const VendorProfile = ({ navigation, route }) => {
 
 
                 }), formdata).then((response) => {
-                    console.log(response.data, "picutre uploaded");
+                    console.log("picture uploaded "+response.data);
+                    setVendorImage()
                     //setActualUser({...actualUser,})
                    // setProfileDetails({ ...profileDetails, img_url: res.uri })
                   //  route.params.getUserDetails(0, auth().currentUser);
@@ -113,20 +114,20 @@ const VendorProfile = ({ navigation, route }) => {
     }
 
     const editVendorFunction = (services,milk,paper,office,home)=>{
-        console.log(services);
-        console.log(milk);
-        console.log(paper);
-        console.log(office);
-        console.log(home);
+       // console.log(services);
+        // console.log(milk);
+        // console.log(paper);
+        // console.log(office);
+        // console.log(home);
         
       
         console.log({
-            user_id: actualUser.user_id,
-            vendor_type: services,
-            milk_product_ids : milk,
-            news_product_ids: paper,
-            officescrap_cat_ids: office,
-            homescrap_product_ids: home
+            // user_id: actualUser.user_id,
+            // vendor_type: services,
+            // milk_product_ids : milk,
+            // news_product_ids: paper,
+            // officescrap_cat_ids: office,
+            // homescrap_product_ids: home
 
 
         });
@@ -153,12 +154,12 @@ const VendorProfile = ({ navigation, route }) => {
         var dataFormatted = dataFormatted.replaceAll('homescrap_product_ids%5B0%5D','homescrap_product_ids\[\]');
         var dataFormatted = dataFormatted.replaceAll('vendor_type%5B0%5D','vendor_type\[\]');
         */
-        console.log(dataFormatted);
+       // console.log(dataFormatted);
         
        // console.log(dataUnFormatted);
         Axios.post(Config.api_url+'php?action=updateVendor&'+dataFormatted).then((response)=>{
-            console.log(response);
-            console.log(response.data);
+            // console.log(response);
+            // console.log(response.data);
             authContext.sync();//retrieveData();
            // checkVendorStatus();
 
@@ -294,12 +295,16 @@ const VendorProfile = ({ navigation, route }) => {
                             {VendorProfileDetails != null ? (
                                 <Image   // Change to Image
                                     style={style.avatar}
-                                    source={vendorImage != ''  ? { uri: vendorImage } : require('../../assets/notmaleavatar.png')}
-                                  //  source={require('../../assets/notmaleavatar.png')}
+                               //     source={require(VendorProfileDetails.vendor_img_url.trim() != '' ? { uri: VendorProfileDetails.vendor_img_url.trim() } : require('../../assets/notmaleavatar.png'))}
+                                    source={require('../../assets/notmaleavatar.png')}
                                 />
                             ) : null}
                             <View style={{ position: 'absolute', bottom: '5%' }}>
-                                <TouchableOpacity onPress={() => changeImage()} >
+                                <TouchableOpacity onPress={() => {
+                                    console.log("ok")
+                               changeImage()
+
+                                }} >
                                     <Icon
                                         name='pencil'
                                         size={20}
@@ -308,6 +313,12 @@ const VendorProfile = ({ navigation, route }) => {
                                     />
 
                                 </TouchableOpacity>
+                                <Spinner
+                                    can
+                                    visible={loading}
+                                    textContent={loadMessage}
+                                    textStyle={{ color: '#FFF' }}
+                                />
                             </View>
                         </View>
 

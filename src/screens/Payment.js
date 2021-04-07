@@ -9,11 +9,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import sendNotif from '../Utility/sendNotificationTo';
 import { NavigationActions } from 'react-navigation';
 
-
-
-
-
-
 const Payment = ({ route,navigation }) => {
     const {actualUser} = route.params;
     const {order} = route.params;

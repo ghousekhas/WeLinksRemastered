@@ -57,8 +57,9 @@ export default function AuthProvider({children}){
           setUser(AuthConstants.loading);
         const result = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
           action: "getUser",
-          phone: debug ?  debugNumber : auth().currentUser.phoneNumber.substring(3)
+          phone: debug===true ?  debugNumber : auth().currentUser.phoneNumber.substring(3)
         })))).data;
+        console.log("Auth-service num: "+ auth().currentUser.phoneNumber.substring(3))
         if(result.user[0].status_code != 100){
           setUser(result.user[0]);
           const user_result = result.user[0];
@@ -75,7 +76,9 @@ export default function AuthProvider({children}){
                     action: "getVendor",
                     user_id: user.user_id
                   })))).data;
+
                     setVendor(result1.vendor);
+                   // console.log("THIS IS SETTING "+JSON.stringify(result1.vendor))
                     AsyncStorage.setItem(AuthConstants.saved_vendor, JSON.stringify(result1.vendor));
                   
                 }
@@ -143,6 +146,7 @@ export default function AuthProvider({children}){
           const saved_vendor = await AsyncStorage.getItem(AuthConstants.saved_vendor);
           if(saved_vendor != null && saved_vendor != undefined)
             try{
+              console.log("Here atleast? "+saved_vendor)
               setVendor(JSON.parse(saved_vendor))
             }
             catch(error){
