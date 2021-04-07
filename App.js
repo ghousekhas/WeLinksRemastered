@@ -863,11 +863,15 @@ export default function App() {
   }
   else if (use != AuthConstants.loading){
 
+    const apendingAction = use.pending_action.homescrap.length;
+    if(pendingAction > 0)
+      const apendingActionItem = use.pending_action.homescrap[0];
+
     //Applock
 
-    if (pendingAction > 0 && pendingActionItem != null && true /*add scrap condition*/) {
-      console.log("I exist " + pendingActionItem)
-      return <ScrapPickedConfirmation route={{ params: { item: pendingActionItem, refreshCallback: getUserDetails, actualUser: userDetails, cardDetail: pendingActionItem, tag: 'User', user: user } }} />
+    if (apendingAction > 0 && apendingActionItem != null && true /*add scrap condition*/) {
+      console.log("I exist " + apendingActionItem)
+      return <ScrapPickedConfirmation route={{ params: { item: apendingActionItem, refreshCallback: getUserDetails, actualUser: userDetails, cardDetail: pendingActionItem, tag: 'User', user: user } }} />
     }
     else if (pendingAction > 0 && pendingActionItem != null && true /*corporate scrap condition*/) {
       return null;

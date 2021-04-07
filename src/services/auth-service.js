@@ -74,7 +74,7 @@ export default function AuthProvider({children}){
                 try{
                   const result1 = ( await ( Axios.get(Config.api_url + 'php?' + qs.stringify({
                     action: "getVendor",
-                    user_id: user.user_id
+                    user_id: user_result.user_id
                   })))).data;
 
                     setVendor(result1.vendor);
