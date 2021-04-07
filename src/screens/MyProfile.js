@@ -79,7 +79,7 @@ const MyProfile = ({ navigation, route }) => {
                     // setProfileDetails({...profileDetails,img_url: res.uri})
                     // route.params.getUserDetails(0,user);
                     isLoading(false);
-                    alert('Profile Picture uploaded succesfully');
+                    alert('Profile Picture uploaded successfully');
                     authContext.sync();
                     // setTimout(()=> route.params.navdrawer.navigate('ProfileStack',{
                     //     actualUser: actualUser,
@@ -99,7 +99,7 @@ const MyProfile = ({ navigation, route }) => {
         catch (error) {
             console.log(error);
             isLoading(false);
-            alert('Please pick a valid jpeg or png image');
+            alert('Please pick a valid JPEG or PNG image');
         }
     }
 

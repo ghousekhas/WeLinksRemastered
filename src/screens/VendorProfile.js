@@ -26,7 +26,7 @@ const VendorProfile = ({ navigation, route }) => {
     const [loadMessage, setLoadMessage] = useState('');
 
    // const [actualUser, setActualUser] = useState(route.params.actualUser);
-    const [vendorImage, setVendorImage] = useState(' ')
+    const [vendorImage, setVendorImage] = useState(VendorProfileDetails.vendor_img_url)
     // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
     console.log("KHEY "+JSON.stringify(VendorProfileDetails))
     const words = {
@@ -71,12 +71,15 @@ const VendorProfile = ({ navigation, route }) => {
                     action: 'updateVendor',
                     user_id: profileDetails.user_id,
                     vendor_id : VendorProfileDetails.vendor_id,
-                    address_id : VendorProfileDetails.addresses[0].addr_id
+                    address_id : VendorProfileDetails.addresses[0].addr_id,
+                   
+
 
 
                 }), formdata).then((response) => {
                     console.log("picture uploaded "+response.data);
-                    setVendorImage()
+                   // setVendorImage(response.data.vendor_img_url)
+                   // console.log("vii " +vendorImage);
                     //setActualUser({...actualUser,})
                    // setProfileDetails({ ...profileDetails, img_url: res.uri })
                   //  route.params.getUserDetails(0, auth().currentUser);
@@ -87,7 +90,7 @@ const VendorProfile = ({ navigation, route }) => {
                         'Your company profile picture has been updated successfully'
                     )
                     authContext.sync();//retrieveData();
-                    route.params.drawerRefresh()
+                //    route.params.drawerRefresh()
 
                     // setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
                     //     actualUser: actualUser,
@@ -109,7 +112,7 @@ const VendorProfile = ({ navigation, route }) => {
             console.log(error);
             isLoading(false);
 
-            alert('Please pick a valid jpeg or png image');
+            alert('Please pick a valid JPEG or PNG image');
         }
     }
 
@@ -295,8 +298,8 @@ const VendorProfile = ({ navigation, route }) => {
                             {VendorProfileDetails != null ? (
                                 <Image   // Change to Image
                                     style={style.avatar}
-                               //     source={require(VendorProfileDetails.vendor_img_url.trim() != '' ? { uri: VendorProfileDetails.vendor_img_url.trim() } : require('../../assets/notmaleavatar.png'))}
-                                    source={require('../../assets/notmaleavatar.png')}
+                                   source={VendorProfileDetails.vendor_img_url.trim() != null ? {uri : VendorProfileDetails.vendor_img_url.trim()} : require('../../assets/notmaleavatar.png')}
+                                  //  source={require('../../assets/notmaleavatar.png')}
                                 />
                             ) : null}
                             <View style={{ position: 'absolute', bottom: '5%' }}>
