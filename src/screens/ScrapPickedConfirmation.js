@@ -8,6 +8,7 @@ import SubmitButton from '../components/SubmitButton';
 import sendNotif from '../Utility/sendNotificationTo';
 import auth from '@react-native-firebase/auth';
 import RatingComponent from '../components/RatingsComponent';
+import { useAuth } from '../services/auth-service';
 
 
 
@@ -23,6 +24,7 @@ export default function ScrapPickedConfirmation({navigation,route}){
     const [show,setShow] = useState(false);
     const {user} = route.params;
     const [stars,setStars] = useState(0);
+    const authContext = useAuth();
 
 
   //   console.log("cd "+ JSON.stringify(cardDetail.item))
@@ -76,6 +78,8 @@ export default function ScrapPickedConfirmation({navigation,route}){
         })).then((response) => {
             console.log("OH NO"+response+" "+yesOrno)
            alert('Status Updated Successfully')
+           authContext.sync();
+
          //   isSubmitted(false)
          sendNotif("Action Pending","Update your order details!","user"+cardDetails.userID, notification_identifiers.misc)
          navigation.navigate('VendorDashboard')
@@ -102,8 +106,9 @@ export default function ScrapPickedConfirmation({navigation,route}){
                 console.log("Confirm pick Up " + response.data.status)
               //  alert('Pickup marked successfully')
                // isSubmitted(false)
+               authContext.sync();
                sendNotif("Update","Order pick-up confirmed by user!","vendor"+cardDetails.vendorID, notification_identifiers.vendor_scrap_orders)
-
+                authContext.sync();
                 route.params.refreshCallback(0,auth().currentUser);
 
             })
