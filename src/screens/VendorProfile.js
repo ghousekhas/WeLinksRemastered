@@ -15,6 +15,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Config } from '../Constants';
 import { useAuth } from '../services/auth-service';
 
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const VendorProfile = ({ navigation, route }) => {
@@ -22,6 +23,7 @@ const VendorProfile = ({ navigation, route }) => {
     const [address, setAddress] = useState([]);
     const [servedAddresses, setServedAddresses] = useState([])
     const [vendorID, setVendorID] = useState(null);
+    const [loading,setLoading] = useState(false);
     const {actualUser} = route.params;
     const authContext = useAuth();
     const VendorProfileDetails = authContext.vendor;
@@ -34,14 +36,31 @@ const VendorProfile = ({ navigation, route }) => {
         rupee: '₹',
 
     }
+    const isLoading = (msg = '', state) => {
+
+        if (msg !== '')
+            setLoadMessage(msg);
+
+        setLoading(state);
+
+
+    };
 
     const changeImage = async () => {
         try {
+            isLoading("Loading", true);
+
             const res = await DocumentPicker.pick({ type: [DocumentPicker.types.images] });
             var formdata = new FormData();
-            if (res.size / 1000 > 50)
+            if (res.size / 1000 > 50){
                 alert('Selected picture must be below 50kb');
+                isLoading(false);
+
+            }
+               
             else {
+                isLoading("Updating Profile",true)
+
                 formdata.append('vendor_img_url', {
                     uri: res.uri,
                     type: 'image/jpeg',
@@ -60,7 +79,9 @@ const VendorProfile = ({ navigation, route }) => {
                     //setActualUser({...actualUser,})
                    // setProfileDetails({ ...profileDetails, img_url: res.uri })
                   //  route.params.getUserDetails(0, auth().currentUser);
-                    Alert.alert(
+                  isLoading(false);
+  
+                  Alert.alert(
                         'Profile updated',
                         'Your company profile picture has been updated successfully'
                     )
@@ -76,6 +97,8 @@ const VendorProfile = ({ navigation, route }) => {
 
                 }, (error) => {
                     console.log(error);
+                    isLoading(false);
+
                     alert('Error uploading your profile picture, please try again later');
                 })
             }
@@ -83,6 +106,8 @@ const VendorProfile = ({ navigation, route }) => {
         }
         catch (error) {
             console.log(error);
+            isLoading(false);
+
             alert('Please pick a valid jpeg or png image');
         }
     }
@@ -184,10 +209,11 @@ const VendorProfile = ({ navigation, route }) => {
     }
 
     useEffect(() => {
+
         //retrieveData();
         navigation.addListener('focus',()=>{
             console.log('fires')
-            authContext.sync();//retrieveData();
+        //    authContext.sync();//retrieveData();
         });
 
 

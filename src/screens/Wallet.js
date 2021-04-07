@@ -6,6 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import SubmitButton from '../components/SubmitButton';
 import WebView from 'react-native-webview';
 
+
 const Wallet = ({navigation,route}) => {
     const constants={
         balance: `Wallet Balance`,
