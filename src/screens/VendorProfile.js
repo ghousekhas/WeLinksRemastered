@@ -317,7 +317,7 @@ const VendorProfile = ({ navigation, route }) => {
 
                                 </TouchableOpacity>
                                 <Spinner
-                                    can
+                                    cancelable
                                     visible={loading}
                                     textContent={loadMessage}
                                     textStyle={{ color: '#FFF' }}
