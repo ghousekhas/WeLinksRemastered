@@ -77,7 +77,7 @@ const VendorProfile = ({ navigation, route }) => {
 
 
                 }), formdata).then((response) => {
-                    console.log("picture uploaded "+response.data);
+                    console.log("picture uploaded yoo "+response.data);
                    // setVendorImage(response.data.vendor_img_url)
                    // console.log("vii " +vendorImage);
                     //setActualUser({...actualUser,})
@@ -86,7 +86,7 @@ const VendorProfile = ({ navigation, route }) => {
                   isLoading(false);
   
                   Alert.alert(
-                        'Profile updated',
+                        'Profile updated yo',
                         'Your company profile picture has been updated successfully'
                     )
                     authContext.sync();//retrieveData();
@@ -298,7 +298,7 @@ const VendorProfile = ({ navigation, route }) => {
                             {VendorProfileDetails != null ? (
                                 <Image   // Change to Image
                                     style={style.avatar}
-                                   source={VendorProfileDetails.vendor_img_url.trim() != null ? {uri : VendorProfileDetails.vendor_img_url.trim()} : require('../../assets/notmaleavatar.png')}
+                               //    source={VendorProfileDetails.vendor_img_url.trim() != null ? {uri : VendorProfileDetails.vendor_img_url.trim()} : require('../../assets/notmaleavatar.png')}
                                   //  source={require('../../assets/notmaleavatar.png')}
                                 />
                             ) : null}

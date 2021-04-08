@@ -53,7 +53,7 @@ export default function MySubscriptions({navigation,route}){
        //     console.log("dataaa " + item.product_name);
         
     //        console.log(item.subscription_days);
-        if(item.order_status != "Canceled" )
+        
             data.push({
                 name: item.product_name,
                 imageUrl: item.product_image,
@@ -79,7 +79,7 @@ export default function MySubscriptions({navigation,route}){
         Axios.get(Config.api_url+'php?action=getSubscriptions&user_id='+user.user_id)
         .then((response)=>{
           //  console.log(user.user_id);
-         //  console.log("resp" +response.data.);
+           console.log("resp" +JSON.stringify(response.data));
             //data=response.data;
             prepareResponse(response.data);
             setExtraData(Math.random(0.5));

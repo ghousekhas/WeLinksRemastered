@@ -405,6 +405,7 @@ const Cart = ({ route, navigation, Tag }) => {
                             });
  
                             }, (error) => {
+                                alert("Something went wrong");
                                 console.log("Error " + error);
             
                             })
@@ -427,7 +428,6 @@ const Cart = ({ route, navigation, Tag }) => {
                             const endDate = route.params.endDate;
                             console.log('vendortype', route.params.vendorType);
 
-                            console.log('pop to top')
                             Axios.post(Config.api_url + 'php?action=addSubscription&' + qs.stringify({
                                 user_id: actualUser.user_id,
                                 vendor_id: route.params.vendorId,
