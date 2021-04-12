@@ -9,6 +9,7 @@ import sendNotif from '../Utility/sendNotificationTo';
 import auth from '@react-native-firebase/auth';
 import RatingComponent from '../components/RatingsComponent';
 import { useAuth } from '../services/auth-service';
+import {getDate} from '../Utility/dateConvertor';
 
 
 
@@ -141,17 +142,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
         return(res)
     }
-    const getDate = (date) => {
-    //   console.log("dayte"+date)
-
-   let dayte = date.substring(0,11)
-    let arr = dayte.split("-");
-  //  console.log(arr)
-    let months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    return (arr[2].trim() + "-" + months[arr[1].replace(/^0+/, "")] + "-" + arr[0])
-       
-
-    }
+   
 
     
 

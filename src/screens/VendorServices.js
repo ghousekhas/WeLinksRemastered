@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, StyleSheet, ScrollView, Image, FlatList, Dimensions, TouchableOpacity, Animated, Modal, TouchableHighlight } from 'react-native';
-import { Style, dimen, Colors, Styles } from '../Constants';
-import TextBox from '../components/ui_components/TextBox';
+import { View, TextInput, Text, StyleSheet, ScrollView, Image, FlatList, Dimensions, TouchableOpacity, Animated } from 'react-native';
+import { dimen, Colors, Styles } from '../Constants';
 import Button from '../components/ui_components/Button';
-import VendorSelectProduct from '../components/VendorSelectProduct';
 import SubmitButton from '../components/SubmitButton';
-import DocumentPicker from 'react-native-document-picker';
-import { useNavigation, DrawerActions, useTheme } from '@react-navigation/native';
 import AppBar from '../components/ui_components/AppBar';
 import { AntDesign } from '@expo/vector-icons';
 import Axios from 'axios';

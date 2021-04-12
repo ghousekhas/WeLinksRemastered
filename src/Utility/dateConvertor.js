@@ -29,3 +29,26 @@ export function getDuration(startDate,endDate){
 
 
 }
+
+export function sortDate(date){
+      
+    console.log("Wrong date " + date)
+    let d = date.split('-');
+    
+    let m = mn[Number(d[1] >= 10 ? d[1] : d[1]%10)];
+    console.log(`${d[2]}-${m}-${d[0]}}`)
+    return `${d[2]}-${m}-${d[0]}`
+
+
+}
+
+export function getDate(date){
+    console.log("dayte" + date)
+    let dayte = date.substring(0, 11)
+    let arr = dayte.split("-");
+    console.log(arr)
+    let months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    return (arr[2].trim() + "-" + months[arr[1].replace(/^0+/, "")] + "-" + arr[0])
+
+}

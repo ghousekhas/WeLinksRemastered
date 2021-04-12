@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native';
-
+import {sortDate} from '../Utility/dateConvertor';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config,monthNames as mn, notification_identifiers} from '../Constants';
 import GenericSeperator from '../components/ui_components/GenericSeperator';
 import AppBar from '../components/ui_components/AppBar';
@@ -20,17 +20,7 @@ export default function AwardBid({navigation,route}){
  console.log(thisVendor.image)
  const [submitted,isSubmitted] = useState(false);
 
- const sortDate = (date) => {
-      
-    console.log("Wrong date " + date)
-    let d = date.split('-');
-    
-    let m = mn[Number(d[1] >= 10 ? d[1] : d[1]%10)];
-    console.log(`${d[2]}-${m}-${d[0]}}`)
-    return `${d[2]}-${m}-${d[0]}`
 
-
-}
 
  const awardTheBid = ()=>{
      isSubmitted(true);
@@ -88,10 +78,6 @@ export default function AwardBid({navigation,route}){
                     <Text style={{ ...Styles.heading, fontWeight: 'bold', fontSize: 14, color: 'gray' }}>{" ₹ " + thisVendor.amount}</Text>
 
                 </View>
-
-
-
-
         </View>
         {tag != 'Cancelled' ? 
         <View style={{marginTop: '10%'}}>
@@ -115,7 +101,6 @@ const styles = StyleSheet.create({
 
     card: {
         width: dimen.width - dimen.width / 10,
-        // height: dimen.height/3.8,
         borderRadius: 15,
         borderColor: Colors.seperatorGray,
         borderWidth: 0.5,
@@ -124,22 +109,15 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: 'white',
         elevation: 1,
-       // height: dimen.height / 3
     },
     address: {
         padding: '1%',
         fontSize: 14,
         marginTop: '3%',
         flex: 1,
-
-
     },image: {
         width: 70,
         height: 90,
-        //  position: 'absolute',
-        //  margin :'1%'
-
-
     },
 
 })

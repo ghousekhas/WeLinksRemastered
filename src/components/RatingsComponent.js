@@ -4,7 +4,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import {dimen, strings_screen,Colors} from '../Constants';
 
 
-
+/*
+    Renders stars and manages touch input
+*/
 
 //each rating is a number from 1 to 5 representing stars given.
 export default function RatingComponent({starChanged = (rating)=>{}, initRatings = 0 ,numStars = 5}){

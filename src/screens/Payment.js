@@ -8,6 +8,7 @@ import qs from 'qs';
 import Spinner from 'react-native-loading-spinner-overlay';
 import sendNotif from '../Utility/sendNotificationTo';
 import { NavigationActions } from 'react-navigation';
+import { useAuth } from '../services/auth-service';
 
 
 
@@ -15,24 +16,11 @@ import { NavigationActions } from 'react-navigation';
 
 
 const Payment = ({ route,navigation }) => {
-    const {actualUser} = route.params;
+    const actualUser = useAuth().user;
     const {order} = route.params;
     const {wallet} = route.params;
     const {online_pay} = route.params;
-
-  //  console.log(JSON.stringify(online_pay))
-   //  const {navigation} = route.params;
-//   const  order={
-//         id:10,
-//         amount:800
-//     }
-//    const actualUser={
-//         name:'Anam',
-//         phone:97892328392,
-//         email:''
-//     }
     const [spinnerVis,setSpinnerVis] = useState(false);
-    // console.log("usa "+ JSON.stringify(actualUser))
 
     const showSpinner = (tf) =>{
         setSpinnerVis(tf);
@@ -66,7 +54,6 @@ const Payment = ({ route,navigation }) => {
    onLoadEnd={() => showSpinner(false)}
    onMessage ={(msg) => {
        console.log("msg! "+ JSON.stringify(msg.nativeEvent.data));
-      // alert('Hoi')
     //   navigation.popToTop()
     if(msg!= undefined){
         if(msg.nativeEvent.data === "Success"){

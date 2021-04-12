@@ -17,6 +17,7 @@ import LottieView from 'lottie-react-native';
 import { setStatusBarHidden } from 'expo-status-bar';
 import {Config} from  '../Constants';
 import { FontAwesome5 } from '@expo/vector-icons';
+import {getDate} from '../Utility/dateConvertor';
 
 let data=[];
 
@@ -210,17 +211,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
         res.push(<Text>   </Text>)
         return(res)
     }
-    const getDate = (date) => {
-       //console.log("dayte"+date)
-   let dayte = date.substring(0,11)
-    let arr = dayte.split("-");
-    //console.log(arr)
-    let months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-        return (arr[2].trim() + "-" + months[arr[1].replace(/^0+/, "")] + "-" + arr[0])
-
-    }
-
+    
     const goToOrder =()=>{
         navigation.navigate('MyScrapSaleOrder',{
             actualUser: actualUser,

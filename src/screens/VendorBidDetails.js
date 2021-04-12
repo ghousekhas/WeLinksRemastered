@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
-import { Picker } from '@react-native-community/picker';
-import { Colors, TextSpinnerBoxStyles, dimen, Styles, Config, monthNames } from '../Constants';
-import GenericSeperator from '../components/ui_components/GenericSeperator';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Colors, dimen, Styles, Config, monthNames } from '../Constants';
 import AppBar from '../components/ui_components/AppBar';
-import moment from 'moment';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import SubmitButton from '../components/SubmitButton';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';

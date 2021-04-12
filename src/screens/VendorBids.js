@@ -29,7 +29,7 @@ export default function VendorBids(){
 
     useEffect(() => {
         console.log('refreshesdfdd');
-        //getBids();
+        getBids();
     }, [tab]);
 
 
