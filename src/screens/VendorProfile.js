@@ -184,8 +184,7 @@ const VendorProfile = ({ navigation, route }) => {
 
         console.log('mounted');
         console.log(route.params.actualUser);
-        //setActualUser(route.params.actualUser);
-        //setProfileDetails(route.params.actualUser);
+    
     }
 
     useEffect(() => {
@@ -468,14 +467,7 @@ const VendorProfile = ({ navigation, route }) => {
                         </TouchableOpacity>
 
                     </View>
-
-
-
-
                 </View>
-
-
-
                 <View style={{ height: dimen.height / 30, width: dimen.width }} />
 
             </ScrollView>
