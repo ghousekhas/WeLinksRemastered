@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet} from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import {Colors, TextSpinnerBoxStyles,dimen} from '../Constants';
+import {Colors, TextSpinnerBoxStyles,dimen} from '../../Constants';
 import {FontAwesome5} from '@expo/vector-icons';
 
 export default function SpinnerBox({title,changeOption,data}){

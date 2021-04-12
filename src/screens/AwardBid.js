@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native';
 
 import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config,monthNames as mn, notification_identifiers} from '../Constants';
-import GenericSeperator from '../components/GenericSeperator';
-import AppBar from '../components/AppBar';
+import GenericSeperator from '../components/ui_components/GenericSeperator';
+import AppBar from '../components/ui_components/AppBar';
 import SubmitButton from '../components/SubmitButton';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';

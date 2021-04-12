@@ -1,95 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, StyleSheet, ScrollView, Image, FlatList, Dimensions, TouchableOpacity, Animated, Modal, TouchableHighlight } from 'react-native';
 import { Style, dimen, Colors, Styles } from '../Constants';
-import TextBox from '../components/TextBox';
-import Button from '../components/Button';
+import TextBox from '../components/ui_components/TextBox';
+import Button from '../components/ui_components/Button';
 import VendorSelectProduct from '../components/VendorSelectProduct';
 import SubmitButton from '../components/SubmitButton';
 import DocumentPicker from 'react-native-document-picker';
 import { useNavigation, DrawerActions, useTheme } from '@react-navigation/native';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { AntDesign } from '@expo/vector-icons';
 import Axios from 'axios';
 import boyerMooreHorspool from '../Utility/Boyer';
 import { Buffer } from 'buffer';
 
+/* This screen appears when vendor has to select his/her/it 's services 
+*/
+
 
 var milkProducts = [
-    {
-        name: 'Nandini Toned',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-
-
-    }, {
-        name: 'Heritage',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }, {
-        name: 'Amul',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }, {
-        name: 'Mother Dairy',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }
-
 ];
 var paperProducts = [
-    {
-        name: 'Times',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-
-
-    }, {
-        name: 'Hindu',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }, {
-        name: 'Indian Express',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }, {
-        name: 'Deccan Herald',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }
-
 ];
 
 var homeProducts = [
-    {
-        name: 'Phone',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-
-
-    }, {
-        name: 'Newspapers',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }, {
-        name: 'Electronics',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }
 ];
-var officeProducts = [
-    {
-        name: 'Metal',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-
-
-    }, {
-        name: 'Plastic',
-        product_image_url: 'https://reactnative.dev/img/tiny_logo.png',
-        sel: false
-    }
-
-];
+var officeProducts = [];
 
 // Final selected sets
 let selectedMilk = new Set();
@@ -118,17 +53,6 @@ export default function VendorServices({  route, navigation }) {
         officescrapCollection: 'Office Scrap Collection'
 
     }
-
-
-    // const [selectedMilk,setSM] = useState(new Set());
-    // const [selectedPaper,setSP] = useState(new Set());
-    // const [selectedHome,setSH] = useState(new Set());
-    // const [selectedOffice,setSO] = useState(new Set());
-
-
-
-
-
 
 
     const [service, setService] = useState(''); // Selected service
@@ -601,7 +525,7 @@ export default function VendorServices({  route, navigation }) {
 
     const searchProducts = (text) => {
         var initIndex = 0;
-        //console.log(boyerMooreHorspool(Buffer.from('haystack'),Buffer.from('asda')));
+        //Using boyer moore horspool to search text and sort them accordingly
         var arr = selectData();
         console.log(text.toString())
         if (text.toString().length > 3)

@@ -1,79 +1,223 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { View, StyleSheet, Text, Dimensions, Image, BackHandler } from 'react-native';
-import { TouchableOpacity, FlatList, BorderlessButton } from 'react-native-gesture-handler';
+import { TouchableOpacity, FlatList, ScrollView } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Avatar } from 'react-native-paper';
-import AppBar from '../components/AppBar';
-import { Colors, Styles } from '../Constants';
+import { Styles, Colors, dimen } from '../Constants';
+import Accordion from 'react-native-collapsible/Accordion';
+import * as Animatable from 'react-native-animatable';
+import Stars from '../components/Stars';
+import Product from '../components/Product';
+import { Entypo } from '@expo/vector-icons'
+import AppBar from '../components/ui_components/AppBar';
 import Axios from 'axios';
 import qs from 'qs';
-import { Feather } from '@expo/vector-icons';
-import { Config, dimen } from '../Constants';
-import GenericSeperator from '../components/GenericSeperator';
-var vendors=[];
+import { Config } from '../Constants';
 
-const MilkVendors = (props) => {
-    const address = props.route.params.address;
-    const { actualUser } = props.route.params;
-    const [vendorExtraData, updateVendor] = useState(1);
-    const { tag } = props.route.params;
-    const [nameY, setNameY] = useState(0);
-    const [imageHeight, setImageHeight] = useState(0);
+/*
+Milk Vendors Screen
+*/
 
-    console.log("Address "+JSON.stringify(address));
-    console.log('milky', actualUser)
+export default class MilkVendors extends React.Component {
+    constructor(props) {
+        super(props);
+        var brandImagesData = [];
+        var sections = [];
+        this.state = {
+            brandImagesData: [],
+            sections: [],
+            collapsed: true,
+            activesections: [],
+            brangImageRemount: Math.random(0.5).toString(),
+            sectionsRemount: Math.random(0.4).toString()
 
-    const words = {
-        milk: 'Milk vendors in your locality',
-
+        };
     }
 
-    const retrieveData = async (t) => {
-        if (t < 0)
-            return;
-        console.log('retrieving milk vendors');
-        console.log(qs.stringify({
-            vendor_type: 'milk',
-            lat: address.addr_latitude,
-            lng: address.addr_longitude
-        }));
-        Axios.get(Config.api_url + 'php?action=getVendors&' + qs.stringify({
-            vendor_type: 'milk',
-            lat:  address.addr_latitude, // 18.5672,
-            lng:  address.addr_longitude // 73.7583  
-        })).then((response) => {
-            try {
-               // console.log('I sent '+address.addr_latitude+" "+address.addr_longitude)
-                console.log("Vendors: "+ JSON.stringify(response.data.vendor));
-                vendors = response.data.vendor;
-                updateVendor(Math.random(0.5));
+    
+    
 
-            }
-            catch (error) {
-                console.log('milkvendoreasarror', error);
-                //retrieveData(t-1);
-            }
-        }, (error) => {
-            console.log('milkvendorerror', error);
-            // retrieveData(t-1);
-        })
+    componentDidMount() {
+        console.log('MilkVendorEntered')
+        Axios.get(Config.api_url + 'php?action=getProductsList&' + qs.stringify({
+            vendorID: this.props.route.params.vendorId,
+            vendor_type: 'milk'
+        }), {
+            'Accept-Encoding': 'gzip'
+        }
+        ).then((result) => {
+            var res = result.data.products;
+            console.log('result', res);
+            console.log('res', res.categories);
+            this.setState({ sections: res.categories });
+            this.setState({ brandImagesData: res.brands });
+
+
+
+        }).catch((err) => {
+            console.log(err);
+
+        });
     }
 
-    useEffect(() => {
-        retrieveData(10);
-    }, []);
+
+
+    toggleExpanded = () => {
+        this.setState({ collapsed: !collapsed });
+    }
+    setSectionsFunction = sections => {
+        this.setState({
+            activesections: sections.includes(undefined) ? [] : sections,
+        });
+        console.log(sections);
+        setTimeout(() => {
+            if (sections.length != 0)
+                this.scrollView.scrollTo({
+                    x: 0,
+                    y: (Dimensions.get('window').height / 9 - 20) * (sections[0]),
+                    animated: true
+                });
+        }, 1000);
+    };
+
+    renderItem = ({ item }) => {
+        return (
+            <View style={{ flex: 0 }}>
+                <Image style={{ ...Styles.horizontalImage }} source={{ uri: item.brand_img_url }
+                } />
+            </View> 
+        );
+    };
+
+    renderSectionTitle = () => {
+        return (
+            <View style={Styles.collapsedView} >
+                <Text style={Styles.collapsedText}>collapsedText</Text>
+                <Entypo name='chevron-down' size={24} color={'black'} />
+            </View>
+
+        );
+    };
+    renderHeader = (section, _, isActive) => {
+        var actualUser = this.props.route.params.actualUser;
+        const { tag } = this.props.route.params;
+        console.log('vs', actualUser);
+
+        var expanderButton = (<Entypo name='triangle-down' size={20} color={'black'} />)
+
+
+        if (!isActive)
+            expanderButton = (<Entypo name='chevron-down' size={21} color={'black'} />)
+        else
+            expanderButton = (<Entypo name='chevron-up' size={21} color={'black'} />)
+
+        return (
+            <Animatable.View
+                duration={400}
+                style={{flexDirection: 'row', justifyContent: 'space-between', margin: 5 }}
+                // style={Styles.collapsedView}
+                transition="backgroundColor"
+            >
+                <Text style={{fontWeight: 'bold', fontSize: 14,color: 'black',paddingHorizontal: 10, paddingVertical: 5}} >{(Object.keys(section))[0]}</Text>
+                {expanderButton}
+            </Animatable.View>
+        );
+    };
+
+
+    renderContent = (section, _, isactive) => {
+        console.log(section[(Object.keys(section))[0]]);
+
+        return (
+            <Animatable.View
+                duration={400}
+                style={{ ...Styles.collapsibleView }}
+                transition="backgroundColor">
+                <ScrapFlatList navigation={this.props.navigation} route={{ params: { name: 'SampleVendor', stars: 4, reviews: 68, vendorId: this.props.route.params.vendorId, actualUser: this.props.route.params.actualUser, address: this.props.route.params.address,...this.props.route.params } }} data={section[(Object.keys(section))[0]]} />
+            </Animatable.View>);
+       
+    };
+
+    rendCont = (section, _, isactive) => {
+        return (
+            <View style={{ height: 300, width: 300,backgroundColor: 'purple' }}>
+
+            </View>
+        )
+    }
+
+    render() {
+        const { name, stars, reviews, address, vendorAddress, imageUrl } = this.props.route.params;
+        return (<View style={{ ...StyleSheet.absoluteFill }}>
+            <View>
+                <AppBar title={name} back={true} funct={() => {
+                    // props.navigation.toggleDrawer();
+                    this.props.navigation.pop();
+                }} />
+            </View>
+            <View style={{ height: dimen.height / 16 }} />
+
+            <View style={{ flex: 0, backgroundColor: Colors.secondary, padding: 10 }}>
+<View style={{margin: '0%',padding: '0%'}}>
+<Vendor style={{ height: '40%', width: '80%', alignSelf: 'center' }} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl} />
+
+</View>
+                <View>
+                <Text style={{ paddingLeft: 14,fontSize: 15, fontWeight: 'bold', marginBottom: 5 }}>Brands:</Text>
+                <FlatList
+                    style={{...Styles.halfFlatlist,paddingLeft:5}}
+                    renderItem={this.renderItem}
+                    data={this.state.brandImagesData}
+                    horizontal={true}
+                    keyExtractor={(item, index) => index.toString()} />
+                    </View>
+            </View>
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
+                <ScrollView ref={(ref) => this.scrollView = ref}>
+                    <Accordion
+                        style={{...Styles.accordion}}
+                        sections={this.state.sections}
+                        renderContent={this.renderContent}
+                        touchableComponent={TouchableOpacity}
+                        expandMultiple={false}
+                        renderHeader={this.renderHeader}
+                        activeSections={this.state.activesections}
+                        onChange={this.setSectionsFunction}
+                    />
+                </ScrollView>
+            </View>
+
+        </View>
+
+        )
+    }
+}
 
 
 
+const ScrapFlatList = ({ route, navigation, data }) => {
+
+
+
+
+
+
+
+    const { name } = route.params;
+    const { stars } = route.params;
+    const { tag } = route.params;
+
+    const { reviews, actualUser, address } = route.params;
+    console.log(actualUser)
 
     useFocusEffect(
         React.useCallback(() => {
             const onBackPress = () => {
-                //  console.log('Go to homescreen');
-                props.navigation.navigate('AddressList');
+                //     console.log('Go to milk');
+                navigation.navigate('MilkVendors');
                 return true;
 
             };
@@ -84,146 +228,105 @@ const MilkVendors = (props) => {
                 BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         })
     );
-
-
-
-    return (<View style={{ flex: 1, backgroundColor: 'white' }}>
-        <AppBar title={'Milk Vendors'} back={true} funct={() => {
-            props.navigation.pop();
-        }} />
-        <View style={{ flexDirection: 'row',marginBottom: dimen.mVm, marginTop: Dimensions.get('window').height / 16+ dimen.mVm,marginHorizontal: dimen.sHm,justifyContent: 'flex-start',alignContent: 'flex-start'}}>
-            <Image style={{  aspectRatio: 1, paddingHorizontal: dimen.width/30, flex: 2 }} source={actualUser.img_url.trim() != '' ? { uri: actualUser.img_url } : require('../../assets/notmaleavatar.png')} />
-
-
-            <View style={{ flex: 5, justifyContent: 'space-between',marginLeft: dimen.sHm }} >
-                <Text style={{ ...style.username }}>{actualUser.name}</Text>
-                <View style={{ ...style.address }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Feather name="map-pin" size={12} color="black" />
-                        <Text style={{ fontSize: 13 }}>{" " + address.addr_name}</Text>
-
-                    </View>
-                    <Text numberOfLines={3} style={{ fontSize: 11 }}>{address.addr_details + ".\nLandmark: "}</Text>
-                    <View style={{ height: 0.5 }} />
-
-
-                    <Text numberOfLines={1} style={{ fontSize: 11 }}>Landmark: {address.addr_landmark}</Text>
-                </View>
-            </View>
-        </View>
-        <View style={Styles.grayfullline} />
-        <View style={style.heading}>
-            <Text style={{ ...Styles.title, fontSize: 17,marginVertical: dimen.sVm}}>{words.milk}</Text>
-        </View>
-
-        {vendors.length==0? <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-        <Text style={{color:'black',fontWeight:'bold',fontSize:14}}>There are no registered vendors in your locality</Text>
-
-        </View>:
-         <FlatList
-            data={vendors}
-            extraData={vendorExtraData}
+    const vendorId = route.params.vendorId;
+  
+    // const order = navigation.getParams('order');
+    return (<View style={{ ...style.container }}>
+        <FlatList
+            data={data}
             keyExtractor={(item) => item.name}
-            ItemSeparatorComponent={() => <GenericSeperator />}
-            // separator= {<GenericSeperator />}
+            style={{ maxHeight: dimen.height * 0.5}}
             renderItem={({ item }) => {
-                const vendorName = item.company_name;
-                const vendorStars = item.avg_ratings;
-                const vendorReviews = item.reviews_number;
-                const vendor_id = item.vendor_id;
-                var brandsString = '';
-                const brands = item.brands != undefined ? item.brands : [];
-                const imageUrl = item.vendor_img_url;
-                const vendorAddress = item.addresses[0] != undefined ? item.addresses[0].addr_details + ' ' + item.addresses[0].addr_landmark + ' ' + item.addresses[0].addr_pincode : ' ';
-        //        console.log('itembrands', brands);
-                for (let i = 0; i < brands.length - 1; i++)
-                    brandsString = brandsString + brands[i].brand.toString() + ',' + ' ';
-                if (brands.length > 0)
-                    brandsString = brandsString + brands[brands.length - 1].brand.toString();
-        //        console.log(brandsString);
+                console.log(item.product_img_url);
+
                
+
                 return (
-                    <Vendor name={vendorName} brands={brandsString} stars={item.avg_ratings} reviews={item.reviews_number} imageUrl={imageUrl}
-                        onSelected={() => {
+                    
+                    <Product place="list" name={item.name} quantity={item.quantity} price={item.price} url={item.product_img_url} imageUrl={item.product_img_url}
+                        subscribe={() => {
 
-                            props.navigation.navigate('VendorScreen', {
+                            const prodName = item.name;
+                            const prodQuan = item.quantity;
+                            const prodRate = item.price;
+                            const productId = item.id
+
+
+                            navigation.navigate('SubscribeScreen', {
                                 tag: 'Milk',
-                                name: vendorName,
-                                stars: vendorStars,
-                                reviews: vendorReviews,
-                                address: address,
-                                vendorAddress: vendorAddress,
-                                imageUrl: imageUrl,
+                                pname: prodName,
+                                pquan: prodQuan,
+                                prate: prodRate,
+                                imageUrl: item.product_img_url,
                                 actualUser: actualUser,
-                                vendorId: vendor_id,
-                                ...props.route.params
+                                vendorId: vendorId,
+                                productId: productId,
+                                vendorType: 'milk',
+                                address: address,
+                                ...route.params
                             })
+                        }
+                        } />
 
-
-                        }}
-
-                    />
                 )
-
             }}
-        />}
 
+        />
 
 
     </View>)
 };
 
+
 const style = StyleSheet.create({
+    container: {
+
+        padding: 1,
+
+    },
     header: {
-        marginVertical: '5%',
-        marginHorizontal: '2%',
-        //  padding: '3%',
-        //  backgroundColor: 'blue',
-        //   marginStart: '20%',
-        //  width: 0.8* dimen.width,
-        flex: 1
-
-    },
-
-    address: {
-        marginTop: '3%',
-        borderRadius: 5,
-        backgroundColor: Colors.whiteBackground,
-        borderColor: Colors.seperatorGray,
-        borderWidth: 0.5,
-
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        fontSize: 12,
-        elevation: 1
-
-    },
-    line: {
-        borderWidth: 0.5,
-        borderColor: 'gray',
-        marginVertical: '2%',
+        backgroundColor: '#E5F6FE',
+        height: Dimensions.get('window').height / 3,
+        padding: 5,
+        flexDirection: 'row'
 
 
     },
-    heading: {
-        //     marginBottom: '5%'
-    },
-    avatar: {
-
-        marginHorizontal: '3%',
-        padding: '3%',
-        alignSelf: 'flex-start',
-        marginTop: '6%'
-
-
-
-
-    }, username: {
+    name: {
+        marginTop: 0.02 * Dimensions.get('window').height,
+        marginStart: '29%',
         fontWeight: 'bold',
-        fontSize: 18,
-        color: 'black'
+        fontSize: 20
+
+    },
+    address: {
+        marginTop: 0.01 * Dimensions.get('window').height,
+        marginStart: '29%',
+        fontWeight: 'bold',
+        fontSize: 13
+    },
+    brandsTitle: {
+        color: 'gray',
+        marginStart: '29%',
+        marginTop: '2%',
+        fontWeight: 'bold'
+    },
+    review: {
+        color: 'gray',
+        marginStart: '5%',
+        marginTop: '2%',
+        fontWeight: 'bold'
+    },
+    stars: {
+
+        marginStart: '29%',
+        marginTop: '2%',
+        fontWeight: 'bold'
+    },
+    image: {
+        height: 100,
+        width: 100,
+        position: 'absolute',
+         marginStart: 10
     }
-
-})
-
-export default MilkVendors;
+});

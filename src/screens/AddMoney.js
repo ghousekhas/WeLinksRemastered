@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Dimensions} from 'react-native';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import SubmitButton from '../components/SubmitButton';
 import { Colors, dimen, Styles } from '../Constants';
 import { AuthContext, useAuth } from '../services/auth-service';

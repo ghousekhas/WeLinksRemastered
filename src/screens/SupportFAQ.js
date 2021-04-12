@@ -3,7 +3,7 @@ import {View,StyleSheet,TextInput, Dimensions,BackHandler, Linking} from 'react-
 import {Text} from 'react-native-paper';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 import sendFeedback, {sendEmail} from '../../src/Utility/EmailUtility'
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SubmitButton from '../components/SubmitButton';

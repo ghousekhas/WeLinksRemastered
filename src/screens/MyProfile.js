@@ -6,7 +6,7 @@ import { Colors } from '../Constants';
 import { Text } from 'react-native-paper';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import Axios from 'axios';
 import DocumentPicker from 'react-native-document-picker';
 import qs from 'qs';

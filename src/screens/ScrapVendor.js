@@ -9,7 +9,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import Stars from '../components/Stars';
 import Product from '../components/Product';
-import AppBar from '../components/AppBar'
+import AppBar from '../components/ui_components/AppBar'
 import Appliance from '../components/Appliance';
 import { Colors } from '../Constants';
 import Axios from 'axios';

@@ -6,7 +6,7 @@ import SubmitButton from '../components/SubmitButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment, { weekdays } from 'moment';
 import { Styles, Colors, dimen, notification_identifiers } from '../Constants'
-import AppBar from '../components/AppBar'
+import AppBar from '../components/ui_components/AppBar'
 import Axios from 'axios';
 import qs from 'qs';
 import { ScrollView } from 'react-native-gesture-handler';

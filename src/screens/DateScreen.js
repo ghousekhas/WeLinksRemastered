@@ -11,7 +11,7 @@ import SubmitButton from '../components/SubmitButton';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import moment from 'moment';
 import Date from './Date';
-import WeekPicker from '../components/WeekPicker';
+import WeekPicker from '../components/ui_components/WeekPicker';
 
 
 const DateScreen = () => {

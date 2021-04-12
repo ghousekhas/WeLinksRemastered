@@ -8,7 +8,7 @@ import Axios, * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation,useRoute} from "@react-navigation/native";
-import Button from '../components/Button';
+import Button from '../components/ui_components/Button';
 import {Config} from  '../Constants';
 
 import {Colors, dimen} from '../Constants'

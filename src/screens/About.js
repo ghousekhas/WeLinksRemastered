@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Alert } from 'react-native';
 import SubmitButton from '../components/SubmitButton';
-import TextBox from '../components/TextBox';
+import TextBox from '../components/ui_components/TextBox';
 import { Styles, dimen, Colors } from '../Constants'
 import { ScrollView } from 'react-native-gesture-handler';
 import City from './City';
 import Axios from 'axios';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { Config } from '../Constants';
 import { useAuth } from '../services/auth-service';
 

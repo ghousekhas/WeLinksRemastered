@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity,TextInput,Image} from 'react-native';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config, notification_identifiers} from '../Constants';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import Axios from 'axios';
 import qs from 'qs';
 import SubmitButton from '../components/SubmitButton';
@@ -124,31 +124,6 @@ export default function ScrapPickedConfirmation({navigation,route}){
 
     }
 
-    // const onButton=(type)=>{
-    //     if(type != 'cancel' && notes.trim() === ''){
-    //         alert('Please enter a reason/some information');
-    //         return;
-    //     }
-    //     else if(type != 'cancel'){
-    //         Axios.post(Config.api_url+'php?'+qs.stringify({
-    //             action: 'cancelBid',
-    //             user_id: actualUser.user_id,
-    //             bid_id: item.bid_id,
-    //             bid_notes: notes
-    //         })).then((response)=>{
-    //             console.log(response.data);
-    //             alert('Request completed sucessfully');
-    //             navigation.goBack();
-    //             navigation.goBack();
-    //         }
-    //         );
-    //     }
-    //     else if(type === 'cancel')
-    //         navigation.goBack();
-    //        return //dosomething
-    
-
-    // }
     
 const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,status,cart,address}) => {
     const renderCartItems = (cart) => {
@@ -364,12 +339,9 @@ const styles = StyleSheet.create({
        
     },
     rate: {
-        
-        
         fontWeight: 'bold',
         fontSize: 14,
         marginTop: '3%',
-       
         color:'black'
       
 

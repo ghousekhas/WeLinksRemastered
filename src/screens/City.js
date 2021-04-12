@@ -10,12 +10,8 @@ import auth from '@react-native-firebase/auth';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import {Config} from  '../Constants';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { useAuth } from '../services/auth-service';
-
-
-
-
 
 
 const City = ({navigation,route,user,userDetails,getUserDetails,setAboutDone}) =>{

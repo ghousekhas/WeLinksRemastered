@@ -4,7 +4,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import {Styles,strings_screen,dimen,Colors} from '../Constants';
 import RatingComponent from './RatingsComponent';
 import SubmitButton from './SubmitButton';
-import TextBox from './TextBox';
+import TextBox from './ui_components/TextBox';
 
 const strings = strings_screen.ratings;
 

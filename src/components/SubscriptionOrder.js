@@ -51,8 +51,8 @@ const SubscriptionOrder = ({tag,name,quantity,rate,num,days,startDate,endDate,qu
         {
           text: "Confirm",
           onPress: () => {if(tag == "Milk")
-          navigation.navigate('VendorScreen')
-          else navigation.navigate('VendorScreen1')
+          navigation.navigate('MilkVendors')
+          else navigation.navigate('PaperVendors')
           },
          
         },

@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions,TouchableOpacity} from 'react-native';
 import {Styles} from '../Constants';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import Axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import {Config} from  '../Constants';

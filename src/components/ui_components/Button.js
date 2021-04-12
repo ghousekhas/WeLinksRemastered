@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Colors } from '../Constants'
+import { Colors } from '../../Constants'
 
 const Button = ({ text, onTouch, red,disable,gray }) => {
     return (<View>

@@ -2,9 +2,9 @@ import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList, Dimensions} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config, monthNames} from '../Constants';
-import GenericSeperator from '../components/GenericSeperator';
+import GenericSeperator from '../components/ui_components/GenericSeperator';
 import {Ionicons} from '@expo/vector-icons';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { Feather } from '@expo/vector-icons';
 import SubmitButton from '../components/SubmitButton'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';

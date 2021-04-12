@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import { Colors, TextSpinnerBoxStyles, dimen, Styles, Config,monthNames } from '../Constants';
-import GenericSeperator from '../components/GenericSeperator';
+import GenericSeperator from '../components/ui_components/GenericSeperator';
 import { Ionicons } from '@expo/vector-icons';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { Feather } from '@expo/vector-icons';
 import SubmitButton from '../components/SubmitButton'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -38,14 +38,8 @@ export default function VendorViewBids({ navigation,route }) {
     const [openEmtpy,isOE] = useState(false);
     const [submittedEmtpy,isSE] = useState(false);
     const [wonEmtpy,isWE] = useState(false);
-
     const {vendorID,actualUser} = route.params;
     
-
-    // console.log("Are you here vendor? "  + vendorID)
-    // console.log("Are you here user? "  + actualUser.user_id)
-
-    //const {reload} = route.params;
    
     const sortDate = (date) => {
         console.log("Wrong date " +date)
@@ -59,7 +53,6 @@ export default function VendorViewBids({ navigation,route }) {
 
     
     const getBids = async () => {
-        console.log("Console me")
         Axios.get(Config.api_url + 'php?action=getOpenBids&' + qs.stringify({
             vendor_id: vendorID,
             user_id: actualUser.user_id
@@ -97,22 +90,22 @@ export default function VendorViewBids({ navigation,route }) {
                             }
                             catch (error) {
                                 console.log('Bids Awarded Error', error);
-                                //retrieveData(t-1);
+                               
                             }
                         }, (error) => {
                             console.log('Bids Awarded Error 1', error);
-                            // retrieveData(t-1);
+                            
                         })
 
 
                     }
                     catch (error) {
                         console.log('Applied bids error', error);
-                        //retrieveData(t-1);
+                  
                     }
                 }, (error) => {
                     console.log('Applied bids error 1', error);
-                    // retrieveData(t-1);
+                   
                 })
 
             }
@@ -131,13 +124,8 @@ export default function VendorViewBids({ navigation,route }) {
 
     }, [tab]);
 
-//     useFocusEffect(() => {
-//    //     console.log('reloadin')
-//    //    getBids();
-
-//     },[reload])
-
     const renderTabs = () => {
+        //Renders Open, Submitted and Won bids
 
         return (<View style={styles.tabs}>
             <TouchableWithoutFeedback onPress={() => {
@@ -165,34 +153,21 @@ export default function VendorViewBids({ navigation,route }) {
 
     const renderCard = (cardDetails) => {
         if (tab == 1) {
-        
-            
+            //Open Bid Card
             return (<View onLayout={(event) => {
                 setCardWidth(event.nativeEvent.layout.width);
             }} style={styles.card}>
 
                 <Text style={{ ...styles.cardTitle, fontSize: 16 }}>{cardDetails.companyName}</Text>
-
-
-
-
-
-
-
                 <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{sortDate(cardDetails.bid_startdate) + " to "+ sortDate(cardDetails.bid_enddate)}</Text>
                 <View style={{ flexDirection: 'row',padding:'0.5%',alignItems:'center',justifyContent:'center' }}>
                     <Entypo name="map" size={20} color="gray" style={{flex:1}} />
                     <Text style={{ ...styles.cardTitle, color: 'gray',flex:5 }}>{cardDetails.address}</Text>
-
-
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <Entypo name="phone" size={18} color={Colors.primary} />
                     <Text style={{ ...styles.cardTitle, color: Colors.primary }}>{cardDetails.contact}</Text>
-
-
                 </View>
-
                 <View style={{ ...styles.duration, paddingVertical: 0, justifyContent: 'space-between' }}>
                     <View style={{ ...styles.duration, borderRadius: 10, borderWidth: 1, borderColor: Colors.primary, justifyContent: 'flex-start', alignSelf: 'center' }}>
                         <Feather name="truck" size={24} color="black" style={{ paddingHorizontal: 5, paddingVertical: 2 }} />
@@ -208,29 +183,14 @@ export default function VendorViewBids({ navigation,route }) {
                         <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
                     </View>
                 </View>
-                {/* <View style={{flexDirection:'row',marginTop: '6%'}}>
-                <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,marginVertical:'5%',fontSize:16}}>Active</Text>
-      
-            <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart: cardWidth/4.5}}/>
-            <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${cardDetails.contact}`}</Text>
-            </View> */}
-
-
-
             </View>)
         }
+        //Applied and awarded bids Card
         return (<View onLayout={(event) => {
             setCardWidth(event.nativeEvent.layout.width);
         }} style={styles.card}>
 
             <Text style={{ ...styles.cardTitle, fontSize: 16 }}>{cardDetails.companyName}</Text>
-
-
-
-
-
-
-
             <Text style={{ ...styles.cardTitle, color: 'gray', marginVertical: '5%' }}>{sortDate(cardDetails.bid_startdate) + " to "+ sortDate(cardDetails.bid_enddate)}</Text>
             <View style={{ flexDirection: 'row',padding:'0.5%',alignItems:'center',justifyContent:'center' }}>
                 <Entypo name="map" size={20} color="gray" style={{flex:1}} />
@@ -260,21 +220,13 @@ export default function VendorViewBids({ navigation,route }) {
                     <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
                 </View>
             </View>
-            {/* <View style={{flexDirection:'row',marginTop: '6%'}}>
-            <Text style={{...styles.cardTitle,alignItems: 'flex-end',color:Colors.blue,marginVertical:'5%',fontSize:16}}>Active</Text>
-  
-        <AntDesign name="tago"size={15} color= {Colors.primary} style={{alignSelf:'center',marginStart: cardWidth/4.5}}/>
-        <Text numberOfLines={1} style={{...styles.cardTitle,flex:1,marginStart:'1%',marginVertical:'5%'}}>{`Number of bids: ${cardDetails.contact}`}</Text>
-        </View> */}
-
             <Text style={{ ...styles.cardTitle, alignItems: 'flex-end', color: Colors.blue, marginVertical: '5%', fontSize: 16 }}>{cardDetails.status == "Closed" ? cardDetails.status : cardDetails.status}</Text>
-
-
         </View>)
 
 
 
     }
+
     const setData = () => {
         if (tab == 1)
             return openBidArray;
@@ -291,13 +243,9 @@ export default function VendorViewBids({ navigation,route }) {
         return extraData2;
     }
 
-    const renderList = () => {
-        
-    }
-
-
-
-    return (<View>
+    return (
+        //Appbar, three tabs and flatlist inside each tab managed with states
+    <View>
         <AppBar title={'View Bids'} subtitle={'Click on a bid to view details'} back={true} funct={() => {
             navigation.navigate('VendorDashboard');
         }} />

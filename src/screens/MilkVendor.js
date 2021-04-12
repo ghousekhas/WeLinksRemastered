@@ -8,21 +8,25 @@ import { FlatList, TouchableOpacity, ScrollView } from 'react-native-gesture-han
 import * as Animatable from 'react-native-animatable';
 import {Config} from  '../Constants';
 
+/* A vendor render for individual milk or newspaper 
+*/
+
 export default class MilkVendor extends React.Component{
 
     constructor(props){
         super(props);
             this.state={
-                brangImagesdata: [1,2,3,4],
-                sections: [{one: 1,two: 2},{one: 1,two: 2},{one: 1,two: 2},{one: 1,two: 2}],
+                brangImagesdata: [],
+                sections: [],
                 collapsed: true,
-                activesections: []
+                activesections: [],
+                loading: false
                                 
             };
     }
 
     componentDidMount(){
-        console.log('MilkVendorEntered')
+        //Can have a caching service for cachable APIs
         Axios.get(Config.api_url+'php?action=getProductsList&vendorID=1&vendor_type=milk',{}
         ).then((result) => {
             console.log(result);

@@ -2,7 +2,7 @@ import Axios from 'axios';
 import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet} from 'react-native';
 import WebView from 'react-native-webview';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { Styles } from '../Constants';
 import qs from 'qs';
 import Spinner from 'react-native-loading-spinner-overlay';

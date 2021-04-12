@@ -4,7 +4,7 @@ import {View, StyleSheet, Text, Dimensions,Image,BackHandler} from 'react-native
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import Vendor from '../components/Vendor';
 import { useFocusEffect } from '@react-navigation/native';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { Avatar } from 'react-native-paper';
 import { Styles,Colors, dimen } from '../Constants';
 import { Feather } from '@expo/vector-icons';

@@ -1,6 +1,6 @@
 import React,{ Fragment, useState, useRef } from 'react';
 import { View,Text,TouchableOpacity,StyleSheet,Dimensions } from 'react-native';
-import Button from './Button';
+import Button from './ui_components';
 import {Colors} from '../Constants'
 
 export default ProductOne = ({name,brands,stars,reviews,onSelected}) => {

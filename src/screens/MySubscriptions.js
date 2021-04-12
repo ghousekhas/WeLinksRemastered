@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions, BackHandler,Image} from 'react-native';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
 import { useFocusEffect } from '@react-navigation/native';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import Axios from 'axios';
 import LottieView from 'lottie-react-native';
 import {Config} from  '../Constants';

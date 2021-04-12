@@ -6,7 +6,7 @@ import { Colors } from '../Constants';
 import { Text } from 'react-native-paper';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import Axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import DocumentPicker from 'react-native-document-picker';
@@ -14,8 +14,6 @@ import qs from 'qs';
 import { AntDesign } from '@expo/vector-icons';
 import { Config } from '../Constants';
 import { useAuth } from '../services/auth-service';
-
-import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const VendorProfile = ({ navigation, route }) => {
@@ -27,10 +25,8 @@ const VendorProfile = ({ navigation, route }) => {
     const {actualUser} = route.params;
     const authContext = useAuth();
     const VendorProfileDetails = authContext.vendor;
-
-   // const [actualUser, setActualUser] = useState(route.params.actualUser);
     const [vendorImage, setVendorImage] = useState(' ')
-    // const [imageuri,setImageUri] = useState('content://com.android.providers.media.documents/document/image%3A17428');
+
     const words = {
 
         rupee: '₹',
@@ -76,9 +72,7 @@ const VendorProfile = ({ navigation, route }) => {
 
                 }), formdata).then((response) => {
                     console.log(response.data, "picutre uploaded");
-                    //setActualUser({...actualUser,})
-                   // setProfileDetails({ ...profileDetails, img_url: res.uri })
-                  //  route.params.getUserDetails(0, auth().currentUser);
+         
                   isLoading(false);
   
                   Alert.alert(
@@ -86,14 +80,7 @@ const VendorProfile = ({ navigation, route }) => {
                         'Your company profile picture has been updated successfully'
                     )
                     authContext.sync();//retrieveData();
-                    route.params.drawerRefresh()
-
-                    // setTimout(() => route.params.navdrawer.navigate('ProfileStack', {
-                    //     actualUser: actualUser,
-                    //     getUserDetails: route.params.getUserDetails
-
-                    // }), 1000);
-
+                    //route.params.drawerRefresh()
 
                 }, (error) => {
                     console.log(error);
@@ -146,13 +133,6 @@ const VendorProfile = ({ navigation, route }) => {
         });
         var replaer = new RegExp('%5B.%5D','g');
         var dataFormatted = dataUnFormatted.replace(replaer,'\[\]');
-        /*
-        var dataFormatted = dataUnFormatted.replaceAll('milk_product_ids%5B0%5D','milk_product_ids\[\]');
-        var dataFormatted = dataFormatted.replaceAll('news_product_ids%5B0%5D','news_product_ids\[\]');
-        var dataFormatted = dataFormatted.replaceAll('office_cat_ids%5B0%5D','office_cat_ids\[\]');
-        var dataFormatted = dataFormatted.replaceAll('homescrap_product_ids%5B0%5D','homescrap_product_ids\[\]');
-        var dataFormatted = dataFormatted.replaceAll('vendor_type%5B0%5D','vendor_type\[\]');
-        */
         console.log(dataFormatted);
         
        // console.log(dataUnFormatted);
@@ -210,28 +190,10 @@ const VendorProfile = ({ navigation, route }) => {
 
     useEffect(() => {
 
-        //retrieveData();
+ 
         navigation.addListener('focus',()=>{
-            console.log('fires')
-        //    authContext.sync();//retrieveData();
+           //authContext.sync();
         });
-
-
-
-        // Axios.get(Config.api_url+'php?action=getUserAddresses&user_id=' + user_id, {
-        //     'Accept-Encoding': 'gzip'ret
-        // }).then((response) => {
-
-
-        //     //     console.log("add " + response.data.addresses)
-        //     setAddresses(response.data.addresses)
-        //     //  console.log("jc" + addresses[1])
-        // }).catch((e) => {
-        //     console.log('Error with addresses: ' + e);
-        // });
-
-
-
 
     }, [route.params.actualUser])
 
@@ -239,17 +201,12 @@ const VendorProfile = ({ navigation, route }) => {
         React.useCallback(() => {
             
             const onBackPress = () => {
-                //  console.log('Can\'t go back from here');
                 route.params.goBackToHome();
-
-
                 return true;
-
             };
 
 
             BackHandler.addEventListener('hardwareBackPress', onBackPress);
-            //setActualUser(route.params.actualUser);
 
             return () =>
                 BackHandler.removeEventListener('hardwareBackPress', onBackPress);
@@ -260,27 +217,26 @@ const VendorProfile = ({ navigation, route }) => {
 
         let addressArray = [];
         for (let i in addresses) {
-            // console.log(addresses[i].addr_details)
-            addressArray.push(<View>
+          
+            addressArray.push(
+            <View>
                 <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{addresses[i].addr_details}</Text>
-
-            </View>)
+            </View>
+            );
         }
-        //  console.log(addressArray)
+
 
         return addressArray;
     }
 
-    return (<View style={{ ...StyleSheet.absoluteFill }}>
+    return (
+    <View style={{ ...StyleSheet.absoluteFill }}>
         <View style={{ elevation: 100, zIndex: 100 }}>
             <AppBar title='Vendor Profile'
             funct={() => {
                 navigation.toggleDrawer();
             }} />
         </View>
-
-
-
         <View style={Styles.parentContainer}>
 
 
@@ -317,19 +273,7 @@ const VendorProfile = ({ navigation, route }) => {
 
                         <View style={style.chips}>
 
-                            {/* <TouchableOpacity onPress={() => {
-                                route.params.navDrawer.navigate('MySubscriptions', {
-                                    user: profileDetails
-                                })
-                            }
-                            }>
-                                <Text style={style.chip}>{words.subscriptions + ' (' + actualUser.subscription_count + ')'}</Text>
-                            </TouchableOpacity> */}
-
-
-                            {/* <TouchableOpacity>
-                                <Text style={style.chip}>{words.balance + ' (' + actualUser.wallet_balance + ')'}</Text>
-                            </TouchableOpacity> */}
+                         
 
                         </View>
 
@@ -417,7 +361,9 @@ const VendorProfile = ({ navigation, route }) => {
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
                                     <Text style={{ ...style.blackText, marginBottom: dimen.height / 70 }}>Addresses Served</Text>
                                     {/* 
-                                    {renderAddresses()} */}
+                                    uncomment this to render addresses in place
+                                    {renderAddresses()} 
+                                    */}
 
 
                                 </View>

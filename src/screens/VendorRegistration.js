@@ -1,11 +1,11 @@
 import React,{useState, useEffect} from 'react';
 import {View,TextInput,Text,StyleSheet,ScrollView, Alert,BackHandler,TouchableOpacity} from 'react-native';
 import {Styles,dimen,Constants} from '../Constants';
-import TextBox from '../components/TextBox';
-import Button from '../components/Button';
+import TextBox from '../components/ui_components/TextBox';
+import Button from '../components/ui_components/Button';
 import SubmitButton from '../components/SubmitButton';
 import  DocumentPicker from 'react-native-document-picker';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 import Axios from 'axios';
 import qs from 'qs';
@@ -271,21 +271,7 @@ export default function VendorRegistration({navigation,route}){
         });
         return (<View/>)
     }
-         //       return(<VendorDashboard />)
-        //             <View style={{...StyleSheet.absoluteFill,justifyContent: 'flex-start',backgroundColor: 'white'}}>
-        //                 <View>
-        //                 <AppBar  funct={() => {
-        // navigation.toggleDrawer();
-        // }} />
-        // </View>
-        // <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',padding: 20,backgroundColor: 'white'}}>
-        //         <View>
-        //             <Text style={styl.head}>Vendor Verified</Text>  
-        //             <Text style={styl.subheading}>{'Vendor Dashboard Appears here'}</Text>      
-        //         </View>
-        //         </View>
-
-        //     </View>
+       
                 
 }
 
@@ -316,41 +302,54 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
 
     const browse= async()=>{
         if(buttonTitle == 'Map'){
+            let {status} = await Location.requestPermissionsAsync();
+          if(status === Location.PermissionStatus.GRANTED){
+            this.setState({locationLoading: true});
+            var location = await Location.getCurrentPositionAsync();
+            this.setState({locationLoading: false});
             navigation.navigate('AddAddress',{
                 type: 'vendorRegistration',
                 callback: setAddress,
                 actualUser: actualUser,
                 addrNameSetter: setFileName,
-                initialCamera: {
-                    center:{
-                    latitude: 13.062314,
-                    longitude: 77.591136,
-                    },
-                    pitch: 0,
-                    heading: 0,
-                    zoom: 14
-                    
-        
-                  }
-            });
+              initialCamera: {
+                center:{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                },
+                pitch: 0,
+                heading: 0,
+                zoom: 14,
+                type: 1
+              
+              },
+              
+            
+          })
+          } 
+          else{
+            alert("Please grant the location permissions in order to add an address");
+          }
+
             return;
         }
-        
-        try{
-            const res = await DocumentPicker.pick({type: [DocumentPicker.types.images,DocumentPicker.types.pdf]});
-            setUri(res.uri);
-            setFileName(res.name);
-            console.log(res);
-            console.log(res.size)
-            if( (res.size/1000) >= 50){
-                Alert.alert('Size of the file should be lesser than 50kb')
-                setFileName('Please select a file');
+        else{
+            try{
+                const res = await DocumentPicker.pick({type: [DocumentPicker.types.images,DocumentPicker.types.pdf]});
+                setUri(res.uri);
+                setFileName(res.name);
+                console.log(res);
+                console.log(res.size)
+                if( (res.size/1000) >= 50){
+                    Alert.alert('Size of the file should be lesser than 50kb')
+                    setFileName('Please select a file');
+                }
+                fileSetter(res);
             }
-            fileSetter(res);
-        }
-        catch(err){
-            if(DocumentPicker.isCancel(err)){
-                Alert.alert('Please select a valid file');
+            catch(err){
+                if(DocumentPicker.isCancel(err)){
+                    Alert.alert('Please select a valid file');
+                }
             }
         }
     }

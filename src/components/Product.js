@@ -1,6 +1,6 @@
 import React,{ Fragment, useState, useRef } from 'react';
 import { View,Text,TouchableOpacity,StyleSheet,Dimensions, Image } from 'react-native';
-import Button from './Button';
+import Button from './ui_components/Button';
 import {Colors} from '../Constants'
 
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, Dimensions, Image } from 'react-native';
 import { dimen } from '../Constants';
-import Button from './Button';
+import Button from './ui_components/Button';
 import Stars from './Stars';
 
 

@@ -2,8 +2,8 @@ import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity,TextInput} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
-import GenericSeperator from '../components/GenericSeperator';
-import AppBar from '../components/AppBar';
+import GenericSeperator from '../components/ui_components/GenericSeperator';
+import AppBar from '../components/ui_components/AppBar';
 import Axios from 'axios';
 import qs from 'qs';
 

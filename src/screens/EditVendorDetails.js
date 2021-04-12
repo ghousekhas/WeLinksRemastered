@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, Alert } from 'react-native';
 import { Styles, dimen, Constants, Config } from '../Constants';
-import TextBox from '../components/TextBox';
-import Button from '../components/Button';
+import TextBox from '../components/ui_components/TextBox';
+import Button from '../components/ui_components/Button';
 import SubmitButton from '../components/SubmitButton';
 import DocumentPicker from 'react-native-document-picker';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { useNavigation } from '@react-navigation/native';
 import Axios from 'axios'
 import qs from 'qs'

@@ -1,9 +1,9 @@
 import React,{useState} from 'react';
 import {View,StyleSheet,Text,TouchableOpacity,ScrollView} from 'react-native';
 import {RadioButton} from 'react-native-paper';
-import ExpandableTextBox from '../components/ExpandableTextBox';
-import AppBar from '../components/AppBar';
-import TextBox from '../components/TextBox';
+import ExpandableTextBox from '../components/ui_components/ExpandableTextBox';
+import AppBar from '../components/ui_components/AppBar';
+import TextBox from '../components/ui_components/TextBox';
 import { Styles,dimen,Colors, Config } from '../Constants';
 import SubmitButton from '../components/SubmitButton';
 import Axios from 'axios';

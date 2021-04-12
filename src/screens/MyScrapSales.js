@@ -2,10 +2,10 @@ import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity, Dimensions, BackHandler,Image} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles} from '../Constants';
-import GenericSeperator from '../components/GenericSeperator';
+import GenericSeperator from '../components/ui_components/GenericSeperator';
 import { useFocusEffect,CommonActions,useNavigation, StackActions } from '@react-navigation/native';
 import {Ionicons} from '@expo/vector-icons';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import SubmitButton from '../components/SubmitButton'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';

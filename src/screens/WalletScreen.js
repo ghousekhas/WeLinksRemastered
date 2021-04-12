@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useContext } from 'react';
 import { useState } from 'react';
 import {Text, View, FlatList, TouchableOpacity, StyleSheet, BackHandler} from 'react-native';
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import {Colors, Config, dimen, Styles} from '../Constants';
 import { useAuth } from '../services/auth-service';
 import ymdToApp from '../Utility/dateConvertor';
@@ -17,21 +17,21 @@ export default function WalletScreen({navigation,route}){
     const user = useAuth();
     console.log(user);
     const {back} = route.params;
-    
-
-    const [flatListre, setFlatReference] = useState(null);
-    const [transcationsLength, setTransactionsLength] = useState(0);
-    
-    const [selectedTab, setSelectedTab] = useState(0);
+    const [flatListre, setFlatReference] = useState(null); //remount flat list
+    const [transcationsLength, setTransactionsLength] = useState(0); 
+    const [selectedTab, setSelectedTab] = useState(0);  //credit, debit, all
     const [remountKey, setRemountKey] = useState('0');
 
     useEffect(()=>{
+
+        //Hardware BackButtion action
         BackHandler.addEventListener('hardwareBackPress',()=>{
             route.params.goToHomeStack();
             return true;
         });
+
+        //update transcations from backend on every reload
         navigation.addListener('focus',()=>{
-            
             axios.get(Config.api_url+'php?'+qs.stringify({
                 action: 'getWalletTransactions',
                 user_id: user.user.user_id
@@ -45,7 +45,6 @@ export default function WalletScreen({navigation,route}){
                             setTransactionsLength(transcations.length);
                         }
                     catch(error){
-                        console.log('errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',error);
                         setTransactionsLength(0);
                     }
                 setRemountKey(Math.random(0.4).toString());
@@ -55,6 +54,10 @@ export default function WalletScreen({navigation,route}){
 
     },[]);
     
+    /*
+        The three tabs, pager is a flatlist which renders a flatlist of transactions
+        Just using a filter debit/credit/ all in place to display all transactions
+    */
     
     return (
         <View style={{...StyleSheet.absoluteFill, flexDirection: 'column'}}>

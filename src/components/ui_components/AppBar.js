@@ -7,7 +7,7 @@ import { View } from 'react-native-animatable';
 import { Entypo } from '@expo/vector-icons'; 
 import { EvilIcons } from '@expo/vector-icons';
 import { NavigationActions } from 'react-navigation';
-import {Colors} from '../Constants'
+import {Colors} from '../../Constants'
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 

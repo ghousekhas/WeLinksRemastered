@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, Dimensions, Picker} from 'react-native';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 
 import SubmitButton from '../components/SubmitButton';
-import Button from '../components/Button';
+import Button from '../components/ui_components/Button';
 import Item from '../components/Item'
 import { Feather } from '@expo/vector-icons';
 import {Colors, dimen, Styles} from '../Constants'

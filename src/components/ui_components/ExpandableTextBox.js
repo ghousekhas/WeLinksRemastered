@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text,View,StyleSheet,TextInput, Dimensions} from 'react-native';
 import {FontAwesome5} from '@expo/vector-icons';
-import {Colors,dimen,TextSpinnerBoxStyles} from '../Constants';
+import {Colors,dimen,TextSpinnerBoxStyles} from '../../Constants';
 
 const ExpandableTextBox = ({title,hint,icon,changeText}) => {
     return(<View style={style.mainContainer}>

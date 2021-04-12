@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {View,Text,StyleSheet,ScrollView,FlatList,TouchableOpacity} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {Colors, TextSpinnerBoxStyles,dimen,Styles, Config} from '../Constants';
-import GenericSeperator from '../components/GenericSeperator';
+import GenericSeperator from '../components/ui_components/GenericSeperator';
 import Axios from 'axios';
 
 export default function VendorBids(){

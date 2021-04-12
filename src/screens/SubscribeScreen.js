@@ -8,10 +8,10 @@ import Animated from 'react-native-reanimated';
 import SubmitButton from '../components/SubmitButton';
 import moment from 'moment';
 import Date,{okay} from './Date';
-import WeekPicker from '../components/WeekPicker';
+import WeekPicker from '../components/ui_components/WeekPicker';
 import SubscriptionScreen from './SubscriptionScreen';
 import {Colors, dimen, Styles} from '../Constants'
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 
 bs = React.createRef();
 
@@ -185,7 +185,7 @@ const [usableEndDate,setUsableEndDate]=useState(null);
     React.useCallback(() => {
       const onBackPress = () => {
       // console.log('Go to vendor');
-       navigation.navigate('VendorScreen');
+       navigation.navigate('MilkVendors');
           return true;
         
       };

@@ -1,29 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Dimensions, Image, ScrollView, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, ScrollView, TextInput } from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
-import Vendor from '../components/Vendor';
-import { Avatar } from 'react-native-paper';
-import { Styles, ScrapStyles, dimen, Colors, notification_identifiers } from '../Constants';
-import Accordion from 'react-native-collapsible/Accordion';
-import * as Animatable from 'react-native-animatable';
-import Stars from '../components/Stars';
-import Product from '../components/Product';
-import AppBar from '../components/AppBar';
-import { Entypo, AntDesign } from '@expo/vector-icons'
-import { Rect } from 'react-native-svg';
-import GenericSeperator from '../components/GenericSeperator';
+import { Styles, dimen, Colors, notification_identifiers } from '../Constants';
+import AppBar from '../components/ui_components/AppBar';
+import { AntDesign } from '@expo/vector-icons'
 import SubmitButton from '../components/SubmitButton';
-import { EvilIcons } from '@expo/vector-icons';
-import firestore from '@react-native-firebase/firestore';
-import  SmallAppliance from '../components/SmallAppliance';
-import ExpandableTextBox from '../components/ExpandableTextBox';
-import moment from 'moment';
 import Axios from 'axios';
 import qs from 'qs';
-import AsyncStorage from '@react-native-community/async-storage';
 import { Config } from '../Constants';
-import Button from '../components/Button';
-import SpinnerBox from '../components/Spinner';
+import SpinnerBox from '../components/ui_components/Spinner';
 import LottieView from 'lottie-react-native';
 import sendNotif from '../Utility/sendNotificationTo';
 import Appliance from '../components/Appliance';

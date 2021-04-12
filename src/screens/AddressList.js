@@ -9,7 +9,7 @@ import Axios, * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeAddress from '../components/AddressRow'
-import AppBar from '../components/AppBar';
+import AppBar from '../components/ui_components/AppBar';
 import { Colors, Styles } from '../Constants';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
