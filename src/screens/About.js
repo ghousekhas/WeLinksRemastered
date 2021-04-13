@@ -21,8 +21,6 @@ const About = ({ navigation, route, getUserDetails, user }) => {
     const [actualUser, setActualUser] = useState(route != undefined ? route.params.actualUser : null);
     const [loading, setLoading] = useState(false);
     const [pressed, setPressed] = useState(false);
-    var staticName = '';
-    var staticEmail = '';
     const authContext = useAuth();
 
 
@@ -42,8 +40,6 @@ const About = ({ navigation, route, getUserDetails, user }) => {
 
 
     const aboutSubmit = async () => {
-    //    console.log(email);
-    //    console.log(name);
         console.log(validateEmail());
         if (validateEmail() && name.trim() != '') {
             try {
