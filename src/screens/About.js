@@ -23,7 +23,7 @@ const About = ({ navigation, route, getUserDetails, user }) => {
     const [pressed, setPressed] = useState(false);
     const authContext = useAuth();
 
-
+// yo
     function validateEmail() {
         if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) 
             return (true);
