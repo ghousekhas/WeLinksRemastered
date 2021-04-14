@@ -6,6 +6,7 @@ import Axios from 'axios';
 import {Config, Constants} from '../Constants';
 import qs from 'qs';
 import App from '../../App';
+import { mdiTrumpet } from '@mdi/js';
 
 export const AuthConstants = {
     saved_user: "saved_user",
@@ -26,7 +27,7 @@ export default function AuthProvider({children}){
     const [user, setUser ] = useState(AuthConstants.loading);
     const [vendor, setVendor] = useState(AuthConstants.loading);
     const debug = false;
-    const debugNumber = "8548080255";
+    const debugNumber = "1247896541";
 
 
     const checkUserAccounts = () =>{
@@ -59,7 +60,7 @@ export default function AuthProvider({children}){
           action: "getUser",
           phone: debug ?  debugNumber : auth().currentUser.phoneNumber.substring(3)
         })))).data;
-        if(result.user[0].status_code != 100){
+        if(result.user[0].status_code != "100"){
           setUser(result.user[0]);
           const user_result = result.user[0];
           //Caching? 
@@ -121,35 +122,36 @@ export default function AuthProvider({children}){
     const checkFirstTime = async  () =>{
         const saved_user = await AsyncStorage.getItem(AuthConstants.saved_user);
 
-        // if(debug)
-        //   syncAndCacheUser();
+        if(debug)
+          syncAndCacheUser();
+        else{
+            if(auth().currentUser == null && debug == false){
+              setUser(AuthConstants.phone_unverified);
+              if(saved_user != null)
+                AsyncStorage.removeItem(AuthConstants.saved_user, (error)=>{});
+              return; 
+            }
+            else if(saved_user != null || saved_user != undefined)
+              try{
+                setUser(JSON.parse(saved_user));
+              }
+              catch(err){//The next line fetches user from the database anyway
+              }
+            else
+              syncAndCacheUser();     
 
-        if(auth().currentUser == null && debug == false){
-          setUser(AuthConstants.phone_unverified);
-          if(saved_user != null)
-            AsyncStorage.removeItem(AuthConstants.saved_user, (error)=>{});
-          return; 
-        }
-        else if(saved_user != null || saved_user != undefined)
-          try{
-            setUser(JSON.parse(saved_user));
-          }
-          catch(err){//The next line fetches user from the database anyway
-          }
-        else
-          syncAndCacheUser();     
-
-        try{
-          const saved_vendor = await AsyncStorage.getItem(AuthConstants.saved_vendor);
-          if(saved_vendor != null && saved_vendor != undefined)
             try{
-              setVendor(JSON.parse(saved_vendor))
-            }
-            catch(error){
+              const saved_vendor = await AsyncStorage.getItem(AuthConstants.saved_vendor);
+              if(saved_vendor != null && saved_vendor != undefined)
+                try{
+                  setVendor(JSON.parse(saved_vendor))
+                }
+                catch(error){
 
+                }
             }
-        }
-        catch(error){}
+            catch(error){}
+          }
 
         syncAndCacheUser();
     }

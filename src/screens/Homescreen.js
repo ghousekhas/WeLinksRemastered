@@ -3,6 +3,7 @@ import {StyleSheet,Text,View,TextInput, Dimensions,Image,FlatList,ScrollView} fr
 
 import { TouchableOpacity  } from 'react-native-gesture-handler';
 import {CommonActions,useNavigation} from '@react-navigation/native';
+import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 
 import {Constants,dimen,Styles,Colors} from '../Constants';
 import Axios from 'axios';
@@ -589,7 +590,7 @@ r
     
 
     render(){
-        const {navigation} =this.props;
+        const {drawer} = this.props;
         const {user} = this.props.route.params;
 
         let displayName = this.state.actualUser.name.split(' ');
@@ -605,7 +606,7 @@ r
               
                <TouchableOpacity onPress={() => {
                    this.setState({pressedMenu: true});
-                  navigation.toggleDrawer();
+                  this.state.drawer.toggleDrawer();
                   }}>
     <EvilIcons name="navicon" size={24} color="black" style={{alignSelf: 'center',padding: 10}} />
     </TouchableOpacity>

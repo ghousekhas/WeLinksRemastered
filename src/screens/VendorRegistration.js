@@ -14,6 +14,8 @@ import VendorServices from './VendorServices';
 import VendorDashboard from './VendorDashboard';
 import {Config} from  '../Constants';
 import LottieView from 'lottie-react-native'
+import * as Location from 'expo-location';
+import {useAuth} from '../services/auth-service';
 
 export default function VendorRegistration({navigation,route}){
     const [aadharFile,setAadharFile] = useState(null);
@@ -28,6 +30,7 @@ export default function VendorRegistration({navigation,route}){
     const [address,setAddress]=useState(null);
     const [loading,setLoading]=useState(true);
     const {vendorRefresh} = route.params;
+    const authContext = useAuth();
 
     function validateEmail() {
         if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
@@ -66,7 +69,6 @@ export default function VendorRegistration({navigation,route}){
 
     useEffect(()=>{
     
-        console.log('ph',user.phoneNumber.substring(3));
         checkVendorStatus();
         
     },[]);
@@ -113,7 +115,7 @@ export default function VendorRegistration({navigation,route}){
         var dataFormatted = dataUnFormatted.replace(replaer,'\[\]');
         Axios.post(Config.api_url+'php?action=registerVendor&'+dataFormatted,fromData).then((response)=>{
             console.log(response.data);
-            checkVendorStatus();
+            authContext.sync();
 
         },(error)=>{
             console.log(error);
@@ -142,7 +144,7 @@ export default function VendorRegistration({navigation,route}){
         React.useCallback(() => {
           const onBackPress = () => {
          console.log('Can\'t go back from here');
-         navigation.toggleDrawer();
+         route.params.navDrawer.toggleDrawer();
     
                   
               return true;
@@ -192,7 +194,7 @@ export default function VendorRegistration({navigation,route}){
         return(
             <View style={{...StyleSheet.absoluteFill,backgroundColor: 'white'}}>
                 <AppBar  title='Vendor Registration' funct={() => {
-        navigation.toggleDrawer();
+                    route.params.navDrawer.toggleDrawer();
         }} />
                 <Text style={{...Styles.heading,alignSelf: 'center'}}>Tell us about your business</Text>    
                 <View style={{marginTop: dimen.height/20,height: dimen.height*0.77}}>
@@ -304,9 +306,9 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
         if(buttonTitle == 'Map'){
             let {status} = await Location.requestPermissionsAsync();
           if(status === Location.PermissionStatus.GRANTED){
-            this.setState({locationLoading: true});
+            // TODO add loading screen animation
             var location = await Location.getCurrentPositionAsync();
-            this.setState({locationLoading: false});
+            // TODO remove loading screen animation
             navigation.navigate('AddAddress',{
                 type: 'vendorRegistration',
                 callback: setAddress,
@@ -333,7 +335,6 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
 
             return;
         }
-        else{
             try{
                 const res = await DocumentPicker.pick({type: [DocumentPicker.types.images,DocumentPicker.types.pdf]});
                 setUri(res.uri);
@@ -351,7 +352,7 @@ const UploadButton =({hint,title,browseresult,fileSetter,actualUser,buttonTitle=
                     Alert.alert('Please select a valid file');
                 }
             }
-        }
+        
     }
 
     return (<View style={{width: '90%',marginHorizontal: dimen.width*0.05}}>

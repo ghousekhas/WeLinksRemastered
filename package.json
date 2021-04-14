@@ -70,7 +70,8 @@
     "react-navigation": "^4.4.3",
     "react-navigation-drawer": "^2.6.0",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
-    "tslib": "^2.0.3"
+    "tslib": "^2.0.3",
+    "hermes-engine": "0.5.2-rc1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -78,6 +79,9 @@
     "babel-preset-expo": "^8.1.0",
     "jest": "~25.2.6",
     "react-test-renderer": "~16.11.0"
+  },
+  "resolutions": {
+    "react-native/hermes-engine": "0.5.2-rc1"
   },
   "private": true,
   "name": "WeLinks",

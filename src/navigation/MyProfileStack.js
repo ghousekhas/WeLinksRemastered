@@ -9,6 +9,7 @@ import AddressList from '../screens/AddressList';
 import MyProfile from '../screens/MyProfile';
 import MySubscriptions from '../screens/MySubscriptions';
 import MyScrapSales from '../screens/MyScrapSales';
+import WalletStack from './WalletStack';
 const Stack = createStackNavigator();
 
 const MyProfileStack = ({ navigation, route }) => {
@@ -41,9 +42,9 @@ const MyProfileStack = ({ navigation, route }) => {
             <Stack.Screen name="AddressList" component={AddressList} options={{ headerShown: false }} initialParams={{ navigator: navigation }} />
             <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
             <Stack.Screen name="MySubscriptions" component={MySubscriptions} options={{ headerShown: false }} initialParams={{ navigator: navigation, actualUser: actualUser }} />
-            <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{ headerShown: false }} />
-            <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
-            <Stack.Screen name="Wallet" component={WalletStack} options={{ headerShown: false }}  />
+            <Stack.Screen name="MyScrapSales" component={MyScrapSales} options={{ headerShown: false }} initialParams={{ navigator: navigation }}/>
+            <Stack.Screen name="About" component={About} options={{ headerShown: false }} initialParams={{ navigator: navigation }}/>
+            <Stack.Screen name="Wallet" component={WalletStack} options={{ headerShown: false }}  initialParams={{ navigator: navigation }}/>
   
           </Stack.Navigator>
         </NavigationContainer>

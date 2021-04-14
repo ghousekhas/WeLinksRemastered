@@ -7,7 +7,6 @@ import About from '../screens/About';
 import AddAddress from '../screens/AddAddress';
 import Homescreen from '../screens/Homescreen';
 import AddressSearch from '../screens/AddressSearch';
-import VendorsList from '../screens/VendorsList';
 import Cart from '../screens/Cart';
 import MilkVendors from '../screens/MilkVendors';
 import SubscribeScreen from '../screens/SubscribeScreen';
@@ -31,6 +30,7 @@ const Stack = createStackNavigator();
 
 const Homestack = ({ route, navigation }) => {
 
+    const authContext = useAuth();
     const user = useAuth().user;
     const actualUser = useAuth().user;
     const [updateState, setUpdateState] = useState(route.params.actualUser);
@@ -48,7 +48,9 @@ const Homestack = ({ route, navigation }) => {
             <Stack.Navigator initialRouteName={initRoute} >
               <Stack.Screen name='Homescreen' component={Homescreen} options={{
                 headerShown: false
-              }} initialParams={{ user: route.params.user, actualUser: updateState, drawer: navigation, getUserDetails: route.params.getUserDetails, setActualUser: route.params.setActualUser,goToMySubs: ()=>{
+              }} initialParams={{ user: route.params.user, actualUser: updateState, drawer: navigation, getUserDetails: ()=>{
+                authContext.sync()
+              }, setActualUser: route.params.setActualUser,goToMySubs: ()=>{
                 navigation.navigate('MySubscriptions',{
                   user: actualUser,
                   goBackToHome: ()=>{navigation.navigate('HomeStack')}
@@ -58,7 +60,7 @@ const Homestack = ({ route, navigation }) => {
               <Stack.Screen name='AddAddress' component={AddAddress} options={{headerShown: false}} />
               <Stack.Screen name="About" component={About} initialParams={{ user: user }} />
               <Stack.Screen name="City" component={City} initialParams={{ user: user }} options={{ headerShown: false }} />
-              <Stack.Screen name='VendorsList' component={VendorsList} initialParams={{ user: user }} />
+              
               <Stack.Screen name='MilkVendors' component={MilkVendors} options={{ headerShown: false }} initialParams={{ user: user }} />
               <Stack.Screen name='PaperVendors' component={PaperVendors} options={{ headerShown: false }} />
               <Stack.Screen name='AddressList' component={AddressList} options={{ headerShown: false }} initialParams={{ navigator: navigation }} />
