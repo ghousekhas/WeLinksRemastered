@@ -21,11 +21,13 @@ const About = ({ navigation, route, getUserDetails, user }) => {
     const [actualUser, setActualUser] = useState(route != undefined ? route.params.actualUser : null);
     const [loading, setLoading] = useState(false);
     const [pressed, setPressed] = useState(false);
+    let staticName = '';
+    let staticEmail = '';
     const authContext = useAuth();
 
-// yo
+
     function validateEmail() {
-        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) 
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email))
             return (true);
         alert("You have entered an invalid Email Address!")
         return (false)
@@ -40,6 +42,8 @@ const About = ({ navigation, route, getUserDetails, user }) => {
 
 
     const aboutSubmit = async () => {
+        //    console.log(email);
+        //    console.log(name);
         console.log(validateEmail());
         if (validateEmail() && name.trim() != '') {
             try {
@@ -107,11 +111,11 @@ const About = ({ navigation, route, getUserDetails, user }) => {
 
                     (
                         <View>
-                            <TextBox title='Name' defaultValue={name} hint='Enter your name' changeText={(text)=>{
+                            <TextBox title='Name' defaultValue={name} hint='Enter your name' changeText={(text) => {
                                 setName(text);
                                 staticName = text;
                             }} />
-                            <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={(text)=>{
+                            <TextBox title='Email Address' defaultValue={email} hint='Enter your email address' changeText={(text) => {
                                 setEmail(text);
                                 staticEmail = text;
                             }}
@@ -126,11 +130,6 @@ const About = ({ navigation, route, getUserDetails, user }) => {
         </ScrollView>
         <View style={{ marginVertical: 3, backgroundColor: Colors.primary, borderRadius: 7, alignSelf: 'center' }} >
             <SubmitButton styling={pressed} text={edit ? 'Update' : 'Continue'} onTouch={() => {
-                // Alert.alert(
-                //     "Hi",
-                //     "Your milk order has been placed successfully, you can check the details in My Subscriptions page "
-                // );
-                
                 aboutSubmit()
             }} />
         </View>
