@@ -95,7 +95,7 @@ export default function App() {
         break;
     }
   }
-  catch(error){console.log(error)}
+  catch(error){console.log("berrror")}
   }
 
 
