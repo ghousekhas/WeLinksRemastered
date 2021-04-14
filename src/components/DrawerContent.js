@@ -390,8 +390,7 @@ const DrawerContent = (props) => {
      onPress={()=>{
        props.navigation.navigate('WalletStack',{
          actualUser: actualUser,
-         goToHomeStack: goToHomeStack,
-         toggleDrawer: props.navigation.toggleDrawer
+         goToHomeStack: goToHomeStack
        })
        }}
      

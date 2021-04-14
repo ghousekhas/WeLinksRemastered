@@ -15,9 +15,9 @@ const WalletStack = ({navigation, route})=>{
       <View style={{ flex: 1 }}>
         <NavigationContainer independent={true}>
           <Stack.Navigator>
-            <Stack.Screen name="Wallet" component={WalletScreen} options={options} initialParams={route.params}/>
-            <Stack.Screen name="AddMoney" component={AddMoney} options={options}  />
-            <Stack.Screen name='Payment' component={Payment}  options={options} />
+            <Stack.Screen name="Wallet" component={WalletScreen} options={options} initialParams={{...route.params,toggleDrawer: navigation.toggleDrawer}}/>
+            <Stack.Screen name="AddMoney" component={AddMoney} options={options} initialParams={{...route.params,toggleDrawer: navigation.toggleDrawer}} />
+            <Stack.Screen name='Payment' component={Payment}  options={options} initialParams={{...route.params,toggleDrawer: navigation.toggleDrawer}} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

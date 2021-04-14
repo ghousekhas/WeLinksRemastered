@@ -195,7 +195,7 @@ const MyProfile = ({ navigation, route }) => {
     return (<View style={{ ...StyleSheet.absoluteFill }}>
         <View style={{ elevation: 100, zIndex: 100 }}>
             <AppBar title='My Profile' funct={() => {
-                navigation.toggleDrawer();
+                route.params.navDrawer.toggleDrawer();
             }} />
         </View>
 
@@ -266,7 +266,8 @@ const MyProfile = ({ navigation, route }) => {
 
                             <TouchableOpacity onPress={() => {
                                 navigation.navigate('Wallet', {
-                                    back: true
+                                    back: true,
+                                    goBack: navigation.goBack
                                 });
                             }}>
                                 <Text style={style.chip}>{words.balance + ' (' + actualUser.wallet_balance + ')'}</Text>

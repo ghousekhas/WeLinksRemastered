@@ -1,11 +1,12 @@
-import {AppRegistry} from 'react-native';
+import React from 'react';
+import {AppRegistry, StyleSheet} from 'react-native';
 
 import App from './App';
-import AuthApp from './AuthApp';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import { firebase } from '@react-native-firebase/auth';
 import {Notifications} from 'react-native-notifications';
+import AuthApp from './AuthApp';
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in the Expo client or in a native build,
 // the environment is set up appropriately

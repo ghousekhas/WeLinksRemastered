@@ -10,6 +10,8 @@ import qs from 'qs';
 import { Ionicons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import { Config,Colors } from '../Constants';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import axios from 'axios';
 
 const height = Dimensions.get('window').height;
 var lowerPanelHeight = height / 1.7;
@@ -59,7 +61,30 @@ export default class AddAddress extends React.Component {
     };
     this.errorMst = {};
     this.landmarkBox = null;
+    this.placesstyle=StyleSheet.create({
+      listView:{
+        zIndex: 201,
+      },
+      textInputContainer:{
+        width: '100%',
+        backgroundColor: 'white'
+      },
+  
+      textInput:{
+          fontWeight: 'bold',
+          fontSize: 17,
+          padding: 40,
+      },
+      row:{
+          padding: 10,
+          backgroundColor: 'white',
+          margin: 5
+  
+      },
+    })
   };
+
+  
 
   addAddress = async () => {
 
@@ -203,6 +228,31 @@ export default class AddAddress extends React.Component {
     })
   };
 
+  addressSelected =async (data,details) =>{
+    const actualUser= this.props.route.params.actualUser;
+    console.log(details);
+    console.log(details.place_id);
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+      params:{
+        place_id: details.place_id,
+        key: 'AIzaSyAghIaP3yetD5ooDpwcAK5GF0b6-YkpV8w'
+      }
+    }).then((response)=>{
+      var locy= response.data.results[0].geometry.location;
+      console.log(locy);
+      this.map.animateCamera(
+        {
+        center: {
+          latitude: locy.lat,
+          longitude: locy.lng
+          },
+        pitch: 0,
+        heading: 0,
+        zoom: 15
+      }
+      , {duration: 1000});
+    });
+  }
   checkFieldsValidity = () => {
     if (this.state.landmark.trim().length < 2 || this.state.landmark.length > this.constants.landmarkChars || this.state.fineAddressInfo.trim().length < 2 ||  this.state.fineAddressInfo.length > this.constants.additionalInfoChars  || this.state.label.trim().length < 2 || this.state.label.length > this.constants.labelChars)
       this.setState({ inputsValid: false });
@@ -317,6 +367,8 @@ export default class AddAddress extends React.Component {
         <MapView style={{ height: height / 5 * 3.5, position: 'absolute', top: 0, width: '100%' }} mapstyle={mapstyle} ref={ref => this.map = ref}
           onTouchStart={this.regionChanging}
           onRegionChangeComplete={(region) => this.addressChanged(region)}
+          onPanDrag= {(event)=>{try{this.googlePlaces.blur()}
+          catch(error){}}}
           showsCompass={false}
           pitchEnabled={false}
           showsUserLocation={true}
@@ -379,12 +431,18 @@ export default class AddAddress extends React.Component {
           </ScrollView>
           {submitButton}
         </Animated.View>
-        <TouchableOpacity style={styles.backbuttoncontainer}
+       
+
+        
+          <TouchableOpacity 
+          style={styles.backbuttoncontainer}
           onPress={() => {
             this.props.navigation.goBack();
           }}>
-          <Animated.Image style={{ ...styles.backbutton, opacity: arrowOpacity }} source={require('./../../assets/backbutton.png')} />
-        </TouchableOpacity>
+            <Animated.Image style={{...styles.backbutton, opacity: arrowOpacity }} source={require('./../../assets/backbutton.png')} />
+          </TouchableOpacity> 
+          
+        
 
         <Image source={require('./../../assets/marker.png')} style={styles.marker} />
         <Animated.View style={{
@@ -426,7 +484,7 @@ const styles = StyleSheet.create({
   },
   lowerpanel: {
     zIndex: 200,
-    elevation: 5,
+    elevation: 0,
     height: lowerPanelHeight,
     bottom: 0,
     width: '100%',
@@ -539,7 +597,7 @@ const styles = StyleSheet.create({
     left: 0,
     height: 20,
     width: 35,
-    zIndex: 1,
+    zIndex: 10000,
 
   },
   backbuttoncontainer: {

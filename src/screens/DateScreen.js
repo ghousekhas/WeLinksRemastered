@@ -25,6 +25,5 @@ const DateScreen = () => {
     )
 }
 
-const style = StyleSheet.create({})
 
 export default DateScreen;

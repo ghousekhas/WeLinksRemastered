@@ -26,7 +26,7 @@ export default function WalletScreen({navigation,route}){
 
         //Hardware BackButtion action
         BackHandler.addEventListener('hardwareBackPress',()=>{
-            route.params.goToHomeStack();
+            back ? route.params.goBack() :route.params.goToHomeStack();
             return true;
         });
 
@@ -66,7 +66,7 @@ export default function WalletScreen({navigation,route}){
                     title="Wallet"
                     back={back ? true : false}
                     funct={()=>{
-                        route.params.toggleDrawer()
+                        back ? route.params.goBack() : navigation.toggleDrawer();
                     }} 
                 />
             </View>
@@ -168,6 +168,3 @@ export default function WalletScreen({navigation,route}){
     );
 }
 
-const styles = StyleSheet.create({
-
-})

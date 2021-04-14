@@ -19,11 +19,9 @@ import NavigationDrawer from './src/navigation/NavigationDrawer';
 //Enabling legacy geolocation for location services
 navigator.geolocation = require('@react-native-community/geolocation');
 
-
-
-const Stack = createStackNavigator();
-
-
+// export default function App(){
+//   return (<View style={{backgroundColor: 'blue', ...StyleSheet.absoluteFill}}></View>)
+// }
 export default function App() {
   const Stack = createStackNavigator();
   const debug = false; //DEBUG
@@ -63,6 +61,7 @@ export default function App() {
 
   //Notificatoin launching different screeens
   const handleNotification = (notification) => {
+    try{
     const id = notification.payload.identifier;
     setNotificationStatup(id);
 
@@ -95,6 +94,8 @@ export default function App() {
         setStartup('MyScrapSales', '');
         break;
     }
+  }
+  catch(error){console.log(error)}
   }
 
 
