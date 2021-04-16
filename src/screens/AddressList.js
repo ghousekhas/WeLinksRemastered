@@ -1,15 +1,13 @@
-import React,{useState,useEffect} from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
 import { Ionicons } from '@expo/vector-icons'; 
 import {Text,View,StyleSheet,BackHandler,FlatList, Dimensions} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import Geolocation from '@react-native-community/geolocation';
 import Axios, * as axios from 'axios';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import HomeAddress from '../components/AddressRow'
 import AppBar from '../components/ui_components/AppBar';
-import { Colors, Styles } from '../Constants';
+import { Colors, dimen, Styles } from '../Constants';
 import qs from 'qs';
 import LottieView from 'lottie-react-native';
 import {Config} from  '../Constants';
@@ -17,26 +15,7 @@ import * as Location from 'expo-location';
 import { ActivityIndicator } from 'react-native-paper';
 import { MAPS_API_KEY, PLACES_API_KEY } from '@env';
 
-const height= Dimensions.get('window').height;
-
-// useFocusEffect(
-//   React.useCallback(() => {
-//     const onBackPress = () => {
-//     console.log('Go to homescreen');
-//      props.navigation.navigate('Homescreen');
-//         return true;
-      
-//     };
-
-//     BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-//     return () =>
-//       BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-//   },)
-// );
-
-
-
+const height= dimen.height;
 
 export default class AddressList extends React.Component{
     constructor(props){
@@ -58,6 +37,10 @@ export default class AddressList extends React.Component{
               
             };
             this.data=[];
+            
+            this.words={
+
+            }
 
             
             
@@ -105,7 +88,7 @@ export default class AddressList extends React.Component{
       }
       else 
          vendor_id = 0;
-      const data = this.state.vendorEdit ? qs.stringify({vendor_id: vendor_id}) : qs.stringify({user_id: user_id});
+      const data = this.state.vendorEdit ? qs.stringify({ vendor_id }) : qs.stringify({ user_id });
       Axios.get(Config.api_url+'php?action=getUserAddresses&'+data)
         .then((response)=>{
         console.log('Addresses: ',response.data);
@@ -144,24 +127,13 @@ export default class AddressList extends React.Component{
         next: next,
         actualUser: actualUser
       }}} popItem={this.popItem} index={index} />
-      /*return(
-        <View style={styles.horiz}>
-          <ScrollView>
-          <Text style={styles.address}>{item.text}</Text>
-          </ScrollView>
-          <TouchableOpacity style={{borderWidth: 2, borderColor: 'gray',padding: 5,alignSelf: 'center',marginTop: 20}} onPress={()=>{
-            this.setSelectedAddress(item)
-          }}>
-            <Text style={{padding: 5,fontSize: 10}}>SELECT</Text>
-          </TouchableOpacity>
-        </View>
-      );*/
+
     }
 
     goToCurrentLocation = async ()=>{
       if(!this.state.locationLoading){
         if(this.state.vendorEdit){
-          const {navigation,route} = this.props;
+          const { navigation } = this.props;
           const {actualUser,tag} = this.props.route.params;
           const {vendor_id} = this.props.route.params.actualVendor;
 
@@ -198,7 +170,7 @@ export default class AddressList extends React.Component{
 
         }
         else{
-          const {navigation,route} = this.props;
+          const { navigation } = this.props;
           const {actualUser,tag} = this.props.route.params;
           let {status} = await Location.requestPermissionsAsync();
           if(status === Location.PermissionStatus.GRANTED){
@@ -226,7 +198,7 @@ export default class AddressList extends React.Component{
           })
           } 
           else{
-            alert("Please grant the location permissions in order to add an address");
+            alert("Please grant location permissions in order to add an address");
           }
       }
       }
@@ -237,12 +209,10 @@ export default class AddressList extends React.Component{
     renderSeperator=()=>{
       return(
         <View style={{padding:0,
-     //   paddingHorizontal: '20%',
         backgroundColor: 'gray',
         width:'80%',
         height: 0,
         alignSelf: 'center',
-     //   borderStyle: 'dashed',
         borderColor: Colors.seperatorGray ,
         borderWidth: 0.3,
         borderRadius: 5
@@ -259,17 +229,16 @@ export default class AddressList extends React.Component{
       axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
         params:{
           place_id: details.place_id,
-          key: MAPS_API_KEY
+          key: `${MAPS_API_KEY}`
         }
       }).then((response)=>{
-        var locy= response.data.results[0].geometry.location;
-        console.log(locy);
+        let loc= response.data.results[0].geometry.location;
         this.props.navigation.navigate('AddAddress',{
           onComeBack: this.onComeBack,
           initialCamera: {
             center:{
-            latitude: locy.lat,
-            longitude: locy.lng,
+            latitude: loc.lat,
+            longitude: loc.lng,
             },
             pitch: 0,
             heading: 0,
@@ -295,8 +264,8 @@ export default class AddressList extends React.Component{
       axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
         params:{
           place_id: details.place_id,
-          key: MAPS_API_KEY
-        }
+          key: `${MAPS_API_KEY}`
+              }
       }).then((response)=>{
         var locy= response.data.results[0].geometry.location;
         console.log(locy);
@@ -347,7 +316,7 @@ export default class AddressList extends React.Component{
           <GooglePlacesAutocomplete
               style={{elevation: 10,zIndex: 10,backgroundColor: 'white'}}
               query={{
-                key: PLACES_API_KEY,
+                key: `${PLACES_API_KEY}`,
                 language: 'en', // language of the results
                 components: 'country:in',
                 location: '12.972442,77.580643',
@@ -372,13 +341,13 @@ export default class AddressList extends React.Component{
               {
 
             !this.state.locationLoading ?
-              <Ionicons name="ios-add" size={24} color="black" /> :
+              <Ionicons name="ios-add" size={24} color={Colors.black} /> :
               <ActivityIndicator size={18} color={Colors.primary} style={{padding: 3,margin: 6,height: 0}} />
               }
-                <Text style={styles.currentLocationText}>Add current location</Text>
+                <Text style={styles.currentLocationText}>Add Current Location</Text>
               </View>
               </TouchableOpacity>
-              <Text style={{...Styles.subbold}}>No addresses to show, please add an address </Text>
+              <Text style={{...Styles.subbold}}>No addresses to show, please add an address.</Text>
               </View>)
             }
             </View>
@@ -406,7 +375,7 @@ export default class AddressList extends React.Component{
           <GooglePlacesAutocomplete
               style={{elevation: 10,zIndex: 10,backgroundColor: 'white'}}
               query={{
-                key: PLACES_API_KEY,
+                key: `${PLACES_API_KEY}`,
                 language: 'en', // language of the results
                 components: 'country:in',
                 location: '12.972442,77.580643',
@@ -427,7 +396,7 @@ export default class AddressList extends React.Component{
               <View style={styles.currentLocationContainer}>{
 
                 !this.state.locationLoading ?
-                  <Ionicons name="ios-add" size={24} color="black" /> :
+                  <Ionicons name="ios-add" size={24} color={Colors.black} /> :
                   <ActivityIndicator color={Colors.primary} size={18} style={{padding: 3,margin: 6,height: 0}} />
     }
                   <Text style={styles.currentLocationText}>Add current location</Text>

@@ -19,8 +19,6 @@ const Product = ({name,quantity,price,weekendPrice,subscribe,uri}) => {
 
     <View style={{justifyContent: 'center',flex:1}}>
    
-   
-
         <TouchableOpacity style={{...style.button,marginTop: '0%'}} onPress={subscribe}>
         <Text style={style.text}>Subscribe</Text>
        

@@ -1,225 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet,Text,View,TextInput, Dimensions,Image,FlatList,ScrollView} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet,Text,View,Dimensions,Image,FlatList,ScrollView} from 'react-native';
 
 import { TouchableOpacity  } from 'react-native-gesture-handler';
-import {CommonActions,useNavigation} from '@react-navigation/native';
-import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
+import {useNavigation} from '@react-navigation/native';
 
-import {Constants,dimen,Styles,Colors} from '../Constants';
+import {dimen,Colors} from '../Constants';
 import Axios from 'axios';
 import { BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
 
 import { EvilIcons } from '@expo/vector-icons';
 import {Config} from  '../Constants';
-import sendNotif from '../Utility/sendNotificationTo';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import RatingComponentScreen from '../components/RatingComponentScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import qs from 'qs';
 import ymdToApp, {getDuration} from '../Utility/dateConvertor';
-import { useAuth } from '../services/auth-service';
-import ProductVendor from './ProductVendor';
-
-
-
-//sendNotif('titleeee','boddy','user87');
-//sendNotif('titleeee','boddy','vendor90');
-
-// export function HomeScreen(props){
-
-//     const actualUser = useAuth().user;
-
-
-//     return(<View key={this.state.remountRating}>
-//         <View
-//                 style={{backgroundColor: Colors.lightBlue,paddingBottom: 100}}
-//                 >
-
-//                 <View style={{backgroundColor:'white', alignItems:'flex-end',padding:'1%'}}>
-//                 <MaterialIcons name="keyboard-arrow-down" size={25} color="black" 
-//                 onPress={() => {
-//                     this.setState({sheetOpen:false})
-//                     this.bs.current.snapTo(2);
-
-//                 }}
-//                 />
-
-//       </View>
-
-//                 <View>
-//    <RatingComponentScreen buttonPress={(stars, comments)=>{
-//        console.log('posting review');
-//        if(this.state.ratingTypeOpen === 'corp')
-//             Axios.post(Config.api_url+'php?'+qs.stringify({
-//                 action: 'postRating',
-//                 user_id: this.state.actualUser.user_id,
-//                 vendor_id: this.state.ratingOrderMeta.awarded_vendor.length > 0 ? this.state.ratingOrderMeta.awarded_vendor[0].vendor_id : 0 ,
-//                 product_type: 'corporate_scrap',
-//                 rating: stars,
-//                 feedback: comments,
-//                 order_id: this.state.ratingOrderMeta.bid_id
-//             })).then((response)=>{
-//                 const data = response.data;
-//                 console.log("Rated "+data);
-//                 const tempCorp = this.state.corpPendingRatings;
-//                 tempCorp.splice(0,1);
-//                 if(tempCorp.length > 0){
-//                     const news = tempCorp;
-//                     this.setState({ratingTypeOpen: 'corp'});
-
-//                     this.setState({remountRating: Math.random(0.4).toString()});
-//                     console.log(news);
-//                     this.setState({ratingOrderMeta: news[0]});
-//                     this.setState({ratingOrderDetails : {
-//                         Date: ymdToApp(news[0].bid_pickupdate),
-//                         Duration: getDuration(news[0].bid_startdate, news[0].bid_enddate)+ ' Day/s',
-//                         Title: news[0].bid_title,
-//                         Product: news[0].officescrap_category_name,
-//                         Vendor: news[0].company_name
-//                     }}).catch((e) => {
-//                         console.log("Error: "+e)
-//                     })
-
-//                 }
-//                 else{
-//                     // this.props.route.params.goToMySubs();
-//                     this.bs.current.snapTo(2);
-//                     this.props.navigation.navigate('Bids',{
-//                         next: 'Bids',
-//                         user: this.props.route.params.user,
-//                         actualUser: this.state.actualUser,
-                      
-//                         profile: true,
-//                         ...this.props.route.params
-//                     });
-//                 }
-
-//             });
-//        else 
-//         Axios.post(Config.api_url+'php?'+qs.stringify({
-//             action: 'postRating',
-//             user_id: this.state.actualUser.user_id,
-//             vendor_id: this.state.ratingOrderMeta.vendor_id,
-//             product_type: this.state.ratingOrderMeta.product_type,
-//             rating: stars,
-//             feedback: comments,
-//             order_id: this.state.ratingOrderMeta.order_id
-//         }),{}).then((response)=>{
-//             console.log('asosja');
-//             console.log(response.data);
-//             console.log({
-//                 action: 'postRating',
-//             user_id: this.state.actualUser.user_id,
-//             vendor_id: this.state.ratingOrderMeta.vendor_id,
-//             product_type: this.state.ratingOrderMeta.product_type,
-//             rating: stars,
-//             feedback: comments,
-//             order_id: this.state.ratingOrderMeta.order_id
-//             })
-            
-//             if(!this.state.milkRatingOpen){
-//                     const tempNews = this.state.newsPendingRatings;
-//                     tempNews.splice(0,1);
-//                     this.setState({newsPendingRatings: tempNews});
-
-//                     if(this.state.newsPendingRatings.length >0 ){
-//                         const milk = tempNews;
-//                         this.setState({ratingOrderDetails : {
-//                             Date: ymdToApp(milk[0].order_date),
-//                             Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
-//                             Product: milk[0].product_name,
-//                             Quantitiy: milk[0].quantity,
-//                             Vendor: milk[0].company_name
-//                         }});
-//                         this.setState({ratingOrderMeta: milk[0]});
-//                     }
-//                     else{
-//                         this.setState({sheetOpen: false});
-//                         this.bs.current.snapTo(2);
-//                         // this.props.route.params.goToMySubs();
-//                         this.props.navigation.navigate('AddressList',{
-//                             next: 'PaperVendors',
-//                             user: this.props.route.params.user,
-//                             actualUser: this.state.actualUser,
-//                             tag: 'Paper',
-//                             profile: true
-//                         });
-//                         this.setState({remountRating: Math.random(0.4).toString()});
-//                     }
-                    
-
-//                     // if(this.state.newsPendingRatings.length == 0){
-//                     //     this.setState({sheetOpen: false});
-//                     //     this.bs.current.snapTo(2);
-//                     //     this.props.navigation.navigate('AddressList',{
-//                     //         next: 'PaperVendors',
-//                     //         user: this.props.route.params.user,
-//                     //         actualUser: this.state.actualUser,
-//                     //         tag: 'Paper',
-//                     //         profile: true
-//                     //     });
-//                     // }
-//                     // else{
-//                     //     const milk = tempNews;
-//                     //     this.setState({sheetOpen: false});
-//                     //     this.bs.current.snapTo(2);
-//                     //     this.setState({ratingOrderDetails : {
-//                     //         Date: ymdToApp(milk[0].order_date),
-//                     //         Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
-//                     //         Product: milk[0].product_name,
-//                     //         Quantitiy: milk[0].quantity,
-//                     //         Vendor: milk[0].company_name
-//                     //     }});
-//                     //     this.setState({remountRating: Math.random(0.4).toString()});
-//                     // }
-//                 }
-//                 else{
-//                     const tempMilk = this.state.milkPendingRatings;
-//                     console.log('abccbauncsnocno');
-//                     tempMilk.splice(0,1);
-//                     this.setState({milkPendingRatings: tempMilk});
-//                     console.log(tempMilk);
-
-//                     if(this.state.milkPendingRatings.length >0 ){
-//                         const milk = tempMilk;
-//                         this.setState({ratingOrderDetails : {
-//                             Date: ymdToApp(milk[0].order_date),
-//                             Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
-//                             Product: milk[0].product_name,
-//                             Quantitiy: milk[0].quantity,
-//                             Vendor: milk[0].company_name
-//                         }});
-//                         this.setState({ratingOrderMeta: milk[0]});
-//                     }
-//                     else{
-//                         this.setState({sheetOpen: false});
-//                         this.bs.current.snapTo(2);
-//                         // this.props.route.params.goToMySubs();
-//                         this.props.navigation.navigate('AddressList',{
-//                             next: 'MilkVendors',
-//                             user: this.props.route.params.user,
-//                             actualUser: this.state.actualUser,
-//                             tag: 'Milk',
-//                             profile: true,
-//                             ...this.props.route.params
-//                         });
-//                         this.setState({remountRating: Math.random(0.4).toString()});
-
-//                     }
-                    
-//                 }
-//             //this.setState({newsPendingRatings: []});
-//             //this.retrievePendingRatings();
-//         })
-//    }} order_details={this.state.ratingOrderDetails} />
-//    </View>
-//   </View>
-// </View>
-// )
-
-// }
+import { AuthContext, useAuth } from '../services/auth-service';
 
 
 
@@ -233,15 +31,7 @@ export default class Homescreen extends React.Component{
         this.state={
         
             firstLogin: false,
-            username: 'William Darcy',
-            city: 'Bengaluru',
-            title: 'What are you looking for?',
-            desc: 'Select services and checkout easily',
-            milk: 'Milk Delivery',
-            news: 'Newspaper Delivery',
-            scrap: 'Corporate Scrap',
-            corporate: 'Home Scrap',
-            address: 'Tap here to add an address',
+         
             actualUser: this.props.route.params.actualUser,
             pressedMenu: false,
             drawer: this.props.route.params.drawer,
@@ -264,6 +54,16 @@ export default class Homescreen extends React.Component{
             news: require('./../../assets/newspaper.png'),
             scrap: require('./../../assets/scrap.png'),
             banner: require('./../../assets/homebanner.png'),
+        },
+        this.words={
+            title: 'What are you looking for?',
+            desc: 'Select services and checkout easily',
+            milk: 'Milk Delivery',
+            news: 'Newspaper Delivery',
+            scrap: 'Corporate Scrap',
+            corporate: 'Home Scrap',
+            address: 'Tap here to add an address',
+
         }
         this.bs=React.createRef();
         this.temp=0;
@@ -274,11 +74,9 @@ export default class Homescreen extends React.Component{
 
 r
     checkIfFirstLogin= async ()=>{
-      //  console.log('someeeeeething');
         const jsondata=  await AsyncStorage.getItem('firstLogin');
         const firstLogin= await JSON.parse(jsondata);
         if(firstLogin == null){
-         //   console.log('meh',firstLogin);
             navigation.navigate('About')
           this.props.navigation.navigate('About',{firstLogin: true});
           this.setState({firstLogin: true})
@@ -292,90 +90,73 @@ r
 
     
      retrieveUserData= async ()=>{
-        const user= this.props.route.params.user; //auth().currentUser;//this.props.route.params.user;
+        const user= useAuth().authContext.user;
         
         Axios.get(Config.api_url+'php?action=getUser&phone='+user.phoneNumber.substring(3))
             .then((response)=>{
               try{
-                console.log(response.data.user[0]);
                 this.setState({actualUser: response.data.user[0]})
 
               }
               catch(error){
-                console.log('theerror',error);
+                alert('An error occured')
+                console.log('error',error);
                 
               }
             },(error)=>{
-                console.log('error');
+                alert('An error occured')
+
+                console.log('error',error);
              
             });
       }
     
-    retrievePendingRatings = async () => {
+    // Checks if the user has any ratings to submit
+    retrievePendingRatings = async (times) => {
        
+        if(times<0) return;
         try{
             const defUrl = Config.api_url+'php?action=getPendingRating&'+qs.stringify({
                 user_id: this.state.actualUser.user_id})+'&product_type=';
-            
-            console.log('user_id', this.state.actualUser.user_id);
-            const milk_pending = await Axios.get(defUrl+'milk');
-            console.log('milkpending', milk_pending.data);
+             const milk_pending = await Axios.get(defUrl+'milk');
             this.setState({milkPendingRatings: milk_pending.data});
             const news_pending = await Axios.get(defUrl+'newspaper');
-            console.log('news_pending', news_pending.data);
             this.setState({newsPendingRatings: news_pending.data});
             const corp_pending = await Axios.get(defUrl+'corporate_scrap');
-         //   console.log('corps',corp_pending);
             this.setState({corpPendingRatings: corp_pending.data});
 
         }
         catch(error){
-            console.log('pendingrating error', error);
+            alert('An error occured');
+            console.log('Pending Rating Error', error);
+            this.retrievePendingRatings(--times)
         }
 
     }
 
 
     componentDidMount(){
-        const {navigation}= this.props;
-        //this.checkIfFirstLogin();
-        // this.retrieveUserData(10);
-        this.retrievePendingRatings();
-        //this.setState({actualUser: this.props.actualUser});
-    //     this.focusListener= navigation.addListener('focus',()=>{
-    //         //this.checkIfFirstLogin();
-    //         this.retrieveUserData(10);
-    //         //this.retrievePendingRatings();
-    //    });
-
+ 
+        this.retrievePendingRatings(5);
+    
         BackHandler.addEventListener('hardwareBackPress',this.onBackPress);
     }
 
     onBackPress=()=>{
-     //   this.props.navigation.navigate('Homescreen');
-     //   return true;
-     
-    //  this.props.navigation.reset();
+    
     try{
-        //this.props.navigation.popToTop();
        BackHandler.exitApp();
-      // sendNotif('Hey','Closing','user165')
-
        console.log('Exiting');
 
     }
     catch(e){
-    //    sendNotif('Hey','Check','user165')
-
     console.log('caught');
     };
        
       }
   
       componentWillUnmount(){
-      //  this.props.navigation.popToTop();
         BackHandler.removeEventListener('hardwareBackPress',this.onBackPress);
-       // this.props.navigation.popToTop();
       }
   
     
@@ -394,8 +175,8 @@ r
                         style={{backgroundColor: Colors.lightBlue,paddingBottom: 100}}
                         >
 
-                        <View style={{backgroundColor:'white', alignItems:'flex-end',padding:'1%'}}>
-                        <MaterialIcons name="keyboard-arrow-down" size={25} color="black" 
+                        <View style={{backgroundColor:Colors.white, alignItems:'flex-end',padding:'1%'}}>
+                        <MaterialIcons name="keyboard-arrow-down" size={25} color={Colors.black}
                         onPress={() => {
                             this.setState({sheetOpen:false})
                             this.bs.current.snapTo(2);
@@ -418,8 +199,6 @@ r
                         feedback: comments,
                         order_id: this.state.ratingOrderMeta.bid_id
                     })).then((response)=>{
-                        const data = response.data;
-                        console.log("Rated "+data);
                         const tempCorp = this.state.corpPendingRatings;
                         tempCorp.splice(0,1);
                         if(tempCorp.length > 0){
@@ -427,7 +206,6 @@ r
                             this.setState({ratingTypeOpen: 'corp'});
 
                             this.setState({remountRating: Math.random(0.4).toString()});
-                            console.log(news);
                             this.setState({ratingOrderMeta: news[0]});
                             this.setState({ratingOrderDetails : {
                                 Date: ymdToApp(news[0].bid_pickupdate),
@@ -436,12 +214,11 @@ r
                                 Product: news[0].officescrap_category_name,
                                 Vendor: news[0].company_name
                             }}).catch((e) => {
-                                console.log("Error: "+e)
+                                console.log("Error",e)
                             })
 
                         }
                         else{
-                            // this.props.route.params.goToMySubs();
                             this.bs.current.snapTo(2);
                             this.props.navigation.navigate('Bids',{
                                 next: 'Bids',
@@ -464,10 +241,9 @@ r
                     feedback: comments,
                     order_id: this.state.ratingOrderMeta.order_id
                 }),{}).then((response)=>{
-                    console.log('asosja');
                     console.log(response.data);
                     console.log({
-                        action: 'postRating',
+                    action: 'postRating',
                     user_id: this.state.actualUser.user_id,
                     vendor_id: this.state.ratingOrderMeta.vendor_id,
                     product_type: this.state.ratingOrderMeta.product_type,
@@ -506,31 +282,6 @@ r
                                 this.setState({remountRating: Math.random(0.4).toString()});
                             }
                             
-
-                            // if(this.state.newsPendingRatings.length == 0){
-                            //     this.setState({sheetOpen: false});
-                            //     this.bs.current.snapTo(2);
-                            //     this.props.navigation.navigate('AddressList',{
-                            //         next: 'PaperVendors',
-                            //         user: this.props.route.params.user,
-                            //         actualUser: this.state.actualUser,
-                            //         tag: 'Paper',
-                            //         profile: true
-                            //     });
-                            // }
-                            // else{
-                            //     const milk = tempNews;
-                            //     this.setState({sheetOpen: false});
-                            //     this.bs.current.snapTo(2);
-                            //     this.setState({ratingOrderDetails : {
-                            //         Date: ymdToApp(milk[0].order_date),
-                            //         Duration: getDuration(milk[0].subscription_start_date, milk[0].subscription_end_date)+ ' Day/s',
-                            //         Product: milk[0].product_name,
-                            //         Quantitiy: milk[0].quantity,
-                            //         Vendor: milk[0].company_name
-                            //     }});
-                            //     this.setState({remountRating: Math.random(0.4).toString()});
-                            // }
                         }
                         else{
                             const tempMilk = this.state.milkPendingRatings;
@@ -567,8 +318,7 @@ r
                             }
                             
                         }
-                    //this.setState({newsPendingRatings: []});
-                    //this.retrievePendingRatings();
+                  
                 })
            }} order_details={this.state.ratingOrderDetails} />
            </View>
@@ -592,7 +342,6 @@ r
 
     render(){
 
-     //   return<ProductVendor />
       
         const {drawer} = this.props;
         const {user} = this.props.route.params;
