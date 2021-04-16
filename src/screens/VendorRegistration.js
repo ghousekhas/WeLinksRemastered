@@ -74,6 +74,7 @@ export default function VendorRegistration({navigation,route}){
     },[]);
 
     const submitRegistration= (services,milk,paper,office,home)=>{
+        setLoading(true);
         console.log(services);
         console.log(milk);
         console.log(paper);
@@ -115,7 +116,9 @@ export default function VendorRegistration({navigation,route}){
         var dataFormatted = dataUnFormatted.replace(replaer,'\[\]');
         Axios.post(Config.api_url+'php?action=registerVendor&'+dataFormatted,fromData).then((response)=>{
             console.log(response.data);
+            checkVendorStatus();
             authContext.sync();
+            setLoading(false);
 
         },(error)=>{
             console.log(error);
@@ -220,7 +223,7 @@ export default function VendorRegistration({navigation,route}){
                 <View style={{...StyleSheet.absoluteFill,justifyContent: 'flex-start',backgroundColor: 'white'}}>
                         <View style={{height: dimen.appbarHeight}}>
                         <AppBar  funct={() => {
-        navigation.toggleDrawer();
+                            route.params.navDrawer.toggleDrawer();
         }} />
         </View>
         <TouchableOpacity 

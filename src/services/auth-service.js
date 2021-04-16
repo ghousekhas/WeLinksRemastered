@@ -60,7 +60,7 @@ export default function AuthProvider({children}){
           action: "getUser",
           phone: debug ?  debugNumber : auth().currentUser.phoneNumber.substring(3)
         })))).data;
-        if(result.user[0].status_code != "100"){
+        if(result.user[0].status_code != "100" && result.user[0].status_code != 100){
           setUser(result.user[0]);
           const user_result = result.user[0];
           //Caching? 
@@ -102,7 +102,7 @@ export default function AuthProvider({children}){
 
         }
         else{
-          //setUser(AuthConstants.phone_verified);
+          setUser(AuthConstants.phone_verified);
           AsyncStorage.removeItem(AuthConstants.saved_user);
           AsyncStorage.removeItem(AuthConstants.saved_vendor);
         }
