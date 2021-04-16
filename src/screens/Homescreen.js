@@ -20,6 +20,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import qs from 'qs';
 import ymdToApp, {getDuration} from '../Utility/dateConvertor';
 import { useAuth } from '../services/auth-service';
+import ProductVendor from './ProductVendor';
 
 
 
@@ -324,7 +325,7 @@ r
             console.log('news_pending', news_pending.data);
             this.setState({newsPendingRatings: news_pending.data});
             const corp_pending = await Axios.get(defUrl+'corporate_scrap');
-            console.log('corps',corp_pending);
+         //   console.log('corps',corp_pending);
             this.setState({corpPendingRatings: corp_pending.data});
 
         }
@@ -496,10 +497,10 @@ r
                                 this.bs.current.snapTo(2);
                                 // this.props.route.params.goToMySubs();
                                 this.props.navigation.navigate('AddressList',{
-                                    next: 'PaperVendors',
+                                    next: 'ProductVendors',
                                     user: this.props.route.params.user,
                                     actualUser: this.state.actualUser,
-                                    tag: 'Paper',
+                                    tag: 'Newspaper',
                                     profile: true
                                 });
                                 this.setState({remountRating: Math.random(0.4).toString()});
@@ -554,7 +555,7 @@ r
                                 this.bs.current.snapTo(2);
                                 // this.props.route.params.goToMySubs();
                                 this.props.navigation.navigate('AddressList',{
-                                    next: 'MilkVendors',
+                                    next: 'ProductVendors',
                                     user: this.props.route.params.user,
                                     actualUser: this.state.actualUser,
                                     tag: 'Milk',
@@ -590,6 +591,9 @@ r
     
 
     render(){
+
+     //   return<ProductVendor />
+      
         const {drawer} = this.props;
         const {user} = this.props.route.params;
 
@@ -698,7 +702,7 @@ r
                             this.bs.current.snapTo(2);
                             // this.props.route.params.goToMySubs();
                             this.props.navigation.navigate('AddressList',{
-                                next: 'MilkVendors',
+                                next: 'ProductVendors',
                                 user: user,
                                 actualUser: this.state.actualUser,
                                 tag: 'Milk',
@@ -754,10 +758,10 @@ r
                         }
                         else{
                             this.props.navigation.navigate('AddressList',{
-                                next: 'PaperVendors',
+                                next: 'ProductVendors',
                                 user: user,
                                 actualUser: this.state.actualUser,
-                                tag: 'Paper',
+                                tag: 'Newspaper',
                                 profile: true,
                                 ...this.props.route.params
                             });

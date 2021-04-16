@@ -51,7 +51,8 @@ export const Colors = {
     whiteBackground: '#F9F9F9',
     buttonEnabledGreen: '#64E4cE',
     lightBlue : '#EDF9F9',
-    ratingStars: '#F7B604'
+    ratingStars: '#F7B604',
+    black: '#000000'
 }
 
 export const Constants={

@@ -17,20 +17,20 @@ export default function WalletScreen({navigation,route}){
     const user = useAuth();
     console.log(user);
     const {back} = route.params;
-    const [flatListre, setFlatReference] = useState(null); //remount flat list
+    const [flatListre, setFlatReference] = useState(null); // remount flat list
     const [transcationsLength, setTransactionsLength] = useState(0); 
-    const [selectedTab, setSelectedTab] = useState(0);  //credit, debit, all
+    const [selectedTab, setSelectedTab] = useState(0);  // credit, debit, all
     const [remountKey, setRemountKey] = useState('0');
 
     useEffect(()=>{
 
         //Hardware BackButtion action
         BackHandler.addEventListener('hardwareBackPress',()=>{
-            back ? route.params.goBack() :route.params.goToHomeStack();
+            route.params.goToHomeStack();
             return true;
         });
 
-        //update transcations from backend on every reload
+        //update transactions from backend on every reload
         navigation.addListener('focus',()=>{
             axios.get(Config.api_url+'php?'+qs.stringify({
                 action: 'getWalletTransactions',
@@ -66,7 +66,7 @@ export default function WalletScreen({navigation,route}){
                     title="Wallet"
                     back={back ? true : false}
                     funct={()=>{
-                        back ? route.params.goBack() : navigation.toggleDrawer();
+                        route.params.toggleDrawer()
                     }} 
                 />
             </View>
@@ -107,9 +107,7 @@ export default function WalletScreen({navigation,route}){
                         extraData={remountKey}
                         data={["All","debit","credit"]}
                         key={(index)=> index.toString()}
-                        // contentContainerStyle={{backgroundColor: 'yellow'}}
                         disableIntervalMomentum={true}
-                        // style={{backgroundColor: 'blue'}}
                         bounces={false}
                         pagingEnabled
                         onScroll={({nativeEvent})=>{
@@ -130,7 +128,6 @@ export default function WalletScreen({navigation,route}){
                                 <FlatList
                                 data={item == "All" ?  transcations: transcations.filter(transaction => item == transaction.trans_type )}
                                 key= {( index)=> index.toString()}
-                                // style={{backgroundColor: 'pink'}}
                                 ItemSeparatorComponent={()=> <View style={{backgroundColor: Colors.seperatorGray, height: 1}}/>}
                                 renderItem={({item})=>{
                                     console.log(item);
@@ -168,3 +165,6 @@ export default function WalletScreen({navigation,route}){
     );
 }
 
+const styles = StyleSheet.create({
+
+})

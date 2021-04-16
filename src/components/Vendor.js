@@ -42,6 +42,8 @@ const Vendor = ({ name, brands, stars, reviews, onSelected, buttonVisible, addre
 
     return (
         <View style={style.container}>
+                    {/* <Image style={{ ...style.image,height: dimen.width/6,width: dimen.width/6, alignSelf: 'flex-start', borderWidth: 1 }} source={imageUrl.trim() != '' ? { uri: imageUrl } : require('../../assets/notmaleavatar.png')}  resizeMethod="resize" resizeMode="contain"/> */}
+
             <Image style={{ ...style.image,height: dimen.width/6,width: dimen.width/6, alignSelf: 'flex-start', borderWidth: 1 }} source={imageUrl.trim() != '' ? { uri: imageUrl } : require('../../assets/notmaleavatar.png')}  resizeMethod="resize" resizeMode="contain"/>
 
             <View style={{ marginStart: '4%',width: dimen.width/2}}>

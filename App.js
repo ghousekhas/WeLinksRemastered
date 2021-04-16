@@ -16,6 +16,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import NavigationDrawer from './src/navigation/NavigationDrawer';
 
 
+
 //Enabling legacy geolocation for location services
 navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -59,7 +60,7 @@ export default function App() {
     setInitVendor(vendor);
   }
 
-  //Notificatoin launching different screeens
+  //Notification launching different screens
   const handleNotification = (notification) => {
     try{
     const id = notification.payload.identifier;
@@ -140,6 +141,9 @@ export default function App() {
       </View>
     );
   if (use == AuthConstants.phone_verified ) 
+
+
+
     return (
       <View style={{ flex: 1 }}>
         <About user={user} getUserDetails={getUserDetails} />
@@ -152,7 +156,7 @@ export default function App() {
       var apendingActionItem = use.pending_action.homescrap[0];
 
     
-     //Applocking
+     //App-locking
 
     if (apendingAction > 0 && apendingActionItem != null && true /*add scrap condition*/) {
       console.log("I exist " + apendingActionItem)

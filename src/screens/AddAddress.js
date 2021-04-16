@@ -9,94 +9,95 @@ import { Styles } from '../Constants';
 import qs from 'qs';
 import { Ionicons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import { Config,Colors } from '../Constants';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import axios from 'axios';
+import { Config, Colors, dimen } from '../Constants';
 
-const height = Dimensions.get('window').height;
+const height = dimen.height;
+const width = dimen.width;
 var lowerPanelHeight = height / 1.7;
 var lowerAddressHeight = lowerPanelHeight / 3;
 var panelTranslateAfter = (0);
 var panelTranslate = (lowerPanelHeight - lowerAddressHeight);
 
+// Adds new addresses for vendors or users
+
 export default class AddAddress extends React.Component {
   constructor(props) {
     super(props);
     this.constants = {
-      additionalInfoChars : 300,
-      landmarkChars : 200,
-      labelChars : 100
+      additionalInfoChars: 300,
+      landmarkChars: 200,
+      labelChars: 100
     },
-    this.state = {
-      circlemark: new Animated.Value(0),
-      circleopacity: new Animated.Value(1),
-      circlemarktrail: new Animated.Value(0),
-      circleopacitytrail: new Animated.Value(1),
-      bottomPanelAnimation: new Animated.Value(panelTranslateAfter),
-      inputsValid: false,
-      adding: false,
-      additionalInfoChars : 0,
-      landmarkChars : 0,
-      labelChars : 0,
-      type: props.route.params.type === 'vendorRegistration' ? 0 : 1,
-      vendorEdit: props.route.params.vendorEdit === true ? true : false,
-      arrowOpacity: new Animated.Value(0),
-      marker: {
-        title: 'Home',
-        description: 'Move map around to focus on point',
-      },
-      title: props.route.params.placeName,
-      description: 'city',
-      flexfor: 3,
-      latitude: this.props.route.params.initialCamera.center.latitude,
-      longitude: this.props.route.params.initialCamera.center.longitude,
-      landmark: '',
-      fineAddressInfo: '',
-      label: '',
-      pincode: ''
-    };
+      this.state = {
+        circlemark: new Animated.Value(0),
+        circleopacity: new Animated.Value(1),
+        circlemarktrail: new Animated.Value(0),
+        circleopacitytrail: new Animated.Value(1),
+        bottomPanelAnimation: new Animated.Value(panelTranslateAfter),
+        inputsValid: false,
+        adding: false,
+        additionalInfoChars: 0,
+        landmarkChars: 0,
+        labelChars: 0,
+        type: props.route.params.type === 'vendorRegistration' ? 0 : 1,
+        vendorEdit: props.route.params.vendorEdit,  // check
+        arrowOpacity: new Animated.Value(0),
+        marker: {
+          title: 'Home',
+          description: 'Move map around to place pin',
+        },
+        title: props.route.params.placeName,
+        description: 'city',
+        flexfor: 3,
+        latitude: this.props.route.params.initialCamera.center.latitude,
+        longitude: this.props.route.params.initialCamera.center.longitude,
+        landmark: '',
+        fineAddressInfo: '',
+        label: '',
+        pincode: ''
+      };
     this.location = {
       latitude: this.props.route.params.initialCamera.center.latitude,
       longitude: this.props.route.params.initialCamera.center.longitude
     };
     this.errorMst = {};
     this.landmarkBox = null;
-    this.placesstyle=StyleSheet.create({
-      listView:{
+    this.placesstyle = StyleSheet.create({
+      listView: {
         zIndex: 201,
       },
-      textInputContainer:{
+      textInputContainer: {
         width: '100%',
-        backgroundColor: 'white'
+        backgroundColor: Colors.white
       },
-  
-      textInput:{
-          fontWeight: 'bold',
-          fontSize: 17,
-          padding: 40,
+
+      textInput: {
+        fontWeight: 'bold',
+        fontSize: 17,
+        padding: 40,
       },
-      row:{
-          padding: 10,
-          backgroundColor: 'white',
-          margin: 5
-  
+      row: {
+        padding: 10,
+        backgroundColor: Colors.white,
+        margin: 5
+
       },
     })
   };
 
-  
+
 
   addAddress = async () => {
 
     const { user_id } = this.props.route.params.actualUser;
-    const { label, pincode, title, description, latitude, longitude, landmark, fineAddressInfo } = this.state;
+    const { label, pincode, title, landmark, fineAddressInfo } = this.state;
     if (this.state.type === 0) {
       this.setState({ adding: true });
       this.props.route.params.callback({
         user_id: user_id,
         label: label,
         pincode: pincode,
-        address: fineAddressInfo + ' ' + title,
+        address: `${fineAddressInfo} ${title}`,  // check
         landmark: landmark,
         lat: this.location.latitude,
         lng: this.location.longitude
@@ -106,10 +107,7 @@ export default class AddAddress extends React.Component {
     }
     else {
 
-
-
       if (this.state.title != 'loading') {
-        console.log('attempting to add an address');
         const data = this.state.vendorEdit ? qs.stringify({
           vendor_id: this.props.route.params.vendor_id,
           label: label,
@@ -128,11 +126,10 @@ export default class AddAddress extends React.Component {
             lat: this.location.latitude,
             lng: this.location.longitude
           });
-          console.log(data);
+
         Axios.post(Config.api_url + 'php?action=addAddress&' + data,).then((response) => {
           console.log(response.data);
           this.setState({ adding: false });
-          //this.props.route.params.refresh();
           this.props.route.params.onComeBack(true);
           this.props.navigation.goBack();
 
@@ -228,33 +225,33 @@ export default class AddAddress extends React.Component {
     })
   };
 
-  addressSelected =async (data,details) =>{
-    const actualUser= this.props.route.params.actualUser;
+  addressSelected = async (data, details) => {
+    const actualUser = this.props.route.params.actualUser;
     console.log(details);
     console.log(details.place_id);
-    axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
-      params:{
+    Axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
         place_id: details.place_id,
-        key: 'AIzaSyAghIaP3yetD5ooDpwcAK5GF0b6-YkpV8w'
+        key: process.env.API_KEY
       }
-    }).then((response)=>{
-      var locy= response.data.results[0].geometry.location;
+    }).then((response) => {
+      var locy = response.data.results[0].geometry.location;
       console.log(locy);
       this.map.animateCamera(
         {
-        center: {
-          latitude: locy.lat,
-          longitude: locy.lng
+          center: {
+            latitude: locy.lat,
+            longitude: locy.lng
           },
-        pitch: 0,
-        heading: 0,
-        zoom: 15
-      }
-      , {duration: 1000});
+          pitch: 0,
+          heading: 0,
+          zoom: 15
+        }
+        , { duration: 1000 });
     });
   }
   checkFieldsValidity = () => {
-    if (this.state.landmark.trim().length < 2 || this.state.landmark.length > this.constants.landmarkChars || this.state.fineAddressInfo.trim().length < 2 ||  this.state.fineAddressInfo.length > this.constants.additionalInfoChars  || this.state.label.trim().length < 2 || this.state.label.length > this.constants.labelChars)
+    if (this.state.landmark.trim().length < 2 || this.state.landmark.length > this.constants.landmarkChars || this.state.fineAddressInfo.trim().length < 2 || this.state.fineAddressInfo.length > this.constants.additionalInfoChars || this.state.label.trim().length < 2 || this.state.label.length > this.constants.labelChars)
       this.setState({ inputsValid: false });
     else
       this.setState({ inputsValid: true })
@@ -295,7 +292,6 @@ export default class AddAddress extends React.Component {
       longitude: parameter.longitude
     }
     this.setState({ latitude: parameter.latitude, longitude: parameter.longitude })
-    //this.setState({title: parameter.latitude,description: parameter.longitude});
     Axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
       params: {
         latlng: parameter.latitude + ',' + parameter.longitude,
@@ -329,16 +325,14 @@ export default class AddAddress extends React.Component {
     }).start();
 
   };
-  mapinit = () => {
+  mapinit = () => { };
 
-  };
+  onPress = () => { };
 
-  onPress = () => {
-  };
   render() {
     const { circlemark, circleopacity, circlemarktrail, circleopacitytrail, bottomPanelAnimation, arrowOpacity } = this.state;
 
-    var submitButton;
+    let submitButton;
 
     if (this.state.adding)
       return (
@@ -367,8 +361,10 @@ export default class AddAddress extends React.Component {
         <MapView style={{ height: height / 5 * 3.5, position: 'absolute', top: 0, width: '100%' }} mapstyle={mapstyle} ref={ref => this.map = ref}
           onTouchStart={this.regionChanging}
           onRegionChangeComplete={(region) => this.addressChanged(region)}
-          onPanDrag= {(event)=>{try{this.googlePlaces.blur()}
-          catch(error){}}}
+          onPanDrag={(event) => {
+            try { this.googlePlaces.blur() }
+            catch (error) { }
+          }}
           showsCompass={false}
           pitchEnabled={false}
           showsUserLocation={true}
@@ -384,46 +380,46 @@ export default class AddAddress extends React.Component {
         </MapView>
         <View style={{ flex: 1.5 }} />
 
-        <Animated.View style={{ ...styles.lowerpanel, transform: [{ translateY: bottomPanelAnimation }],flex:1 }} >
+        <Animated.View style={{ ...styles.lowerpanel, transform: [{ translateY: bottomPanelAnimation }], flex: 1 }} >
           <ScrollView style={styles.lowerhorizontal}>
             <Text style={styles.heading}>{this.state.title}</Text>
             <Text style={styles.otherHeading}>Additional Address Info:</Text>
-            
-            <TextInput  ref={this.landmarkBox} placeholder={'Enter address details here like Flat/Door no'} accessibilityHint={'Additional Info'} style={styles.inputBox} 
+
+            <TextInput ref={this.landmarkBox} placeholder={'Enter address details here like Flat/Door no'} accessibilityHint={'Additional Info'} style={styles.inputBox}
               onChangeText={(text) => {
-              this.setState({additionalInfoChars : text.length})
-              this.setState({ fineAddressInfo: text })
-              this.checkFieldsValidity()
-            }} />
-            <View style={{...styles.characterLimit,opacity: this.state.additionalInfoChars >= this.constants.additionalInfoChars ? 1 : 0,height: this.state.additionalInfoChars >= this.constants.additionalInfoChars ? 14 : 0  }}>
-            <Ionicons style={{margin: '1%',alignSelf:'center'}} name="ios-information-circle-outline" size={18} color= {Colors.red}/>
-            <Text style={{color:Colors.red,alignSelf:'center',fontSize:14,fontWeight:'bold',marginVertical: '2%'}}>{`Additional Info must be less than ${this.constants.additionalInfoChars} characters`}</Text>
+                this.setState({ additionalInfoChars: text.length })
+                this.setState({ fineAddressInfo: text })
+                this.checkFieldsValidity()
+              }} />
+            <View style={{ ...styles.characterLimit, opacity: this.state.additionalInfoChars >= this.constants.additionalInfoChars ? 1 : 0, height: this.state.additionalInfoChars >= this.constants.additionalInfoChars ? 14 : 0 }}>
+              <Ionicons style={{ margin: '1%', alignSelf: 'center' }} name="ios-information-circle-outline" size={18} color={Colors.red} />
+              <Text style={{ color: Colors.red, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', marginVertical: '2%' }}>{`Additional Info must be less than ${this.constants.additionalInfoChars} characters`}</Text>
 
             </View>
             <Text style={styles.otherHeading}> Landmark:</Text>
-            <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={styles.inputBox} 
+            <TextInput ref={this.landmarkBox} placeholder={'Enter landmark here'} accessibilityHint={'Landmark'} style={styles.inputBox}
               onChangeText={(text) => {
-                this.setState({landmarkChars : text.length})
-              this.setState({ landmark: text })
-              this.checkFieldsValidity()
-            }} />
-          
-              <View style={{...styles.characterLimit,opacity: this.state.landmarkChars >= this.constants.landmarkChars ? 1 : 0,height:this.state.landmarkChars >= this.constants.landmarkChars ? 14 : 0 }}>
-            <Ionicons style={{margin: '1%',alignSelf:'center'}} name="ios-information-circle-outline" size={18} color= {Colors.red}/>
-            <Text style={{color:Colors.red,alignSelf:'center',fontSize:14,fontWeight:'bold',marginVertical: '2%'}}>{`Landmark must be less than ${this.constants.landmarkChars} characters.`}</Text>
+                this.setState({ landmarkChars: text.length })
+                this.setState({ landmark: text })
+                this.checkFieldsValidity()
+              }} />
+
+            <View style={{ ...styles.characterLimit, opacity: this.state.landmarkChars >= this.constants.landmarkChars ? 1 : 0, height: this.state.landmarkChars >= this.constants.landmarkChars ? 14 : 0 }}>
+              <Ionicons style={{ margin: '1%', alignSelf: 'center' }} name="ios-information-circle-outline" size={18} color={Colors.red} />
+              <Text style={{ color: Colors.red, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', marginVertical: '2%' }}>{`Landmark must be less than ${this.constants.landmarkChars} characters.`}</Text>
 
             </View>
             <Text style={styles.otherHeading}> Label:</Text>
-            <TextInput  ref={this.landmarkBox} placeholder={'Enter identificaiton label here'} accessibilityHint={'Label'} style={styles.inputBox} 
-            onChangeText={(text) => {
-              this.setState({labelChars : text.length})
-              this.setState({ label: text })
-              this.checkFieldsValidity()
-            }} />
-            
-            <View style={{...styles.characterLimit,opacity: this.state.labelChars >= this.constants.labelChars ? 1 : 0,height: this.state.labelChars >= this.constants.labelChars ? 14 : 0 }}>
-            <Ionicons style={{margin: '1%',alignSelf:'center'}} name="ios-information-circle-outline" size={18} color= {Colors.red}/>
-            <Text style={{color:Colors.red,alignSelf:'center',fontSize:14,fontWeight:'bold',marginVertical: '2%'}}>{`Label must be less than ${this.constants.labelChars} characters.`}</Text>
+            <TextInput ref={this.landmarkBox} placeholder={'Enter identificaiton label here'} accessibilityHint={'Label'} style={styles.inputBox}
+              onChangeText={(text) => {
+                this.setState({ labelChars: text.length })
+                this.setState({ label: text })
+                this.checkFieldsValidity()
+              }} />
+
+            <View style={{ ...styles.characterLimit, opacity: this.state.labelChars >= this.constants.labelChars ? 1 : 0, height: this.state.labelChars >= this.constants.labelChars ? 14 : 0 }}>
+              <Ionicons style={{ margin: '1%', alignSelf: 'center' }} name="ios-information-circle-outline" size={18} color={Colors.red} />
+              <Text style={{ color: Colors.red, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', marginVertical: '2%' }}>{`Label must be less than ${this.constants.labelChars} characters.`}</Text>
 
             </View>
 
@@ -431,18 +427,18 @@ export default class AddAddress extends React.Component {
           </ScrollView>
           {submitButton}
         </Animated.View>
-       
 
-        
-          <TouchableOpacity 
+
+
+        <TouchableOpacity
           style={styles.backbuttoncontainer}
           onPress={() => {
             this.props.navigation.goBack();
           }}>
-            <Animated.Image style={{...styles.backbutton, opacity: arrowOpacity }} source={require('./../../assets/backbutton.png')} />
-          </TouchableOpacity> 
-          
-        
+          <Animated.Image style={{ ...styles.backbutton, opacity: arrowOpacity }} source={require('./../../assets/backbutton.png')} />
+        </TouchableOpacity>
+
+
 
         <Image source={require('./../../assets/marker.png')} style={styles.marker} />
         <Animated.View style={{
@@ -479,7 +475,7 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed'
   },
   mapview: {
-    height: Dimensions.get('window').height / 5 * 2,
+    height: height / 5 * 2,
     width: '100%'
   },
   lowerpanel: {
@@ -542,9 +538,9 @@ const styles = StyleSheet.create({
   },
   anim: {
     position: 'absolute',
-    top: Dimensions.get('window').height / 10 * 3.5 - 50,
-    left: Dimensions.get('window').width / 2 - 50,
-    right: Dimensions.get('window').width / 2 - 50,
+    top: height / 10 * 3.5 - 50,
+    left: width / 2 - 50,
+    right: width / 2 - 50,
     height: 100,
     width: 100,
     borderRadius: 50,
@@ -556,9 +552,9 @@ const styles = StyleSheet.create({
   },
   animtrail: {
     position: 'absolute',
-    top: Dimensions.get('window').height / 10 * 3.5 - 50,
-    left: Dimensions.get('window').width / 2 - 50,
-    right: Dimensions.get('window').width / 2 - 50,
+    top: height / 10 * 3.5 - 50,
+    left: width / 2 - 50,
+    right: width / 2 - 50,
     height: 100,
     width: 100,
     borderRadius: 50,
@@ -583,9 +579,9 @@ const styles = StyleSheet.create({
   },
   marker: {
     position: 'absolute',
-    top: Dimensions.get('window').height / 10 * 3.5 - 40,
-    left: Dimensions.get('window').width / 2 - 20,
-    right: Dimensions.get('window').width / 2 - 20,
+    top: height / 10 * 3.5 - 40,
+    left: width / 2 - 20,
+    right: width / 2 - 20,
     height: 40,
     width: 40,
     zIndex: 100,
@@ -612,7 +608,7 @@ const styles = StyleSheet.create({
   },
   currentlocationcontainer: {
     position: 'absolute',
-    bottom: 0,//Dimensions.get('window').height*1.2/5.2+25,
+    bottom: 0,
     right: 20,
     height: 20,
     width: 35,
@@ -630,10 +626,10 @@ const styles = StyleSheet.create({
     height: 30,
     zIndex: 70
   },
-  characterLimit : {
-    flexDirection : 'row',
+  characterLimit: {
+    flexDirection: 'row',
     alignItems: 'center',
-   
+
   }
 
 

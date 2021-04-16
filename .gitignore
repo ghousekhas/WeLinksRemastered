@@ -208,3 +208,6 @@ package-lock.json
 yarn.lock
 *.lock
 *.lock
+
+# API key
+.env

@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import {Text,View,StyleSheet,BackHandler,FlatList, Dimensions} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Geolocation from '@react-native-community/geolocation';
-import Qs from 'qs';
 import Axios, * as axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -16,6 +15,7 @@ import LottieView from 'lottie-react-native';
 import {Config} from  '../Constants';
 import * as Location from 'expo-location';
 import { ActivityIndicator } from 'react-native-paper';
+import { MAPS_API_KEY, PLACES_API_KEY } from '@env';
 
 const height= Dimensions.get('window').height;
 
@@ -259,7 +259,7 @@ export default class AddressList extends React.Component{
       axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
         params:{
           place_id: details.place_id,
-          key: 'AIzaSyAghIaP3yetD5ooDpwcAK5GF0b6-YkpV8w'
+          key: MAPS_API_KEY
         }
       }).then((response)=>{
         var locy= response.data.results[0].geometry.location;
@@ -295,7 +295,7 @@ export default class AddressList extends React.Component{
       axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
         params:{
           place_id: details.place_id,
-          key: 'AIzaSyAghIaP3yetD5ooDpwcAK5GF0b6-YkpV8w'
+          key: MAPS_API_KEY
         }
       }).then((response)=>{
         var locy= response.data.results[0].geometry.location;
@@ -347,7 +347,7 @@ export default class AddressList extends React.Component{
           <GooglePlacesAutocomplete
               style={{elevation: 10,zIndex: 10,backgroundColor: 'white'}}
               query={{
-                key: 'AIzaSyAWOAzPnGPVoGCxK7pMgU4TZx6sZQNiofQ',
+                key: PLACES_API_KEY,
                 language: 'en', // language of the results
                 components: 'country:in',
                 location: '12.972442,77.580643',
@@ -406,7 +406,7 @@ export default class AddressList extends React.Component{
           <GooglePlacesAutocomplete
               style={{elevation: 10,zIndex: 10,backgroundColor: 'white'}}
               query={{
-                key: 'AIzaSyAWOAzPnGPVoGCxK7pMgU4TZx6sZQNiofQ',
+                key: PLACES_API_KEY,
                 language: 'en', // language of the results
                 components: 'country:in',
                 location: '12.972442,77.580643',

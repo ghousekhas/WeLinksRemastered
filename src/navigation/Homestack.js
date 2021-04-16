@@ -8,10 +8,9 @@ import AddAddress from '../screens/AddAddress';
 import Homescreen from '../screens/Homescreen';
 import AddressSearch from '../screens/AddressSearch';
 import Cart from '../screens/Cart';
-import MilkVendors from '../screens/MilkVendors';
 import SubscribeScreen from '../screens/SubscribeScreen';
 import AddressList from '../screens/AddressList';
-import PaperVendors from '../screens/PaperVendors';
+import ProductVendors from '../screens/ProductVendors';
 import ScrapVendors from '../screens/ScrapVendors';
 import BidCreation1 from '../screens/BidCreation1';
 import BidCreation2 from '../screens/BidCreation2';
@@ -23,6 +22,7 @@ import ChooseAddress from '../screens/ChooseAddress';
 import AwardBid from '../screens/AwardBid';
 import CorporateMarkPickupScreen from '../screens/CorporateMarkPickupScreen';
 import Payment from '../screens/Payment';
+import ProductVendor from '../screens/ProductVendor';
 import { useAuth } from '../services/auth-service';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -59,10 +59,9 @@ const Homestack = ({ route, navigation }) => {
               <Stack.Screen name='AddressSearch' component={AddressSearch} />
               <Stack.Screen name='AddAddress' component={AddAddress} options={{headerShown: false}} />
               <Stack.Screen name="About" component={About} initialParams={{ user: user }} />
-              <Stack.Screen name="City" component={City} initialParams={{ user: user }} options={{ headerShown: false }} />
-              
-              <Stack.Screen name='MilkVendors' component={MilkVendors} options={{ headerShown: false }} initialParams={{ user: user }} />
-              <Stack.Screen name='PaperVendors' component={PaperVendors} options={{ headerShown: false }} />
+              <Stack.Screen name="City" component={City} initialParams={{ user: user }} options={{ headerShown: false }} />              
+              <Stack.Screen name='ProductVendors' component={ProductVendors} options={{ headerShown: false }} />
+              <Stack.Screen name='ProductVendor' component={ProductVendor} options={{ headerShown: false }} />
               <Stack.Screen name='AddressList' component={AddressList} options={{ headerShown: false }} initialParams={{ navigator: navigation }} />
               <Stack.Screen name='SubscribeScreen' component={SubscribeScreen} options={{ headerShown: false }} />
               <Stack.Screen name='Cart' component={Cart} options={{ headerShown: false }} />
