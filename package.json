@@ -1,5 +1,5 @@
 {
-  "scripts": {
+   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -71,7 +71,7 @@
     "react-navigation-drawer": "^2.6.0",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "tslib": "^2.0.3",
-    "hermes-engine": "0.5.2-rc1"
+    "hermes-engine": "0.5.2-rc1" 
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
