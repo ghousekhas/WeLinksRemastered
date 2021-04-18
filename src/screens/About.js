@@ -42,16 +42,15 @@ const About = ({ navigation, route, getUserDetails, user }) => {
 
 
     const aboutSubmit = async () => {
-        //    console.log(email);
-        //    console.log(name);
+
         console.log(validateEmail());
         if (validateEmail() && name.trim() != '') {
             try {
                 if (edit) {
                     Axios.post(Config.api_url + 'php?action=editUserProfile&' + qs.stringify({
                         user_id: actualUser.user_id,
-                        name: name,
-                        email: email
+                         name,
+                         email
                     })).then((response) => {
                         setLoading(false);
                         alert('Your changes have been saved successfully');
