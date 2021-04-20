@@ -104,7 +104,7 @@ class VendorDashboard extends React.Component {
           <TouchableOpacity
             onPress={() => {
               // this.setState({pressedMenu: true});
-              navigation.toggleDrawer()
+              this.props.route.params.navDrawer.toggleDrawer();
             }}
           >
             <EvilIcons
@@ -276,14 +276,15 @@ class VendorDashboard extends React.Component {
 
 const ProfileSmallView = ({ navigation, userID, classRef }) => {
   console.log('userid ? ' + userID)
-  const vendor = useAuth().vendor
-  const [vendorID, setVendorID] = useState(0)
-  const [displayName, setDisplayName] = useState('')
-  const [vendorImage, setVendorImage] = useState(
-    require('../../assets/notmaleavatar.png'),
-  )
+  const authContext = useAuth();
+  const [vendor,sw] = useState(authContext.vendor);
+  const [image, setImage] = useState('');
 
   useEffect(() => {
+    sw(authContext.vendor);
+    console.log("bizzzzzzzzzzzzzz" ,authContext.vendor.vendor_img_url)
+    setImage(authContext.vendor.vendor_img_url);
+
     navigation.addListener('focus', () => {
       BackHandler.addEventListener('hardwareBackPress', () => {
         //doNothing
@@ -291,7 +292,7 @@ const ProfileSmallView = ({ navigation, userID, classRef }) => {
         return true
       })
     })
-  }, [])
+  }, [authContext]);
   return (
     <TouchableOpacity
       style={styles.usernamecontainer1}
@@ -299,9 +300,9 @@ const ProfileSmallView = ({ navigation, userID, classRef }) => {
         navigation.navigate('VendorProfileStack', vendor)
       }}
     >
-      <Image style={styles.userimage} source={classRef.state.vendor_img_url} />
+      <Image style={styles.userimage} source={{uri: authContext.vendor.vendor_img_url}} />
       <Text adjustsFontSizeToFit style={styles.username}>
-        {classRef.state.vendorDetails.company_name}
+        {vendor.company_name}
       </Text>
     </TouchableOpacity>
   )
@@ -315,6 +316,7 @@ export default function (props) {
       {...props}
       navigation={navigation}
       otherNavigation={props.navigation}
+      route = {props.route}
     />
   )
 }
@@ -423,7 +425,7 @@ const styles = StyleSheet.create({
   },
   userimage: {
     height: dimen.height * 0.023,
-    width: dimen.height * 0.023,
+    width: dimen.height * 0.023
   },
   locim: {
     height: dimen.height * 0.018,

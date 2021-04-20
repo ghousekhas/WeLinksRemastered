@@ -26,8 +26,8 @@ export const AuthContext = React.createContext({user: auth().currentUser,
 export default function AuthProvider({children}){
     const [user, setUser ] = useState(AuthConstants.loading);
     const [vendor, setVendor] = useState(AuthConstants.loading);
-    const debug = false;
-    const debugNumber = "1247896541";
+    const debug = true;
+    const debugNumber = "9874578549";
 
 
     const checkUserAccounts = () =>{
@@ -122,8 +122,9 @@ export default function AuthProvider({children}){
     const checkFirstTime = async  () =>{
         const saved_user = await AsyncStorage.getItem(AuthConstants.saved_user);
 
-        if(debug)
+        if(debug){
           syncAndCacheUser();
+        }
         else{
             if(auth().currentUser == null && debug == false){
               setUser(AuthConstants.phone_unverified);

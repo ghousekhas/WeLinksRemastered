@@ -92,7 +92,7 @@ const VendorHomeStack = ({ navigation, route }) => {
       </View>
     )
 
-  var theInitialParams = { actualUser: actualUser, user: user }
+  var theInitialParams = { actualUser: actualUser, user: user, navDrawer: navigation };
 
   if (
     verification === Constants.veFirstTime ||

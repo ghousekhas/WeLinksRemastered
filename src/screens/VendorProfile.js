@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
+import {useIsDrawerOpen} from '@react-navigation/drawer';
 import {
   BackHandler,
   View,
@@ -19,6 +20,7 @@ import DocumentPicker from 'react-native-document-picker'
 import qs from 'qs'
 import { Config } from '../Constants'
 import { useAuth } from '../services/auth-service'
+import { DrawerActions } from 'react-navigation-drawer';
 
 const VendorProfile = ({ navigation, route }) => {
   const [profileDetails, setProfileDetails] = useState(route.params.actualUser) //[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
@@ -26,7 +28,10 @@ const VendorProfile = ({ navigation, route }) => {
   const { actualUser } = route.params
   const authContext = useAuth()
   const VendorProfileDetails = authContext.vendor
-  const [vendorImage, setVendorImage] = useState(' ')
+  const [vendorImage, setVendorImage] = useState(' ');
+
+
+  
 
   const words = {
     rupee: '₹',
@@ -229,7 +234,7 @@ const VendorProfile = ({ navigation, route }) => {
         <AppBar
           title="Vendor Profile"
           funct={() => {
-            navigation.toggleDrawer()
+            route.params.navDrawer.toggleDrawer();
           }}
         />
       </View>
@@ -242,8 +247,8 @@ const VendorProfile = ({ navigation, route }) => {
                   <Image // Change to Image
                     style={styles.avatar}
                     source={
-                      vendorImage != ''
-                        ? { uri: vendorImage }
+                      VendorProfileDetails.vendor_img_url != ''
+                        ? { uri: VendorProfileDetails.vendor_img_url }
                         : require('../../assets/notmaleavatar.png')
                     }
                     //  source={require('../../assets/notmaleavatar.png')}
