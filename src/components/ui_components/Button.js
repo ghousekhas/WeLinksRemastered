@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, TextInput, Dimensions } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Colors } from '../../Constants'
+import { Colors, dimen } from '../../Constants'
 
 const Button = ({ text, onTouch, red,disable,gray }) => {
     return (<View>
@@ -21,8 +21,8 @@ const style = StyleSheet.create({
 
         borderColor: Colors.primary,
    
-        maxHeight: Dimensions.get('window').height / 33,
-         width: Dimensions.get('window').width / 4.5,
+        maxHeight: dimen.height / 33,
+         width: dimen.width / 4.5,
         
         alignItems: 'center',
         justifyContent: 'center',
@@ -36,7 +36,7 @@ const style = StyleSheet.create({
         fontSize: 13,
         fontWeight: 'bold',
         alignSelf: 'center',
-       paddingHorizontal: 20,
+       paddingHorizontal: 10,
       //  paddingVertical: 20
     }
 });
