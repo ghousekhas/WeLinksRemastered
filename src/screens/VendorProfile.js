@@ -32,11 +32,14 @@ const VendorProfile = ({ navigation, route }) => {
   const [vendorImage, setVendorImage] = useState(' ')
   const vendorProfileStackNav = route.params.navDrawer
   const fromDrawer = route.params.fromDrawer
-  const open = route.params.navDrawer
+  const open = route.params
+  console.log('OP', open)
 
   const isLoading = (msg = '', state) => {
     setLoading(state)
   }
+
+  console.log('wth', route.params)
 
   const changeImage = async () => {
     try {
@@ -245,11 +248,14 @@ const VendorProfile = ({ navigation, route }) => {
           title="Vendor Profile"
           funct={() => {
             //vendorProfileStackNav.toggleDrawer()
-            console.log(':(', route.params)
+
             // open.toggleDrawer()
             //  this.props.route.params.navDrawer.toggleDrawer()
             //from drawer
-            console.log('cold', vendorProfileStackNav)
+            //  vendorProfileStackNav.toggleDrawer()
+            //  console.log('colder', route.params)
+            //route.params.toggleDrawer()
+            //  open.toggleDrawer()
             route.params.navDrawer.toggleDrawer()
           }}
         />

@@ -18,6 +18,7 @@ import VendorBidDetails from '../screens/VendorBidDetails'
 import ScrapPickedConfirmation from '../screens/ScrapPickedConfirmation'
 import VendorScrapOrders from '../screens/VendorScrapOrders'
 import { useAuth } from '../services/auth-service'
+import VendorProfile from '../screens/VendorProfile'
 
 const Stack = createStackNavigator()
 const VendorHomeStack = ({ navigation, route }) => {
@@ -92,7 +93,11 @@ const VendorHomeStack = ({ navigation, route }) => {
       </View>
     )
 
-  var theInitialParams = { actualUser: actualUser, user: user, navDrawer: navigation };
+  var theInitialParams = {
+    actualUser: actualUser,
+    user: user,
+    navDrawer: navigation,
+  }
 
   if (
     verification === Constants.veFirstTime ||
@@ -120,6 +125,12 @@ const VendorHomeStack = ({ navigation, route }) => {
               name="VendorServices"
               component={VendorServices}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="VendorProfile"
+              component={VendorProfile}
+              options={{ headerShown: false }}
+              initialParams={theInitialParams}
             />
             <Stack.Screen
               name="AddAddress"

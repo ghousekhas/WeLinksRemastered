@@ -318,16 +318,10 @@ const ProfileSmallView = ({ navigation, userID, classRef }) => {
     <TouchableOpacity
       style={styles.usernamecontainer1}
       onPress={() => {
-        navigation.navigate(
-          'VendorProfileStack',
-
-          vendor,
-          classRef.props.route.params,
-          {
-            chip: true,
-            open: classRef.props.route.params,
-          },
-        )
+        navigation.navigate('VendorProfileStack', {
+          vendor: vendor,
+          //     moreProps: classRef.props.route.params,
+        })
       }}
     >
       <Image
