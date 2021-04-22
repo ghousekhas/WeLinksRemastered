@@ -60,7 +60,7 @@ class VendorDashboard extends React.Component {
               } catch (error) {
                 this.setState({ validVendor: false })
 
-                console.log('theerror' + error)
+                console.log('the error' + error)
               }
             },
             (error) => {
@@ -104,7 +104,7 @@ class VendorDashboard extends React.Component {
           <TouchableOpacity
             onPress={() => {
               // this.setState({pressedMenu: true});
-              this.props.route.params.navDrawer.toggleDrawer();
+              this.props.route.params.navDrawer.toggleDrawer()
             }}
           >
             <EvilIcons
@@ -183,6 +183,11 @@ class VendorDashboard extends React.Component {
                       tag: 'Paper',
                     })
                   }}
+                  onLayout={(event) => {
+                    this.setState({
+                      imageHeight: event.nativeEvent.layout.height / 2,
+                    })
+                  }}
                   style={styles.menuitem}
                 >
                   <Image
@@ -213,6 +218,11 @@ class VendorDashboard extends React.Component {
                       vendorID: this.state.vendorID,
                     })
                   }}
+                  onLayout={(event) => {
+                    this.setState({
+                      imageHeight: event.nativeEvent.layout.height / 2,
+                    })
+                  }}
                 >
                   <Image
                     style={{
@@ -239,6 +249,11 @@ class VendorDashboard extends React.Component {
                     navigation.navigate('VendorViewBids', {
                       vendorID: this.state.vendorID,
                       actualUser: this.state.actualUser,
+                    })
+                  }}
+                  onLayout={(event) => {
+                    this.setState({
+                      imageHeight: event.nativeEvent.layout.height / 2,
                     })
                   }}
                 >
@@ -276,14 +291,14 @@ class VendorDashboard extends React.Component {
 
 const ProfileSmallView = ({ navigation, userID, classRef }) => {
   console.log('userid ? ' + userID)
-  const authContext = useAuth();
-  const [vendor,sw] = useState(authContext.vendor);
-  const [image, setImage] = useState('');
+  const authContext = useAuth()
+  const [vendor, sw] = useState(authContext.vendor)
+  const [image, setImage] = useState('')
 
   useEffect(() => {
-    sw(authContext.vendor);
-    console.log("bizzzzzzzzzzzzzz" ,authContext.vendor.vendor_img_url)
-    setImage(authContext.vendor.vendor_img_url);
+    sw(authContext.vendor)
+    console.log('bizzzzzzzzzzzzzz', authContext.vendor.vendor_img_url)
+    setImage(authContext.vendor.vendor_img_url)
 
     navigation.addListener('focus', () => {
       BackHandler.addEventListener('hardwareBackPress', () => {
@@ -292,7 +307,7 @@ const ProfileSmallView = ({ navigation, userID, classRef }) => {
         return true
       })
     })
-  }, [authContext]);
+  }, [authContext])
   return (
     <TouchableOpacity
       style={styles.usernamecontainer1}
@@ -300,7 +315,10 @@ const ProfileSmallView = ({ navigation, userID, classRef }) => {
         navigation.navigate('VendorProfileStack', vendor)
       }}
     >
-      <Image style={styles.userimage} source={{uri: authContext.vendor.vendor_img_url}} />
+      <Image
+        style={styles.userimage}
+        source={{ uri: authContext.vendor.vendor_img_url }}
+      />
       <Text adjustsFontSizeToFit style={styles.username}>
         {vendor.company_name}
       </Text>
@@ -316,7 +334,7 @@ export default function (props) {
       {...props}
       navigation={navigation}
       otherNavigation={props.navigation}
-      route = {props.route}
+      route={props.route}
     />
   )
 }
@@ -425,7 +443,7 @@ const styles = StyleSheet.create({
   },
   userimage: {
     height: dimen.height * 0.023,
-    width: dimen.height * 0.023
+    width: dimen.height * 0.023,
   },
   locim: {
     height: dimen.height * 0.018,
