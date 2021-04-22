@@ -17,6 +17,8 @@ const VendorProfileStack = ({ navigation, route }) => {
   const { getUserDetails } = route.params
   const [remountKey, setRemountKey] = useState(0)
 
+  console.log('MY', navigation)
+
   useFocusEffect(
     React.useCallback(() => {
       console.log(route.params.actualUser)

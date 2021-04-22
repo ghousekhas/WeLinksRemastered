@@ -114,7 +114,10 @@ const NavigationDrawer = ({
           <Drawer.Screen
             name="VendorProfileStack"
             component={VendorProfileStack}
-            initialParams={{ user: user, actualUser: updateState }}
+            initialParams={{
+              user: user,
+              actualUser: updateState,
+            }}
           />
           <Drawer.Screen
             name="VendorSubscriptions"

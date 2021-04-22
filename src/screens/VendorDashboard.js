@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   BackHandler,
+  DeviceEventEmitter,
 } from 'react-native'
 import Axios from 'axios'
 import { EvilIcons } from '@expo/vector-icons'
@@ -96,6 +97,7 @@ class VendorDashboard extends React.Component {
   render() {
     const { navigation, otherNavigation } = this.props
 
+    console.log('GO ', this.props)
     //      console.log('actual'+ this.state.actualUser.name)
 
     return (
@@ -119,6 +121,8 @@ class VendorDashboard extends React.Component {
               classRef={this}
               navigation={navigation}
               userID={this.state.actualUser.user_id}
+              navDrawer={this.props.route.navDrawer}
+              //   goBackToHome={goBackToHome}
             />
           </View>
         </View>
@@ -294,25 +298,36 @@ const ProfileSmallView = ({ navigation, userID, classRef }) => {
   const authContext = useAuth()
   const [vendor, sw] = useState(authContext.vendor)
   const [image, setImage] = useState('')
+  console.log('Sending ', classRef.props.route.params)
 
   useEffect(() => {
     sw(authContext.vendor)
     console.log('bizzzzzzzzzzzzzz', authContext.vendor.vendor_img_url)
     setImage(authContext.vendor.vendor_img_url)
 
-    navigation.addListener('focus', () => {
-      BackHandler.addEventListener('hardwareBackPress', () => {
-        //doNothing
-        console.log('hardwareback')
-        return true
-      })
-    })
+    // navigation.addListener('focus', () => {
+    //   BackHandler.addEventListener('hardwareBackPress', () => {
+    //     //doNothing
+    //     console.log('hardwareback')
+    //     return true
+    //   })
+    // })
   }, [authContext])
+
   return (
     <TouchableOpacity
       style={styles.usernamecontainer1}
       onPress={() => {
-        navigation.navigate('VendorProfileStack', vendor)
+        navigation.navigate(
+          'VendorProfileStack',
+
+          vendor,
+          classRef.props.route.params,
+          {
+            chip: true,
+            open: classRef.props.route.params,
+          },
+        )
       }}
     >
       <Image

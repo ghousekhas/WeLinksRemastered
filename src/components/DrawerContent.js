@@ -73,7 +73,6 @@ const DrawerContent = (props) => {
 
   const retreieveVendorData = () => {
     const vend = authContext.vendor
-    console.log('enddddddddddddddddddd', vend)
     if (vend == Constants.veFirstTime) setVerification(Constants.veFirstTime)
     else if (vend == Constants.veInProgress)
       setVerification(Constants.veInProgress)
@@ -117,6 +116,7 @@ const DrawerContent = (props) => {
   }
 
   const goToVendorStack = () => {
+    console.log('Yay for sure')
     props.navigation.navigate('VendorHomeStack', {
       actualUser: actualUser,
       getUserDetails: props.getUserDetails,
@@ -124,6 +124,7 @@ const DrawerContent = (props) => {
     })
   }
 
+  console.log('*:(', props.navigation)
   if (vendor)
     //props.navigation.navigate('Home');
     return (
@@ -200,6 +201,7 @@ const DrawerContent = (props) => {
                         actualUser: actualUser,
                         getUserDetails: props.getUserDetails,
                         setActualUser: setActualUser,
+                        goBackToHome: goToVendorStack,
                       })
                     }}
                   />
@@ -216,6 +218,7 @@ const DrawerContent = (props) => {
                         setActualUser: setActualUser,
                         goBackToHome: goToVendorStack,
                         drawerRefresh: retreieveVendorData,
+                        fromDrawer: true,
                       })
                     }}
                   />

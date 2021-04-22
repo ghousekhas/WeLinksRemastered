@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useIsDrawerOpen } from '@react-navigation/drawer'
 import {
   BackHandler,
@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   Alert,
+  DeviceEventEmitter,
 } from 'react-native'
 import { dimen, Styles } from '../Constants'
 import { Colors } from '../Constants'
@@ -29,10 +30,10 @@ const VendorProfile = ({ navigation, route }) => {
   const authContext = useAuth()
   const VendorProfileDetails = authContext.vendor
   const [vendorImage, setVendorImage] = useState(' ')
+  const vendorProfileStackNav = route.params.navDrawer
+  const fromDrawer = route.params.fromDrawer
+  const open = route.params.navDrawer
 
-  const words = {
-    rupee: '₹',
-  }
   const isLoading = (msg = '', state) => {
     setLoading(state)
   }
@@ -192,7 +193,19 @@ const VendorProfile = ({ navigation, route }) => {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        route.params.goBackToHome()
+        console.log('goooooo', route.params.fromDrawer)
+
+        // if from chip
+        // hope.pop()
+
+        // if from drawer
+        // route.params.goBackToHome()
+
+        console.log(fromDrawer)
+
+        if (fromDrawer) route.params.goBackToHome()
+        else vendorProfileStackNav.pop()
+
         return true
       }
 
@@ -231,6 +244,12 @@ const VendorProfile = ({ navigation, route }) => {
         <AppBar
           title="Vendor Profile"
           funct={() => {
+            //vendorProfileStackNav.toggleDrawer()
+            console.log(':(', route.params)
+            // open.toggleDrawer()
+            //  this.props.route.params.navDrawer.toggleDrawer()
+            //from drawer
+            console.log('cold', vendorProfileStackNav)
             route.params.navDrawer.toggleDrawer()
           }}
         />

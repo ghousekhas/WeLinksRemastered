@@ -1,295 +1,534 @@
-import React from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { View, StyleSheet, Text, Dimensions, Image, BackHandler } from 'react-native';
-import { TouchableOpacity, FlatList, ScrollView } from 'react-native-gesture-handler';
-import Vendor from '../components/Vendor';
-import { Styles, Colors, dimen } from '../Constants';
-import Accordion from 'react-native-collapsible/Accordion';
-import * as Animatable from 'react-native-animatable';
-import Product from '../components/Product';
-import { Entypo } from '@expo/vector-icons'
-import AppBar from '../components/ui_components/AppBar';
-import Axios from 'axios';
-import qs from 'qs';
-import { Config } from '../Constants';
+import React, { useState, useEffect } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import { useIsDrawerOpen } from '@react-navigation/drawer'
+import {
+  BackHandler,
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+  Alert,
+} from 'react-native'
+import { dimen, Styles } from '../Constants'
+import { Colors } from '../Constants'
+import { Text } from 'react-native-paper'
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import AppBar from '../components/ui_components/AppBar'
+import Axios from 'axios'
+import DocumentPicker from 'react-native-document-picker'
+import qs from 'qs'
+import { Config } from '../Constants'
+import { useAuth } from '../services/auth-service'
+import { DrawerActions } from 'react-navigation-drawer'
 
-export default class VendorScreen extends React.Component {
+const VendorProfile = ({ navigation, route }) => {
+  const [profileDetails, setProfileDetails] = useState(route.params.actualUser) //[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
+  const [loading, setLoading] = useState(false)
+  const { actualUser } = route.params
+  const authContext = useAuth()
+  const VendorProfileDetails = authContext.vendor
+  const [vendorImage, setVendorImage] = useState(' ')
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            brandImagesData: [],
-            sections: [],
-            collapsed: true,
-            activesections: []
+  const words = {
+    rupee: '₹',
+  }
+  const isLoading = (msg = '', state) => {
+    setLoading(state)
+  }
 
-        },
-        //this.vendorData = this.props.route.params;
-        this.vendorData = {"tag":"Newspaper","vendorName":"Express Service","vendorStars":"3.5194444391462536","vendorReviews":"36","vendorAddress":"703, Service Rd, HRBR Layout 1st Block, HRBR Layout 2nd Block, HRBR Layout, Banaswadi, Bengaluru, Karnataka 560043, India Near store 560043","imageUrl":"","user":{"user_id":"177","name":"Anam","phone":"9535311386","email":"anamxali1@gmail.com","city_id":"2","city":"Banglore","img_url":"https://dev.we-link.in/dist/img/users/user_img_1617806194.png","gstin":"","country_code":"0","subscription_count":4,"wallet_balance":0,"pending_action":{"homescrap":[]}},"vendorId":"143" }
-    
-  
-    }
+  const changeImage = async () => {
+    try {
+      isLoading('Loading', true)
 
-    
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images],
+      })
+      var formdata = new FormData()
+      if (res.size / 1000 > 50) {
+        alert('Selected picture must be below 50kb')
+        isLoading(false)
+      } else {
+        isLoading('Updating Profile', true)
 
-    componentDidMount() {
-        this.fetchVendor(10);
-    }
-
-
-
-    toggleExpanded = () => {
-        this.setState({ collapsed: !collapsed });
-    }
-    setSectionsFunction = sections => {
-        this.setState({
-            activesections: sections.includes(undefined) ? [] : sections,
-        });
-        console.log(sections);
-        setTimeout(() => {
-            if (sections.length != 0)
-                this.scrollView.scrollTo({
-                    x: 0,
-                    y: (Dimensions.get('window').height / 9 - 20) * (sections[0]),
-                    animated: true
-                });
-        }, 1000);
-    };
-
-    renderItem = ({ item }) => {
-        return (
-            <View style={{ flex: 0 }}>
-                <Image style={{ ...Styles.horizontalImage }} source={{ uri: item.brand_img_url }
-                } />
-            </View> 
-        );
-    };
-
-    renderSectionTitle = () => {
-        return (
-            <View style={Styles.collapsedView} >
-                <Text style={Styles.collapsedText}>collapsedText</Text>
-                <Entypo name='chevron-down' size={24} color={'black'} />
-            </View>
-
-        );
-    };
-    renderHeader = (section, _, isActive) => {
-        var actualUser = this.props.route.params.actualUser;
-        const { tag } = this.props.route.params;
-        console.log('vs', actualUser);
-
-        var expanderButton = (<Entypo name='triangle-down' size={20} color={'black'} />)
-
-
-        if (!isActive)
-            expanderButton = (<Entypo name='chevron-down' size={21} color={'black'} />)
-        else
-            expanderButton = (<Entypo name='chevron-up' size={21} color={'black'} />)
-
-        return (
-            <Animatable.View
-                duration={400}
-                style={{flexDirection: 'row', justifyContent: 'space-between', margin: 5 }}
-                // style={Styles.collapsedView}
-                transition="backgroundColor"
-            >
-                <Text style={{fontWeight: 'bold', fontSize: 14,color: 'black',paddingHorizontal: 10, paddingVertical: 5}} >{(Object.keys(section))[0]}</Text>
-                {expanderButton}
-            </Animatable.View>
-        );
-    };
-
-
-    renderContent = (section, _, isactive) => {
-        console.log(section[(Object.keys(section))[0]]);
-
-        return (
-            <Animatable.View
-                duration={400}
-                style={{ ...Styles.collapsibleView }}
-                transition="backgroundColor">
-                <ScrapFlatList navigation={this.props.navigation} route={{ params: { name: 'SampleVendor', stars: 4, reviews: 68, vendorId: this.props.route.params.vendorId, actualUser: this.props.route.params.actualUser, address: this.props.route.params.address,...this.props.route.params } }} data={section[(Object.keys(section))[0]]} />
-            </Animatable.View>);
-       
-    };
-
-    rendCont = (section, _, isactive) => {
-        return (
-            <View style={{ height: 300, width: 300,backgroundColor: 'purple' }}>
-
-            </View>
+        formdata.append('vendor_img_url', {
+          uri: res.uri,
+          type: 'image/jpeg',
+          name: res.name,
+        })
+        console.log(
+          'attempting to upload picture ' +
+            profileDetails.user_id +
+            ' ' +
+            VendorProfileDetails.vendor_id +
+            ' ' +
+            VendorProfileDetails.addresses[0].addr_id,
         )
+        Axios.post(
+          Config.api_url +
+            'php?' +
+            qs.stringify({
+              action: 'updateVendor',
+              user_id: profileDetails.user_id,
+              vendor_id: VendorProfileDetails.vendor_id,
+              address_id: VendorProfileDetails.addresses[0].addr_id,
+            }),
+          formdata,
+        ).then(
+          (response) => {
+            console.log(response.data, 'picutre uploaded')
+
+            isLoading(false)
+
+            Alert.alert(
+              'Profile updated',
+              'Your company profile picture has been updated successfully',
+            )
+            authContext.sync() //retrieveData();
+            //route.params.drawerRefresh()
+          },
+          (error) => {
+            console.log(error)
+            isLoading(false)
+
+            alert(
+              'Error uploading your profile picture, please try again later',
+            )
+          },
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      isLoading(false)
+
+      alert('Please pick a valid jpeg or png image')
+    }
+  }
+
+  const editVendorFunction = (services, milk, paper, office, home) => {
+    console.log(services)
+    console.log(milk)
+    console.log(paper)
+    console.log(office)
+    console.log(home)
+
+    console.log({
+      user_id: actualUser.user_id,
+      vendor_type: services,
+      milk_product_ids: milk,
+      news_product_ids: paper,
+      officescrap_cat_ids: office,
+      homescrap_product_ids: home,
+    })
+    var dataUnFormatted = qs.stringify({
+      user_id: actualUser.user_id,
+      vendor_id: VendorProfileDetails.vendor_id,
+      update_data: 'services',
+      vendor_type: services,
+      milk_product_ids: milk,
+      news_product_ids: paper,
+      officescrap_cat_ids: office,
+      homescrap_product_ids: home,
+      address_id: VendorProfileDetails.addresses[0].addr_id,
+    })
+    var replaer = new RegExp('%5B.%5D', 'g')
+    var dataFormatted = dataUnFormatted.replace(replaer, '[]')
+    console.log(dataFormatted)
+
+    // console.log(dataUnFormatted);
+    Axios.post(
+      Config.api_url + 'php?action=updateVendor&' + dataFormatted,
+    ).then(
+      (response) => {
+        console.log(response)
+        console.log(response.data)
+        authContext.sync() //retrieveData();
+        // checkVendorStatus();
+      },
+      (error) => {
+        console.log(error)
+      },
+    )
+  }
+
+  const retrieveData = () => {
+    Axios.get(
+      Config.api_url + 'php?action=getVendor&user_id=' + actualUser.user_id,
+    ).then(
+      (response) => {
+        try {
+          setVPD(response.data.vendor)
+          console.log('id' + response.data.vendor)
+          //   console.log("vpd " + response.data)
+
+          setVendorImage(response.data.vendor.vendor_img_url)
+          //   setServedAddresses(response.data.vendor.addresses);
+          // console.log("add" + response.data.vendor.addresses[0].addr_name)
+          console.log('image ' + response.data.vendor.vendor_img_url)
+
+          //    this.setState({actualVendor : this.state.vendorDetails.company_name})
+          //  console.log('Vd' + this.state.actualVendor)
+        } catch (error) {
+          //  this.setState({validVendor: false})
+
+          console.log('the error ' + error)
+        }
+      },
+      (error) => {
+        console.log('error')
+      },
+    )
+
+    console.log('mounted')
+    console.log(route.params.actualUser)
+  }
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      //authContext.sync();
+    })
+  }, [route.params.actualUser])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        route.params.goBackToHome()
+        return true
+      }
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress)
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress)
+    }, []),
+  )
+
+  const renderAddresses = () => {
+    let addressArray = []
+    for (let i in addresses) {
+      addressArray.push(
+        <View>
+          <Text
+            style={{
+              ...styles.blackText,
+              fontWeight: '900',
+              color: 'gray',
+              marginTop: '1%',
+            }}
+          >
+            {addresses[i].addr_details}
+          </Text>
+        </View>,
+      )
     }
 
-    render() {
-     //   return<View></View>
-        const { name, stars, reviews, vendorAddress, imageUrl } = this.props.route.params;
-        return (<View style={{ ...StyleSheet.absoluteFill }}>
-            <View>
-                <AppBar title={name} back={true} funct={() => {
-                    // props.navigation.toggleDrawer();
-                    this.props.navigation.pop();
-                }} />
-            </View>
-            <View style={{ height: dimen.height / 16 }} />
+    return addressArray
+  }
 
-            <View style={{ flex: 0, backgroundColor: Colors.secondary, padding: 10 }}>
-<View style={{margin: '0%',padding: '0%'}}>
-<Vendor style={{ height: '40%', width: '80%', alignSelf: 'center' }} buttonVisible={false} name={name} reviews={reviews} stars={stars} address={vendorAddress} imageUrl={imageUrl} />
+  return (
+    <View style={{ ...StyleSheet.absoluteFill }}>
+      <View style={{ elevation: 100, zIndex: 100 }}>
+        <AppBar
+          title="Vendor Profile"
+          funct={() => {
+            route.params.navDrawer.toggleDrawer()
+          }}
+        />
+      </View>
+      <View style={Styles.parentContainer}>
+        <ScrollView>
+          <View style={{ flex: 0, marginBottom: dimen.sHm }}>
+            <View style={styles.header}>
+              <View style={styles.avatarBG}>
+                {VendorProfileDetails != null ? (
+                  <Image // Change to Image
+                    style={styles.avatar}
+                    source={
+                      VendorProfileDetails.vendor_img_url != ''
+                        ? { uri: VendorProfileDetails.vendor_img_url }
+                        : require('../../assets/notmaleavatar.png')
+                    }
+                    //  source={require('../../assets/notmaleavatar.png')}
+                  />
+                ) : null}
+                <View style={{ position: 'absolute', bottom: '5%' }}>
+                  <TouchableOpacity onPress={() => changeImage()}>
+                    <Icon name="pencil" size={20} elevation={1} color="white" />
+                  </TouchableOpacity>
+                </View>
+              </View>
 
-</View>
-                <View>
-                <Text style={{ paddingLeft: 14,fontSize: 15, fontWeight: 'bold', marginBottom: 5 }}>Brands:</Text>
-                <FlatList
-                    style={{...Styles.halfFlatlist,paddingLeft:5}}
-                    renderItem={this.renderItem}
-                    data={this.state.brandImagesData}
-                    horizontal={true}
-                    keyExtractor={(item, index) => index.toString()} />
-                    </View>
+              <Text style={styles.name}>
+                {VendorProfileDetails.company_name}
+              </Text>
+
+              <View style={styles.chips}></View>
             </View>
-            <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <ScrollView ref={(ref) => this.scrollView = ref}>
-                    <Accordion
-                        style={{...Styles.accordion}}
-                        sections={this.state.sections}
-                        renderContent={this.renderContent}
-                        touchableComponent={TouchableOpacity}
-                        expandMultiple={false}
-                        renderHeader={this.renderHeader}
-                        activeSections={this.state.activesections}
-                        onChange={this.setSectionsFunction}
+
+            {/* Basic Details */}
+
+            <View
+              style={{
+                borderWidth: 0.3,
+                borderRadius: 10,
+                marginHorizontal: '1%',
+                elevation: 0.3,
+                borderColor: Colors.seperatorGray,
+                flex: 0,
+                marginVertical: dimen.sHm / 4,
+                justifyContent: 'flex-start',
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('EditVendorDetails', {
+                    actualUser: profileDetails,
+                    VendorProfileDetails: VendorProfileDetails,
+                    refresh: retrieveData,
+                  })
+                }}
+              >
+                <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>
+                  <View style={{ marginTop: '1%' }}>
+                    <Icon name="account-outline" color="black" size={30} />
+                  </View>
+
+                  <View style={{ flexDirection: 'column', flex: 1 }}>
+                    <Text style={styles.blackText}>Vendor details</Text>
+                    <Text
+                      style={{
+                        ...styles.blackText,
+                        fontWeight: '900',
+                        color: 'gray',
+                        marginTop: '1%',
+                      }}
+                    >
+                      {VendorProfileDetails.company_name}
+                    </Text>
+                    <Text
+                      style={{
+                        ...styles.blackText,
+                        fontWeight: '900',
+                        color: 'gray',
+                        marginTop: '1%',
+                      }}
+                    >
+                      {VendorProfileDetails.email}
+                    </Text>
+                    {/* <Text style={{ ...style.blackText, fontWeight: '900', color: 'gray', marginTop: '1%' }}>{VendorProfileDetails.addresses[0].addr_details + " \nNear "+ VendorProfileDetails.addresses[0].addr_landmark}</Text> */}
+                  </View>
+                  <View style={{ flex: 0 }}>
+                    <Icon
+                      name="chevron-right"
+                      color={Colors.primary}
+                      size={24}
                     />
-                </ScrollView>
+                  </View>
+                </View>
+              </TouchableOpacity>
             </View>
 
-        </View>
+            {/* Addresses Served */}
+            <View
+              style={{
+                borderWidth: 0.3,
+                borderRadius: 10,
+                marginHorizontal: '1%',
+                elevation: 0.3,
+                borderColor: Colors.seperatorGray,
+                flex: 0,
+                marginVertical: dimen.sHm / 4,
+                justifyContent: 'flex-start',
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('AddressList', {
+                    //   myAddresses: true,
+                    actualUser: actualUser,
+                    actualVendor: { vendor_id: VendorProfileDetails.vendor_id },
+                    vendorEdit: true,
+                    myAddresses: true,
+                    profile: true,
+                  })
+                }}
+              >
+                <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>
+                  <View style={{ marginTop: '1%' }}>
+                    <Icon name="map-marker-outline" color="black" size={30} />
+                  </View>
 
-       )
-    }
+                  <View style={{ flexDirection: 'column', flex: 1 }}>
+                    <Text
+                      style={{
+                        ...styles.blackText,
+                        marginBottom: dimen.height / 70,
+                      }}
+                    >
+                      Addresses Served
+                    </Text>
+                    {/* 
+                                    uncomment this to render addresses in place
+                                    {renderAddresses()} 
+                                    */}
+                  </View>
+                  <View style={{ flex: 0 }}>
+                    <Icon
+                      name="chevron-right"
+                      color={Colors.primary}
+                      size={24}
+                    />
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+            {/* Products */}
+            <View
+              style={{
+                borderWidth: 0.3,
+                borderRadius: 10,
+                marginHorizontal: '1%',
+                elevation: 0.3,
+                borderColor: Colors.seperatorGray,
+                flex: 0,
+                marginVertical: dimen.sHm / 4,
+                justifyContent: 'flex-start',
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('VendorServices', {
+                    back: true,
+                    editVendorFunction: editVendorFunction,
+                    vendorEdit: true,
+                    actualVendor: VendorProfileDetails,
+                  })
+                }}
+              >
+                <View style={{ flexDirection: 'row', margin: '5%', flex: 0 }}>
+                  <View style={{ marginTop: '1%' }}>
+                    <Icon name="id-card" color="black" size={30} />
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'column',
+                      flex: 1,
+                      backgroundColor: 'white',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        ...styles.blackText,
+                        marginBottom: dimen.sHm / 5,
+                      }}
+                    >
+                      My Services & Products
+                    </Text>
+                    {VendorProfileDetails.newspaper_service === 'yes' ? (
+                      <Text
+                        style={{ ...styles.grayText, fontSize: 12, margin: 0 }}
+                      >
+                        Newspaper Delivery
+                      </Text>
+                    ) : null}
+                    {VendorProfileDetails.milk_service === 'yes' ? (
+                      <Text
+                        style={{ ...styles.grayText, fontSize: 12, margin: 0 }}
+                      >
+                        Milk Delivery
+                      </Text>
+                    ) : null}
+                    {VendorProfileDetails.homescrap_service === 'yes' ? (
+                      <Text
+                        style={{ ...styles.grayText, fontSize: 12, margin: 0 }}
+                      >
+                        Home Scrap
+                      </Text>
+                    ) : null}
+                    {VendorProfileDetails.officescrap_service === 'yes' ? (
+                      <Text
+                        style={{ ...styles.grayText, fontSize: 12, margin: 0 }}
+                      >
+                        Office Scrap
+                      </Text>
+                    ) : null}
+                  </View>
+                  <View style={{ flex: 0 }}>
+                    <Icon
+                      name="chevron-right"
+                      color={Colors.primary}
+                      size={24}
+                    />
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{ height: dimen.height / 30, width: dimen.width }} />
+        </ScrollView>
+      </View>
+    </View>
+  )
 }
 
+const styles = StyleSheet.create({
+  container: {
+    margin: '1%',
+  },
+  header: {
+    backgroundColor: Colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
 
+    height: Dimensions.get('window').height / 3,
+  },
+  avatar: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.9,
+    borderRadius: 1000,
+  },
+  avatarBG: {
+    height: Dimensions.get('window').width / 3.5,
+    aspectRatio: 1 / 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  chips: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: Dimensions.get('window').width,
+    marginTop: '5%',
+  },
+  chip: {
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: Colors.seperatorGray,
+    color: 'white',
+    padding: '2%',
+    width: Dimensions.get('window').width / 3.2,
+    textAlign: 'center',
+    fontSize: 10,
+    margin: '1%',
+  },
+  blackText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginStart: dimen.sHm * 2,
+  },
+  name: {
+    color: 'white',
+    fontSize: 15,
+    marginVertical: '3%',
+  },
+  grayText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginStart: dimen.sHm * 2,
+    color: 'gray',
+  },
+})
 
-const ScrapFlatList = ({ route, navigation, data }) => {
-
-    console.log(actualUser)
-
-    useFocusEffect(
-        React.useCallback(() => {
-            const onBackPress = () => {
-                //     console.log('Go to milk');
-                navigation.navigate('MilkVendors');
-                return true;
-
-            };
-
-            BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-            return () =>
-                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        })
-    );
-    const vendorId = route.params.vendorId;
-  
-    // const order = navigation.getParams('order');
-    return (<View style={{ ...style.container }}>
-        <FlatList
-            data={data}
-            keyExtractor={(item) => item.name}
-            style={{ maxHeight: dimen.height * 0.5}}
-            renderItem={({ item }) => {
-                console.log(item.product_img_url);
-
-               
-
-                return (
-                    
-                    <Product place="list" name={item.name} quantity={item.quantity} price={item.price} url={item.product_img_url} imageUrl={item.product_img_url}
-                        subscribe={() => {
-
-                            const prodName = item.name;
-                            const prodQuan = item.quantity;
-                            const prodRate = item.price;
-                            const productId = item.id
-
-
-                            navigation.navigate('SubscribeScreen', {
-                                tag: 'Milk',
-                                pname: prodName,
-                                pquan: prodQuan,
-                                prate: prodRate,
-                                imageUrl: item.product_img_url,
-                                actualUser: actualUser,
-                                vendorId: vendorId,
-                                productId: productId,
-                                vendorType: 'milk',
-                                address: address,
-                                ...route.params
-                            })
-                        }
-                        } />
-
-                )
-            }}
-
-        />
-
-
-    </View>)
-};
-
-
-const style = StyleSheet.create({
-    container: {
-
-        padding: 1,
-
-    },
-    header: {
-        backgroundColor: '#E5F6FE',
-        height: Dimensions.get('window').height / 3,
-        padding: 5,
-        flexDirection: 'row'
-
-
-    },
-    name: {
-        marginTop: 0.02 * Dimensions.get('window').height,
-        marginStart: '29%',
-        fontWeight: 'bold',
-        fontSize: 20
-
-    },
-    address: {
-        marginTop: 0.01 * Dimensions.get('window').height,
-        marginStart: '29%',
-        fontWeight: 'bold',
-        fontSize: 13
-    },
-    brandsTitle: {
-        color: 'gray',
-        marginStart: '29%',
-        marginTop: '2%',
-        fontWeight: 'bold'
-    },
-    review: {
-        color: 'gray',
-        marginStart: '5%',
-        marginTop: '2%',
-        fontWeight: 'bold'
-    },
-    stars: {
-
-        marginStart: '29%',
-        marginTop: '2%',
-        fontWeight: 'bold'
-    },
-    image: {
-        height: 100,
-        width: 100,
-        position: 'absolute',
-         marginStart: 10
-    }
-});
+export default VendorProfile
