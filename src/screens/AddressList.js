@@ -142,10 +142,10 @@ export default class AddressList extends React.Component {
         const { actualUser, tag } = this.props.route.params
         const { vendor_id } = this.props.route.params.actualVendor
 
-        let { status } = await Location.requestPermissionsAsync()
+        let { status } = await Location.requestPermissionsAsync();
         if (status === Location.PermissionStatus.GRANTED) {
           this.setState({ locationLoading: true })
-          var location = await Location.getCurrentPositionAsync()
+          var location = await Location.getCurrentPositionAsync();
           this.setState({ locationLoading: false })
           navigation.navigate('AddAddress', {
             onComeBack: this.onComeBack,
@@ -161,7 +161,7 @@ export default class AddressList extends React.Component {
             },
             refresh: this.retrieveAddresses,
             actualUser: actualUser,
-            placeName: data.description,
+            placeName: ".",
             vendor_id: vendor_id,
             vendorEdit: true,
             tag: tag,

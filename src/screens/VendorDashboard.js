@@ -119,9 +119,10 @@ class VendorDashboard extends React.Component {
           <View style={styles.topBarAlignChips}>
             <ProfileSmallView
               classRef={this}
-              navigation={navigation}
+              navigation={this.props.route.params.navDrawer}
               userID={this.state.actualUser.user_id}
               navDrawer={this.props.route.navDrawer}
+              goBackToHome = {this.props.route.params.goBackToHome}
               //   goBackToHome={goBackToHome}
             />
           </View>
@@ -293,7 +294,7 @@ class VendorDashboard extends React.Component {
   }
 }
 
-const ProfileSmallView = ({ navigation, userID, classRef }) => {
+const ProfileSmallView = ({ navigation, userID, classRef, goBackToHome }) => {
   console.log('userid ? ' + userID)
   const authContext = useAuth()
   const [vendor, sw] = useState(authContext.vendor)
@@ -313,13 +314,16 @@ const ProfileSmallView = ({ navigation, userID, classRef }) => {
     //   })
     // })
   }, [authContext])
-
+ 
   return (
     <TouchableOpacity
       style={styles.usernamecontainer1}
       onPress={() => {
         navigation.navigate('VendorProfileStack', {
           vendor: vendor,
+          goBackToHome: ()=>{
+            navigation.navigate('VendorHomeStack');
+          }
           //     moreProps: classRef.props.route.params,
         })
       }}

@@ -7,8 +7,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Config } from '../Constants';
 
 export default function PrivacyPolicy({ navigation, route }) {
-  const { privacyData } = route.params;
-  const [policy, setPolicy] = useState(privacyData != undefined ? privacyData.privacy_policy : 'Loading.....');
+  
+  const [policy, setPolicy] = useState('Loading.....');
 
   const samplePolicy = [{
     'content': ``
