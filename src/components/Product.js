@@ -3,8 +3,17 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import { Colors, dimen } from '../Constants'
 
 // A product available with vendor
-const Product = ({ name, quantity, price, weekendPrice, subscribe, uri }) => {
-  if (weekendPrice != '') {
+const Product = ({
+  name,
+  quantity,
+  price,
+  weekendPrice,
+  subscribe,
+  uri,
+  tag,
+}) => {
+  console.log('price', uri)
+  if (tag == 'Newspaper') {
     return (
       <View style={style.container}>
         <View>

@@ -203,7 +203,6 @@ const NavigationDrawer = ({
             actualUser: actualUser,
             user: actualUser,
             goBackToHome: () => {
-              console.log('honestak')
               navv.navigate('HomeStack')
             },
           }}
@@ -213,8 +212,8 @@ const NavigationDrawer = ({
           component={MyScrapStack}
           initialParams={{
             user: actualUser,
+            navv: navv,
             goBackToHome: () => {
-              console.log('honestak')
               navv.navigate('HomeStack')
             },
           }}

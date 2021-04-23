@@ -56,7 +56,7 @@ const ProductVendor = ({ route, navigation }) => {
         'php?action=getProductsList&' +
         qs.stringify({
           vendorID: vendorData.vendorId,
-          vendor_type: vendorData.type == 'Milk' ? 'milk' : 'newspaper',
+          vendor_type: vendorData.tag == 'Milk' ? 'milk' : 'newspaper',
         }),
       {
         'Accept-Encoding': 'gzip',
@@ -107,8 +107,11 @@ const ProductVendor = ({ route, navigation }) => {
         transition="backgroundColor"
       >
         <ProductsList
+          vendorID={vendorData.vendorID}
           navigation={navigation}
           data={section[Object.keys(section)[0]]}
+          address={vendorData.vendorAddress}
+          tag={vendorData.tag}
         />
       </Animatable.View>
     )

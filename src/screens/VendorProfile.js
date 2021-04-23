@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { useIsDrawerOpen } from '@react-navigation/drawer'
+import { useFocusEffect } from '@react-navigation/native'
 import {
   BackHandler,
   View,
   StyleSheet,
-  Dimensions,
   Image,
   Alert,
-  DeviceEventEmitter,
 } from 'react-native'
 import { dimen, Styles } from '../Constants'
 import { Colors } from '../Constants'
@@ -21,7 +18,6 @@ import DocumentPicker from 'react-native-document-picker'
 import qs from 'qs'
 import { Config } from '../Constants'
 import { useAuth } from '../services/auth-service'
-import { DrawerActions } from 'react-navigation-drawer'
 
 const VendorProfile = ({ navigation, route }) => {
   const [profileDetails, setProfileDetails] = useState(route.params.actualUser) //[{name: 'holder',email: 'holder',subscription_count: 0,wallet_balance: 0,img_url: 0}]);
@@ -163,17 +159,12 @@ const VendorProfile = ({ navigation, route }) => {
         try {
           setVPD(response.data.vendor)
           console.log('id' + response.data.vendor)
-          //   console.log("vpd " + response.data)
 
           setVendorImage(response.data.vendor.vendor_img_url)
-          //   setServedAddresses(response.data.vendor.addresses);
-          // console.log("add" + response.data.vendor.addresses[0].addr_name)
+  
           console.log('image ' + response.data.vendor.vendor_img_url)
 
-          //    this.setState({actualVendor : this.state.vendorDetails.company_name})
-          //  console.log('Vd' + this.state.actualVendor)
         } catch (error) {
-          //  this.setState({validVendor: false})
 
           console.log('the error ' + error)
         }
@@ -506,7 +497,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    height: Dimensions.get('window').height / 3,
+    height: dimen.height / 3,
   },
   avatar: {
     width: '100%',
@@ -515,7 +506,7 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
   },
   avatarBG: {
-    height: Dimensions.get('window').width / 3.5,
+    height: dimen.width / 3.5,
     aspectRatio: 1 / 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -524,7 +515,7 @@ const styles = StyleSheet.create({
   chips: {
     flexDirection: 'row',
     justifyContent: 'center',
-    width: Dimensions.get('window').width,
+    width: dimen.width,
     marginTop: '5%',
   },
   chip: {
@@ -533,7 +524,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.seperatorGray,
     color: 'white',
     padding: '2%',
-    width: Dimensions.get('window').width / 3.2,
+    width: dimen.width / 3.2,
     textAlign: 'center',
     fontSize: 10,
     margin: '1%',

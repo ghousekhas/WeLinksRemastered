@@ -24,10 +24,9 @@ export const AuthContext = React.createContext({
 })
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(AuthConstants.loading)
   const [vendor, setVendor] = useState(AuthConstants.loading)
-  const debug = false
-  const debugNumber = '9874578549'
+  const debug = true
+  const debugNumber = '1356782916'
 
   const checkUserAccounts = () => {
     NetInfo.addEventListener((state) => {
