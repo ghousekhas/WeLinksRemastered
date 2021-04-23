@@ -62,7 +62,7 @@ const SupportFAQ = ({navigation,route}) => {
     return(
     <View>
      <AppBar  title='Support & FAQs'funct={() => {
-        navigation.toggleDrawer();
+        route.params.draweNav.toggleDrawer();
         }} />
 
     <View style={style.container}>
@@ -117,7 +117,7 @@ const SupportFAQ = ({navigation,route}) => {
 
     <View>
         <TouchableOpacity onPress={() => navigation.navigate('PrivacyPolicy',{
-            privacyData: privacyData
+           
         })}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '1%'}}>
 
@@ -159,7 +159,7 @@ const SupportFAQ = ({navigation,route}) => {
 
     <View>
         <TouchableOpacity onPress={()=>navigation.navigate('Terms',{
-            termsData: termsData
+        
         })}>
         <View style={{flexDirection: 'row',margin: '5%',marginTop: '1%'}}>
 

@@ -72,6 +72,7 @@ const VendorProfile = ({ navigation, route }) => {
               user_id: profileDetails.user_id,
               vendor_id: VendorProfileDetails.vendor_id,
               address_id: VendorProfileDetails.addresses[0].addr_id,
+              update_data: 'profile'
             }),
           formdata,
         ).then(
@@ -142,6 +143,7 @@ const VendorProfile = ({ navigation, route }) => {
       (response) => {
         console.log(response)
         console.log(response.data)
+        
         authContext.sync() //retrieveData();
         // checkVendorStatus();
       },
@@ -197,8 +199,9 @@ const VendorProfile = ({ navigation, route }) => {
 
         console.log(fromDrawer)
 
-        if (fromDrawer) route.params.goBackToHome()
-        else vendorProfileStackNav.pop()
+        //if (fromDrawer)  Legacy
+        route.params.goBackToHome()
+        //else vendorProfileStackNav.pop()
 
         return true
       }
