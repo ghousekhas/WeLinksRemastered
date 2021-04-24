@@ -133,7 +133,7 @@ const DrawerContent = (props) => {
               height: Dimensions.get('window').height - StatusBar.currentHeight,
             }}
           >
-            <Drawer.Section style={{ margin: 0 }}>
+            <Drawer.Section style={{ marginBottom: 0 }}>
               <View style={styles.header}>
                 {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
                 <View style={{ marginTop: '5%', margin: '5%' }}>
@@ -279,21 +279,22 @@ const DrawerContent = (props) => {
                 }}
               />
             </Drawer.Section>
-            <View style={styles.versionSeperator} />
-            <Text style={styles.version}>Version 1.0.0</Text>
+            <View style={[styles.versionSeperator,{position: 'absolute'}]} />
+            <Text style={[styles.version,{position: 'absolute'}]}>Version 1.0.0</Text>
           </View>
         </DrawerContentScrollView>
       </View>
     )
 
   return (
-    <View style={{ height: Dimensions.get('window').height }}>
-      <DrawerContentScrollView {...props} scrollEnabled={false}>
-        <View
+    <View style={{ height: Dimensions.get('window').height - StatusBar.currentHeight, flexDirection: 'column' }}>
+      {/* <View
           style={{
-            height: Dimensions.get('window').height - StatusBar.currentHeight,
+            flex: 1
           }}
-        >
+        > */}
+      <DrawerContentScrollView {...props} scrollEnabled={true} showsVerticalScrollIndicator={false} style={{flex: 1, paddingBottom: 100}} >
+        
           <Drawer.Section>
             <View style={styles.header}>
               {/* <Text style={{margin: '10%',color: 'white',fontSize: 30, fontWeight: 'bold'}}>WeLinks</Text> */}
@@ -482,10 +483,15 @@ const DrawerContent = (props) => {
               }}
             />
           </Drawer.Section>
-          <View style={styles.versionSeperator} />
-          <Text style={styles.version}>Version 1.0.0</Text>
-        </View>
+       
+          
+        
       </DrawerContentScrollView>
+      {/* </View> */}
+      <View style={{flex: 0}}>
+        <View style={styles.versionSeperator} />
+        <Text style={styles.version}>Version 1.0.0</Text>
+      </View>
     </View>
   )
 }
@@ -505,14 +511,12 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontWeight: '500',
     fontSize: 14,
-    position: 'absolute',
     bottom: 0,
     marginLeft: '5%',
     marginBottom: '2%',
     margin: '3%',
   },
   versionSeperator: {
-    position: 'absolute',
     bottom: 35,
     height: 0.08,
     width: '95%',

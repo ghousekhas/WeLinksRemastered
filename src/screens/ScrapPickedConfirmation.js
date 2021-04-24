@@ -12,6 +12,7 @@ import { useAuth } from '../services/auth-service';
 import {getDate} from '../Utility/dateConvertor';
 
 
+var amt = 0;
 
 export default function ScrapPickedConfirmation({navigation,route}){
     const [vnotes,setVNotes]=useState('');
@@ -68,10 +69,11 @@ export default function ScrapPickedConfirmation({navigation,route}){
     }
 
     const markPickUpComplete = (yesOrno) => {
+        console.log(amt);
         Axios.post(Config.api_url+'php?'+qs.stringify({
             action: 'markScrapVendorPickup',
             order_id : cardDetails.orderID,
-            pickup_amount_by_vendor: amount ,
+            pickup_amount_by_vendor: amt ,
             pickup_status_by_vendor : toString(yesOrno),
             pickup_notes_by_vendor : vnotes
           //  order_otp: '1234',
@@ -97,7 +99,7 @@ export default function ScrapPickedConfirmation({navigation,route}){
             Axios.post(Config.api_url+'php?'+qs.stringify({
                 action: 'confirmScrapUserPickup',
                 order_id : cardDetails.orderID,
-                pickup_amount_by_user: amount,
+                pickup_amount_by_user: amt,
                 pickup_status_by_user: toString(yesOrno) ,
                 pickup_notes_by_user: vnotes,
                 ratings: stars
@@ -199,6 +201,8 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
 };
 
+    const staticMySub = (<MySubscriptionOrder name={cardDetails.name} pickUpDate={cardDetails.pickUpDate} orderAmount={cardDetails.orderAmount} orderDate={cardDetails.orderDate} imageUrl={cardDetails.image} status={cardDetails.status} cart={cardDetails.cart} address={cardDetails.address}/>);
+
 
     return(<View>
     {tag == 'Vendor' ? <AppBar title={words.vendorHeading} back funct={()=>{navigation.goBack()}}/> : null}
@@ -212,7 +216,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
             </View>:null}
 
             <View style={{marginTop:dimen.height/20,flex:1}}>
-            <MySubscriptionOrder name={cardDetails.name} pickUpDate={cardDetails.pickUpDate} orderAmount={cardDetails.orderAmount} orderDate={cardDetails.orderDate} imageUrl={cardDetails.image} status={cardDetails.status} cart={cardDetails.cart} address={cardDetails.address}/>
+            {staticMySub}
             <View style={{flexDirection :'row',justifyContent: 'space-around',marginTop:'10%'}}>
                 <TouchableOpacity  onPress={() => setShow(true)} style ={{backgroundColor:Colors.primary,padding:'3%',borderRadius: 8}}>
                     <Text style={{color: 'white'}}>Mark complete</Text>
@@ -231,8 +235,11 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
 
             <TextInput 
             placeholder= {`Enter amount`}
-                onChangeText={text => setAmount(text)}
-                value={amount}
+                onChangeText={(text) => {
+                    amt =(text.replace(/[^0-9]/g, ''));
+                }}
+                defaultValue={'0'}
+                maxLength={5}
                
                 keyboardType= 'numeric'
               
@@ -251,7 +258,7 @@ const MySubscriptionOrder = ({name,pickUpDate,orderAmount,orderDate,imageUrl,sta
             style={{fontSize: 15,color: 'black',padding: 15,margin: 15,flex: 0,borderColor: Colors.seperatorGray,borderWidth: 1,borderRadius: 5,maxHeight: dimen.height/3}} />
             <View>
              <SubmitButton styling={submitted ? true : false} onTouch={() =>{
-                if(amount == null || amount == undefined || amount == '')
+                if(amt == null || amt == undefined || amt == '' || amt == 0)
                 alert('Please enter a valid amount');
                 else{
 

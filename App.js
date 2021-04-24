@@ -45,6 +45,8 @@ export default function App() {
     authContext.sync()
   }
 
+  
+
   const setStartup = (
     initRoute,
     initSubRoute,
@@ -110,6 +112,8 @@ export default function App() {
       handleNotification(notification)
     })
   }, [])
+
+ 
 
   if (use == AuthConstants.errored)
     return (

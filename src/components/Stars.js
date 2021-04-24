@@ -41,7 +41,7 @@ const halfStar=() => (<View style={{height:gap}}>
     stars.push(filledStar)
     for(let i=0;i<half;i++)
     stars.push(halfStar())
-    for(let i=0;i<outline;i++)
+    for(let i=stars.length;i<5;i++)
     stars.push(outlinedStar)
 
     return(stars);
