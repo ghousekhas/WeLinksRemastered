@@ -5,6 +5,7 @@ import { EvilIcons } from '@expo/vector-icons'
 import { Config, Colors } from '../Constants'
 import Axios from 'axios'
 import { MaterialIcons } from '@expo/vector-icons'
+import qs from 'qs'
 import RatingComponentScreen from '../components/RatingComponentScreen'
 
 // Ratings pending from previous orders

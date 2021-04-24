@@ -186,8 +186,7 @@ export default class Homescreen extends React.Component {
               : Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
           }}
         >
-
-        {/* Promo images */}
+          {/* Promo images */}
           <FlatList
             data={promoImageData}
             keyExtractor={(item, index) => index.toString()}
@@ -196,17 +195,15 @@ export default class Homescreen extends React.Component {
             snapToAlignment={'start'}
             snapToInterval={styles.imageBanner.width}
           />
-
         </Animated.View>
         <Text style={styles.title}>{this.words.title}</Text>
         <Text style={styles.desc}>{this.words.desc}</Text>
 
-
-{/* The four services */}
+        {/* The four services */}
         <View style={styles.mainContent}>
           <ScrollView style={{ flex: 1 }}>
             <View style={styles.mainContentRow}>
-            {/* milk */}
+              {/* milk */}
               <TouchableOpacity
                 onLayout={(event) => {
                   this.setState({
@@ -329,7 +326,7 @@ export default class Homescreen extends React.Component {
             </View>
 
             <View style={styles.mainContentRow}>
-            {/* Home Scrap */}
+              {/* Home Scrap */}
               <TouchableOpacity
                 style={styles.menuitem}
                 onPress={() => {
@@ -337,7 +334,6 @@ export default class Homescreen extends React.Component {
                     next: 'ScrapVendors',
                     user: user,
                     actualUser: this.state.actualUser,
-                    tag: 'Milk',
                     profile: true,
                     ...this.props.route.params,
                   })

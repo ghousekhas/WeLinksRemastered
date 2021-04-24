@@ -116,7 +116,6 @@ const DrawerContent = (props) => {
   }
 
   const goToVendorStack = () => {
-    console.log('Yay for sure')
     props.navigation.navigate('VendorHomeStack', {
       actualUser: actualUser,
       getUserDetails: props.getUserDetails,
@@ -124,7 +123,6 @@ const DrawerContent = (props) => {
     })
   }
 
-  console.log('*:(', props.navigation)
   if (vendor)
     //props.navigation.navigate('Home');
     return (
@@ -423,6 +421,7 @@ const DrawerContent = (props) => {
                   initialSubs: initialSubs,
                   user: actualUser,
                   goBackToHome: goToHomeStack,
+                  //navDrawer: props.navigation,
                 })
               }}
             />
