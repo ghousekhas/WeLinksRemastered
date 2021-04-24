@@ -14,6 +14,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import {useFocusEffect} from '@react-navigation/native';
 import Axios from 'axios';
 import qs from 'qs';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -39,6 +40,7 @@ export default function VendorViewBids({ navigation,route }) {
     const [submittedEmtpy,isSE] = useState(false);
     const [wonEmtpy,isWE] = useState(false);
     const {vendorID,actualUser} = route.params;
+    const [loading, setLoading] = useState(false);
     
    
     const sortDate = (date) => {
@@ -53,7 +55,8 @@ export default function VendorViewBids({ navigation,route }) {
 
     
     const getBids = async () => {
-        Axios.get(Config.api_url + 'php?action=getOpenBids&' + qs.stringify({
+        setLoading(true);
+        await Axios.get(Config.api_url + 'php?action=getOpenBids&' + qs.stringify({
             vendor_id: vendorID,
             user_id: actualUser.user_id
         })).then((response) => {
@@ -114,15 +117,20 @@ export default function VendorViewBids({ navigation,route }) {
             }
         }, (error) => {
             console.log('Bids error', error);
-        })
+        });
+        setLoading(false);
 
     }
 
     useEffect(() => {
-        console.log('refresh');
-        getBids();
+        
+        navigation.addListener('focus',()=>{
+            console.log('refresh');
+            getBids();
+        });
+        
 
-    }, [tab]);
+    }, []);
 
     const renderTabs = () => {
         //Renders Open, Submitted and Won bids
@@ -183,6 +191,13 @@ export default function VendorViewBids({ navigation,route }) {
                         <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
                     </View>
                 </View>
+                <AntDesign
+              style={{ alignSelf: 'flex-end', margin: '2%' }}
+              name="right"
+              size={18}
+              color={Colors.primary}
+            />
+                
             </View>)
         }
         //Applied and awarded bids Card
@@ -220,7 +235,15 @@ export default function VendorViewBids({ navigation,route }) {
                     <Text style={{ ...Styles.subbold, fontWeight: 'bold', paddingLeft: 5, alignSelf: 'center', paddingVertical: 2, paddingRight: 10 }}>{cardDetails.pickUpTimeSlot}</Text>
                 </View>
             </View>
-            <Text style={{ ...styles.cardTitle, alignItems: 'flex-end', color: Colors.blue, marginVertical: '5%', fontSize: 16 }}>{cardDetails.status == "Closed" ? cardDetails.status : cardDetails.status}</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginVertical: '5%'}}>
+            <Text style={{ ...styles.cardTitle,  fontSize: 16 }}>{cardDetails.status == "Closed" ? cardDetails.status : cardDetails.status}</Text>
+            <AntDesign
+              style={{ alignSelf: 'flex-end', margin: '2%' }}
+              name="right"
+              size={18}
+              color={Colors.primary}
+            />
+            </View>
         </View>)
 
 
@@ -243,12 +266,19 @@ export default function VendorViewBids({ navigation,route }) {
         return extraData2;
     }
 
+
+
     return (
         //Appbar, three tabs and flatlist inside each tab managed with states
     <View>
         <AppBar title={'View Bids'} subtitle={'Click on a bid to view details'} back={true} funct={() => {
             navigation.navigate('VendorDashboard');
         }} />
+        <Spinner
+                    visible={loading}
+                    textContent={'Loading'}
+                    textStyle={{ color: '#FFF' }}
+                     />
 
         <View style={{ ...Styles.parentContainer, backgroundColor: Colors.whiteBackground }}>
 
@@ -301,7 +331,8 @@ export default function VendorViewBids({ navigation,route }) {
                                 ...cardDetails,
                                 tag: selectTab(),
                                 actualUser : actualUser,
-                                vendorID : vendorID
+                                vendorID : vendorID,
+                                refresh: getBids
                             })
                         }}>
                             {renderCard(cardDetails)}

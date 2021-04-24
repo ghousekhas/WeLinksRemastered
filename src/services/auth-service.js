@@ -7,6 +7,7 @@ import { Config, Constants } from '../Constants'
 import qs from 'qs'
 import App from '../../App'
 import { mdiTrumpet } from '@mdi/js'
+import messaging from '@react-native-firebase/messaging';
 
 export const AuthConstants = {
   saved_user: 'saved_user',
@@ -27,7 +28,7 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(AuthConstants.loading)
   const [vendor, setVendor] = useState(AuthConstants.loading)
   const debug = true
-  const debugNumber = '9874578549'
+  const debugNumber = '9535311386'
 
   const checkUserAccounts = () => {
     NetInfo.addEventListener((state) => {
@@ -66,6 +67,7 @@ export default function AuthProvider({ children }) {
       ) {
         setUser(result.user[0])
         const user_result = result.user[0]
+        messaging().subscribeToTopic('user'+user_result.user_id);
         //Caching?
         AsyncStorage.setItem(
           AuthConstants.saved_user,
@@ -94,11 +96,12 @@ export default function AuthProvider({ children }) {
                     }),
                 )
               ).data
-              setVendor(result1.vendor)
+              setVendor(result1.vendor);
               AsyncStorage.setItem(
                 AuthConstants.saved_vendor,
                 JSON.stringify(result1.vendor),
-              )
+              );
+              messaging().subscribeToTopic("vendor"+result1.vendor.vendor_id)
             } catch (error) {
               setVendor(AuthConstants.errored)
             }

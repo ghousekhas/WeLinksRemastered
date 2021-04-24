@@ -24,7 +24,8 @@ export default function Bids({ navigation, route }) {
   const [tab, setTab] = useState(1)
   const [cardWidth, setCardWidth] = useState(0)
   const [remount, setRemount] = useState(5)
-  const [actualUser, setActualUser] = useState(route.params.actualUser)
+  const [actualUser, setActualUser] = useState(route.params.actualUser);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const unsub = navigation.addListener('focus', () => {
@@ -42,11 +43,12 @@ export default function Bids({ navigation, route }) {
     return `${d[2]}-${m}-${d[0]}`
   }
 
-  const populateData = () => {
+  const populateData = async () => {
     //const quanData = await Axios.get(Config.api_url+'php?action=getCorporateScrapQuantities');
     dataOpen = []
     dataCloseOrCancel = []
-    Axios.get(
+    setLoading(true);
+    await Axios.get(
       Config.api_url + 'php?action=getBids&user_id=' + actualUser.user_id,
     ).then(
       (response) => {
@@ -66,7 +68,8 @@ export default function Bids({ navigation, route }) {
       (error) => {
         console.log('error')
       },
-    )
+    );
+    setLoading(false);
   }
 
   const renderCardItem = ({ item }) => {
@@ -527,6 +530,11 @@ export default function Bids({ navigation, route }) {
           navigation.navigate('Homescreen')
         }}
       />
+      <Spinner
+                    visible={loading}
+                    textContent={'Loading'}
+                    textStyle={{ color: '#FFF' }}
+                     />
 
       <View
         style={{
